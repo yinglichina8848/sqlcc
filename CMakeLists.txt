@@ -1,14 +1,28 @@
-cmake_minimum_required(VERSION 3.22)
-project(sqlcc VERSION 0.1.0 LANGUAGES CXX)
+cmake_minimum_required(VERSION 3.16)
+project(sqlcc LANGUAGES C CXX)
 
+# 设置C++标准
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-# 警告配置
-add_compile_options(-Wall -Wextra -Wpedantic -Wshadow -Wconversion)
+# 设置输出目录
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 
-include_directories(${CMAKE_SOURCE_DIR}/include)
+# 编译选项
+add_compile_options(-Wall -Wextra -pedantic)
 
-# 可执行文件
-add_executable(sqlcc src/main.cc)
+# 添加源码目录
+add_subdirectory(src)
+
+# 查找Google Test库（可选）
+find_package(GTest QUIET)
+
+# 如果找到GTest，则添加测试目录
+if(GTest_FOUND)
+    enable_testing()
+    add_subdirectory(tests)
+else()
+    message(WARNING "GTest not found. Tests will not be built.")
+endif()

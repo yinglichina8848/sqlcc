@@ -210,6 +210,13 @@ public void testInsertPerformance() {
 - [ ] **演示视频**：≤100MB，5分钟，展示核心功能
 - [ ] **AI辅助记录表**：按要求填写AI-log.xlsx
 
+## 📚 文档资源
+
+- **文档中心**：[SQLCC文档中心](docs/index.md) - 所有文档的导航入口
+- **API文档**：[Doxygen生成的API文档](docs/doxygen/html/index.html)
+- **存储引擎设计**：[存储引擎设计文档](docs/storage_engine_design.md)
+- **单元测试文档**：[单元测试框架与内容](docs/unit_testing.md)
+
 ## 👥 参与贡献
 
 欢迎同学们参与贡献！具体流程如下：
@@ -231,4 +238,4 @@ public void testInsertPerformance() {
 ---
 
 **💡 温馨提示**：本项目的核心价值在于亲手实践。AI是强大的助手，但真正的理解来自于你自己的思考和调试过程。祝各位同学开发顺利，收获满满！
-有问题可以在课堂上直接反馈，或者发邮件联系： 1820393151@qq.com 
+有问题可以在课堂上直接反馈，或者发邮件联系： 1820393151@qq.com
