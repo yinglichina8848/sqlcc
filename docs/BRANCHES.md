@@ -23,17 +23,17 @@
 
 ### 文档分支 (docs)
 
-**用途**：包含主分支所有内容以及完整的API文档
+**用途**：专门用于存放Doxygen生成的API文档
 
 **内容**：
-- 主分支的所有内容
 - Doxygen生成的完整API文档 (`docs/doxygen/html/`)
 - 可能包含额外的文档和示例
 
 **特点**：
 - 包含完整的API文档，便于查阅
-- 文档更新可能比代码更新频繁
+- 文档更新通常与代码更新同步进行
 - 适合不参与开发但需要了解API的用户
+- 分支体积较大，克隆速度较慢
 
 ## 分支切换指南
 
@@ -68,19 +68,19 @@ git checkout master
 
 1. 所有代码开发都在主分支进行
 2. 主分支的每次提交都应确保项目可以正常编译
-3. 定期将主分支的更改合并到文档分支
+3. 代码更新后，需要重新生成API文档并更新到文档分支
 
 ### 文档更新
 
 1. 基础文档（如README.md、Guide.md等）在主分支更新
 2. API文档在文档分支更新（由Doxygen自动生成）
-3. 定期将文档分支中的文档更改合并回主分支（如果有的话）
+3. 当主分支代码有重大更新时，需要同步更新文档分支的API文档
 
 ### 版本发布
 
 1. 版本标记（tag）在主分支创建
 2. 发布说明在主分支的ChangeLog.md中更新
-3. 文档分支会同步获取版本标记
+3. 文档分支会同步创建相同的版本标记
 
 ## 常见问题
 
@@ -90,31 +90,49 @@ A: API文档由Doxygen自动生成，文件数量多且体积大，放在主分�
 
 ### Q: 如何确保两个分支的同步？
 
-A: 项目维护者会定期将主分支的更改合并到文档分支：
+A: 两个分支的同步方式如下：
 
-```bash
-# 在文档分支上执行
-git checkout docs
-git merge master
-```
+1. 代码更新在主分支进行
+2. 当需要更新API文档时，切换到文档分支并执行：
+   ```bash
+   # 在文档分支上执行
+   git checkout docs
+   git merge master  # 获取最新的代码
+   doxygen Doxyfile  # 重新生成API文档
+   git add docs/doxygen/html/
+   git commit -m "更新API文档"
+   git push origin docs
+   ```
 
 ### Q: 我应该向哪个分支提交贡献？
 
-A: 如果您贡献的是代码或基础文档，请向主分支提交。如果您贡献的是API文档相关的内容，请向文档分支提交。
+A: 贡献提交的分支选择：
+
+1. 代码贡献：请向主分支提交Pull Request
+2. 基础文档改进：请向主分支提交Pull Request
+3. API文档相关：通常不需要手动提交，由Doxygen自动生成
+4. 如果需要手动修改API文档模板或样式：请向文档分支提交Pull Request
 
 ### Q: 如何获取最新的API文档？
 
 A: 有两种方式：
 
-1. 切换到文档分支查看最新生成的API文档
-2. 在本地生成API文档（需要安装Doxygen）：
+1. 切换到文档分支查看最新生成的API文档：
+   ```bash
+   git checkout docs
+   # 使用浏览器打开 docs/doxygen/html/index.html
+   ```
 
-```bash
-# 在主分支上
-cd /home/liying/sqlcc
-doxygen Doxyfile
-# 生成的文档将位于 docs/doxygen/html/ 目录
-```
+2. 在本地生成API文档（需要安装Doxygen）：
+   ```bash
+   # 确保在主分支上，并且代码是最新的
+   git checkout master
+   git pull origin master
+   
+   # 生成API文档
+   doxygen Doxyfile
+   # 生成的文档将位于 docs/doxygen/html/ 目录
+   ```
 
 ## 分支历史
 
