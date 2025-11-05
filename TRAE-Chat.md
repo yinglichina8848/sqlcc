@@ -92,6 +92,28 @@ SQLCC是一个简单的C++数据库存储引擎，实现了基本的页式存储
 - 用户请求：创建TRAE-Chat.md文件，记录交互过程
 - AI响应：创建本文档，详细记录整个开发过程
 
+### 第四阶段：文档分支管理系统
+
+#### 1. 文档分支创建
+- 用户请求：创建文档分支管理系统，分离代码和文档
+- AI响应：
+  - 创建了docs分支用于存放文档内容
+  - 配置.gitignore忽略主分支的Doxygen目录
+  - 提交Doxygen文档到docs分支
+
+#### 2. 分支说明文档
+- 用户请求：创建分支说明文档
+- AI响应：
+  - 创建了docs/BRANCHES.md，详细说明master和docs分支的用途
+  - 更新了README.md，添加分支说明和API文档查看指南
+
+#### 3. 版本更新
+- 用户请求：更新版本到0.2.1，记录文档分支管理系统
+- AI响应：
+  - 更新了ChangeLog.md，添加了0.2.1版本的详细记录
+  - 更新了version.h文件，将版本号从0.2.0改为0.2.1
+  - 在版本历史概览表中更新了发布日期和状态
+
 ## 关键命令记录
 
 ### 构建和测试命令
@@ -134,6 +156,32 @@ make clean
 
 # 清理所有文件（包括文档）
 make clean-all
+```
+
+### 文档分支管理命令
+```bash
+# 创建并切换到docs分支
+git checkout -b docs
+
+# 生成Doxygen文档
+make docs
+
+# 提交文档到docs分支
+git add docs/doxygen
+git commit -m "添加Doxygen生成的API文档"
+git push origin docs
+
+# 切换回master分支
+git checkout master
+
+# 从master分支移除Doxygen文档
+git rm -r --cached docs/doxygen
+git commit -m "从主分支中移除Doxygen文档，保留在docs分支"
+git push origin master
+
+# 查看API文档（需切换到docs分支）
+git checkout docs
+# 在浏览器中打开 docs/doxygen/html/index.html
 ```
 
 ## 技术决策记录
@@ -237,6 +285,6 @@ make clean-all
 
 ---
 
-**记录时间**：2025-11-05 15:07:00
+**记录时间**：2025-11-05 15:30:00
 **AI助手**：Trae AI (GLM-4.6)
-**项目版本**：SQLCC v0.2.0
+**项目版本**：SQLCC v0.2.1
