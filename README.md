@@ -213,9 +213,23 @@ public void testInsertPerformance() {
 ## 📚 文档资源
 
 - **文档中心**：[SQLCC文档中心](docs/index.md) - 所有文档的导航入口
-- **API文档**：[Doxygen生成的API文档](docs/doxygen/html/index.html)
+- **API文档**：[Doxygen生成的API文档](docs/doxygen/html/index.html) - 需切换到docs分支查看
 - **存储引擎设计**：[存储引擎设计文档](docs/storage_engine_design.md)
 - **单元测试文档**：[单元测试框架与内容](docs/unit_testing.md)
+- **分支说明**：[项目分支使用指南](docs/BRANCHES.md) - 了解主分支和文档分支的区别
+
+### 📖 如何查看API文档
+
+本项目使用两个分支管理代码和文档：
+
+1. **主分支 (master)**：包含源代码和基础文档，不包含Doxygen生成的API文档
+2. **文档分支 (docs)**：包含主分支所有内容以及完整的API文档
+
+查看完整API文档，请执行：
+```bash
+git checkout docs
+# 然后打开 docs/doxygen/html/index.html
+```
 
 ## 👥 参与贡献
 
