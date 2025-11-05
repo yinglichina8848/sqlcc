@@ -10,6 +10,7 @@
 - [单元测试文档](unit_testing.md) - 单元测试框架介绍和测试用例详解
 - [项目完整复现指南](../Guide.md) - 从零开始构建SQLCC项目的详细指南
 - [AI辅助开发记录](../TRAE-Chat.md) - 使用AI工具辅助开发的完整过程记录
+- [会话记录](chat_2025-11-05_1758.md) - 本次设计文档更新和代码注释改进的完整会话记录
 
 ### API文档
 - [Doxygen API文档](doxygen/html/index.html) - 详细的类和函数API参考
