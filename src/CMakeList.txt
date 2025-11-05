@@ -1,0 +1,13 @@
+cmake_minimum_required(VERSION 3.16)   # 或你实际需要的版本
+project(sqlcc LANGUAGES C CXX)          # 名字随意；声明语言后 CMake 才会找编译器
+
+add_library(sqlcc_core STATIC
+    buffer_pool.cc
+    disk_manager.cc
+    bpt.cc
+    index.cc
+    record.cc
+    sql_parser.cc
+)
+
+target_include_directories(sqlcc_core PUBLIC ${CMAKE_SOURCE_DIR}/include)
