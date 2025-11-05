@@ -1,3 +1,3 @@
 #pragma once
-#define SQLCC_VERSION "0.1.0"
+#define SQLCC_VERSION "0.1.1"
 
