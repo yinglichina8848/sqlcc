@@ -213,7 +213,7 @@ git push origin <branch-name>
 
 ## 项目版本
 
-当前版本：v0.2.1
+当前版本：v0.2.4
 
 版本历史请参考 [ChangeLog.md](../ChangeLog.md)
 
@@ -255,5 +255,5 @@ git push origin <branch-name>
 
 ---
 
-**最后更新**：2025-11-05 15:30:00
-**项目版本**：SQLCC v0.2.1
+**最后更新**：2025-11-07 14:41:26
+**项目版本**：SQLCC v0.2.4
