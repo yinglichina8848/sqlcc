@@ -42,18 +42,23 @@ make docs
 echo "生成代码覆盖率测试文档..."
 make coverage
 
-# 切换到文档分支
-echo "切换到文档分支..."
-git stash  # 暂存未跟踪的文档文件
-git checkout docs
-git pull origin docs
-
 # 复制生成的文档
 echo "复制生成的文档到文档分支..."
 rm -rf docs/doxygen docs/coverage
 
-# 从主分支获取文档
-git checkout master -- docs/doxygen docs/coverage
+# 使用临时目录传递文档
+TEMP_DIR="/tmp/sqlcc_release_docs_$$"
+mkdir -p "$TEMP_DIR"
+cp -r docs/doxygen docs/coverage "$TEMP_DIR/"
+
+# 切换到文档分支
+git stash  # 暂存未跟踪的文档文件
+git checkout docs
+git pull origin docs
+
+# 从临时目录复制文档
+cp -r "$TEMP_DIR"/* docs/
+rm -rf "$TEMP_DIR"
 
 # 提交文档分支的更改
 echo "提交文档分支的更改..."
