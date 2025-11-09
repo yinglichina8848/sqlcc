@@ -15,6 +15,7 @@ add_executable(performance_test
     disk_io_performance_test.cc
     mixed_workload_test.cc
     batch_prefetch_performance_test.cc
+    million_insert_test.cc
 )
 
 # 链接必要的库
@@ -80,4 +81,12 @@ add_custom_target(run_batch_prefetch_tests
     DEPENDS performance_test
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
     COMMENT "Run batch & prefetch performance tests"
+)
+
+# 创建运行100万INSERT性能测试的目标
+add_custom_target(run_million_insert_tests
+    COMMAND ${CMAKE_BINARY_DIR}/bin/performance_test --million-insert --verbose
+    DEPENDS performance_test
+    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+    COMMENT "Run million INSERT performance tests"
 )

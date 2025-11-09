@@ -4,35 +4,75 @@
 #include <iostream>
 #include <fstream>
 #include <sys/stat.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <cstring>
+
+// 定义页面大小为8KB，与page.h中的定义保持一致
+constexpr size_t PAGE_SIZE = 8192;
 
 namespace sqlcc {
 
 // 磁盘管理器构造函数实现
 // Why: 需要初始化磁盘管理器，打开数据库文件并准备进行I/O操作
-// What: 构造函数接收数据库文件路径作为参数，打开文件流，初始化文件大小和页面计数器
+// What: 构造函数接收数据库文件路径和配置管理器引用，打开文件流，初始化文件大小和页面计数器
 // How: 使用fstream打开文件，如果文件不存在则创建新文件，获取文件大小并计算页面数量
-DiskManager::DiskManager(const std::string& db_file) 
-    : db_file_(db_file), file_size_(0), next_page_id_(0) {
+DiskManager::DiskManager(const std::string& db_file, ConfigManager& config_manager)
+    : db_file_name_(db_file), file_size_(0), next_page_id_(0), config_manager_(config_manager) {
     // 记录初始化信息，便于调试和监控
     // Why: 日志记录有助于系统运行状态的监控和问题排查
     // What: 记录正在初始化的数据库文件路径
     // How: 使用SQLCC_LOG_INFO宏记录信息级别日志
-    SQLCC_LOG_INFO("Initializing DiskManager for database file: " + db_file_);
+    SQLCC_LOG_INFO("Initializing DiskManager for database file: " + db_file_name_);
+    
+    // 注册配置变更回调
+    // Why: 需要响应配置变更，动态调整磁盘管理器行为
+    // What: 注册配置变更回调函数，当配置发生变更时调用OnConfigChange方法
+    // How: 使用配置管理器的RegisterChangeCallback方法注册回调
+    config_manager_.RegisterChangeCallback("disk_manager.enable_direct_io", 
+        [this](const std::string& key, const ConfigValue& value) {
+            this->OnConfigChange(key, value);
+        });
+    
+    config_manager_.RegisterChangeCallback("disk_manager.io_queue_depth", 
+        [this](const std::string& key, const ConfigValue& value) {
+            this->OnConfigChange(key, value);
+        });
+    
+    config_manager_.RegisterChangeCallback("disk_manager.enable_async_io", 
+        [this](const std::string& key, const ConfigValue& value) {
+            this->OnConfigChange(key, value);
+        });
+    
+    config_manager_.RegisterChangeCallback("disk_manager.batch_io_size", 
+        [this](const std::string& key, const ConfigValue& value) {
+            this->OnConfigChange(key, value);
+        });
+    
+    config_manager_.RegisterChangeCallback("disk_manager.sync_strategy", 
+        [this](const std::string& key, const ConfigValue& value) {
+            this->OnConfigChange(key, value);
+        });
+    
+    config_manager_.RegisterChangeCallback("disk_manager.sync_interval", 
+        [this](const std::string& key, const ConfigValue& value) {
+            this->OnConfigChange(key, value);
+        });
     
     // 以读写模式打开文件，如果文件不存在则创建
     // Why: 需要打开数据库文件进行读写操作，如果文件不存在则需要创建
     // What: 使用fstream的open方法打开文件，指定二进制模式和读写权限
     // How: 使用std::ios::binary指定二进制模式，std::ios::in|std::ios::out指定读写权限，std::ios::app允许追加
-    db_io_.open(db_file_, std::ios::binary | std::ios::in | std::ios::out | std::ios::app);
+    db_io_.open(db_file_name_, std::ios::binary | std::ios::in | std::ios::out | std::ios::app);
     
     // 如果文件不存在，创建一个空文件
     // Why: 如果文件不存在，第一次打开会失败，需要创建新文件
     // What: 检查文件流状态，如果失败则清除错误状态并重新创建文件
     // How: 使用good()方法检查文件流状态，使用clear()清除错误状态，使用trunc模式创建空文件
     if (!db_io_.good()) {
-        SQLCC_LOG_INFO("Database file does not exist, creating new file: " + db_file_);
+        SQLCC_LOG_INFO("Database file does not exist, creating new file: " + db_file_name_);
         db_io_.clear();
-        db_io_.open(db_file_, std::ios::binary | std::ios::in | std::ios::out | std::ios::trunc);
+        db_io_.open(db_file_name_, std::ios::binary | std::ios::in | std::ios::out | std::ios::trunc);
     }
     
     // 获取文件大小
@@ -47,14 +87,14 @@ DiskManager::DiskManager(const std::string& db_file)
         // What: 将文件大小除以页面大小，得到当前页面数量，即为下一个可用的页面ID
         // How: 使用整数除法计算，将结果转换为int32_t类型
         next_page_id_ = static_cast<int32_t>(file_size_ / PAGE_SIZE);
-        SQLCC_LOG_INFO("Opened database file: " + db_file_ + ", file size: " + 
+        SQLCC_LOG_INFO("Opened database file: " + db_file_name_ + ", file size: " + 
                       std::to_string(file_size_) + ", next page ID: " + std::to_string(next_page_id_));
     } else {
         // 文件打开失败，抛出异常
         // Why: 如果无法打开数据库文件，磁盘管理器无法正常工作，需要抛出异常
         // What: 创建错误消息，记录错误日志，然后抛出DiskManagerException异常
         // How: 使用SQLCC_LOG_ERROR记录错误级别日志，然后抛出异常
-        std::string error_msg = "Failed to open database file: " + db_file_;
+        std::string error_msg = "Failed to open database file: " + db_file_name_;
         SQLCC_LOG_ERROR(error_msg);
         throw DiskManagerException(error_msg);
     }
@@ -70,27 +110,32 @@ DiskManager::~DiskManager() {
     // What: 使用is_open方法检查文件流状态
     // How: 如果文件流打开，则调用close方法关闭
     if (db_io_.is_open()) {
-        SQLCC_LOG_INFO("Closing database file: " + db_file_);
+        SQLCC_LOG_INFO("Closing database file: " + db_file_name_);
         db_io_.close();
     }
 }
 
 // 写入页面到磁盘实现
 // Why: 数据库需要将修改后的页面持久化到磁盘，以保证数据的持久性和一致性
-// What: WritePage方法接收一个页面对象，将其内容写入到磁盘文件的对应位置
+// What: WritePage方法接收页面ID和页面数据指针，将其内容写入到磁盘文件的对应位置
 // How: 计算页面在文件中的偏移量，使用seekp定位到该位置，然后调用write方法写入页面数据
-bool DiskManager::WritePage(const Page& page) {
-    // 获取页面ID
-    // Why: 需要页面ID来计算页面在文件中的位置
-    // What: 调用页面对象的GetPageId方法获取页面ID
-    // How: 直接调用Page类的GetPageId方法
-    int32_t page_id = page.GetPageId();
+bool DiskManager::WritePage(int32_t page_id, const char* page_data) {
     // 验证页面ID的有效性
     // Why: 页面ID必须是非负数，负数是无效的页面ID
     // What: 检查页面ID是否小于0
     // How: 使用if语句检查页面ID，如果无效则记录错误并返回false
     if (page_id < 0) {
         std::string error_msg = "Invalid page ID: " + std::to_string(page_id);
+        SQLCC_LOG_ERROR(error_msg);
+        return false;
+    }
+    
+    // 验证页面数据指针的有效性
+    // Why: 页面数据指针不能为空，否则无法写入数据
+    // What: 检查页面数据指针是否为空
+    // How: 使用if语句检查指针，如果为空则记录错误并返回false
+    if (page_data == nullptr) {
+        std::string error_msg = "Null page data pointer for page ID: " + std::to_string(page_id);
         SQLCC_LOG_ERROR(error_msg);
         return false;
     }
@@ -126,8 +171,8 @@ bool DiskManager::WritePage(const Page& page) {
     // 写入页面数据
     // Why: 需要将页面的数据写入到磁盘文件中
     // What: 调用write方法将页面数据写入文件
-    // How: 使用页面对象的GetData方法获取数据指针，写入PAGE_SIZE字节
-    db_io_.write(page.GetData(), PAGE_SIZE);
+    // How: 使用页面数据指针，写入PAGE_SIZE字节
+    db_io_.write(page_data, PAGE_SIZE);
     // 检查写入是否成功
     // Why: 写入失败可能是由于磁盘空间不足或磁盘错误
     // What: 检查文件流状态，如果失败则记录错误并返回false
@@ -172,15 +217,15 @@ bool DiskManager::WritePage(const Page& page) {
 
 // 从磁盘读取页面实现
 // Why: 当缓冲池需要加载不在内存中的页面时，需要从磁盘读取页面数据
-// What: ReadPage方法接收一个页面ID和一个页面对象指针，从磁盘文件中读取对应页面的数据
+// What: ReadPage方法接收页面ID和页面数据缓冲区指针，从磁盘文件中读取对应页面的数据
 // How: 计算页面在文件中的偏移量，使用seekg定位到该位置，然后调用read方法读取页面数据
-bool DiskManager::ReadPage(int32_t page_id, Page* page) {
+bool DiskManager::ReadPage(int32_t page_id, char* page_data) {
     // 验证参数的有效性
-    // Why: 页面ID必须是非负数，页面对象指针不能为空
-    // What: 检查页面ID是否小于0，页面对象指针是否为空
+    // Why: 页面ID必须是非负数，页面数据缓冲区指针不能为空
+    // What: 检查页面ID是否小于0，页面数据缓冲区指针是否为空
     // How: 使用if语句检查参数，如果无效则记录错误并返回false
-    if (page_id < 0 || page == nullptr) {
-        std::string error_msg = "Invalid page ID: " + std::to_string(page_id) + " or null page pointer";
+    if (page_id < 0 || page_data == nullptr) {
+        std::string error_msg = "Invalid page ID: " + std::to_string(page_id) + " or null page data pointer";
         SQLCC_LOG_ERROR(error_msg);
         return false;
     }
@@ -226,8 +271,8 @@ bool DiskManager::ReadPage(int32_t page_id, Page* page) {
     // 读取页面数据
     // Why: 需要从磁盘文件中读取页面数据到内存中
     // What: 调用read方法从文件中读取页面数据
-    // How: 使用页面对象的GetData方法获取数据指针，读取PAGE_SIZE字节
-    db_io_.read(page->GetData(), PAGE_SIZE);
+    // How: 使用页面数据缓冲区指针，读取PAGE_SIZE字节
+    db_io_.read(page_data, PAGE_SIZE);
     // 检查读取是否成功
     // Why: 读取失败可能是由于磁盘错误或文件损坏
     // What: 检查文件流状态，如果失败则记录错误并返回false
@@ -239,11 +284,6 @@ bool DiskManager::ReadPage(int32_t page_id, Page* page) {
         return false;
     }
     
-    // 设置页面ID
-    // Why: 需要设置页面对象的ID，以便后续操作知道这是哪个页面
-    // What: 调用页面对象的SetPageId方法设置页面ID
-    // How: 直接调用Page类的SetPageId方法
-    page->SetPageId(page_id);
     // 记录读取成功，便于调试
     SQLCC_LOG_DEBUG("Successfully read page ID " + std::to_string(page_id));
     return true;
@@ -271,14 +311,14 @@ int32_t DiskManager::AllocatePage() {
 // Why: 需要知道数据库文件的当前大小，以便进行空间管理和计算页面位置
 // What: GetFileSize方法返回数据库文件的当前大小，以字节为单位
 // How: 直接返回file_size_成员变量
-size_t DiskManager::GetFileSize() const {
+int32_t DiskManager::GetFileSize() const {
     return file_size_;
 }
 
-size_t DiskManager::BatchReadPages(const std::vector<int32_t>& page_ids, std::vector<char*>& data_buffers) {
+bool DiskManager::BatchReadPages(const std::vector<int32_t>& page_ids, std::vector<char*>& data_buffers) {
     if (page_ids.empty() || data_buffers.empty() || page_ids.size() != data_buffers.size()) {
         SQLCC_LOG_ERROR("Invalid parameters for batch read pages");
-        return 0;
+        return false;
     }
     
     // 创建页面ID和缓冲区的配对，并按页面ID排序以优化磁盘访问
@@ -292,20 +332,20 @@ size_t DiskManager::BatchReadPages(const std::vector<int32_t>& page_ids, std::ve
     }
     
     if (page_pairs.empty()) {
-        return 0;
+        return false;
     }
     
     // 按页面ID排序，优化磁盘访问模式
     std::sort(page_pairs.begin(), page_pairs.end());
     
     // 使用文件描述符进行更高效的读取
-    int fd = open(db_file_.c_str(), O_RDONLY);
+    int fd = open(db_file_name_.c_str(), O_RDONLY);
     if (fd == -1) {
-        SQLCC_LOG_ERROR("Failed to open database file for batch read: " + db_file_);
-        return 0;
+        SQLCC_LOG_ERROR("Failed to open database file for batch read: " + db_file_name_);
+        return false;
     }
     
-    size_t success_count = 0;
+    bool success = true;
     
     // 批量读取页面
     for (const auto& pair : page_pairs) {
@@ -318,6 +358,7 @@ size_t DiskManager::BatchReadPages(const std::vector<int32_t>& page_ids, std::ve
         // 定位到页面位置
         if (lseek(fd, offset, SEEK_SET) == -1) {
             SQLCC_LOG_ERROR("Failed to seek to page " + std::to_string(page_id) + " during batch read");
+            success = false;
             continue;
         }
         
@@ -325,17 +366,16 @@ size_t DiskManager::BatchReadPages(const std::vector<int32_t>& page_ids, std::ve
         ssize_t bytes_read = read(fd, data, PAGE_SIZE);
         if (bytes_read == -1) {
             SQLCC_LOG_ERROR("Failed to read page " + std::to_string(page_id) + " during batch read");
+            success = false;
             continue;
-        } else if (bytes_read < PAGE_SIZE) {
+        } else if (bytes_read < static_cast<ssize_t>(PAGE_SIZE)) {
             // 如果读取的字节数小于页面大小，可能是文件末尾，填充剩余部分为0
             memset(data + bytes_read, 0, PAGE_SIZE - bytes_read);
         }
-        
-        success_count++;
     }
     
     close(fd);
-    return success_count;
+    return success;
 }
 
 bool DiskManager::PrefetchPage(int32_t page_id) {
@@ -344,9 +384,9 @@ bool DiskManager::PrefetchPage(int32_t page_id) {
     }
     
     // 使用文件描述符进行预读
-    int fd = open(db_file_.c_str(), O_RDONLY);
+    int fd = open(db_file_name_.c_str(), O_RDONLY);
     if (fd == -1) {
-        SQLCC_LOG_ERROR("Failed to open database file for prefetch: " + db_file_);
+        SQLCC_LOG_ERROR("Failed to open database file for prefetch: " + db_file_name_);
         return false;
     }
     
@@ -365,9 +405,9 @@ bool DiskManager::PrefetchPage(int32_t page_id) {
     return true;
 }
 
-size_t DiskManager::BatchPrefetchPages(const std::vector<int32_t>& page_ids) {
+bool DiskManager::BatchPrefetchPages(const std::vector<int32_t>& page_ids) {
     if (page_ids.empty()) {
-        return 0;
+        return false;
     }
     
     // 过滤有效的页面ID并排序
@@ -379,20 +419,20 @@ size_t DiskManager::BatchPrefetchPages(const std::vector<int32_t>& page_ids) {
     }
     
     if (valid_pages.empty()) {
-        return 0;
+        return false;
     }
     
     // 按页面ID排序，优化磁盘访问模式
     std::sort(valid_pages.begin(), valid_pages.end());
     
     // 使用文件描述符进行批量预读
-    int fd = open(db_file_.c_str(), O_RDONLY);
+    int fd = open(db_file_name_.c_str(), O_RDONLY);
     if (fd == -1) {
-        SQLCC_LOG_ERROR("Failed to open database file for batch prefetch: " + db_file_);
-        return 0;
+        SQLCC_LOG_ERROR("Failed to open database file for batch prefetch: " + db_file_name_);
+        return false;
     }
     
-    size_t success_count = 0;
+    bool success = true;
     
     // 合并连续的页面范围，提高预读效率
     for (size_t i = 0; i < valid_pages.size(); ) {
@@ -411,15 +451,72 @@ size_t DiskManager::BatchPrefetchPages(const std::vector<int32_t>& page_ids) {
         
         // 使用posix_fadvise建议操作系统预读连续页面范围
         int result = posix_fadvise(fd, offset, size, POSIX_FADV_WILLNEED);
-        if (result == 0) {
-            success_count += (end_page - start_page + 1);
+        if (result != 0) {
+            success = false;
         }
         
         i++; // 移动到下一个不连续的页面
     }
     
     close(fd);
-    return success_count;
+    return success;
+}
+
+// 配置变更回调处理实现
+// Why: 需要响应配置变更，动态调整磁盘管理器行为
+// What: OnConfigChange方法处理配置变更事件，根据变更的配置项调整相应的磁盘管理器参数
+// How: 根据配置键判断变更类型，执行相应的调整操作
+void DiskManager::OnConfigChange(const std::string& key, const ConfigValue& value) {
+    std::lock_guard<std::mutex> lock(io_mutex_);
+    
+    if (key == "disk_manager.enable_direct_io") {
+        // 处理直接I/O开关变更
+        if (std::holds_alternative<bool>(value)) {
+            bool enable_direct_io = std::get<bool>(value);
+            // 这里可以添加启用/禁用直接I/O的逻辑
+            SQLCC_LOG_INFO("Direct I/O " + std::string(enable_direct_io ? "enabled" : "disabled"));
+        }
+    }
+    else if (key == "disk_manager.io_queue_depth") {
+        // 处理I/O队列深度变更
+        if (std::holds_alternative<int>(value)) {
+            int queue_depth = std::get<int>(value);
+            // 这里可以添加I/O队列深度变更的逻辑
+            SQLCC_LOG_INFO("I/O queue depth updated to: " + std::to_string(queue_depth));
+        }
+    }
+    else if (key == "disk_manager.enable_async_io") {
+        // 处理异步I/O开关变更
+        if (std::holds_alternative<bool>(value)) {
+            bool enable_async_io = std::get<bool>(value);
+            // 这里可以添加启用/禁用异步I/O的逻辑
+            SQLCC_LOG_INFO("Async I/O " + std::string(enable_async_io ? "enabled" : "disabled"));
+        }
+    }
+    else if (key == "disk_manager.batch_io_size") {
+        // 处理批量I/O大小变更
+        if (std::holds_alternative<int>(value)) {
+            int batch_size = std::get<int>(value);
+            // 这里可以添加批量I/O大小变更的逻辑
+            SQLCC_LOG_INFO("Batch I/O size updated to: " + std::to_string(batch_size));
+        }
+    }
+    else if (key == "disk_manager.sync_strategy") {
+        // 处理同步策略变更
+        if (std::holds_alternative<std::string>(value)) {
+            std::string strategy = std::get<std::string>(value);
+            // 这里可以添加同步策略变更的逻辑
+            SQLCC_LOG_INFO("Sync strategy updated to: " + strategy);
+        }
+    }
+    else if (key == "disk_manager.sync_interval") {
+        // 处理同步间隔变更
+        if (std::holds_alternative<int>(value)) {
+            int sync_interval = std::get<int>(value);
+            // 这里可以添加同步间隔变更的逻辑
+            SQLCC_LOG_INFO("Sync interval updated to: " + std::to_string(sync_interval));
+        }
+    }
 }
 
 }  // namespace sqlcc
