@@ -100,17 +100,23 @@ void BatchPrefetchPerformanceTest::Cleanup() {
 void BatchPrefetchPerformanceTest::SetupTestEnvironment() {
     std::cout << "Setting up test environment..." << std::endl;
     
+    // 获取配置管理器单例实例
+    // Why: 需要配置管理器来管理测试配置
+    // What: 获取ConfigManager单例实例
+    // How: 调用GetInstance()方法
+    sqlcc::ConfigManager& config_manager = sqlcc::ConfigManager::GetInstance();
+    
     // 创建磁盘管理器
     // Why: 需要磁盘管理器来管理测试数据库文件
     // What: 创建DiskManager对象，管理测试数据库文件
-    // How: 使用make_unique创建DiskManager对象
-    disk_manager_ = std::make_unique<sqlcc::DiskManager>(test_db_file_);
+    // How: 使用make_unique创建DiskManager对象，传入数据库文件名和配置管理器
+    disk_manager_ = std::make_unique<sqlcc::DiskManager>(test_db_file_, config_manager);
     
     // 创建缓冲池
     // Why: 需要缓冲池来模拟数据库的页面缓存机制
-    // What: 创建BufferPool对象，使用磁盘管理器和指定大小
+    // What: 创建BufferPool对象，使用磁盘管理器、缓冲池大小和配置管理器
     // How: 使用make_unique创建BufferPool对象
-    buffer_pool_ = std::make_unique<sqlcc::BufferPool>(disk_manager_.get(), pool_size_);
+    buffer_pool_ = std::make_unique<sqlcc::BufferPool>(disk_manager_.get(), pool_size_, config_manager);
     
     // 初始化一些页面到磁盘
     // Why: 需要创建测试页面，模拟数据库的实际数据
@@ -118,7 +124,7 @@ void BatchPrefetchPerformanceTest::SetupTestEnvironment() {
     // How: 循环创建页面并调用WritePage方法写入磁盘
     for (int32_t i = 0; i < working_set_size_; ++i) {
         sqlcc::Page page(i);
-        disk_manager_->WritePage(page);
+        disk_manager_->WritePage(i, page.GetData());
     }
     
     std::cout << "Test environment setup completed." << std::endl;
