@@ -36,3 +36,11 @@ if(GTest_FOUND)
 else()
     message(WARNING "GTest not found. Tests will not be built.")
 endif()
+
+# 检查是否启用性能测试
+option(ENABLE_PERFORMANCE_TESTS "Enable performance tests" OFF)
+
+# 如果启用性能测试，则添加性能测试目录
+if(ENABLE_PERFORMANCE_TESTS)
+    add_subdirectory(tests/performance)
+endif()

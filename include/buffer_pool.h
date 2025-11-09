@@ -5,6 +5,10 @@
 #include <unordered_map>
 #include <list>
 #include <memory>
+#include <unordered_set>
+#include <vector>
+#include <queue>
+#include <deque>
 
 namespace sqlcc {
 
@@ -104,6 +108,37 @@ public:
      *         How: 如果页面加载失败或内存不足，返回nullptr
      */
     Page* FetchPage(int32_t page_id);
+    
+    /**
+     * @brief 批量从缓冲池获取多个页面，优化连续访问性能
+     * @param page_ids 页面ID数组
+     * @return 页面对象指针数组
+     * 
+     * Why: 批量操作可以减少锁竞争和函数调用开销，提高连续页面访问的性能
+     * What: BatchFetchPages方法一次性获取多个页面，对连续页面进行优化排序
+     * How: 按页面ID排序以优化磁盘访问，批量处理不在缓冲池中的页面
+     */
+    std::vector<Page*> BatchFetchPages(const std::vector<int32_t>& page_ids);
+    
+    /**
+     * @brief 预取指定页面到缓冲池，但不增加引用计数
+     * @param page_id 页面ID
+     * 
+     * Why: 预取可以提前加载可能需要的页面，减少未来的I/O等待时间
+     * What: PrefetchPage方法将页面加载到缓冲池中，但不增加引用计数
+     * How: 类似FetchPage但不增加引用计数，适用于预测性加载
+     */
+    void PrefetchPage(int32_t page_id);
+    
+    /**
+     * @brief 批量预取多个页面到缓冲池
+     * @param page_ids 页面ID数组
+     * 
+     * Why: 批量预取可以进一步减少I/O开销，特别适用于顺序访问模式
+     * What: BatchPrefetchPages方法一次性预取多个页面，优化磁盘访问模式
+     * How: 按页面ID排序以优化磁盘访问，批量处理不在缓冲池中的页面
+     */
+    void BatchPrefetchPages(const std::vector<int32_t>& page_ids);
 
     /**
      * @brief 取消固定页面（减少引用计数）
@@ -300,6 +335,24 @@ private:
     // What: lru_map_是一个哈希表，键是页面ID，值是对应页面在LRU链表中的迭代器
     // How: 使用std::unordered_map实现O(1)时间复杂度的查找
     std::unordered_map<int32_t, std::list<int32_t>::iterator> lru_map_;
+    
+    // 性能优化：页面访问统计，用于预测性预取
+    // Why: 跟踪页面访问模式可以帮助预测未来可能访问的页面
+    // What: access_stats_成员变量记录页面访问频率和顺序
+    // How: 使用哈希表存储页面ID到访问统计信息的映射
+    std::unordered_map<int32_t, int> access_stats_;
+    
+    // 性能优化：预取队列，存储待预取的页面ID
+    // Why: 使用队列管理预取请求，避免预取操作影响主要操作的性能
+    // What: prefetch_queue_成员变量是待预取页面ID的队列
+    // How: 使用std::deque实现，支持双端操作，便于检查重复项
+    std::deque<int32_t> prefetch_queue_;
+    
+    // 性能优化：批量操作缓冲区，用于批量读取页面
+    // Why: 批量读取可以减少I/O操作次数，提高磁盘访问效率
+    // What: batch_buffer_成员变量是临时存储批量读取页面的缓冲区
+    // How: 使用vector存储批量读取的页面对象
+    std::vector<Page*> batch_buffer_;
 };
 
 }  // namespace sqlcc
