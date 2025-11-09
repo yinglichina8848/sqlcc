@@ -9,9 +9,9 @@ namespace sqlcc {
 // 构造函数实现
 // Why: 需要初始化缓冲池的基本状态，包括设置磁盘管理器和缓冲池大小
 // What: 构造函数初始化成员变量，并记录初始化日志
-// How: 使用成员初始化列表初始化disk_manager_和pool_size_，并记录日志
-BufferPool::BufferPool(DiskManager* disk_manager, size_t pool_size)
-    : disk_manager_(disk_manager), pool_size_(pool_size) {
+// How: 使用成员初始化列表初始化disk_manager_、pool_size_和config_manager_，并记录日志
+BufferPool::BufferPool(DiskManager* disk_manager, size_t pool_size, ConfigManager& config_manager)
+    : disk_manager_(disk_manager), pool_size_(pool_size), config_manager_(config_manager) {
     // 预分配批量操作缓冲区空间
     batch_buffer_.reserve(std::min(pool_size_, static_cast<size_t>(64)));
     
@@ -20,6 +20,30 @@ BufferPool::BufferPool(DiskManager* disk_manager, size_t pool_size)
     // What: 记录缓冲池大小信息
     // How: 使用SQLCC_LOG_INFO宏记录信息级别日志
     SQLCC_LOG_INFO("Initializing BufferPool with pool size: " + std::to_string(pool_size_));
+    
+    // 注册配置变更回调
+    // Why: 需要响应配置变更，动态调整缓冲池行为
+    // What: 注册配置变更回调函数，当配置发生变更时调用OnConfigChange方法
+    // How: 使用配置管理器的RegisterChangeCallback方法注册回调
+    config_manager_.RegisterChangeCallback("buffer_pool.pool_size", 
+        [this](const std::string& key, const ConfigValue& value) {
+            this->OnConfigChange(key, value);
+        });
+    
+    config_manager_.RegisterChangeCallback("buffer_pool.enable_prefetch", 
+        [this](const std::string& key, const ConfigValue& value) {
+            this->OnConfigChange(key, value);
+        });
+    
+    config_manager_.RegisterChangeCallback("buffer_pool.prefetch_strategy", 
+        [this](const std::string& key, const ConfigValue& value) {
+            this->OnConfigChange(key, value);
+        });
+    
+    config_manager_.RegisterChangeCallback("buffer_pool.prefetch_window", 
+        [this](const std::string& key, const ConfigValue& value) {
+            this->OnConfigChange(key, value);
+        });
 }
 
 // 析构函数实现
@@ -45,6 +69,8 @@ BufferPool::~BufferPool() {
 // What: FetchPage方法根据页面ID获取对应的页面指针
 // How: 检查页面是否在缓冲池中，如果不在则从磁盘加载，如果缓冲池已满则替换页面
 Page* BufferPool::FetchPage(int32_t page_id) {
+    // 加锁保护并发访问
+    std::lock_guard<std::mutex> lock(latch_);
     // 更新访问统计（用于预测性预取）
     access_stats_[page_id]++;
     
@@ -68,7 +94,7 @@ Page* BufferPool::FetchPage(int32_t page_id) {
         
         // 减少日志记录以提高性能
         // SQLCC_LOG_DEBUG("Page ID " + std::to_string(page_id) + " found in buffer pool");
-        return it->second.get();
+        return it->second;
     }
 
     // 页面不在缓冲池中，需要从磁盘读取
@@ -108,10 +134,7 @@ Page* BufferPool::FetchPage(int32_t page_id) {
     auto page = std::make_unique<Page>(page_id);
     
     // 从磁盘读取页面数据
-    // Why: 页面数据存储在磁盘上，需要读取到内存中才能使用
-    // What: 调用磁盘管理器的ReadPage方法读取页面数据
-    // How: 传入页面ID和页面对象指针，如果页面不存在则返回false
-    if (!disk_manager_->ReadPage(page_id, page.get())) {
+    if (!disk_manager_->ReadPage(page_id, page->GetData())) {
         // 如果读取失败，说明页面不存在，返回nullptr
         // Why: 页面可能不存在于磁盘上，这是正常情况，需要返回nullptr
         // What: 记录读取失败信息并返回nullptr
@@ -124,13 +147,9 @@ Page* BufferPool::FetchPage(int32_t page_id) {
     // Why: 需要将新加载的页面加入缓冲池管理，以便后续查找和使用
     // What: 将页面对象添加到page_table_哈希表中
     // How: 使用页面ID作为键，使用std::move转移页面对象的所有权
-    Page* page_ptr = page.get();
-    page_table_[page_id] = std::move(page);
-    
-    // 初始化引用计数
-    // Why: 新加载的页面需要初始化引用计数，以跟踪其使用情况
-    // What: 将页面引用计数设置为1，表示已被一个操作引用
-    // How: 在page_refs_哈希表中设置页面ID的值为1
+    // 将页面添加到缓冲池
+    Page* page_ptr = page.release(); // 释放所有权，获取原始指针
+    page_table_[page_id] = page_ptr;
     page_refs_[page_id] = 1;
     
     // 初始化脏页标记
@@ -157,6 +176,8 @@ Page* BufferPool::FetchPage(int32_t page_id) {
 // What: UnpinPage方法减少页面的引用计数，并标记页面是否被修改
 // How: 检查页面是否存在，减少引用计数，标记脏页，然后返回操作结果
 bool BufferPool::UnpinPage(int32_t page_id, bool is_dirty) {
+    // 加锁保护并发访问
+    std::lock_guard<std::mutex> lock(latch_);
     // 记录取消固定页面操作，便于调试和监控
     // Why: 日志记录有助于系统运行状态的监控和问题排查
     // What: 记录正在取消固定的页面ID和是否脏页
@@ -211,6 +232,15 @@ bool BufferPool::UnpinPage(int32_t page_id, bool is_dirty) {
         // 记录页面被标记为脏页，便于调试
         SQLCC_LOG_DEBUG("Page ID " + std::to_string(page_id) + " marked as dirty");
     }
+    
+    // 如果引用计数为0，将页面移动到LRU链表头部
+    // Why: 引用计数为0的页面表示最近不再被使用，应该放在LRU链表头部
+    // What: 调用MoveToHead方法将页面移到LRU链表头部
+    // How: 检查引用计数是否为0，如果是则调用MoveToHead方法
+    if (ref_it->second == 0) {
+        MoveToHead(page_id);
+        SQLCC_LOG_DEBUG("Page ID " + std::to_string(page_id) + " moved to head of LRU list after unpin");
+    }
 
     return true;
 }
@@ -218,8 +248,10 @@ bool BufferPool::UnpinPage(int32_t page_id, bool is_dirty) {
 // 刷新页面到磁盘实现
 // Why: 为了确保持久性，被修改过的页面(脏页)需要及时写回磁盘，这在检查点操作或系统关闭时尤为重要
 // What: FlushPage方法将指定页面写回磁盘，无论其引用计数是多少，写入成功后清除脏页标记
-// How: 检查页面是否存在和是否为脏页，如果是脏页则调用磁盘管理器写回磁盘，然后清除脏页标记
+// How: 检查页面是否存在和是否为脏页，如果是脏页则调用磁盘管理器的写回磁盘，然后清除脏页标记
 bool BufferPool::FlushPage(int32_t page_id) {
+    // 加锁保护并发访问
+    std::lock_guard<std::mutex> lock(latch_);
     // 记录刷新页面操作，便于调试和监控
     // Why: 日志记录有助于系统运行状态的监控和问题排查
     // What: 记录正在刷新的页面ID
@@ -256,7 +288,7 @@ bool BufferPool::FlushPage(int32_t page_id) {
     // Why: 脏页的内容与磁盘不一致，需要写回磁盘以保证数据持久性
     // What: 调用磁盘管理器的WritePage方法将页面写入磁盘
     // How: 传入页面对象引用，由磁盘管理器负责实际的磁盘I/O操作
-    if (!disk_manager_->WritePage(*it->second)) {
+    if (!disk_manager_->WritePage(page_id, it->second->GetData())) {
         // 写入失败，记录错误并返回false
         // Why: 写入磁盘失败可能导致数据丢失，需要记录错误
         // What: 创建错误消息，记录错误日志，然后返回false
@@ -282,6 +314,8 @@ bool BufferPool::FlushPage(int32_t page_id) {
 // What: NewPage方法分配一个新的页面，并返回其页面ID和页面指针，新页面会被初始化为全零，并加入缓冲池管理
 // How: 分配新页面ID，检查缓冲池是否已满，创建新页面对象，初始化各项数据结构，然后返回页面指针
 Page* BufferPool::NewPage(int32_t* page_id) {
+    // 加锁保护并发访问
+    std::lock_guard<std::mutex> lock(latch_);
     // 记录创建新页面操作，便于调试和监控
     // Why: 日志记录有助于系统运行状态的监控和问题排查
     // What: 记录正在创建新页面
@@ -331,8 +365,8 @@ Page* BufferPool::NewPage(int32_t* page_id) {
     // Why: 需要将新页面加入缓冲池管理，以便后续查找和使用
     // What: 将页面对象添加到page_table_哈希表中
     // How: 使用页面ID作为键，使用std::move转移页面对象的所有权
-    Page* page_ptr = page.get();
-    page_table_[*page_id] = std::move(page);
+    Page* page_ptr = page.release(); // 释放所有权，获取原始指针
+    page_table_[*page_id] = page_ptr;
     
     // 初始化引用计数
     // Why: 新页面需要初始化引用计数，以跟踪其使用情况
@@ -364,6 +398,8 @@ Page* BufferPool::NewPage(int32_t* page_id) {
 // What: DeletePage方法从缓冲池中删除指定页面，如果页面是脏页，会先将其写回磁盘，然后释放页面占用的所有资源
 // How: 检查页面是否存在和引用计数，从所有数据结构中删除页面记录，最后释放页面对象
 bool BufferPool::DeletePage(int32_t page_id) {
+    // 加锁保护并发访问
+    std::lock_guard<std::mutex> lock(latch_);
     // 记录删除页面操作，便于调试和监控
     // Why: 日志记录有助于系统运行状态的监控和问题排查
     // What: 记录正在删除的页面ID
@@ -439,6 +475,8 @@ bool BufferPool::DeletePage(int32_t page_id) {
 // What: FlushAllPages方法遍历缓冲池中的所有页面，将脏页写回磁盘，然后清除所有脏页标记
 // How: 遍历page_table_哈希表，对每个脏页调用磁盘管理器的WritePage方法写回磁盘
 void BufferPool::FlushAllPages() {
+    // 加锁保护并发访问
+    std::lock_guard<std::mutex> lock(latch_);
     // 记录刷新所有页面操作，便于调试和监控
     // Why: 日志记录有助于系统运行状态的监控和问题排查
     // What: 记录正在刷新所有页面
@@ -461,7 +499,7 @@ void BufferPool::FlushAllPages() {
             // Why: 脏页的内容与磁盘不一致，需要写回磁盘以保证数据持久性
             // What: 调用磁盘管理器的WritePage方法将页面写入磁盘
             // How: 传入页面对象引用，由磁盘管理器负责实际的磁盘I/O操作
-            if (!disk_manager_->WritePage(*pair.second)) {
+            if (!disk_manager_->WritePage(pair.first, pair.second->GetData())) {
                 // 写入失败，记录错误但继续处理其他页面
                 // Why: 写入磁盘失败可能导致数据丢失，但不应中断整个刷新过程
                 // What: 创建错误消息，记录错误日志，然后继续处理下一个页面
@@ -490,6 +528,7 @@ void BufferPool::FlushAllPages() {
 // What: ReplacePage方法使用LRU算法选择一个引用计数为0的页面进行替换，如果是脏页则先写回磁盘，然后从缓冲池中删除
 // How: 从LRU链表尾部开始查找，找到第一个引用计数为0的页面，如果是脏页则先写回磁盘，然后删除该页面
 int32_t BufferPool::ReplacePage() {
+    // 注意：调用者必须已经持有锁，这里不需要重复加锁
     // 记录替换页面操作，便于调试和监控
     // Why: 日志记录有助于系统运行状态的监控和问题排查
     // What: 记录正在执行页面替换操作
@@ -500,7 +539,13 @@ int32_t BufferPool::ReplacePage() {
     // Why: LRU算法规定应该替换最久未使用的页面
     // What: 从LRU链表尾部开始查找，找到第一个引用计数为0的页面
     // How: 使用while循环遍历LRU链表，检查每个页面的引用计数
-    while (!lru_list_.empty()) {
+    // 限制循环次数以避免无限循环
+    size_t attempts = 0;
+    const size_t max_attempts = lru_list_.size() * 2; // 最大尝试次数为链表大小的两倍
+    
+    while (!lru_list_.empty() && attempts < max_attempts) {
+        attempts++;
+        
         // 获取LRU链表尾部的页面ID（最久未使用）
         // Why: LRU链表尾部存储的是最久未使用的页面
         // What: 使用back方法获取链表尾部的页面ID
@@ -513,10 +558,10 @@ int32_t BufferPool::ReplacePage() {
         // How: 使用std::unordered_map的find方法查找引用计数
         auto ref_it = page_refs_.find(page_id);
         if (ref_it != page_refs_.end() && ref_it->second > 0) {
-            // 页面正在被使用，不能替换，移到头部
-            // Why: 引用计数大于0的页面不能被替换，需要将其移到LRU链表头部
-            // What: 调用MoveToHead方法将页面移到LRU链表头部
-            // How: 调用MoveToHead方法，传入页面ID作为参数
+            // 页面正在被使用，不能替换，移到头部并继续查找下一个页面
+            // Why: 引用计数大于0的页面不能被替换，需要将其移到LRU链表头部，然后继续查找其他页面
+            // What: 调用MoveToHead方法将页面移到LRU链表头部，然后继续循环查找下一个页面
+            // How: 调用MoveToHead方法，传入页面ID作为参数，然后使用continue继续循环
             SQLCC_LOG_DEBUG("Page ID " + std::to_string(page_id) + " is in use, moving to head of LRU list");
             MoveToHead(page_id);
             continue;
@@ -538,16 +583,18 @@ int32_t BufferPool::ReplacePage() {
                 // Why: 脏页的内容与磁盘不一致，需要写回磁盘以保证数据持久性
                 // What: 调用磁盘管理器的WritePage方法将页面写入磁盘
                 // How: 传入页面对象引用，由磁盘管理器负责实际的磁盘I/O操作
-                SQLCC_LOG_DEBUG("Flushing dirty page ID " + std::to_string(page_id) + " to disk before replacement");
-                if (!disk_manager_->WritePage(*page_it->second)) {
-                    // 写入失败，记录错误并继续查找下一个页面
-                    // Why: 写入磁盘失败可能导致数据丢失，不应替换此页面
-                    // What: 创建错误消息，记录错误日志，然后继续循环
-                    // How: 使用SQLCC_LOG_ERROR记录错误级别日志，然后使用continue继续循环
-                    std::string error_msg = "Failed to write dirty page ID " + std::to_string(page_id) + " to disk";
-                    SQLCC_LOG_ERROR(error_msg);
-                    // 无法刷新脏页，不能替换此页面
-                    continue;
+                // 如果页面是脏的，需要先写回磁盘
+                if (dirty_pages_[page_id]) {
+                    if (!disk_manager_->WritePage(page_id, page_it->second->GetData())) {
+                        // 写入失败，记录错误并继续查找下一个页面
+                        // Why: 写入磁盘失败可能导致数据丢失，不应替换此页面
+                        // What: 创建错误消息，记录错误日志，然后继续查找下一个页面
+                        // How: 使用SQLCC_LOG_ERROR记录错误级别日志，然后继续循环
+                        std::string error_msg = "Failed to write dirty page ID " + std::to_string(page_id) + " to disk";
+                        SQLCC_LOG_ERROR(error_msg);
+                        // 无法刷新脏页，不能替换此页面，继续查找
+                        continue;
+                    }
                 }
             }
         }
@@ -598,6 +645,7 @@ int32_t BufferPool::ReplacePage() {
 // Why: 当页面被访问时，需要将其移动到LRU链表头部，表示最近被访问，这是LRU算法的核心操作
 // What: MoveToHead方法将指定页面移动到LRU链表头部，更新LRU映射，以维护页面的访问顺序
 // How: 从LRU链表中删除页面，然后将其添加到头部，并更新LRU映射中的迭代器
+// 注意：调用者必须已经持有锁，这里不需要重复加锁
 void BufferPool::MoveToHead(int32_t page_id) {
     // 查找页面在LRU链表中的位置
     // Why: 需要知道页面在LRU链表中的位置，才能进行移动操作
@@ -635,6 +683,9 @@ void BufferPool::MoveToHead(int32_t page_id) {
 }
 
 std::vector<Page*> BufferPool::BatchFetchPages(const std::vector<int32_t>& page_ids) {
+    // 加锁保护并发访问
+    std::lock_guard<std::mutex> lock(latch_);
+    
     std::vector<Page*> result;
     result.reserve(page_ids.size());
     
@@ -657,7 +708,7 @@ std::vector<Page*> BufferPool::BatchFetchPages(const std::vector<int32_t>& page_
         auto page_it = page_table_.find(page_id);
         if (page_it != page_table_.end()) {
             // 页面已在缓冲池中
-            Page* page = page_it->second.get();
+            Page* page = page_it->second;
             page_refs_[page_id]++;
             MoveToHead(page_id);
             result.push_back(page);
@@ -710,12 +761,20 @@ std::vector<Page*> BufferPool::BatchFetchPages(const std::vector<int32_t>& page_
         int32_t page_id = pages_to_read[i];
         
         // 将页面添加到缓冲池
-        Page* page_ptr = new_pages[i].get();
-        page_table_[page_id] = std::move(new_pages[i]);
+        Page* page_ptr = new_pages[i].release(); // 释放所有权，获取原始指针
+        page_table_[page_id] = page_ptr;
         page_refs_[page_id] = 1;
+        
+        // 初始化脏页标记
+        // Why: 需要跟踪页面是否被修改过，以便在替换时写回磁盘
+        // What: 将页面标记为非脏页，因为刚从磁盘读取
+        // How: 在dirty_pages_哈希表中设置页面ID的值为false
         dirty_pages_[page_id] = false;
         
         // 添加到LRU链表头部
+        // Why: 新加载的页面应该放在LRU链表头部，表示最近被访问
+        // What: 将页面ID添加到lru_list_的头部
+        // How: 使用push_front方法添加到链表头部，并在lru_map_中记录迭代器
         lru_list_.push_front(page_id);
         lru_map_[page_id] = lru_list_.begin();
         
@@ -730,39 +789,47 @@ std::vector<Page*> BufferPool::BatchFetchPages(const std::vector<int32_t>& page_
     return result;
 }
 
-void BufferPool::PrefetchPage(int32_t page_id) {
+bool BufferPool::PrefetchPage(int32_t page_id) {
+    // 加锁保护并发访问
+    std::lock_guard<std::mutex> lock(latch_);
+
     // 检查页面ID是否有效
     if (page_id < 0) {
         SQLCC_LOG_ERROR("Invalid page ID for prefetch: " + std::to_string(page_id));
-        return;
+        return false;
     }
-    
+
     // 检查页面是否已在缓冲池中
     if (page_table_.find(page_id) != page_table_.end()) {
         // 页面已在缓冲池中，无需预取
-        return;
+        return true;
     }
-    
+
     // 检查页面是否已在预取队列中
     auto it = std::find(prefetch_queue_.begin(), prefetch_queue_.end(), page_id);
     if (it != prefetch_queue_.end()) {
         // 页面已在预取队列中，无需重复预取
-        return;
+        return true;
     }
-    
+
     // 使用磁盘管理器的预取功能
-    disk_manager_->PrefetchPage(page_id);
-    
+    bool result = disk_manager_->PrefetchPage(page_id);
+
     // 将页面ID添加到预取队列
     prefetch_queue_.push_back(page_id);
-    
+
     // 限制预取队列大小
     if (prefetch_queue_.size() > 64) {
         prefetch_queue_.pop_front();
     }
+
+    return result;
 }
 
-void BufferPool::BatchPrefetchPages(const std::vector<int32_t>& page_ids) {
+bool BufferPool::BatchPrefetchPages(const std::vector<int32_t>& page_ids) {
+    // 加锁保护并发访问
+    std::lock_guard<std::mutex> lock(latch_);
+    
     // 筛选需要预取的页面（不在缓冲池中且不在预取队列中）
     std::vector<int32_t> pages_to_prefetch;
     pages_to_prefetch.reserve(page_ids.size());
@@ -787,16 +854,16 @@ void BufferPool::BatchPrefetchPages(const std::vector<int32_t>& page_ids) {
         pages_to_prefetch.push_back(page_id);
     }
     
-    // 如果没有需要预取的页面，直接返回
+    // 如果没有需要预取的页面，直接返回true
     if (pages_to_prefetch.empty()) {
-        return;
+        return true;
     }
     
     // 按页面ID排序，优化磁盘访问模式
     std::sort(pages_to_prefetch.begin(), pages_to_prefetch.end());
     
     // 使用磁盘管理器的批量预取功能
-    disk_manager_->BatchPrefetchPages(pages_to_prefetch);
+    bool result = disk_manager_->BatchPrefetchPages(pages_to_prefetch);
     
     // 将页面ID添加到预取队列
     for (int32_t page_id : pages_to_prefetch) {
@@ -806,6 +873,59 @@ void BufferPool::BatchPrefetchPages(const std::vector<int32_t>& page_ids) {
     // 限制预取队列大小
     while (prefetch_queue_.size() > 64) {
         prefetch_queue_.pop_front();
+    }
+    
+    return result;
+}
+
+// 配置变更回调处理实现
+// Why: 需要响应配置变更，动态调整缓冲池行为
+// What: OnConfigChange方法处理配置变更事件，根据变更的配置项调整相应的缓冲池参数
+// How: 根据配置键判断变更类型，执行相应的调整操作
+void BufferPool::OnConfigChange(const std::string& key, const ConfigValue& value) {
+    std::lock_guard<std::mutex> lock(latch_);
+    
+    if (key == "buffer_pool.pool_size") {
+        // 处理缓冲池大小变更
+        if (std::holds_alternative<int>(value)) {
+            size_t new_pool_size = static_cast<size_t>(std::get<int>(value));
+            if (new_pool_size < page_table_.size()) {
+                SQLCC_LOG_WARN("Cannot reduce buffer pool size below current usage. Current: " + 
+                               std::to_string(page_table_.size()) + ", Requested: " + 
+                               std::to_string(new_pool_size));
+                return;
+            }
+            
+            size_t old_pool_size = pool_size_;
+            pool_size_ = new_pool_size;
+            
+            SQLCC_LOG_INFO("Buffer pool size updated from " + std::to_string(old_pool_size) + 
+                           " to " + std::to_string(new_pool_size));
+        }
+    }
+    else if (key == "buffer_pool.enable_prefetch") {
+        // 处理预取开关变更
+        if (std::holds_alternative<bool>(value)) {
+            bool enable_prefetch = std::get<bool>(value);
+            // 这里可以添加启用/禁用预取的逻辑
+            SQLCC_LOG_INFO("Prefetch " + std::string(enable_prefetch ? "enabled" : "disabled"));
+        }
+    }
+    else if (key == "buffer_pool.prefetch_strategy") {
+        // 处理预取策略变更
+        if (std::holds_alternative<std::string>(value)) {
+            std::string strategy = std::get<std::string>(value);
+            // 这里可以添加预取策略变更的逻辑
+            SQLCC_LOG_INFO("Prefetch strategy updated to: " + strategy);
+        }
+    }
+    else if (key == "buffer_pool.prefetch_window") {
+        // 处理预取窗口大小变更
+        if (std::holds_alternative<int>(value)) {
+            int window_size = std::get<int>(value);
+            // 这里可以添加预取窗口大小变更的逻辑
+            SQLCC_LOG_INFO("Prefetch window size updated to: " + std::to_string(window_size));
+        }
     }
 }
 

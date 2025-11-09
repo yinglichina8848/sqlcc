@@ -1,358 +1,237 @@
 #pragma once
 
-#include "page.h"
-#include "disk_manager.h"
-#include <unordered_map>
+#include <algorithm>
+#include <deque>
 #include <list>
 #include <memory>
-#include <unordered_set>
+#include <mutex>
+#include <string>
+#include <unordered_map>
 #include <vector>
-#include <queue>
-#include <deque>
+
+#include "disk_manager.h"
+#include "page.h"
+#include "config_manager.h"
 
 namespace sqlcc {
 
-// 缓冲池默认大小
-// Why: 设置一个合理的默认值，平衡内存使用和性能
-// What: 默认缓冲池可以容纳64个页面，每个页面8KB，总共约512KB内存
-// How: 使用constexpr定义编译时常量，提高性能
-static constexpr size_t DEFAULT_BUFFER_POOL_SIZE = 64;
-
-/**
- * @brief 缓冲池管理器类，实现LRU页面替换算法
- * 
- * Why: 数据库系统需要频繁访问磁盘上的数据，但磁盘I/O速度远慢于内存访问。
- *      为了减少磁盘I/O次数，提高数据库性能，需要在内存中缓存经常访问的数据页面。
- *      缓冲池是数据库系统的核心组件，负责管理内存中的数据页面与磁盘之间的数据交换。
- * 
- * What: BufferPool类实现了一个基于LRU(Least Recently Used)算法的缓冲池管理器。
- *       它维护一个固定大小的内存区域，用于存储从磁盘读取的数据页面。
- *       当缓冲池已满且需要加载新页面时，会选择最近最少使用的页面进行替换。
- * 
- * How: 使用哈希表(page_table_)快速查找页面，使用双向链表(lru_list_)实现LRU算法。
- *      通过引用计数(page_refs_)跟踪页面的使用情况，通过脏页标记(dirty_pages_)
- *      跟踪哪些页面被修改过，需要在替换时写回磁盘。
- */
+// 缓冲池类，负责管理内存中的页面缓存
+// Why: 数据库系统需要高效的内存管理机制，缓冲池作为内存和磁盘之间的桥梁，减少磁盘I/O操作
+// What: BufferPool类实现了基于LRU算法的页面缓存系统，管理页面的加载、替换和写入
+// How: 使用哈希表快速查找页面，双向链表实现LRU算法，通过引用计数和脏页标记管理页面生命周期
 class BufferPool {
 public:
-    /**
-     * @brief 构造函数
-     * 
-     * Why: 需要初始化缓冲池的基本状态，包括设置磁盘管理器、分配内存空间等。
-     * 
-     * @param disk_manager 磁盘管理器指针，用于读写磁盘页面
-     *                    What: 磁盘管理器负责处理底层的文件I/O操作
-     *                    How: 通过调用磁盘管理器的ReadPage和WritePage方法实现页面读写
-     * 
-     * @param pool_size 缓冲池大小（页面数量）
-     *                  What: 指定缓冲池可以容纳的页面数量
-     *                  How: 默认值为DEFAULT_BUFFER_POOL_SIZE(64)，可根据系统内存大小调整
-     */
-    BufferPool(DiskManager* disk_manager, size_t pool_size = DEFAULT_BUFFER_POOL_SIZE);
+    // 构造函数，初始化缓冲池
+    // Why: 需要创建缓冲池实例，设置缓冲池大小和关联的磁盘管理器
+    // What: 构造函数接收磁盘管理器指针、缓冲池大小和配置管理器引用，初始化缓冲池状态
+    // How: 设置成员变量，初始化页面表和LRU列表，创建互斥锁
+    explicit BufferPool(DiskManager* disk_manager, size_t pool_size, ConfigManager& config_manager);
 
-    /**
-     * @brief 析构函数
-     * 
-     * Why: 在对象销毁时需要释放资源，确保所有脏页被写回磁盘，避免数据丢失。
-     * 
-     * What: 析构函数会调用FlushAllPages()方法，将所有脏页写回磁盘。
-     * 
-     * How: 遍历所有页面，检查脏页标记，将脏页写回磁盘，然后释放内存。
-     */
+    // 析构函数，清理资源
+    // Why: 需要释放缓冲池占用的资源，确保所有脏页被写入磁盘
+    // What: 析构函数负责刷新所有脏页到磁盘，释放页面资源
+    // How: 调用FlushAllPages方法确保数据持久化，释放所有页面对象
     ~BufferPool();
 
-    /**
-     * @brief 禁止拷贝构造
-     * 
-     * Why: BufferPool管理着重要的系统资源，允许拷贝可能导致资源重复释放或内存泄漏。
-     * 
-     * What: 通过将拷贝构造函数标记为delete，防止编译器自动生成拷贝构造函数。
-     * 
-     * How: 使用= delete语法显式禁用拷贝构造函数。
-     */
-    BufferPool(const BufferPool&) = delete;
-
-    /**
-     * @brief 禁止赋值操作
-     * 
-     * Why: 同拷贝构造函数，赋值操作也可能导致资源管理问题。
-     * 
-     * What: 禁用赋值操作符，防止对象间的赋值。
-     * 
-     * How: 使用= delete语法显式禁用赋值操作符。
-     */
-    BufferPool& operator=(const BufferPool&) = delete;
-
-    /**
-     * @brief 获取页面
-     * 
-     * Why: 数据库操作需要访问特定页面ID的数据，这是缓冲池最核心的功能。
-     *      如果页面不在内存中，需要从磁盘加载；如果已在内存中，直接返回。
-     * 
-     * What: FetchPage方法根据页面ID获取对应的页面指针。
-     *       如果页面不在缓冲池中，会从磁盘加载；如果缓冲池已满，
-     *       会使用LRU算法替换一个页面。
-     * 
-     * How: 1. 首先检查页面是否在缓冲池中(page_table_)
-     *      2. 如果在，增加引用计数，移到LRU链表头部，返回页面指针
-     *      3. 如果不在，检查缓冲池是否已满
-     *      4. 如果已满，调用ReplacePage()替换一个页面
-     *      5. 从磁盘加载新页面，加入缓冲池，返回页面指针
-     * 
-     * @param page_id 页面ID，唯一标识一个数据页面
-     *                What: 页面ID是数据库中页面的唯一标识符
-     *                How: 通常是一个整数，由磁盘管理器分配和管理
-     * 
-     * @return 页面指针，如果页面不存在返回nullptr
-     *         What: 返回指向页面数据的指针，可以直接读写页面内容
-     *         How: 如果页面加载失败或内存不足，返回nullptr
-     */
+    // 获取页面，如果页面不在缓冲池中则从磁盘加载
+    // Why: 数据库操作需要访问页面数据，需要从磁盘加载到内存
+    // What: FetchPage方法根据页面ID获取页面对象，如果页面不在内存中则从磁盘加载
+    // How: 首先在页面表中查找页面，如果找到则更新LRU列表并返回；如果未找到则从磁盘加载
     Page* FetchPage(int32_t page_id);
-    
-    /**
-     * @brief 批量从缓冲池获取多个页面，优化连续访问性能
-     * @param page_ids 页面ID数组
-     * @return 页面对象指针数组
-     * 
-     * Why: 批量操作可以减少锁竞争和函数调用开销，提高连续页面访问的性能
-     * What: BatchFetchPages方法一次性获取多个页面，对连续页面进行优化排序
-     * How: 按页面ID排序以优化磁盘访问，批量处理不在缓冲池中的页面
-     */
+
+    // 批量获取页面，优化多个页面的加载性能
+    // Why: 某些操作需要同时访问多个页面，批量加载可以提高性能
+    // What: BatchFetchPages方法根据页面ID列表获取多个页面对象
+    // How: 对每个页面调用FetchPage方法，或者实现更高效的批量加载策略
     std::vector<Page*> BatchFetchPages(const std::vector<int32_t>& page_ids);
-    
-    /**
-     * @brief 预取指定页面到缓冲池，但不增加引用计数
-     * @param page_id 页面ID
-     * 
-     * Why: 预取可以提前加载可能需要的页面，减少未来的I/O等待时间
-     * What: PrefetchPage方法将页面加载到缓冲池中，但不增加引用计数
-     * How: 类似FetchPage但不增加引用计数，适用于预测性加载
-     */
-    void PrefetchPage(int32_t page_id);
-    
-    /**
-     * @brief 批量预取多个页面到缓冲池
-     * @param page_ids 页面ID数组
-     * 
-     * Why: 批量预取可以进一步减少I/O开销，特别适用于顺序访问模式
-     * What: BatchPrefetchPages方法一次性预取多个页面，优化磁盘访问模式
-     * How: 按页面ID排序以优化磁盘访问，批量处理不在缓冲池中的页面
-     */
-    void BatchPrefetchPages(const std::vector<int32_t>& page_ids);
 
-    /**
-     * @brief 取消固定页面（减少引用计数）
-     * 
-     * Why: 当一个页面使用完毕后，需要通知缓冲池不再使用该页面，
-     *      以便缓冲池可以正确管理页面的生命周期和LRU顺序。
-     * 
-     * What: UnpinPage方法减少页面的引用计数，并标记页面是否被修改。
-     *       当引用计数降为0时，页面可以被LRU算法替换。
-     * 
-     * How: 1. 检查页面是否在缓冲池中
-     *      2. 减少页面的引用计数
-     *      3. 如果is_dirty为true，标记页面为脏页
-     *      4. 如果引用计数降为0，将页面移到LRU链表尾部
-     * 
-     * @param page_id 页面ID，要取消固定的页面
-     * @param is_dirty 页面是否被修改，true表示页面内容被修改过
-     *                What: 脏页标记表示页面内容与磁盘上的版本不一致
-     *                How: 脏页需要在被替换前写回磁盘，以保证数据持久性
-     * 
-     * @return 操作成功返回true，否则返回false
-     *         What: 表示操作是否成功执行
-     *         How: 如果页面不存在或引用计数已经为0，返回false
-     */
-    bool UnpinPage(int32_t page_id, bool is_dirty);
-
-    /**
-     * @brief 刷新页面到磁盘
-     * 
-     * Why: 为了确保持久性，被修改过的页面(脏页)需要及时写回磁盘。
-     *      这在检查点操作或系统关闭时尤为重要。
-     * 
-     * What: FlushPage方法将指定页面写回磁盘，无论其引用计数是多少。
-     *       写入成功后，清除脏页标记。
-     * 
-     * How: 1. 检查页面是否在缓冲池中
-     *      2. 如果是脏页，调用磁盘管理器的WritePage方法写回磁盘
-     *      3. 清除脏页标记
-     *      4. 返回操作结果
-     * 
-     * @param page_id 页面ID，要刷新的页面
-     * 
-     * @return 操作成功返回true，否则返回false
-     *         What: 表示页面是否成功写回磁盘
-     *         How: 如果页面不存在或写入失败，返回false
-     */
-    bool FlushPage(int32_t page_id);
-
-    /**
-     * @brief 分配新页面
-     * 
-     * Why: 当数据库需要存储新数据时，需要分配一个新的页面来存储这些数据。
-     *      这是数据库扩展存储空间的基础操作。
-     * 
-     * What: NewPage方法分配一个新的页面，并返回其页面ID和页面指针。
-     *       新页面会被初始化为全零，并加入缓冲池管理。
-     * 
-     * How: 1. 调用磁盘管理器分配一个新的页面ID
-     *      2. 检查缓冲池是否已满
-     *      3. 如果已满，调用ReplacePage()替换一个页面
-     *      4. 创建新页面对象，初始化为全零
-     *      5. 将新页面加入缓冲池，设置引用计数为1
-     *      6. 返回页面ID和页面指针
-     * 
-     * @param[out] page_id 新分配的页面ID，通过输出参数返回
-     *                   What: 新页面的唯一标识符
-     *                   How: 由磁盘管理器分配，确保唯一性
-     * 
-     * @return 新页面指针，分配失败返回nullptr
-     *         What: 指向新分配页面的指针，可以直接读写页面内容
-     *         How: 如果内存不足或磁盘空间不足，返回nullptr
-     */
+    // 创建新页面
+    // Why: 数据库需要新的存储空间来存储数据，例如插入新记录或创建索引
+    // What: NewPage方法在缓冲池中分配一个新的页面
+    // How: 从空闲页面列表中获取页面，或者替换一个现有页面，初始化页面数据
     Page* NewPage(int32_t* page_id);
 
-    /**
-     * @brief 释放页面
-     * 
-     * Why: 当数据不再需要时，应释放占用的页面空间，以便其他数据可以使用。
-     *      这是数据库回收存储空间的重要操作。
-     * 
-     * What: DeletePage方法从缓冲池中移除指定页面，并通知磁盘管理器回收该页面。
-     *       如果页面是脏页，会先写回磁盘再释放。
-     * 
-     * How: 1. 检查页面是否在缓冲池中
-     *      2. 如果是脏页，先写回磁盘
-     *      3. 从缓冲池中移除页面
-     *      4. 通知磁盘管理器回收页面ID
-     *      5. 返回操作结果
-     * 
-     * @param page_id 页面ID，要释放的页面
-     * 
-     * @return 操作成功返回true，否则返回false
-     *         What: 表示页面是否成功释放
-     *         How: 如果页面不存在或引用计数不为0，返回false
-     */
-    bool DeletePage(int32_t page_id);
+    // 取消固定页面，减少页面的固定计数
+    // Why: 当页面使用完毕后，需要通知缓冲池该页面可以被替换
+    // What: UnpinPage方法减少页面的固定计数，如果页面被修改则标记为脏页
+    // How: 减少页面的引用计数，如果引用计数为0且页面被修改，则标记为脏页
+    bool UnpinPage(int32_t page_id, bool is_dirty);
 
-    /**
-     * @brief 刷新所有页面到磁盘
-     * 
-     * Why: 在系统关闭或检查点操作时，需要确保所有内存中的修改都被持久化到磁盘。
-     *      这是保证数据库ACID特性中持久性的重要操作。
-     * 
-     * What: FlushAllPages方法遍历缓冲池中的所有页面，将脏页写回磁盘。
-     *       这个操作通常在系统关闭或定期检查点时调用。
-     * 
-     * How: 1. 遍历page_table_中的所有页面
-     *      2. 对于每个脏页，调用磁盘管理器的WritePage方法写回磁盘
-     *      3. 清除所有脏页标记
-     *      4. 返回操作结果
-     */
+    // 刷新页面到磁盘
+    // Why: 需要将修改后的页面数据持久化到磁盘，保证数据的持久性和一致性
+    // What: FlushPage方法将指定页面的数据写入磁盘文件
+    // How: 调用磁盘管理器的WritePage方法，将页面数据写入磁盘
+    bool FlushPage(int32_t page_id);
+
+    // 刷新所有页面到磁盘
+    // Why: 在系统关闭或检查点时，需要将所有修改过的页面写入磁盘，保证数据持久性
+    // What: FlushAllPages方法将缓冲池中所有脏页写入磁盘
+    // How: 遍历所有页面，对脏页调用FlushPage方法
     void FlushAllPages();
 
-private:
-    /**
-     * @brief 替换页面（LRU算法）
-     * 
-     * Why: 当缓冲池已满且需要加载新页面时，必须选择一个现有页面进行替换。
-     *      LRU算法选择最近最少使用的页面，这是基于局部性原理的有效策略。
-     * 
-     * What: ReplacePage方法实现LRU页面替换算法，选择一个可替换的页面。
-     *       优先选择引用计数为0且不在LRU链表头部的页面。
-     * 
-     * How: 1. 从LRU链表尾部开始查找
-     *      2. 找到第一个引用计数为0的页面
-     *      3. 如果该页面是脏页，先写回磁盘
-     *      4. 从缓冲池中移除该页面
-     *      5. 返回被替换的页面ID
-     *      6. 如果没有可替换的页面，返回-1
-     * 
-     * @return 被替换的页面ID，如果无法替换返回-1
-     *         What: 被替换页面的唯一标识符
-     *         How: 如果所有页面都在使用中(引用计数>0)，返回-1表示无法替换
-     */
-    int32_t ReplacePage();
+    // 删除页面
+    // Why: 当数据不再需要时，需要释放页面空间，例如删除记录或索引
+    // What: DeletePage方法从缓冲池中删除指定页面
+    // How: 从页面表中移除页面，释放页面对象
+    bool DeletePage(int32_t page_id);
 
-    /**
-     * @brief 将页面移到LRU链表头部
-     * 
-     * Why: LRU算法需要维护页面的访问顺序，最近访问的页面应该放在链表头部。
-     *      这样当需要替换页面时，链表尾部的页面就是最近最少使用的。
-     * 
-     * What: MoveToHead方法将指定页面移到LRU链表的头部，表示最近被访问过。
-     *       这是LRU算法的核心操作之一。
-     * 
-     * How: 1. 从LRU链表中移除指定页面
-     *      2. 将该页面添加到链表头部
-     *      3. 更新lru_map_中该页面的迭代器
-     * 
-     * @param page_id 页面ID，要移动的页面
-     *                What: 要移动到LRU链表头部的页面ID
-     *                How: 页面必须在缓冲池中，否则操作无效
-     */
+    // 预取页面到缓冲池
+    // Why: 预取可以提前加载可能需要的页面，减少未来的磁盘I/O延迟
+    // What: PrefetchPage方法将指定页面预加载到缓冲池
+    // How: 类似FetchPage，但不增加页面的固定计数
+    bool PrefetchPage(int32_t page_id);
+
+    // 批量预取页面到缓冲池
+    // Why: 批量预取可以一次性加载多个页面，提高预取效率
+    // What: BatchPrefetchPages方法将多个页面预加载到缓冲池
+    // How: 对每个页面调用PrefetchPage方法，或者实现更高效的批量预取策略
+    bool BatchPrefetchPages(const std::vector<int32_t>& page_ids);
+
+    // 获取缓冲池使用统计信息
+    // Why: 监控缓冲池的使用情况有助于性能调优和问题诊断
+    // What: GetStats方法返回缓冲池的统计信息，如命中率等
+    // How: 收集并返回各种统计指标
+    std::unordered_map<std::string, double> GetStats() const;
+
+    // 获取缓冲池大小
+    // Why: 需要了解缓冲池的容量信息，用于监控和调试
+    // What: GetPoolSize方法返回缓冲池的页面容量
+    // How: 直接返回pool_size_成员变量
+    size_t GetPoolSize() const;
+
+    // 获取已使用页面数
+    // Why: 需要了解缓冲池的使用情况，用于监控和调试
+    // What: GetUsedPages方法返回当前已使用的页面数量
+    // How: 返回页面表的大小
+    size_t GetUsedPages() const;
+
+private:
+    // 查找可替换的页面
+    // Why: 当缓冲池满时，需要选择一个页面进行替换
+    // What: FindVictimPage方法根据LRU算法找到可替换的页面
+    // How: 从LRU列表的尾部开始查找，找到引用计数为0的页面
+    int32_t FindVictimPage();
+
+    // 替换页面
+    // Why: 当需要加载新页面但缓冲池已满时，需要替换一个现有页面
+    // What: ReplacePage方法替换指定页面，将旧页面写回磁盘（如果脏）
+    // How: 将旧页面写回磁盘，更新页面数据，重新插入LRU列表
+    bool ReplacePage(int32_t victim_page_id, int32_t new_page_id);
+
+    // 更新LRU列表
+    // Why: LRU算法需要维护页面的访问顺序
+    // What: UpdateLRUList方法将页面移动到LRU列表的头部
+    // How: 从LRU列表中移除页面，然后插入到头部
+    void UpdateLRUList(int32_t page_id);
+
+    // 移动页面到LRU链表头部
+    // Why: 当页面被访问时，需要将其移动到LRU链表头部，表示最近被访问
+    // What: MoveToHead方法将指定页面移动到LRU链表头部，更新LRU映射
+    // How: 从LRU链表中删除页面，然后将其添加到头部，并更新LRU映射中的迭代器
     void MoveToHead(int32_t page_id);
 
-    // 磁盘管理器指针
-    // Why: 缓冲池需要与磁盘交互，读写页面数据
-    // What: disk_manager_指向负责磁盘I/O的DiskManager对象
-    // How: 通过调用disk_manager_->ReadPage()和disk_manager_->WritePage()实现页面读写
+    // 从LRU列表中移除页面
+    // Why: 当页面被替换或删除时，需要从LRU列表中移除
+    // What: RemoveFromLRUList方法从LRU列表中移除指定页面
+    // How: 在LRU列表中查找页面并移除
+    void RemoveFromLRUList(int32_t page_id);
+
+    // 替换页面
+    // Why: 当缓冲池已满且需要加载新页面时，必须选择一个现有页面进行替换
+    // What: ReplacePage方法使用LRU算法选择一个引用计数为0的页面进行替换
+    // How: 从LRU链表尾部开始查找，找到第一个引用计数为0的页面
+    int32_t ReplacePage();
+
+    // 配置变更回调处理
+    // Why: 需要响应配置变更，动态调整缓冲池行为
+    // What: OnConfigChange方法处理配置变更事件
+    // How: 根据变更的配置项调整相应的缓冲池参数
+    void OnConfigChange(const std::string& key, const ConfigValue& value);
+
+    // 磁盘管理器指针，负责磁盘I/O操作
+    // Why: 缓冲池需要与磁盘管理器交互，进行页面的读写操作
+    // What: disk_manager_指向DiskManager对象，提供磁盘I/O接口
+    // How: 通过构造函数初始化，在需要读写页面时调用相应方法
     DiskManager* disk_manager_;
 
-    // 缓冲池大小
-    // Why: 需要知道缓冲池可以容纳多少页面，以便在满时进行替换
-    // What: pool_size_表示缓冲池可以容纳的页面数量
-    // How: 在构造函数中初始化，运行时不变
+    // 配置管理器引用，用于获取配置参数
+    // Why: 缓冲池需要从配置管理器获取配置参数，如预取策略等
+    // What: config_manager_引用ConfigManager对象，提供配置访问接口
+    // How: 通过构造函数初始化，在需要获取配置时调用相应方法
+    ConfigManager& config_manager_;
+
+    // 缓冲池大小，表示可以缓存的页面数量
+    // Why: 需要限制缓冲池的容量，避免内存溢出
+    // What: pool_size_表示缓冲池可以容纳的最大页面数
+    // How: 通过构造函数初始化，在创建新页面时检查是否超出容量
     size_t pool_size_;
 
-    // 页面映射表：page_id -> page指针
-    // Why: 需要快速根据页面ID查找对应的页面对象
-    // What: page_table_是一个哈希表，键是页面ID，值是页面对象的智能指针
-    // How: 使用std::unordered_map实现O(1)时间复杂度的查找
-    std::unordered_map<int32_t, std::unique_ptr<Page>> page_table_;
+    // 页面表，存储页面ID到页面对象的映射
+    // Why: 需要快速查找页面，避免遍历整个缓冲池
+    // What: page_table_是哈希表，键为页面ID，值为页面对象指针
+    // How: 使用unordered_map实现，提供O(1)的平均查找时间
+    std::unordered_map<int32_t, Page*> page_table_;
 
-    // 脏页标记：page_id -> 是否脏页
-    // Why: 需要跟踪哪些页面被修改过，以便在替换时写回磁盘
-    // What: dirty_pages_是一个哈希表，记录哪些页面是脏页
-    // How: 当页面被修改时设置标记，当页面写回磁盘时清除标记
-    std::unordered_map<int32_t, bool> dirty_pages_;
-
-    // 页面引用计数：page_id -> 引用计数
-    // Why: 需要跟踪页面被多少个操作引用，防止正在使用的页面被替换
-    // What: page_refs_是一个哈希表，记录每个页面的引用计数
-    // How: 当获取页面时增加计数，当取消固定页面时减少计数
-    std::unordered_map<int32_t, int32_t> page_refs_;
-
-    // LRU链表，存储页面ID
-    // Why: LRU算法需要一个数据结构来维护页面的访问顺序
-    // What: lru_list_是一个双向链表，头部是最近访问的页面，尾部是最久未访问的页面
-    // How: 使用std::list实现，支持O(1)时间复杂度的插入和删除
+    // LRU列表，存储页面的访问顺序
+    // Why: 需要根据页面的访问时间选择替换页面
+    // What: lru_list_是双向链表，存储页面ID，最近访问的页面在头部
+    // How: 使用list实现，每次访问页面时将其移动到头部
     std::list<int32_t> lru_list_;
 
-    // LRU映射：page_id -> lru_list中的迭代器
-    // Why: 需要快速在LRU链表中找到指定页面的位置
-    // What: lru_map_是一个哈希表，键是页面ID，值是对应页面在LRU链表中的迭代器
-    // How: 使用std::unordered_map实现O(1)时间复杂度的查找
+    // LRU列表迭代器映射，快速定位页面在LRU列表中的位置
+    // Why: 需要快速找到页面在LRU列表中的位置，避免遍历整个列表
+    // What: lru_map_是哈希表，键为页面ID，值为页面在LRU列表中的迭代器
+    // How: 使用unordered_map实现，提供O(1)的平均查找时间
     std::unordered_map<int32_t, std::list<int32_t>::iterator> lru_map_;
-    
-    // 性能优化：页面访问统计，用于预测性预取
-    // Why: 跟踪页面访问模式可以帮助预测未来可能访问的页面
-    // What: access_stats_成员变量记录页面访问频率和顺序
-    // How: 使用哈希表存储页面ID到访问统计信息的映射
-    std::unordered_map<int32_t, int> access_stats_;
-    
-    // 性能优化：预取队列，存储待预取的页面ID
-    // Why: 使用队列管理预取请求，避免预取操作影响主要操作的性能
-    // What: prefetch_queue_成员变量是待预取页面ID的队列
-    // How: 使用std::deque实现，支持双端操作，便于检查重复项
+
+    // 互斥锁，保护缓冲池的并发访问
+    // Why: 缓冲池可能被多个线程同时访问，需要同步机制保证数据一致性
+    // What: latch_是互斥锁，保护所有共享数据的访问
+    // How: 在访问共享数据前加锁，访问完成后解锁
+    mutable std::mutex latch_;
+
+    // 统计信息，记录缓冲池的使用情况
+    // Why: 监控缓冲池的使用情况有助于性能调优和问题诊断
+    // What: stats_记录各种统计指标，如访问次数、命中次数等
+    // How: 在相应操作时更新统计信息
+    struct Stats {
+        size_t total_accesses = 0;     // 总访问次数
+        size_t total_hits = 0;          // 命中次数
+        size_t total_misses = 0;        // 未命中次数
+        size_t total_evictions = 0;     // 替换次数
+        size_t total_prefetches = 0;    // 预取次数
+        size_t prefetch_hits = 0;       // 预取命中次数
+    } stats_;
+
+    // 页面引用计数表，存储页面ID到引用计数的映射
+    // Why: 需要跟踪每个页面被多少个操作引用，防止正在使用的页面被替换
+    // What: page_refs_是哈希表，键为页面ID，值为引用计数
+    // How: 使用unordered_map实现，提供O(1)的平均查找时间
+    std::unordered_map<int32_t, int> page_refs_;
+
+    // 脏页标记表，存储页面ID到脏页标记的映射
+    // Why: 需要跟踪哪些页面被修改过，以便在替换时写回磁盘
+    // What: dirty_pages_是哈希表，键为页面ID，值为布尔值，表示是否为脏页
+    // How: 使用unordered_map实现，提供O(1)的平均查找时间
+    std::unordered_map<int32_t, bool> dirty_pages_;
+
+    // 预取队列，存储待预取的页面ID
+    // Why: 需要维护一个预取队列，用于异步预取可能需要的页面
+    // What: prefetch_queue_是双端队列，存储待预取的页面ID
+    // How: 使用deque实现，支持在队头和队尾的高效插入和删除
     std::deque<int32_t> prefetch_queue_;
-    
-    // 性能优化：批量操作缓冲区，用于批量读取页面
-    // Why: 批量读取可以减少I/O操作次数，提高磁盘访问效率
-    // What: batch_buffer_成员变量是临时存储批量读取页面的缓冲区
-    // How: 使用vector存储批量读取的页面对象
-    std::vector<Page*> batch_buffer_;
+
+    // 页面访问统计，用于预测性预取
+    // Why: 需要跟踪页面的访问模式，以便进行智能预取
+    // What: access_stats_是哈希表，键为页面ID，值为访问次数
+    // How: 使用unordered_map实现，提供O(1)的平均查找时间
+    std::unordered_map<int32_t, int> access_stats_;
+
+    // 批量操作缓冲区，用于批量读写操作
+    // Why: 批量操作可以提高I/O性能，需要预分配缓冲区空间
+    // What: batch_buffer_是向量，存储批量操作的数据缓冲区
+    // How: 使用vector实现，在构造函数中预分配空间
+    std::vector<char*> batch_buffer_;
 };
 
 }  // namespace sqlcc

@@ -9,6 +9,7 @@
 #include "disk_io_performance_test.h"
 #include "mixed_workload_test.h"
 #include "batch_prefetch_performance_test.h"
+#include "million_insert_test.h"
 
 using namespace sqlcc::test;
 
@@ -54,6 +55,7 @@ private:
     bool run_disk_io_tests_ = true;
     bool run_mixed_workload_tests_ = true;
     bool run_batch_prefetch_tests_ = true;
+    bool run_million_insert_tests_ = true;
     bool verbose_ = false;
     std::string output_dir_ = "./performance_results";
 };
@@ -68,6 +70,7 @@ void PerformanceTestRunner::PrintUsage() const {
     std::cout << "  -d, --disk-io             Run disk I/O performance tests" << std::endl;
     std::cout << "  -m, --mixed-workload      Run mixed workload performance tests" << std::endl;
     std::cout << "  -p, --batch-prefetch      Run batch & prefetch performance tests" << std::endl;
+    std::cout << "  -i, --million-insert      Run million INSERT performance tests" << std::endl;
     std::cout << "  -a, --all                 Run all performance tests (default)" << std::endl;
     std::cout << "  -v, --verbose             Enable verbose output" << std::endl;
     std::cout << "  -o, --output-dir <dir>    Specify output directory for results" << std::endl;
@@ -77,6 +80,7 @@ void PerformanceTestRunner::PrintUsage() const {
     std::cout << "  performance_test -b                       # Run only buffer pool tests" << std::endl;
     std::cout << "  performance_test -d -m -v                # Run disk I/O and mixed workload tests with verbose output" << std::endl;
     std::cout << "  performance_test -p                       # Run only batch & prefetch tests" << std::endl;
+    std::cout << "  performance_test -i                       # Run only million INSERT tests" << std::endl;
     std::cout << "  performance_test -o /tmp/results          # Run all tests and save results to /tmp/results" << std::endl;
 }
 
@@ -89,6 +93,7 @@ bool PerformanceTestRunner::ParseArguments(int argc, char* argv[]) {
         {"disk-io", no_argument, 0, 'd'},
         {"mixed-workload", no_argument, 0, 'm'},
         {"batch-prefetch", no_argument, 0, 'p'},
+        {"million-insert", no_argument, 0, 'i'},
         {"all", no_argument, 0, 'a'},
         {"verbose", no_argument, 0, 'v'},
         {"output-dir", required_argument, 0, 'o'},
@@ -100,8 +105,9 @@ bool PerformanceTestRunner::ParseArguments(int argc, char* argv[]) {
     run_disk_io_tests_ = true;
     run_mixed_workload_tests_ = true;
     run_batch_prefetch_tests_ = true;
+    run_million_insert_tests_ = true;
     
-    while ((opt = getopt_long(argc, argv, "hbdmpavo:", long_options, nullptr)) != -1) {
+    while ((opt = getopt_long(argc, argv, "hbdmipaivo:", long_options, nullptr)) != -1) {
         switch (opt) {
             case 'h':
                 PrintUsage();
@@ -112,6 +118,7 @@ bool PerformanceTestRunner::ParseArguments(int argc, char* argv[]) {
                 run_disk_io_tests_ = false;
                 run_mixed_workload_tests_ = false;
                 run_batch_prefetch_tests_ = false;
+                run_million_insert_tests_ = false;
                 break;
                 
             case 'd':
@@ -119,6 +126,7 @@ bool PerformanceTestRunner::ParseArguments(int argc, char* argv[]) {
                 run_disk_io_tests_ = true;
                 run_mixed_workload_tests_ = false;
                 run_batch_prefetch_tests_ = false;
+                run_million_insert_tests_ = false;
                 break;
                 
             case 'm':
@@ -126,6 +134,7 @@ bool PerformanceTestRunner::ParseArguments(int argc, char* argv[]) {
                 run_disk_io_tests_ = false;
                 run_mixed_workload_tests_ = true;
                 run_batch_prefetch_tests_ = false;
+                run_million_insert_tests_ = false;
                 break;
                 
             case 'p':
@@ -133,6 +142,15 @@ bool PerformanceTestRunner::ParseArguments(int argc, char* argv[]) {
                 run_disk_io_tests_ = false;
                 run_mixed_workload_tests_ = false;
                 run_batch_prefetch_tests_ = true;
+                run_million_insert_tests_ = false;
+                break;
+                
+            case 'i':
+                run_buffer_pool_tests_ = false;
+                run_disk_io_tests_ = false;
+                run_mixed_workload_tests_ = false;
+                run_batch_prefetch_tests_ = false;
+                run_million_insert_tests_ = true;
                 break;
                 
             case 'a':
@@ -140,6 +158,7 @@ bool PerformanceTestRunner::ParseArguments(int argc, char* argv[]) {
                 run_disk_io_tests_ = true;
                 run_mixed_workload_tests_ = true;
                 run_batch_prefetch_tests_ = true;
+                run_million_insert_tests_ = true;
                 break;
                 
             case 'v':
@@ -205,6 +224,16 @@ void PerformanceTestRunner::RunTests() {
         
         auto batch_prefetch_test = std::make_unique<BatchPrefetchPerformanceTest>();
         batch_prefetch_test->RunAllTests();
+    }
+    
+    // 运行100万INSERT性能测试
+    if (run_million_insert_tests_) {
+        std::cout << "\n=====================================" << std::endl;
+        std::cout << "Running Million INSERT Performance Tests" << std::endl;
+        std::cout << "=====================================" << std::endl;
+        
+        auto million_insert_test = std::make_unique<MillionInsertTest>();
+        million_insert_test->RunAllTests();
     }
     
     std::cout << "\n=====================================" << std::endl;

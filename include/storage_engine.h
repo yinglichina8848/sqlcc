@@ -3,6 +3,7 @@
 #include "disk_manager.h"
 #include "buffer_pool.h"
 #include "page.h"
+#include "config_manager.h"
 
 namespace sqlcc {
 
@@ -17,14 +18,13 @@ class StorageEngine {
 public:
     /**
      * @brief 构造函数
-     * @param db_filename 数据库文件名
-     * @param pool_size 缓冲池大小（页面数量）
+     * @param config_manager 配置管理器引用
      * 
-     * Why: 需要初始化存储引擎，创建磁盘管理器和缓冲池实例
-     * What: 构造函数接收数据库文件名和缓冲池大小参数，初始化存储引擎的各个组件
-     * How: 创建DiskManager和BufferPool对象，建立它们之间的关联关系
+     * Why: 需要初始化存储引擎，从配置管理器获取参数创建磁盘管理器和缓冲池实例
+     * What: 构造函数接收配置管理器引用，从中获取配置参数初始化存储引擎的各个组件
+     * How: 从配置管理器获取数据库文件路径和缓冲池大小，创建DiskManager和BufferPool对象
      */
-    explicit StorageEngine(const std::string& db_filename, size_t pool_size = 64);
+    explicit StorageEngine(ConfigManager& config_manager);
 
     /**
      * @brief 析构函数
@@ -119,6 +119,12 @@ public:
     void FlushAllPages();
 
 private:
+    /// 配置管理器引用
+    // Why: 需要访问配置参数来初始化和调整存储引擎的行为
+    // What: config_manager_是对ConfigManager对象的引用，用于获取配置参数
+    // How: 通过引用方式使用ConfigManager，避免所有权问题
+    ConfigManager& config_manager_;
+    
     /// 磁盘管理器
     // Why: 需要一个组件负责磁盘I/O操作，管理数据库文件的读写
     // What: disk_manager_是一个智能指针，指向DiskManager对象，负责页面的磁盘读写操作

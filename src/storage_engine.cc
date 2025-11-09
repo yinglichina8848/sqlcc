@@ -4,28 +4,47 @@
 namespace sqlcc {
 
 // 存储引擎构造函数实现
-// Why: 需要初始化存储引擎，创建磁盘管理器和缓冲池实例
-// What: 构造函数接收数据库文件名和缓冲池大小参数，初始化存储引擎的各个组件
-// How: 创建DiskManager和BufferPool对象，建立它们之间的关联关系
-StorageEngine::StorageEngine(const std::string& db_filename, size_t pool_size) {
+// Why: 需要初始化存储引擎，从配置管理器获取参数创建磁盘管理器和缓冲池实例
+// What: 构造函数接收配置管理器引用，从中获取配置参数初始化存储引擎的各个组件
+// How: 从配置管理器获取数据库文件路径和缓冲池大小，创建DiskManager和BufferPool对象
+StorageEngine::StorageEngine(ConfigManager& config_manager) 
+    : config_manager_(config_manager) {
+    // 从配置管理器获取数据库文件路径
+    std::string db_file_path = config_manager_.GetString("database.db_file_path", "./sqlcc.db");
+    
+    // 从配置管理器获取缓冲池大小
+    size_t pool_size = static_cast<size_t>(config_manager_.GetInt("buffer_pool.pool_size", 64));
+    
     // 记录初始化信息，便于调试和监控
     // Why: 日志记录有助于系统运行状态的监控和问题排查
     // What: 记录正在初始化的数据库文件名和缓冲池大小
     // How: 使用SQLCC_LOG_INFO宏记录信息级别日志
-    SQLCC_LOG_INFO("Initializing StorageEngine with database file: " + db_filename + 
+    SQLCC_LOG_INFO("Initializing StorageEngine with database file: " + db_file_path + 
                   " and pool size: " + std::to_string(pool_size));
     
     // 创建磁盘管理器
     // Why: 需要一个组件负责磁盘I/O操作，管理数据库文件的读写
     // What: 创建DiskManager对象，负责页面的磁盘读写操作
-    // How: 使用std::make_unique创建DiskManager对象，传入数据库文件名
-    disk_manager_ = std::make_unique<DiskManager>(db_filename);
+    // How: 使用std::make_unique创建DiskManager对象，传入数据库文件名和配置管理器
+    disk_manager_ = std::make_unique<DiskManager>(db_file_path, config_manager_);
     
     // 创建缓冲池管理器
     // Why: 需要一个组件负责内存中的页面缓存，提高数据库性能
     // What: 创建BufferPool对象，负责内存中的页面管理
-    // How: 使用std::make_unique创建BufferPool对象，传入磁盘管理器指针和缓冲池大小
-    buffer_pool_ = std::make_unique<BufferPool>(disk_manager_.get(), pool_size);
+    // How: 使用std::make_unique创建BufferPool对象，传入磁盘管理器指针、缓冲池大小和配置管理器
+    buffer_pool_ = std::make_unique<BufferPool>(disk_manager_.get(), pool_size, config_manager_);
+    
+    // 注册配置变更回调
+    config_manager_.RegisterChangeCallback("buffer_pool.pool_size", 
+        [this](const std::string& key, const ConfigValue& value) {
+            // 处理缓冲池大小变更
+            if (std::holds_alternative<int>(value)) {
+                size_t new_size = static_cast<size_t>(std::get<int>(value));
+                SQLCC_LOG_INFO("Buffer pool size changed to: " + std::to_string(new_size));
+                // 这里可以添加调整缓冲池大小的逻辑
+                // 注意：实际实现可能需要更复杂的逻辑来处理缓冲池大小调整
+            }
+        });
     
     // 记录初始化成功，便于调试
     // Why: 日志记录有助于系统运行状态的监控和问题排查
@@ -44,6 +63,13 @@ StorageEngine::~StorageEngine() {
     // What: 记录存储引擎正在销毁
     // How: 使用SQLCC_LOG_INFO宏记录信息级别日志
     SQLCC_LOG_INFO("Destroying StorageEngine");
+    
+    // 在销毁前刷新所有脏页到磁盘
+    // Why: 确保所有修改过的数据都被持久化到磁盘，避免数据丢失
+    // What: 调用FlushAllPages方法将所有脏页写回磁盘
+    // How: 直接调用FlushAllPages方法
+    FlushAllPages();
+    
     // 析构函数会自动清理资源
     // Why: 使用智能指针管理资源，析构时会自动释放
     // What: 智能指针会自动调用析构函数释放资源
@@ -200,9 +226,9 @@ void StorageEngine::FlushAllPages() {
     // What: 调用BufferPool的FlushAllPages方法刷新所有页面
     // How: 直接调用buffer_pool_的FlushAllPages方法
     buffer_pool_->FlushAllPages();
-    // 记录刷新成功，便于调试
+    // 记录操作完成，便于调试
     // Why: 日志记录有助于系统运行状态的监控和问题排查
-    // What: 记录所有页面刷新成功
+    // What: 记录所有页面刷新完成
     // How: 使用SQLCC_LOG_INFO宏记录信息级别日志
     SQLCC_LOG_INFO("All pages flushed successfully");
 }
