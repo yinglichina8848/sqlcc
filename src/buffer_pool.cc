@@ -12,6 +12,9 @@ namespace sqlcc {
 // How: 使用成员初始化列表初始化disk_manager_和pool_size_，并记录日志
 BufferPool::BufferPool(DiskManager* disk_manager, size_t pool_size)
     : disk_manager_(disk_manager), pool_size_(pool_size) {
+    // 预分配批量操作缓冲区空间
+    batch_buffer_.reserve(std::min(pool_size_, static_cast<size_t>(64)));
+    
     // 记录缓冲池初始化信息，便于调试和监控
     // Why: 日志记录有助于系统运行状态的监控和问题排查
     // What: 记录缓冲池大小信息
@@ -42,11 +45,8 @@ BufferPool::~BufferPool() {
 // What: FetchPage方法根据页面ID获取对应的页面指针
 // How: 检查页面是否在缓冲池中，如果不在则从磁盘加载，如果缓冲池已满则替换页面
 Page* BufferPool::FetchPage(int32_t page_id) {
-    // 记录获取页面操作，便于调试和监控
-    // Why: 日志记录有助于系统运行状态的监控和问题排查
-    // What: 记录正在获取的页面ID
-    // How: 使用SQLCC_LOG_DEBUG宏记录调试级别日志
-    SQLCC_LOG_DEBUG("Fetching page ID: " + std::to_string(page_id));
+    // 更新访问统计（用于预测性预取）
+    access_stats_[page_id]++;
     
     // 检查页面是否已经在缓冲池中
     // Why: 如果页面已在内存中，可以直接返回，避免昂贵的磁盘I/O操作
@@ -66,8 +66,8 @@ Page* BufferPool::FetchPage(int32_t page_id) {
         // How: MoveToHead会更新LRU链表和映射表
         MoveToHead(page_id);
         
-        // 记录页面已在缓冲池中的信息，便于调试
-        SQLCC_LOG_DEBUG("Page ID " + std::to_string(page_id) + " found in buffer pool");
+        // 减少日志记录以提高性能
+        // SQLCC_LOG_DEBUG("Page ID " + std::to_string(page_id) + " found in buffer pool");
         return it->second.get();
     }
 
@@ -632,6 +632,181 @@ void BufferPool::MoveToHead(int32_t page_id) {
     
     // 记录页面移动成功，便于调试
     SQLCC_LOG_DEBUG("Page ID " + std::to_string(page_id) + " moved to head of LRU list");
+}
+
+std::vector<Page*> BufferPool::BatchFetchPages(const std::vector<int32_t>& page_ids) {
+    std::vector<Page*> result;
+    result.reserve(page_ids.size());
+    
+    // 分离已在缓冲池中和不在缓冲池中的页面
+    std::vector<int32_t> pages_to_read;
+    std::vector<char*> data_buffers;
+    
+    // 首先处理已在缓冲池中的页面
+    for (int32_t page_id : page_ids) {
+        // 检查页面ID是否有效
+        if (page_id < 0) {
+            SQLCC_LOG_ERROR("Invalid page ID: " + std::to_string(page_id));
+            result.push_back(nullptr);
+            continue;
+        }
+        
+        // 更新访问统计
+        access_stats_[page_id]++;
+        
+        auto page_it = page_table_.find(page_id);
+        if (page_it != page_table_.end()) {
+            // 页面已在缓冲池中
+            Page* page = page_it->second.get();
+            page_refs_[page_id]++;
+            MoveToHead(page_id);
+            result.push_back(page);
+        } else {
+            // 页面不在缓冲池中，需要从磁盘读取
+            pages_to_read.push_back(page_id);
+            result.push_back(nullptr); // 占位符，稍后填充
+        }
+    }
+    
+    // 如果没有需要从磁盘读取的页面，直接返回
+    if (pages_to_read.empty()) {
+        return result;
+    }
+    
+    // 按页面ID排序，优化磁盘访问模式
+    std::sort(pages_to_read.begin(), pages_to_read.end());
+    
+    // 检查缓冲池是否有足够空间
+    size_t available_space = pool_size_ - page_table_.size();
+    if (available_space < pages_to_read.size()) {
+        // 需要替换一些页面
+        for (size_t i = 0; i < pages_to_read.size() - available_space; ++i) {
+            int32_t victim_page_id = ReplacePage();
+            if (victim_page_id == -1) {
+                // 没有可替换的页面
+                SQLCC_LOG_ERROR("Buffer pool is full and no pages can be replaced during batch fetch");
+                pages_to_read.resize(available_space);
+                break;
+            }
+        }
+    }
+    
+    // 创建页面对象和数据缓冲区
+    std::vector<std::unique_ptr<Page>> new_pages;
+    new_pages.reserve(pages_to_read.size());
+    data_buffers.reserve(pages_to_read.size());
+    
+    for (int32_t page_id : pages_to_read) {
+        auto page = std::make_unique<Page>(page_id);
+        data_buffers.push_back(page->GetData());
+        new_pages.push_back(std::move(page));
+    }
+    
+    // 使用磁盘管理器的批量读取功能
+    size_t success_count = disk_manager_->BatchReadPages(pages_to_read, data_buffers);
+    
+    // 将成功读取的页面添加到缓冲池
+    for (size_t i = 0; i < success_count; ++i) {
+        int32_t page_id = pages_to_read[i];
+        
+        // 将页面添加到缓冲池
+        Page* page_ptr = new_pages[i].get();
+        page_table_[page_id] = std::move(new_pages[i]);
+        page_refs_[page_id] = 1;
+        dirty_pages_[page_id] = false;
+        
+        // 添加到LRU链表头部
+        lru_list_.push_front(page_id);
+        lru_map_[page_id] = lru_list_.begin();
+        
+        // 更新结果数组中的对应位置
+        auto it = std::find(page_ids.begin(), page_ids.end(), page_id);
+        if (it != page_ids.end()) {
+            size_t index = std::distance(page_ids.begin(), it);
+            result[index] = page_ptr;
+        }
+    }
+    
+    return result;
+}
+
+void BufferPool::PrefetchPage(int32_t page_id) {
+    // 检查页面ID是否有效
+    if (page_id < 0) {
+        SQLCC_LOG_ERROR("Invalid page ID for prefetch: " + std::to_string(page_id));
+        return;
+    }
+    
+    // 检查页面是否已在缓冲池中
+    if (page_table_.find(page_id) != page_table_.end()) {
+        // 页面已在缓冲池中，无需预取
+        return;
+    }
+    
+    // 检查页面是否已在预取队列中
+    auto it = std::find(prefetch_queue_.begin(), prefetch_queue_.end(), page_id);
+    if (it != prefetch_queue_.end()) {
+        // 页面已在预取队列中，无需重复预取
+        return;
+    }
+    
+    // 使用磁盘管理器的预取功能
+    disk_manager_->PrefetchPage(page_id);
+    
+    // 将页面ID添加到预取队列
+    prefetch_queue_.push_back(page_id);
+    
+    // 限制预取队列大小
+    if (prefetch_queue_.size() > 64) {
+        prefetch_queue_.pop_front();
+    }
+}
+
+void BufferPool::BatchPrefetchPages(const std::vector<int32_t>& page_ids) {
+    // 筛选需要预取的页面（不在缓冲池中且不在预取队列中）
+    std::vector<int32_t> pages_to_prefetch;
+    pages_to_prefetch.reserve(page_ids.size());
+    
+    for (int32_t page_id : page_ids) {
+        // 检查页面ID是否有效
+        if (page_id < 0) {
+            continue;
+        }
+        
+        // 检查页面是否已在缓冲池中
+        if (page_table_.find(page_id) != page_table_.end()) {
+            continue;
+        }
+        
+        // 检查页面是否已在预取队列中
+        auto it = std::find(prefetch_queue_.begin(), prefetch_queue_.end(), page_id);
+        if (it != prefetch_queue_.end()) {
+            continue;
+        }
+        
+        pages_to_prefetch.push_back(page_id);
+    }
+    
+    // 如果没有需要预取的页面，直接返回
+    if (pages_to_prefetch.empty()) {
+        return;
+    }
+    
+    // 按页面ID排序，优化磁盘访问模式
+    std::sort(pages_to_prefetch.begin(), pages_to_prefetch.end());
+    
+    // 使用磁盘管理器的批量预取功能
+    disk_manager_->BatchPrefetchPages(pages_to_prefetch);
+    
+    // 将页面ID添加到预取队列
+    for (int32_t page_id : pages_to_prefetch) {
+        prefetch_queue_.push_back(page_id);
+    }
+    
+    // 限制预取队列大小
+    while (prefetch_queue_.size() > 64) {
+        prefetch_queue_.pop_front();
+    }
 }
 
 }  // namespace sqlcc

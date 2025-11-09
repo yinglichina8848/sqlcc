@@ -3,6 +3,11 @@
 #include "page.h"
 #include <string>
 #include <fstream>
+#include <fcntl.h>
+#include <vector>
+#include <unistd.h>
+#include <sys/stat.h>
+#include <sys/types.h>
 
 namespace sqlcc {
 
@@ -124,6 +129,47 @@ public:
      * @return 读取成功返回true，否则返回false
      */
     bool ReadPage(int32_t page_id, Page* page);
+    
+    /**
+     * @brief 批量从磁盘读取多个页面，优化连续访问性能
+     * 
+     * Why: 批量读取可以减少I/O操作次数和系统调用开销，提高磁盘访问效率
+     * What: BatchReadPages方法一次性读取多个页面，对连续页面进行优化排序
+     * How: 按页面ID排序以优化磁盘访问，使用预读机制提高性能
+     * 
+     * @param page_ids 页面ID数组，指定要读取的页面
+     * @param data_buffers 数据缓冲区数组，存储读取的页面数据
+     * @param count 页面数量
+     * 
+     * @return 成功读取的页面数量
+     */
+    size_t BatchReadPages(const std::vector<int32_t>& page_ids, std::vector<char*>& data_buffers);
+    
+    /**
+     * @brief 预读指定页面到操作系统缓存
+     * 
+     * Why: 预读可以提前将页面加载到操作系统缓存，减少未来的I/O等待时间
+     * What: PrefetchPage方法使用操作系统提供的预读机制加载页面
+     * How: 使用posix_fadvise或readahead系统调用实现预读
+     * 
+     * @param page_id 页面ID，指定要预读的页面
+     * 
+     * @return 预读成功返回true，否则返回false
+     */
+    bool PrefetchPage(int32_t page_id);
+    
+    /**
+     * @brief 批量预读多个页面到操作系统缓存
+     * 
+     * Why: 批量预读可以进一步减少I/O开销，特别适用于顺序访问模式
+     * What: BatchPrefetchPages方法一次性预读多个页面，优化磁盘访问模式
+     * How: 按页面ID排序以优化磁盘访问，使用预读机制提高性能
+     * 
+     * @param page_ids 页面ID数组，指定要预读的页面
+     * 
+     * @return 成功预读的页面数量
+     */
+    size_t BatchPrefetchPages(const std::vector<int32_t>& page_ids);
 
     /**
      * @brief 分配新页面，返回页面ID
