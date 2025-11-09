@@ -23,8 +23,8 @@ protected:
         // 创建磁盘管理器
         disk_manager_ = std::make_unique<DiskManager>(test_db_file_.string());
         
-        // 创建配置管理器
-        config_manager_ = std::make_unique<ConfigManager>();
+        // 获取配置管理器单例实例
+        config_manager_ = &ConfigManager::GetInstance();
         
         // 创建缓冲池
         buffer_pool_ = std::make_unique<BufferPool>(disk_manager_.get(), 10, *config_manager_);
@@ -36,7 +36,7 @@ protected:
     void TearDown() override {
         buffer_pool_.reset();
         disk_manager_.reset();
-        config_manager_.reset();
+        config_manager_ = nullptr;
         
         // 清理测试文件
         if (std::filesystem::exists(test_db_file_)) {
@@ -58,7 +58,7 @@ protected:
 
     std::filesystem::path test_db_file_;
     std::unique_ptr<DiskManager> disk_manager_;
-    std::unique_ptr<ConfigManager> config_manager_;
+    ConfigManager* config_manager_;
     std::unique_ptr<BufferPool> buffer_pool_;
 };
 
