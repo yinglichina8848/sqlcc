@@ -13,6 +13,16 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 # 编译选项
 add_compile_options(-Wall -Wextra -pedantic)
 
+# 检查是否启用覆盖率测试
+option(ENABLE_COVERAGE "Enable code coverage" OFF)
+
+if(ENABLE_COVERAGE)
+    # 添加覆盖率编译选项
+    add_compile_options(-fprofile-arcs -ftest-coverage)
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} --coverage")
+    set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} --coverage")
+endif()
+
 # 添加源码目录
 add_subdirectory(src)
 
