@@ -79,8 +79,12 @@ add_test(NAME DiskManagerEnhancedTest COMMAND disk_manager_enhanced_test)
 
 # Page enhanced test
 add_executable(page_enhanced_test unit/page_enhanced_test.cc)
-target_link_libraries(page_enhanced_test sqlcc_core ${GTEST_LIBRARIES} pthread)
-target_include_directories(page_enhanced_test PRIVATE ${GTEST_INCLUDE_DIRS})
+target_link_libraries(page_enhanced_test 
+    sqlcc_core 
+    GTest::gtest 
+    GTest::gtest_main 
+    pthread
+)
 
 # Register enhanced page tests
 add_test(NAME PageEnhancedTest COMMAND page_enhanced_test)

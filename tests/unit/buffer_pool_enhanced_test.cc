@@ -20,8 +20,11 @@ protected:
         // 创建临时测试文件
         test_db_file_ = std::filesystem::temp_directory_path() / "buffer_pool_test.db";
         
+        // 获取配置管理器单例实例
+        config_manager_ = &ConfigManager::GetInstance();
+        
         // 创建磁盘管理器
-        disk_manager_ = std::make_unique<DiskManager>(test_db_file_.string());
+        disk_manager_ = std::make_unique<DiskManager>(test_db_file_.string(), *config_manager_);
         
         // 获取配置管理器单例实例
         config_manager_ = &ConfigManager::GetInstance();
@@ -52,7 +55,7 @@ protected:
             for (int j = 0; j < 100; ++j) {
                 data[j] = static_cast<char>(i + j);
             }
-            disk_manager_->WritePage(page);
+            disk_manager_->WritePage(i, data);
         }
     }
 
@@ -331,25 +334,22 @@ TEST_F(BufferPoolEnhancedTest, BatchPrefetchPages) {
 
 // 测试配置变更回调
 TEST_F(BufferPoolEnhancedTest, ConfigChangeCallback) {
-    // 测试缓冲池大小变更
-    ConfigValue pool_size_value(20);
-    buffer_pool_->OnConfigChange("buffer_pool.pool_size", pool_size_value);
+    // 通过ConfigManager设置配置值来触发缓冲池的配置变更
     
-    // 测试预取开关变更
-    ConfigValue prefetch_value(true);
-    buffer_pool_->OnConfigChange("buffer_pool.enable_prefetch", prefetch_value);
+    // 测试缓冲池大小变更
+    config_manager_->SetValue("buffer_pool.pool_size", ConfigValue(20));
+    
+    // 测试预取开关变更  
+    config_manager_->SetValue("buffer_pool.enable_prefetch", ConfigValue(true));
     
     // 测试预取策略变更
-    ConfigValue strategy_value("SEQUENTIAL");
-    buffer_pool_->OnConfigChange("buffer_pool.prefetch_strategy", strategy_value);
+    config_manager_->SetValue("buffer_pool.prefetch_strategy", ConfigValue(std::string("SEQUENTIAL")));
     
     // 测试预取窗口大小变更
-    ConfigValue window_value(8);
-    buffer_pool_->OnConfigChange("buffer_pool.prefetch_window", window_value);
+    config_manager_->SetValue("buffer_pool.prefetch_window", ConfigValue(8));
     
     // 测试无效的配置键
-    ConfigValue invalid_value(100);
-    buffer_pool_->OnConfigChange("invalid.config.key", invalid_value);
+    config_manager_->SetValue("invalid.config.key", ConfigValue(100));
 }
 
 // 测试线程安全性
