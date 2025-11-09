@@ -13,7 +13,7 @@
 #pragma once
 
 // Why: 定义数据库系统的版本号，便于版本管理和兼容性检查
-// What: 定义SQLCC_VERSION宏，包含当前数据库系统的版本号字符串"0.2.4"
+// What: 定义SQLCC_VERSION宏，包含当前数据库系统的版本号字符串"0.2.5"
 // How: 使用#define预处理指令定义版本号字符串常量
-#define SQLCC_VERSION "0.2.4"
+#define SQLCC_VERSION "0.2.5"
 
