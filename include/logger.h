@@ -97,9 +97,12 @@ public:
      * @param level 日志级别
      */
     void SetLogLevel(LogLevel level) {
+<<<<<<< Updated upstream
         // Why: 记录当前设置的日志级别，用于后续日志过滤
         // What: 将传入的日志级别赋值给成员变量log_level_
         // How: 使用赋值运算符将参数赋值给成员变量
+=======
+>>>>>>> Stashed changes
         log_level_ = level;
     }
 
@@ -113,9 +116,12 @@ public:
      * @param filename 日志文件名
      */
     void SetLogFile(const std::string& filename) {
+<<<<<<< Updated upstream
         // Why: 打开日志文件，将日志输出到文件
         // What: 使用std::ofstream打开文件，设置输出和追加模式
         // How: 调用log_file_.open方法，传入文件名和打开模式
+=======
+>>>>>>> Stashed changes
         log_file_.open(filename, std::ios::out | std::ios::app);
         // Why: 检查文件是否成功打开，设置use_file_标志
         // What: 根据文件是否成功打开设置use_file_标志
@@ -133,9 +139,12 @@ public:
      * @param message 日志消息
      */
     void Debug(const std::string& message) {
+<<<<<<< Updated upstream
         // Why: 记录调试级别的日志消息
         // What: 调用Log方法，传入DEBUG级别和消息内容
         // How: 直接调用Log方法，传入LogLevel::DEBUG和message参数
+=======
+>>>>>>> Stashed changes
         Log(LogLevel::DEBUG, message);
     }
 
@@ -149,9 +158,12 @@ public:
      * @param message 日志消息
      */
     void Info(const std::string& message) {
+<<<<<<< Updated upstream
         // Why: 记录信息级别的日志消息
         // What: 调用Log方法，传入INFO级别和消息内容
         // How: 直接调用Log方法，传入LogLevel::INFO和message参数
+=======
+>>>>>>> Stashed changes
         Log(LogLevel::INFO, message);
     }
 
@@ -165,9 +177,12 @@ public:
      * @param message 日志消息
      */
     void Warn(const std::string& message) {
+<<<<<<< Updated upstream
         // Why: 记录警告级别的日志消息
         // What: 调用Log方法，传入WARN级别和消息内容
         // How: 直接调用Log方法，传入LogLevel::WARN和message参数
+=======
+>>>>>>> Stashed changes
         Log(LogLevel::WARN, message);
     }
 
@@ -181,9 +196,12 @@ public:
      * @param message 日志消息
      */
     void Error(const std::string& message) {
+<<<<<<< Updated upstream
         // Why: 记录错误级别的日志消息
         // What: 调用Log方法，传入ERROR级别和消息内容
         // How: 直接调用Log方法，传入LogLevel::ERROR和message参数
+=======
+>>>>>>> Stashed changes
         Log(LogLevel::ERROR, message);
     }
 
@@ -196,7 +214,11 @@ private:
      * How: 使用成员初始化列表初始化log_level_为INFO，use_file_为false
      */
     Logger() : log_level_(LogLevel::INFO), use_file_(false) {}
+<<<<<<< Updated upstream
 
+=======
+    
+>>>>>>> Stashed changes
     /**
      * @brief 禁止拷贝构造
      * 
@@ -223,6 +245,7 @@ private:
      * How: 检查日志级别，获取当前时间，格式化日志消息，选择输出流并输出
      * 
      * @param level 日志级别
+<<<<<<< Updated upstream
      * @param message 日志消息
      */
     void Log(LogLevel level, const std::string& message) {
@@ -230,14 +253,22 @@ private:
         // Why: 过滤掉低于当前日志级别的消息，减少日志输出量
         // What: 比较传入的日志级别和当前设置的日志级别
         // How: 使用比较运算符，如果传入级别低于当前级别则直接返回
+=======
+     * @param message 日志消息内容
+     */
+    void Log(LogLevel level, const std::string& message) {
+>>>>>>> Stashed changes
         if (level < log_level_) {
             return;
         }
 
+<<<<<<< Updated upstream
         // 获取当前时间戳
         // Why: 需要记录日志发生的时间，便于问题排查和性能分析
         // What: 获取当前系统时间，包括日期、时间和毫秒
         // How: 使用std::chrono获取当前时间点，转换为time_t和毫秒
+=======
+>>>>>>> Stashed changes
         auto now = std::chrono::system_clock::now();
         auto time_t = std::chrono::system_clock::to_time_t(now);
         auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -251,6 +282,7 @@ private:
         timestamp << std::put_time(std::localtime(&time_t), "%Y-%m-%d %H:%M:%S");
         timestamp << '.' << std::setfill('0') << std::setw(3) << ms.count();
 
+<<<<<<< Updated upstream
         // 获取日志级别字符串
         // Why: 将枚举类型的日志级别转换为字符串，便于输出
         // What: 根据日志级别枚举值返回对应的字符串表示
@@ -301,11 +333,32 @@ private:
                 // Why: 普通日志输出到标准输出流
                 // What: 使用std::cout输出普通日志
                 // How: 使用流插入运算符输出日志
+=======
+        std::string level_str;
+        switch (level) {
+            case LogLevel::DEBUG: level_str = "DEBUG"; break;
+            case LogLevel::INFO:  level_str = "INFO";  break;
+            case LogLevel::WARN:  level_str = "WARN";  break;
+            case LogLevel::ERROR: level_str = "ERROR"; break;
+        }
+
+        std::ostringstream log_msg;
+        log_msg << "[" << timestamp.str() << "] [" << level_str << "] " << message;
+
+        if (use_file_ && log_file_.is_open()) {
+            log_file_ << log_msg.str() << std::endl;
+            log_file_.flush();
+        } else {
+            if (level == LogLevel::ERROR) {
+                std::cerr << log_msg.str() << std::endl;
+            } else {
+>>>>>>> Stashed changes
                 std::cout << log_msg.str() << std::endl;
             }
         }
     }
 
+<<<<<<< Updated upstream
     /// 当前日志级别
     // Why: 记录当前设置的日志级别，用于过滤日志消息
     // What: 存储当前日志级别，只有等于或高于此级别的日志才会被输出
@@ -323,6 +376,11 @@ private:
     // What: 存储是否使用文件记录日志的标志
     // How: 使用bool类型定义成员变量
     bool use_file_;
+=======
+    LogLevel log_level_;      ///< 当前日志级别
+    std::ofstream log_file_;  ///< 日志文件流
+    bool use_file_;           ///< 是否使用文件输出
+>>>>>>> Stashed changes
 };
 
 /**

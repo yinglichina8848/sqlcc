@@ -193,6 +193,7 @@ void PerformanceTestRunner::RunTests() {
         std::cout << "=====================================" << std::endl;
         
         auto buffer_pool_test = std::make_unique<BufferPoolPerformanceTest>();
+        buffer_pool_test->SetOutputDirectory(output_dir_);
         buffer_pool_test->RunAllTests();
     }
     
@@ -203,6 +204,7 @@ void PerformanceTestRunner::RunTests() {
         std::cout << "=====================================" << std::endl;
         
         auto disk_io_test = std::make_unique<DiskIOPerformanceTest>();
+        disk_io_test->SetOutputDirectory(output_dir_);
         disk_io_test->RunAllTests();
     }
     
@@ -213,6 +215,7 @@ void PerformanceTestRunner::RunTests() {
         std::cout << "=====================================" << std::endl;
         
         auto mixed_workload_test = std::make_unique<MixedWorkloadTest>();
+        mixed_workload_test->SetOutputDirectory(output_dir_);
         mixed_workload_test->RunAllTests();
     }
     
@@ -223,6 +226,7 @@ void PerformanceTestRunner::RunTests() {
         std::cout << "=====================================" << std::endl;
         
         auto batch_prefetch_test = std::make_unique<BatchPrefetchPerformanceTest>();
+        batch_prefetch_test->SetOutputDirectory(output_dir_);
         batch_prefetch_test->RunAllTests();
     }
     

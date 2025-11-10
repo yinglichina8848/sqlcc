@@ -11,7 +11,11 @@ namespace sqlcc {
 // What: 构造函数初始化成员变量，并记录初始化日志
 // How: 使用成员初始化列表初始化disk_manager_、pool_size_和config_manager_，并记录日志
 BufferPool::BufferPool(DiskManager* disk_manager, size_t pool_size, ConfigManager& config_manager)
+<<<<<<< Updated upstream
     : disk_manager_(disk_manager), pool_size_(pool_size), config_manager_(config_manager) {
+=======
+    : disk_manager_(disk_manager), config_manager_(config_manager), pool_size_(pool_size), simulate_flush_failure_(false) {
+>>>>>>> Stashed changes
     // 预分配批量操作缓冲区空间
     batch_buffer_.reserve(std::min(pool_size_, static_cast<size_t>(64)));
     
@@ -103,6 +107,19 @@ Page* BufferPool::FetchPage(int32_t page_id) {
     // How: 使用SQLCC_LOG_DEBUG宏记录调试级别日志
     SQLCC_LOG_DEBUG("Page ID " + std::to_string(page_id) + " not found in buffer pool, reading from disk");
     
+<<<<<<< Updated upstream
+=======
+    // 创建新页面
+    auto page = std::make_unique<Page>(page_id);
+    
+    // 从磁盘读取页面数据
+    if (!disk_manager_->ReadPage(page_id, page->GetData())) {
+        // 如果读取失败，说明页面不存在，返回nullptr
+        SQLCC_LOG_DEBUG("Failed to read page ID " + std::to_string(page_id) + " from disk, page does not exist");
+        return nullptr;
+    }
+
+>>>>>>> Stashed changes
     // 如果缓冲池已满，需要替换页面
     // Why: 缓冲池大小有限，当已满时必须选择一个页面进行替换
     // What: 检查page_table_的大小是否超过pool_size_
@@ -127,6 +144,7 @@ Page* BufferPool::FetchPage(int32_t page_id) {
         }
     }
 
+<<<<<<< Updated upstream
     // 创建新页面对象
     // Why: 需要创建一个页面对象来存储从磁盘读取的数据
     // What: 使用std::make_unique创建一个新的Page对象
@@ -143,6 +161,8 @@ Page* BufferPool::FetchPage(int32_t page_id) {
         return nullptr;
     }
 
+=======
+>>>>>>> Stashed changes
     // 添加到页面表
     // Why: 需要将新加载的页面加入缓冲池管理，以便后续查找和使用
     // What: 将页面对象添加到page_table_哈希表中
@@ -545,13 +565,21 @@ int32_t BufferPool::ReplacePage() {
     
     while (!lru_list_.empty() && attempts < max_attempts) {
         attempts++;
+<<<<<<< Updated upstream
         
+=======
+>>>>>>> Stashed changes
         // 获取LRU链表尾部的页面ID（最久未使用）
         // Why: LRU链表尾部存储的是最久未使用的页面
         // What: 使用back方法获取链表尾部的页面ID
         // How: 直接调用std::list的back方法
         int32_t page_id = lru_list_.back();
         
+<<<<<<< Updated upstream
+=======
+        SQLCC_LOG_DEBUG("Checking page ID " + std::to_string(page_id) + " for replacement (attempt " + std::to_string(attempts) + " of " + std::to_string(max_attempts) + ")");
+        
+>>>>>>> Stashed changes
         // 检查页面引用计数
         // Why: 只能替换引用计数为0的页面，表示当前没有操作在使用该页面
         // What: 在page_refs_哈希表中查找页面ID的引用计数
@@ -567,6 +595,11 @@ int32_t BufferPool::ReplacePage() {
             continue;
         }
         
+<<<<<<< Updated upstream
+=======
+        SQLCC_LOG_DEBUG("Page ID " + std::to_string(page_id) + " has ref count: " + std::to_string(ref_it != page_refs_.end() ? ref_it->second : -1) + " - will be replaced");
+        
+>>>>>>> Stashed changes
         // 检查是否为脏页，如果是则需要刷新到磁盘
         // Why: 替换脏页前需要先写回磁盘，以保证数据持久性
         // What: 在dirty_pages_哈希表中查找页面ID，检查是否为脏页
@@ -580,6 +613,7 @@ int32_t BufferPool::ReplacePage() {
             auto page_it = page_table_.find(page_id);
             if (page_it != page_table_.end()) {
                 // 刷新脏页到磁盘
+<<<<<<< Updated upstream
                 // Why: 脏页的内容与磁盘不一致，需要写回磁盘以保证数据持久性
                 // What: 调用磁盘管理器的WritePage方法将页面写入磁盘
                 // How: 传入页面对象引用，由磁盘管理器负责实际的磁盘I/O操作
@@ -595,6 +629,23 @@ int32_t BufferPool::ReplacePage() {
                         // 无法刷新脏页，不能替换此页面，继续查找
                         continue;
                     }
+=======
+            // Why: 脏页的内容与磁盘不一致，需要写回磁盘以保证数据持久性
+            // What: 调用磁盘管理器的WritePage方法将页面写入磁盘
+            // How: 传入页面对象引用，由磁盘管理器负责实际的磁盘I/O操作
+            // 如果页面是脏的，需要先写回磁盘
+            if (dirty_pages_[page_id]) {
+                if (!disk_manager_->WritePage(page_id, page_it->second->GetData())) {
+                    // 写入失败，记录错误并继续查找下一个页面
+                    // Why: 写入磁盘失败可能导致数据丢失，不应替换此页面
+                    // What: 创建错误消息，记录错误日志，然后继续查找下一个页面
+                    // How: 使用SQLCC_LOG_ERROR记录错误级别日志，然后继续循环
+                    std::string error_msg = "Failed to write dirty page ID " + std::to_string(page_id) + " to disk";
+                    SQLCC_LOG_ERROR(error_msg);
+                    // 无法刷新脏页，不能替换此页面，继续查找
+                    continue;
+                }
+>>>>>>> Stashed changes
                 }
             }
         }
@@ -927,6 +978,18 @@ void BufferPool::OnConfigChange(const std::string& key, const ConfigValue& value
             SQLCC_LOG_INFO("Prefetch window size updated to: " + std::to_string(window_size));
         }
     }
+<<<<<<< Updated upstream
+=======
+}
+
+// 检查页面是否在缓冲池中
+// Why: 需要快速判断页面是否已加载到内存中，避免不必要的磁盘I/O
+// What: IsPageInBuffer方法检查指定页面ID是否存在于缓冲池中
+// How: 检查页面表是否包含该页面ID
+bool BufferPool::IsPageInBuffer(int32_t page_id) const {
+    std::lock_guard<std::mutex> lock(latch_);
+    return page_table_.find(page_id) != page_table_.end();
+>>>>>>> Stashed changes
 }
 
 }  // namespace sqlcc

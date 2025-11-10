@@ -10,10 +10,19 @@
 - [配置管理器设计文档](config_manager_design.md) - 配置管理器的架构设计、实现细节和使用方法
 - [100万次INSERT性能测试报告](million_insert_performance_report.md) - SQLCC存储引擎在执行100万次INSERT操作时的性能表现和分析
 - [单元测试文档](unit_testing.md) - 单元测试框架介绍和测试用例详解
+<<<<<<< Updated upstream
 - [项目完整复现指南](../Guide.md) - 从零开始构建SQLCC项目的详细指南
 - [发布流程文档](release_process.md) - 项目版本发布流程和自动化发布脚本使用指南
 - [AI辅助开发记录](../TRAE-Chat.md) - 使用AI工具辅助开发的完整过程记录
 - [会话记录](chat_2025-11-05_1758.md) - 本次设计文档更新和代码注释改进的完整会话记录
+=======
+- [性能优化报告](../performance_optimization_report.md) - 批量预取和线程安全锁定机制性能优化分析
+- [锁定机制分析文档](../LOCKING_MECHANISM_ANALYSIS.md) - 线程安全锁定机制详细分析和实现
+- [v0.3.5版本发布说明](../RELEASE_NOTES_v0.3.5.md) - v0.3.5版本详细发布说明和新特性
+- [项目完整复现指南](../Guide.md) - 从零开始构建SQLCC项目的详细指南
+- [发布流程文档](release_process.md) - 项目版本发布流程和自动化发布脚本使用指南
+- [AI辅助开发记录](../TRAE-Chat.md) - 使用AI工具辅助开发的完整过程记录
+>>>>>>> Stashed changes
 
 ### API文档
 - [Doxygen API文档](doxygen/html/index.html) - 详细的类和函数API参考
@@ -34,7 +43,13 @@
 2. **AI辅助开发记录**：阅读[TRAE-Chat.md](../TRAE-Chat.md)，了解AI辅助开发的全过程
 3. **项目复现指南**：按照[Guide.md](../Guide.md)的步骤，亲手复现项目
 4. **架构设计**：学习[Architecture.md](../Architecture.md)，理解系统设计思路
+<<<<<<< Updated upstream
 5. **深入技术细节**：阅读[存储引擎设计文档](storage_engine_design.md)和[单元测试文档](unit_testing.md)
+=======
+5. **性能优化**：阅读[性能优化报告](../performance_optimization_report.md)，了解性能优化过程
+6. **锁定机制**：研究[锁定机制分析文档](../LOCKING_MECHANISM_ANALYSIS.md)，学习线程安全实现
+7. **深入技术细节**：阅读[存储引擎设计文档](storage_engine_design.md)和[单元测试文档](unit_testing.md)
+>>>>>>> Stashed changes
 
 #### DBMS学习者和使用者
 如果您希望了解和使用SQLCC数据库系统，建议按以下顺序阅读：
@@ -42,8 +57,15 @@
 1. **项目概述**：从[README.md](../README.md)开始，了解项目功能和特性
 2. **架构设计**：阅读[Architecture.md](../Architecture.md)，理解系统架构和模块功能
 3. **快速入门**：按照README中的快速开始指南编译和运行项目
+<<<<<<< Updated upstream
 4. **API文档**：浏览[Doxygen API文档](doxygen/html/index.html)，了解接口使用
 5. **技术细节**：根据需要阅读[存储引擎设计文档](storage_engine_design.md)和其他技术文档
+=======
+4. **性能优化**：阅读[性能优化报告](../performance_optimization_report.md)，了解系统性能特点
+5. **锁定机制**：研究[锁定机制分析文档](../LOCKING_MECHANISM_ANALYSIS.md)，了解线程安全特性
+6. **API文档**：浏览[Doxygen API文档](doxygen/html/index.html)，了解接口使用
+7. **技术细节**：根据需要阅读[存储引擎设计文档](storage_engine_design.md)和其他技术文档
+>>>>>>> Stashed changes
 
 ## 📖 文档说明
 
@@ -95,6 +117,57 @@
 - 测试覆盖范围
 - 测试执行指南
 **与其他文档关系**：与Guide.md中的测试部分相呼应，为TRAE-Chat.md中的测试开发过程提供总结和提炼。
+<<<<<<< Updated upstream
+=======
+
+### 项目完整复现指南 (Guide.md)
+**目的**：提供从零开始构建SQLCC项目的详细步骤，使读者能够完整复现整个项目。
+**内容**：
+- 开发环境准备
+- 项目结构搭建
+- 核心组件实现步骤
+- 测试框架搭建
+- 文档生成流程
+- AI辅助开发技巧
+**与其他文档关系**：是Architecture.md中设计思路的具体实现，是TRAE-Chat.md中AI交互过程的系统化整理，为学习者提供实践路径。
+
+### AI辅助开发记录 (TRAE-Chat.md)
+**目的**：记录使用AI工具辅助开发SQLCC项目的完整过程，展示AI辅助编程的方法和技巧。
+**内容**：
+- AI交互记录和提示词设计
+- 开发过程中的问题解决
+- 技术决策和思考过程
+- AI辅助开发经验总结
+**与其他文档关系**：是Guide.md的原始素材，展示了项目开发的真实过程，为AI辅助编程学习者提供实践参考。
+
+### README.md
+**目的**：提供项目概述、快速入门指南和基本使用方法，是项目的入口文档。
+**内容**：
+- 项目简介和特点
+- 安装和编译指南
+- 基本使用方法
+- 项目结构说明
+- 贡献指南
+**与其他文档关系**：是整个文档体系的入口，为不同读者提供适当的阅读路径指引，与其他文档形成从概括到详细的关系。
+
+### ChangeLog.md
+**目的**：记录项目变更历史和版本信息，帮助用户了解项目演进过程。
+**内容**：
+- 版本发布记录
+- 功能变更列表
+- 重要bug修复
+- 兼容性变更
+**与其他文档关系**：与VERSION_SUMMARY.md相互补充，为项目历史提供完整记录。
+
+### VERSION_SUMMARY.md
+**目的**：总结项目版本演进和关键特性，提供项目发展的概览。
+**内容**：
+- 版本里程碑
+- 关键特性演进
+- 技术架构变化
+- 性能提升记录
+**与其他文档关系**：是ChangeLog.md的提炼和总结，为读者提供项目发展的快速概览。
+>>>>>>> Stashed changes
 
 ### 项目完整复现指南 (Guide.md)
 **目的**：提供从零开始构建SQLCC项目的详细步骤，使读者能够完整复现整个项目。
@@ -188,4 +261,8 @@ doxygen Doxyfile
 
 ---
 
+<<<<<<< Updated upstream
 **最后更新**：2025-11-07 | 版本：v0.2.5
+=======
+**最后更新**：2024-12-19 | 版本：v0.3.5
+>>>>>>> Stashed changes

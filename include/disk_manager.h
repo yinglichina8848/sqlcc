@@ -75,6 +75,8 @@ public:
     // What: DeallocatePage方法释放指定页面，使其可以被重新使用
     // How: 将页面ID添加到空闲页面列表，供后续分配使用
     bool DeallocatePage(int32_t page_id);
+<<<<<<< Updated upstream
+=======
 
     // 获取数据库文件大小（页面数）
     // Why: 需要了解数据库文件的当前大小，用于监控和调试
@@ -99,6 +101,37 @@ public:
     // What: ResetIOStats方法重置所有I/O统计计数器
     // How: 将所有统计计数器重置为0
     void ResetIOStats();
+>>>>>>> Stashed changes
+
+    // 获取数据库文件大小（页面数）
+    // Why: 需要了解数据库文件的当前大小，用于监控和调试
+    // What: GetFileSize方法返回数据库文件包含的页面数量
+    // How: 通过文件大小除以页面大小计算页面数量
+    int32_t GetFileSize() const;
+
+    // 同步文件到磁盘
+    // Why: 确保所有写入操作都已被持久化到磁盘，保证数据持久性
+    // What: Sync方法将文件缓冲区的内容强制写入磁盘
+    // How: 调用文件流的sync方法或操作系统提供的同步函数
+    bool Sync();
+
+    // 获取磁盘I/O统计信息
+    // Why: 监控磁盘I/O性能有助于系统调优和问题诊断
+    // What: GetIOStats方法返回磁盘I/O的统计信息，如读写次数等
+    // How: 收集并返回各种I/O统计指标
+    std::unordered_map<std::string, uint64_t> GetIOStats() const;
+
+    // 重置磁盘I/O统计信息
+    // Why: 需要定期重置统计信息，便于监控特定时间段的I/O性能
+    // What: ResetIOStats方法重置所有I/O统计计数器
+    // How: 将所有统计计数器重置为0
+    void ResetIOStats();
+
+    /**
+     * @brief 设置是否模拟读取失败（仅用于测试）
+     * @param simulate 是否模拟读取失败
+     */
+    void SetSimulateReadFailure(bool simulate) { simulate_read_failure_ = simulate; }
 
 private:
     // 打开数据库文件
@@ -161,11 +194,19 @@ private:
     // How: 在打开文件时初始化，在写入新页面时更新
     size_t file_size_;
 
+<<<<<<< Updated upstream
     // 互斥锁，保护文件访问
     // Why: 磁盘管理器可能被多个线程同时访问，需要同步机制保证数据一致性
     // What: io_mutex_是互斥锁，保护所有文件I/O操作
     // How: 在进行文件I/O操作前加锁，操作完成后解锁
     mutable std::mutex io_mutex_;
+=======
+    // 递归互斥锁，保护文件访问
+    // Why: 磁盘管理器可能被多个线程同时访问，需要同步机制保证数据一致性
+    // What: io_mutex_是递归互斥锁，保护所有文件I/O操作，支持同一线程多次锁定
+    // How: 在进行文件I/O操作前加锁，操作完成后解锁，支持递归锁定避免死锁
+    mutable std::recursive_mutex io_mutex_;
+>>>>>>> Stashed changes
 
     // 下一个要分配的页面ID
     // Why: 需要跟踪下一个可分配的页面ID，确保页面ID的唯一性
@@ -173,6 +214,15 @@ private:
     // How: 初始化时从文件头读取，分配页面时递增
     int32_t next_page_id_;
 
+<<<<<<< Updated upstream
+=======
+    // 测试用失败模拟标志
+    bool simulate_write_failure_ = false;
+    bool simulate_flush_failure_ = false;
+    bool simulate_seek_failure_ = false;
+    bool simulate_read_failure_ = false;
+
+>>>>>>> Stashed changes
     // 空闲页面列表
     // Why: 需要记录被释放的页面，以便重新使用
     // What: free_pages_是存储空闲页面ID的列表
@@ -192,6 +242,20 @@ private:
         uint64_t total_allocations = 0; // 总分配次数
         uint64_t total_deallocations = 0; // 总释放次数
     } io_stats_;
+<<<<<<< Updated upstream
+=======
+
+    // 配置变更回调ID，用于在析构函数中注销回调
+    // Why: 需要在析构函数中注销构造函数中注册的回调，避免悬垂指针
+    // What: 存储各个配置变更回调的注册ID
+    // How: 在构造函数中注册时获取ID，在析构函数中使用ID注销
+    int direct_io_callback_id_ = -1;
+    int io_queue_depth_callback_id_ = -1;
+    int async_io_callback_id_ = -1;
+    int batch_io_size_callback_id_ = -1;
+    int sync_strategy_callback_id_ = -1;
+    int sync_interval_callback_id_ = -1;
+>>>>>>> Stashed changes
 };
 
 }  // namespace sqlcc

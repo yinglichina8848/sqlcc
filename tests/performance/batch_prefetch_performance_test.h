@@ -6,6 +6,7 @@
 #include <memory>
 #include "../../include/buffer_pool.h"
 #include "../../include/disk_manager.h"
+#include "../../include/config_manager.h"
 
 namespace sqlcc {
 namespace test {

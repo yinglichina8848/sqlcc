@@ -75,7 +75,8 @@ void PerformanceTestBase::PrintResult(const TestResult& result) const {
 
 void PerformanceTestBase::SaveResultsToFile(const std::vector<TestResult>& results, 
                                            const std::string& filename) const {
-    std::ofstream file(filename);
+    std::string full_path = output_directory_ + "/" + filename;
+    std::ofstream file(full_path);
     if (!file.is_open()) {
         std::cerr << "Failed to open file: " << filename << std::endl;
         return;
@@ -123,7 +124,7 @@ void PerformanceTestBase::SaveResultsToFile(const std::vector<TestResult>& resul
     }
 
     file.close();
-    std::cout << "Results saved to: " << filename << std::endl;
+    std::cout << "Results saved to: " << full_path << std::endl;
 }
 
 void PerformanceTestBase::GenerateReport(const std::vector<TestResult>& results) const {

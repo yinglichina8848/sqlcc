@@ -1,5 +1,12 @@
 #pragma once
 
+<<<<<<< Updated upstream
+=======
+#include "page.h"
+#include "disk_manager.h"
+#include <unordered_map>
+#include <unordered_set>
+>>>>>>> Stashed changes
 #include <algorithm>
 #include <deque>
 #include <list>
@@ -74,6 +81,7 @@ public:
     // What: DeletePage方法从缓冲池中删除指定页面
     // How: 从页面表中移除页面，释放页面对象
     bool DeletePage(int32_t page_id);
+<<<<<<< Updated upstream
 
     // 预取页面到缓冲池
     // Why: 预取可以提前加载可能需要的页面，减少未来的磁盘I/O延迟
@@ -104,6 +112,50 @@ public:
     // What: GetUsedPages方法返回当前已使用的页面数量
     // How: 返回页面表的大小
     size_t GetUsedPages() const;
+=======
+
+    // 预取页面到缓冲池
+    // Why: 预取可以提前加载可能需要的页面，减少未来的磁盘I/O延迟
+    // What: PrefetchPage方法将指定页面预加载到缓冲池
+    // How: 类似FetchPage，但不增加页面的固定计数
+    bool PrefetchPage(int32_t page_id);
+
+    // 批量预取页面到缓冲池
+    // Why: 批量预取可以一次性加载多个页面，提高预取效率
+    // What: BatchPrefetchPages方法将多个页面预加载到缓冲池
+    // How: 对每个页面调用PrefetchPage方法，或者实现更高效的批量预取策略
+    bool BatchPrefetchPages(const std::vector<int32_t>& page_ids);
+
+    // 获取缓冲池使用统计信息
+    // Why: 监控缓冲池的使用情况有助于性能调优和问题诊断
+    // What: GetStats方法返回缓冲池的统计信息，如命中率等
+    // How: 收集并返回各种统计指标
+    std::unordered_map<std::string, double> GetStats() const;
+
+    // 获取缓冲池大小
+    // Why: 需要了解缓冲池的容量信息，用于监控和调试
+    // What: GetPoolSize方法返回缓冲池的页面容量
+    // How: 直接返回pool_size_成员变量
+    size_t GetPoolSize() const;
+
+    // 获取已使用页面数
+    // Why: 需要了解缓冲池的使用情况，用于监控和调试
+    // What: GetUsedPages方法返回当前已使用的页面数量
+    // How: 返回页面表的大小
+    size_t GetUsedPages() const;
+
+    // 检查页面是否在缓冲池中
+    // Why: 需要快速判断页面是否已加载到内存中，避免不必要的磁盘I/O
+    // What: IsPageInBuffer方法检查指定页面ID是否存在于缓冲池中
+    // How: 检查页面表是否包含该页面ID
+    bool IsPageInBuffer(int32_t page_id) const;
+
+    // 设置是否模拟刷新失败（仅用于测试）
+    // Why: 需要测试缓冲池在磁盘写入失败时的错误处理逻辑
+    // What: SetSimulateFlushFailure方法设置是否模拟刷新失败
+    // How: 设置simulate_flush_failure_成员变量，影响FlushPage方法的行为
+    void SetSimulateFlushFailure(bool simulate) { simulate_flush_failure_ = simulate; }
+>>>>>>> Stashed changes
 
 private:
     // 查找可替换的页面
@@ -232,6 +284,15 @@ private:
     // What: batch_buffer_是向量，存储批量操作的数据缓冲区
     // How: 使用vector实现，在构造函数中预分配空间
     std::vector<char*> batch_buffer_;
+<<<<<<< Updated upstream
+=======
+
+    // 模拟刷新失败标志，用于测试错误处理
+    // Why: 需要测试缓冲池在磁盘写入失败时的错误处理逻辑
+    // What: simulate_flush_failure_是布尔值，控制是否模拟刷新失败
+    // How: 当设置为true时，FlushPage方法会模拟写入失败
+    bool simulate_flush_failure_;
+>>>>>>> Stashed changes
 };
 
 }  // namespace sqlcc
