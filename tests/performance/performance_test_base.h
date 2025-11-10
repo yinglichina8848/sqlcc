@@ -77,6 +77,14 @@ protected:
     void SaveResultsToFile(const std::vector<TestResult>& results, 
                           const std::string& filename) const;
 
+public:
+    /**
+     * 设置输出目录
+     */
+    void SetOutputDirectory(const std::string& directory) { output_directory_ = directory; }
+
+protected:
+
     /**
      * 生成测试报告
      */
@@ -88,6 +96,11 @@ protected:
     virtual void Cleanup() = 0;
 
 private:
+    /**
+     * 输出目录
+     */
+    std::string output_directory_ = ".";
+
     /**
      * 格式化时间
      */

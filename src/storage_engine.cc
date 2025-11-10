@@ -36,7 +36,11 @@ StorageEngine::StorageEngine(ConfigManager& config_manager)
     
     // 注册配置变更回调
     config_manager_.RegisterChangeCallback("buffer_pool.pool_size", 
+<<<<<<< Updated upstream
         [this](const std::string& key, const ConfigValue& value) {
+=======
+        [this]([[maybe_unused]] const std::string& key, [[maybe_unused]] const ConfigValue& value) {
+>>>>>>> Stashed changes
             // 处理缓冲池大小变更
             if (std::holds_alternative<int>(value)) {
                 size_t new_size = static_cast<size_t>(std::get<int>(value));

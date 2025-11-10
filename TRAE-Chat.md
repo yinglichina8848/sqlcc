@@ -219,8 +219,131 @@ git commit -m "项目初始化"
 **AI提示词**：
 > "DeletePage测试失败，删除页面后FetchPage仍返回有效指针，请分析并修复这个问题"
 
+<<<<<<< Updated upstream
 **AI响应**：
 - 问题分析：FetchPage方法未检查页面是否已删除
+=======
+<<<<<<< HEAD
+### 第四阶段：文档分支管理系统
+
+#### 1. 文档分支创建
+- 用户请求：创建文档分支管理系统，分离代码和文档
+- AI响应：
+  - 创建了docs分支用于存放文档内容
+  - 配置.gitignore忽略主分支的Doxygen目录
+  - 提交Doxygen文档到docs分支
+
+#### 2. 分支说明文档
+- 用户请求：创建分支说明文档
+- AI响应：
+  - 创建了docs/BRANCHES.md，详细说明master和docs分支的用途
+  - 更新了README.md，添加分支说明和API文档查看指南
+
+#### 3. 版本更新
+- 用户请求：更新版本到0.2.1，记录文档分支管理系统
+- AI响应：
+  - 更新了ChangeLog.md，添加了0.2.1版本的详细记录
+  - 更新了version.h文件，将版本号从0.2.0改为0.2.1
+  - 在版本历史概览表中更新了发布日期和状态
+
+## 关键命令记录
+
+### 构建和测试命令
+```bash
+# 创建构建目录并配置
+mkdir -p build
+cd build
+cmake ..
+make
+
+# 运行单元测试
+./bin/storage_engine_test
+
+# 运行特定测试
+./bin/storage_engine_test --gtest_filter=StorageEngineTest.DeletePage
+```
+
+### 文档生成命令
+```bash
+# 安装Doxygen
+sudo apt update && sudo apt install -y doxygen
+
+# 生成Doxygen文档
+doxygen Doxyfile
+
+# 或使用脚本生成
+./scripts/generate_docs.sh
+
+# 使用Makefile生成文档
+make docs
+```
+
+### 项目管理命令
+```bash
+# 查看Makefile帮助
+make help
+
+# 清理构建文件
+make clean
+
+# 清理所有文件（包括文档）
+make clean-all
+```
+
+### 文档分支管理命令
+```bash
+# 创建并切换到docs分支
+git checkout -b docs
+
+# 生成Doxygen文档
+make docs
+
+# 提交文档到docs分支
+git add docs/doxygen
+git commit -m "添加Doxygen生成的API文档"
+git push origin docs
+
+# 切换回master分支
+git checkout master
+
+# 从master分支移除Doxygen文档
+git rm -r --cached docs/doxygen
+git commit -m "从主分支中移除Doxygen文档，保留在docs分支"
+git push origin master
+
+# 查看API文档（需切换到docs分支）
+git checkout docs
+# 在浏览器中打开 docs/doxygen/html/index.html
+```
+
+## 技术决策记录
+
+### 1. 存储架构选择
+- 决策：采用8KB定长页的存储架构
+- 原因：简化内存管理，提高I/O效率，符合传统数据库设计
+
+### 2. 缓冲池替换策略
+- 决策：采用LRU（最近最少使用）替换策略
+- 原因：实现简单，性能良好，适合大多数工作负载
+
+### 3. 日志系统选择
+- 决策：实现简单的自定义日志系统，而非使用第三方库
+- 原因：减少依赖，便于控制日志格式和输出
+
+### 4. 测试框架选择
+- 决策：使用Google Test框架
+- 原因：功能强大，社区支持好，与CMake集成方便
+
+## 问题解决记录
+
+### 1. DeletePage测试失败
+- 问题描述：删除页面后，FetchPage仍返回有效指针
+- 根本原因：FetchPage方法未检查页面是否已删除
+=======
+**AI响应**：
+- 问题分析：FetchPage方法未检查页面是否已删除
+>>>>>>> master
+>>>>>>> Stashed changes
 - 解决方案：在FetchPage方法中添加页面存在性检查
 - 修复结果：所有测试通过
 
@@ -559,8 +682,18 @@ git commit -m "项目初始化"
 
 ---
 
+<<<<<<< Updated upstream
 **记录时间**：2025-11-05
 **AI助手**：Trae AI (GLM-4.6)
+=======
+<<<<<<< HEAD
+**记录时间**：2025-11-05 15:30:00
+**AI助手**：Trae AI (GLM-4.6)
+**项目版本**：SQLCC v0.3.0
+=======
+**记录时间**：2025-11-05
+**AI助手**：Trae AI (GLM-4.6)
+>>>>>>> Stashed changes
 **项目版本**：SQLCC v0.2.1
 
 ### 第四阶段：文档体系完善
@@ -695,4 +828,9 @@ git commit -m "项目初始化"
 **评价**：
 - **优点**：版本更新记录详细，涵盖了文档体系完善、架构设计文档和版本升级指南等方面，提供了完整的变更历史
 - **缺点**：缺少对未来版本的详细规划，不利于读者了解项目的发展方向
+<<<<<<< Updated upstream
 - **改进建议**：可以添加对未来版本的详细规划，如v0.3.0和v0.4.0的功能计划，帮助读者了解项目的发展方向和潜在贡献点
+=======
+- **改进建议**：可以添加对未来版本的详细规划，如v0.3.0和v0.4.0的功能计划，帮助读者了解项目的发展方向和潜在贡献点
+>>>>>>> master
+>>>>>>> Stashed changes

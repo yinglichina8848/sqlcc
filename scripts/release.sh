@@ -103,6 +103,10 @@ else
     echo "[模拟] rm -rf docs/doxygen docs/coverage"
 fi
 
+<<<<<<< Updated upstream
+=======
+# 从主分支获取文档
+>>>>>>> Stashed changes
 # 使用临时目录传递文档
 TEMP_DIR="/tmp/sqlcc_release_docs_$$"
 if [ "$DRY_RUN" = false ]; then
@@ -166,6 +170,127 @@ else
     echo "[模拟] git checkout docs"
     echo "[模拟] git push origin docs"
 fi
+<<<<<<< Updated upstream
+=======
+
+# 确保在主分支开始
+echo "切换到主分支..."
+if [ "$DRY_RUN" = false ]; then
+    git checkout master
+    git pull origin master
+else
+    echo "[模拟] git checkout master"
+    echo "[模拟] git pull origin master"
+fi
+
+# 更新版本信息
+echo "更新版本信息..."
+if [ "$DRY_RUN" = false ]; then
+    echo "$VERSION" > VERSION
+    git add VERSION
+    git commit -m "更新版本到 $VERSION"
+else
+    echo "[模拟] echo \"$VERSION\" > VERSION"
+    echo "[模拟] git add VERSION"
+    echo "[模拟] git commit -m \"更新版本到 $VERSION\""
+fi
+
+# 创建标签
+echo "创建标签 $VERSION..."
+if [ "$DRY_RUN" = false ]; then
+    git tag -a "$VERSION" -m "$MESSAGE"
+else
+    echo "[模拟] git tag -a \"$VERSION\" -m \"$MESSAGE\""
+fi
+
+# 生成文档
+echo "生成Doxygen文档..."
+if [ "$DRY_RUN" = false ]; then
+    make docs
+else
+    echo "[模拟] make docs"
+fi
+
+echo "生成代码覆盖率测试文档..."
+if [ "$DRY_RUN" = false ]; then
+    make coverage
+else
+    echo "[模拟] make coverage"
+fi
+
+# 复制生成的文档
+echo "复制生成的文档到文档分支..."
+if [ "$DRY_RUN" = false ]; then
+    rm -rf docs/doxygen docs/coverage
+else
+    echo "[模拟] rm -rf docs/doxygen docs/coverage"
+fi
+
+# 使用临时目录传递文档
+TEMP_DIR="/tmp/sqlcc_release_docs_$$"
+if [ "$DRY_RUN" = false ]; then
+    mkdir -p "$TEMP_DIR"
+    cp -r docs/doxygen docs/coverage "$TEMP_DIR/"
+else
+    echo "[模拟] mkdir -p \"$TEMP_DIR\""
+    echo "[模拟] cp -r docs/doxygen docs/coverage \"$TEMP_DIR/\""
+fi
+
+# 切换到文档分支
+echo "切换到文档分支..."
+if [ "$DRY_RUN" = false ]; then
+    git stash  # 暂存未跟踪的文档文件
+    git checkout docs
+    git pull origin docs
+else
+    echo "[模拟] git stash"
+    echo "[模拟] git checkout docs"
+    echo "[模拟] git pull origin docs"
+fi
+
+# 从临时目录复制文档
+if [ "$DRY_RUN" = false ]; then
+    cp -r "$TEMP_DIR"/* docs/
+    rm -rf "$TEMP_DIR"
+else
+    echo "[模拟] cp -r \"$TEMP_DIR\"/* docs/"
+    echo "[模拟] rm -rf \"$TEMP_DIR\""
+fi
+
+# 提交文档分支的更改
+echo "提交文档分支的更改..."
+if [ "$DRY_RUN" = false ]; then
+    git add docs/doxygen/ docs/coverage/
+    git commit -m "更新文档 - $MESSAGE"
+else
+    echo "[模拟] git add docs/doxygen/ docs/coverage/"
+    echo "[模拟] git commit -m \"更新文档 - $MESSAGE\""
+fi
+
+# 推送更改到远程仓库
+echo "推送主分支和标签到远程仓库..."
+if [ "$DRY_RUN" = false ]; then
+    git checkout master
+    git stash pop  # 恢复暂存的文档文件
+    git push origin master
+    git push origin "$VERSION"
+else
+    echo "[模拟] git checkout master"
+    echo "[模拟] git stash pop"
+    echo "[模拟] git push origin master"
+    echo "[模拟] git push origin \"$VERSION\""
+fi
+
+echo "推送文档分支到远程仓库..."
+if [ "$DRY_RUN" = false ]; then
+    git checkout docs
+    git push origin docs
+else
+    echo "[模拟] git checkout docs"
+    echo "[模拟] git push origin docs"
+fi
+>>>>>>> master
+>>>>>>> Stashed changes
 
 echo "发布完成!"
 echo "主分支已更新并推送标签 $VERSION"

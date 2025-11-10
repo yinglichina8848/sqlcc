@@ -14,6 +14,19 @@ target_include_directories(sqlcc_core PUBLIC ${CMAKE_SOURCE_DIR}/include)
 add_executable(sqlcc_main main.cc)
 add_executable(config_test config_test.cc)
 
+<<<<<<< Updated upstream
+=======
+# 添加线程库依赖（如果项目需要）
+find_package(Threads)
+if(Threads_FOUND)
+    target_link_libraries(sqlcc_core PUBLIC Threads::Threads)
+endif()
+
+# 添加可执行文件
+add_executable(sqlcc_main main.cc)
+add_executable(config_test config_test.cc)
+
+>>>>>>> Stashed changes
 # 链接库
 target_link_libraries(sqlcc_main sqlcc_core)
 target_link_libraries(config_test sqlcc_core)
