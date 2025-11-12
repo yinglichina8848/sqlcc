@@ -2,13 +2,58 @@
 
 ## Version Information
 
-- **Version**: v0.3.6
+- **Version**: v0.3.7
 - **Release Date**: 2025-11-12
-- **Git标签**：v0.3.6
+- **Git标签**：v0.3.7
 
 ## 版本概述
 
-SQLCC v0.3.6 是一个重要的综合测试和性能优化版本，在v0.3.5的基础上完成了全面的性能测试、代码覆盖率分析和系统优化。本版本通过综合测试验证，达到400万ops/sec的高吞吐量性能，并实现83.3%的代码行覆盖率，为后续版本的功能扩展奠定了坚实基础。
+SQLCC v0.3.7 是一个关键的错误改正汇总版本，在v0.3.6的基础上汇总并修复了之前版本中发现的多个关键问题。本版本集中解决了BufferPool页面ID分配逻辑、死锁修复验证、测试框架稳定性等核心问题，确保系统稳定性和数据一致性。
+
+### 重要热修复 (v0.3.7-hotfix)
+在v0.3.6版本发布后的测试过程中，发现并修复了以下关键问题：
+
+1. **BufferPool页面ID分配逻辑修复**：
+   - 修复了DestructorFlushesPages测试失败问题，页面数据混乱的根本原因
+   - 调整NewPage方法执行顺序，先确保缓冲池有足够空间，然后分配新页面ID
+   - 移除替换失败时的页面ID释放逻辑，避免ID重用导致的数据混乱
+   - 验证结果：DestructorFlushesPages测试通过，页面0/1/2数据验证正确
+
+2. **死锁修复验证和测试框架完善**：
+   - 创建专门的死锁修复测试`deadlock_fix_test.cc`，模拟多线程竞争环境
+   - 修复ConfigManager单例模式使用方式，统一配置管理器访问方式
+   - 修复DiskManager构造函数参数不匹配问题
+   - 验证结果：死锁修复测试成功通过，确认BufferPool锁顺序和回调机制修复有效
+
+3. **NewPageFailure测试用例重构**：
+   - 将NewPageFailure重命名为NewPageBasic，移除不存在的环境变量检查
+   - 将NewPageFailureFromBufferPool重命名为NewPageSequential，添加顺序ID分配测试
+   - 创建独立的test_engine实例和测试数据库文件，确保测试隔离性
+   - 验证结果：NewPageBasic和NewPageSequential测试均通过
+
+5. **DiskManager构造函数文件处理逻辑修复**：
+   - 修复了现有文件和新建文件的错误处理模式
+   - 确保页面数据正确刷新和读取
+   - DestructorFlushesPages测试通过，验证StorageEngine销毁时数据正确刷新
+
+6. **编译错误修复**：
+   - 添加缺失的`#include <filesystem>`头文件
+   - 确保项目编译成功，所有目标文件正确生成
+
+7. **测试编译错误和配置管理器集成修复**：
+   - 修复buffer_pool_enhanced_test中直接调用私有方法OnConfigChange的问题，改为通过ConfigManager单例设置配置值触发回调
+   - 修复page_enhanced_test中未使用的gmock依赖和缺少main函数的问题
+   - 修复batch_prefetch_performance_test中构造函数参数不匹配问题
+   - 更新所有测试以正确使用ConfigManager单例模式
+   - 修复DiskManager::WritePage方法参数不匹配问题
+   - 确保所有单元测试能够正确编译和运行，代码覆盖率报告生成正常
+
+8. **ConfigManager单例模式使用方式修复**：
+   - 统一测试代码中的ConfigManager单例访问方式
+   - 确保配置变更能够正确通知到相关组件
+   - 配置管理器相关测试功能恢复正常，配置变更回调机制正常工作
+
+这些修复确保了系统的稳定性和可靠性，为后续版本的功能扩展奠定了坚实基础。
 
 ## 主要特性
 
