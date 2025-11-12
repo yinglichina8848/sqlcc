@@ -13,4 +13,4 @@
 #pragma once
 
 /** @brief SQLCC项目版本号 */
-#define SQLCC_VERSION "0.3.5"
+#define SQLCC_VERSION "0.3.9"
