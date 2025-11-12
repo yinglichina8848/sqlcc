@@ -225,6 +225,8 @@ void MillionInsertTest::WorkerThread(size_t thread_id, const InsertTestConfig& c
 }
 
 bool MillionInsertTest::SimulateRecordInsert(size_t record_id, size_t record_size) {
+    (void)record_id; // 避免未使用参数警告
+    
     // 在实际实现中，这里应该调用存储引擎的INSERT操作
     // 为了测试目的，我们模拟一个简单的插入操作
     

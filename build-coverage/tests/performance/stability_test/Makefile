@@ -185,77 +185,50 @@ stability_test/fast:
 	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/stability_test/CMakeFiles/stability_test.dir/build.make tests/performance/stability_test/CMakeFiles/stability_test.dir/build
 .PHONY : stability_test/fast
 
-__/performance_test_base.o: __/performance_test_base.cc.o
+# target to build an object file
+__/performance_test_base.o:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/stability_test/CMakeFiles/stability_test.dir/build.make tests/performance/stability_test/CMakeFiles/stability_test.dir/__/performance_test_base.o
 .PHONY : __/performance_test_base.o
 
-# target to build an object file
-__/performance_test_base.cc.o:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/stability_test/CMakeFiles/stability_test.dir/build.make tests/performance/stability_test/CMakeFiles/stability_test.dir/__/performance_test_base.cc.o
-.PHONY : __/performance_test_base.cc.o
-
-__/performance_test_base.i: __/performance_test_base.cc.i
+# target to preprocess a source file
+__/performance_test_base.i:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/stability_test/CMakeFiles/stability_test.dir/build.make tests/performance/stability_test/CMakeFiles/stability_test.dir/__/performance_test_base.i
 .PHONY : __/performance_test_base.i
 
-# target to preprocess a source file
-__/performance_test_base.cc.i:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/stability_test/CMakeFiles/stability_test.dir/build.make tests/performance/stability_test/CMakeFiles/stability_test.dir/__/performance_test_base.cc.i
-.PHONY : __/performance_test_base.cc.i
-
-__/performance_test_base.s: __/performance_test_base.cc.s
+# target to generate assembly for a file
+__/performance_test_base.s:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/stability_test/CMakeFiles/stability_test.dir/build.make tests/performance/stability_test/CMakeFiles/stability_test.dir/__/performance_test_base.s
 .PHONY : __/performance_test_base.s
 
-# target to generate assembly for a file
-__/performance_test_base.cc.s:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/stability_test/CMakeFiles/stability_test.dir/build.make tests/performance/stability_test/CMakeFiles/stability_test.dir/__/performance_test_base.cc.s
-.PHONY : __/performance_test_base.cc.s
-
-long_term_stability_test.o: long_term_stability_test.cc.o
+# target to build an object file
+long_term_stability_test.o:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/stability_test/CMakeFiles/stability_test.dir/build.make tests/performance/stability_test/CMakeFiles/stability_test.dir/long_term_stability_test.o
 .PHONY : long_term_stability_test.o
 
-# target to build an object file
-long_term_stability_test.cc.o:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/stability_test/CMakeFiles/stability_test.dir/build.make tests/performance/stability_test/CMakeFiles/stability_test.dir/long_term_stability_test.cc.o
-.PHONY : long_term_stability_test.cc.o
-
-long_term_stability_test.i: long_term_stability_test.cc.i
+# target to preprocess a source file
+long_term_stability_test.i:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/stability_test/CMakeFiles/stability_test.dir/build.make tests/performance/stability_test/CMakeFiles/stability_test.dir/long_term_stability_test.i
 .PHONY : long_term_stability_test.i
 
-# target to preprocess a source file
-long_term_stability_test.cc.i:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/stability_test/CMakeFiles/stability_test.dir/build.make tests/performance/stability_test/CMakeFiles/stability_test.dir/long_term_stability_test.cc.i
-.PHONY : long_term_stability_test.cc.i
-
-long_term_stability_test.s: long_term_stability_test.cc.s
+# target to generate assembly for a file
+long_term_stability_test.s:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/stability_test/CMakeFiles/stability_test.dir/build.make tests/performance/stability_test/CMakeFiles/stability_test.dir/long_term_stability_test.s
 .PHONY : long_term_stability_test.s
 
-# target to generate assembly for a file
-long_term_stability_test.cc.s:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/stability_test/CMakeFiles/stability_test.dir/build.make tests/performance/stability_test/CMakeFiles/stability_test.dir/long_term_stability_test.cc.s
-.PHONY : long_term_stability_test.cc.s
-
-long_term_stability_test_main.o: long_term_stability_test_main.cc.o
+# target to build an object file
+long_term_stability_test_main.o:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/stability_test/CMakeFiles/stability_test.dir/build.make tests/performance/stability_test/CMakeFiles/stability_test.dir/long_term_stability_test_main.o
 .PHONY : long_term_stability_test_main.o
 
-# target to build an object file
-long_term_stability_test_main.cc.o:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/stability_test/CMakeFiles/stability_test.dir/build.make tests/performance/stability_test/CMakeFiles/stability_test.dir/long_term_stability_test_main.cc.o
-.PHONY : long_term_stability_test_main.cc.o
-
-long_term_stability_test_main.i: long_term_stability_test_main.cc.i
+# target to preprocess a source file
+long_term_stability_test_main.i:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/stability_test/CMakeFiles/stability_test.dir/build.make tests/performance/stability_test/CMakeFiles/stability_test.dir/long_term_stability_test_main.i
 .PHONY : long_term_stability_test_main.i
 
-# target to preprocess a source file
-long_term_stability_test_main.cc.i:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/stability_test/CMakeFiles/stability_test.dir/build.make tests/performance/stability_test/CMakeFiles/stability_test.dir/long_term_stability_test_main.cc.i
-.PHONY : long_term_stability_test_main.cc.i
-
-long_term_stability_test_main.s: long_term_stability_test_main.cc.s
-.PHONY : long_term_stability_test_main.s
-
 # target to generate assembly for a file
-long_term_stability_test_main.cc.s:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/stability_test/CMakeFiles/stability_test.dir/build.make tests/performance/stability_test/CMakeFiles/stability_test.dir/long_term_stability_test_main.cc.s
-.PHONY : long_term_stability_test_main.cc.s
+long_term_stability_test_main.s:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/stability_test/CMakeFiles/stability_test.dir/build.make tests/performance/stability_test/CMakeFiles/stability_test.dir/long_term_stability_test_main.s
+.PHONY : long_term_stability_test_main.s
 
 # Help Target
 help:

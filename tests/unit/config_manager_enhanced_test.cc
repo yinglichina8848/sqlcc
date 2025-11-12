@@ -442,14 +442,16 @@ TEST_F(ConfigManagerEnhancedTest, NotifyConfigChange) {
         last_value = value;
     };
     
-    auto callback2 = [&callback2_count](
-        const std::string& key, const ConfigValue& value) {
+    auto callback2 = [&callback2_count](const std::string& key, const ConfigValue& value) {
+        (void)key; // 避免未使用参数警告
+        (void)value; // 避免未使用参数警告
         callback2_count++;
     };
     
     // 注册回调函数
     int callback1_id = config.RegisterChangeCallback("database.page_size", callback1);
     int callback2_id = config.RegisterChangeCallback("database.page_size", callback2);
+    (void)callback2_id; // 避免未使用变量警告
     
     // 修改配置值
     config.SetValue("database.page_size", 8192);
@@ -486,6 +488,8 @@ TEST_F(ConfigManagerEnhancedTest, CallbackExceptionHandling) {
     
     // 创建会抛出异常的回调函数
     auto throwing_callback = [](const std::string& key, const ConfigValue& value) {
+        (void)key; // 避免未使用参数警告
+        (void)value; // 避免未使用参数警告
         throw std::runtime_error("Test exception");
     };
     
@@ -493,12 +497,14 @@ TEST_F(ConfigManagerEnhancedTest, CallbackExceptionHandling) {
     int normal_callback_count = 0;
     auto normal_callback = [&normal_callback_count](
         const std::string& key, const ConfigValue& value) {
+        (void)key; // 避免未使用参数警告
+        (void)value; // 避免未使用参数警告
         normal_callback_count++;
     };
     
     // 注册回调函数
-    int throwing_id = config.RegisterChangeCallback("database.page_size", throwing_callback);
-    int normal_id = config.RegisterChangeCallback("database.page_size", normal_callback);
+    [[maybe_unused]] int throwing_id = config.RegisterChangeCallback("database.page_size", throwing_callback);
+    [[maybe_unused]] int normal_id = config.RegisterChangeCallback("database.page_size", normal_callback);
     
     // 修改配置值，应该不会因为异常而崩溃
     config.SetValue("database.page_size", 8192);

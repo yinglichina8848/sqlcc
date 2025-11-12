@@ -50,10 +50,6 @@ void BufferPoolPerformanceTest::RunCacheHitRateTest() {
         // 执行访问并记录延迟
         std::vector<double> latencies;
         size_t hit_count = 0;
-<<<<<<< Updated upstream
-        
-=======
->>>>>>> Stashed changes
         auto start_time = GetCurrentTime();
         ExecutePageAccesses(page_ids, latencies, hit_count);
         auto end_time = GetCurrentTime();

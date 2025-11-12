@@ -185,77 +185,50 @@ cpu_intensive_test/fast:
 	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/build.make tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/build
 .PHONY : cpu_intensive_test/fast
 
-__/performance_test_base.o: __/performance_test_base.cc.o
+# target to build an object file
+__/performance_test_base.o:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/build.make tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/__/performance_test_base.o
 .PHONY : __/performance_test_base.o
 
-# target to build an object file
-__/performance_test_base.cc.o:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/build.make tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/__/performance_test_base.cc.o
-.PHONY : __/performance_test_base.cc.o
-
-__/performance_test_base.i: __/performance_test_base.cc.i
+# target to preprocess a source file
+__/performance_test_base.i:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/build.make tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/__/performance_test_base.i
 .PHONY : __/performance_test_base.i
 
-# target to preprocess a source file
-__/performance_test_base.cc.i:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/build.make tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/__/performance_test_base.cc.i
-.PHONY : __/performance_test_base.cc.i
-
-__/performance_test_base.s: __/performance_test_base.cc.s
+# target to generate assembly for a file
+__/performance_test_base.s:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/build.make tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/__/performance_test_base.s
 .PHONY : __/performance_test_base.s
 
-# target to generate assembly for a file
-__/performance_test_base.cc.s:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/build.make tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/__/performance_test_base.cc.s
-.PHONY : __/performance_test_base.cc.s
-
-cpu_intensive_performance_test.o: cpu_intensive_performance_test.cc.o
+# target to build an object file
+cpu_intensive_performance_test.o:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/build.make tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/cpu_intensive_performance_test.o
 .PHONY : cpu_intensive_performance_test.o
 
-# target to build an object file
-cpu_intensive_performance_test.cc.o:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/build.make tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/cpu_intensive_performance_test.cc.o
-.PHONY : cpu_intensive_performance_test.cc.o
-
-cpu_intensive_performance_test.i: cpu_intensive_performance_test.cc.i
+# target to preprocess a source file
+cpu_intensive_performance_test.i:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/build.make tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/cpu_intensive_performance_test.i
 .PHONY : cpu_intensive_performance_test.i
 
-# target to preprocess a source file
-cpu_intensive_performance_test.cc.i:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/build.make tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/cpu_intensive_performance_test.cc.i
-.PHONY : cpu_intensive_performance_test.cc.i
-
-cpu_intensive_performance_test.s: cpu_intensive_performance_test.cc.s
+# target to generate assembly for a file
+cpu_intensive_performance_test.s:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/build.make tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/cpu_intensive_performance_test.s
 .PHONY : cpu_intensive_performance_test.s
 
-# target to generate assembly for a file
-cpu_intensive_performance_test.cc.s:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/build.make tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/cpu_intensive_performance_test.cc.s
-.PHONY : cpu_intensive_performance_test.cc.s
-
-cpu_intensive_test_runner.o: cpu_intensive_test_runner.cc.o
+# target to build an object file
+cpu_intensive_test_runner.o:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/build.make tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/cpu_intensive_test_runner.o
 .PHONY : cpu_intensive_test_runner.o
 
-# target to build an object file
-cpu_intensive_test_runner.cc.o:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/build.make tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/cpu_intensive_test_runner.cc.o
-.PHONY : cpu_intensive_test_runner.cc.o
-
-cpu_intensive_test_runner.i: cpu_intensive_test_runner.cc.i
+# target to preprocess a source file
+cpu_intensive_test_runner.i:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/build.make tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/cpu_intensive_test_runner.i
 .PHONY : cpu_intensive_test_runner.i
 
-# target to preprocess a source file
-cpu_intensive_test_runner.cc.i:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/build.make tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/cpu_intensive_test_runner.cc.i
-.PHONY : cpu_intensive_test_runner.cc.i
-
-cpu_intensive_test_runner.s: cpu_intensive_test_runner.cc.s
-.PHONY : cpu_intensive_test_runner.s
-
 # target to generate assembly for a file
-cpu_intensive_test_runner.cc.s:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/build.make tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/cpu_intensive_test_runner.cc.s
-.PHONY : cpu_intensive_test_runner.cc.s
+cpu_intensive_test_runner.s:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/build.make tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/cpu_intensive_test_runner.s
+.PHONY : cpu_intensive_test_runner.s
 
 # Help Target
 help:

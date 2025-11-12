@@ -69,28 +69,28 @@ include tests/CMakeFiles/storage_engine_enhanced_test.dir/progress.make
 # Include the compile flags for this target's objects.
 include tests/CMakeFiles/storage_engine_enhanced_test.dir/flags.make
 
-tests/CMakeFiles/storage_engine_enhanced_test.dir/unit/storage_engine_enhanced_test.cc.o: tests/CMakeFiles/storage_engine_enhanced_test.dir/flags.make
-tests/CMakeFiles/storage_engine_enhanced_test.dir/unit/storage_engine_enhanced_test.cc.o: /home/liying/sqlcc/tests/unit/storage_engine_enhanced_test.cc
-tests/CMakeFiles/storage_engine_enhanced_test.dir/unit/storage_engine_enhanced_test.cc.o: tests/CMakeFiles/storage_engine_enhanced_test.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/liying/sqlcc/build-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object tests/CMakeFiles/storage_engine_enhanced_test.dir/unit/storage_engine_enhanced_test.cc.o"
-	cd /home/liying/sqlcc/build-coverage/tests && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT tests/CMakeFiles/storage_engine_enhanced_test.dir/unit/storage_engine_enhanced_test.cc.o -MF CMakeFiles/storage_engine_enhanced_test.dir/unit/storage_engine_enhanced_test.cc.o.d -o CMakeFiles/storage_engine_enhanced_test.dir/unit/storage_engine_enhanced_test.cc.o -c /home/liying/sqlcc/tests/unit/storage_engine_enhanced_test.cc
+tests/CMakeFiles/storage_engine_enhanced_test.dir/unit/storage_engine_enhanced_test.o: tests/CMakeFiles/storage_engine_enhanced_test.dir/flags.make
+tests/CMakeFiles/storage_engine_enhanced_test.dir/unit/storage_engine_enhanced_test.o: /home/liying/sqlcc/tests/unit/storage_engine_enhanced_test.cc
+tests/CMakeFiles/storage_engine_enhanced_test.dir/unit/storage_engine_enhanced_test.o: tests/CMakeFiles/storage_engine_enhanced_test.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/liying/sqlcc/build-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object tests/CMakeFiles/storage_engine_enhanced_test.dir/unit/storage_engine_enhanced_test.o"
+	cd /home/liying/sqlcc/build-coverage/tests && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT tests/CMakeFiles/storage_engine_enhanced_test.dir/unit/storage_engine_enhanced_test.o -MF CMakeFiles/storage_engine_enhanced_test.dir/unit/storage_engine_enhanced_test.o.d -o CMakeFiles/storage_engine_enhanced_test.dir/unit/storage_engine_enhanced_test.o -c /home/liying/sqlcc/tests/unit/storage_engine_enhanced_test.cc
 
-tests/CMakeFiles/storage_engine_enhanced_test.dir/unit/storage_engine_enhanced_test.cc.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/storage_engine_enhanced_test.dir/unit/storage_engine_enhanced_test.cc.i"
-	cd /home/liying/sqlcc/build-coverage/tests && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/liying/sqlcc/tests/unit/storage_engine_enhanced_test.cc > CMakeFiles/storage_engine_enhanced_test.dir/unit/storage_engine_enhanced_test.cc.i
+tests/CMakeFiles/storage_engine_enhanced_test.dir/unit/storage_engine_enhanced_test.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/storage_engine_enhanced_test.dir/unit/storage_engine_enhanced_test.i"
+	cd /home/liying/sqlcc/build-coverage/tests && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/liying/sqlcc/tests/unit/storage_engine_enhanced_test.cc > CMakeFiles/storage_engine_enhanced_test.dir/unit/storage_engine_enhanced_test.i
 
-tests/CMakeFiles/storage_engine_enhanced_test.dir/unit/storage_engine_enhanced_test.cc.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/storage_engine_enhanced_test.dir/unit/storage_engine_enhanced_test.cc.s"
-	cd /home/liying/sqlcc/build-coverage/tests && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/liying/sqlcc/tests/unit/storage_engine_enhanced_test.cc -o CMakeFiles/storage_engine_enhanced_test.dir/unit/storage_engine_enhanced_test.cc.s
+tests/CMakeFiles/storage_engine_enhanced_test.dir/unit/storage_engine_enhanced_test.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/storage_engine_enhanced_test.dir/unit/storage_engine_enhanced_test.s"
+	cd /home/liying/sqlcc/build-coverage/tests && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/liying/sqlcc/tests/unit/storage_engine_enhanced_test.cc -o CMakeFiles/storage_engine_enhanced_test.dir/unit/storage_engine_enhanced_test.s
 
 # Object files for target storage_engine_enhanced_test
 storage_engine_enhanced_test_OBJECTS = \
-"CMakeFiles/storage_engine_enhanced_test.dir/unit/storage_engine_enhanced_test.cc.o"
+"CMakeFiles/storage_engine_enhanced_test.dir/unit/storage_engine_enhanced_test.o"
 
 # External object files for target storage_engine_enhanced_test
 storage_engine_enhanced_test_EXTERNAL_OBJECTS =
 
-bin/storage_engine_enhanced_test: tests/CMakeFiles/storage_engine_enhanced_test.dir/unit/storage_engine_enhanced_test.cc.o
+bin/storage_engine_enhanced_test: tests/CMakeFiles/storage_engine_enhanced_test.dir/unit/storage_engine_enhanced_test.o
 bin/storage_engine_enhanced_test: tests/CMakeFiles/storage_engine_enhanced_test.dir/build.make
 bin/storage_engine_enhanced_test: lib/libsqlcc_core.a
 bin/storage_engine_enhanced_test: /usr/lib/x86_64-linux-gnu/libgtest.a

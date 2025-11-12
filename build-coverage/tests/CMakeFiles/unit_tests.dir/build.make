@@ -67,9 +67,7 @@ include tests/CMakeFiles/unit_tests.dir/compiler_depend.make
 include tests/CMakeFiles/unit_tests.dir/progress.make
 
 tests/CMakeFiles/unit_tests: bin/storage_engine_test
-tests/CMakeFiles/unit_tests: bin/exception_test
 tests/CMakeFiles/unit_tests: bin/buffer_pool_test
-tests/CMakeFiles/unit_tests: bin/page_test
 tests/CMakeFiles/unit_tests: bin/storage_engine_newpage_test
 tests/CMakeFiles/unit_tests: bin/disk_manager_test
 tests/CMakeFiles/unit_tests: bin/config_manager_test

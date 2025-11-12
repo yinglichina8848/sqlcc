@@ -69,28 +69,28 @@ include tests/CMakeFiles/page_enhanced_test.dir/progress.make
 # Include the compile flags for this target's objects.
 include tests/CMakeFiles/page_enhanced_test.dir/flags.make
 
-tests/CMakeFiles/page_enhanced_test.dir/unit/page_enhanced_test.cc.o: tests/CMakeFiles/page_enhanced_test.dir/flags.make
-tests/CMakeFiles/page_enhanced_test.dir/unit/page_enhanced_test.cc.o: /home/liying/sqlcc/tests/unit/page_enhanced_test.cc
-tests/CMakeFiles/page_enhanced_test.dir/unit/page_enhanced_test.cc.o: tests/CMakeFiles/page_enhanced_test.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/liying/sqlcc/build-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object tests/CMakeFiles/page_enhanced_test.dir/unit/page_enhanced_test.cc.o"
-	cd /home/liying/sqlcc/build-coverage/tests && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT tests/CMakeFiles/page_enhanced_test.dir/unit/page_enhanced_test.cc.o -MF CMakeFiles/page_enhanced_test.dir/unit/page_enhanced_test.cc.o.d -o CMakeFiles/page_enhanced_test.dir/unit/page_enhanced_test.cc.o -c /home/liying/sqlcc/tests/unit/page_enhanced_test.cc
+tests/CMakeFiles/page_enhanced_test.dir/unit/page_enhanced_test.o: tests/CMakeFiles/page_enhanced_test.dir/flags.make
+tests/CMakeFiles/page_enhanced_test.dir/unit/page_enhanced_test.o: /home/liying/sqlcc/tests/unit/page_enhanced_test.cc
+tests/CMakeFiles/page_enhanced_test.dir/unit/page_enhanced_test.o: tests/CMakeFiles/page_enhanced_test.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/liying/sqlcc/build-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object tests/CMakeFiles/page_enhanced_test.dir/unit/page_enhanced_test.o"
+	cd /home/liying/sqlcc/build-coverage/tests && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT tests/CMakeFiles/page_enhanced_test.dir/unit/page_enhanced_test.o -MF CMakeFiles/page_enhanced_test.dir/unit/page_enhanced_test.o.d -o CMakeFiles/page_enhanced_test.dir/unit/page_enhanced_test.o -c /home/liying/sqlcc/tests/unit/page_enhanced_test.cc
 
-tests/CMakeFiles/page_enhanced_test.dir/unit/page_enhanced_test.cc.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/page_enhanced_test.dir/unit/page_enhanced_test.cc.i"
-	cd /home/liying/sqlcc/build-coverage/tests && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/liying/sqlcc/tests/unit/page_enhanced_test.cc > CMakeFiles/page_enhanced_test.dir/unit/page_enhanced_test.cc.i
+tests/CMakeFiles/page_enhanced_test.dir/unit/page_enhanced_test.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/page_enhanced_test.dir/unit/page_enhanced_test.i"
+	cd /home/liying/sqlcc/build-coverage/tests && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/liying/sqlcc/tests/unit/page_enhanced_test.cc > CMakeFiles/page_enhanced_test.dir/unit/page_enhanced_test.i
 
-tests/CMakeFiles/page_enhanced_test.dir/unit/page_enhanced_test.cc.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/page_enhanced_test.dir/unit/page_enhanced_test.cc.s"
-	cd /home/liying/sqlcc/build-coverage/tests && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/liying/sqlcc/tests/unit/page_enhanced_test.cc -o CMakeFiles/page_enhanced_test.dir/unit/page_enhanced_test.cc.s
+tests/CMakeFiles/page_enhanced_test.dir/unit/page_enhanced_test.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/page_enhanced_test.dir/unit/page_enhanced_test.s"
+	cd /home/liying/sqlcc/build-coverage/tests && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/liying/sqlcc/tests/unit/page_enhanced_test.cc -o CMakeFiles/page_enhanced_test.dir/unit/page_enhanced_test.s
 
 # Object files for target page_enhanced_test
 page_enhanced_test_OBJECTS = \
-"CMakeFiles/page_enhanced_test.dir/unit/page_enhanced_test.cc.o"
+"CMakeFiles/page_enhanced_test.dir/unit/page_enhanced_test.o"
 
 # External object files for target page_enhanced_test
 page_enhanced_test_EXTERNAL_OBJECTS =
 
-bin/page_enhanced_test: tests/CMakeFiles/page_enhanced_test.dir/unit/page_enhanced_test.cc.o
+bin/page_enhanced_test: tests/CMakeFiles/page_enhanced_test.dir/unit/page_enhanced_test.o
 bin/page_enhanced_test: tests/CMakeFiles/page_enhanced_test.dir/build.make
 bin/page_enhanced_test: lib/libsqlcc_core.a
 bin/page_enhanced_test: /usr/lib/x86_64-linux-gnu/libgtest.a

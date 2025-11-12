@@ -213,173 +213,110 @@ config_test/fast:
 	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/config_test.dir/build.make src/CMakeFiles/config_test.dir/build
 .PHONY : config_test/fast
 
-buffer_pool.o: buffer_pool.cc.o
+# target to build an object file
+buffer_pool.o:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_core.dir/build.make src/CMakeFiles/sqlcc_core.dir/buffer_pool.o
 .PHONY : buffer_pool.o
 
-# target to build an object file
-buffer_pool.cc.o:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_core.dir/build.make src/CMakeFiles/sqlcc_core.dir/buffer_pool.cc.o
-.PHONY : buffer_pool.cc.o
-
-buffer_pool.i: buffer_pool.cc.i
+# target to preprocess a source file
+buffer_pool.i:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_core.dir/build.make src/CMakeFiles/sqlcc_core.dir/buffer_pool.i
 .PHONY : buffer_pool.i
 
-# target to preprocess a source file
-buffer_pool.cc.i:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_core.dir/build.make src/CMakeFiles/sqlcc_core.dir/buffer_pool.cc.i
-.PHONY : buffer_pool.cc.i
-
-buffer_pool.s: buffer_pool.cc.s
+# target to generate assembly for a file
+buffer_pool.s:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_core.dir/build.make src/CMakeFiles/sqlcc_core.dir/buffer_pool.s
 .PHONY : buffer_pool.s
 
-# target to generate assembly for a file
-buffer_pool.cc.s:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_core.dir/build.make src/CMakeFiles/sqlcc_core.dir/buffer_pool.cc.s
-.PHONY : buffer_pool.cc.s
-
-config_manager.o: config_manager.cc.o
+# target to build an object file
+config_manager.o:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_core.dir/build.make src/CMakeFiles/sqlcc_core.dir/config_manager.o
 .PHONY : config_manager.o
 
-# target to build an object file
-config_manager.cc.o:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_core.dir/build.make src/CMakeFiles/sqlcc_core.dir/config_manager.cc.o
-.PHONY : config_manager.cc.o
-
-config_manager.i: config_manager.cc.i
+# target to preprocess a source file
+config_manager.i:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_core.dir/build.make src/CMakeFiles/sqlcc_core.dir/config_manager.i
 .PHONY : config_manager.i
 
-# target to preprocess a source file
-config_manager.cc.i:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_core.dir/build.make src/CMakeFiles/sqlcc_core.dir/config_manager.cc.i
-.PHONY : config_manager.cc.i
-
-config_manager.s: config_manager.cc.s
+# target to generate assembly for a file
+config_manager.s:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_core.dir/build.make src/CMakeFiles/sqlcc_core.dir/config_manager.s
 .PHONY : config_manager.s
 
-# target to generate assembly for a file
-config_manager.cc.s:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_core.dir/build.make src/CMakeFiles/sqlcc_core.dir/config_manager.cc.s
-.PHONY : config_manager.cc.s
-
-config_test.o: config_test.cc.o
+# target to build an object file
+config_test.o:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/config_test.dir/build.make src/CMakeFiles/config_test.dir/config_test.o
 .PHONY : config_test.o
 
-# target to build an object file
-config_test.cc.o:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/config_test.dir/build.make src/CMakeFiles/config_test.dir/config_test.cc.o
-.PHONY : config_test.cc.o
-
-config_test.i: config_test.cc.i
+# target to preprocess a source file
+config_test.i:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/config_test.dir/build.make src/CMakeFiles/config_test.dir/config_test.i
 .PHONY : config_test.i
 
-# target to preprocess a source file
-config_test.cc.i:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/config_test.dir/build.make src/CMakeFiles/config_test.dir/config_test.cc.i
-.PHONY : config_test.cc.i
-
-config_test.s: config_test.cc.s
+# target to generate assembly for a file
+config_test.s:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/config_test.dir/build.make src/CMakeFiles/config_test.dir/config_test.s
 .PHONY : config_test.s
 
-# target to generate assembly for a file
-config_test.cc.s:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/config_test.dir/build.make src/CMakeFiles/config_test.dir/config_test.cc.s
-.PHONY : config_test.cc.s
-
-disk_manager.o: disk_manager.cc.o
+# target to build an object file
+disk_manager.o:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_core.dir/build.make src/CMakeFiles/sqlcc_core.dir/disk_manager.o
 .PHONY : disk_manager.o
 
-# target to build an object file
-disk_manager.cc.o:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_core.dir/build.make src/CMakeFiles/sqlcc_core.dir/disk_manager.cc.o
-.PHONY : disk_manager.cc.o
-
-disk_manager.i: disk_manager.cc.i
+# target to preprocess a source file
+disk_manager.i:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_core.dir/build.make src/CMakeFiles/sqlcc_core.dir/disk_manager.i
 .PHONY : disk_manager.i
 
-# target to preprocess a source file
-disk_manager.cc.i:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_core.dir/build.make src/CMakeFiles/sqlcc_core.dir/disk_manager.cc.i
-.PHONY : disk_manager.cc.i
-
-disk_manager.s: disk_manager.cc.s
+# target to generate assembly for a file
+disk_manager.s:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_core.dir/build.make src/CMakeFiles/sqlcc_core.dir/disk_manager.s
 .PHONY : disk_manager.s
 
-# target to generate assembly for a file
-disk_manager.cc.s:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_core.dir/build.make src/CMakeFiles/sqlcc_core.dir/disk_manager.cc.s
-.PHONY : disk_manager.cc.s
-
-main.o: main.cc.o
+# target to build an object file
+main.o:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_main.dir/build.make src/CMakeFiles/sqlcc_main.dir/main.o
 .PHONY : main.o
 
-# target to build an object file
-main.cc.o:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_main.dir/build.make src/CMakeFiles/sqlcc_main.dir/main.cc.o
-.PHONY : main.cc.o
-
-main.i: main.cc.i
+# target to preprocess a source file
+main.i:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_main.dir/build.make src/CMakeFiles/sqlcc_main.dir/main.i
 .PHONY : main.i
 
-# target to preprocess a source file
-main.cc.i:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_main.dir/build.make src/CMakeFiles/sqlcc_main.dir/main.cc.i
-.PHONY : main.cc.i
-
-main.s: main.cc.s
+# target to generate assembly for a file
+main.s:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_main.dir/build.make src/CMakeFiles/sqlcc_main.dir/main.s
 .PHONY : main.s
 
-# target to generate assembly for a file
-main.cc.s:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_main.dir/build.make src/CMakeFiles/sqlcc_main.dir/main.cc.s
-.PHONY : main.cc.s
-
-page.o: page.cc.o
+# target to build an object file
+page.o:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_core.dir/build.make src/CMakeFiles/sqlcc_core.dir/page.o
 .PHONY : page.o
 
-# target to build an object file
-page.cc.o:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_core.dir/build.make src/CMakeFiles/sqlcc_core.dir/page.cc.o
-.PHONY : page.cc.o
-
-page.i: page.cc.i
+# target to preprocess a source file
+page.i:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_core.dir/build.make src/CMakeFiles/sqlcc_core.dir/page.i
 .PHONY : page.i
 
-# target to preprocess a source file
-page.cc.i:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_core.dir/build.make src/CMakeFiles/sqlcc_core.dir/page.cc.i
-.PHONY : page.cc.i
-
-page.s: page.cc.s
+# target to generate assembly for a file
+page.s:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_core.dir/build.make src/CMakeFiles/sqlcc_core.dir/page.s
 .PHONY : page.s
 
-# target to generate assembly for a file
-page.cc.s:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_core.dir/build.make src/CMakeFiles/sqlcc_core.dir/page.cc.s
-.PHONY : page.cc.s
-
-storage_engine.o: storage_engine.cc.o
+# target to build an object file
+storage_engine.o:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_core.dir/build.make src/CMakeFiles/sqlcc_core.dir/storage_engine.o
 .PHONY : storage_engine.o
 
-# target to build an object file
-storage_engine.cc.o:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_core.dir/build.make src/CMakeFiles/sqlcc_core.dir/storage_engine.cc.o
-.PHONY : storage_engine.cc.o
-
-storage_engine.i: storage_engine.cc.i
+# target to preprocess a source file
+storage_engine.i:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_core.dir/build.make src/CMakeFiles/sqlcc_core.dir/storage_engine.i
 .PHONY : storage_engine.i
 
-# target to preprocess a source file
-storage_engine.cc.i:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_core.dir/build.make src/CMakeFiles/sqlcc_core.dir/storage_engine.cc.i
-.PHONY : storage_engine.cc.i
-
-storage_engine.s: storage_engine.cc.s
-.PHONY : storage_engine.s
-
 # target to generate assembly for a file
-storage_engine.cc.s:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_core.dir/build.make src/CMakeFiles/sqlcc_core.dir/storage_engine.cc.s
-.PHONY : storage_engine.cc.s
+storage_engine.s:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_core.dir/build.make src/CMakeFiles/sqlcc_core.dir/storage_engine.s
+.PHONY : storage_engine.s
 
 # Help Target
 help:

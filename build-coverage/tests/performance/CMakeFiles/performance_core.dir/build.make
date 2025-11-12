@@ -66,22 +66,18 @@ include tests/performance/CMakeFiles/performance_core.dir/compiler_depend.make
 # Include the progress variables for this target.
 include tests/performance/CMakeFiles/performance_core.dir/progress.make
 
-tests/performance/CMakeFiles/performance_core:
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=/home/liying/sqlcc/build-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Run core performance tests: concurrency, CPU, memory, and stability"
-	/usr/bin/cmake --build /home/liying/sqlcc/build-coverage --target concurrency_test
-	/usr/bin/cmake --build /home/liying/sqlcc/build-coverage --target cpu_intensive_test
-	/usr/bin/cmake --build /home/liying/sqlcc/build-coverage --target memory_stress_test
-	/usr/bin/cmake --build /home/liying/sqlcc/build-coverage --target stability_test
-	echo ===\ 运行核心性能测试\ ===
-	echo 1.\ 并发性能测试...
-	/home/liying/sqlcc/build-coverage/bin/concurrency_test
-	echo 2.\ CPU密集型测试...
-	/home/liying/sqlcc/build-coverage/bin/cpu_intensive_test
-	echo 3.\ 内存压力测试...
-	/home/liying/sqlcc/build-coverage/bin/memory_stress_test
-	echo 4.\ 稳定性测试...
-	/home/liying/sqlcc/build-coverage/bin/stability_test
-	echo ===\ 核心性能测试完成\ ===
+tests/performance/CMakeFiles/performance_core: bin/performance_test
+tests/performance/CMakeFiles/performance_core: bin/concurrency_test
+tests/performance/CMakeFiles/performance_core: bin/cpu_intensive_test
+tests/performance/CMakeFiles/performance_core: bin/memory_stress_test
+tests/performance/CMakeFiles/performance_core: bin/stability_test
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=/home/liying/sqlcc/build-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Run core performance tests (recommended)"
+	/usr/bin/cmake -E echo ===\ Running\ Core\ Performance\ Tests\ ===
+	/home/liying/sqlcc/build-coverage/bin/performance_test --buffer-pool --disk-io --mixed-workload --output-dir /home/liying/sqlcc/build-coverage/performance_results
+	/home/liying/sqlcc/build-coverage/bin/concurrency_test --output-dir /home/liying/sqlcc/build-coverage/performance_results
+	/home/liying/sqlcc/build-coverage/bin/cpu_intensive_test --output-dir /home/liying/sqlcc/build-coverage/performance_results
+	/home/liying/sqlcc/build-coverage/bin/memory_stress_test --output-dir /home/liying/sqlcc/build-coverage/performance_results
+	/home/liying/sqlcc/build-coverage/bin/stability_test --output-dir /home/liying/sqlcc/build-coverage/performance_results
 
 performance_core: tests/performance/CMakeFiles/performance_core
 performance_core: tests/performance/CMakeFiles/performance_core.dir/build.make

@@ -1,8 +1,8 @@
 file(REMOVE_RECURSE
   "../bin/sqlcc_main"
   "../bin/sqlcc_main.pdb"
-  "CMakeFiles/sqlcc_main.dir/main.cc.o"
-  "CMakeFiles/sqlcc_main.dir/main.cc.o.d"
+  "CMakeFiles/sqlcc_main.dir/main.o"
+  "CMakeFiles/sqlcc_main.dir/main.o.d"
 )
 
 # Per-language clean rules from dependency scanning.

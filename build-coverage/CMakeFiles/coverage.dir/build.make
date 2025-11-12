@@ -75,8 +75,8 @@ CMakeFiles/coverage:
 	echo ===\ 运行覆盖率测试\ ===
 	/usr/bin/cmake --build /home/liying/sqlcc/build-coverage --target test
 	echo ===\ 生成覆盖率报告\ ===
-	/usr/bin/cmake -E make_directory /home/liying/sqlcc/docs/coverage
-	gcovr --root /home/liying/sqlcc --html --html-details -o /home/liying/sqlcc/docs/coverage/index.html --exclude /home/liying/sqlcc/tests/ --exclude /home/liying/sqlcc/build/ --merge-mode-functions=merge-use-line-0 --object-directory /home/liying/sqlcc/build-coverage --gcov-object-directory /home/liying/sqlcc/build-coverage
+	/usr/bin/cmake -E make_directory /home/liying/sqlcc/build-coverage/coverage
+	gcovr --root /home/liying/sqlcc --html --html-details -o /home/liying/sqlcc/build-coverage/coverage/index.html --exclude /home/liying/sqlcc/tests/ --exclude /home/liying/sqlcc/build/ --merge-mode-functions=merge-use-line-0 --object-directory /home/liying/sqlcc/build-coverage --gcov-object-directory /home/liying/sqlcc/build-coverage
 	echo ===\ 清理临时gcov文件\ ===
 	find /home/liying/sqlcc/build-coverage -name *.gcov -delete
 	echo ===\ 覆盖率测试完成，报告已生成\ ===

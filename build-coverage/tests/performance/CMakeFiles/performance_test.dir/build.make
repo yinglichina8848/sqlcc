@@ -69,124 +69,124 @@ include tests/performance/CMakeFiles/performance_test.dir/progress.make
 # Include the compile flags for this target's objects.
 include tests/performance/CMakeFiles/performance_test.dir/flags.make
 
-tests/performance/CMakeFiles/performance_test.dir/performance_test.cc.o: tests/performance/CMakeFiles/performance_test.dir/flags.make
-tests/performance/CMakeFiles/performance_test.dir/performance_test.cc.o: /home/liying/sqlcc/tests/performance/performance_test.cc
-tests/performance/CMakeFiles/performance_test.dir/performance_test.cc.o: tests/performance/CMakeFiles/performance_test.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/liying/sqlcc/build-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object tests/performance/CMakeFiles/performance_test.dir/performance_test.cc.o"
-	cd /home/liying/sqlcc/build-coverage/tests/performance && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT tests/performance/CMakeFiles/performance_test.dir/performance_test.cc.o -MF CMakeFiles/performance_test.dir/performance_test.cc.o.d -o CMakeFiles/performance_test.dir/performance_test.cc.o -c /home/liying/sqlcc/tests/performance/performance_test.cc
+tests/performance/CMakeFiles/performance_test.dir/performance_test.o: tests/performance/CMakeFiles/performance_test.dir/flags.make
+tests/performance/CMakeFiles/performance_test.dir/performance_test.o: /home/liying/sqlcc/tests/performance/performance_test.cc
+tests/performance/CMakeFiles/performance_test.dir/performance_test.o: tests/performance/CMakeFiles/performance_test.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/liying/sqlcc/build-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object tests/performance/CMakeFiles/performance_test.dir/performance_test.o"
+	cd /home/liying/sqlcc/build-coverage/tests/performance && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT tests/performance/CMakeFiles/performance_test.dir/performance_test.o -MF CMakeFiles/performance_test.dir/performance_test.o.d -o CMakeFiles/performance_test.dir/performance_test.o -c /home/liying/sqlcc/tests/performance/performance_test.cc
 
-tests/performance/CMakeFiles/performance_test.dir/performance_test.cc.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/performance_test.dir/performance_test.cc.i"
-	cd /home/liying/sqlcc/build-coverage/tests/performance && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/liying/sqlcc/tests/performance/performance_test.cc > CMakeFiles/performance_test.dir/performance_test.cc.i
+tests/performance/CMakeFiles/performance_test.dir/performance_test.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/performance_test.dir/performance_test.i"
+	cd /home/liying/sqlcc/build-coverage/tests/performance && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/liying/sqlcc/tests/performance/performance_test.cc > CMakeFiles/performance_test.dir/performance_test.i
 
-tests/performance/CMakeFiles/performance_test.dir/performance_test.cc.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/performance_test.dir/performance_test.cc.s"
-	cd /home/liying/sqlcc/build-coverage/tests/performance && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/liying/sqlcc/tests/performance/performance_test.cc -o CMakeFiles/performance_test.dir/performance_test.cc.s
+tests/performance/CMakeFiles/performance_test.dir/performance_test.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/performance_test.dir/performance_test.s"
+	cd /home/liying/sqlcc/build-coverage/tests/performance && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/liying/sqlcc/tests/performance/performance_test.cc -o CMakeFiles/performance_test.dir/performance_test.s
 
-tests/performance/CMakeFiles/performance_test.dir/performance_test_base.cc.o: tests/performance/CMakeFiles/performance_test.dir/flags.make
-tests/performance/CMakeFiles/performance_test.dir/performance_test_base.cc.o: /home/liying/sqlcc/tests/performance/performance_test_base.cc
-tests/performance/CMakeFiles/performance_test.dir/performance_test_base.cc.o: tests/performance/CMakeFiles/performance_test.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/liying/sqlcc/build-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object tests/performance/CMakeFiles/performance_test.dir/performance_test_base.cc.o"
-	cd /home/liying/sqlcc/build-coverage/tests/performance && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT tests/performance/CMakeFiles/performance_test.dir/performance_test_base.cc.o -MF CMakeFiles/performance_test.dir/performance_test_base.cc.o.d -o CMakeFiles/performance_test.dir/performance_test_base.cc.o -c /home/liying/sqlcc/tests/performance/performance_test_base.cc
+tests/performance/CMakeFiles/performance_test.dir/performance_test_base.o: tests/performance/CMakeFiles/performance_test.dir/flags.make
+tests/performance/CMakeFiles/performance_test.dir/performance_test_base.o: /home/liying/sqlcc/tests/performance/performance_test_base.cc
+tests/performance/CMakeFiles/performance_test.dir/performance_test_base.o: tests/performance/CMakeFiles/performance_test.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/liying/sqlcc/build-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object tests/performance/CMakeFiles/performance_test.dir/performance_test_base.o"
+	cd /home/liying/sqlcc/build-coverage/tests/performance && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT tests/performance/CMakeFiles/performance_test.dir/performance_test_base.o -MF CMakeFiles/performance_test.dir/performance_test_base.o.d -o CMakeFiles/performance_test.dir/performance_test_base.o -c /home/liying/sqlcc/tests/performance/performance_test_base.cc
 
-tests/performance/CMakeFiles/performance_test.dir/performance_test_base.cc.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/performance_test.dir/performance_test_base.cc.i"
-	cd /home/liying/sqlcc/build-coverage/tests/performance && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/liying/sqlcc/tests/performance/performance_test_base.cc > CMakeFiles/performance_test.dir/performance_test_base.cc.i
+tests/performance/CMakeFiles/performance_test.dir/performance_test_base.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/performance_test.dir/performance_test_base.i"
+	cd /home/liying/sqlcc/build-coverage/tests/performance && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/liying/sqlcc/tests/performance/performance_test_base.cc > CMakeFiles/performance_test.dir/performance_test_base.i
 
-tests/performance/CMakeFiles/performance_test.dir/performance_test_base.cc.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/performance_test.dir/performance_test_base.cc.s"
-	cd /home/liying/sqlcc/build-coverage/tests/performance && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/liying/sqlcc/tests/performance/performance_test_base.cc -o CMakeFiles/performance_test.dir/performance_test_base.cc.s
+tests/performance/CMakeFiles/performance_test.dir/performance_test_base.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/performance_test.dir/performance_test_base.s"
+	cd /home/liying/sqlcc/build-coverage/tests/performance && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/liying/sqlcc/tests/performance/performance_test_base.cc -o CMakeFiles/performance_test.dir/performance_test_base.s
 
-tests/performance/CMakeFiles/performance_test.dir/buffer_pool_performance_test.cc.o: tests/performance/CMakeFiles/performance_test.dir/flags.make
-tests/performance/CMakeFiles/performance_test.dir/buffer_pool_performance_test.cc.o: /home/liying/sqlcc/tests/performance/buffer_pool_performance_test.cc
-tests/performance/CMakeFiles/performance_test.dir/buffer_pool_performance_test.cc.o: tests/performance/CMakeFiles/performance_test.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/liying/sqlcc/build-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object tests/performance/CMakeFiles/performance_test.dir/buffer_pool_performance_test.cc.o"
-	cd /home/liying/sqlcc/build-coverage/tests/performance && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT tests/performance/CMakeFiles/performance_test.dir/buffer_pool_performance_test.cc.o -MF CMakeFiles/performance_test.dir/buffer_pool_performance_test.cc.o.d -o CMakeFiles/performance_test.dir/buffer_pool_performance_test.cc.o -c /home/liying/sqlcc/tests/performance/buffer_pool_performance_test.cc
+tests/performance/CMakeFiles/performance_test.dir/buffer_pool_performance_test.o: tests/performance/CMakeFiles/performance_test.dir/flags.make
+tests/performance/CMakeFiles/performance_test.dir/buffer_pool_performance_test.o: /home/liying/sqlcc/tests/performance/buffer_pool_performance_test.cc
+tests/performance/CMakeFiles/performance_test.dir/buffer_pool_performance_test.o: tests/performance/CMakeFiles/performance_test.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/liying/sqlcc/build-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object tests/performance/CMakeFiles/performance_test.dir/buffer_pool_performance_test.o"
+	cd /home/liying/sqlcc/build-coverage/tests/performance && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT tests/performance/CMakeFiles/performance_test.dir/buffer_pool_performance_test.o -MF CMakeFiles/performance_test.dir/buffer_pool_performance_test.o.d -o CMakeFiles/performance_test.dir/buffer_pool_performance_test.o -c /home/liying/sqlcc/tests/performance/buffer_pool_performance_test.cc
 
-tests/performance/CMakeFiles/performance_test.dir/buffer_pool_performance_test.cc.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/performance_test.dir/buffer_pool_performance_test.cc.i"
-	cd /home/liying/sqlcc/build-coverage/tests/performance && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/liying/sqlcc/tests/performance/buffer_pool_performance_test.cc > CMakeFiles/performance_test.dir/buffer_pool_performance_test.cc.i
+tests/performance/CMakeFiles/performance_test.dir/buffer_pool_performance_test.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/performance_test.dir/buffer_pool_performance_test.i"
+	cd /home/liying/sqlcc/build-coverage/tests/performance && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/liying/sqlcc/tests/performance/buffer_pool_performance_test.cc > CMakeFiles/performance_test.dir/buffer_pool_performance_test.i
 
-tests/performance/CMakeFiles/performance_test.dir/buffer_pool_performance_test.cc.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/performance_test.dir/buffer_pool_performance_test.cc.s"
-	cd /home/liying/sqlcc/build-coverage/tests/performance && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/liying/sqlcc/tests/performance/buffer_pool_performance_test.cc -o CMakeFiles/performance_test.dir/buffer_pool_performance_test.cc.s
+tests/performance/CMakeFiles/performance_test.dir/buffer_pool_performance_test.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/performance_test.dir/buffer_pool_performance_test.s"
+	cd /home/liying/sqlcc/build-coverage/tests/performance && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/liying/sqlcc/tests/performance/buffer_pool_performance_test.cc -o CMakeFiles/performance_test.dir/buffer_pool_performance_test.s
 
-tests/performance/CMakeFiles/performance_test.dir/disk_io_performance_test.cc.o: tests/performance/CMakeFiles/performance_test.dir/flags.make
-tests/performance/CMakeFiles/performance_test.dir/disk_io_performance_test.cc.o: /home/liying/sqlcc/tests/performance/disk_io_performance_test.cc
-tests/performance/CMakeFiles/performance_test.dir/disk_io_performance_test.cc.o: tests/performance/CMakeFiles/performance_test.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/liying/sqlcc/build-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object tests/performance/CMakeFiles/performance_test.dir/disk_io_performance_test.cc.o"
-	cd /home/liying/sqlcc/build-coverage/tests/performance && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT tests/performance/CMakeFiles/performance_test.dir/disk_io_performance_test.cc.o -MF CMakeFiles/performance_test.dir/disk_io_performance_test.cc.o.d -o CMakeFiles/performance_test.dir/disk_io_performance_test.cc.o -c /home/liying/sqlcc/tests/performance/disk_io_performance_test.cc
+tests/performance/CMakeFiles/performance_test.dir/disk_io_performance_test.o: tests/performance/CMakeFiles/performance_test.dir/flags.make
+tests/performance/CMakeFiles/performance_test.dir/disk_io_performance_test.o: /home/liying/sqlcc/tests/performance/disk_io_performance_test.cc
+tests/performance/CMakeFiles/performance_test.dir/disk_io_performance_test.o: tests/performance/CMakeFiles/performance_test.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/liying/sqlcc/build-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object tests/performance/CMakeFiles/performance_test.dir/disk_io_performance_test.o"
+	cd /home/liying/sqlcc/build-coverage/tests/performance && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT tests/performance/CMakeFiles/performance_test.dir/disk_io_performance_test.o -MF CMakeFiles/performance_test.dir/disk_io_performance_test.o.d -o CMakeFiles/performance_test.dir/disk_io_performance_test.o -c /home/liying/sqlcc/tests/performance/disk_io_performance_test.cc
 
-tests/performance/CMakeFiles/performance_test.dir/disk_io_performance_test.cc.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/performance_test.dir/disk_io_performance_test.cc.i"
-	cd /home/liying/sqlcc/build-coverage/tests/performance && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/liying/sqlcc/tests/performance/disk_io_performance_test.cc > CMakeFiles/performance_test.dir/disk_io_performance_test.cc.i
+tests/performance/CMakeFiles/performance_test.dir/disk_io_performance_test.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/performance_test.dir/disk_io_performance_test.i"
+	cd /home/liying/sqlcc/build-coverage/tests/performance && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/liying/sqlcc/tests/performance/disk_io_performance_test.cc > CMakeFiles/performance_test.dir/disk_io_performance_test.i
 
-tests/performance/CMakeFiles/performance_test.dir/disk_io_performance_test.cc.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/performance_test.dir/disk_io_performance_test.cc.s"
-	cd /home/liying/sqlcc/build-coverage/tests/performance && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/liying/sqlcc/tests/performance/disk_io_performance_test.cc -o CMakeFiles/performance_test.dir/disk_io_performance_test.cc.s
+tests/performance/CMakeFiles/performance_test.dir/disk_io_performance_test.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/performance_test.dir/disk_io_performance_test.s"
+	cd /home/liying/sqlcc/build-coverage/tests/performance && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/liying/sqlcc/tests/performance/disk_io_performance_test.cc -o CMakeFiles/performance_test.dir/disk_io_performance_test.s
 
-tests/performance/CMakeFiles/performance_test.dir/mixed_workload_test.cc.o: tests/performance/CMakeFiles/performance_test.dir/flags.make
-tests/performance/CMakeFiles/performance_test.dir/mixed_workload_test.cc.o: /home/liying/sqlcc/tests/performance/mixed_workload_test.cc
-tests/performance/CMakeFiles/performance_test.dir/mixed_workload_test.cc.o: tests/performance/CMakeFiles/performance_test.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/liying/sqlcc/build-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object tests/performance/CMakeFiles/performance_test.dir/mixed_workload_test.cc.o"
-	cd /home/liying/sqlcc/build-coverage/tests/performance && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT tests/performance/CMakeFiles/performance_test.dir/mixed_workload_test.cc.o -MF CMakeFiles/performance_test.dir/mixed_workload_test.cc.o.d -o CMakeFiles/performance_test.dir/mixed_workload_test.cc.o -c /home/liying/sqlcc/tests/performance/mixed_workload_test.cc
+tests/performance/CMakeFiles/performance_test.dir/mixed_workload_test.o: tests/performance/CMakeFiles/performance_test.dir/flags.make
+tests/performance/CMakeFiles/performance_test.dir/mixed_workload_test.o: /home/liying/sqlcc/tests/performance/mixed_workload_test.cc
+tests/performance/CMakeFiles/performance_test.dir/mixed_workload_test.o: tests/performance/CMakeFiles/performance_test.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/liying/sqlcc/build-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object tests/performance/CMakeFiles/performance_test.dir/mixed_workload_test.o"
+	cd /home/liying/sqlcc/build-coverage/tests/performance && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT tests/performance/CMakeFiles/performance_test.dir/mixed_workload_test.o -MF CMakeFiles/performance_test.dir/mixed_workload_test.o.d -o CMakeFiles/performance_test.dir/mixed_workload_test.o -c /home/liying/sqlcc/tests/performance/mixed_workload_test.cc
 
-tests/performance/CMakeFiles/performance_test.dir/mixed_workload_test.cc.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/performance_test.dir/mixed_workload_test.cc.i"
-	cd /home/liying/sqlcc/build-coverage/tests/performance && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/liying/sqlcc/tests/performance/mixed_workload_test.cc > CMakeFiles/performance_test.dir/mixed_workload_test.cc.i
+tests/performance/CMakeFiles/performance_test.dir/mixed_workload_test.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/performance_test.dir/mixed_workload_test.i"
+	cd /home/liying/sqlcc/build-coverage/tests/performance && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/liying/sqlcc/tests/performance/mixed_workload_test.cc > CMakeFiles/performance_test.dir/mixed_workload_test.i
 
-tests/performance/CMakeFiles/performance_test.dir/mixed_workload_test.cc.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/performance_test.dir/mixed_workload_test.cc.s"
-	cd /home/liying/sqlcc/build-coverage/tests/performance && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/liying/sqlcc/tests/performance/mixed_workload_test.cc -o CMakeFiles/performance_test.dir/mixed_workload_test.cc.s
+tests/performance/CMakeFiles/performance_test.dir/mixed_workload_test.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/performance_test.dir/mixed_workload_test.s"
+	cd /home/liying/sqlcc/build-coverage/tests/performance && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/liying/sqlcc/tests/performance/mixed_workload_test.cc -o CMakeFiles/performance_test.dir/mixed_workload_test.s
 
-tests/performance/CMakeFiles/performance_test.dir/batch_prefetch_performance_test.cc.o: tests/performance/CMakeFiles/performance_test.dir/flags.make
-tests/performance/CMakeFiles/performance_test.dir/batch_prefetch_performance_test.cc.o: /home/liying/sqlcc/tests/performance/batch_prefetch_performance_test.cc
-tests/performance/CMakeFiles/performance_test.dir/batch_prefetch_performance_test.cc.o: tests/performance/CMakeFiles/performance_test.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/liying/sqlcc/build-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object tests/performance/CMakeFiles/performance_test.dir/batch_prefetch_performance_test.cc.o"
-	cd /home/liying/sqlcc/build-coverage/tests/performance && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT tests/performance/CMakeFiles/performance_test.dir/batch_prefetch_performance_test.cc.o -MF CMakeFiles/performance_test.dir/batch_prefetch_performance_test.cc.o.d -o CMakeFiles/performance_test.dir/batch_prefetch_performance_test.cc.o -c /home/liying/sqlcc/tests/performance/batch_prefetch_performance_test.cc
+tests/performance/CMakeFiles/performance_test.dir/batch_prefetch_performance_test.o: tests/performance/CMakeFiles/performance_test.dir/flags.make
+tests/performance/CMakeFiles/performance_test.dir/batch_prefetch_performance_test.o: /home/liying/sqlcc/tests/performance/batch_prefetch_performance_test.cc
+tests/performance/CMakeFiles/performance_test.dir/batch_prefetch_performance_test.o: tests/performance/CMakeFiles/performance_test.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/liying/sqlcc/build-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object tests/performance/CMakeFiles/performance_test.dir/batch_prefetch_performance_test.o"
+	cd /home/liying/sqlcc/build-coverage/tests/performance && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT tests/performance/CMakeFiles/performance_test.dir/batch_prefetch_performance_test.o -MF CMakeFiles/performance_test.dir/batch_prefetch_performance_test.o.d -o CMakeFiles/performance_test.dir/batch_prefetch_performance_test.o -c /home/liying/sqlcc/tests/performance/batch_prefetch_performance_test.cc
 
-tests/performance/CMakeFiles/performance_test.dir/batch_prefetch_performance_test.cc.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/performance_test.dir/batch_prefetch_performance_test.cc.i"
-	cd /home/liying/sqlcc/build-coverage/tests/performance && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/liying/sqlcc/tests/performance/batch_prefetch_performance_test.cc > CMakeFiles/performance_test.dir/batch_prefetch_performance_test.cc.i
+tests/performance/CMakeFiles/performance_test.dir/batch_prefetch_performance_test.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/performance_test.dir/batch_prefetch_performance_test.i"
+	cd /home/liying/sqlcc/build-coverage/tests/performance && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/liying/sqlcc/tests/performance/batch_prefetch_performance_test.cc > CMakeFiles/performance_test.dir/batch_prefetch_performance_test.i
 
-tests/performance/CMakeFiles/performance_test.dir/batch_prefetch_performance_test.cc.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/performance_test.dir/batch_prefetch_performance_test.cc.s"
-	cd /home/liying/sqlcc/build-coverage/tests/performance && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/liying/sqlcc/tests/performance/batch_prefetch_performance_test.cc -o CMakeFiles/performance_test.dir/batch_prefetch_performance_test.cc.s
+tests/performance/CMakeFiles/performance_test.dir/batch_prefetch_performance_test.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/performance_test.dir/batch_prefetch_performance_test.s"
+	cd /home/liying/sqlcc/build-coverage/tests/performance && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/liying/sqlcc/tests/performance/batch_prefetch_performance_test.cc -o CMakeFiles/performance_test.dir/batch_prefetch_performance_test.s
 
-tests/performance/CMakeFiles/performance_test.dir/million_insert_test.cc.o: tests/performance/CMakeFiles/performance_test.dir/flags.make
-tests/performance/CMakeFiles/performance_test.dir/million_insert_test.cc.o: /home/liying/sqlcc/tests/performance/million_insert_test.cc
-tests/performance/CMakeFiles/performance_test.dir/million_insert_test.cc.o: tests/performance/CMakeFiles/performance_test.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/liying/sqlcc/build-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object tests/performance/CMakeFiles/performance_test.dir/million_insert_test.cc.o"
-	cd /home/liying/sqlcc/build-coverage/tests/performance && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT tests/performance/CMakeFiles/performance_test.dir/million_insert_test.cc.o -MF CMakeFiles/performance_test.dir/million_insert_test.cc.o.d -o CMakeFiles/performance_test.dir/million_insert_test.cc.o -c /home/liying/sqlcc/tests/performance/million_insert_test.cc
+tests/performance/CMakeFiles/performance_test.dir/million_insert_test.o: tests/performance/CMakeFiles/performance_test.dir/flags.make
+tests/performance/CMakeFiles/performance_test.dir/million_insert_test.o: /home/liying/sqlcc/tests/performance/million_insert_test.cc
+tests/performance/CMakeFiles/performance_test.dir/million_insert_test.o: tests/performance/CMakeFiles/performance_test.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/liying/sqlcc/build-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object tests/performance/CMakeFiles/performance_test.dir/million_insert_test.o"
+	cd /home/liying/sqlcc/build-coverage/tests/performance && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT tests/performance/CMakeFiles/performance_test.dir/million_insert_test.o -MF CMakeFiles/performance_test.dir/million_insert_test.o.d -o CMakeFiles/performance_test.dir/million_insert_test.o -c /home/liying/sqlcc/tests/performance/million_insert_test.cc
 
-tests/performance/CMakeFiles/performance_test.dir/million_insert_test.cc.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/performance_test.dir/million_insert_test.cc.i"
-	cd /home/liying/sqlcc/build-coverage/tests/performance && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/liying/sqlcc/tests/performance/million_insert_test.cc > CMakeFiles/performance_test.dir/million_insert_test.cc.i
+tests/performance/CMakeFiles/performance_test.dir/million_insert_test.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/performance_test.dir/million_insert_test.i"
+	cd /home/liying/sqlcc/build-coverage/tests/performance && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/liying/sqlcc/tests/performance/million_insert_test.cc > CMakeFiles/performance_test.dir/million_insert_test.i
 
-tests/performance/CMakeFiles/performance_test.dir/million_insert_test.cc.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/performance_test.dir/million_insert_test.cc.s"
-	cd /home/liying/sqlcc/build-coverage/tests/performance && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/liying/sqlcc/tests/performance/million_insert_test.cc -o CMakeFiles/performance_test.dir/million_insert_test.cc.s
+tests/performance/CMakeFiles/performance_test.dir/million_insert_test.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/performance_test.dir/million_insert_test.s"
+	cd /home/liying/sqlcc/build-coverage/tests/performance && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/liying/sqlcc/tests/performance/million_insert_test.cc -o CMakeFiles/performance_test.dir/million_insert_test.s
 
 # Object files for target performance_test
 performance_test_OBJECTS = \
-"CMakeFiles/performance_test.dir/performance_test.cc.o" \
-"CMakeFiles/performance_test.dir/performance_test_base.cc.o" \
-"CMakeFiles/performance_test.dir/buffer_pool_performance_test.cc.o" \
-"CMakeFiles/performance_test.dir/disk_io_performance_test.cc.o" \
-"CMakeFiles/performance_test.dir/mixed_workload_test.cc.o" \
-"CMakeFiles/performance_test.dir/batch_prefetch_performance_test.cc.o" \
-"CMakeFiles/performance_test.dir/million_insert_test.cc.o"
+"CMakeFiles/performance_test.dir/performance_test.o" \
+"CMakeFiles/performance_test.dir/performance_test_base.o" \
+"CMakeFiles/performance_test.dir/buffer_pool_performance_test.o" \
+"CMakeFiles/performance_test.dir/disk_io_performance_test.o" \
+"CMakeFiles/performance_test.dir/mixed_workload_test.o" \
+"CMakeFiles/performance_test.dir/batch_prefetch_performance_test.o" \
+"CMakeFiles/performance_test.dir/million_insert_test.o"
 
 # External object files for target performance_test
 performance_test_EXTERNAL_OBJECTS =
 
-bin/performance_test: tests/performance/CMakeFiles/performance_test.dir/performance_test.cc.o
-bin/performance_test: tests/performance/CMakeFiles/performance_test.dir/performance_test_base.cc.o
-bin/performance_test: tests/performance/CMakeFiles/performance_test.dir/buffer_pool_performance_test.cc.o
-bin/performance_test: tests/performance/CMakeFiles/performance_test.dir/disk_io_performance_test.cc.o
-bin/performance_test: tests/performance/CMakeFiles/performance_test.dir/mixed_workload_test.cc.o
-bin/performance_test: tests/performance/CMakeFiles/performance_test.dir/batch_prefetch_performance_test.cc.o
-bin/performance_test: tests/performance/CMakeFiles/performance_test.dir/million_insert_test.cc.o
+bin/performance_test: tests/performance/CMakeFiles/performance_test.dir/performance_test.o
+bin/performance_test: tests/performance/CMakeFiles/performance_test.dir/performance_test_base.o
+bin/performance_test: tests/performance/CMakeFiles/performance_test.dir/buffer_pool_performance_test.o
+bin/performance_test: tests/performance/CMakeFiles/performance_test.dir/disk_io_performance_test.o
+bin/performance_test: tests/performance/CMakeFiles/performance_test.dir/mixed_workload_test.o
+bin/performance_test: tests/performance/CMakeFiles/performance_test.dir/batch_prefetch_performance_test.o
+bin/performance_test: tests/performance/CMakeFiles/performance_test.dir/million_insert_test.o
 bin/performance_test: tests/performance/CMakeFiles/performance_test.dir/build.make
 bin/performance_test: lib/libsqlcc_core.a
 bin/performance_test: tests/performance/CMakeFiles/performance_test.dir/link.txt

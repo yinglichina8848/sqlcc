@@ -9,6 +9,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../src)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 include_directories(${CMAKE_SOURCE_DIR}/include)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
 # 查找线程库
 find_package(Threads REQUIRED)
@@ -23,8 +24,8 @@ set(SOURCES
 # 创建可执行文件
 add_executable(concurrency_test ${SOURCES})
 
-# 链接线程库
-target_link_libraries(concurrency_test Threads::Threads)
+# 链接线程库和sqlcc_core库
+target_link_libraries(concurrency_test Threads::Threads sqlcc_core)
 
 # 设置编译选项
 target_compile_options(concurrency_test PRIVATE -O2 -Wall -Wextra)

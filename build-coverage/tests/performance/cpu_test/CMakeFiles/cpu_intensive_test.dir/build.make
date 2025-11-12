@@ -69,60 +69,60 @@ include tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/progress.ma
 # Include the compile flags for this target's objects.
 include tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/flags.make
 
-tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/cpu_intensive_test_runner.cc.o: tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/flags.make
-tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/cpu_intensive_test_runner.cc.o: /home/liying/sqlcc/tests/performance/cpu_test/cpu_intensive_test_runner.cc
-tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/cpu_intensive_test_runner.cc.o: tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/liying/sqlcc/build-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/cpu_intensive_test_runner.cc.o"
-	cd /home/liying/sqlcc/build-coverage/tests/performance/cpu_test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/cpu_intensive_test_runner.cc.o -MF CMakeFiles/cpu_intensive_test.dir/cpu_intensive_test_runner.cc.o.d -o CMakeFiles/cpu_intensive_test.dir/cpu_intensive_test_runner.cc.o -c /home/liying/sqlcc/tests/performance/cpu_test/cpu_intensive_test_runner.cc
+tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/cpu_intensive_test_runner.o: tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/flags.make
+tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/cpu_intensive_test_runner.o: /home/liying/sqlcc/tests/performance/cpu_test/cpu_intensive_test_runner.cc
+tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/cpu_intensive_test_runner.o: tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/liying/sqlcc/build-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/cpu_intensive_test_runner.o"
+	cd /home/liying/sqlcc/build-coverage/tests/performance/cpu_test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/cpu_intensive_test_runner.o -MF CMakeFiles/cpu_intensive_test.dir/cpu_intensive_test_runner.o.d -o CMakeFiles/cpu_intensive_test.dir/cpu_intensive_test_runner.o -c /home/liying/sqlcc/tests/performance/cpu_test/cpu_intensive_test_runner.cc
 
-tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/cpu_intensive_test_runner.cc.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/cpu_intensive_test.dir/cpu_intensive_test_runner.cc.i"
-	cd /home/liying/sqlcc/build-coverage/tests/performance/cpu_test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/liying/sqlcc/tests/performance/cpu_test/cpu_intensive_test_runner.cc > CMakeFiles/cpu_intensive_test.dir/cpu_intensive_test_runner.cc.i
+tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/cpu_intensive_test_runner.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/cpu_intensive_test.dir/cpu_intensive_test_runner.i"
+	cd /home/liying/sqlcc/build-coverage/tests/performance/cpu_test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/liying/sqlcc/tests/performance/cpu_test/cpu_intensive_test_runner.cc > CMakeFiles/cpu_intensive_test.dir/cpu_intensive_test_runner.i
 
-tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/cpu_intensive_test_runner.cc.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/cpu_intensive_test.dir/cpu_intensive_test_runner.cc.s"
-	cd /home/liying/sqlcc/build-coverage/tests/performance/cpu_test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/liying/sqlcc/tests/performance/cpu_test/cpu_intensive_test_runner.cc -o CMakeFiles/cpu_intensive_test.dir/cpu_intensive_test_runner.cc.s
+tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/cpu_intensive_test_runner.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/cpu_intensive_test.dir/cpu_intensive_test_runner.s"
+	cd /home/liying/sqlcc/build-coverage/tests/performance/cpu_test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/liying/sqlcc/tests/performance/cpu_test/cpu_intensive_test_runner.cc -o CMakeFiles/cpu_intensive_test.dir/cpu_intensive_test_runner.s
 
-tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/cpu_intensive_performance_test.cc.o: tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/flags.make
-tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/cpu_intensive_performance_test.cc.o: /home/liying/sqlcc/tests/performance/cpu_test/cpu_intensive_performance_test.cc
-tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/cpu_intensive_performance_test.cc.o: tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/liying/sqlcc/build-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/cpu_intensive_performance_test.cc.o"
-	cd /home/liying/sqlcc/build-coverage/tests/performance/cpu_test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/cpu_intensive_performance_test.cc.o -MF CMakeFiles/cpu_intensive_test.dir/cpu_intensive_performance_test.cc.o.d -o CMakeFiles/cpu_intensive_test.dir/cpu_intensive_performance_test.cc.o -c /home/liying/sqlcc/tests/performance/cpu_test/cpu_intensive_performance_test.cc
+tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/cpu_intensive_performance_test.o: tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/flags.make
+tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/cpu_intensive_performance_test.o: /home/liying/sqlcc/tests/performance/cpu_test/cpu_intensive_performance_test.cc
+tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/cpu_intensive_performance_test.o: tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/liying/sqlcc/build-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/cpu_intensive_performance_test.o"
+	cd /home/liying/sqlcc/build-coverage/tests/performance/cpu_test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/cpu_intensive_performance_test.o -MF CMakeFiles/cpu_intensive_test.dir/cpu_intensive_performance_test.o.d -o CMakeFiles/cpu_intensive_test.dir/cpu_intensive_performance_test.o -c /home/liying/sqlcc/tests/performance/cpu_test/cpu_intensive_performance_test.cc
 
-tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/cpu_intensive_performance_test.cc.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/cpu_intensive_test.dir/cpu_intensive_performance_test.cc.i"
-	cd /home/liying/sqlcc/build-coverage/tests/performance/cpu_test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/liying/sqlcc/tests/performance/cpu_test/cpu_intensive_performance_test.cc > CMakeFiles/cpu_intensive_test.dir/cpu_intensive_performance_test.cc.i
+tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/cpu_intensive_performance_test.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/cpu_intensive_test.dir/cpu_intensive_performance_test.i"
+	cd /home/liying/sqlcc/build-coverage/tests/performance/cpu_test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/liying/sqlcc/tests/performance/cpu_test/cpu_intensive_performance_test.cc > CMakeFiles/cpu_intensive_test.dir/cpu_intensive_performance_test.i
 
-tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/cpu_intensive_performance_test.cc.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/cpu_intensive_test.dir/cpu_intensive_performance_test.cc.s"
-	cd /home/liying/sqlcc/build-coverage/tests/performance/cpu_test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/liying/sqlcc/tests/performance/cpu_test/cpu_intensive_performance_test.cc -o CMakeFiles/cpu_intensive_test.dir/cpu_intensive_performance_test.cc.s
+tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/cpu_intensive_performance_test.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/cpu_intensive_test.dir/cpu_intensive_performance_test.s"
+	cd /home/liying/sqlcc/build-coverage/tests/performance/cpu_test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/liying/sqlcc/tests/performance/cpu_test/cpu_intensive_performance_test.cc -o CMakeFiles/cpu_intensive_test.dir/cpu_intensive_performance_test.s
 
-tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/__/performance_test_base.cc.o: tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/flags.make
-tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/__/performance_test_base.cc.o: /home/liying/sqlcc/tests/performance/performance_test_base.cc
-tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/__/performance_test_base.cc.o: tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/liying/sqlcc/build-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/__/performance_test_base.cc.o"
-	cd /home/liying/sqlcc/build-coverage/tests/performance/cpu_test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/__/performance_test_base.cc.o -MF CMakeFiles/cpu_intensive_test.dir/__/performance_test_base.cc.o.d -o CMakeFiles/cpu_intensive_test.dir/__/performance_test_base.cc.o -c /home/liying/sqlcc/tests/performance/performance_test_base.cc
+tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/__/performance_test_base.o: tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/flags.make
+tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/__/performance_test_base.o: /home/liying/sqlcc/tests/performance/performance_test_base.cc
+tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/__/performance_test_base.o: tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/liying/sqlcc/build-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/__/performance_test_base.o"
+	cd /home/liying/sqlcc/build-coverage/tests/performance/cpu_test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/__/performance_test_base.o -MF CMakeFiles/cpu_intensive_test.dir/__/performance_test_base.o.d -o CMakeFiles/cpu_intensive_test.dir/__/performance_test_base.o -c /home/liying/sqlcc/tests/performance/performance_test_base.cc
 
-tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/__/performance_test_base.cc.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/cpu_intensive_test.dir/__/performance_test_base.cc.i"
-	cd /home/liying/sqlcc/build-coverage/tests/performance/cpu_test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/liying/sqlcc/tests/performance/performance_test_base.cc > CMakeFiles/cpu_intensive_test.dir/__/performance_test_base.cc.i
+tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/__/performance_test_base.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/cpu_intensive_test.dir/__/performance_test_base.i"
+	cd /home/liying/sqlcc/build-coverage/tests/performance/cpu_test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/liying/sqlcc/tests/performance/performance_test_base.cc > CMakeFiles/cpu_intensive_test.dir/__/performance_test_base.i
 
-tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/__/performance_test_base.cc.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/cpu_intensive_test.dir/__/performance_test_base.cc.s"
-	cd /home/liying/sqlcc/build-coverage/tests/performance/cpu_test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/liying/sqlcc/tests/performance/performance_test_base.cc -o CMakeFiles/cpu_intensive_test.dir/__/performance_test_base.cc.s
+tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/__/performance_test_base.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/cpu_intensive_test.dir/__/performance_test_base.s"
+	cd /home/liying/sqlcc/build-coverage/tests/performance/cpu_test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/liying/sqlcc/tests/performance/performance_test_base.cc -o CMakeFiles/cpu_intensive_test.dir/__/performance_test_base.s
 
 # Object files for target cpu_intensive_test
 cpu_intensive_test_OBJECTS = \
-"CMakeFiles/cpu_intensive_test.dir/cpu_intensive_test_runner.cc.o" \
-"CMakeFiles/cpu_intensive_test.dir/cpu_intensive_performance_test.cc.o" \
-"CMakeFiles/cpu_intensive_test.dir/__/performance_test_base.cc.o"
+"CMakeFiles/cpu_intensive_test.dir/cpu_intensive_test_runner.o" \
+"CMakeFiles/cpu_intensive_test.dir/cpu_intensive_performance_test.o" \
+"CMakeFiles/cpu_intensive_test.dir/__/performance_test_base.o"
 
 # External object files for target cpu_intensive_test
 cpu_intensive_test_EXTERNAL_OBJECTS =
 
-bin/cpu_intensive_test: tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/cpu_intensive_test_runner.cc.o
-bin/cpu_intensive_test: tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/cpu_intensive_performance_test.cc.o
-bin/cpu_intensive_test: tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/__/performance_test_base.cc.o
+bin/cpu_intensive_test: tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/cpu_intensive_test_runner.o
+bin/cpu_intensive_test: tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/cpu_intensive_performance_test.o
+bin/cpu_intensive_test: tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/__/performance_test_base.o
 bin/cpu_intensive_test: tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/build.make
 bin/cpu_intensive_test: tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/liying/sqlcc/build-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX executable ../../../bin/cpu_intensive_test"

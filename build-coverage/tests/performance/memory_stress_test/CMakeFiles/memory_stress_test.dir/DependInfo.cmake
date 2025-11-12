@@ -8,10 +8,9 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/home/liying/sqlcc/tests/performance/performance_test_base.cc" "tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/__/performance_test_base.cc.o" "gcc" "tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/__/performance_test_base.cc.o.d"
-  "/home/liying/sqlcc/tests/performance/memory_stress_test/memory_stress_test.cc" "tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/memory_stress_test.cc.o" "gcc" "tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/memory_stress_test.cc.o.d"
-  "/home/liying/sqlcc/tests/performance/memory_stress_test/memory_stress_test_main.cc" "tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/memory_stress_test_main.cc.o" "gcc" "tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/memory_stress_test_main.cc.o.d"
-  "/home/liying/sqlcc/tests/performance/memory_stress_test/memory_stress_test_runner.cc" "tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/memory_stress_test_runner.cc.o" "gcc" "tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/memory_stress_test_runner.cc.o.d"
+  "/home/liying/sqlcc/tests/performance/performance_test_base.cc" "tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/__/performance_test_base.o" "gcc" "tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/__/performance_test_base.o.d"
+  "/home/liying/sqlcc/tests/performance/memory_stress_test/memory_stress_test.cc" "tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/memory_stress_test.o" "gcc" "tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/memory_stress_test.o.d"
+  "/home/liying/sqlcc/tests/performance/memory_stress_test/memory_stress_test_main.cc" "tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/memory_stress_test_main.o" "gcc" "tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/memory_stress_test_main.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

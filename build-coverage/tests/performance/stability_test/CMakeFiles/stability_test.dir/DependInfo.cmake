@@ -8,9 +8,9 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/home/liying/sqlcc/tests/performance/performance_test_base.cc" "tests/performance/stability_test/CMakeFiles/stability_test.dir/__/performance_test_base.cc.o" "gcc" "tests/performance/stability_test/CMakeFiles/stability_test.dir/__/performance_test_base.cc.o.d"
-  "/home/liying/sqlcc/tests/performance/stability_test/long_term_stability_test.cc" "tests/performance/stability_test/CMakeFiles/stability_test.dir/long_term_stability_test.cc.o" "gcc" "tests/performance/stability_test/CMakeFiles/stability_test.dir/long_term_stability_test.cc.o.d"
-  "/home/liying/sqlcc/tests/performance/stability_test/long_term_stability_test_main.cc" "tests/performance/stability_test/CMakeFiles/stability_test.dir/long_term_stability_test_main.cc.o" "gcc" "tests/performance/stability_test/CMakeFiles/stability_test.dir/long_term_stability_test_main.cc.o.d"
+  "/home/liying/sqlcc/tests/performance/performance_test_base.cc" "tests/performance/stability_test/CMakeFiles/stability_test.dir/__/performance_test_base.o" "gcc" "tests/performance/stability_test/CMakeFiles/stability_test.dir/__/performance_test_base.o.d"
+  "/home/liying/sqlcc/tests/performance/stability_test/long_term_stability_test.cc" "tests/performance/stability_test/CMakeFiles/stability_test.dir/long_term_stability_test.o" "gcc" "tests/performance/stability_test/CMakeFiles/stability_test.dir/long_term_stability_test.o.d"
+  "/home/liying/sqlcc/tests/performance/stability_test/long_term_stability_test_main.cc" "tests/performance/stability_test/CMakeFiles/stability_test.dir/long_term_stability_test_main.o" "gcc" "tests/performance/stability_test/CMakeFiles/stability_test.dir/long_term_stability_test_main.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

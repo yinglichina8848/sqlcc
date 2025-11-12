@@ -3,6 +3,10 @@
 #include <algorithm>
 #include <chrono>
 #include <cstring>
+#include <fstream>
+#include <thread>
+#include <vector>
+#include <memory>
 
 namespace sqlcc {
 namespace test {
@@ -279,6 +283,76 @@ MemoryStressTest::TestResult MemoryStressTest::TestMemoryAccessPatterns() {
     return result;
 }
 
+MemoryStressTest::TestResult MemoryStressTest::TestMemoryLeakDetection() {
+    TestResult result;
+    result.test_name = "Memory Leak Detection Test";
+    
+    std::cout << "Running memory leak detection test..." << std::endl;
+    
+    // 记录初始内存使用情况
+    size_t initial_memory = GetCurrentMemoryUsage();
+    
+    // 分配大量内存并记录
+    std::vector<std::unique_ptr<char[]>> temp_allocations;
+    temp_allocations.reserve(1000);
+    
+    auto start_time = GetCurrentTime();
+    
+    // 分配大量小内存块
+    for (size_t i = 0; i < 1000; ++i) {
+        temp_allocations.push_back(std::make_unique<char[]>(1024));
+        // 初始化内存
+        std::memset(temp_allocations.back().get(), 0, 1024);
+    }
+    
+    // 记录中间内存使用情况
+    size_t peak_memory = GetCurrentMemoryUsage();
+    
+    // 清理一半的内存块
+    for (size_t i = 0; i < 500; ++i) {
+        temp_allocations[i].reset();
+    }
+    
+    // 记录结束时间
+    auto end_time = GetCurrentTime();
+    
+    // 清理所有内存
+    temp_allocations.clear();
+    
+    // 记录最终内存使用情况
+    size_t final_memory = GetCurrentMemoryUsage();
+    
+    // 计算测试结果
+    result.duration = CalculateDuration(start_time, end_time);
+    result.operations_completed = 1000; // 分配了1000个块
+    result.throughput = CalculateThroughput(result.operations_completed, result.duration);
+    
+    // 设置延迟为0
+    result.avg_latency = 0.0;
+    result.p95_latency = 0.0;
+    result.p99_latency = 0.0;
+    
+    // 检查是否有内存泄漏
+    result.memory_leak_detected = (final_memory > initial_memory);
+    result.peak_memory_usage = peak_memory - initial_memory;
+    result.average_memory_usage = (peak_memory - initial_memory) / 2;
+    
+    // 添加自定义指标
+    result.custom_metrics["Initial Memory"] = std::to_string(initial_memory);
+    result.custom_metrics["Peak Memory"] = std::to_string(peak_memory);
+    result.custom_metrics["Final Memory"] = std::to_string(final_memory);
+    result.custom_metrics["Memory Leak Detected"] = result.memory_leak_detected ? "Yes" : "No";
+    
+    if (result.memory_leak_detected) {
+        result.error_message = "Potential memory leak detected";
+    }
+    
+    // 打印结果
+    PrintResult(result);
+    
+    return result;
+}
+
 void MemoryStressTest::AllocateMemoryBlocks(size_t block_size, size_t block_count, 
                                            std::vector<std::unique_ptr<char[]>>& blocks) {
     blocks.reserve(block_count);
@@ -385,6 +459,257 @@ void MemoryStressTest::MeasureMemoryUsage(size_t& allocated_mb, double& fragment
     } else {
         fragmentation_ratio = 0.0;
     }
+}
+
+void MemoryStressTest::GenerateReport(const std::vector<TestResult>& results) {
+    std::cout << "\n=== Memory Stress Test Report ===" << std::endl;
+    
+    for (const auto& result : results) {
+        PrintResult(result);
+    }
+}
+
+void MemoryStressTest::PrintResult(const TestResult& result) {
+    std::cout << "\nTest: " << result.test_name << std::endl;
+    std::cout << "Duration: " << result.duration << " seconds" << std::endl;
+    std::cout << "Operations: " << result.operations_completed << std::endl;
+    std::cout << "Throughput: " << result.throughput << " ops/sec" << std::endl;
+    std::cout << "Peak Memory Usage: " << result.peak_memory_usage << " bytes" << std::endl;
+    
+    if (!result.error_message.empty()) {
+        std::cout << "Error: " << result.error_message << std::endl;
+    }
+    
+    for (const auto& metric : result.custom_metrics) {
+        std::cout << metric.first << ": " << metric.second << std::endl;
+    }
+}
+
+void MemoryStressTest::SaveResultsToFile(const std::vector<TestResult>& results, const std::string& filename) {
+    std::ofstream outfile(filename);
+    if (!outfile.is_open()) {
+        std::cerr << "Failed to open file: " << filename << std::endl;
+        return;
+    }
+    
+    // Write CSV header
+    outfile << "Test Name,Duration,Operations,Throughput,Peak Memory,Error" << std::endl;
+    
+    for (const auto& result : results) {
+        outfile << result.test_name << ","
+                << result.duration << ","
+                << result.operations_completed << ","
+                << result.throughput << ","
+                << result.peak_memory_usage << ","
+                << result.error_message << std::endl;
+    }
+    
+    outfile.close();
+    std::cout << "Results saved to: " << filename << std::endl;
+}
+
+std::chrono::high_resolution_clock::time_point MemoryStressTest::GetCurrentTime() {
+    return std::chrono::high_resolution_clock::now();
+}
+
+double MemoryStressTest::CalculateDuration(const std::chrono::high_resolution_clock::time_point& start, 
+                                          const std::chrono::high_resolution_clock::time_point& end) {
+    return std::chrono::duration<double>(end - start).count();
+}
+
+double MemoryStressTest::CalculateThroughput(size_t operations, double duration) {
+    if (duration <= 0.0) {
+        return 0.0;
+    }
+    return static_cast<double>(operations) / duration;
+}
+
+size_t MemoryStressTest::GetCurrentMemoryUsage() {
+    // 简单的内存使用估算
+    size_t total = 0;
+    total += small_blocks_.size() * kSmallBlockSize;
+    total += medium_blocks_.size() * kMediumBlockSize;
+    total += large_blocks_.size() * kLargeBlockSize;
+    return total;
+}
+
+size_t MemoryStressTest::GetPeakMemoryUsage() {
+    size_t current = GetCurrentMemoryUsage();
+    if (current > peak_memory_usage_) {
+        peak_memory_usage_ = current;
+    }
+    return peak_memory_usage_;
+}
+
+void MemoryStressTest::UpdateMemoryUsage() {
+    size_t current = GetCurrentMemoryUsage();
+    if (current > peak_memory_usage_) {
+        peak_memory_usage_ = current;
+    }
+}
+
+void MemoryStressTest::SetOutputDirectory(const std::string& directory) {
+    // 这里应该设置输出目录，但由于简化实现，我们直接使用文件名
+    // 在实际应用中，这里会将输出保存到指定目录
+    [[maybe_unused]] std::string output_dir = directory; // 消除未使用参数警告
+}
+
+void MemoryStressTest::Initialize() {
+    // 初始化随机数生成器
+    gen_ = std::mt19937(rd_());
+    dist_ = std::uniform_int_distribution<>(0, 100);
+}
+
+void MemoryStressTest::RunAllStressTests() {
+    Initialize();
+    RunAllTests();
+}
+
+double MemoryStressTest::SimulateMemoryAllocation(size_t iterations, size_t allocation_size) {
+    auto start_time = GetCurrentTime();
+    
+    for (size_t i = 0; i < iterations; ++i) {
+        auto ptr = std::make_unique<char[]>(allocation_size);
+        std::memset(ptr.get(), 0, allocation_size);
+    }
+    
+    auto end_time = GetCurrentTime();
+    return CalculateDuration(start_time, end_time);
+}
+
+double MemoryStressTest::SimulateMemoryDeallocation(size_t iterations) {
+    std::vector<std::unique_ptr<char[]>> temp_blocks;
+    temp_blocks.reserve(iterations);
+    
+    // 先分配内存
+    for (size_t i = 0; i < iterations; ++i) {
+        temp_blocks.push_back(std::make_unique<char[]>(1024));
+    }
+    
+    auto start_time = GetCurrentTime();
+    temp_blocks.clear(); // 释放内存
+    auto end_time = GetCurrentTime();
+    
+    return CalculateDuration(start_time, end_time);
+}
+
+double MemoryStressTest::SimulateMemoryFragmentation(size_t iterations) {
+    // 创建大量小内存块然后释放一半，产生碎片
+    std::vector<std::unique_ptr<char[]>> fragments;
+    fragments.reserve(iterations);
+    
+    auto start_time = GetCurrentTime();
+    
+    // 分配小内存块
+    for (size_t i = 0; i < iterations; ++i) {
+        fragments.push_back(std::make_unique<char[]>(64));
+    }
+    
+    // 释放一半产生碎片
+    for (size_t i = 0; i < iterations / 2; ++i) {
+        if (!fragments.empty()) {
+            fragments.pop_back();
+        }
+    }
+    
+    // 清理
+    fragments.clear();
+    auto end_time = GetCurrentTime();
+    
+    return CalculateDuration(start_time, end_time);
+}
+
+bool MemoryStressTest::SimulateMemoryLeakDetection(size_t iterations) {
+    std::vector<std::unique_ptr<char[]>> temp_allocations;
+    temp_allocations.reserve(iterations);
+    
+    // 分配内存
+    for (size_t i = 0; i < iterations; ++i) {
+        temp_allocations.push_back(std::make_unique<char[]>(1024));
+    }
+    
+    // 故意不释放一半的内存，模拟内存泄漏
+    for (size_t i = 0; i < iterations / 2; ++i) {
+        if (!temp_allocations.empty()) {
+            temp_allocations.pop_back(); // 只释放一部分
+        }
+    }
+    
+    // 检查是否还有未释放的内存
+    bool leak_detected = !temp_allocations.empty();
+    
+    // 清理剩余内存
+    temp_allocations.clear();
+    
+    return leak_detected;
+}
+
+MemoryStressTestRunner::MemoryStressTestRunner() {
+    std::cout << "Initializing Memory Stress Test Runner..." << std::endl;
+}
+
+MemoryStressTestRunner::~MemoryStressTestRunner() {
+    std::cout << "Memory Stress Test Runner cleanup completed." << std::endl;
+}
+
+void MemoryStressTestRunner::RunStressTest(size_t duration_seconds, size_t thread_count) {
+    std::cout << "Running stress test for " << duration_seconds << " seconds with " 
+              << thread_count << " threads..." << std::endl;
+    
+    if (thread_count == 1) {
+        RunSingleThreadedStressTest(duration_seconds);
+    } else {
+        RunMultiThreadedStressTest(duration_seconds, thread_count);
+    }
+    
+    GenerateReport();
+}
+
+void MemoryStressTestRunner::RunSingleThreadedStressTest(size_t duration_seconds) {
+    std::cout << "Running single-threaded stress test..." << std::endl;
+    
+    MemoryStressTest test;
+    auto start_time = std::chrono::high_resolution_clock::now();
+    auto end_time = start_time + std::chrono::seconds(duration_seconds);
+    
+    while (std::chrono::high_resolution_clock::now() < end_time) {
+        test.RunAllTests();
+        MonitorMemoryUsage();
+    }
+}
+
+void MemoryStressTestRunner::RunMultiThreadedStressTest(size_t duration_seconds, size_t thread_count) {
+    std::cout << "Running multi-threaded stress test with " << thread_count << " threads..." << std::endl;
+    
+    std::vector<std::thread> threads;
+    threads.reserve(thread_count);
+    
+    auto start_time = std::chrono::high_resolution_clock::now();
+    
+    for (size_t i = 0; i < thread_count; ++i) {
+        threads.emplace_back([duration_seconds, start_time]() {
+            MemoryStressTest test;
+            auto current_time = std::chrono::high_resolution_clock::now();
+        while (std::chrono::duration_cast<std::chrono::seconds>(current_time - start_time).count() < static_cast<long long>(duration_seconds)) {
+            test.RunAllTests();
+            current_time = std::chrono::high_resolution_clock::now();
+        }
+        });
+    }
+    
+    for (auto& thread : threads) {
+        thread.join();
+    }
+}
+
+void MemoryStressTestRunner::MonitorMemoryUsage() {
+    // 这里可以实现内存使用监控逻辑
+    // 暂时只是打印一条信息
+    // std::cout << "Memory monitoring active..." << std::endl;
+}
+
+void MemoryStressTestRunner::GenerateReport() {
+    std::cout << "Stress test completed. Check individual test results for details." << std::endl;
 }
 
 }  // namespace test

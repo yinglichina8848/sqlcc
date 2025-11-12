@@ -15,8 +15,8 @@ find_package(Threads REQUIRED)
 
 # 源文件
 set(SOURCES
-    long_term_stability_test_main.cc
     long_term_stability_test.cc
+    long_term_stability_test_main.cc
     ../performance_test_base.cc
 )
 
