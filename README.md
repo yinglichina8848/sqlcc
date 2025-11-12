@@ -2,15 +2,14 @@
 
 > 🎯 **专为大二学生设计的数据库开发指南** - 从零开始，用AI辅助构建你自己的数据库系统！
 
-## 📦 当前版本：v0.3.6
+## 📦 当前版本：v0.4.0
 
-### 🆕 v0.3.6 新特性（综合性能测试与代码覆盖率深度分析）
-- **综合性能测试框架**：构建了全面的性能测试体系，达到400万ops/sec的持续吞吐量
-- **代码覆盖率深度分析**：实现行覆盖率83.3%、函数覆盖率90.7%的深度覆盖分析
-- **核心组件覆盖率详情**：各个模块覆盖率详细信息，包括BufferPool(82.1%)、StorageEngine(85.7%)、DiskManager(88.9%)
-- **文档系统完善**：建立完整的API文档生成系统和覆盖率报告文档化流程
-- **构建系统优化**：优化CMake构建配置，完善依赖管理和测试集成
-- **技术债务识别**：识别缓冲区池引用计数、测试超时等关键技术问题
+### 🆕 v0.4.0 新特性（死锁修复与并发性能优化）
+- **死锁修复**：解决BufferPool构造函数中配置管理器触发回调导致的锁顺序不一致问题
+- **并发性能优化**：8线程并发性能提升3.7%，达到2044.99 ops/sec，平均延迟略有降低
+- **代码健壮性增强**：添加专门的死锁测试文件，全面验证修复效果
+- **文档更新**：完善版本信息、性能测试结果和代码统计数据
+- **测试文件整理**：规范测试文件结构，将临时测试文件纳入tests目录
 
 ### 📈 性能提升（v0.3.2-v0.3.6）
 - **综合性能测试**：达到400万ops/sec持续吞吐量（400万次操作/秒）
@@ -22,10 +21,11 @@
 
 ## 📊 代码规模统计
 
-### 核心代码统计（v0.3.6）
+### 核心代码统计（v0.4.0）
 | 指标 | 数量 | 说明 |
 |------|------|------|
-| **源码行数** | 4,426 行 | 核心C++代码总行数 |
+| **源码行数** | 4,712 行 | 核心C++代码总行数 |
+| **源码文件数** | 56 个 | .cc和.h文件总数 |
 | **类个数** | 11 个 | 核心类定义总数 |
 | **主要模块** | 5 个 | 存储引擎、缓冲池、磁盘管理、配置管理、日志系统 |
 | **行覆盖率** | 83.3% | 整体代码行覆盖率 |
@@ -58,7 +58,13 @@
 - 覆盖率测试：gcov集成、行覆盖率分析、函数覆盖率、分支覆盖率
 - 专项测试：批量预取、百万数据插入、稳定性测试、400万ops/sec验证
 
-### 代码质量指标
+### 🧪 测试文件结构
+- **临时测试文件**：已整理到`tests/temporary/`目录下
+  - `tests/temporary/test_simple.cc` - BufferPool基础功能快速验证测试
+  - `tests/temporary/test_page_id_fix.cc` - 页面ID分配逻辑修复验证测试  
+  - `tests/temporary/test_sync_functionality.cc` - 磁盘同步功能验证测试
+  - `tests/temporary/test_deadlock_fix_simple.cc` - 死锁修复验证测试
+- 详细文档：[TEMPORARY_TEST_FILES.md](docs/TEMPORARY_TEST_FILES.md) 代码质量指标
 - **总代码量**：13,671 行（核心 + 测试 + 覆盖率）
 - **测试覆盖密度**：2.09:1（测试代码与核心代码比例）
 - **平均类大小**：402 行/类
@@ -220,11 +226,10 @@ make perf_test
 ### 核心性能指标
 | 测试类型 | 吞吐量 | 延迟 | 提升幅度 |
 |----------|--------|------|----------|
-| **BufferPool读操作** | 800万ops/sec | 0.125μs/op | 基准 |
-| **综合性能测试** | 400万ops/sec | 0.25μs/op | 稳定 |
-| **单页预取** | 400,000 ops/sec | 2.5μs/op | 3.48x提升 |
-| **批量读取** | 400,000 ops/sec | 2.5μs/op | 3.48x提升 |
-| **批量预取** | 384,615 ops/sec | 2.6μs/op | 3.35x提升 |
+| **8线程并发性能** | 2,044.99 ops/sec | 3.628ms/op | 基准 |
+| **4线程并发性能** | 1,015.23 ops/sec | 3.596ms/op | 线性扩展 |
+| **2线程并发性能** | 535.33 ops/sec | 3.526ms/op | 线性扩展 |
+| **1线程基准性能** | 261.57 ops/sec | 3.629ms/op | 基准
 
 ### 覆盖率基准
 | 覆盖率类型 | 当前值 | 目标值 | 状态 |
@@ -264,7 +269,7 @@ make clean
 # 编译项目
 make -j$(nproc)
 
-# 运行单元测试
+### 运行单元测试
 make test
 
 # 生成覆盖率报告
@@ -272,6 +277,27 @@ make coverage
 
 # 运行性能测试
 make perf_test
+
+### 🧪 运行临时测试文件
+```bash
+# 运行BufferPool基础功能验证测试
+g++ -std=c++17 -Iinclude -o test_simple tests/temporary/test_simple.cc src/buffer_pool.cc src/config_manager.cc src/disk_manager.cc src/page.cc -lpthread && ./test_simple
+
+# 运行页面ID分配逻辑修复验证测试
+g++ -std=c++17 -Iinclude -o test_page_id_fix tests/temporary/test_page_id_fix.cc src/storage_engine.cc src/buffer_pool.cc src/disk_manager.cc src/config_manager.cc src/page.cc -lpthread && ./test_page_id_fix
+
+# 运行磁盘同步功能验证测试
+g++ -std=c++17 -Iinclude -o test_sync tests/temporary/test_sync_functionality.cc src/disk_manager.cc src/config_manager.cc src/page.cc -lpthread && ./test_sync
+
+# 运行死锁修复验证测试
+g++ -std=c++17 -Iinclude -o test_deadlock_fix_simple tests/temporary/test_deadlock_fix_simple.cc src/buffer_pool.cc src/config_manager.cc src/disk_manager.cc src/page.cc -lpthread && ./test_deadlock_fix_simple
+```
+
+### 📊 查看测试结果
+- **临时测试文档**: [docs/TEMPORARY_TEST_FILES.md](docs/TEMPORARY_TEST_FILES.md)
+- **单元测试报告**: [docs/TESTING_SUMMARY_REPORT.md](docs/TESTING_SUMMARY_REPORT.md)
+- **覆盖率报告**: `coverage/index.html`
+- **性能基准**: [docs/performance_test_report.md](docs/performance_test_report.md)
 ```
 
 ### 查看覆盖率报告
@@ -287,7 +313,7 @@ open coverage/index.html  # macOS
 - **覆盖率报告**：`coverage/index.html`
 - **性能测试报告**：`build/perf_results.json`
 - **变更日志**：`ChangeLog.md`
-- **发布说明**：`RELEASE_NOTES_v0.3.6.md`
+- **[v0.4.0 版本发布说明](RELEASE_NOTES_v0.4.0.md)**
 
 ## 🤝 贡献指南
 
