@@ -57,7 +57,7 @@ private:
     bool run_batch_prefetch_tests_ = true;
     bool run_million_insert_tests_ = true;
     bool verbose_ = false;
-    std::string output_dir_ = "./performance_results";
+    std::string output_dir_ = "performance_results";
 };
 
 void PerformanceTestRunner::PrintUsage() const {

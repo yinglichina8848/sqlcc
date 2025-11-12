@@ -118,6 +118,16 @@ public:
      */
     void FlushAllPages();
 
+    /**
+     * @brief 获取数据库统计信息
+     * @return 数据库统计信息字符串
+     * 
+     * Why: 需要了解数据库的运行状态和性能指标，便于监控和优化
+     * What: GetStats方法返回数据库的统计信息，包括页面数量、缓冲池状态等
+     * How: 调用缓冲池的GetStats方法获取缓冲池统计信息，结合磁盘管理器的信息
+     */
+    std::string GetStats() const;
+
 private:
     /// 配置管理器引用
     // Why: 需要访问配置参数来初始化和调整存储引擎的行为

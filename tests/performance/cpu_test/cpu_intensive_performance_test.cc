@@ -6,16 +6,25 @@
 #include <functional>
 #include <unordered_map>
 #include <string.h>
+#include <atomic>
+#include <thread>
+#include <sstream>
+#include <fstream>
 
 namespace sqlcc {
 namespace test {
 
 CpuIntensivePerformanceTest::CpuIntensivePerformanceTest() {
+    output_directory_ = "./build/performance_results";
     GenerateTestData();
 }
 
 CpuIntensivePerformanceTest::~CpuIntensivePerformanceTest() {
     Cleanup();
+}
+
+void CpuIntensivePerformanceTest::SetOutputDirectory(const std::string& directory) {
+    output_directory_ = directory;
 }
 
 void CpuIntensivePerformanceTest::RunAllTests() {
@@ -225,13 +234,17 @@ double CpuIntensivePerformanceTest::SimulateHashCalculation(const std::vector<st
     return static_cast<double>(duration.count());
 }
 
-double CpuIntensivePerformanceTest::SimulateBPlusTreeSearch(const std::vector<int>& tree_data, 
+double CpuIntensivePerformanceTest::SimulateBPlusTreeSearch(const std::vector<std::pair<int, std::string>>& tree_data, 
                                                              const std::vector<int>& search_keys, 
                                                              size_t iterations) {
     auto start = std::chrono::high_resolution_clock::now();
     
     // 模拟B+树搜索（使用二分查找作为简化）
-    std::vector<int> sorted_tree = tree_data;
+    std::vector<int> sorted_tree;
+    sorted_tree.reserve(tree_data.size());
+    for (const auto& pair : tree_data) {
+        sorted_tree.push_back(pair.first);
+    }
     std::sort(sorted_tree.begin(), sorted_tree.end());
     
     for (size_t i = 0; i < iterations; ++i) {
@@ -342,7 +355,7 @@ void CpuIntensivePerformanceTest::GenerateTestData() {
     // 生成B+树数据（已排序）
     tree_data_.reserve(kTreeSize);
     for (size_t i = 0; i < kTreeSize; ++i) {
-        tree_data_.push_back(static_cast<int>(i * 10));
+        tree_data_.push_back(std::make_pair(static_cast<int>(i * 10), "value" + std::to_string(i)));
     }
     
     // 生成搜索键
@@ -356,6 +369,157 @@ void CpuIntensivePerformanceTest::GenerateTestData() {
     for (size_t i = 0; i < kLogEntryCount; ++i) {
         log_data_.push_back("INSERT INTO table VALUES (" + std::to_string(i) + ", 'value" + std::to_string(i) + "')");
     }
+}
+
+void CpuIntensivePerformanceTest::PrintResult(const TestResult& result) const {
+    std::cout << "=== CPU性能测试结果 ===" << std::endl;
+    std::cout << "测试名称: " << result.test_name << std::endl;
+    std::cout << "持续时间: " << result.duration << "ms" << std::endl;
+    std::cout << "完成操作数: " << result.operations_completed << std::endl;
+    std::cout << "吞吐量: " << result.throughput << " ops/sec" << std::endl;
+    std::cout << "平均延迟: " << result.avg_latency << "ms" << std::endl;
+    std::cout << "P95延迟: " << result.p95_latency << "ms" << std::endl;
+    std::cout << "P99延迟: " << result.p99_latency << "ms" << std::endl;
+    
+    // 打印自定义指标
+    if (!result.custom_metrics.empty()) {
+        std::cout << "自定义指标:" << std::endl;
+        for (const auto& metric : result.custom_metrics) {
+            std::cout << "  " << metric.first << ": " << metric.second << std::endl;
+        }
+    }
+    std::cout << std::endl;
+}
+
+void CpuIntensivePerformanceTest::GenerateReport(const std::vector<TestResult>& results) const {
+    std::stringstream report;
+    
+    report << "CPU性能测试报告\n";
+    report << "==================\n\n";
+    
+    double total_duration = 0.0;
+    size_t total_operations = 0;
+    double total_throughput = 0.0;
+    
+    for (const auto& result : results) {
+        report << "测试: " << result.test_name << "\n";
+        report << "  持续时间: " << result.duration << "ms\n";
+        report << "  完成操作数: " << result.operations_completed << "\n";
+        report << "  吞吐量: " << result.throughput << " ops/sec\n";
+        report << "  平均延迟: " << result.avg_latency << "ms\n";
+        report << "  P95延迟: " << result.p95_latency << "ms\n";
+        report << "  P99延迟: " << result.p99_latency << "ms\n";
+        
+        if (!result.custom_metrics.empty()) {
+            report << "  自定义指标:\n";
+            for (const auto& metric : result.custom_metrics) {
+                report << "    " << metric.first << ": " << metric.second << "\n";
+            }
+        }
+        report << "\n";
+        
+        total_duration += result.duration;
+        total_operations += result.operations_completed;
+        total_throughput += result.throughput;
+    }
+    
+    // 添加汇总统计
+    report << "汇总统计:\n";
+    report << "  总持续时间: " << total_duration << "ms\n";
+    report << "  总操作数: " << total_operations << "\n";
+    report << "  平均吞吐量: " << (total_throughput / results.size()) << " ops/sec\n";
+    report << "  测试数量: " << results.size() << "\n";
+    
+    // 输出到控制台
+    std::cout << report.str() << std::endl;
+}
+
+void CpuIntensivePerformanceTest::SaveResultsToFile(const std::vector<TestResult>& results, const std::string& filename) const {
+    std::ofstream outfile(filename);
+    if (!outfile.is_open()) {
+        std::cerr << "无法打开文件: " << filename << std::endl;
+        return;
+    }
+    
+    // 生成报告并写入文件
+    std::stringstream report;
+    
+    report << "CPU性能测试报告\n";
+    report << "==================\n\n";
+    
+    double total_duration = 0.0;
+    size_t total_operations = 0;
+    double total_throughput = 0.0;
+    
+    for (const auto& result : results) {
+        report << "测试: " << result.test_name << "\n";
+        report << "  持续时间: " << result.duration << "ms\n";
+        report << "  完成操作数: " << result.operations_completed << "\n";
+        report << "  吞吐量: " << result.throughput << " ops/sec\n";
+        report << "  平均延迟: " << result.avg_latency << "ms\n";
+        report << "  P95延迟: " << result.p95_latency << "ms\n";
+        report << "  P99延迟: " << result.p99_latency << "ms\n";
+        
+        if (!result.custom_metrics.empty()) {
+            report << "  自定义指标:\n";
+            for (const auto& metric : result.custom_metrics) {
+                report << "    " << metric.first << ": " << metric.second << "\n";
+            }
+        }
+        report << "\n";
+        
+        total_duration += result.duration;
+        total_operations += result.operations_completed;
+        total_throughput += result.throughput;
+    }
+    
+    // 添加汇总统计
+    report << "汇总统计:\n";
+    report << "  总持续时间: " << total_duration << "ms\n";
+    report << "  总操作数: " << total_operations << "\n";
+    report << "  平均吞吐量: " << (total_throughput / results.size()) << " ops/sec\n";
+    report << "  测试数量: " << results.size() << "\n";
+    
+    outfile << report.str();
+    
+    outfile.close();
+    std::cout << "测试结果已保存到: " << filename << std::endl;
+}
+
+std::chrono::high_resolution_clock::time_point CpuIntensivePerformanceTest::GetCurrentTime() {
+    return std::chrono::high_resolution_clock::now();
+}
+
+double CpuIntensivePerformanceTest::CalculateDuration(const std::chrono::high_resolution_clock::time_point& start, 
+                                                      const std::chrono::high_resolution_clock::time_point& end) {
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+    return static_cast<double>(duration.count());
+}
+
+double CpuIntensivePerformanceTest::CalculateThroughput(size_t operations, double duration) {
+    return (duration > 0) ? static_cast<double>(operations) / duration : 0.0;
+}
+
+void CpuIntensivePerformanceTest::CalculateLatencies(const std::vector<double>& latencies, double& avg, double& p95, double& p99) {
+    if (latencies.empty()) {
+        avg = p95 = p99 = 0.0;
+        return;
+    }
+    
+    // 计算平均延迟
+    double sum = 0.0;
+    for (double latency : latencies) {
+        sum += latency;
+    }
+    avg = sum / latencies.size();
+    
+    // 计算P95和P99延迟
+    std::vector<double> sorted_latencies = latencies;
+    std::sort(sorted_latencies.begin(), sorted_latencies.end());
+    
+    size_t size = sorted_latencies.size();
+    p95 = sorted_latencies[static_cast<size_t>(size * 0.95)];
+    p99 = sorted_latencies[static_cast<size_t>(size * 0.99)];
 }
 
 }  // namespace test

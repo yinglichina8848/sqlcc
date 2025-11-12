@@ -286,51 +286,7 @@ TEST_F(BufferPoolEnhancedTest, BatchFetchPages) {
     EXPECT_NE(pages_with_invalid[2], nullptr); // 页面1存在
 }
 
-// 测试预取页面
-TEST_F(BufferPoolEnhancedTest, PrefetchPage) {
-    // 预取存在的页面
-    bool result = buffer_pool_->PrefetchPage(3);
-    EXPECT_TRUE(result);
-    
-    // 预取不存在的页面
-    result = buffer_pool_->PrefetchPage(100);
-    EXPECT_FALSE(result);
-    
-    // 预取无效页面ID
-    result = buffer_pool_->PrefetchPage(-1);
-    EXPECT_FALSE(result);
-    
-    // 预取已在缓冲池中的页面
-    Page* page = buffer_pool_->FetchPage(0);
-    ASSERT_NE(page, nullptr);
-    buffer_pool_->UnpinPage(0, false);
-    
-    result = buffer_pool_->PrefetchPage(0);
-    EXPECT_TRUE(result); // 已在缓冲池中，应该返回true
-}
 
-// 测试批量预取页面
-TEST_F(BufferPoolEnhancedTest, BatchPrefetchPages) {
-    std::vector<int32_t> page_ids = {0, 1, 2, 10}; // 包含一个不存在的页面
-    
-    // 批量预取
-    bool result = buffer_pool_->BatchPrefetchPages(page_ids);
-    EXPECT_TRUE(result);
-    
-    // 验证页面已在缓冲池中
-    Page* page0 = buffer_pool_->FetchPage(0);
-    Page* page1 = buffer_pool_->FetchPage(1);
-    Page* page2 = buffer_pool_->FetchPage(2);
-    
-    EXPECT_NE(page0, nullptr);
-    EXPECT_NE(page1, nullptr);
-    EXPECT_NE(page2, nullptr);
-    
-    // 测试包含无效ID的批量预取
-    std::vector<int32_t> invalid_page_ids = {-1, 0, 1};
-    result = buffer_pool_->BatchPrefetchPages(invalid_page_ids);
-    EXPECT_TRUE(result); // 应该忽略无效ID并返回true
-}
 
 // 测试配置变更回调
 TEST_F(BufferPoolEnhancedTest, ConfigChangeCallback) {

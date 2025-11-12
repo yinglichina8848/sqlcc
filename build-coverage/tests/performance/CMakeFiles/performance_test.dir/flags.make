@@ -6,5 +6,5 @@ CXX_DEFINES =
 
 CXX_INCLUDES = -I/home/liying/sqlcc/include -I/home/liying/sqlcc/tests/performance
 
-CXX_FLAGS = -std=gnu++17 -Wall -Wextra -pedantic -g -O0 --coverage -fprofile-arcs -ftest-coverage
+CXX_FLAGS = -std=gnu++20 -Wall -Wextra -pedantic -g -O0 --coverage -fprofile-arcs -ftest-coverage
 

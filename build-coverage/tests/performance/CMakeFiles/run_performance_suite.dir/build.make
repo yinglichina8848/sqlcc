@@ -66,7 +66,10 @@ include tests/performance/CMakeFiles/run_performance_suite.dir/compiler_depend.m
 # Include the progress variables for this target.
 include tests/performance/CMakeFiles/run_performance_suite.dir/progress.make
 
-tests/performance/CMakeFiles/run_performance_suite:
+tests/performance/CMakeFiles/run_performance_suite: bin/performance_test
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=/home/liying/sqlcc/build-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Run comprehensive performance test suite"
+	/usr/bin/cmake -E echo ===\ Running\ SQLCC\ Performance\ Test\ Suite\ ===
+	/home/liying/sqlcc/build-coverage/bin/performance_test --all --output-dir /home/liying/sqlcc/build-coverage/performance_results
 
 run_performance_suite: tests/performance/CMakeFiles/run_performance_suite
 run_performance_suite: tests/performance/CMakeFiles/run_performance_suite.dir/build.make

@@ -185,77 +185,50 @@ concurrency_test/fast:
 	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/concurrency_test/CMakeFiles/concurrency_test.dir/build.make tests/performance/concurrency_test/CMakeFiles/concurrency_test.dir/build
 .PHONY : concurrency_test/fast
 
-__/performance_test_base.o: __/performance_test_base.cc.o
+# target to build an object file
+__/performance_test_base.o:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/concurrency_test/CMakeFiles/concurrency_test.dir/build.make tests/performance/concurrency_test/CMakeFiles/concurrency_test.dir/__/performance_test_base.o
 .PHONY : __/performance_test_base.o
 
-# target to build an object file
-__/performance_test_base.cc.o:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/concurrency_test/CMakeFiles/concurrency_test.dir/build.make tests/performance/concurrency_test/CMakeFiles/concurrency_test.dir/__/performance_test_base.cc.o
-.PHONY : __/performance_test_base.cc.o
-
-__/performance_test_base.i: __/performance_test_base.cc.i
+# target to preprocess a source file
+__/performance_test_base.i:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/concurrency_test/CMakeFiles/concurrency_test.dir/build.make tests/performance/concurrency_test/CMakeFiles/concurrency_test.dir/__/performance_test_base.i
 .PHONY : __/performance_test_base.i
 
-# target to preprocess a source file
-__/performance_test_base.cc.i:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/concurrency_test/CMakeFiles/concurrency_test.dir/build.make tests/performance/concurrency_test/CMakeFiles/concurrency_test.dir/__/performance_test_base.cc.i
-.PHONY : __/performance_test_base.cc.i
-
-__/performance_test_base.s: __/performance_test_base.cc.s
+# target to generate assembly for a file
+__/performance_test_base.s:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/concurrency_test/CMakeFiles/concurrency_test.dir/build.make tests/performance/concurrency_test/CMakeFiles/concurrency_test.dir/__/performance_test_base.s
 .PHONY : __/performance_test_base.s
 
-# target to generate assembly for a file
-__/performance_test_base.cc.s:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/concurrency_test/CMakeFiles/concurrency_test.dir/build.make tests/performance/concurrency_test/CMakeFiles/concurrency_test.dir/__/performance_test_base.cc.s
-.PHONY : __/performance_test_base.cc.s
-
-concurrency_performance_test.o: concurrency_performance_test.cc.o
+# target to build an object file
+concurrency_performance_test.o:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/concurrency_test/CMakeFiles/concurrency_test.dir/build.make tests/performance/concurrency_test/CMakeFiles/concurrency_test.dir/concurrency_performance_test.o
 .PHONY : concurrency_performance_test.o
 
-# target to build an object file
-concurrency_performance_test.cc.o:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/concurrency_test/CMakeFiles/concurrency_test.dir/build.make tests/performance/concurrency_test/CMakeFiles/concurrency_test.dir/concurrency_performance_test.cc.o
-.PHONY : concurrency_performance_test.cc.o
-
-concurrency_performance_test.i: concurrency_performance_test.cc.i
+# target to preprocess a source file
+concurrency_performance_test.i:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/concurrency_test/CMakeFiles/concurrency_test.dir/build.make tests/performance/concurrency_test/CMakeFiles/concurrency_test.dir/concurrency_performance_test.i
 .PHONY : concurrency_performance_test.i
 
-# target to preprocess a source file
-concurrency_performance_test.cc.i:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/concurrency_test/CMakeFiles/concurrency_test.dir/build.make tests/performance/concurrency_test/CMakeFiles/concurrency_test.dir/concurrency_performance_test.cc.i
-.PHONY : concurrency_performance_test.cc.i
-
-concurrency_performance_test.s: concurrency_performance_test.cc.s
+# target to generate assembly for a file
+concurrency_performance_test.s:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/concurrency_test/CMakeFiles/concurrency_test.dir/build.make tests/performance/concurrency_test/CMakeFiles/concurrency_test.dir/concurrency_performance_test.s
 .PHONY : concurrency_performance_test.s
 
-# target to generate assembly for a file
-concurrency_performance_test.cc.s:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/concurrency_test/CMakeFiles/concurrency_test.dir/build.make tests/performance/concurrency_test/CMakeFiles/concurrency_test.dir/concurrency_performance_test.cc.s
-.PHONY : concurrency_performance_test.cc.s
-
-concurrency_test_runner.o: concurrency_test_runner.cc.o
+# target to build an object file
+concurrency_test_runner.o:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/concurrency_test/CMakeFiles/concurrency_test.dir/build.make tests/performance/concurrency_test/CMakeFiles/concurrency_test.dir/concurrency_test_runner.o
 .PHONY : concurrency_test_runner.o
 
-# target to build an object file
-concurrency_test_runner.cc.o:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/concurrency_test/CMakeFiles/concurrency_test.dir/build.make tests/performance/concurrency_test/CMakeFiles/concurrency_test.dir/concurrency_test_runner.cc.o
-.PHONY : concurrency_test_runner.cc.o
-
-concurrency_test_runner.i: concurrency_test_runner.cc.i
+# target to preprocess a source file
+concurrency_test_runner.i:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/concurrency_test/CMakeFiles/concurrency_test.dir/build.make tests/performance/concurrency_test/CMakeFiles/concurrency_test.dir/concurrency_test_runner.i
 .PHONY : concurrency_test_runner.i
 
-# target to preprocess a source file
-concurrency_test_runner.cc.i:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/concurrency_test/CMakeFiles/concurrency_test.dir/build.make tests/performance/concurrency_test/CMakeFiles/concurrency_test.dir/concurrency_test_runner.cc.i
-.PHONY : concurrency_test_runner.cc.i
-
-concurrency_test_runner.s: concurrency_test_runner.cc.s
-.PHONY : concurrency_test_runner.s
-
 # target to generate assembly for a file
-concurrency_test_runner.cc.s:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/concurrency_test/CMakeFiles/concurrency_test.dir/build.make tests/performance/concurrency_test/CMakeFiles/concurrency_test.dir/concurrency_test_runner.cc.s
-.PHONY : concurrency_test_runner.cc.s
+concurrency_test_runner.s:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/concurrency_test/CMakeFiles/concurrency_test.dir/build.make tests/performance/concurrency_test/CMakeFiles/concurrency_test.dir/concurrency_test_runner.s
+.PHONY : concurrency_test_runner.s
 
 # Help Target
 help:

@@ -8,7 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/home/liying/sqlcc/tests/unit/disk_manager_enhanced_test.cc" "tests/CMakeFiles/disk_manager_enhanced_test.dir/unit/disk_manager_enhanced_test.cc.o" "gcc" "tests/CMakeFiles/disk_manager_enhanced_test.dir/unit/disk_manager_enhanced_test.cc.o.d"
+  "/home/liying/sqlcc/tests/unit/disk_manager_enhanced_test.cc" "tests/CMakeFiles/disk_manager_enhanced_test.dir/unit/disk_manager_enhanced_test.o" "gcc" "tests/CMakeFiles/disk_manager_enhanced_test.dir/unit/disk_manager_enhanced_test.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

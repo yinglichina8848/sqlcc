@@ -17,15 +17,14 @@ find_package(Threads REQUIRED)
 set(SOURCES
     memory_stress_test_main.cc
     memory_stress_test.cc
-    memory_stress_test_runner.cc
     ../performance_test_base.cc
 )
 
 # 创建可执行文件
 add_executable(memory_stress_test ${SOURCES})
 
-# 链接线程库
-target_link_libraries(memory_stress_test Threads::Threads)
+# 链接线程库和sqlcc_core库
+target_link_libraries(memory_stress_test Threads::Threads sqlcc_core)
 
 # 设置编译选项
 target_compile_options(memory_stress_test PRIVATE -O2 -Wall -Wextra)

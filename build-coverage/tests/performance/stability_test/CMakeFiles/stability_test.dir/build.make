@@ -69,60 +69,60 @@ include tests/performance/stability_test/CMakeFiles/stability_test.dir/progress.
 # Include the compile flags for this target's objects.
 include tests/performance/stability_test/CMakeFiles/stability_test.dir/flags.make
 
-tests/performance/stability_test/CMakeFiles/stability_test.dir/long_term_stability_test_main.cc.o: tests/performance/stability_test/CMakeFiles/stability_test.dir/flags.make
-tests/performance/stability_test/CMakeFiles/stability_test.dir/long_term_stability_test_main.cc.o: /home/liying/sqlcc/tests/performance/stability_test/long_term_stability_test_main.cc
-tests/performance/stability_test/CMakeFiles/stability_test.dir/long_term_stability_test_main.cc.o: tests/performance/stability_test/CMakeFiles/stability_test.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/liying/sqlcc/build-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object tests/performance/stability_test/CMakeFiles/stability_test.dir/long_term_stability_test_main.cc.o"
-	cd /home/liying/sqlcc/build-coverage/tests/performance/stability_test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT tests/performance/stability_test/CMakeFiles/stability_test.dir/long_term_stability_test_main.cc.o -MF CMakeFiles/stability_test.dir/long_term_stability_test_main.cc.o.d -o CMakeFiles/stability_test.dir/long_term_stability_test_main.cc.o -c /home/liying/sqlcc/tests/performance/stability_test/long_term_stability_test_main.cc
+tests/performance/stability_test/CMakeFiles/stability_test.dir/long_term_stability_test.o: tests/performance/stability_test/CMakeFiles/stability_test.dir/flags.make
+tests/performance/stability_test/CMakeFiles/stability_test.dir/long_term_stability_test.o: /home/liying/sqlcc/tests/performance/stability_test/long_term_stability_test.cc
+tests/performance/stability_test/CMakeFiles/stability_test.dir/long_term_stability_test.o: tests/performance/stability_test/CMakeFiles/stability_test.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/liying/sqlcc/build-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object tests/performance/stability_test/CMakeFiles/stability_test.dir/long_term_stability_test.o"
+	cd /home/liying/sqlcc/build-coverage/tests/performance/stability_test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT tests/performance/stability_test/CMakeFiles/stability_test.dir/long_term_stability_test.o -MF CMakeFiles/stability_test.dir/long_term_stability_test.o.d -o CMakeFiles/stability_test.dir/long_term_stability_test.o -c /home/liying/sqlcc/tests/performance/stability_test/long_term_stability_test.cc
 
-tests/performance/stability_test/CMakeFiles/stability_test.dir/long_term_stability_test_main.cc.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/stability_test.dir/long_term_stability_test_main.cc.i"
-	cd /home/liying/sqlcc/build-coverage/tests/performance/stability_test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/liying/sqlcc/tests/performance/stability_test/long_term_stability_test_main.cc > CMakeFiles/stability_test.dir/long_term_stability_test_main.cc.i
+tests/performance/stability_test/CMakeFiles/stability_test.dir/long_term_stability_test.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/stability_test.dir/long_term_stability_test.i"
+	cd /home/liying/sqlcc/build-coverage/tests/performance/stability_test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/liying/sqlcc/tests/performance/stability_test/long_term_stability_test.cc > CMakeFiles/stability_test.dir/long_term_stability_test.i
 
-tests/performance/stability_test/CMakeFiles/stability_test.dir/long_term_stability_test_main.cc.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/stability_test.dir/long_term_stability_test_main.cc.s"
-	cd /home/liying/sqlcc/build-coverage/tests/performance/stability_test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/liying/sqlcc/tests/performance/stability_test/long_term_stability_test_main.cc -o CMakeFiles/stability_test.dir/long_term_stability_test_main.cc.s
+tests/performance/stability_test/CMakeFiles/stability_test.dir/long_term_stability_test.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/stability_test.dir/long_term_stability_test.s"
+	cd /home/liying/sqlcc/build-coverage/tests/performance/stability_test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/liying/sqlcc/tests/performance/stability_test/long_term_stability_test.cc -o CMakeFiles/stability_test.dir/long_term_stability_test.s
 
-tests/performance/stability_test/CMakeFiles/stability_test.dir/long_term_stability_test.cc.o: tests/performance/stability_test/CMakeFiles/stability_test.dir/flags.make
-tests/performance/stability_test/CMakeFiles/stability_test.dir/long_term_stability_test.cc.o: /home/liying/sqlcc/tests/performance/stability_test/long_term_stability_test.cc
-tests/performance/stability_test/CMakeFiles/stability_test.dir/long_term_stability_test.cc.o: tests/performance/stability_test/CMakeFiles/stability_test.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/liying/sqlcc/build-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object tests/performance/stability_test/CMakeFiles/stability_test.dir/long_term_stability_test.cc.o"
-	cd /home/liying/sqlcc/build-coverage/tests/performance/stability_test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT tests/performance/stability_test/CMakeFiles/stability_test.dir/long_term_stability_test.cc.o -MF CMakeFiles/stability_test.dir/long_term_stability_test.cc.o.d -o CMakeFiles/stability_test.dir/long_term_stability_test.cc.o -c /home/liying/sqlcc/tests/performance/stability_test/long_term_stability_test.cc
+tests/performance/stability_test/CMakeFiles/stability_test.dir/long_term_stability_test_main.o: tests/performance/stability_test/CMakeFiles/stability_test.dir/flags.make
+tests/performance/stability_test/CMakeFiles/stability_test.dir/long_term_stability_test_main.o: /home/liying/sqlcc/tests/performance/stability_test/long_term_stability_test_main.cc
+tests/performance/stability_test/CMakeFiles/stability_test.dir/long_term_stability_test_main.o: tests/performance/stability_test/CMakeFiles/stability_test.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/liying/sqlcc/build-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object tests/performance/stability_test/CMakeFiles/stability_test.dir/long_term_stability_test_main.o"
+	cd /home/liying/sqlcc/build-coverage/tests/performance/stability_test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT tests/performance/stability_test/CMakeFiles/stability_test.dir/long_term_stability_test_main.o -MF CMakeFiles/stability_test.dir/long_term_stability_test_main.o.d -o CMakeFiles/stability_test.dir/long_term_stability_test_main.o -c /home/liying/sqlcc/tests/performance/stability_test/long_term_stability_test_main.cc
 
-tests/performance/stability_test/CMakeFiles/stability_test.dir/long_term_stability_test.cc.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/stability_test.dir/long_term_stability_test.cc.i"
-	cd /home/liying/sqlcc/build-coverage/tests/performance/stability_test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/liying/sqlcc/tests/performance/stability_test/long_term_stability_test.cc > CMakeFiles/stability_test.dir/long_term_stability_test.cc.i
+tests/performance/stability_test/CMakeFiles/stability_test.dir/long_term_stability_test_main.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/stability_test.dir/long_term_stability_test_main.i"
+	cd /home/liying/sqlcc/build-coverage/tests/performance/stability_test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/liying/sqlcc/tests/performance/stability_test/long_term_stability_test_main.cc > CMakeFiles/stability_test.dir/long_term_stability_test_main.i
 
-tests/performance/stability_test/CMakeFiles/stability_test.dir/long_term_stability_test.cc.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/stability_test.dir/long_term_stability_test.cc.s"
-	cd /home/liying/sqlcc/build-coverage/tests/performance/stability_test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/liying/sqlcc/tests/performance/stability_test/long_term_stability_test.cc -o CMakeFiles/stability_test.dir/long_term_stability_test.cc.s
+tests/performance/stability_test/CMakeFiles/stability_test.dir/long_term_stability_test_main.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/stability_test.dir/long_term_stability_test_main.s"
+	cd /home/liying/sqlcc/build-coverage/tests/performance/stability_test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/liying/sqlcc/tests/performance/stability_test/long_term_stability_test_main.cc -o CMakeFiles/stability_test.dir/long_term_stability_test_main.s
 
-tests/performance/stability_test/CMakeFiles/stability_test.dir/__/performance_test_base.cc.o: tests/performance/stability_test/CMakeFiles/stability_test.dir/flags.make
-tests/performance/stability_test/CMakeFiles/stability_test.dir/__/performance_test_base.cc.o: /home/liying/sqlcc/tests/performance/performance_test_base.cc
-tests/performance/stability_test/CMakeFiles/stability_test.dir/__/performance_test_base.cc.o: tests/performance/stability_test/CMakeFiles/stability_test.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/liying/sqlcc/build-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object tests/performance/stability_test/CMakeFiles/stability_test.dir/__/performance_test_base.cc.o"
-	cd /home/liying/sqlcc/build-coverage/tests/performance/stability_test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT tests/performance/stability_test/CMakeFiles/stability_test.dir/__/performance_test_base.cc.o -MF CMakeFiles/stability_test.dir/__/performance_test_base.cc.o.d -o CMakeFiles/stability_test.dir/__/performance_test_base.cc.o -c /home/liying/sqlcc/tests/performance/performance_test_base.cc
+tests/performance/stability_test/CMakeFiles/stability_test.dir/__/performance_test_base.o: tests/performance/stability_test/CMakeFiles/stability_test.dir/flags.make
+tests/performance/stability_test/CMakeFiles/stability_test.dir/__/performance_test_base.o: /home/liying/sqlcc/tests/performance/performance_test_base.cc
+tests/performance/stability_test/CMakeFiles/stability_test.dir/__/performance_test_base.o: tests/performance/stability_test/CMakeFiles/stability_test.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/liying/sqlcc/build-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object tests/performance/stability_test/CMakeFiles/stability_test.dir/__/performance_test_base.o"
+	cd /home/liying/sqlcc/build-coverage/tests/performance/stability_test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT tests/performance/stability_test/CMakeFiles/stability_test.dir/__/performance_test_base.o -MF CMakeFiles/stability_test.dir/__/performance_test_base.o.d -o CMakeFiles/stability_test.dir/__/performance_test_base.o -c /home/liying/sqlcc/tests/performance/performance_test_base.cc
 
-tests/performance/stability_test/CMakeFiles/stability_test.dir/__/performance_test_base.cc.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/stability_test.dir/__/performance_test_base.cc.i"
-	cd /home/liying/sqlcc/build-coverage/tests/performance/stability_test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/liying/sqlcc/tests/performance/performance_test_base.cc > CMakeFiles/stability_test.dir/__/performance_test_base.cc.i
+tests/performance/stability_test/CMakeFiles/stability_test.dir/__/performance_test_base.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/stability_test.dir/__/performance_test_base.i"
+	cd /home/liying/sqlcc/build-coverage/tests/performance/stability_test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/liying/sqlcc/tests/performance/performance_test_base.cc > CMakeFiles/stability_test.dir/__/performance_test_base.i
 
-tests/performance/stability_test/CMakeFiles/stability_test.dir/__/performance_test_base.cc.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/stability_test.dir/__/performance_test_base.cc.s"
-	cd /home/liying/sqlcc/build-coverage/tests/performance/stability_test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/liying/sqlcc/tests/performance/performance_test_base.cc -o CMakeFiles/stability_test.dir/__/performance_test_base.cc.s
+tests/performance/stability_test/CMakeFiles/stability_test.dir/__/performance_test_base.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/stability_test.dir/__/performance_test_base.s"
+	cd /home/liying/sqlcc/build-coverage/tests/performance/stability_test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/liying/sqlcc/tests/performance/performance_test_base.cc -o CMakeFiles/stability_test.dir/__/performance_test_base.s
 
 # Object files for target stability_test
 stability_test_OBJECTS = \
-"CMakeFiles/stability_test.dir/long_term_stability_test_main.cc.o" \
-"CMakeFiles/stability_test.dir/long_term_stability_test.cc.o" \
-"CMakeFiles/stability_test.dir/__/performance_test_base.cc.o"
+"CMakeFiles/stability_test.dir/long_term_stability_test.o" \
+"CMakeFiles/stability_test.dir/long_term_stability_test_main.o" \
+"CMakeFiles/stability_test.dir/__/performance_test_base.o"
 
 # External object files for target stability_test
 stability_test_EXTERNAL_OBJECTS =
 
-bin/stability_test: tests/performance/stability_test/CMakeFiles/stability_test.dir/long_term_stability_test_main.cc.o
-bin/stability_test: tests/performance/stability_test/CMakeFiles/stability_test.dir/long_term_stability_test.cc.o
-bin/stability_test: tests/performance/stability_test/CMakeFiles/stability_test.dir/__/performance_test_base.cc.o
+bin/stability_test: tests/performance/stability_test/CMakeFiles/stability_test.dir/long_term_stability_test.o
+bin/stability_test: tests/performance/stability_test/CMakeFiles/stability_test.dir/long_term_stability_test_main.o
+bin/stability_test: tests/performance/stability_test/CMakeFiles/stability_test.dir/__/performance_test_base.o
 bin/stability_test: tests/performance/stability_test/CMakeFiles/stability_test.dir/build.make
 bin/stability_test: tests/performance/stability_test/CMakeFiles/stability_test.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/liying/sqlcc/build-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX executable ../../../bin/stability_test"

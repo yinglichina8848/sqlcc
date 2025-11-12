@@ -186,20 +186,6 @@ storage_engine_test/fast:
 .PHONY : storage_engine_test/fast
 
 # Convenience name for target.
-tests/CMakeFiles/exception_test.dir/rule:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/exception_test.dir/rule
-.PHONY : tests/CMakeFiles/exception_test.dir/rule
-
-# Convenience name for target.
-exception_test: tests/CMakeFiles/exception_test.dir/rule
-.PHONY : exception_test
-
-# fast build rule for target.
-exception_test/fast:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/exception_test.dir/build.make tests/CMakeFiles/exception_test.dir/build
-.PHONY : exception_test/fast
-
-# Convenience name for target.
 tests/CMakeFiles/buffer_pool_test.dir/rule:
 	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/buffer_pool_test.dir/rule
 .PHONY : tests/CMakeFiles/buffer_pool_test.dir/rule
@@ -212,20 +198,6 @@ buffer_pool_test: tests/CMakeFiles/buffer_pool_test.dir/rule
 buffer_pool_test/fast:
 	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/buffer_pool_test.dir/build.make tests/CMakeFiles/buffer_pool_test.dir/build
 .PHONY : buffer_pool_test/fast
-
-# Convenience name for target.
-tests/CMakeFiles/page_test.dir/rule:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/page_test.dir/rule
-.PHONY : tests/CMakeFiles/page_test.dir/rule
-
-# Convenience name for target.
-page_test: tests/CMakeFiles/page_test.dir/rule
-.PHONY : page_test
-
-# fast build rule for target.
-page_test/fast:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/page_test.dir/build.make tests/CMakeFiles/page_test.dir/build
-.PHONY : page_test/fast
 
 # Convenience name for target.
 tests/CMakeFiles/storage_engine_newpage_test.dir/rule:
@@ -368,20 +340,6 @@ run_storage_engine_test/fast:
 .PHONY : run_storage_engine_test/fast
 
 # Convenience name for target.
-tests/CMakeFiles/run_exception_test.dir/rule:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/run_exception_test.dir/rule
-.PHONY : tests/CMakeFiles/run_exception_test.dir/rule
-
-# Convenience name for target.
-run_exception_test: tests/CMakeFiles/run_exception_test.dir/rule
-.PHONY : run_exception_test
-
-# fast build rule for target.
-run_exception_test/fast:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/run_exception_test.dir/build.make tests/CMakeFiles/run_exception_test.dir/build
-.PHONY : run_exception_test/fast
-
-# Convenience name for target.
 tests/CMakeFiles/run_buffer_pool_test.dir/rule:
 	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/run_buffer_pool_test.dir/rule
 .PHONY : tests/CMakeFiles/run_buffer_pool_test.dir/rule
@@ -394,20 +352,6 @@ run_buffer_pool_test: tests/CMakeFiles/run_buffer_pool_test.dir/rule
 run_buffer_pool_test/fast:
 	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/run_buffer_pool_test.dir/build.make tests/CMakeFiles/run_buffer_pool_test.dir/build
 .PHONY : run_buffer_pool_test/fast
-
-# Convenience name for target.
-tests/CMakeFiles/run_page_test.dir/rule:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/run_page_test.dir/rule
-.PHONY : tests/CMakeFiles/run_page_test.dir/rule
-
-# Convenience name for target.
-run_page_test: tests/CMakeFiles/run_page_test.dir/rule
-.PHONY : run_page_test
-
-# fast build rule for target.
-run_page_test/fast:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/run_page_test.dir/build.make tests/CMakeFiles/run_page_test.dir/build
-.PHONY : run_page_test/fast
 
 # Convenience name for target.
 tests/CMakeFiles/run_disk_manager_test.dir/rule:
@@ -423,293 +367,155 @@ run_disk_manager_test/fast:
 	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/run_disk_manager_test.dir/build.make tests/CMakeFiles/run_disk_manager_test.dir/build
 .PHONY : run_disk_manager_test/fast
 
-buffer_pool_test.o: buffer_pool_test.cc.o
+# target to build an object file
+buffer_pool_test.o:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/buffer_pool_test.dir/build.make tests/CMakeFiles/buffer_pool_test.dir/buffer_pool_test.o
 .PHONY : buffer_pool_test.o
 
-# target to build an object file
-buffer_pool_test.cc.o:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/buffer_pool_test.dir/build.make tests/CMakeFiles/buffer_pool_test.dir/buffer_pool_test.cc.o
-.PHONY : buffer_pool_test.cc.o
-
-buffer_pool_test.i: buffer_pool_test.cc.i
+# target to preprocess a source file
+buffer_pool_test.i:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/buffer_pool_test.dir/build.make tests/CMakeFiles/buffer_pool_test.dir/buffer_pool_test.i
 .PHONY : buffer_pool_test.i
 
-# target to preprocess a source file
-buffer_pool_test.cc.i:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/buffer_pool_test.dir/build.make tests/CMakeFiles/buffer_pool_test.dir/buffer_pool_test.cc.i
-.PHONY : buffer_pool_test.cc.i
-
-buffer_pool_test.s: buffer_pool_test.cc.s
+# target to generate assembly for a file
+buffer_pool_test.s:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/buffer_pool_test.dir/build.make tests/CMakeFiles/buffer_pool_test.dir/buffer_pool_test.s
 .PHONY : buffer_pool_test.s
 
-# target to generate assembly for a file
-buffer_pool_test.cc.s:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/buffer_pool_test.dir/build.make tests/CMakeFiles/buffer_pool_test.dir/buffer_pool_test.cc.s
-.PHONY : buffer_pool_test.cc.s
-
-disk_manager_test.o: disk_manager_test.cc.o
+# target to build an object file
+disk_manager_test.o:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/disk_manager_test.dir/build.make tests/CMakeFiles/disk_manager_test.dir/disk_manager_test.o
 .PHONY : disk_manager_test.o
 
-# target to build an object file
-disk_manager_test.cc.o:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/disk_manager_test.dir/build.make tests/CMakeFiles/disk_manager_test.dir/disk_manager_test.cc.o
-.PHONY : disk_manager_test.cc.o
-
-disk_manager_test.i: disk_manager_test.cc.i
+# target to preprocess a source file
+disk_manager_test.i:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/disk_manager_test.dir/build.make tests/CMakeFiles/disk_manager_test.dir/disk_manager_test.i
 .PHONY : disk_manager_test.i
 
-# target to preprocess a source file
-disk_manager_test.cc.i:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/disk_manager_test.dir/build.make tests/CMakeFiles/disk_manager_test.dir/disk_manager_test.cc.i
-.PHONY : disk_manager_test.cc.i
-
-disk_manager_test.s: disk_manager_test.cc.s
+# target to generate assembly for a file
+disk_manager_test.s:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/disk_manager_test.dir/build.make tests/CMakeFiles/disk_manager_test.dir/disk_manager_test.s
 .PHONY : disk_manager_test.s
 
-# target to generate assembly for a file
-disk_manager_test.cc.s:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/disk_manager_test.dir/build.make tests/CMakeFiles/disk_manager_test.dir/disk_manager_test.cc.s
-.PHONY : disk_manager_test.cc.s
-
-exception_test.o: exception_test.cc.o
-.PHONY : exception_test.o
-
 # target to build an object file
-exception_test.cc.o:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/exception_test.dir/build.make tests/CMakeFiles/exception_test.dir/exception_test.cc.o
-.PHONY : exception_test.cc.o
-
-exception_test.i: exception_test.cc.i
-.PHONY : exception_test.i
-
-# target to preprocess a source file
-exception_test.cc.i:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/exception_test.dir/build.make tests/CMakeFiles/exception_test.dir/exception_test.cc.i
-.PHONY : exception_test.cc.i
-
-exception_test.s: exception_test.cc.s
-.PHONY : exception_test.s
-
-# target to generate assembly for a file
-exception_test.cc.s:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/exception_test.dir/build.make tests/CMakeFiles/exception_test.dir/exception_test.cc.s
-.PHONY : exception_test.cc.s
-
-page_test.o: page_test.cc.o
-.PHONY : page_test.o
-
-# target to build an object file
-page_test.cc.o:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/page_test.dir/build.make tests/CMakeFiles/page_test.dir/page_test.cc.o
-.PHONY : page_test.cc.o
-
-page_test.i: page_test.cc.i
-.PHONY : page_test.i
-
-# target to preprocess a source file
-page_test.cc.i:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/page_test.dir/build.make tests/CMakeFiles/page_test.dir/page_test.cc.i
-.PHONY : page_test.cc.i
-
-page_test.s: page_test.cc.s
-.PHONY : page_test.s
-
-# target to generate assembly for a file
-page_test.cc.s:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/page_test.dir/build.make tests/CMakeFiles/page_test.dir/page_test.cc.s
-.PHONY : page_test.cc.s
-
-storage_engine_newpage_test.o: storage_engine_newpage_test.cc.o
+storage_engine_newpage_test.o:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/storage_engine_newpage_test.dir/build.make tests/CMakeFiles/storage_engine_newpage_test.dir/storage_engine_newpage_test.o
 .PHONY : storage_engine_newpage_test.o
 
-# target to build an object file
-storage_engine_newpage_test.cc.o:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/storage_engine_newpage_test.dir/build.make tests/CMakeFiles/storage_engine_newpage_test.dir/storage_engine_newpage_test.cc.o
-.PHONY : storage_engine_newpage_test.cc.o
-
-storage_engine_newpage_test.i: storage_engine_newpage_test.cc.i
+# target to preprocess a source file
+storage_engine_newpage_test.i:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/storage_engine_newpage_test.dir/build.make tests/CMakeFiles/storage_engine_newpage_test.dir/storage_engine_newpage_test.i
 .PHONY : storage_engine_newpage_test.i
 
-# target to preprocess a source file
-storage_engine_newpage_test.cc.i:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/storage_engine_newpage_test.dir/build.make tests/CMakeFiles/storage_engine_newpage_test.dir/storage_engine_newpage_test.cc.i
-.PHONY : storage_engine_newpage_test.cc.i
-
-storage_engine_newpage_test.s: storage_engine_newpage_test.cc.s
+# target to generate assembly for a file
+storage_engine_newpage_test.s:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/storage_engine_newpage_test.dir/build.make tests/CMakeFiles/storage_engine_newpage_test.dir/storage_engine_newpage_test.s
 .PHONY : storage_engine_newpage_test.s
 
-# target to generate assembly for a file
-storage_engine_newpage_test.cc.s:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/storage_engine_newpage_test.dir/build.make tests/CMakeFiles/storage_engine_newpage_test.dir/storage_engine_newpage_test.cc.s
-.PHONY : storage_engine_newpage_test.cc.s
-
-storage_engine_test.o: storage_engine_test.cc.o
+# target to build an object file
+storage_engine_test.o:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/storage_engine_test.dir/build.make tests/CMakeFiles/storage_engine_test.dir/storage_engine_test.o
 .PHONY : storage_engine_test.o
 
-# target to build an object file
-storage_engine_test.cc.o:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/storage_engine_test.dir/build.make tests/CMakeFiles/storage_engine_test.dir/storage_engine_test.cc.o
-.PHONY : storage_engine_test.cc.o
-
-storage_engine_test.i: storage_engine_test.cc.i
+# target to preprocess a source file
+storage_engine_test.i:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/storage_engine_test.dir/build.make tests/CMakeFiles/storage_engine_test.dir/storage_engine_test.i
 .PHONY : storage_engine_test.i
 
-# target to preprocess a source file
-storage_engine_test.cc.i:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/storage_engine_test.dir/build.make tests/CMakeFiles/storage_engine_test.dir/storage_engine_test.cc.i
-.PHONY : storage_engine_test.cc.i
-
-storage_engine_test.s: storage_engine_test.cc.s
+# target to generate assembly for a file
+storage_engine_test.s:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/storage_engine_test.dir/build.make tests/CMakeFiles/storage_engine_test.dir/storage_engine_test.s
 .PHONY : storage_engine_test.s
 
-# target to generate assembly for a file
-storage_engine_test.cc.s:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/storage_engine_test.dir/build.make tests/CMakeFiles/storage_engine_test.dir/storage_engine_test.cc.s
-.PHONY : storage_engine_test.cc.s
-
-unit/buffer_pool_enhanced_test.o: unit/buffer_pool_enhanced_test.cc.o
+# target to build an object file
+unit/buffer_pool_enhanced_test.o:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/buffer_pool_enhanced_test.dir/build.make tests/CMakeFiles/buffer_pool_enhanced_test.dir/unit/buffer_pool_enhanced_test.o
 .PHONY : unit/buffer_pool_enhanced_test.o
 
-# target to build an object file
-unit/buffer_pool_enhanced_test.cc.o:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/buffer_pool_enhanced_test.dir/build.make tests/CMakeFiles/buffer_pool_enhanced_test.dir/unit/buffer_pool_enhanced_test.cc.o
-.PHONY : unit/buffer_pool_enhanced_test.cc.o
-
-unit/buffer_pool_enhanced_test.i: unit/buffer_pool_enhanced_test.cc.i
+# target to preprocess a source file
+unit/buffer_pool_enhanced_test.i:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/buffer_pool_enhanced_test.dir/build.make tests/CMakeFiles/buffer_pool_enhanced_test.dir/unit/buffer_pool_enhanced_test.i
 .PHONY : unit/buffer_pool_enhanced_test.i
 
-# target to preprocess a source file
-unit/buffer_pool_enhanced_test.cc.i:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/buffer_pool_enhanced_test.dir/build.make tests/CMakeFiles/buffer_pool_enhanced_test.dir/unit/buffer_pool_enhanced_test.cc.i
-.PHONY : unit/buffer_pool_enhanced_test.cc.i
-
-unit/buffer_pool_enhanced_test.s: unit/buffer_pool_enhanced_test.cc.s
+# target to generate assembly for a file
+unit/buffer_pool_enhanced_test.s:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/buffer_pool_enhanced_test.dir/build.make tests/CMakeFiles/buffer_pool_enhanced_test.dir/unit/buffer_pool_enhanced_test.s
 .PHONY : unit/buffer_pool_enhanced_test.s
 
-# target to generate assembly for a file
-unit/buffer_pool_enhanced_test.cc.s:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/buffer_pool_enhanced_test.dir/build.make tests/CMakeFiles/buffer_pool_enhanced_test.dir/unit/buffer_pool_enhanced_test.cc.s
-.PHONY : unit/buffer_pool_enhanced_test.cc.s
-
-unit/config_manager_enhanced_test.o: unit/config_manager_enhanced_test.cc.o
+# target to build an object file
+unit/config_manager_enhanced_test.o:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/config_manager_enhanced_test.dir/build.make tests/CMakeFiles/config_manager_enhanced_test.dir/unit/config_manager_enhanced_test.o
 .PHONY : unit/config_manager_enhanced_test.o
 
-# target to build an object file
-unit/config_manager_enhanced_test.cc.o:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/config_manager_enhanced_test.dir/build.make tests/CMakeFiles/config_manager_enhanced_test.dir/unit/config_manager_enhanced_test.cc.o
-.PHONY : unit/config_manager_enhanced_test.cc.o
-
-unit/config_manager_enhanced_test.i: unit/config_manager_enhanced_test.cc.i
+# target to preprocess a source file
+unit/config_manager_enhanced_test.i:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/config_manager_enhanced_test.dir/build.make tests/CMakeFiles/config_manager_enhanced_test.dir/unit/config_manager_enhanced_test.i
 .PHONY : unit/config_manager_enhanced_test.i
 
-# target to preprocess a source file
-unit/config_manager_enhanced_test.cc.i:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/config_manager_enhanced_test.dir/build.make tests/CMakeFiles/config_manager_enhanced_test.dir/unit/config_manager_enhanced_test.cc.i
-.PHONY : unit/config_manager_enhanced_test.cc.i
-
-unit/config_manager_enhanced_test.s: unit/config_manager_enhanced_test.cc.s
+# target to generate assembly for a file
+unit/config_manager_enhanced_test.s:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/config_manager_enhanced_test.dir/build.make tests/CMakeFiles/config_manager_enhanced_test.dir/unit/config_manager_enhanced_test.s
 .PHONY : unit/config_manager_enhanced_test.s
 
-# target to generate assembly for a file
-unit/config_manager_enhanced_test.cc.s:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/config_manager_enhanced_test.dir/build.make tests/CMakeFiles/config_manager_enhanced_test.dir/unit/config_manager_enhanced_test.cc.s
-.PHONY : unit/config_manager_enhanced_test.cc.s
-
-unit/config_manager_test.o: unit/config_manager_test.cc.o
+# target to build an object file
+unit/config_manager_test.o:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/config_manager_test.dir/build.make tests/CMakeFiles/config_manager_test.dir/unit/config_manager_test.o
 .PHONY : unit/config_manager_test.o
 
-# target to build an object file
-unit/config_manager_test.cc.o:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/config_manager_test.dir/build.make tests/CMakeFiles/config_manager_test.dir/unit/config_manager_test.cc.o
-.PHONY : unit/config_manager_test.cc.o
-
-unit/config_manager_test.i: unit/config_manager_test.cc.i
+# target to preprocess a source file
+unit/config_manager_test.i:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/config_manager_test.dir/build.make tests/CMakeFiles/config_manager_test.dir/unit/config_manager_test.i
 .PHONY : unit/config_manager_test.i
 
-# target to preprocess a source file
-unit/config_manager_test.cc.i:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/config_manager_test.dir/build.make tests/CMakeFiles/config_manager_test.dir/unit/config_manager_test.cc.i
-.PHONY : unit/config_manager_test.cc.i
-
-unit/config_manager_test.s: unit/config_manager_test.cc.s
+# target to generate assembly for a file
+unit/config_manager_test.s:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/config_manager_test.dir/build.make tests/CMakeFiles/config_manager_test.dir/unit/config_manager_test.s
 .PHONY : unit/config_manager_test.s
 
-# target to generate assembly for a file
-unit/config_manager_test.cc.s:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/config_manager_test.dir/build.make tests/CMakeFiles/config_manager_test.dir/unit/config_manager_test.cc.s
-.PHONY : unit/config_manager_test.cc.s
-
-unit/disk_manager_enhanced_test.o: unit/disk_manager_enhanced_test.cc.o
+# target to build an object file
+unit/disk_manager_enhanced_test.o:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/disk_manager_enhanced_test.dir/build.make tests/CMakeFiles/disk_manager_enhanced_test.dir/unit/disk_manager_enhanced_test.o
 .PHONY : unit/disk_manager_enhanced_test.o
 
-# target to build an object file
-unit/disk_manager_enhanced_test.cc.o:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/disk_manager_enhanced_test.dir/build.make tests/CMakeFiles/disk_manager_enhanced_test.dir/unit/disk_manager_enhanced_test.cc.o
-.PHONY : unit/disk_manager_enhanced_test.cc.o
-
-unit/disk_manager_enhanced_test.i: unit/disk_manager_enhanced_test.cc.i
+# target to preprocess a source file
+unit/disk_manager_enhanced_test.i:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/disk_manager_enhanced_test.dir/build.make tests/CMakeFiles/disk_manager_enhanced_test.dir/unit/disk_manager_enhanced_test.i
 .PHONY : unit/disk_manager_enhanced_test.i
 
-# target to preprocess a source file
-unit/disk_manager_enhanced_test.cc.i:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/disk_manager_enhanced_test.dir/build.make tests/CMakeFiles/disk_manager_enhanced_test.dir/unit/disk_manager_enhanced_test.cc.i
-.PHONY : unit/disk_manager_enhanced_test.cc.i
-
-unit/disk_manager_enhanced_test.s: unit/disk_manager_enhanced_test.cc.s
+# target to generate assembly for a file
+unit/disk_manager_enhanced_test.s:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/disk_manager_enhanced_test.dir/build.make tests/CMakeFiles/disk_manager_enhanced_test.dir/unit/disk_manager_enhanced_test.s
 .PHONY : unit/disk_manager_enhanced_test.s
 
-# target to generate assembly for a file
-unit/disk_manager_enhanced_test.cc.s:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/disk_manager_enhanced_test.dir/build.make tests/CMakeFiles/disk_manager_enhanced_test.dir/unit/disk_manager_enhanced_test.cc.s
-.PHONY : unit/disk_manager_enhanced_test.cc.s
-
-unit/page_enhanced_test.o: unit/page_enhanced_test.cc.o
+# target to build an object file
+unit/page_enhanced_test.o:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/page_enhanced_test.dir/build.make tests/CMakeFiles/page_enhanced_test.dir/unit/page_enhanced_test.o
 .PHONY : unit/page_enhanced_test.o
 
-# target to build an object file
-unit/page_enhanced_test.cc.o:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/page_enhanced_test.dir/build.make tests/CMakeFiles/page_enhanced_test.dir/unit/page_enhanced_test.cc.o
-.PHONY : unit/page_enhanced_test.cc.o
-
-unit/page_enhanced_test.i: unit/page_enhanced_test.cc.i
+# target to preprocess a source file
+unit/page_enhanced_test.i:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/page_enhanced_test.dir/build.make tests/CMakeFiles/page_enhanced_test.dir/unit/page_enhanced_test.i
 .PHONY : unit/page_enhanced_test.i
 
-# target to preprocess a source file
-unit/page_enhanced_test.cc.i:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/page_enhanced_test.dir/build.make tests/CMakeFiles/page_enhanced_test.dir/unit/page_enhanced_test.cc.i
-.PHONY : unit/page_enhanced_test.cc.i
-
-unit/page_enhanced_test.s: unit/page_enhanced_test.cc.s
+# target to generate assembly for a file
+unit/page_enhanced_test.s:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/page_enhanced_test.dir/build.make tests/CMakeFiles/page_enhanced_test.dir/unit/page_enhanced_test.s
 .PHONY : unit/page_enhanced_test.s
 
-# target to generate assembly for a file
-unit/page_enhanced_test.cc.s:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/page_enhanced_test.dir/build.make tests/CMakeFiles/page_enhanced_test.dir/unit/page_enhanced_test.cc.s
-.PHONY : unit/page_enhanced_test.cc.s
-
-unit/storage_engine_enhanced_test.o: unit/storage_engine_enhanced_test.cc.o
+# target to build an object file
+unit/storage_engine_enhanced_test.o:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/storage_engine_enhanced_test.dir/build.make tests/CMakeFiles/storage_engine_enhanced_test.dir/unit/storage_engine_enhanced_test.o
 .PHONY : unit/storage_engine_enhanced_test.o
 
-# target to build an object file
-unit/storage_engine_enhanced_test.cc.o:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/storage_engine_enhanced_test.dir/build.make tests/CMakeFiles/storage_engine_enhanced_test.dir/unit/storage_engine_enhanced_test.cc.o
-.PHONY : unit/storage_engine_enhanced_test.cc.o
-
-unit/storage_engine_enhanced_test.i: unit/storage_engine_enhanced_test.cc.i
+# target to preprocess a source file
+unit/storage_engine_enhanced_test.i:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/storage_engine_enhanced_test.dir/build.make tests/CMakeFiles/storage_engine_enhanced_test.dir/unit/storage_engine_enhanced_test.i
 .PHONY : unit/storage_engine_enhanced_test.i
 
-# target to preprocess a source file
-unit/storage_engine_enhanced_test.cc.i:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/storage_engine_enhanced_test.dir/build.make tests/CMakeFiles/storage_engine_enhanced_test.dir/unit/storage_engine_enhanced_test.cc.i
-.PHONY : unit/storage_engine_enhanced_test.cc.i
-
-unit/storage_engine_enhanced_test.s: unit/storage_engine_enhanced_test.cc.s
-.PHONY : unit/storage_engine_enhanced_test.s
-
 # target to generate assembly for a file
-unit/storage_engine_enhanced_test.cc.s:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/storage_engine_enhanced_test.dir/build.make tests/CMakeFiles/storage_engine_enhanced_test.dir/unit/storage_engine_enhanced_test.cc.s
-.PHONY : unit/storage_engine_enhanced_test.cc.s
+unit/storage_engine_enhanced_test.s:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/storage_engine_enhanced_test.dir/build.make tests/CMakeFiles/storage_engine_enhanced_test.dir/unit/storage_engine_enhanced_test.s
+.PHONY : unit/storage_engine_enhanced_test.s
 
 # Help Target
 help:
@@ -726,8 +532,6 @@ help:
 	@echo "... test"
 	@echo "... run_buffer_pool_test"
 	@echo "... run_disk_manager_test"
-	@echo "... run_exception_test"
-	@echo "... run_page_test"
 	@echo "... run_storage_engine_test"
 	@echo "... unit_tests"
 	@echo "... buffer_pool_enhanced_test"
@@ -736,9 +540,7 @@ help:
 	@echo "... config_manager_test"
 	@echo "... disk_manager_enhanced_test"
 	@echo "... disk_manager_test"
-	@echo "... exception_test"
 	@echo "... page_enhanced_test"
-	@echo "... page_test"
 	@echo "... storage_engine_enhanced_test"
 	@echo "... storage_engine_newpage_test"
 	@echo "... storage_engine_test"
@@ -748,12 +550,6 @@ help:
 	@echo "... disk_manager_test.o"
 	@echo "... disk_manager_test.i"
 	@echo "... disk_manager_test.s"
-	@echo "... exception_test.o"
-	@echo "... exception_test.i"
-	@echo "... exception_test.s"
-	@echo "... page_test.o"
-	@echo "... page_test.i"
-	@echo "... page_test.s"
 	@echo "... storage_engine_newpage_test.o"
 	@echo "... storage_engine_newpage_test.i"
 	@echo "... storage_engine_newpage_test.s"

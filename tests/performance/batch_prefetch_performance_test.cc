@@ -17,7 +17,6 @@
 namespace sqlcc {
 namespace test {
 
-<<<<<<< Updated upstream
 /**
  * @brief 构造函数
  * 
@@ -25,39 +24,14 @@ namespace test {
  * What: BatchPrefetchPerformanceTest构造函数初始化随机数生成器
  * How: 使用std::random_device创建随机数生成器
  */
-=======
-
->>>>>>> Stashed changes
 BatchPrefetchPerformanceTest::BatchPrefetchPerformanceTest() 
     : rng_(std::random_device{}()) {
 }
 
-<<<<<<< Updated upstream
-/**
- * @brief 析构函数
- * 
- * Why: 需要清理测试过程中创建的资源，如测试数据库文件
- * What: BatchPrefetchPerformanceTest析构函数调用Cleanup方法清理资源
- * How: 调用Cleanup方法删除测试数据库文件
- */
-=======
-
->>>>>>> Stashed changes
 BatchPrefetchPerformanceTest::~BatchPrefetchPerformanceTest() {
     Cleanup();
 }
 
-<<<<<<< Updated upstream
-/**
- * @brief 运行所有性能测试
- * 
- * Why: 需要执行所有相关的性能测试，全面评估批量读取和预取的性能
- * What: RunAllTests方法执行所有测试场景，包括单页读取、批量读取、预取等
- * How: 依次调用各个测试方法，并输出测试开始和结束信息
- */
-=======
-
->>>>>>> Stashed changes
 void BatchPrefetchPerformanceTest::RunAllTests() {
     std::cout << "\n=====================================" << std::endl;
     std::cout << "Running Batch & Prefetch Performance Tests" << std::endl;
@@ -112,55 +86,24 @@ void BatchPrefetchPerformanceTest::Cleanup() {
 void BatchPrefetchPerformanceTest::SetupTestEnvironment() {
     std::cout << "Setting up test environment..." << std::endl;
     
-<<<<<<< Updated upstream
-    // 获取配置管理器单例实例
-    // Why: 需要配置管理器来管理测试配置
-    // What: 获取ConfigManager单例实例
-    // How: 调用GetInstance()方法
-    sqlcc::ConfigManager& config_manager = sqlcc::ConfigManager::GetInstance();
-    
-    // 创建磁盘管理器
-    // Why: 需要磁盘管理器来管理测试数据库文件
-    // What: 创建DiskManager对象，管理测试数据库文件
-    // How: 使用make_unique创建DiskManager对象，传入数据库文件名和配置管理器
-    disk_manager_ = std::make_unique<sqlcc::DiskManager>(test_db_file_, config_manager);
-    
-    // 创建缓冲池
-    // Why: 需要缓冲池来模拟数据库的页面缓存机制
-    // What: 创建BufferPool对象，使用磁盘管理器、缓冲池大小和配置管理器
-    // How: 使用make_unique创建BufferPool对象
-    buffer_pool_ = std::make_unique<sqlcc::BufferPool>(disk_manager_.get(), pool_size_, config_manager);
-=======
     // 创建磁盘管理器（需要ConfigManager参数）
     disk_manager_ = std::make_unique<sqlcc::DiskManager>(test_db_file_, sqlcc::ConfigManager::GetInstance());
     
     // 创建缓冲池（使用配置管理器单例）
     buffer_pool_ = std::make_unique<sqlcc::BufferPool>(disk_manager_.get(), pool_size_, sqlcc::ConfigManager::GetInstance());
->>>>>>> Stashed changes
     
     // 初始化一些页面到磁盘
     // Why: 需要创建测试页面，模拟数据库的实际数据
     // What: 创建指定数量的页面并写入磁盘
     // How: 循环创建页面并调用WritePage方法写入磁盘
-    for (int32_t i = 0; i < working_set_size_; ++i) {
-        sqlcc::Page page(i);
-        disk_manager_->WritePage(i, page.GetData());
+    for (size_t i = 0; i < static_cast<size_t>(working_set_size_); ++i) {
+        sqlcc::Page page(static_cast<int32_t>(i));
+        disk_manager_->WritePage(static_cast<int32_t>(i), page.GetData());
     }
     
     std::cout << "Test environment setup completed." << std::endl;
 }
 
-<<<<<<< Updated upstream
-/**
- * @brief 运行单页读取测试
- * 
- * Why: 需要测试单个页面读取的性能，作为基准测试
- * What: RunSinglePageReadTest方法生成随机访问序列并执行单页读取测试
- * How: 生成随机访问序列，执行单页读取操作，计算性能指标并保存结果
- */
-=======
-
->>>>>>> Stashed changes
 void BatchPrefetchPerformanceTest::RunSinglePageReadTest() {
     std::cout << "\nRunning Single Page Read Test..." << std::endl;
     
@@ -207,17 +150,6 @@ void BatchPrefetchPerformanceTest::RunSinglePageReadTest() {
     SaveResultsToFile(results, "single_page_read.csv");
 }
 
-<<<<<<< Updated upstream
-/**
- * @brief 运行批量页面读取测试
- * 
- * Why: 需要测试不同批量大小下的批量页面读取性能
- * What: RunBatchPageReadTest方法测试不同批量大小的批量读取性能
- * How: 遍历不同批量大小，生成随机访问序列，执行批量读取操作，计算性能指标
- */
-=======
-
->>>>>>> Stashed changes
 void BatchPrefetchPerformanceTest::RunBatchPageReadTest() {
     std::cout << "\nRunning Batch Page Read Test..." << std::endl;
     
@@ -278,17 +210,7 @@ void BatchPrefetchPerformanceTest::RunBatchPageReadTest() {
     // How: 传入结果列表和文件名
     SaveResultsToFile(results, "batch_page_read.csv");
 }
-<<<<<<< Updated upstream
 
-/**
- * @brief 运行单页预取测试
- * 
- * Why: 需要测试单页预取的性能，评估预取对顺序访问模式的性能提升
- * What: RunSinglePagePrefetchTest方法生成顺序访问序列并执行单页预取测试
- * How: 生成顺序访问序列，执行预取和读取操作，计算性能指标并保存结果
- */
-=======
->>>>>>> Stashed changes
 void BatchPrefetchPerformanceTest::RunSinglePagePrefetchTest() {
     std::cout << "\nRunning Single Page Prefetch Test..." << std::endl;
     
@@ -402,17 +324,7 @@ void BatchPrefetchPerformanceTest::RunBatchPrefetchTest() {
     // How: 传入结果列表和文件名
     SaveResultsToFile(results, "batch_prefetch.csv");
 }
-<<<<<<< Updated upstream
 
-/**
- * @brief 运行混合访问模式测试
- * 
- * Why: 需要测试在具有局部性的混合访问模式下不同方法的性能
- * What: RunMixedAccessPatternTest方法比较单页读取、批量读取和预取在混合访问模式下的性能
- * How: 生成具有局部性的访问序列，分别使用三种方法执行测试，比较性能差异
- */
-=======
->>>>>>> Stashed changes
 void BatchPrefetchPerformanceTest::RunMixedAccessPatternTest() {
     std::cout << "\nRunning Mixed Access Pattern Test..." << std::endl;
     
@@ -506,17 +418,7 @@ void BatchPrefetchPerformanceTest::RunMixedAccessPatternTest() {
     // How: 传入结果列表和文件名
     SaveResultsToFile(results, "mixed_access_pattern.csv");
 }
-<<<<<<< Updated upstream
 
-/**
- * @brief 运行不同批量大小测试
- * 
- * Why: 需要测试不同批量大小对性能的影响，找出最优批量大小
- * What: RunVaryingBatchSizeTest方法测试不同批量大小下的批量读取性能
- * How: 生成随机访问序列，遍历不同批量大小，执行批量读取操作，比较性能差异
- */
-=======
->>>>>>> Stashed changes
 void BatchPrefetchPerformanceTest::RunVaryingBatchSizeTest() {
     std::cout << "\nRunning Varying Batch Size Test..." << std::endl;
     
@@ -575,19 +477,7 @@ void BatchPrefetchPerformanceTest::RunVaryingBatchSizeTest() {
     // How: 传入结果列表和文件名
     SaveResultsToFile(results, "varying_batch_size.csv");
 }
-<<<<<<< Updated upstream
 
-/**
- * @brief 生成顺序访问序列
- * @param page_ids 输出的页面ID序列
- * @param count 需要生成的页面数量
- * 
- * Why: 需要生成顺序访问序列，模拟适合预取的访问模式
- * What: GenerateSequentialAccess方法生成从0开始的顺序访问序列
- * How: 循环生成页面ID，使用模运算确保ID在工作集范围内
- */
-=======
->>>>>>> Stashed changes
 void BatchPrefetchPerformanceTest::GenerateSequentialAccess(std::vector<int32_t>& page_ids, size_t count) {
     page_ids.clear();
     page_ids.reserve(count);
@@ -662,19 +552,6 @@ void BatchPrefetchPerformanceTest::GenerateLocalityAccess(std::vector<int32_t>& 
     }
 }
 
-<<<<<<< Updated upstream
-/**
- * @brief 执行单页访问操作
- * @param page_ids 页面ID序列
- * @param latencies 输出的延迟序列
- * 
- * Why: 需要执行单页访问操作并测量每个操作的延迟
- * What: ExecuteSinglePageAccesses方法遍历页面ID序列，执行单页读取操作并测量延迟
- * How: 对每个页面ID调用FetchPage方法，测量操作时间，然后调用UnpinPage释放页面
- */
-=======
-
->>>>>>> Stashed changes
 void BatchPrefetchPerformanceTest::ExecuteSinglePageAccesses(const std::vector<int32_t>& page_ids, 
                                                              std::vector<double>& latencies) {
     latencies.clear();
@@ -691,6 +568,7 @@ void BatchPrefetchPerformanceTest::ExecuteSinglePageAccesses(const std::vector<i
         // How: 使用GetCurrentTime获取开始和结束时间
         auto start = GetCurrentTime();
         auto page = buffer_pool_->FetchPage(page_id);
+        (void)page; // 避免未使用变量警告
         auto end = GetCurrentTime();
         
         // 计算延迟（毫秒）
@@ -708,20 +586,6 @@ void BatchPrefetchPerformanceTest::ExecuteSinglePageAccesses(const std::vector<i
     }
 }
 
-<<<<<<< Updated upstream
-/**
- * @brief 执行批量页面访问操作
- * @param page_ids 页面ID序列
- * @param latencies 输出的延迟序列
- * @param batch_size 批量大小
- * 
- * Why: 需要执行批量页面访问操作并测量每个操作的延迟
- * What: ExecuteBatchPageAccesses方法将页面ID序列分组，执行批量读取操作并测量延迟
- * How: 将页面ID序列按批量大小分组，对每组调用BatchFetchPages方法，测量操作时间
- */
-=======
-
->>>>>>> Stashed changes
 void BatchPrefetchPerformanceTest::ExecuteBatchPageAccesses(const std::vector<int32_t>& page_ids, 
                                                             std::vector<double>& latencies, 
                                                             size_t batch_size) {
@@ -775,19 +639,6 @@ void BatchPrefetchPerformanceTest::ExecuteBatchPageAccesses(const std::vector<in
     }
 }
 
-<<<<<<< Updated upstream
-/**
- * @brief 执行预取操作
- * @param page_ids 页面ID序列
- * @param latencies 输出的延迟序列
- * 
- * Why: 需要执行预取操作并测量每个操作的延迟
- * What: ExecutePrefetchOperations方法对每个页面ID执行预取和读取操作并测量延迟
- * How: 对每个页面ID，先预取下一个页面，然后读取当前页面，测量读取操作时间
- */
-=======
-
->>>>>>> Stashed changes
 void BatchPrefetchPerformanceTest::ExecutePrefetchOperations(const std::vector<int32_t>& page_ids, 
                                                             std::vector<double>& latencies) {
     latencies.clear();
@@ -812,6 +663,7 @@ void BatchPrefetchPerformanceTest::ExecutePrefetchOperations(const std::vector<i
         // How: 使用GetCurrentTime获取开始和结束时间
         auto start = GetCurrentTime();
         auto page = buffer_pool_->FetchPage(page_ids[i]);
+        (void)page; // 避免未使用变量警告
         auto end = GetCurrentTime();
         
         // 计算延迟（毫秒）
@@ -829,20 +681,6 @@ void BatchPrefetchPerformanceTest::ExecutePrefetchOperations(const std::vector<i
     }
 }
 
-<<<<<<< Updated upstream
-/**
- * @brief 执行批量预取操作
- * @param page_ids 页面ID序列
- * @param latencies 输出的延迟序列
- * @param batch_size 批量大小
- * 
- * Why: 需要执行批量预取操作并测量每个操作的延迟
- * What: ExecuteBatchPrefetchOperations方法将页面ID序列分组，执行批量预取和读取操作并测量延迟
- * How: 将页面ID序列按批量大小分组，对每组先执行批量预取，然后逐个读取页面，测量读取操作时间
- */
-=======
-
->>>>>>> Stashed changes
 void BatchPrefetchPerformanceTest::ExecuteBatchPrefetchOperations(const std::vector<int32_t>& page_ids, 
                                                                  std::vector<double>& latencies, 
                                                                  size_t batch_size) {
@@ -876,6 +714,7 @@ void BatchPrefetchPerformanceTest::ExecuteBatchPrefetchOperations(const std::vec
         for (int32_t page_id : batch_ids) {
             auto start = GetCurrentTime();
             auto page = buffer_pool_->FetchPage(page_id);
+            (void)page; // 避免未使用变量警告
             auto end = GetCurrentTime();
             
             // 计算延迟（毫秒）

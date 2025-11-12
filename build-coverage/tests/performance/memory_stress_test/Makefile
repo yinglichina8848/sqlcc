@@ -185,101 +185,50 @@ memory_stress_test/fast:
 	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/build.make tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/build
 .PHONY : memory_stress_test/fast
 
-__/performance_test_base.o: __/performance_test_base.cc.o
+# target to build an object file
+__/performance_test_base.o:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/build.make tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/__/performance_test_base.o
 .PHONY : __/performance_test_base.o
 
-# target to build an object file
-__/performance_test_base.cc.o:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/build.make tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/__/performance_test_base.cc.o
-.PHONY : __/performance_test_base.cc.o
-
-__/performance_test_base.i: __/performance_test_base.cc.i
+# target to preprocess a source file
+__/performance_test_base.i:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/build.make tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/__/performance_test_base.i
 .PHONY : __/performance_test_base.i
 
-# target to preprocess a source file
-__/performance_test_base.cc.i:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/build.make tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/__/performance_test_base.cc.i
-.PHONY : __/performance_test_base.cc.i
-
-__/performance_test_base.s: __/performance_test_base.cc.s
+# target to generate assembly for a file
+__/performance_test_base.s:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/build.make tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/__/performance_test_base.s
 .PHONY : __/performance_test_base.s
 
-# target to generate assembly for a file
-__/performance_test_base.cc.s:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/build.make tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/__/performance_test_base.cc.s
-.PHONY : __/performance_test_base.cc.s
-
-memory_stress_test.o: memory_stress_test.cc.o
+# target to build an object file
+memory_stress_test.o:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/build.make tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/memory_stress_test.o
 .PHONY : memory_stress_test.o
 
-# target to build an object file
-memory_stress_test.cc.o:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/build.make tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/memory_stress_test.cc.o
-.PHONY : memory_stress_test.cc.o
-
-memory_stress_test.i: memory_stress_test.cc.i
+# target to preprocess a source file
+memory_stress_test.i:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/build.make tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/memory_stress_test.i
 .PHONY : memory_stress_test.i
 
-# target to preprocess a source file
-memory_stress_test.cc.i:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/build.make tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/memory_stress_test.cc.i
-.PHONY : memory_stress_test.cc.i
-
-memory_stress_test.s: memory_stress_test.cc.s
+# target to generate assembly for a file
+memory_stress_test.s:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/build.make tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/memory_stress_test.s
 .PHONY : memory_stress_test.s
 
-# target to generate assembly for a file
-memory_stress_test.cc.s:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/build.make tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/memory_stress_test.cc.s
-.PHONY : memory_stress_test.cc.s
-
-memory_stress_test_main.o: memory_stress_test_main.cc.o
+# target to build an object file
+memory_stress_test_main.o:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/build.make tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/memory_stress_test_main.o
 .PHONY : memory_stress_test_main.o
 
-# target to build an object file
-memory_stress_test_main.cc.o:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/build.make tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/memory_stress_test_main.cc.o
-.PHONY : memory_stress_test_main.cc.o
-
-memory_stress_test_main.i: memory_stress_test_main.cc.i
+# target to preprocess a source file
+memory_stress_test_main.i:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/build.make tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/memory_stress_test_main.i
 .PHONY : memory_stress_test_main.i
 
-# target to preprocess a source file
-memory_stress_test_main.cc.i:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/build.make tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/memory_stress_test_main.cc.i
-.PHONY : memory_stress_test_main.cc.i
-
-memory_stress_test_main.s: memory_stress_test_main.cc.s
+# target to generate assembly for a file
+memory_stress_test_main.s:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/build.make tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/memory_stress_test_main.s
 .PHONY : memory_stress_test_main.s
-
-# target to generate assembly for a file
-memory_stress_test_main.cc.s:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/build.make tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/memory_stress_test_main.cc.s
-.PHONY : memory_stress_test_main.cc.s
-
-memory_stress_test_runner.o: memory_stress_test_runner.cc.o
-.PHONY : memory_stress_test_runner.o
-
-# target to build an object file
-memory_stress_test_runner.cc.o:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/build.make tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/memory_stress_test_runner.cc.o
-.PHONY : memory_stress_test_runner.cc.o
-
-memory_stress_test_runner.i: memory_stress_test_runner.cc.i
-.PHONY : memory_stress_test_runner.i
-
-# target to preprocess a source file
-memory_stress_test_runner.cc.i:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/build.make tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/memory_stress_test_runner.cc.i
-.PHONY : memory_stress_test_runner.cc.i
-
-memory_stress_test_runner.s: memory_stress_test_runner.cc.s
-.PHONY : memory_stress_test_runner.s
-
-# target to generate assembly for a file
-memory_stress_test_runner.cc.s:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/build.make tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/memory_stress_test_runner.cc.s
-.PHONY : memory_stress_test_runner.cc.s
 
 # Help Target
 help:
@@ -304,9 +253,6 @@ help:
 	@echo "... memory_stress_test_main.o"
 	@echo "... memory_stress_test_main.i"
 	@echo "... memory_stress_test_main.s"
-	@echo "... memory_stress_test_runner.o"
-	@echo "... memory_stress_test_runner.i"
-	@echo "... memory_stress_test_runner.s"
 .PHONY : help
 
 

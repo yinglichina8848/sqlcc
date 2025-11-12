@@ -69,92 +69,92 @@ include src/CMakeFiles/sqlcc_core.dir/progress.make
 # Include the compile flags for this target's objects.
 include src/CMakeFiles/sqlcc_core.dir/flags.make
 
-src/CMakeFiles/sqlcc_core.dir/buffer_pool.cc.o: src/CMakeFiles/sqlcc_core.dir/flags.make
-src/CMakeFiles/sqlcc_core.dir/buffer_pool.cc.o: /home/liying/sqlcc/src/buffer_pool.cc
-src/CMakeFiles/sqlcc_core.dir/buffer_pool.cc.o: src/CMakeFiles/sqlcc_core.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/liying/sqlcc/build-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object src/CMakeFiles/sqlcc_core.dir/buffer_pool.cc.o"
-	cd /home/liying/sqlcc/build-coverage/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/sqlcc_core.dir/buffer_pool.cc.o -MF CMakeFiles/sqlcc_core.dir/buffer_pool.cc.o.d -o CMakeFiles/sqlcc_core.dir/buffer_pool.cc.o -c /home/liying/sqlcc/src/buffer_pool.cc
+src/CMakeFiles/sqlcc_core.dir/buffer_pool.o: src/CMakeFiles/sqlcc_core.dir/flags.make
+src/CMakeFiles/sqlcc_core.dir/buffer_pool.o: /home/liying/sqlcc/src/buffer_pool.cc
+src/CMakeFiles/sqlcc_core.dir/buffer_pool.o: src/CMakeFiles/sqlcc_core.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/liying/sqlcc/build-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object src/CMakeFiles/sqlcc_core.dir/buffer_pool.o"
+	cd /home/liying/sqlcc/build-coverage/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/sqlcc_core.dir/buffer_pool.o -MF CMakeFiles/sqlcc_core.dir/buffer_pool.o.d -o CMakeFiles/sqlcc_core.dir/buffer_pool.o -c /home/liying/sqlcc/src/buffer_pool.cc
 
-src/CMakeFiles/sqlcc_core.dir/buffer_pool.cc.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/sqlcc_core.dir/buffer_pool.cc.i"
-	cd /home/liying/sqlcc/build-coverage/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/liying/sqlcc/src/buffer_pool.cc > CMakeFiles/sqlcc_core.dir/buffer_pool.cc.i
+src/CMakeFiles/sqlcc_core.dir/buffer_pool.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/sqlcc_core.dir/buffer_pool.i"
+	cd /home/liying/sqlcc/build-coverage/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/liying/sqlcc/src/buffer_pool.cc > CMakeFiles/sqlcc_core.dir/buffer_pool.i
 
-src/CMakeFiles/sqlcc_core.dir/buffer_pool.cc.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/sqlcc_core.dir/buffer_pool.cc.s"
-	cd /home/liying/sqlcc/build-coverage/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/liying/sqlcc/src/buffer_pool.cc -o CMakeFiles/sqlcc_core.dir/buffer_pool.cc.s
+src/CMakeFiles/sqlcc_core.dir/buffer_pool.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/sqlcc_core.dir/buffer_pool.s"
+	cd /home/liying/sqlcc/build-coverage/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/liying/sqlcc/src/buffer_pool.cc -o CMakeFiles/sqlcc_core.dir/buffer_pool.s
 
-src/CMakeFiles/sqlcc_core.dir/config_manager.cc.o: src/CMakeFiles/sqlcc_core.dir/flags.make
-src/CMakeFiles/sqlcc_core.dir/config_manager.cc.o: /home/liying/sqlcc/src/config_manager.cc
-src/CMakeFiles/sqlcc_core.dir/config_manager.cc.o: src/CMakeFiles/sqlcc_core.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/liying/sqlcc/build-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object src/CMakeFiles/sqlcc_core.dir/config_manager.cc.o"
-	cd /home/liying/sqlcc/build-coverage/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/sqlcc_core.dir/config_manager.cc.o -MF CMakeFiles/sqlcc_core.dir/config_manager.cc.o.d -o CMakeFiles/sqlcc_core.dir/config_manager.cc.o -c /home/liying/sqlcc/src/config_manager.cc
+src/CMakeFiles/sqlcc_core.dir/config_manager.o: src/CMakeFiles/sqlcc_core.dir/flags.make
+src/CMakeFiles/sqlcc_core.dir/config_manager.o: /home/liying/sqlcc/src/config_manager.cc
+src/CMakeFiles/sqlcc_core.dir/config_manager.o: src/CMakeFiles/sqlcc_core.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/liying/sqlcc/build-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object src/CMakeFiles/sqlcc_core.dir/config_manager.o"
+	cd /home/liying/sqlcc/build-coverage/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/sqlcc_core.dir/config_manager.o -MF CMakeFiles/sqlcc_core.dir/config_manager.o.d -o CMakeFiles/sqlcc_core.dir/config_manager.o -c /home/liying/sqlcc/src/config_manager.cc
 
-src/CMakeFiles/sqlcc_core.dir/config_manager.cc.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/sqlcc_core.dir/config_manager.cc.i"
-	cd /home/liying/sqlcc/build-coverage/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/liying/sqlcc/src/config_manager.cc > CMakeFiles/sqlcc_core.dir/config_manager.cc.i
+src/CMakeFiles/sqlcc_core.dir/config_manager.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/sqlcc_core.dir/config_manager.i"
+	cd /home/liying/sqlcc/build-coverage/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/liying/sqlcc/src/config_manager.cc > CMakeFiles/sqlcc_core.dir/config_manager.i
 
-src/CMakeFiles/sqlcc_core.dir/config_manager.cc.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/sqlcc_core.dir/config_manager.cc.s"
-	cd /home/liying/sqlcc/build-coverage/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/liying/sqlcc/src/config_manager.cc -o CMakeFiles/sqlcc_core.dir/config_manager.cc.s
+src/CMakeFiles/sqlcc_core.dir/config_manager.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/sqlcc_core.dir/config_manager.s"
+	cd /home/liying/sqlcc/build-coverage/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/liying/sqlcc/src/config_manager.cc -o CMakeFiles/sqlcc_core.dir/config_manager.s
 
-src/CMakeFiles/sqlcc_core.dir/disk_manager.cc.o: src/CMakeFiles/sqlcc_core.dir/flags.make
-src/CMakeFiles/sqlcc_core.dir/disk_manager.cc.o: /home/liying/sqlcc/src/disk_manager.cc
-src/CMakeFiles/sqlcc_core.dir/disk_manager.cc.o: src/CMakeFiles/sqlcc_core.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/liying/sqlcc/build-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object src/CMakeFiles/sqlcc_core.dir/disk_manager.cc.o"
-	cd /home/liying/sqlcc/build-coverage/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/sqlcc_core.dir/disk_manager.cc.o -MF CMakeFiles/sqlcc_core.dir/disk_manager.cc.o.d -o CMakeFiles/sqlcc_core.dir/disk_manager.cc.o -c /home/liying/sqlcc/src/disk_manager.cc
+src/CMakeFiles/sqlcc_core.dir/disk_manager.o: src/CMakeFiles/sqlcc_core.dir/flags.make
+src/CMakeFiles/sqlcc_core.dir/disk_manager.o: /home/liying/sqlcc/src/disk_manager.cc
+src/CMakeFiles/sqlcc_core.dir/disk_manager.o: src/CMakeFiles/sqlcc_core.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/liying/sqlcc/build-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object src/CMakeFiles/sqlcc_core.dir/disk_manager.o"
+	cd /home/liying/sqlcc/build-coverage/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/sqlcc_core.dir/disk_manager.o -MF CMakeFiles/sqlcc_core.dir/disk_manager.o.d -o CMakeFiles/sqlcc_core.dir/disk_manager.o -c /home/liying/sqlcc/src/disk_manager.cc
 
-src/CMakeFiles/sqlcc_core.dir/disk_manager.cc.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/sqlcc_core.dir/disk_manager.cc.i"
-	cd /home/liying/sqlcc/build-coverage/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/liying/sqlcc/src/disk_manager.cc > CMakeFiles/sqlcc_core.dir/disk_manager.cc.i
+src/CMakeFiles/sqlcc_core.dir/disk_manager.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/sqlcc_core.dir/disk_manager.i"
+	cd /home/liying/sqlcc/build-coverage/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/liying/sqlcc/src/disk_manager.cc > CMakeFiles/sqlcc_core.dir/disk_manager.i
 
-src/CMakeFiles/sqlcc_core.dir/disk_manager.cc.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/sqlcc_core.dir/disk_manager.cc.s"
-	cd /home/liying/sqlcc/build-coverage/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/liying/sqlcc/src/disk_manager.cc -o CMakeFiles/sqlcc_core.dir/disk_manager.cc.s
+src/CMakeFiles/sqlcc_core.dir/disk_manager.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/sqlcc_core.dir/disk_manager.s"
+	cd /home/liying/sqlcc/build-coverage/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/liying/sqlcc/src/disk_manager.cc -o CMakeFiles/sqlcc_core.dir/disk_manager.s
 
-src/CMakeFiles/sqlcc_core.dir/page.cc.o: src/CMakeFiles/sqlcc_core.dir/flags.make
-src/CMakeFiles/sqlcc_core.dir/page.cc.o: /home/liying/sqlcc/src/page.cc
-src/CMakeFiles/sqlcc_core.dir/page.cc.o: src/CMakeFiles/sqlcc_core.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/liying/sqlcc/build-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object src/CMakeFiles/sqlcc_core.dir/page.cc.o"
-	cd /home/liying/sqlcc/build-coverage/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/sqlcc_core.dir/page.cc.o -MF CMakeFiles/sqlcc_core.dir/page.cc.o.d -o CMakeFiles/sqlcc_core.dir/page.cc.o -c /home/liying/sqlcc/src/page.cc
+src/CMakeFiles/sqlcc_core.dir/page.o: src/CMakeFiles/sqlcc_core.dir/flags.make
+src/CMakeFiles/sqlcc_core.dir/page.o: /home/liying/sqlcc/src/page.cc
+src/CMakeFiles/sqlcc_core.dir/page.o: src/CMakeFiles/sqlcc_core.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/liying/sqlcc/build-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object src/CMakeFiles/sqlcc_core.dir/page.o"
+	cd /home/liying/sqlcc/build-coverage/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/sqlcc_core.dir/page.o -MF CMakeFiles/sqlcc_core.dir/page.o.d -o CMakeFiles/sqlcc_core.dir/page.o -c /home/liying/sqlcc/src/page.cc
 
-src/CMakeFiles/sqlcc_core.dir/page.cc.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/sqlcc_core.dir/page.cc.i"
-	cd /home/liying/sqlcc/build-coverage/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/liying/sqlcc/src/page.cc > CMakeFiles/sqlcc_core.dir/page.cc.i
+src/CMakeFiles/sqlcc_core.dir/page.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/sqlcc_core.dir/page.i"
+	cd /home/liying/sqlcc/build-coverage/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/liying/sqlcc/src/page.cc > CMakeFiles/sqlcc_core.dir/page.i
 
-src/CMakeFiles/sqlcc_core.dir/page.cc.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/sqlcc_core.dir/page.cc.s"
-	cd /home/liying/sqlcc/build-coverage/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/liying/sqlcc/src/page.cc -o CMakeFiles/sqlcc_core.dir/page.cc.s
+src/CMakeFiles/sqlcc_core.dir/page.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/sqlcc_core.dir/page.s"
+	cd /home/liying/sqlcc/build-coverage/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/liying/sqlcc/src/page.cc -o CMakeFiles/sqlcc_core.dir/page.s
 
-src/CMakeFiles/sqlcc_core.dir/storage_engine.cc.o: src/CMakeFiles/sqlcc_core.dir/flags.make
-src/CMakeFiles/sqlcc_core.dir/storage_engine.cc.o: /home/liying/sqlcc/src/storage_engine.cc
-src/CMakeFiles/sqlcc_core.dir/storage_engine.cc.o: src/CMakeFiles/sqlcc_core.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/liying/sqlcc/build-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object src/CMakeFiles/sqlcc_core.dir/storage_engine.cc.o"
-	cd /home/liying/sqlcc/build-coverage/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/sqlcc_core.dir/storage_engine.cc.o -MF CMakeFiles/sqlcc_core.dir/storage_engine.cc.o.d -o CMakeFiles/sqlcc_core.dir/storage_engine.cc.o -c /home/liying/sqlcc/src/storage_engine.cc
+src/CMakeFiles/sqlcc_core.dir/storage_engine.o: src/CMakeFiles/sqlcc_core.dir/flags.make
+src/CMakeFiles/sqlcc_core.dir/storage_engine.o: /home/liying/sqlcc/src/storage_engine.cc
+src/CMakeFiles/sqlcc_core.dir/storage_engine.o: src/CMakeFiles/sqlcc_core.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/liying/sqlcc/build-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object src/CMakeFiles/sqlcc_core.dir/storage_engine.o"
+	cd /home/liying/sqlcc/build-coverage/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/sqlcc_core.dir/storage_engine.o -MF CMakeFiles/sqlcc_core.dir/storage_engine.o.d -o CMakeFiles/sqlcc_core.dir/storage_engine.o -c /home/liying/sqlcc/src/storage_engine.cc
 
-src/CMakeFiles/sqlcc_core.dir/storage_engine.cc.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/sqlcc_core.dir/storage_engine.cc.i"
-	cd /home/liying/sqlcc/build-coverage/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/liying/sqlcc/src/storage_engine.cc > CMakeFiles/sqlcc_core.dir/storage_engine.cc.i
+src/CMakeFiles/sqlcc_core.dir/storage_engine.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/sqlcc_core.dir/storage_engine.i"
+	cd /home/liying/sqlcc/build-coverage/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/liying/sqlcc/src/storage_engine.cc > CMakeFiles/sqlcc_core.dir/storage_engine.i
 
-src/CMakeFiles/sqlcc_core.dir/storage_engine.cc.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/sqlcc_core.dir/storage_engine.cc.s"
-	cd /home/liying/sqlcc/build-coverage/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/liying/sqlcc/src/storage_engine.cc -o CMakeFiles/sqlcc_core.dir/storage_engine.cc.s
+src/CMakeFiles/sqlcc_core.dir/storage_engine.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/sqlcc_core.dir/storage_engine.s"
+	cd /home/liying/sqlcc/build-coverage/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/liying/sqlcc/src/storage_engine.cc -o CMakeFiles/sqlcc_core.dir/storage_engine.s
 
 # Object files for target sqlcc_core
 sqlcc_core_OBJECTS = \
-"CMakeFiles/sqlcc_core.dir/buffer_pool.cc.o" \
-"CMakeFiles/sqlcc_core.dir/config_manager.cc.o" \
-"CMakeFiles/sqlcc_core.dir/disk_manager.cc.o" \
-"CMakeFiles/sqlcc_core.dir/page.cc.o" \
-"CMakeFiles/sqlcc_core.dir/storage_engine.cc.o"
+"CMakeFiles/sqlcc_core.dir/buffer_pool.o" \
+"CMakeFiles/sqlcc_core.dir/config_manager.o" \
+"CMakeFiles/sqlcc_core.dir/disk_manager.o" \
+"CMakeFiles/sqlcc_core.dir/page.o" \
+"CMakeFiles/sqlcc_core.dir/storage_engine.o"
 
 # External object files for target sqlcc_core
 sqlcc_core_EXTERNAL_OBJECTS =
 
-lib/libsqlcc_core.a: src/CMakeFiles/sqlcc_core.dir/buffer_pool.cc.o
-lib/libsqlcc_core.a: src/CMakeFiles/sqlcc_core.dir/config_manager.cc.o
-lib/libsqlcc_core.a: src/CMakeFiles/sqlcc_core.dir/disk_manager.cc.o
-lib/libsqlcc_core.a: src/CMakeFiles/sqlcc_core.dir/page.cc.o
-lib/libsqlcc_core.a: src/CMakeFiles/sqlcc_core.dir/storage_engine.cc.o
+lib/libsqlcc_core.a: src/CMakeFiles/sqlcc_core.dir/buffer_pool.o
+lib/libsqlcc_core.a: src/CMakeFiles/sqlcc_core.dir/config_manager.o
+lib/libsqlcc_core.a: src/CMakeFiles/sqlcc_core.dir/disk_manager.o
+lib/libsqlcc_core.a: src/CMakeFiles/sqlcc_core.dir/page.o
+lib/libsqlcc_core.a: src/CMakeFiles/sqlcc_core.dir/storage_engine.o
 lib/libsqlcc_core.a: src/CMakeFiles/sqlcc_core.dir/build.make
 lib/libsqlcc_core.a: src/CMakeFiles/sqlcc_core.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/liying/sqlcc/build-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX static library ../lib/libsqlcc_core.a"

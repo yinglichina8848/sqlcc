@@ -8,9 +8,9 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/home/liying/sqlcc/tests/performance/performance_test_base.cc" "tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/__/performance_test_base.cc.o" "gcc" "tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/__/performance_test_base.cc.o.d"
-  "/home/liying/sqlcc/tests/performance/cpu_test/cpu_intensive_performance_test.cc" "tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/cpu_intensive_performance_test.cc.o" "gcc" "tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/cpu_intensive_performance_test.cc.o.d"
-  "/home/liying/sqlcc/tests/performance/cpu_test/cpu_intensive_test_runner.cc" "tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/cpu_intensive_test_runner.cc.o" "gcc" "tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/cpu_intensive_test_runner.cc.o.d"
+  "/home/liying/sqlcc/tests/performance/performance_test_base.cc" "tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/__/performance_test_base.o" "gcc" "tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/__/performance_test_base.o.d"
+  "/home/liying/sqlcc/tests/performance/cpu_test/cpu_intensive_performance_test.cc" "tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/cpu_intensive_performance_test.o" "gcc" "tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/cpu_intensive_performance_test.o.d"
+  "/home/liying/sqlcc/tests/performance/cpu_test/cpu_intensive_test_runner.cc" "tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/cpu_intensive_test_runner.o" "gcc" "tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/cpu_intensive_test_runner.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

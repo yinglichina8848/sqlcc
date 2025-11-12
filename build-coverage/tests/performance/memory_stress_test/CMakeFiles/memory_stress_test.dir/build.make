@@ -69,79 +69,64 @@ include tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/p
 # Include the compile flags for this target's objects.
 include tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/flags.make
 
-tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/memory_stress_test_main.cc.o: tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/flags.make
-tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/memory_stress_test_main.cc.o: /home/liying/sqlcc/tests/performance/memory_stress_test/memory_stress_test_main.cc
-tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/memory_stress_test_main.cc.o: tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/liying/sqlcc/build-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/memory_stress_test_main.cc.o"
-	cd /home/liying/sqlcc/build-coverage/tests/performance/memory_stress_test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/memory_stress_test_main.cc.o -MF CMakeFiles/memory_stress_test.dir/memory_stress_test_main.cc.o.d -o CMakeFiles/memory_stress_test.dir/memory_stress_test_main.cc.o -c /home/liying/sqlcc/tests/performance/memory_stress_test/memory_stress_test_main.cc
+tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/memory_stress_test_main.o: tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/flags.make
+tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/memory_stress_test_main.o: /home/liying/sqlcc/tests/performance/memory_stress_test/memory_stress_test_main.cc
+tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/memory_stress_test_main.o: tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/liying/sqlcc/build-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/memory_stress_test_main.o"
+	cd /home/liying/sqlcc/build-coverage/tests/performance/memory_stress_test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/memory_stress_test_main.o -MF CMakeFiles/memory_stress_test.dir/memory_stress_test_main.o.d -o CMakeFiles/memory_stress_test.dir/memory_stress_test_main.o -c /home/liying/sqlcc/tests/performance/memory_stress_test/memory_stress_test_main.cc
 
-tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/memory_stress_test_main.cc.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/memory_stress_test.dir/memory_stress_test_main.cc.i"
-	cd /home/liying/sqlcc/build-coverage/tests/performance/memory_stress_test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/liying/sqlcc/tests/performance/memory_stress_test/memory_stress_test_main.cc > CMakeFiles/memory_stress_test.dir/memory_stress_test_main.cc.i
+tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/memory_stress_test_main.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/memory_stress_test.dir/memory_stress_test_main.i"
+	cd /home/liying/sqlcc/build-coverage/tests/performance/memory_stress_test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/liying/sqlcc/tests/performance/memory_stress_test/memory_stress_test_main.cc > CMakeFiles/memory_stress_test.dir/memory_stress_test_main.i
 
-tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/memory_stress_test_main.cc.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/memory_stress_test.dir/memory_stress_test_main.cc.s"
-	cd /home/liying/sqlcc/build-coverage/tests/performance/memory_stress_test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/liying/sqlcc/tests/performance/memory_stress_test/memory_stress_test_main.cc -o CMakeFiles/memory_stress_test.dir/memory_stress_test_main.cc.s
+tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/memory_stress_test_main.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/memory_stress_test.dir/memory_stress_test_main.s"
+	cd /home/liying/sqlcc/build-coverage/tests/performance/memory_stress_test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/liying/sqlcc/tests/performance/memory_stress_test/memory_stress_test_main.cc -o CMakeFiles/memory_stress_test.dir/memory_stress_test_main.s
 
-tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/memory_stress_test.cc.o: tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/flags.make
-tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/memory_stress_test.cc.o: /home/liying/sqlcc/tests/performance/memory_stress_test/memory_stress_test.cc
-tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/memory_stress_test.cc.o: tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/liying/sqlcc/build-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/memory_stress_test.cc.o"
-	cd /home/liying/sqlcc/build-coverage/tests/performance/memory_stress_test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/memory_stress_test.cc.o -MF CMakeFiles/memory_stress_test.dir/memory_stress_test.cc.o.d -o CMakeFiles/memory_stress_test.dir/memory_stress_test.cc.o -c /home/liying/sqlcc/tests/performance/memory_stress_test/memory_stress_test.cc
+tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/memory_stress_test.o: tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/flags.make
+tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/memory_stress_test.o: /home/liying/sqlcc/tests/performance/memory_stress_test/memory_stress_test.cc
+tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/memory_stress_test.o: tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/liying/sqlcc/build-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/memory_stress_test.o"
+	cd /home/liying/sqlcc/build-coverage/tests/performance/memory_stress_test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/memory_stress_test.o -MF CMakeFiles/memory_stress_test.dir/memory_stress_test.o.d -o CMakeFiles/memory_stress_test.dir/memory_stress_test.o -c /home/liying/sqlcc/tests/performance/memory_stress_test/memory_stress_test.cc
 
-tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/memory_stress_test.cc.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/memory_stress_test.dir/memory_stress_test.cc.i"
-	cd /home/liying/sqlcc/build-coverage/tests/performance/memory_stress_test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/liying/sqlcc/tests/performance/memory_stress_test/memory_stress_test.cc > CMakeFiles/memory_stress_test.dir/memory_stress_test.cc.i
+tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/memory_stress_test.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/memory_stress_test.dir/memory_stress_test.i"
+	cd /home/liying/sqlcc/build-coverage/tests/performance/memory_stress_test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/liying/sqlcc/tests/performance/memory_stress_test/memory_stress_test.cc > CMakeFiles/memory_stress_test.dir/memory_stress_test.i
 
-tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/memory_stress_test.cc.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/memory_stress_test.dir/memory_stress_test.cc.s"
-	cd /home/liying/sqlcc/build-coverage/tests/performance/memory_stress_test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/liying/sqlcc/tests/performance/memory_stress_test/memory_stress_test.cc -o CMakeFiles/memory_stress_test.dir/memory_stress_test.cc.s
+tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/memory_stress_test.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/memory_stress_test.dir/memory_stress_test.s"
+	cd /home/liying/sqlcc/build-coverage/tests/performance/memory_stress_test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/liying/sqlcc/tests/performance/memory_stress_test/memory_stress_test.cc -o CMakeFiles/memory_stress_test.dir/memory_stress_test.s
 
-tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/memory_stress_test_runner.cc.o: tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/flags.make
-tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/memory_stress_test_runner.cc.o: /home/liying/sqlcc/tests/performance/memory_stress_test/memory_stress_test_runner.cc
-tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/memory_stress_test_runner.cc.o: tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/liying/sqlcc/build-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/memory_stress_test_runner.cc.o"
-	cd /home/liying/sqlcc/build-coverage/tests/performance/memory_stress_test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/memory_stress_test_runner.cc.o -MF CMakeFiles/memory_stress_test.dir/memory_stress_test_runner.cc.o.d -o CMakeFiles/memory_stress_test.dir/memory_stress_test_runner.cc.o -c /home/liying/sqlcc/tests/performance/memory_stress_test/memory_stress_test_runner.cc
+tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/__/performance_test_base.o: tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/flags.make
+tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/__/performance_test_base.o: /home/liying/sqlcc/tests/performance/performance_test_base.cc
+tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/__/performance_test_base.o: tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/liying/sqlcc/build-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/__/performance_test_base.o"
+	cd /home/liying/sqlcc/build-coverage/tests/performance/memory_stress_test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/__/performance_test_base.o -MF CMakeFiles/memory_stress_test.dir/__/performance_test_base.o.d -o CMakeFiles/memory_stress_test.dir/__/performance_test_base.o -c /home/liying/sqlcc/tests/performance/performance_test_base.cc
 
-tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/memory_stress_test_runner.cc.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/memory_stress_test.dir/memory_stress_test_runner.cc.i"
-	cd /home/liying/sqlcc/build-coverage/tests/performance/memory_stress_test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/liying/sqlcc/tests/performance/memory_stress_test/memory_stress_test_runner.cc > CMakeFiles/memory_stress_test.dir/memory_stress_test_runner.cc.i
+tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/__/performance_test_base.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/memory_stress_test.dir/__/performance_test_base.i"
+	cd /home/liying/sqlcc/build-coverage/tests/performance/memory_stress_test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/liying/sqlcc/tests/performance/performance_test_base.cc > CMakeFiles/memory_stress_test.dir/__/performance_test_base.i
 
-tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/memory_stress_test_runner.cc.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/memory_stress_test.dir/memory_stress_test_runner.cc.s"
-	cd /home/liying/sqlcc/build-coverage/tests/performance/memory_stress_test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/liying/sqlcc/tests/performance/memory_stress_test/memory_stress_test_runner.cc -o CMakeFiles/memory_stress_test.dir/memory_stress_test_runner.cc.s
-
-tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/__/performance_test_base.cc.o: tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/flags.make
-tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/__/performance_test_base.cc.o: /home/liying/sqlcc/tests/performance/performance_test_base.cc
-tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/__/performance_test_base.cc.o: tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/liying/sqlcc/build-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/__/performance_test_base.cc.o"
-	cd /home/liying/sqlcc/build-coverage/tests/performance/memory_stress_test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/__/performance_test_base.cc.o -MF CMakeFiles/memory_stress_test.dir/__/performance_test_base.cc.o.d -o CMakeFiles/memory_stress_test.dir/__/performance_test_base.cc.o -c /home/liying/sqlcc/tests/performance/performance_test_base.cc
-
-tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/__/performance_test_base.cc.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/memory_stress_test.dir/__/performance_test_base.cc.i"
-	cd /home/liying/sqlcc/build-coverage/tests/performance/memory_stress_test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/liying/sqlcc/tests/performance/performance_test_base.cc > CMakeFiles/memory_stress_test.dir/__/performance_test_base.cc.i
-
-tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/__/performance_test_base.cc.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/memory_stress_test.dir/__/performance_test_base.cc.s"
-	cd /home/liying/sqlcc/build-coverage/tests/performance/memory_stress_test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/liying/sqlcc/tests/performance/performance_test_base.cc -o CMakeFiles/memory_stress_test.dir/__/performance_test_base.cc.s
+tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/__/performance_test_base.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/memory_stress_test.dir/__/performance_test_base.s"
+	cd /home/liying/sqlcc/build-coverage/tests/performance/memory_stress_test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/liying/sqlcc/tests/performance/performance_test_base.cc -o CMakeFiles/memory_stress_test.dir/__/performance_test_base.s
 
 # Object files for target memory_stress_test
 memory_stress_test_OBJECTS = \
-"CMakeFiles/memory_stress_test.dir/memory_stress_test_main.cc.o" \
-"CMakeFiles/memory_stress_test.dir/memory_stress_test.cc.o" \
-"CMakeFiles/memory_stress_test.dir/memory_stress_test_runner.cc.o" \
-"CMakeFiles/memory_stress_test.dir/__/performance_test_base.cc.o"
+"CMakeFiles/memory_stress_test.dir/memory_stress_test_main.o" \
+"CMakeFiles/memory_stress_test.dir/memory_stress_test.o" \
+"CMakeFiles/memory_stress_test.dir/__/performance_test_base.o"
 
 # External object files for target memory_stress_test
 memory_stress_test_EXTERNAL_OBJECTS =
 
-bin/memory_stress_test: tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/memory_stress_test_main.cc.o
-bin/memory_stress_test: tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/memory_stress_test.cc.o
-bin/memory_stress_test: tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/memory_stress_test_runner.cc.o
-bin/memory_stress_test: tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/__/performance_test_base.cc.o
+bin/memory_stress_test: tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/memory_stress_test_main.o
+bin/memory_stress_test: tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/memory_stress_test.o
+bin/memory_stress_test: tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/__/performance_test_base.o
 bin/memory_stress_test: tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/build.make
+bin/memory_stress_test: lib/libsqlcc_core.a
 bin/memory_stress_test: tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/liying/sqlcc/build-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX executable ../../../bin/memory_stress_test"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/liying/sqlcc/build-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX executable ../../../bin/memory_stress_test"
 	cd /home/liying/sqlcc/build-coverage/tests/performance/memory_stress_test && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/memory_stress_test.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

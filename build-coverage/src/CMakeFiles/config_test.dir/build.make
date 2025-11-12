@@ -69,28 +69,28 @@ include src/CMakeFiles/config_test.dir/progress.make
 # Include the compile flags for this target's objects.
 include src/CMakeFiles/config_test.dir/flags.make
 
-src/CMakeFiles/config_test.dir/config_test.cc.o: src/CMakeFiles/config_test.dir/flags.make
-src/CMakeFiles/config_test.dir/config_test.cc.o: /home/liying/sqlcc/src/config_test.cc
-src/CMakeFiles/config_test.dir/config_test.cc.o: src/CMakeFiles/config_test.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/liying/sqlcc/build-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object src/CMakeFiles/config_test.dir/config_test.cc.o"
-	cd /home/liying/sqlcc/build-coverage/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/config_test.dir/config_test.cc.o -MF CMakeFiles/config_test.dir/config_test.cc.o.d -o CMakeFiles/config_test.dir/config_test.cc.o -c /home/liying/sqlcc/src/config_test.cc
+src/CMakeFiles/config_test.dir/config_test.o: src/CMakeFiles/config_test.dir/flags.make
+src/CMakeFiles/config_test.dir/config_test.o: /home/liying/sqlcc/src/config_test.cc
+src/CMakeFiles/config_test.dir/config_test.o: src/CMakeFiles/config_test.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/liying/sqlcc/build-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object src/CMakeFiles/config_test.dir/config_test.o"
+	cd /home/liying/sqlcc/build-coverage/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/config_test.dir/config_test.o -MF CMakeFiles/config_test.dir/config_test.o.d -o CMakeFiles/config_test.dir/config_test.o -c /home/liying/sqlcc/src/config_test.cc
 
-src/CMakeFiles/config_test.dir/config_test.cc.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/config_test.dir/config_test.cc.i"
-	cd /home/liying/sqlcc/build-coverage/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/liying/sqlcc/src/config_test.cc > CMakeFiles/config_test.dir/config_test.cc.i
+src/CMakeFiles/config_test.dir/config_test.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/config_test.dir/config_test.i"
+	cd /home/liying/sqlcc/build-coverage/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/liying/sqlcc/src/config_test.cc > CMakeFiles/config_test.dir/config_test.i
 
-src/CMakeFiles/config_test.dir/config_test.cc.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/config_test.dir/config_test.cc.s"
-	cd /home/liying/sqlcc/build-coverage/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/liying/sqlcc/src/config_test.cc -o CMakeFiles/config_test.dir/config_test.cc.s
+src/CMakeFiles/config_test.dir/config_test.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/config_test.dir/config_test.s"
+	cd /home/liying/sqlcc/build-coverage/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/liying/sqlcc/src/config_test.cc -o CMakeFiles/config_test.dir/config_test.s
 
 # Object files for target config_test
 config_test_OBJECTS = \
-"CMakeFiles/config_test.dir/config_test.cc.o"
+"CMakeFiles/config_test.dir/config_test.o"
 
 # External object files for target config_test
 config_test_EXTERNAL_OBJECTS =
 
-bin/config_test: src/CMakeFiles/config_test.dir/config_test.cc.o
+bin/config_test: src/CMakeFiles/config_test.dir/config_test.o
 bin/config_test: src/CMakeFiles/config_test.dir/build.make
 bin/config_test: lib/libsqlcc_core.a
 bin/config_test: src/CMakeFiles/config_test.dir/link.txt

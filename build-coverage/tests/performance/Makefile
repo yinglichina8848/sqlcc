@@ -200,6 +200,20 @@ performance_help/fast:
 .PHONY : performance_help/fast
 
 # Convenience name for target.
+tests/performance/CMakeFiles/ensure_performance_results_dir.dir/rule:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/performance/CMakeFiles/ensure_performance_results_dir.dir/rule
+.PHONY : tests/performance/CMakeFiles/ensure_performance_results_dir.dir/rule
+
+# Convenience name for target.
+ensure_performance_results_dir: tests/performance/CMakeFiles/ensure_performance_results_dir.dir/rule
+.PHONY : ensure_performance_results_dir
+
+# fast build rule for target.
+ensure_performance_results_dir/fast:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/ensure_performance_results_dir.dir/build.make tests/performance/CMakeFiles/ensure_performance_results_dir.dir/build
+.PHONY : ensure_performance_results_dir/fast
+
+# Convenience name for target.
 tests/performance/CMakeFiles/run_all_performance_tests.dir/rule:
 	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/performance/CMakeFiles/run_all_performance_tests.dir/rule
 .PHONY : tests/performance/CMakeFiles/run_all_performance_tests.dir/rule
@@ -354,18 +368,88 @@ performance_core/fast:
 .PHONY : performance_core/fast
 
 # Convenience name for target.
-tests/performance/CMakeFiles/performance_all.dir/rule:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/performance/CMakeFiles/performance_all.dir/rule
-.PHONY : tests/performance/CMakeFiles/performance_all.dir/rule
+tests/performance/CMakeFiles/performance_full.dir/rule:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/performance/CMakeFiles/performance_full.dir/rule
+.PHONY : tests/performance/CMakeFiles/performance_full.dir/rule
 
 # Convenience name for target.
-performance_all: tests/performance/CMakeFiles/performance_all.dir/rule
-.PHONY : performance_all
+performance_full: tests/performance/CMakeFiles/performance_full.dir/rule
+.PHONY : performance_full
 
 # fast build rule for target.
-performance_all/fast:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/performance_all.dir/build.make tests/performance/CMakeFiles/performance_all.dir/build
-.PHONY : performance_all/fast
+performance_full/fast:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/performance_full.dir/build.make tests/performance/CMakeFiles/performance_full.dir/build
+.PHONY : performance_full/fast
+
+# Convenience name for target.
+tests/performance/CMakeFiles/performance_quick.dir/rule:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/performance/CMakeFiles/performance_quick.dir/rule
+.PHONY : tests/performance/CMakeFiles/performance_quick.dir/rule
+
+# Convenience name for target.
+performance_quick: tests/performance/CMakeFiles/performance_quick.dir/rule
+.PHONY : performance_quick
+
+# fast build rule for target.
+performance_quick/fast:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/performance_quick.dir/build.make tests/performance/CMakeFiles/performance_quick.dir/build
+.PHONY : performance_quick/fast
+
+# Convenience name for target.
+tests/performance/CMakeFiles/performance_stress.dir/rule:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/performance/CMakeFiles/performance_stress.dir/rule
+.PHONY : tests/performance/CMakeFiles/performance_stress.dir/rule
+
+# Convenience name for target.
+performance_stress: tests/performance/CMakeFiles/performance_stress.dir/rule
+.PHONY : performance_stress
+
+# fast build rule for target.
+performance_stress/fast:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/performance_stress.dir/build.make tests/performance/CMakeFiles/performance_stress.dir/build
+.PHONY : performance_stress/fast
+
+# Convenience name for target.
+tests/performance/CMakeFiles/performance_benchmark.dir/rule:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/performance/CMakeFiles/performance_benchmark.dir/rule
+.PHONY : tests/performance/CMakeFiles/performance_benchmark.dir/rule
+
+# Convenience name for target.
+performance_benchmark: tests/performance/CMakeFiles/performance_benchmark.dir/rule
+.PHONY : performance_benchmark
+
+# fast build rule for target.
+performance_benchmark/fast:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/performance_benchmark.dir/build.make tests/performance/CMakeFiles/performance_benchmark.dir/build
+.PHONY : performance_benchmark/fast
+
+# Convenience name for target.
+tests/performance/CMakeFiles/clean_performance_results.dir/rule:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/performance/CMakeFiles/clean_performance_results.dir/rule
+.PHONY : tests/performance/CMakeFiles/clean_performance_results.dir/rule
+
+# Convenience name for target.
+clean_performance_results: tests/performance/CMakeFiles/clean_performance_results.dir/rule
+.PHONY : clean_performance_results
+
+# fast build rule for target.
+clean_performance_results/fast:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/clean_performance_results.dir/build.make tests/performance/CMakeFiles/clean_performance_results.dir/build
+.PHONY : clean_performance_results/fast
+
+# Convenience name for target.
+tests/performance/CMakeFiles/view_performance_results.dir/rule:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/performance/CMakeFiles/view_performance_results.dir/rule
+.PHONY : tests/performance/CMakeFiles/view_performance_results.dir/rule
+
+# Convenience name for target.
+view_performance_results: tests/performance/CMakeFiles/view_performance_results.dir/rule
+.PHONY : view_performance_results
+
+# fast build rule for target.
+view_performance_results/fast:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/view_performance_results.dir/build.make tests/performance/CMakeFiles/view_performance_results.dir/build
+.PHONY : view_performance_results/fast
 
 # Convenience name for target.
 tests/performance/CMakeFiles/run_performance_suite.dir/rule:
@@ -381,187 +465,110 @@ run_performance_suite/fast:
 	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/run_performance_suite.dir/build.make tests/performance/CMakeFiles/run_performance_suite.dir/build
 .PHONY : run_performance_suite/fast
 
-# Convenience name for target.
-tests/performance/CMakeFiles/run_all_tests.dir/rule:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/performance/CMakeFiles/run_all_tests.dir/rule
-.PHONY : tests/performance/CMakeFiles/run_all_tests.dir/rule
-
-# Convenience name for target.
-run_all_tests: tests/performance/CMakeFiles/run_all_tests.dir/rule
-.PHONY : run_all_tests
-
-# fast build rule for target.
-run_all_tests/fast:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/run_all_tests.dir/build.make tests/performance/CMakeFiles/run_all_tests.dir/build
-.PHONY : run_all_tests/fast
-
-batch_prefetch_performance_test.o: batch_prefetch_performance_test.cc.o
+# target to build an object file
+batch_prefetch_performance_test.o:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/performance_test.dir/build.make tests/performance/CMakeFiles/performance_test.dir/batch_prefetch_performance_test.o
 .PHONY : batch_prefetch_performance_test.o
 
-# target to build an object file
-batch_prefetch_performance_test.cc.o:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/performance_test.dir/build.make tests/performance/CMakeFiles/performance_test.dir/batch_prefetch_performance_test.cc.o
-.PHONY : batch_prefetch_performance_test.cc.o
-
-batch_prefetch_performance_test.i: batch_prefetch_performance_test.cc.i
+# target to preprocess a source file
+batch_prefetch_performance_test.i:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/performance_test.dir/build.make tests/performance/CMakeFiles/performance_test.dir/batch_prefetch_performance_test.i
 .PHONY : batch_prefetch_performance_test.i
 
-# target to preprocess a source file
-batch_prefetch_performance_test.cc.i:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/performance_test.dir/build.make tests/performance/CMakeFiles/performance_test.dir/batch_prefetch_performance_test.cc.i
-.PHONY : batch_prefetch_performance_test.cc.i
-
-batch_prefetch_performance_test.s: batch_prefetch_performance_test.cc.s
+# target to generate assembly for a file
+batch_prefetch_performance_test.s:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/performance_test.dir/build.make tests/performance/CMakeFiles/performance_test.dir/batch_prefetch_performance_test.s
 .PHONY : batch_prefetch_performance_test.s
 
-# target to generate assembly for a file
-batch_prefetch_performance_test.cc.s:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/performance_test.dir/build.make tests/performance/CMakeFiles/performance_test.dir/batch_prefetch_performance_test.cc.s
-.PHONY : batch_prefetch_performance_test.cc.s
-
-buffer_pool_performance_test.o: buffer_pool_performance_test.cc.o
+# target to build an object file
+buffer_pool_performance_test.o:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/performance_test.dir/build.make tests/performance/CMakeFiles/performance_test.dir/buffer_pool_performance_test.o
 .PHONY : buffer_pool_performance_test.o
 
-# target to build an object file
-buffer_pool_performance_test.cc.o:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/performance_test.dir/build.make tests/performance/CMakeFiles/performance_test.dir/buffer_pool_performance_test.cc.o
-.PHONY : buffer_pool_performance_test.cc.o
-
-buffer_pool_performance_test.i: buffer_pool_performance_test.cc.i
+# target to preprocess a source file
+buffer_pool_performance_test.i:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/performance_test.dir/build.make tests/performance/CMakeFiles/performance_test.dir/buffer_pool_performance_test.i
 .PHONY : buffer_pool_performance_test.i
 
-# target to preprocess a source file
-buffer_pool_performance_test.cc.i:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/performance_test.dir/build.make tests/performance/CMakeFiles/performance_test.dir/buffer_pool_performance_test.cc.i
-.PHONY : buffer_pool_performance_test.cc.i
-
-buffer_pool_performance_test.s: buffer_pool_performance_test.cc.s
+# target to generate assembly for a file
+buffer_pool_performance_test.s:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/performance_test.dir/build.make tests/performance/CMakeFiles/performance_test.dir/buffer_pool_performance_test.s
 .PHONY : buffer_pool_performance_test.s
 
-# target to generate assembly for a file
-buffer_pool_performance_test.cc.s:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/performance_test.dir/build.make tests/performance/CMakeFiles/performance_test.dir/buffer_pool_performance_test.cc.s
-.PHONY : buffer_pool_performance_test.cc.s
-
-disk_io_performance_test.o: disk_io_performance_test.cc.o
+# target to build an object file
+disk_io_performance_test.o:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/performance_test.dir/build.make tests/performance/CMakeFiles/performance_test.dir/disk_io_performance_test.o
 .PHONY : disk_io_performance_test.o
 
-# target to build an object file
-disk_io_performance_test.cc.o:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/performance_test.dir/build.make tests/performance/CMakeFiles/performance_test.dir/disk_io_performance_test.cc.o
-.PHONY : disk_io_performance_test.cc.o
-
-disk_io_performance_test.i: disk_io_performance_test.cc.i
+# target to preprocess a source file
+disk_io_performance_test.i:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/performance_test.dir/build.make tests/performance/CMakeFiles/performance_test.dir/disk_io_performance_test.i
 .PHONY : disk_io_performance_test.i
 
-# target to preprocess a source file
-disk_io_performance_test.cc.i:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/performance_test.dir/build.make tests/performance/CMakeFiles/performance_test.dir/disk_io_performance_test.cc.i
-.PHONY : disk_io_performance_test.cc.i
-
-disk_io_performance_test.s: disk_io_performance_test.cc.s
+# target to generate assembly for a file
+disk_io_performance_test.s:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/performance_test.dir/build.make tests/performance/CMakeFiles/performance_test.dir/disk_io_performance_test.s
 .PHONY : disk_io_performance_test.s
 
-# target to generate assembly for a file
-disk_io_performance_test.cc.s:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/performance_test.dir/build.make tests/performance/CMakeFiles/performance_test.dir/disk_io_performance_test.cc.s
-.PHONY : disk_io_performance_test.cc.s
-
-million_insert_test.o: million_insert_test.cc.o
+# target to build an object file
+million_insert_test.o:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/performance_test.dir/build.make tests/performance/CMakeFiles/performance_test.dir/million_insert_test.o
 .PHONY : million_insert_test.o
 
-# target to build an object file
-million_insert_test.cc.o:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/performance_test.dir/build.make tests/performance/CMakeFiles/performance_test.dir/million_insert_test.cc.o
-.PHONY : million_insert_test.cc.o
-
-million_insert_test.i: million_insert_test.cc.i
+# target to preprocess a source file
+million_insert_test.i:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/performance_test.dir/build.make tests/performance/CMakeFiles/performance_test.dir/million_insert_test.i
 .PHONY : million_insert_test.i
 
-# target to preprocess a source file
-million_insert_test.cc.i:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/performance_test.dir/build.make tests/performance/CMakeFiles/performance_test.dir/million_insert_test.cc.i
-.PHONY : million_insert_test.cc.i
-
-million_insert_test.s: million_insert_test.cc.s
+# target to generate assembly for a file
+million_insert_test.s:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/performance_test.dir/build.make tests/performance/CMakeFiles/performance_test.dir/million_insert_test.s
 .PHONY : million_insert_test.s
 
-# target to generate assembly for a file
-million_insert_test.cc.s:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/performance_test.dir/build.make tests/performance/CMakeFiles/performance_test.dir/million_insert_test.cc.s
-.PHONY : million_insert_test.cc.s
-
-mixed_workload_test.o: mixed_workload_test.cc.o
+# target to build an object file
+mixed_workload_test.o:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/performance_test.dir/build.make tests/performance/CMakeFiles/performance_test.dir/mixed_workload_test.o
 .PHONY : mixed_workload_test.o
 
-# target to build an object file
-mixed_workload_test.cc.o:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/performance_test.dir/build.make tests/performance/CMakeFiles/performance_test.dir/mixed_workload_test.cc.o
-.PHONY : mixed_workload_test.cc.o
-
-mixed_workload_test.i: mixed_workload_test.cc.i
+# target to preprocess a source file
+mixed_workload_test.i:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/performance_test.dir/build.make tests/performance/CMakeFiles/performance_test.dir/mixed_workload_test.i
 .PHONY : mixed_workload_test.i
 
-# target to preprocess a source file
-mixed_workload_test.cc.i:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/performance_test.dir/build.make tests/performance/CMakeFiles/performance_test.dir/mixed_workload_test.cc.i
-.PHONY : mixed_workload_test.cc.i
-
-mixed_workload_test.s: mixed_workload_test.cc.s
+# target to generate assembly for a file
+mixed_workload_test.s:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/performance_test.dir/build.make tests/performance/CMakeFiles/performance_test.dir/mixed_workload_test.s
 .PHONY : mixed_workload_test.s
 
-# target to generate assembly for a file
-mixed_workload_test.cc.s:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/performance_test.dir/build.make tests/performance/CMakeFiles/performance_test.dir/mixed_workload_test.cc.s
-.PHONY : mixed_workload_test.cc.s
-
-performance_test.o: performance_test.cc.o
+# target to build an object file
+performance_test.o:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/performance_test.dir/build.make tests/performance/CMakeFiles/performance_test.dir/performance_test.o
 .PHONY : performance_test.o
 
-# target to build an object file
-performance_test.cc.o:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/performance_test.dir/build.make tests/performance/CMakeFiles/performance_test.dir/performance_test.cc.o
-.PHONY : performance_test.cc.o
-
-performance_test.i: performance_test.cc.i
+# target to preprocess a source file
+performance_test.i:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/performance_test.dir/build.make tests/performance/CMakeFiles/performance_test.dir/performance_test.i
 .PHONY : performance_test.i
 
-# target to preprocess a source file
-performance_test.cc.i:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/performance_test.dir/build.make tests/performance/CMakeFiles/performance_test.dir/performance_test.cc.i
-.PHONY : performance_test.cc.i
-
-performance_test.s: performance_test.cc.s
+# target to generate assembly for a file
+performance_test.s:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/performance_test.dir/build.make tests/performance/CMakeFiles/performance_test.dir/performance_test.s
 .PHONY : performance_test.s
 
-# target to generate assembly for a file
-performance_test.cc.s:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/performance_test.dir/build.make tests/performance/CMakeFiles/performance_test.dir/performance_test.cc.s
-.PHONY : performance_test.cc.s
-
-performance_test_base.o: performance_test_base.cc.o
+# target to build an object file
+performance_test_base.o:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/performance_test.dir/build.make tests/performance/CMakeFiles/performance_test.dir/performance_test_base.o
 .PHONY : performance_test_base.o
 
-# target to build an object file
-performance_test_base.cc.o:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/performance_test.dir/build.make tests/performance/CMakeFiles/performance_test.dir/performance_test_base.cc.o
-.PHONY : performance_test_base.cc.o
-
-performance_test_base.i: performance_test_base.cc.i
+# target to preprocess a source file
+performance_test_base.i:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/performance_test.dir/build.make tests/performance/CMakeFiles/performance_test.dir/performance_test_base.i
 .PHONY : performance_test_base.i
 
-# target to preprocess a source file
-performance_test_base.cc.i:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/performance_test.dir/build.make tests/performance/CMakeFiles/performance_test.dir/performance_test_base.cc.i
-.PHONY : performance_test_base.cc.i
-
-performance_test_base.s: performance_test_base.cc.s
-.PHONY : performance_test_base.s
-
 # target to generate assembly for a file
-performance_test_base.cc.s:
-	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/performance_test.dir/build.make tests/performance/CMakeFiles/performance_test.dir/performance_test_base.cc.s
-.PHONY : performance_test_base.cc.s
+performance_test_base.s:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/performance_test.dir/build.make tests/performance/CMakeFiles/performance_test.dir/performance_test_base.s
+.PHONY : performance_test_base.s
 
 # Help Target
 help:
@@ -576,11 +583,15 @@ help:
 	@echo "... list_install_components"
 	@echo "... rebuild_cache"
 	@echo "... test"
-	@echo "... performance_all"
+	@echo "... clean_performance_results"
+	@echo "... ensure_performance_results_dir"
+	@echo "... performance_benchmark"
 	@echo "... performance_core"
+	@echo "... performance_full"
 	@echo "... performance_help"
+	@echo "... performance_quick"
+	@echo "... performance_stress"
 	@echo "... run_all_performance_tests"
-	@echo "... run_all_tests"
 	@echo "... run_batch_prefetch_tests"
 	@echo "... run_buffer_pool_tests"
 	@echo "... run_concurrency_test"
@@ -591,6 +602,7 @@ help:
 	@echo "... run_mixed_workload_tests"
 	@echo "... run_performance_suite"
 	@echo "... run_stability_test"
+	@echo "... view_performance_results"
 	@echo "... performance_test"
 	@echo "... batch_prefetch_performance_test.o"
 	@echo "... batch_prefetch_performance_test.i"

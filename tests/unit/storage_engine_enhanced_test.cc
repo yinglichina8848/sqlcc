@@ -192,6 +192,7 @@ TEST_F(StorageEngineEnhancedTest, UnpinPageFailure) {
     
     // 再次取消固定同一个页面，可能会失败
     bool result2 = storage_engine->UnpinPage(page_id, false);
+    (void)result2; // 避免未使用变量警告
     // 结果取决于缓冲池实现，这里只验证方法能被调用
 }
 
@@ -217,6 +218,7 @@ TEST_F(StorageEngineEnhancedTest, FlushPageFailure) {
     
     // 尝试刷新非脏页
     bool result1 = storage_engine->FlushPage(page_id);
+    (void)result1; // 避免未使用变量警告
     // 结果取决于缓冲池实现，这里只验证方法能被调用
     
     // 创建一个页面并标记为脏页，然后尝试刷新

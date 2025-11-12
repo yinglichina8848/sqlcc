@@ -1,116 +1,9 @@
-# 配置管理器单元测试CMake配置
-
-# 启用测试
-enable_testing()
-
-# 查找Google Test库
-find_package(GTest REQUIRED)
-
-# 包含头文件目录
 include_directories(${CMAKE_SOURCE_DIR}/include)
 
-<<<<<<< Updated upstream
-# 创建配置管理器测试可执行文件
-add_executable(config_manager_test 
-    unit/config_manager_test.cc
-)
-
-# 链接必要的库
-target_link_libraries(config_manager_test 
-    sqlcc_core
-    GTest::gtest 
-    GTest::gtest_main
-    pthread
-)
-
-# 注册配置管理器测试
-add_test(NAME ConfigManagerTest COMMAND config_manager_test)
-
-# 创建配置管理器增强测试可执行文件
-add_executable(config_manager_enhanced_test 
-    unit/config_manager_enhanced_test.cc
-)
-
-# 链接必要的库
-target_link_libraries(config_manager_enhanced_test 
-    sqlcc_core
-    GTest::gtest 
-    GTest::gtest_main
-    pthread
-)
-
-# 注册配置管理器增强测试
-add_test(NAME ConfigManagerEnhancedTest COMMAND config_manager_enhanced_test)
-
-# 创建存储引擎测试可执行文件
-add_executable(storage_engine_test storage_engine_test.cc)
-
-# 链接必要的库
-target_link_libraries(storage_engine_test 
-    sqlcc_core
-    GTest::gtest 
-    GTest::gtest_main
-    pthread
-)
-
-# 注册存储引擎测试
-add_test(NAME StorageEngineTest COMMAND storage_engine_test)
-
-# Add enhanced disk manager tests
-add_executable(disk_manager_enhanced_test unit/disk_manager_enhanced_test.cc)
-target_link_libraries(disk_manager_enhanced_test 
-    sqlcc_core 
-    GTest::gtest 
-    GTest::gtest_main 
-    pthread
-)
-
-# Add enhanced buffer pool tests
-add_executable(buffer_pool_enhanced_test unit/buffer_pool_enhanced_test.cc)
-target_link_libraries(buffer_pool_enhanced_test 
-    sqlcc_core 
-    GTest::gtest 
-    GTest::gtest_main 
-    pthread
-)
-
-# Register enhanced buffer pool tests
-add_test(NAME BufferPoolEnhancedTest COMMAND buffer_pool_enhanced_test)
-add_test(NAME DiskManagerEnhancedTest COMMAND disk_manager_enhanced_test)
-
-# Page enhanced test
-add_executable(page_enhanced_test unit/page_enhanced_test.cc)
-target_link_libraries(page_enhanced_test 
-    sqlcc_core 
-    GTest::gtest 
-    GTest::gtest_main 
-    pthread
-)
-
-# Register enhanced page tests
-add_test(NAME PageEnhancedTest COMMAND page_enhanced_test)
-
-# Add enhanced storage engine tests
-add_executable(storage_engine_enhanced_test unit/storage_engine_enhanced_test.cc)
-target_link_libraries(storage_engine_enhanced_test 
-    sqlcc_core 
-    GTest::gtest 
-    GTest::gtest_main 
-    pthread
-)
-
-# Register enhanced storage engine tests
-add_test(NAME StorageEngineEnhancedTest COMMAND storage_engine_enhanced_test)
-
-# Add performance tests
-add_subdirectory(performance)
-=======
 # 定义测试源文件列表
 set(TEST_SOURCES
     storage_engine_test.cc
-    exception_test.cc
     buffer_pool_test.cc
-    page_test.cc
     storage_engine_newpage_test.cc
     disk_manager_test.cc
 )
@@ -185,8 +78,8 @@ endforeach()
 
 # 创建测试组
 set_tests_properties(
-    storage_engine_test exception_test buffer_pool_test 
-    page_test storage_engine_newpage_test disk_manager_test
+    storage_engine_test buffer_pool_test 
+    storage_engine_newpage_test disk_manager_test
     config_manager_test config_manager_enhanced_test
     buffer_pool_enhanced_test page_enhanced_test 
     disk_manager_enhanced_test storage_engine_enhanced_test
@@ -208,22 +101,10 @@ add_custom_target(run_storage_engine_test
     COMMENT "Run storage engine test"
 )
 
-add_custom_target(run_exception_test
-    COMMAND $<TARGET_FILE:exception_test>
-    DEPENDS exception_test
-    COMMENT "Run exception test"
-)
-
 add_custom_target(run_buffer_pool_test
     COMMAND $<TARGET_FILE:buffer_pool_test>
     DEPENDS buffer_pool_test
     COMMENT "Run buffer pool test"
-)
-
-add_custom_target(run_page_test
-    COMMAND $<TARGET_FILE:page_test>
-    DEPENDS page_test
-    COMMENT "Run page test"
 )
 
 add_custom_target(run_disk_manager_test
@@ -234,4 +115,3 @@ add_custom_target(run_disk_manager_test
 
 # Add performance tests
 add_subdirectory(performance)
->>>>>>> Stashed changes

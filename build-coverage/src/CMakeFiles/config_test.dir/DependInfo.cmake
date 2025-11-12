@@ -8,7 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/home/liying/sqlcc/src/config_test.cc" "src/CMakeFiles/config_test.dir/config_test.cc.o" "gcc" "src/CMakeFiles/config_test.dir/config_test.cc.o.d"
+  "/home/liying/sqlcc/src/config_test.cc" "src/CMakeFiles/config_test.dir/config_test.o" "gcc" "src/CMakeFiles/config_test.dir/config_test.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

@@ -36,11 +36,7 @@ StorageEngine::StorageEngine(ConfigManager& config_manager)
     
     // 注册配置变更回调
     config_manager_.RegisterChangeCallback("buffer_pool.pool_size", 
-<<<<<<< Updated upstream
-        [this](const std::string& key, const ConfigValue& value) {
-=======
         [this]([[maybe_unused]] const std::string& key, [[maybe_unused]] const ConfigValue& value) {
->>>>>>> Stashed changes
             // 处理缓冲池大小变更
             if (std::holds_alternative<int>(value)) {
                 size_t new_size = static_cast<size_t>(std::get<int>(value));
@@ -216,15 +212,15 @@ bool StorageEngine::DeletePage(int32_t page_id) {
 }
 
 // 刷新所有页面到磁盘实现
-// Why: 在系统关闭或检查点时，需要将所有修改过的页面写入磁盘，保证数据持久性
-// What: FlushAllPages方法将缓冲池中所有脏页写入磁盘
+// Why: 需要将所有修改过的页面数据持久化到磁盘，保证数据的一致性和持久性
+// What: FlushAllPages方法将所有脏页写入磁盘文件
 // How: 调用缓冲池的FlushAllPages方法，由缓冲池协调与磁盘管理器的交互
 void StorageEngine::FlushAllPages() {
     // 记录刷新所有页面操作，便于调试
     // Why: 日志记录有助于系统运行状态的监控和问题排查
     // What: 记录正在刷新所有页面
-    // How: 使用SQLCC_LOG_INFO宏记录信息级别日志
-    SQLCC_LOG_INFO("Flushing all pages");
+    // How: 使用SQLCC_LOG_DEBUG宏记录调试级别日志
+    SQLCC_LOG_DEBUG("Flushing all pages");
     // 调用缓冲池刷新所有页面
     // Why: 缓冲池负责管理内存中的页面，包括将所有页面写入磁盘
     // What: 调用BufferPool的FlushAllPages方法刷新所有页面
@@ -233,8 +229,41 @@ void StorageEngine::FlushAllPages() {
     // 记录操作完成，便于调试
     // Why: 日志记录有助于系统运行状态的监控和问题排查
     // What: 记录所有页面刷新完成
-    // How: 使用SQLCC_LOG_INFO宏记录信息级别日志
-    SQLCC_LOG_INFO("All pages flushed successfully");
+    // How: 使用SQLCC_LOG_DEBUG宏记录调试级别日志
+    SQLCC_LOG_DEBUG("All pages flushed successfully");
 }
 
-}  // namespace sqlcc
+// 获取数据库统计信息实现
+// Why: 需要了解数据库的运行状态和性能指标，便于监控和优化
+// What: GetStats方法返回数据库的统计信息，包括页面数量、缓冲池状态等
+// How: 调用缓冲池的GetStats方法获取缓冲池统计信息，将map转换为字符串格式
+std::string StorageEngine::GetStats() const {
+    // 记录获取统计信息操作，便于调试
+    // Why: 日志记录有助于系统运行状态的监控和问题排查
+    // What: 记录正在获取数据库统计信息
+    // How: 使用SQLCC_LOG_DEBUG宏记录调试级别日志
+    SQLCC_LOG_DEBUG("Getting database statistics");
+    // 获取缓冲池统计信息
+    // Why: 缓冲池是数据库的核心组件，其统计信息反映了数据库的运行状态
+    // What: 调用BufferPool的GetStats方法获取缓冲池统计信息
+    // How: 直接调用buffer_pool_的GetStats方法，获取map格式的统计信息
+    std::unordered_map<std::string, double> stats_map = buffer_pool_->GetStats();
+    
+    // 将统计信息map转换为字符串格式
+    // Why: 需要将map格式的统计信息转换为字符串以便返回和显示
+    // What: 遍历map中的键值对，构建格式化的字符串
+    // How: 使用字符串流拼接键值对，添加适当的分隔符
+    std::string stats = "Buffer Pool Stats: ";
+    for (const auto& pair : stats_map) {
+        stats += pair.first + "=" + std::to_string(pair.second) + " ";
+    }
+    
+    // 记录操作完成，便于调试
+    // Why: 日志记录有助于系统运行状态的监控和问题排查
+    // What: 记录获取统计信息完成
+    // How: 使用SQLCC_LOG_DEBUG宏记录调试级别日志
+    SQLCC_LOG_DEBUG("Database statistics retrieved successfully");
+    return stats;
+}
+
+} // namespace sqlcc

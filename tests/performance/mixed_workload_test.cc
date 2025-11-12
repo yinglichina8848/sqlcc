@@ -253,6 +253,7 @@ void MixedWorkloadTest::GenerateOperationSequence(const WorkloadConfig& config,
 }
 
 bool MixedWorkloadTest::ExecuteOperation(OperationType op, size_t thread_id) {
+    (void)thread_id; // 避免未使用参数警告
     switch (op) {
         case OperationType::READ:
             if (existing_pages_.empty()) {
@@ -294,6 +295,8 @@ bool MixedWorkloadTest::ExecuteOperation(OperationType op, size_t thread_id) {
 }
 
 bool MixedWorkloadTest::SimulatePageRead(int32_t page_id) {
+    (void)page_id; // 避免未使用参数警告
+    
     // 模拟页面读取操作
     // 在实际实现中，这里会调用存储引擎的页面读取接口
     // 这里我们只是模拟延迟
@@ -344,6 +347,8 @@ bool MixedWorkloadTest::SimulatePageCreate() {
 }
 
 bool MixedWorkloadTest::SimulatePageDelete(int32_t page_id) {
+    (void)page_id; // 避免未使用参数警告
+    
     // 模拟页面删除操作
     // 在实际实现中，这里会调用存储引擎的页面删除接口
     // 这里我们只是模拟延迟
