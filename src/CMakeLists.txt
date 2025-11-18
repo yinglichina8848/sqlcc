@@ -19,6 +19,8 @@ add_library(sqlcc_core STATIC
     storage_engine.cc
     index_manager.cpp
     b_plus_tree.cc
+    transaction_manager.cc
+    # sqlcc/wal_manager.cc  # v0.4.8暂时移除，后续集成
 )
 
 # 设置包含目录
