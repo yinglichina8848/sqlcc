@@ -31,6 +31,93 @@ private:
 };
 
 /**
+ * 表级约束
+ */
+class TableConstraint {
+public:
+    enum Type {
+        PRIMARY_KEY,
+        UNIQUE,
+        FOREIGN_KEY,
+        CHECK
+    };
+
+    TableConstraint(Type type);
+    virtual ~TableConstraint() = default;
+
+    Type getType() const;
+    void setName(const std::string& name);
+    const std::string& getName() const;
+
+protected:
+    Type type_;
+    std::string name_; // 约束名（可选）
+};
+
+/**
+ * 主键约束
+ */
+class PrimaryKeyConstraint : public TableConstraint {
+public:
+    PrimaryKeyConstraint();
+
+    void addColumn(const std::string& columnName);
+    const std::vector<std::string>& getColumns() const;
+
+private:
+    std::vector<std::string> columns_;
+};
+
+/**
+ * 唯一约束
+ */
+class UniqueConstraint : public TableConstraint {
+public:
+    UniqueConstraint();
+
+    void addColumn(const std::string& columnName);
+    const std::vector<std::string>& getColumns() const;
+
+private:
+    std::vector<std::string> columns_;
+};
+
+/**
+ * 外键约束
+ */
+class ForeignKeyConstraint : public TableConstraint {
+public:
+    ForeignKeyConstraint();
+
+    void addColumn(const std::string& columnName);
+    void setReferencedTable(const std::string& tableName);
+    void setReferencedColumn(const std::string& columnName);
+
+    const std::vector<std::string>& getColumns() const;
+    const std::string& getReferencedTable() const;
+    const std::string& getReferencedColumn() const;
+
+private:
+    std::vector<std::string> columns_;
+    std::string referencedTable_;
+    std::string referencedColumn_;
+};
+
+/**
+ * CHECK约束
+ */
+class CheckConstraint : public TableConstraint {
+public:
+    CheckConstraint();
+
+    void setCondition(std::unique_ptr<Expression> condition);
+    const std::unique_ptr<Expression>& getCondition() const;
+
+private:
+    std::unique_ptr<Expression> condition_;
+};
+
+/**
  * 列定义
  */
 class ColumnDefinition {
@@ -46,12 +133,19 @@ public:
     void setDefaultValue(std::unique_ptr<Expression> defaultValue);
     void setPrimaryKey(bool primaryKey);
     void setUnique(bool unique);
+    void setForeignKey(const std::string& refTable, const std::string& refColumn);
+    void setCheckConstraint(std::unique_ptr<Expression> checkExpr);
 
     bool isNullable() const;
     bool hasDefaultValue() const;
     const std::unique_ptr<Expression>& getDefaultValue() const;
     bool isPrimaryKey() const;
     bool isUnique() const;
+    bool isForeignKey() const;
+    const std::string& getReferencedTable() const;
+    const std::string& getReferencedColumn() const;
+    bool hasCheckConstraint() const;
+    const std::unique_ptr<Expression>& getCheckConstraint() const;
 
 private:
     std::string name_;                     // 列名
@@ -60,6 +154,9 @@ private:
     std::unique_ptr<Expression> defaultValue_; // 默认值
     bool primaryKey_;                      // 是否为主键
     bool unique_;                          // 是否唯一
+    std::string referencedTable_;          // 外键引用的表名
+    std::string referencedColumn_;         // 外键引用的列名
+    std::unique_ptr<Expression> checkConstraint_; // CHECK约束表达式
 };
 
 /**
@@ -95,39 +192,42 @@ public:
         DATABASE,
         TABLE
     };
-    
+
     /**
      * 构造函数
      * @param target 创建目标（数据库或表）
      */
     CreateStatement(Target target);
-    
+
     /**
      * 获取语句类型
      */
     Type getType() const override { return CREATE; }
-    
+
     /**
      * 接受访问者
      */
     void accept(NodeVisitor& visitor) override { visitor.visit(*this); }
-    
+
     // 设置方法
     void setDatabaseName(const std::string& name);
     void setTableName(const std::string& name);
     void addColumn(class ColumnDefinition&& column);
-    
+    void addTableConstraint(std::unique_ptr<class TableConstraint> constraint);
+
     // 获取方法
     Target getTarget() const;
     const std::string& getDatabaseName() const;
     const std::string& getTableName() const;
     const std::vector<class ColumnDefinition>& getColumns() const;
-    
+    const std::vector<std::unique_ptr<class TableConstraint>>& getTableConstraints() const;
+
 private:
     Target target_;                          // 创建目标
     std::string databaseName_;               // 数据库名
     std::string tableName_;                  // 表名
     std::vector<class ColumnDefinition> columns_; // 列定义
+    std::vector<std::unique_ptr<class TableConstraint>> tableConstraints_; // 表级约束
 };
 
 /**
@@ -362,27 +462,28 @@ private:
 class CreateIndexStatement : public Statement {
 public:
     CreateIndexStatement();
-    
+
     Type getType() const override { return CREATE_INDEX; }
     void accept(NodeVisitor& visitor) override { visitor.visit(*this); }
-    
+
     // 设置方法
     void setIndexName(const std::string& name);
     void setTableName(const std::string& name);
-    void setColumnName(const std::string& name);
+    void addColumnName(const std::string& column);  // 支持多列
     void setUnique(bool unique);
-    
+
     // 获取方法
     const std::string& getIndexName() const;
     const std::string& getTableName() const;
-    const std::string& getColumnName() const;
+    const std::vector<std::string>& getColumnNames() const;  // 返回列名列表
+    const std::string& getColumnName() const;               // 向后兼容方法
     bool isUnique() const;
-    
+
 private:
-    std::string indexName_;  // 索引名
-    std::string tableName_;  // 表名
-    std::string columnName_; // 列名
-    bool unique_;           // 是否为唯一索引
+    std::string indexName_;          // 索引名
+    std::string tableName_;          // 表名
+    std::vector<std::string> columns_; // 列名列表（支持多列）
+    bool unique_;                   // 是否为唯一索引
 };
 
 /**
@@ -510,17 +611,69 @@ private:
 class FunctionExpression : public Expression {
 public:
     FunctionExpression(const std::string& name);
-    
+
     Type getType() const override { return FUNCTION; }
     void accept(NodeVisitor& visitor) override { visitor.visit(*this); }
-    
+
     void addArgument(std::unique_ptr<Expression> arg);
     const std::string& getName() const;
     const std::vector<std::unique_ptr<Expression>>& getArguments() const;
-    
+
 private:
     std::string name_;                         // 函数名
     std::vector<std::unique_ptr<Expression>> arguments_; // 参数列表
+};
+
+/**
+ * 子查询表达式基类
+ */
+class SubqueryExpression : public Expression {
+public:
+    enum SubqueryType {
+        SCALAR,    // 标量子查询
+        EXISTS,    // EXISTS子查询
+        IN,        // IN子查询
+        NOT_IN     // NOT IN子查询
+    };
+
+    SubqueryExpression(SubqueryType type);
+    SubqueryExpression(SubqueryType type, std::unique_ptr<SelectStatement> subquery);
+
+    void setSubquery(std::unique_ptr<SelectStatement> subquery);
+    const std::unique_ptr<SelectStatement>& getSubquery() const;
+
+    SubqueryType getSubqueryType() const;
+
+protected:
+    SubqueryType type_;
+    std::unique_ptr<SelectStatement> subquery_;
+};
+
+/**
+ * EXISTS子查询表达式
+ */
+class ExistsExpression : public SubqueryExpression {
+public:
+    ExistsExpression(std::unique_ptr<SelectStatement> subquery);
+
+    Type getType() const override { return Expression::EXISTS; }
+    void accept(NodeVisitor& visitor) override { visitor.visit(*this); }
+};
+
+/**
+ * IN子查询表达式
+ */
+class InExpression : public SubqueryExpression {
+public:
+    InExpression(std::unique_ptr<Expression> leftExpr, std::unique_ptr<SelectStatement> subquery, bool isNotIn = false);
+
+    Type getType() const override { return Expression::IN; }
+    void accept(NodeVisitor& visitor) override { visitor.visit(*this); }
+
+    const std::unique_ptr<Expression>& getLeftExpression() const;
+
+private:
+    std::unique_ptr<Expression> leftExpr_; // IN左边的表达式
 };
 
 // ================ 子句节点实现 ================

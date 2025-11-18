@@ -136,6 +136,12 @@ private:
      * @return 主键表达式节点
      */
     std::unique_ptr<Expression> parsePrimaryExpression();
+
+    /**
+     * 解析SELECT语句（用于子查询）
+     * @return SELECT语句节点
+     */
+    std::unique_ptr<SelectStatement> parseSelectStatement();
     
     /**
      * 解析SELECT语句
@@ -184,6 +190,18 @@ private:
      * @return USE语句节点
      */
     std::unique_ptr<Statement> parseUse();
+
+    /**
+     * 解析CREATE INDEX语句
+     * @return CREATE INDEX语句节点
+     */
+    std::unique_ptr<CreateIndexStatement> parseCreateIndex();
+
+    /**
+     * 解析DROP INDEX语句
+     * @return DROP INDEX语句节点
+     */
+    std::unique_ptr<DropIndexStatement> parseDropIndex();
     
     /**
      * 解析CREATE DATABASE语句
@@ -226,7 +244,37 @@ private:
      * @return 列定义
      */
     ColumnDefinition parseColumnDefinition();
-    
+
+    /**
+     * 解析表级约束
+     * @return 表级约束指针
+     */
+    std::unique_ptr<TableConstraint> parseTableConstraint();
+
+    /**
+     * 解析PRIMARY KEY表级约束
+     * @return 主键约束指针
+     */
+    std::unique_ptr<PrimaryKeyConstraint> parsePrimaryKeyConstraint();
+
+    /**
+     * 解析UNIQUE表级约束
+     * @return 唯一约束指针
+     */
+    std::unique_ptr<UniqueConstraint> parseUniqueConstraint();
+
+    /**
+     * 解析FOREIGN KEY表级约束
+     * @return 外键约束指针
+     */
+    std::unique_ptr<ForeignKeyConstraint> parseForeignKeyConstraint();
+
+    /**
+     * 解析CHECK表级约束
+     * @return CHECK约束指针
+     */
+    std::unique_ptr<CheckConstraint> parseCheckConstraint();
+
     /**
      * 解析选择项列表
      * @return 选择项列表

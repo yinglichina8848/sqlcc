@@ -237,9 +237,30 @@ Token::Type Lexer::getKeywordType(const std::string& identifier) const {
         {"IS", Token::KEYWORD_IS},
         {"LIKE", Token::KEYWORD_LIKE},
         {"IN", Token::KEYWORD_IN},
+        {"EXISTS", Token::KEYWORD_EXISTS},
         {"BETWEEN", Token::KEYWORD_BETWEEN},
         {"ASC", Token::KEYWORD_ASC},
-        {"DESC", Token::KEYWORD_DESC}
+        {"DESC", Token::KEYWORD_DESC},
+        {"INDEX", Token::KEYWORD_INDEX},
+        {"DECIMAL", Token::KEYWORD_DECIMAL},
+        {"DATE", Token::KEYWORD_DATE},
+        {"TIME", Token::KEYWORD_TIME},
+        {"TIMESTAMP", Token::KEYWORD_TIMESTAMP},
+        {"CHAR", Token::KEYWORD_CHAR},
+        {"VARCHAR", Token::KEYWORD_VARCHAR},
+        {"SMALLINT", Token::KEYWORD_SMALLINT},
+        {"DOUBLE", Token::KEYWORD_DOUBLE},
+        {"BOOLEAN", Token::KEYWORD_BOOLEAN},
+        {"PRIMARY", Token::KEYWORD_PRIMARY},
+        {"KEY", Token::KEYWORD_KEY},
+        {"UNIQUE", Token::KEYWORD_UNIQUE},
+        {"IF", Token::KEYWORD_IF},
+        {"FOREIGN", Token::KEYWORD_FOREIGN},
+        {"REFERENCES", Token::KEYWORD_REFERENCES},
+        {"CONSTRAINT", Token::KEYWORD_CONSTRAINT},
+        {"NOT", Token::KEYWORD_NOT_NULL}, // 已有NOT
+        {"NULL", Token::KEYWORD_NOT_NULL}, // 已有NULL
+        {"DEFAULT", Token::KEYWORD_DEFAULT}
     };
     
     auto it = keywords.find(identifier);

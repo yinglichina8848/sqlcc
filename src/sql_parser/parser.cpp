@@ -90,14 +90,15 @@ std::unique_ptr<sqlcc::sql_parser::Statement> sqlcc::sql_parser::Parser::parseSt
     
     // 检查是否是有效的语句开始token
     Token::Type currentType = this->currentToken_.getType();
-    if (currentType != Token::Type::KEYWORD_SELECT && 
-        currentType != Token::Type::KEYWORD_INSERT && 
-        currentType != Token::Type::KEYWORD_UPDATE && 
-        currentType != Token::Type::KEYWORD_DELETE && 
-        currentType != Token::Type::KEYWORD_CREATE && 
-        currentType != Token::Type::KEYWORD_DROP && 
-        currentType != Token::Type::KEYWORD_ALTER && 
-        currentType != Token::Type::KEYWORD_USE) {
+    if (currentType != Token::Type::KEYWORD_SELECT &&
+        currentType != Token::Type::KEYWORD_INSERT &&
+        currentType != Token::Type::KEYWORD_UPDATE &&
+        currentType != Token::Type::KEYWORD_DELETE &&
+        currentType != Token::Type::KEYWORD_CREATE &&
+        currentType != Token::Type::KEYWORD_DROP &&
+        currentType != Token::Type::KEYWORD_ALTER &&
+        currentType != Token::Type::KEYWORD_USE &&
+        currentType != Token::Type::KEYWORD_INDEX) {
         // 对于无效的token，抛出异常以支持错误处理测试
         throw std::runtime_error("Invalid SQL statement");
     }
@@ -154,10 +155,24 @@ std::unique_ptr<sqlcc::sql_parser::Statement> sqlcc::sql_parser::Parser::parseSt
             return parseDelete();
         }
         case Token::Type::KEYWORD_CREATE: {
-            return parseCreate();
+            this->consume(); // 消费CREATE
+            if (this->currentToken_.getType() == Token::Type::KEYWORD_INDEX) {
+                this->consume(); // 消费INDEX
+                return parseCreateIndex();
+            } else {
+                // 正常CREATE解析
+                return parseCreate();
+            }
         }
         case Token::Type::KEYWORD_DROP: {
-            return parseDrop();
+            this->consume(); // 消费DROP
+            if (this->currentToken_.getType() == Token::Type::KEYWORD_INDEX) {
+                this->consume(); // 消费INDEX
+                return parseDropIndex();
+            } else {
+                // 正常DROP解析
+                return parseDrop();
+            }
         }
         case Token::Type::KEYWORD_ALTER: {
             return parseAlter();
@@ -169,6 +184,7 @@ std::unique_ptr<sqlcc::sql_parser::Statement> sqlcc::sql_parser::Parser::parseSt
             // 这个分支不应该被执行，因为我们已经在前面检查过了
             throw std::runtime_error("Invalid statement start");
         }
+        [[fallthrough]]; // 添加fallthrough标记以避免编译警告
     }
 }
 
@@ -176,13 +192,7 @@ std::unique_ptr<sqlcc::sql_parser::Statement> sqlcc::sql_parser::Parser::parseSt
 // 使用直接的currentToken_检查和consume()调用替代
 
 std::unique_ptr<sqlcc::sql_parser::Statement> sqlcc::sql_parser::Parser::parseCreate() {
-    // 检查CREATE关键字
-    if (this->currentToken_.getLexeme() != "CREATE") {
-        this->reportError("Expected CREATE keyword");
-        return nullptr;
-    }
-    this->consume(); // 消费CREATE
-    
+    // CREATE关键字已经在parseStatement中消费了，开始解析TARGET
     CreateStatement::Target target;
     
     if (this->currentToken_.getType() == sqlcc::sql_parser::Token::Type::KEYWORD_DATABASE) {
@@ -220,6 +230,7 @@ std::unique_ptr<sqlcc::sql_parser::Statement> sqlcc::sql_parser::Parser::parseCr
             return nullptr;
         }
         
+        // 解析表定义内容（列定义和表级约束）
         bool firstColumn = true;
         while (this->currentToken_.getType() != Token::Type::PUNCTUATION_RIGHT_PAREN) {
             if (!firstColumn) {
@@ -227,15 +238,43 @@ std::unique_ptr<sqlcc::sql_parser::Statement> sqlcc::sql_parser::Parser::parseCr
                     this->reportError("Expected comma");
                     return nullptr;
                 }
-                this->consume();
+                this->consume(); // 消费逗号
             }
             firstColumn = false;
-            
-            // 解析列定义
-            ColumnDefinition column = parseColumnDefinition();
-            stmt->addColumn(std::move(column));
+
+            // 检查是否为表级约束关键字
+            if (this->currentToken_.getType() == Token::Type::KEYWORD_CONSTRAINT) {
+                // 消费CONSTRAINT关键字
+                this->consume();
+                // 解析表级约束
+                auto tableConstraint = this->parseTableConstraint();
+                if (!tableConstraint) {
+                    this->reportError("Invalid table constraint");
+                    return nullptr;
+                }
+                stmt->addTableConstraint(std::move(tableConstraint));
+            } else if (this->currentToken_.getType() == Token::Type::KEYWORD_PRIMARY) {
+                // PRIMARY KEY表级约束
+                // 不消费PRIMARY，让parsePrimaryKeyConstraint处理
+                auto primaryKeyConstraint = this->parsePrimaryKeyConstraint();
+                stmt->addTableConstraint(std::move(primaryKeyConstraint));
+            } else if (this->currentToken_.getType() == Token::Type::KEYWORD_UNIQUE) {
+                // UNIQUE表级约束
+                // 不消费UNIQUE，让parseUniqueConstraint处理
+                auto uniqueConstraint = this->parseUniqueConstraint();
+                stmt->addTableConstraint(std::move(uniqueConstraint));
+            } else if (this->currentToken_.getType() == Token::Type::KEYWORD_FOREIGN) {
+                // FOREIGN KEY表级约束
+                // 不消费FOREIGN，让parseForeignKeyConstraint处理
+                auto foreignKeyConstraint = this->parseForeignKeyConstraint();
+                stmt->addTableConstraint(std::move(foreignKeyConstraint));
+            } else {
+                // 解析列定义
+                ColumnDefinition column = parseColumnDefinition();
+                stmt->addColumn(std::move(column));
+            }
         }
-        
+
         // 检查右括号
         if (this->currentToken_.getType() != Token::Type::PUNCTUATION_RIGHT_PAREN) {
             this->reportError("Expected closing parenthesis");
@@ -257,7 +296,17 @@ ColumnDefinition Parser::parseColumnDefinition() {
     this->consume();
     
     // 解析列类型，包括可能的带括号的类型定义（如VARCHAR(255)）
-    if (this->currentToken_.getType() != Token::Type::IDENTIFIER) {
+    // 列类型可以是标识符（如INT, BIGINT）或特定关键字（如VARCHAR, DATE）
+    if (this->currentToken_.getType() != Token::Type::IDENTIFIER &&
+        this->currentToken_.getType() != Token::Type::KEYWORD_VARCHAR &&
+        this->currentToken_.getType() != Token::Type::KEYWORD_DECIMAL &&
+        this->currentToken_.getType() != Token::Type::KEYWORD_DATE &&
+        this->currentToken_.getType() != Token::Type::KEYWORD_TIME &&
+        this->currentToken_.getType() != Token::Type::KEYWORD_TIMESTAMP &&
+        this->currentToken_.getType() != Token::Type::KEYWORD_CHAR &&
+        this->currentToken_.getType() != Token::Type::KEYWORD_SMALLINT &&
+        this->currentToken_.getType() != Token::Type::KEYWORD_DOUBLE &&
+        this->currentToken_.getType() != Token::Type::KEYWORD_BOOLEAN) {
         this->reportError("Expected column type");
         return ColumnDefinition(nameToken.getLexeme(), "");
     }
@@ -314,6 +363,65 @@ ColumnDefinition Parser::parseColumnDefinition() {
         } else if (this->currentToken_.getLexeme() == "UNIQUE") {
             this->consume(); // 消费UNIQUE
             column.setUnique(true);
+        } else if (this->currentToken_.getLexeme() == "REFERENCES") {
+            // 解析外键约束: REFERENCES ref_table(ref_column)
+            this->consume(); // 消费REFERENCES
+
+            // 解析引用的表名
+            if (this->currentToken_.getType() != Token::Type::IDENTIFIER) {
+                this->reportError("Expected table name after REFERENCES");
+                return column;
+            }
+            std::string refTable = this->currentToken_.getLexeme();
+            this->consume(); // 消费表名
+
+            // 解析左括号
+            if (!this->match(Token::Type::PUNCTUATION_LEFT_PAREN)) {
+                this->reportError("Expected opening parenthesis after table name");
+                return column;
+            }
+
+            // 解析引用的列名
+            if (this->currentToken_.getType() != Token::Type::IDENTIFIER) {
+                this->reportError("Expected column name in REFERENCES");
+                return column;
+            }
+            std::string refColumn = this->currentToken_.getLexeme();
+            this->consume(); // 消费列名
+
+            // 解析右括号
+            if (!this->match(Token::Type::PUNCTUATION_RIGHT_PAREN)) {
+                this->reportError("Expected closing parenthesis");
+                return column;
+            }
+
+            // 设置外键
+            column.setForeignKey(refTable, refColumn);
+        } else if (this->currentToken_.getLexeme() == "CHECK") {
+            // 解析CHECK约束: CHECK(condition)
+            this->consume(); // 消费CHECK
+
+            // 解析左括号
+            if (!this->match(Token::Type::PUNCTUATION_LEFT_PAREN)) {
+                this->reportError("Expected opening parenthesis after CHECK");
+                return column;
+            }
+
+            // 解析CHECK条件表达式
+            auto checkExpr = parseExpression();
+            if (!checkExpr) {
+                this->reportError("Expected expression in CHECK constraint");
+                return column;
+            }
+
+            // 解析右括号
+            if (!this->match(Token::Type::PUNCTUATION_RIGHT_PAREN)) {
+                this->reportError("Expected closing parenthesis");
+                return column;
+            }
+
+            // 设置CHECK约束
+            column.setCheckConstraint(std::move(checkExpr));
         } else {
             break;
         }
@@ -781,12 +889,7 @@ std::unique_ptr<sqlcc::sql_parser::Expression> sqlcc::sql_parser::Parser::parseC
                 }
                 break;
             case Token::Type::KEYWORD_IN:
-                opType = Token::Type::KEYWORD_IN;
-                if (!this->match(Token::Type::KEYWORD_IN)) {
-                    this->reportError("Expected IN operator");
-                    return nullptr;
-                }
-                break;
+                return left; // IN关键字将在parseAdditive中的parsePrimaryExpression处理
             default:
                 return left;
         }
@@ -874,6 +977,47 @@ std::unique_ptr<sqlcc::sql_parser::Expression> sqlcc::sql_parser::Parser::parseU
 }
 
 std::unique_ptr<sqlcc::sql_parser::Expression> sqlcc::sql_parser::Parser::parsePrimaryExpression() {
+    // 优先检查子查询模式
+    if (this->currentToken_.getType() == Token::Type::KEYWORD_EXISTS) {
+        // EXISTS子查询
+        this->consume(); // 消费EXISTS
+
+        // 期望左括号
+        if (!this->match(Token::Type::PUNCTUATION_LEFT_PAREN)) {
+            this->reportError("Expected opening parenthesis after EXISTS");
+            return nullptr;
+        }
+
+        // 递归解析子查询（SELECT语句）
+        auto subquery = this->parseSelectStatement();
+        if (!subquery) {
+            this->reportError("Expected SELECT statement in EXISTS");
+            return nullptr;
+        }
+
+        // 期望右括号
+        if (!this->match(Token::Type::PUNCTUATION_RIGHT_PAREN)) {
+            this->reportError("Expected closing parenthesis after EXISTS subquery");
+            return nullptr;
+        }
+
+        return std::make_unique<ExistsExpression>(std::move(subquery));
+
+    } else if (this->currentToken_.getType() == Token::Type::PUNCTUATION_LEFT_PAREN) {
+        // 处理括号表达式或标量子查询
+        this->consume(); // 消费左括号
+
+        auto expr = this->parseExpression();
+
+        if (expr && this->currentToken_.getType() == Token::Type::PUNCTUATION_RIGHT_PAREN) {
+            this->consume(); // 消费右括号
+            return expr;
+        }
+        // 如果括号不匹配，报告错误
+        this->reportError("Expected closing parenthesis");
+        return nullptr;
+    }
+
     // 实现基本的表达式解析
     if (this->currentToken_.getType() == Token::Type::IDENTIFIER) {
         std::string identifier = this->currentToken_.getLexeme();
@@ -894,17 +1038,54 @@ std::unique_ptr<sqlcc::sql_parser::Expression> sqlcc::sql_parser::Parser::parseP
         std::string literal = this->currentToken_.getLexeme();
         this->consume();
         return std::make_unique<StringLiteralExpression>(literal);
-    } else if (this->currentToken_.getType() == Token::Type::PUNCTUATION_LEFT_PAREN) {
-        this->consume(); // 消费左括号
-        auto expr = this->parseExpression();
-        if (expr && this->currentToken_.getType() == Token::Type::PUNCTUATION_RIGHT_PAREN) {
-            this->consume(); // 消费右括号
-            return expr;
-        }
-        // 如果括号不匹配，报告错误
-        this->reportError("Expected closing parenthesis");
     }
     return nullptr;
+}
+
+/**
+ * 解析SELECT语句（用于子查询）
+ */
+std::unique_ptr<SelectStatement> Parser::parseSelectStatement() {
+    // 检查并消费SELECT关键字
+    if (!this->match(Token::Type::KEYWORD_SELECT)) {
+        this->reportError("Expected SELECT keyword");
+        return nullptr;
+    }
+
+    auto stmt = std::make_unique<SelectStatement>();
+
+    // 处理DISTINCT (简化处理)
+    if (this->currentToken_.getLexeme() == "DISTINCT") {
+        stmt->setDistinct(true);
+        this->consume(); // 消费DISTINCT
+    }
+
+    // 简化处理：添加一个简单的SELECT项
+    auto selectItem = std::make_unique<SelectItem>(
+        std::make_unique<IdentifierExpression>("*"));
+    stmt->addSelectItem(std::move(*selectItem));
+
+    // 期望FROM子句
+    if (this->match(Token::Type::KEYWORD_FROM)) {
+        // 解析表引用
+        if (this->currentToken_.getType() == Token::Type::IDENTIFIER) {
+            std::string tableName = this->currentToken_.getLexeme();
+            this->consume();
+            TableReference tableRef(tableName);
+            stmt->addFromTable(tableRef);
+        }
+    }
+
+    // 可选的WHERE子句
+    if (this->currentToken_.getType() == Token::Type::KEYWORD_WHERE) {
+        this->consume(); // 消费WHERE
+        if (auto condition = this->parseExpression()) {
+            auto whereClause = std::make_unique<WhereClause>(std::move(condition));
+            stmt->setWhereClause(std::move(whereClause));
+        }
+    }
+
+    return stmt;
 }
 
 std::unique_ptr<sqlcc::sql_parser::Expression> sqlcc::sql_parser::Parser::parseFunctionCall() {
@@ -944,14 +1125,14 @@ std::unique_ptr<sqlcc::sql_parser::GroupByClause> sqlcc::sql_parser::Parser::par
     if (!match(Token::Type::KEYWORD_GROUP)) {
         return nullptr;
     }
-    
+
     if (!match(Token::Type::KEYWORD_BY)) {
         reportError("Expected BY after GROUP");
         return nullptr;
     }
-    
+
     auto groupByClause = std::make_unique<GroupByClause>();
-    
+
     // 解析分组表达式列表
     bool firstItem = true;
     while (true) {
@@ -961,14 +1142,378 @@ std::unique_ptr<sqlcc::sql_parser::GroupByClause> sqlcc::sql_parser::Parser::par
             }
         }
         firstItem = false;
-        
+
         auto expr = parseExpression();
         if (expr) {
             groupByClause->addGroupByItem(std::move(expr));
         }
     }
-    
+
     return groupByClause;
+}
+
+/**
+ * 解析表级约束
+ */
+std::unique_ptr<TableConstraint> Parser::parseTableConstraint() {
+    // CONSTRAINT关键字在parseCreate中已被消费，这里按类型分发
+    if (this->currentToken_.getType() == Token::Type::KEYWORD_PRIMARY) {
+        // PRIMARY KEY约束
+        this->consume(); // 消费PRIMARY
+        if (this->currentToken_.getType() != Token::Type::KEYWORD_KEY) {
+            this->reportError("Expected KEY after PRIMARY");
+            return nullptr;
+        }
+        this->consume(); // 消费KEY
+        return this->parsePrimaryKeyConstraint();
+    } else if (this->match(Token::Type::KEYWORD_UNIQUE)) {
+        // UNIQUE约束
+        return this->parseUniqueConstraint();
+    } else if (this->currentToken_.getType() == Token::Type::KEYWORD_FOREIGN) {
+        // FOREIGN KEY约束
+        this->consume(); // 消费FOREIGN
+        if (!this->match(Token::Type::KEYWORD_KEY)) {
+            this->reportError("Expected KEY after FOREIGN");
+            return nullptr;
+        }
+        return this->parseForeignKeyConstraint();
+    } else if (this->match(Token::Type::KEYWORD_CHECK)) {
+        // CHECK约束
+        return this->parseCheckConstraint();
+    }
+
+    this->reportError("Expected constraint type (PRIMARY KEY, UNIQUE, FOREIGN KEY, or CHECK)");
+    return nullptr;
+}
+
+/**
+ * 解析PRIMARY KEY表级约束
+ */
+std::unique_ptr<PrimaryKeyConstraint> Parser::parsePrimaryKeyConstraint() {
+    auto constraint = std::make_unique<PrimaryKeyConstraint>();
+
+    // 解析列名列表
+    if (!this->match(Token::Type::PUNCTUATION_LEFT_PAREN)) {
+        this->reportError("Expected opening parenthesis for PRIMARY KEY column list");
+        return nullptr;
+    }
+
+    bool firstColumn = true;
+    while (this->currentToken_.getType() != Token::Type::PUNCTUATION_RIGHT_PAREN) {
+        if (!firstColumn) {
+            if (!this->match(Token::Type::PUNCTUATION_COMMA)) {
+                this->reportError("Expected comma in PRIMARY KEY column list");
+                return nullptr;
+            }
+        }
+        firstColumn = false;
+
+        if (this->currentToken_.getType() != Token::Type::IDENTIFIER) {
+            this->reportError("Expected column name in PRIMARY KEY constraint");
+            return nullptr;
+        }
+
+        std::string columnName = this->currentToken_.getLexeme();
+        this->consume();
+        constraint->addColumn(columnName);
+    }
+
+    if (!this->match(Token::Type::PUNCTUATION_RIGHT_PAREN)) {
+        this->reportError("Expected closing parenthesis for PRIMARY KEY column list");
+        return nullptr;
+    }
+
+    return constraint;
+}
+
+/**
+ * 解析UNIQUE表级约束
+ */
+std::unique_ptr<UniqueConstraint> Parser::parseUniqueConstraint() {
+    auto constraint = std::make_unique<UniqueConstraint>();
+
+    // 解析列名列表
+    if (!this->match(Token::Type::PUNCTUATION_LEFT_PAREN)) {
+        this->reportError("Expected opening parenthesis for UNIQUE column list");
+        return nullptr;
+    }
+
+    bool firstColumn = true;
+    while (this->currentToken_.getType() != Token::Type::PUNCTUATION_RIGHT_PAREN) {
+        if (!firstColumn) {
+            if (!this->match(Token::Type::PUNCTUATION_COMMA)) {
+                this->reportError("Expected comma in UNIQUE column list");
+                return nullptr;
+            }
+        }
+        firstColumn = false;
+
+        if (this->currentToken_.getType() != Token::Type::IDENTIFIER) {
+            this->reportError("Expected column name in UNIQUE constraint");
+            return nullptr;
+        }
+
+        std::string columnName = this->currentToken_.getLexeme();
+        this->consume();
+        constraint->addColumn(columnName);
+    }
+
+    if (!this->match(Token::Type::PUNCTUATION_RIGHT_PAREN)) {
+        this->reportError("Expected closing parenthesis for UNIQUE column list");
+        return nullptr;
+    }
+
+    return constraint;
+}
+
+/**
+ * 解析FOREIGN KEY表级约束
+ */
+std::unique_ptr<ForeignKeyConstraint> Parser::parseForeignKeyConstraint() {
+    auto constraint = std::make_unique<ForeignKeyConstraint>();
+
+    // 消费FOREIGN KEY关键字（如果尚未消费）
+    // 注意：parseCreate直接调用此方法，而parseTableConstraint
+    // 已经消费了FOREIGN，parseTableConstraint->KEY准备就绪
+    if (this->currentToken_.getType() == Token::Type::KEYWORD_FOREIGN) {
+        this->consume(); // 消费FOREIGN
+    }
+    if (this->currentToken_.getType() == Token::Type::KEYWORD_KEY) {
+        this->consume(); // 消费KEY
+    }
+
+    // 解析外键列名列表
+    if (!this->match(Token::Type::PUNCTUATION_LEFT_PAREN)) {
+        this->reportError("Expected opening parenthesis for FOREIGN KEY column list");
+        return nullptr;
+    }
+
+    bool firstColumn = true;
+    while (this->currentToken_.getType() != Token::Type::PUNCTUATION_RIGHT_PAREN) {
+        if (!firstColumn) {
+            if (!this->match(Token::Type::PUNCTUATION_COMMA)) {
+                this->reportError("Expected comma in FOREIGN KEY column list");
+                return nullptr;
+            }
+        }
+        firstColumn = false;
+
+        if (this->currentToken_.getType() != Token::Type::IDENTIFIER) {
+            this->reportError("Expected column name in FOREIGN KEY constraint");
+            return nullptr;
+        }
+
+        std::string columnName = this->currentToken_.getLexeme();
+        this->consume();
+        constraint->addColumn(columnName);
+    }
+
+    if (!this->match(Token::Type::PUNCTUATION_RIGHT_PAREN)) {
+        this->reportError("Expected closing parenthesis for FOREIGN KEY column list");
+        return nullptr;
+    }
+
+    // 期望REFERENCES关键字
+    if (!this->match(Token::Type::KEYWORD_REFERENCES)) {
+        this->reportError("Expected REFERENCES keyword");
+        return nullptr;
+    }
+
+    // 解析引用的表名
+    if (this->currentToken_.getType() != Token::Type::IDENTIFIER) {
+        this->reportError("Expected referenced table name");
+        return nullptr;
+    }
+    std::string referencedTable = this->currentToken_.getLexeme();
+    this->consume();
+
+    constraint->setReferencedTable(referencedTable);
+
+    // 解析引用的列名列表
+    if (!this->match(Token::Type::PUNCTUATION_LEFT_PAREN)) {
+        this->reportError("Expected opening parenthesis for referenced column list");
+        return nullptr;
+    }
+
+    if (this->currentToken_.getType() != Token::Type::IDENTIFIER) {
+        this->reportError("Expected referenced column name");
+        return nullptr;
+    }
+
+    std::string referencedColumn = this->currentToken_.getLexeme();
+    this->consume();
+    constraint->setReferencedColumn(referencedColumn);
+
+    if (!this->match(Token::Type::PUNCTUATION_RIGHT_PAREN)) {
+        this->reportError("Expected closing parenthesis for referenced column");
+        return nullptr;
+    }
+
+    return constraint;
+}
+
+/**
+ * 解析CHECK表级约束
+ */
+std::unique_ptr<CheckConstraint> Parser::parseCheckConstraint() {
+    auto constraint = std::make_unique<CheckConstraint>();
+
+    // 期望左括号
+    if (!this->match(Token::Type::PUNCTUATION_LEFT_PAREN)) {
+        this->reportError("Expected opening parenthesis for CHECK constraint");
+        return nullptr;
+    }
+
+    // 解析CHECK条件表达式
+    auto condition = this->parseExpression();
+    if (!condition) {
+        this->reportError("Expected expression in CHECK constraint");
+        return nullptr;
+    }
+
+    constraint->setCondition(std::move(condition));
+
+    // 期望右括号
+    if (!this->match(Token::Type::PUNCTUATION_RIGHT_PAREN)) {
+        this->reportError("Expected closing parenthesis for CHECK constraint");
+        return nullptr;
+    }
+
+    return constraint;
+}
+
+/**
+ * 解析CREATE INDEX语句
+ */
+std::unique_ptr<CreateIndexStatement> Parser::parseCreateIndex() {
+    auto stmt = std::make_unique<CreateIndexStatement>();
+
+    // CREATE INDEX关键字已经在parseStatement中消费，开始直接解析索引名
+
+    // 可选的UNIQUE关键字
+    if (this->currentToken_.getType() == Token::Type::KEYWORD_UNIQUE) {
+        stmt->setUnique(true);
+        this->consume(); // 消费UNIQUE
+    }
+
+    // 解析索引名
+    if (this->currentToken_.getType() != Token::Type::IDENTIFIER) {
+        this->reportError("Expected index name");
+        return nullptr;
+    }
+    stmt->setIndexName(this->currentToken_.getLexeme());
+    this->consume(); // 消费索引名
+
+    // 期望ON关键字
+    if (!this->match(Token::Type::KEYWORD_ON)) {
+        this->reportError("Expected ON keyword");
+        return nullptr;
+    }
+
+    // 解析表名
+    if (this->currentToken_.getType() != Token::Type::IDENTIFIER) {
+        this->reportError("Expected table name");
+        return nullptr;
+    }
+    stmt->setTableName(this->currentToken_.getLexeme());
+    this->consume(); // 消费表名
+
+    // 期望左括号
+    if (!this->match(Token::Type::PUNCTUATION_LEFT_PAREN)) {
+        this->reportError("Expected opening parenthesis");
+        return nullptr;
+    }
+
+    // 解析列名列表（支持多列索引）
+    bool firstColumn = true;
+    while (this->currentToken_.getType() != Token::Type::PUNCTUATION_RIGHT_PAREN) {
+        if (!firstColumn) {
+            if (!this->match(Token::Type::PUNCTUATION_COMMA)) {
+                this->reportError("Expected comma in column list");
+                return nullptr;
+            }
+        }
+        firstColumn = false;
+
+        if (this->currentToken_.getType() != Token::Type::IDENTIFIER) {
+            this->reportError("Expected column name");
+            return nullptr;
+        }
+        stmt->addColumnName(this->currentToken_.getLexeme());
+        this->consume(); // 消费列名
+    }
+
+    // 期望右括号
+    if (!this->match(Token::Type::PUNCTUATION_RIGHT_PAREN)) {
+        this->reportError("Expected closing parenthesis");
+        return nullptr;
+    }
+
+    return stmt;
+}
+
+/**
+ * 解析DROP INDEX语句
+ */
+std::unique_ptr<DropIndexStatement> Parser::parseDropIndex() {
+    auto stmt = std::make_unique<DropIndexStatement>();
+
+    // 消费DROP关键字
+    if (!this->match(Token::Type::KEYWORD_DROP)) {
+        this->reportError("Expected DROP keyword");
+        return nullptr;
+    }
+
+    // 消费INDEX关键字
+    if (!this->match(Token::Type::KEYWORD_INDEX)) {
+        this->reportError("Expected INDEX keyword");
+        return nullptr;
+    }
+
+    // 可选的IF EXISTS
+    if (this->currentToken_.getType() == Token::Type::KEYWORD_IF) {
+        this->consume(); // 消费IF
+        if (!this->match(Token::Type::KEYWORD_EXISTS)) {
+            this->reportError("Expected EXISTS after IF");
+            return nullptr;
+        }
+        stmt->setIfExists(true);
+    }
+
+    // 可选的索引名（后面可以跟ON table）
+    if (this->currentToken_.getType() == Token::Type::IDENTIFIER) {
+        std::string identifier = this->currentToken_.getLexeme();
+        this->consume();
+
+        // 检查下一个token是否是ON
+        if (this->currentToken_.getType() == Token::Type::KEYWORD_ON) {
+            // 格式：index_name ON table
+            stmt->setIndexName(identifier);
+            this->consume(); // 消费ON
+
+            // 解析表名
+            if (this->currentToken_.getType() != Token::Type::IDENTIFIER) {
+                this->reportError("Expected table name after ON");
+                return nullptr;
+            }
+            stmt->setTableName(this->currentToken_.getLexeme());
+            this->consume(); // 消费表名
+        } else {
+            // 格式：table.index_name 或 仅index_name
+            size_t dotPos = identifier.find('.');
+            if (dotPos != std::string::npos) {
+                stmt->setTableName(identifier.substr(0, dotPos));
+                stmt->setIndexName(identifier.substr(dotPos + 1));
+            } else {
+                stmt->setIndexName(identifier);
+            }
+        }
+    } else {
+        this->reportError("Expected index name or table.index format");
+        return nullptr;
+    }
+
+    return stmt;
 }
 
 } // namespace sql_parser

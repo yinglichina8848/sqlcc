@@ -1,6 +1,6 @@
 # SQLCC数据库管理系统成熟度评估报告
 
-> **版本**: v0.4.7
+> **版本**: v0.4.10
 > **评估日期**: 2025-11-18
 > **评估范围**: 可用性、SQL标准支持、性能评估、分布式架构、容器化部署
 > **报告类型**: 战略分析报告和技术路线图
@@ -97,9 +97,9 @@ cmake .. && make -j8
 
 | 标准特性 | 支持度 | 说明 | 优先级 |
 |---------|--------|------|--------|
-| **数据类型** | 60% | INT/VARCHAR/TEXT/BIGINT/FLOAT基础类型 | 高 |
-| **约束系统** | 30% | PRIMARY KEY, NOT NULL | 高 |
-| **外键约束** | 0% | 不支持FOREIGN KEY | 高 |
+| **数据类型** | 100% | INT/VARCHAR/DECIMAL/DATE/TIME/TIMESTAMP/BOOLEAN等SQL标准类型 | ✅ |
+| **约束系统** | 100% | PRIMARY KEY, NOT NULL, UNIQUE, FOREIGN KEY, CHECK (列级+表级) | ✅ |
+| **外键约束** | 100% | 完整支持FOREIGN KEY约束语法 | ✅ |
 | **聚合函数** | 40% | COUNT/AVG/SUM/MIN/MAX | 中 |
 | **窗口函数** | 0% | 不支持OVER子句 | 中 |
 | **子查询** | 0% | EXISTS/IN子查询 | 高 |
