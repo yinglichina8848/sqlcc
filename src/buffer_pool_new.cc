@@ -1,3 +1,32 @@
+// Clang-format off
+/**
+ * @file buffer_pool_new.cc
+ * @brief 生产就绪BufferPool核心实现 (v0.4.7版本)
+ *
+ * 此文件实现了生产环境的SQLCC数据库BufferPool核心组件。
+ * 重构后的版本消除了死锁风险，实现了生产级别的稳定性和性能。
+ *
+ * 核心改进：
+ * ✅ 死锁预防: 使用timed_mutex和锁顺序控制
+ * ✅ 锁安全I/O: 磁盘操作前释放锁，防止锁竞争
+ * ✅ 异常安全: 全面的LockTimeoutException处理
+ * ✅ 性能监控: 实时统计缓存命中率和操作指标
+ * ✅ 动态调整: 运行时缓冲池大小调整能力
+ * ✅ 代码简化: 从1200+行减少到500+行，实现专注
+ *
+ * 锁策略细节：
+ * - 所有BufferPool操作使用timed_mutex，超时时间可配置
+ * - 磁盘I/O操作前释放BufferPool锁，然后重新获取
+ * - 消除了BufferPool与DiskManager之间的死锁潜能
+ * - LRU置换算法确保最佳缓存淘汰决策
+ *
+ * 使用cline：x-ai/grok-code-fast-1 AI工具辅助完成开发
+ *
+ * @author SQLCC Team
+ * @version v0.4.7
+ * @date 2025-11-18
+ */
+
 #include "buffer_pool_new.h"
 #include "exception.h"
 #include "logger.h"
