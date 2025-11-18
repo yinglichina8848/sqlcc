@@ -189,6 +189,7 @@ bin/performance_test: tests/performance/CMakeFiles/performance_test.dir/batch_pr
 bin/performance_test: tests/performance/CMakeFiles/performance_test.dir/million_insert_test.o
 bin/performance_test: tests/performance/CMakeFiles/performance_test.dir/build.make
 bin/performance_test: lib/libsqlcc_core.a
+bin/performance_test: lib/libsqlcc_parser.a
 bin/performance_test: tests/performance/CMakeFiles/performance_test.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/liying/sqlcc/build-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Linking CXX executable ../../bin/performance_test"
 	cd /home/liying/sqlcc/build-coverage/tests/performance && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/performance_test.dir/link.txt --verbose=$(VERBOSE)

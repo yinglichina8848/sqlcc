@@ -4,8 +4,11 @@
 #include <memory>
 #include <mutex>
 #include <string>
+#include <chrono>
+#include <thread>
 
 #include "config_manager.h"
+#include "exception.h"
 
 namespace sqlcc {
 
@@ -185,11 +188,11 @@ private:
     // How: 在打开文件时初始化，在写入新页面时更新
     size_t file_size_;
 
-    // 递归互斥锁，保护文件访问
-    // Why: 磁盘管理器可能被多个线程同时访问，需要同步机制保证数据一致性
-    // What: io_mutex_是递归互斥锁，保护所有文件I/O操作，支持同一线程多次锁定
-    // How: 在进行文件I/O操作前加锁，操作完成后解锁，支持递归锁定避免死锁
-    mutable std::recursive_mutex io_mutex_;
+    // 递归定时互斥锁，保护文件访问
+    // Why: 磁盘管理器可能被多个线程同时访问，需要同步机制保证数据一致性，并支持超时避免死锁
+    // What: io_mutex_是递归定时互斥锁，保护所有文件I/O操作，支持同一线程多次锁定和超时功能
+    // How: 在进行文件I/O操作前加锁，操作完成后解锁，支持递归锁定和try_lock_for超时功能
+    mutable std::recursive_timed_mutex io_mutex_;
 
     // 下一个要分配的页面ID
     // Why: 需要跟踪下一个可分配的页面ID，确保页面ID的唯一性
@@ -222,17 +225,14 @@ private:
         uint64_t total_allocations = 0; // 总分配次数
         uint64_t total_deallocations = 0; // 总释放次数
     } io_stats_;
+    
+    // 锁超时时间（毫秒）
+    // Why: 需要限制锁获取的等待时间，避免死锁导致的长时间阻塞
+    // What: lock_timeout_ms_存储锁获取的超时时间
+    // How: 从配置管理器获取或使用默认值，在获取锁时使用try_lock_for方法
+    size_t lock_timeout_ms_;
 
-    // 配置变更回调ID，用于在析构函数中注销回调
-    // Why: 需要在析构函数中注销构造函数中注册的回调，避免悬垂指针
-    // What: 存储各个配置变更回调的注册ID
-    // How: 在构造函数中注册时获取ID，在析构函数中使用ID注销
-    int direct_io_callback_id_ = -1;
-    int io_queue_depth_callback_id_ = -1;
-    int async_io_callback_id_ = -1;
-    int batch_io_size_callback_id_ = -1;
-    int sync_strategy_callback_id_ = -1;
-    int sync_interval_callback_id_ = -1;
+    // 注意：配置回调功能已禁用，移除相关成员变量
 };
 
 }  // namespace sqlcc

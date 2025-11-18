@@ -125,6 +125,7 @@ bin/memory_stress_test: tests/performance/memory_stress_test/CMakeFiles/memory_s
 bin/memory_stress_test: tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/__/performance_test_base.o
 bin/memory_stress_test: tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/build.make
 bin/memory_stress_test: lib/libsqlcc_core.a
+bin/memory_stress_test: lib/libsqlcc_parser.a
 bin/memory_stress_test: tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/liying/sqlcc/build-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX executable ../../../bin/memory_stress_test"
 	cd /home/liying/sqlcc/build-coverage/tests/performance/memory_stress_test && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/memory_stress_test.dir/link.txt --verbose=$(VERBOSE)

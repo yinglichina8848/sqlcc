@@ -12,10 +12,13 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
+#include <chrono>
+#include <thread>
 
 #include "disk_manager.h"
 #include "page.h"
 #include "config_manager.h"
+#include "exception.h"
 
 namespace sqlcc {
 
@@ -28,7 +31,7 @@ public:
     // 构造函数，初始化缓冲池
     // Why: 需要创建缓冲池实例，设置缓冲池大小和关联的磁盘管理器
     // What: 构造函数接收磁盘管理器指针、缓冲池大小和配置管理器引用，初始化缓冲池状态
-    // How: 设置成员变量，初始化页面表和LRU列表，创建互斥锁
+    // How: 设置成员变量，初始化页面表和LRU列表，创建互斥锁，条件注册配置回调
     explicit BufferPool(DiskManager* disk_manager, size_t pool_size, ConfigManager& config_manager);
     
     // 删除拷贝构造函数和赋值运算符，防止意外拷贝
@@ -124,6 +127,12 @@ public:
     // What: SetSimulateFlushFailure方法设置是否模拟刷新失败
     // How: 设置simulate_flush_failure_成员变量，影响FlushPage方法的行为
     void SetSimulateFlushFailure(bool simulate) { simulate_flush_failure_ = simulate; }
+    
+    // 设置是否启用配置回调（仅用于测试）
+    // Why: 需要在测试中禁用配置回调，避免异步线程导致死锁或死循环
+    // What: SetEnableConfigCallback方法控制是否启用配置变更回调
+    // How: 设置enable_config_callback_成员变量，影响构造函数的回调注册行为// 注意：配置回调功能已禁用，此方法保留以保持接口兼容性
+    void SetEnableConfigCallback(bool /*enable*/) {}
 
 private:
     // 查找可替换的页面
@@ -156,6 +165,12 @@ private:
     // How: 在LRU列表中查找页面并移除
     void RemoveFromLRUList(int32_t page_id);
 
+    // 替换页面（无锁版本）
+    // Why: 需要在已有锁的情况下替换页面，避免死锁
+    // What: ReplacePageInternal方法在持锁状态下替换页面
+    // How: 直接操作LRU列表和页面表，不重新获取锁
+    int32_t ReplacePageInternal();
+
     // 替换页面
     // Why: 当缓冲池已满且需要加载新页面时，必须选择一个现有页面进行替换
     // What: ReplacePage方法使用LRU算法选择一个引用计数为0的页面进行替换
@@ -167,6 +182,18 @@ private:
     // What: OnConfigChange方法处理配置变更事件
     // How: 根据变更的配置项调整相应的缓冲池参数
     void OnConfigChange(const std::string& key, const ConfigValue& value);
+
+    // 调整缓冲池大小
+    // Why: 需要动态调整缓冲池的大小以适应不同的负载需求
+    // What: AdjustBufferPoolSize方法调整缓冲池大小
+    // How: 在持锁状态下移除多余的页面或标记容量变更
+    void AdjustBufferPoolSize(size_t new_pool_size);
+
+    // 安全调整缓冲池大小（无锁版本）
+    // Why: 需要在不需要获取锁的情况下调整缓冲池大小
+    // What: AdjustBufferPoolSizeNoLock方法调整缓冲池大小
+    // How: 通过发送消息到队列的方式触发异步调整，不直接获取锁
+    void AdjustBufferPoolSizeNoLock(size_t new_pool_size);
 
     // 磁盘管理器指针，负责磁盘I/O操作
     // Why: 缓冲池需要与磁盘管理器交互，进行页面的读写操作
@@ -206,9 +233,9 @@ private:
 
     // 互斥锁，保护缓冲池的并发访问
     // Why: 缓冲池可能被多个线程同时访问，需要同步机制保证数据一致性
-    // What: latch_是互斥锁，保护所有共享数据的访问
+    // What: latch_是定时互斥锁，保护所有共享数据的访问，并支持超时机制避免死锁
     // How: 在访问共享数据前加锁，访问完成后解锁
-    mutable std::mutex latch_;
+    mutable std::timed_mutex latch_;
 
     // 统计信息，记录缓冲池的使用情况
     // Why: 监控缓冲池的使用情况有助于性能调优和问题诊断
@@ -253,11 +280,19 @@ private:
     // How: 使用vector实现，在构造函数中预分配空间
     std::vector<char*> batch_buffer_;
 
-    // 模拟刷新失败标志，用于测试错误处理
+    // 模拟刷新失败标志，用于测试
     // Why: 需要测试缓冲池在磁盘写入失败时的错误处理逻辑
     // What: simulate_flush_failure_是布尔值，控制是否模拟刷新失败
     // How: 当设置为true时，FlushPage方法会模拟写入失败
     bool simulate_flush_failure_;
+    
+    // 锁超时时间（毫秒）
+    // Why: 需要限制锁获取的等待时间，避免死锁导致的长时间阻塞
+    // What: 不同类型操作的锁超时时间
+    // How: 从配置管理器获取或使用默认值，在获取锁时使用try_lock_for方法
+    size_t read_lock_timeout_ms_;    // 读取操作的锁超时时间
+    size_t write_lock_timeout_ms_;   // 写入和修改操作的锁超时时间
+    size_t lock_timeout_ms_;         // 默认锁超时时间（用于其他操作）
 };
 
 }  // namespace sqlcc

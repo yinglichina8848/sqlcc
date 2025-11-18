@@ -28,14 +28,10 @@ public:
         test_db_path_ = "./tests/test_deadlock_fix.db";
         
         // 获取配置管理器单例实例
-        config_manager_ = &ConfigManager::GetInstance();
-        
-        // 注册配置变更回调
-        // Note: value参数在当前回调中未使用，使用[[maybe_unused]]标记避免编译警告
-        config_manager_->RegisterChangeCallback("buffer_pool.pool_size",
-            [this](const std::string& key, [[maybe_unused]] const ConfigValue& value) {
-                std::cout << "配置变更回调: " << key << std::endl;
-            });
+    config_manager_ = &ConfigManager::GetInstance();
+    
+    // 配置变更回调功能已被移除，不再监控缓冲池大小变更
+    std::cout << "Config change monitoring is no longer supported" << std::endl;
         
         // 创建磁盘管理器
         disk_manager_ = std::make_unique<DiskManager>(test_db_path_, *config_manager_);

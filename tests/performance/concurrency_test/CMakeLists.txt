@@ -18,6 +18,7 @@ find_package(Threads REQUIRED)
 set(SOURCES
     concurrency_test_runner.cc
     concurrency_performance_test.cc
+    sharded_buffer_pool_concurrent_test.cc
     ../performance_test_base.cc
 )
 

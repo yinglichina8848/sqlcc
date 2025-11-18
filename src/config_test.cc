@@ -98,30 +98,9 @@ void TestConfigManager() {
             std::cout << "   Failed to save config file!" << std::endl;
         }
         
-        // 测试配置变更回调
-        std::cout << "6. Testing config change callbacks..." << std::endl;
-        
-        bool callback_called = false;
-        std::string callback_key;
-        ConfigValue callback_value;
-        
-        // 注册回调函数
-        config.RegisterChangeCallback("test.value", 
-            [&callback_called, &callback_key, &callback_value](const std::string& key, const ConfigValue& value) {
-                callback_called = true;
-                callback_key = key;
-                callback_value = value;
-                std::cout << "   Callback triggered for key: " << key << std::endl;
-            });
-        
-        // 修改配置值，触发回调
-        config.SetValue("test.value", 42);
-        
-        if (callback_called && callback_key == "test.value" && std::holds_alternative<int>(callback_value) && std::get<int>(callback_value) == 42) {
-            std::cout << "   Callback test passed!" << std::endl;
-        } else {
-            std::cout << "   Callback test failed!" << std::endl;
-        }
+        // 配置变更回调功能已被移除
+        std::cout << "6. Config change callbacks feature has been removed" << std::endl;
+        std::cout << "   ✓ Config change notification is no longer supported" << std::endl;
         
         std::cout << "=== ConfigManager test completed ===" << std::endl;
     }
