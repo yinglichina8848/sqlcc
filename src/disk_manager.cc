@@ -258,7 +258,7 @@ bool DiskManager::WritePage(int32_t page_id, const char* page_data) {
 bool DiskManager::ReadPage(int32_t page_id, char* page_data) {
     // 添加锁定保护，避免递归锁定
     std::lock_guard<std::recursive_timed_mutex> lock(io_mutex_);
-    
+
     // 验证参数的有效性
     // Why: 页面ID必须是非负数，页面数据缓冲区指针不能为空
     // What: 检查页面ID是否小于0，页面数据缓冲区指针是否为空
@@ -268,7 +268,17 @@ bool DiskManager::ReadPage(int32_t page_id, char* page_data) {
         SQLCC_LOG_ERROR(error_msg);
         return false;
     }
-    
+
+    // 检查页面是否已被释放（即被删除）
+    // Why: 被释放的页面被标记为无效，不能再被读取
+    // What: 检查页面ID是否存在于空闲页面列表中
+    // How: 使用std::find查找，如果找到则返回false表示页面不存在
+    auto it = std::find(free_pages_.begin(), free_pages_.end(), page_id);
+    if (it != free_pages_.end()) {
+        SQLCC_LOG_DEBUG("Page ID " + std::to_string(page_id) + " has been deallocated and cannot be read");
+        return false;
+    }
+
     // 计算页面在文件中的偏移量
     // Why: 需要知道页面在文件中的位置才能读取数据
     // What: 页面ID乘以页面大小得到页面在文件中的偏移量
@@ -401,13 +411,13 @@ bool DiskManager::DeallocatePage(int32_t page_id) {
 
 // 获取文件大小实现
 // Why: 上层模块需要知道数据库文件的当前大小，用于空间管理和监控
-// What: GetFileSize方法返回当前数据库文件的大小（以页面数为单位）
-// How: 通过文件大小除以页面大小来计算页面数量
+// What: GetFileSize方法返回当前数据库文件的大小（以字节数为单位）
+// How: 直接返回file_size_成员变量的值
 int32_t DiskManager::GetFileSize() const {
     // 添加锁定保护，避免递归锁定
     std::lock_guard<std::recursive_timed_mutex> lock(io_mutex_);
-    
-    return static_cast<int32_t>(file_size_ / PAGE_SIZE);
+
+    return static_cast<int32_t>(file_size_);
 }
 
 // 批量读取页面实现

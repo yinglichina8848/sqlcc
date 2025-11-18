@@ -434,16 +434,13 @@ bool BufferPool::UnpinPage(int32_t page_id, bool is_dirty) {
     if (page_refs_[page_id] > 0) {
         page_refs_[page_id]--;
     } else {
-        // 引用计数已经为0或负数，记录严重错误
-        // Why: 这表示程序逻辑有问题，可能是重复调用UnpinPage或缺少PinPage
-        // What: 记录错误信息但不修改引用计数（避免进一步恶化）
-        // How: 使用SQLCC_LOG_ERROR记录错误级别日志
-        SQLCC_LOG_ERROR("Attempting to unpin page " + std::to_string(page_id) + " with reference count " + 
-                      std::to_string(page_refs_[page_id]));
-        // 为了安全性，确保引用计数至少为0
-        if (page_refs_[page_id] < 0) {
-            page_refs_[page_id] = 0;
-        }
+        // 引用计数已经为0或负数，表示页面已经被完全释放
+        // Why: 重复调用UnpinPage表示程序逻辑错误
+        // What: 记录错误信息并返回false表示操作失败
+        // How: 使用SQLCC_LOG_ERROR记录错误级别日志，然后返回false
+        SQLCC_LOG_ERROR("Attempting to unpin page " + std::to_string(page_id) + " with reference count " +
+                      std::to_string(page_refs_[page_id]) + ", page already fully unpinned");
+        return false;
     }
     
     // 标记页面为脏页（如果被修改）
