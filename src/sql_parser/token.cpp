@@ -1,0 +1,127 @@
+#include "sql_parser/token.h"
+
+namespace sqlcc {
+namespace sql_parser {
+
+// 静态成员初始化
+std::unordered_map<Token::Type, std::string> Token::typeNames_ = {
+    // 关键字
+    {KEYWORD_CREATE, "KEYWORD_CREATE"},
+    {KEYWORD_SELECT, "KEYWORD_SELECT"},
+    {KEYWORD_INSERT, "KEYWORD_INSERT"},
+    {KEYWORD_UPDATE, "KEYWORD_UPDATE"},
+    {KEYWORD_DELETE, "KEYWORD_DELETE"},
+    {KEYWORD_DROP, "KEYWORD_DROP"},
+    {KEYWORD_ALTER, "KEYWORD_ALTER"},
+    {KEYWORD_USE, "KEYWORD_USE"},
+    {KEYWORD_DATABASE, "KEYWORD_DATABASE"},
+    {KEYWORD_TABLE, "KEYWORD_TABLE"},
+    {KEYWORD_WHERE, "KEYWORD_WHERE"},
+    {KEYWORD_JOIN, "KEYWORD_JOIN"},
+    {KEYWORD_ON, "KEYWORD_ON"},
+    {KEYWORD_GROUP, "KEYWORD_GROUP"},
+    {KEYWORD_BY, "KEYWORD_BY"},
+    {KEYWORD_HAVING, "KEYWORD_HAVING"},
+    {KEYWORD_ORDER, "KEYWORD_ORDER"},
+    {KEYWORD_INTO, "KEYWORD_INTO"},
+    {KEYWORD_VALUES, "KEYWORD_VALUES"},
+    {KEYWORD_SET, "KEYWORD_SET"},
+    {KEYWORD_FROM, "KEYWORD_FROM"},
+    {KEYWORD_AS, "KEYWORD_AS"},
+    {KEYWORD_DISTINCT, "KEYWORD_DISTINCT"},
+    {KEYWORD_AND, "KEYWORD_AND"},
+    {KEYWORD_OR, "KEYWORD_OR"},
+    {KEYWORD_NOT, "KEYWORD_NOT"},
+    {KEYWORD_NULL, "KEYWORD_NULL"},
+    {KEYWORD_IS, "KEYWORD_IS"},
+    {KEYWORD_LIKE, "KEYWORD_LIKE"},
+    {KEYWORD_IN, "KEYWORD_IN"},
+    {KEYWORD_BETWEEN, "KEYWORD_BETWEEN"},
+    {KEYWORD_LIMIT, "KEYWORD_LIMIT"},
+    {KEYWORD_OFFSET, "KEYWORD_OFFSET"},
+    {KEYWORD_ASC, "KEYWORD_ASC"},
+    {KEYWORD_DESC, "KEYWORD_DESC"},
+    {KEYWORD_PRIMARY, "KEYWORD_PRIMARY"},
+    {KEYWORD_KEY, "KEYWORD_KEY"},
+    {KEYWORD_UNIQUE, "KEYWORD_UNIQUE"},
+    {KEYWORD_NOT_NULL, "KEYWORD_NOT_NULL"},
+    {KEYWORD_NULLABLE, "KEYWORD_NULLABLE"},
+    {KEYWORD_DEFAULT, "KEYWORD_DEFAULT"},
+    {KEYWORD_CONSTRAINT, "KEYWORD_CONSTRAINT"},
+    
+    // 标识符
+    {IDENTIFIER, "IDENTIFIER"},
+    
+    // 字面量
+    {STRING_LITERAL, "STRING_LITERAL"},
+    {NUMERIC_LITERAL, "NUMERIC_LITERAL"},
+    
+    // 运算符
+    {OPERATOR_EQUAL, "OPERATOR_EQUAL"},
+    {OPERATOR_NOT_EQUAL, "OPERATOR_NOT_EQUAL"},
+    {OPERATOR_LESS, "OPERATOR_LESS"},
+    {OPERATOR_LESS_EQUAL, "OPERATOR_LESS_EQUAL"},
+    {OPERATOR_GREATER, "OPERATOR_GREATER"},
+    {OPERATOR_GREATER_EQUAL, "OPERATOR_GREATER_EQUAL"},
+    {OPERATOR_PLUS, "OPERATOR_PLUS"},
+    {OPERATOR_MINUS, "OPERATOR_MINUS"},
+    {OPERATOR_MULTIPLY, "OPERATOR_MULTIPLY"},
+    {OPERATOR_DIVIDE, "OPERATOR_DIVIDE"},
+    {OPERATOR_MODULO, "OPERATOR_MODULO"},
+    
+    // 标点符号
+    {PUNCTUATION_LEFT_PAREN, "PUNCTUATION_LEFT_PAREN"},
+    {PUNCTUATION_RIGHT_PAREN, "PUNCTUATION_RIGHT_PAREN"},
+    {PUNCTUATION_COMMA, "PUNCTUATION_COMMA"},
+    {PUNCTUATION_SEMICOLON, "PUNCTUATION_SEMICOLON"},
+    {PUNCTUATION_DOT, "PUNCTUATION_DOT"},
+    {PUNCTUATION_COLON, "PUNCTUATION_COLON"},
+    {PUNCTUATION_DOUBLE_COLON, "PUNCTUATION_DOUBLE_COLON"},
+    
+    // 其他
+    {END_OF_INPUT, "END_OF_INPUT"},
+    {INVALID_TOKEN, "INVALID_TOKEN"}
+};
+
+// 构造函数实现
+Token::Token(Type type, const std::string& lexeme, int line, int column)
+    : type_(type), lexeme_(lexeme), line_(line), column_(column) {
+}
+
+// getType方法实现
+Token::Type Token::getType() const {
+    return type_;
+}
+
+// getLexeme方法实现
+const std::string& Token::getLexeme() const {
+    return lexeme_;
+}
+
+// getLine方法实现
+int Token::getLine() const {
+    return line_;
+}
+
+// getColumn方法实现
+int Token::getColumn() const {
+    return column_;
+}
+
+// getTypeName方法实现
+std::string Token::getTypeName() const {
+    auto it = typeNames_.find(type_);
+    if (it != typeNames_.end()) {
+        return it->second;
+    }
+    return "UNKNOWN_TYPE";
+}
+
+// toString方法实现
+std::string Token::toString() const {
+    return "Token{type=" + getTypeName() + ", lexeme=\"" + lexeme_ + ", line=" + 
+           std::to_string(line_) + ", column=" + std::to_string(column_) + "}";
+}
+
+} // namespace sql_parser
+} // namespace sqlcc
