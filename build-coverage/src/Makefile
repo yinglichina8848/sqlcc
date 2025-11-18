@@ -172,6 +172,20 @@ depend:
 .PHONY : depend
 
 # Convenience name for target.
+src/CMakeFiles/sqlcc_parser.dir/rule:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/sqlcc_parser.dir/rule
+.PHONY : src/CMakeFiles/sqlcc_parser.dir/rule
+
+# Convenience name for target.
+sqlcc_parser: src/CMakeFiles/sqlcc_parser.dir/rule
+.PHONY : sqlcc_parser
+
+# fast build rule for target.
+sqlcc_parser/fast:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_parser.dir/build.make src/CMakeFiles/sqlcc_parser.dir/build
+.PHONY : sqlcc_parser/fast
+
+# Convenience name for target.
 src/CMakeFiles/sqlcc_core.dir/rule:
 	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/sqlcc_core.dir/rule
 .PHONY : src/CMakeFiles/sqlcc_core.dir/rule
@@ -184,6 +198,20 @@ sqlcc_core: src/CMakeFiles/sqlcc_core.dir/rule
 sqlcc_core/fast:
 	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_core.dir/build.make src/CMakeFiles/sqlcc_core.dir/build
 .PHONY : sqlcc_core/fast
+
+# Convenience name for target.
+src/CMakeFiles/sqlcc_executor.dir/rule:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/sqlcc_executor.dir/rule
+.PHONY : src/CMakeFiles/sqlcc_executor.dir/rule
+
+# Convenience name for target.
+sqlcc_executor: src/CMakeFiles/sqlcc_executor.dir/rule
+.PHONY : sqlcc_executor
+
+# fast build rule for target.
+sqlcc_executor/fast:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_executor.dir/build.make src/CMakeFiles/sqlcc_executor.dir/build
+.PHONY : sqlcc_executor/fast
 
 # Convenience name for target.
 src/CMakeFiles/sqlcc_main.dir/rule:
@@ -212,6 +240,35 @@ config_test: src/CMakeFiles/config_test.dir/rule
 config_test/fast:
 	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/config_test.dir/build.make src/CMakeFiles/config_test.dir/build
 .PHONY : config_test/fast
+
+# Convenience name for target.
+src/CMakeFiles/isql.dir/rule:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/isql.dir/rule
+.PHONY : src/CMakeFiles/isql.dir/rule
+
+# Convenience name for target.
+isql: src/CMakeFiles/isql.dir/rule
+.PHONY : isql
+
+# fast build rule for target.
+isql/fast:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/isql.dir/build.make src/CMakeFiles/isql.dir/build
+.PHONY : isql/fast
+
+# target to build an object file
+b_plus_tree.o:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_core.dir/build.make src/CMakeFiles/sqlcc_core.dir/b_plus_tree.o
+.PHONY : b_plus_tree.o
+
+# target to preprocess a source file
+b_plus_tree.i:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_core.dir/build.make src/CMakeFiles/sqlcc_core.dir/b_plus_tree.i
+.PHONY : b_plus_tree.i
+
+# target to generate assembly for a file
+b_plus_tree.s:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_core.dir/build.make src/CMakeFiles/sqlcc_core.dir/b_plus_tree.s
+.PHONY : b_plus_tree.s
 
 # target to build an object file
 buffer_pool.o:
@@ -274,6 +331,36 @@ disk_manager.s:
 .PHONY : disk_manager.s
 
 # target to build an object file
+index_manager.o:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_core.dir/build.make src/CMakeFiles/sqlcc_core.dir/index_manager.o
+.PHONY : index_manager.o
+
+# target to preprocess a source file
+index_manager.i:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_core.dir/build.make src/CMakeFiles/sqlcc_core.dir/index_manager.i
+.PHONY : index_manager.i
+
+# target to generate assembly for a file
+index_manager.s:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_core.dir/build.make src/CMakeFiles/sqlcc_core.dir/index_manager.s
+.PHONY : index_manager.s
+
+# target to build an object file
+isql_main.o:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/isql.dir/build.make src/CMakeFiles/isql.dir/isql_main.o
+.PHONY : isql_main.o
+
+# target to preprocess a source file
+isql_main.i:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/isql.dir/build.make src/CMakeFiles/isql.dir/isql_main.i
+.PHONY : isql_main.i
+
+# target to generate assembly for a file
+isql_main.s:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/isql.dir/build.make src/CMakeFiles/isql.dir/isql_main.s
+.PHONY : isql_main.s
+
+# target to build an object file
 main.o:
 	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_main.dir/build.make src/CMakeFiles/sqlcc_main.dir/main.o
 .PHONY : main.o
@@ -304,6 +391,96 @@ page.s:
 .PHONY : page.s
 
 # target to build an object file
+sql_executor.o:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_executor.dir/build.make src/CMakeFiles/sqlcc_executor.dir/sql_executor.o
+.PHONY : sql_executor.o
+
+# target to preprocess a source file
+sql_executor.i:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_executor.dir/build.make src/CMakeFiles/sqlcc_executor.dir/sql_executor.i
+.PHONY : sql_executor.i
+
+# target to generate assembly for a file
+sql_executor.s:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_executor.dir/build.make src/CMakeFiles/sqlcc_executor.dir/sql_executor.s
+.PHONY : sql_executor.s
+
+# target to build an object file
+sql_parser/ast_node.o:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_parser.dir/build.make src/CMakeFiles/sqlcc_parser.dir/sql_parser/ast_node.o
+.PHONY : sql_parser/ast_node.o
+
+# target to preprocess a source file
+sql_parser/ast_node.i:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_parser.dir/build.make src/CMakeFiles/sqlcc_parser.dir/sql_parser/ast_node.i
+.PHONY : sql_parser/ast_node.i
+
+# target to generate assembly for a file
+sql_parser/ast_node.s:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_parser.dir/build.make src/CMakeFiles/sqlcc_parser.dir/sql_parser/ast_node.s
+.PHONY : sql_parser/ast_node.s
+
+# target to build an object file
+sql_parser/ast_nodes.o:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_parser.dir/build.make src/CMakeFiles/sqlcc_parser.dir/sql_parser/ast_nodes.o
+.PHONY : sql_parser/ast_nodes.o
+
+# target to preprocess a source file
+sql_parser/ast_nodes.i:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_parser.dir/build.make src/CMakeFiles/sqlcc_parser.dir/sql_parser/ast_nodes.i
+.PHONY : sql_parser/ast_nodes.i
+
+# target to generate assembly for a file
+sql_parser/ast_nodes.s:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_parser.dir/build.make src/CMakeFiles/sqlcc_parser.dir/sql_parser/ast_nodes.s
+.PHONY : sql_parser/ast_nodes.s
+
+# target to build an object file
+sql_parser/lexer.o:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_parser.dir/build.make src/CMakeFiles/sqlcc_parser.dir/sql_parser/lexer.o
+.PHONY : sql_parser/lexer.o
+
+# target to preprocess a source file
+sql_parser/lexer.i:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_parser.dir/build.make src/CMakeFiles/sqlcc_parser.dir/sql_parser/lexer.i
+.PHONY : sql_parser/lexer.i
+
+# target to generate assembly for a file
+sql_parser/lexer.s:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_parser.dir/build.make src/CMakeFiles/sqlcc_parser.dir/sql_parser/lexer.s
+.PHONY : sql_parser/lexer.s
+
+# target to build an object file
+sql_parser/parser.o:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_parser.dir/build.make src/CMakeFiles/sqlcc_parser.dir/sql_parser/parser.o
+.PHONY : sql_parser/parser.o
+
+# target to preprocess a source file
+sql_parser/parser.i:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_parser.dir/build.make src/CMakeFiles/sqlcc_parser.dir/sql_parser/parser.i
+.PHONY : sql_parser/parser.i
+
+# target to generate assembly for a file
+sql_parser/parser.s:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_parser.dir/build.make src/CMakeFiles/sqlcc_parser.dir/sql_parser/parser.s
+.PHONY : sql_parser/parser.s
+
+# target to build an object file
+sql_parser/token.o:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_parser.dir/build.make src/CMakeFiles/sqlcc_parser.dir/sql_parser/token.o
+.PHONY : sql_parser/token.o
+
+# target to preprocess a source file
+sql_parser/token.i:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_parser.dir/build.make src/CMakeFiles/sqlcc_parser.dir/sql_parser/token.i
+.PHONY : sql_parser/token.i
+
+# target to generate assembly for a file
+sql_parser/token.s:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_parser.dir/build.make src/CMakeFiles/sqlcc_parser.dir/sql_parser/token.s
+.PHONY : sql_parser/token.s
+
+# target to build an object file
 storage_engine.o:
 	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_core.dir/build.make src/CMakeFiles/sqlcc_core.dir/storage_engine.o
 .PHONY : storage_engine.o
@@ -332,8 +509,14 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... test"
 	@echo "... config_test"
+	@echo "... isql"
 	@echo "... sqlcc_core"
+	@echo "... sqlcc_executor"
 	@echo "... sqlcc_main"
+	@echo "... sqlcc_parser"
+	@echo "... b_plus_tree.o"
+	@echo "... b_plus_tree.i"
+	@echo "... b_plus_tree.s"
 	@echo "... buffer_pool.o"
 	@echo "... buffer_pool.i"
 	@echo "... buffer_pool.s"
@@ -346,12 +529,36 @@ help:
 	@echo "... disk_manager.o"
 	@echo "... disk_manager.i"
 	@echo "... disk_manager.s"
+	@echo "... index_manager.o"
+	@echo "... index_manager.i"
+	@echo "... index_manager.s"
+	@echo "... isql_main.o"
+	@echo "... isql_main.i"
+	@echo "... isql_main.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
 	@echo "... page.o"
 	@echo "... page.i"
 	@echo "... page.s"
+	@echo "... sql_executor.o"
+	@echo "... sql_executor.i"
+	@echo "... sql_executor.s"
+	@echo "... sql_parser/ast_node.o"
+	@echo "... sql_parser/ast_node.i"
+	@echo "... sql_parser/ast_node.s"
+	@echo "... sql_parser/ast_nodes.o"
+	@echo "... sql_parser/ast_nodes.i"
+	@echo "... sql_parser/ast_nodes.s"
+	@echo "... sql_parser/lexer.o"
+	@echo "... sql_parser/lexer.i"
+	@echo "... sql_parser/lexer.s"
+	@echo "... sql_parser/parser.o"
+	@echo "... sql_parser/parser.i"
+	@echo "... sql_parser/parser.s"
+	@echo "... sql_parser/token.o"
+	@echo "... sql_parser/token.i"
+	@echo "... sql_parser/token.s"
 	@echo "... storage_engine.o"
 	@echo "... storage_engine.i"
 	@echo "... storage_engine.s"

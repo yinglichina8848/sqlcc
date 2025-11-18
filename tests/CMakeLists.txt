@@ -6,6 +6,8 @@ set(TEST_SOURCES
     buffer_pool_test.cc
     storage_engine_newpage_test.cc
     disk_manager_test.cc
+    deadlock_fix_test.cc
+    lock_timeout_test.cc
 )
 
 # 定义增强测试源文件列表
@@ -19,13 +21,37 @@ set(ENHANCED_TEST_SOURCES
 )
 
 # 创建标准测试可执行文件的函数
-function(add_sqlcc_test test_name)
-    add_executable(${test_name} ${test_name}.cc)
+function(add_sqlcc_test test_file)
+    # 从文件名中提取测试名称（去掉路径和后缀）
+    get_filename_component(test_name ${test_file} NAME_WE)
+    add_executable(${test_name} ${test_file})
     
     # 统一设置包含目录和链接库
     target_include_directories(${test_name} PRIVATE ${CMAKE_SOURCE_DIR}/include)
     target_link_libraries(${test_name} 
         sqlcc_core
+        GTest::gtest 
+        GTest::gtest_main
+        Threads::Threads
+    )
+    
+    # 注册测试
+    add_test(NAME ${test_name} COMMAND ${test_name})
+    
+    # 设置测试超时时间（秒）
+    set_tests_properties(${test_name} PROPERTIES TIMEOUT 300)
+endfunction()
+
+# 创建SQL parser测试可执行文件的函数
+function(add_sqlcc_parser_test test_file)
+    # 从文件名中提取测试名称（去掉路径和后缀）
+    get_filename_component(test_name ${test_file} NAME_WE)
+    add_executable(${test_name} ${test_file})
+    
+    # 统一设置包含目录和链接库（只链接sqlcc_parser，不链接sqlcc_core）
+    target_include_directories(${test_name} PRIVATE ${CMAKE_SOURCE_DIR}/include)
+    target_link_libraries(${test_name} 
+        sqlcc_parser
         GTest::gtest 
         GTest::gtest_main
         Threads::Threads
@@ -67,6 +93,11 @@ foreach(test_source ${TEST_SOURCES})
     list(APPEND TEST_TARGETS ${test_name})
 endforeach()
 
+# 单独添加SQL解析器测试，使用专门的函数
+add_sqlcc_parser_test(${CMAKE_SOURCE_DIR}/test/sql_parser/sql_parser_test.cpp)
+# 创建SQL parser测试目标列表
+set(SQL_PARSER_TEST_TARGETS sql_parser_test)
+
 # 为每个增强测试源文件创建测试可执行文件
 set(ENHANCED_TEST_TARGETS "")
 foreach(test_source ${ENHANCED_TEST_SOURCES})
@@ -76,20 +107,42 @@ foreach(test_source ${ENHANCED_TEST_SOURCES})
     list(APPEND ENHANCED_TEST_TARGETS ${test_name})
 endforeach()
 
-# 创建测试组
+# 创建存储引擎相关测试组
 set_tests_properties(
     storage_engine_test buffer_pool_test 
     storage_engine_newpage_test disk_manager_test
     config_manager_test config_manager_enhanced_test
     buffer_pool_enhanced_test page_enhanced_test 
     disk_manager_enhanced_test storage_engine_enhanced_test
-    PROPERTIES LABELS "unit_tests"
+    PROPERTIES LABELS "storage_engine_tests"
 )
 
-# 创建单元测试分类目标
-add_custom_target(unit_tests
-    COMMAND ${CMAKE_CTEST_COMMAND} --output-on-failure --label-regex unit_tests
+# 创建SQL parser测试组
+set_tests_properties(
+    sql_parser_test
+    PROPERTIES LABELS "sql_parser_tests"
+)
+
+# 创建存储引擎测试分类目标
+add_custom_target(storage_engine_tests
+    COMMAND ${CMAKE_CTEST_COMMAND} --output-on-failure --label-regex storage_engine_tests
     DEPENDS ${TEST_TARGETS} ${ENHANCED_TEST_TARGETS}
+    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+    COMMENT "Run all storage engine tests"
+)
+
+# 创建SQL parser测试分类目标
+add_custom_target(sql_parser_tests
+    COMMAND ${CMAKE_CTEST_COMMAND} --output-on-failure --label-regex sql_parser_tests
+    DEPENDS ${SQL_PARSER_TEST_TARGETS}
+    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+    COMMENT "Run all SQL parser tests"
+)
+
+# 创建单元测试分类目标（包含所有测试）
+add_custom_target(unit_tests
+    COMMAND ${CMAKE_CTEST_COMMAND} --output-on-failure
+    DEPENDS ${TEST_TARGETS} ${ENHANCED_TEST_TARGETS} ${SQL_PARSER_TEST_TARGETS}
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
     COMMENT "Run all unit tests"
 )

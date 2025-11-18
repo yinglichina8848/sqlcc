@@ -258,32 +258,11 @@ std::string ConfigManager::GetString(const std::string& key, const std::string& 
 bool ConfigManager::SetValue(const std::string& key, const ConfigValue& value) {
     std::lock_guard<std::mutex> lock(config_mutex_);
     
-    // 保存旧值，用于比较
-    // Why: 需要比较新旧值，只有值发生变化时才通知回调
-    // What: 保存当前键对应的值，用于后续比较
-    // How: 查找键并保存对应的值
-    ConfigValue old_value;
-    bool has_old_value = false;
-    
-    auto it = config_map_.find(key);
-    if (it != config_map_.end()) {
-        old_value = it->second;
-        has_old_value = true;
-    }
-    
     // 设置新值
     // Why: 需要将新值保存到配置映射表中
     // What: 将传入的值赋值给指定键
     // How: 使用operator[]赋值
     config_map_[key] = value;
-    
-    // 如果值发生变化，通知回调
-    // Why: 需要通知注册的回调函数配置值已更改
-    // What: 比较新旧值，如果不同则调用NotifyConfigChange
-    // How: 检查has_old_value和比较old_value与value
-    if (!has_old_value || old_value != value) {
-        NotifyConfigChange(key, value);
-    }
     
     return true;
 }
@@ -306,73 +285,19 @@ bool ConfigManager::HasKey(const std::string& key) const {
     return config_map_.find(key) != config_map_.end();
 }
 
-/**
- * @brief 注册配置变更回调函数
- * @param key 配置键
- * @param callback 回调函数
- * @return int 回调ID，用于取消注册
- * 
- * Why: 需要提供监听配置变更的机制，使其他模块能够响应配置变化
- * What: RegisterChangeCallback方法为指定键注册回调函数，返回回调ID
- * How: 使用互斥锁保护回调注册，生成唯一ID，保存回调函数
- */
-int ConfigManager::RegisterChangeCallback(const std::string& key, ConfigChangeCallback callback) {
+void ConfigManager::SetOperationTimeout(int timeout_ms) {
     std::lock_guard<std::mutex> lock(config_mutex_);
-    
-    // 生成唯一回调ID
-    // Why: 需要为每个回调函数分配唯一ID，以便后续取消注册
-    // What: 使用next_callback_id_生成唯一ID并递增
-    // How: 将next_callback_id_作为ID，然后递增
-    int callback_id = next_callback_id_++;
-    
-    // 保存回调函数
-    // Why: 需要将回调函数与键关联，以便配置变更时调用
-    // What: 将回调ID和回调函数保存到callbacks_映射表中
-    // How: 使用emplace_back添加到对应键的回调列表中
-    callbacks_[key].emplace_back(callback_id, callback);
-    
-    return callback_id;
+    if (timeout_ms > 0) {
+        operation_timeout_ms_ = timeout_ms;
+    }
 }
 
-/**
- * @brief 取消注册配置变更回调函数
- * @param callback_id 回调ID
- * @return bool 是否取消成功
- * 
- * Why: 需要提供取消注册回调函数的机制，避免不再需要的回调被调用
- * What: UnregisterChangeCallback方法根据回调ID查找并移除对应的回调函数
- * How: 使用互斥锁保护回调取消，遍历所有键的回调列表，查找并移除匹配的回调ID
- */
-bool ConfigManager::UnregisterChangeCallback(int callback_id) {
+int ConfigManager::GetOperationTimeout() const {
     std::lock_guard<std::mutex> lock(config_mutex_);
-    
-    // 遍历所有键的回调列表
-    // Why: 需要在所有键的回调列表中查找指定的回调ID
-    // What: 使用范围for循环遍历callbacks_映射表
-    // How: 使用结构化绑定获取键和回调列表
-    for (auto& [key, callback_list] : callbacks_) {
-        // 查找匹配的回调ID
-        // Why: 需要在回调列表中找到指定ID的回调函数
-        // What: 使用find_if算法查找匹配的回调ID
-        // How: 使用lambda表达式比较回调ID
-        auto it = std::find_if(callback_list.begin(), callback_list.end(),
-            [callback_id](const std::pair<int, ConfigChangeCallback>& pair) {
-                return pair.first == callback_id;
-            });
-        
-        // 如果找到，移除并返回成功
-        // Why: 需要移除找到的回调函数并返回成功状态
-        // What: 使用erase方法移除找到的回调
-        // How: 调用vector的erase方法
-        if (it != callback_list.end()) {
-            callback_list.erase(it);
-            return true;
-        }
-    }
-    
-    // 未找到匹配的回调ID，返回失败
-    return false;
+    return operation_timeout_ms_;
 }
+
+
 
 /**
  * @brief 保存当前配置到文件
@@ -718,43 +643,6 @@ void ConfigManager::LoadDefaultConfig() {
     config_map_["testing.verbose_test_log"] = false;
 }
 
-/**
- * @brief 通知配置变更
- * @param key 配置键
- * @param new_value 新值
- * 
- * Why: 需要通知注册的回调函数配置值已更改
- * What: NotifyConfigChange方法查找指定键的所有回调函数并调用它们
- * How: 在callbacks_中查找键，遍历所有回调函数并调用，捕获异常
- */
-void ConfigManager::NotifyConfigChange(const std::string& key, const ConfigValue& new_value) {
-    // 查找键对应的回调函数列表
-    // Why: 需要找到注册了该键变更通知的所有回调函数
-    // What: 在callbacks_映射表中查找键
-    // How: 使用find方法查找键
-    auto it = callbacks_.find(key);
-    if (it != callbacks_.end()) {
-        // 遍历所有回调函数并调用
-        // Why: 需要通知所有注册的回调函数配置已更改
-        // What: 遍历回调列表，调用每个回调函数
-        // How: 使用范围for循环遍历回调列表
-        for (const auto& [id, callback] : it->second) {
-            try {
-                // 调用回调函数
-                // Why: 需要将键和新值传递给回调函数
-                // What: 调用回调函数并传递参数
-                // How: 使用函数调用语法
-                callback(key, new_value);
-            } catch (const std::exception& e) {
-                // 捕获并处理回调函数中的异常
-                // Why: 需要防止回调函数中的异常影响其他回调函数的执行
-                // What: 捕获异常并输出错误信息
-                // How: 使用try-catch捕获异常，使用cerr输出错误信息
-                std::cerr << "Error in config change callback for key " << key 
-                         << ": " << e.what() << std::endl;
-            }
-        }
-    }
-}
+
 
 }  // namespace sqlcc

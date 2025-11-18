@@ -266,63 +266,8 @@ TEST_F(ConfigManagerTest, HasKey) {
     EXPECT_TRUE(config.HasKey("new.test.key"));
 }
 
-/**
- * @brief 测试配置变更回调
- * 
- * Why: 需要验证配置变更回调功能是否正确工作
- * What: 测试RegisterChangeCallback和UnregisterChangeCallback方法
- * How: 注册回调函数，修改配置值，验证回调是否被调用
- */
-TEST_F(ConfigManagerTest, ConfigChangeCallback) {
-    ConfigManager& config = ConfigManager::GetInstance();
-    
-    // 加载测试配置文件
-    config.LoadConfig(test_config_file_.string());
-    
-    // 创建回调函数
-    bool callback_called = false;
-    std::string callback_key;
-    ConfigValue callback_value;
-    
-    auto callback = [&callback_called, &callback_key, &callback_value](
-        const std::string& key, const ConfigValue& value) {
-        callback_called = true;
-        callback_key = key;
-        callback_value = value;
-    };
-    
-    // 注册回调函数
-    int callback_id = config.RegisterChangeCallback("database.page_size", callback);
-    EXPECT_GE(callback_id, 0);
-    
-    // 修改配置值
-    config.SetValue("database.page_size", 8192);
-    
-    // 验证回调是否被调用
-    EXPECT_TRUE(callback_called);
-    EXPECT_EQ(callback_key, "database.page_size");
-    EXPECT_EQ(std::get<int>(callback_value), 8192);
-    
-    // 重置标志
-    callback_called = false;
-    
-    // 修改其他配置值
-    config.SetValue("other.key", "value");
-    
-    // 验证回调未被调用（因为键不匹配）
-    EXPECT_FALSE(callback_called);
-    
-    // 注销回调函数
-    bool unregister_result = config.UnregisterChangeCallback(callback_id);
-    EXPECT_TRUE(unregister_result);
-    
-    // 再次修改配置值
-    callback_called = false;
-    config.SetValue("database.page_size", 16384);
-    
-    // 验证回调未被调用（因为已注销）
-    EXPECT_FALSE(callback_called);
-}
+// 配置变更回调功能已被移除，相关测试用例已删除
+// 配置管理不再支持实时配置变更通知机制
 
 /**
  * @brief 测试配置保存

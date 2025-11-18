@@ -14,7 +14,19 @@ namespace sqlcc {
 // How: 使用成员初始化列表初始化disk_manager_、pool_size_和config_manager_，并记录日志
 BufferPool::BufferPool(DiskManager* disk_manager, size_t pool_size, ConfigManager& config_manager)
     : disk_manager_(disk_manager), config_manager_(config_manager), pool_size_(pool_size), 
-      simulate_flush_failure_(false) {
+        simulate_flush_failure_(false), read_lock_timeout_ms_(0), write_lock_timeout_ms_(0), lock_timeout_ms_(0) {
+    // 从配置管理器获取不同操作的锁超时时间
+    // 读取操作使用较短的超时时间
+    read_lock_timeout_ms_ = config_manager_.GetInt("buffer_pool.read_lock_timeout_ms", 2000);
+    // 写入和修改操作使用较长的超时时间
+    write_lock_timeout_ms_ = config_manager_.GetInt("buffer_pool.write_lock_timeout_ms", 5000);
+    // 默认超时时间（用于其他操作）
+    lock_timeout_ms_ = config_manager_.GetInt("buffer_pool.default_lock_timeout_ms", 3000);
+    
+    // 记录配置的锁超时时间
+    SQLCC_LOG_INFO("BufferPool lock timeout settings - Read: " + std::to_string(read_lock_timeout_ms_) + 
+                  "ms, Write: " + std::to_string(write_lock_timeout_ms_) + 
+                  "ms, Default: " + std::to_string(lock_timeout_ms_) + "ms");
     // 预分配批量操作缓冲区空间
     batch_buffer_.reserve(std::min(pool_size_, static_cast<size_t>(64)));
     
@@ -49,8 +61,14 @@ BufferPool::~BufferPool() {
 // What: FetchPage方法根据页面ID获取对应的页面指针
 // How: 检查页面是否在缓冲池中，如果不在则从磁盘加载，如果缓冲池已满则替换页面
 Page* BufferPool::FetchPage(int32_t page_id) {
-    // 加锁保护并发访问 - 使用unique_lock以支持临时解锁避免死锁
-    std::unique_lock<std::mutex> lock(latch_);
+    // 加锁保护并发访问 - 使用带超时的unique_lock以支持临时解锁避免死锁
+    std::unique_lock<std::timed_mutex> lock(latch_, std::defer_lock);
+    if (!lock.try_lock_for(std::chrono::milliseconds(read_lock_timeout_ms_))) {
+        // 获取锁失败，记录警告但不抛出异常，避免在高并发场景下级联失败
+        SQLCC_LOG_WARN("Failed to acquire buffer pool lock for fetching page " + std::to_string(page_id) + 
+                      ", timeout after " + std::to_string(read_lock_timeout_ms_) + "ms");
+        return nullptr;
+    }
     // 更新访问统计（用于预测性预取）
     access_stats_[page_id]++;
     
@@ -94,8 +112,12 @@ Page* BufferPool::FetchPage(int32_t page_id) {
     // 现在在锁外进行磁盘读取操作
     bool read_success = disk_manager_->ReadPage(current_page_id, static_cast<char*>(page_data));
     
-    // 重新获取锁
-    lock.lock();
+    // 重新获取锁 - 使用带超时的锁获取避免永久阻塞
+    if (!lock.try_lock_for(std::chrono::milliseconds(read_lock_timeout_ms_))) {
+        SQLCC_LOG_WARN("Failed to reacquire buffer pool lock after reading page " + std::to_string(current_page_id) + 
+                      ", timeout after " + std::to_string(read_lock_timeout_ms_) + "ms");
+        return nullptr;
+    }
     
     if (!read_success) {
         // 如果读取失败，说明页面不存在，返回nullptr
@@ -160,8 +182,13 @@ Page* BufferPool::FetchPage(int32_t page_id) {
 // What: FlushPage方法将指定页面的数据写入磁盘文件
 // How: 检查页面是否存在，如果是脏页则调用磁盘管理器写入磁盘
 bool BufferPool::FlushPage(int32_t page_id) {
-    // 加锁保护并发访问 - 使用unique_lock以支持临时解锁避免死锁
-    std::unique_lock<std::mutex> lock(latch_);
+    // 加锁保护并发访问 - 使用带超时的unique_lock以支持临时解锁避免死锁
+    std::unique_lock<std::timed_mutex> lock(latch_, std::defer_lock);
+    if (!lock.try_lock_for(std::chrono::milliseconds(lock_timeout_ms_))) {
+        // 获取锁失败，记录警告但不抛出异常，避免在高并发场景下级联失败
+        SQLCC_LOG_WARN("Failed to acquire buffer pool lock for flushing page " + std::to_string(page_id));
+        return false;
+    }
     
     // 检查页面是否存在
     // Why: 需要确保页面确实存在于缓冲池中，避免操作不存在的页面
@@ -219,8 +246,12 @@ bool BufferPool::FlushPage(int32_t page_id) {
     // 现在在锁外进行磁盘写入操作
     bool write_success = disk_manager_->WritePage(current_page_id, static_cast<const char*>(page_data));
     
-    // 重新获取锁
-    lock.lock();
+    // 重新获取锁 - 使用带超时的锁获取避免永久阻塞
+    if (!lock.try_lock_for(std::chrono::milliseconds(write_lock_timeout_ms_))) {
+        SQLCC_LOG_WARN("Failed to reacquire buffer pool lock after writing page " + std::to_string(current_page_id) + 
+                      ", timeout after " + std::to_string(write_lock_timeout_ms_) + "ms");
+        return false;
+    }
     
     if (!write_success) {
         // 写入失败，记录错误并返回false
@@ -246,8 +277,14 @@ bool BufferPool::FlushPage(int32_t page_id) {
 // What: DeletePage方法从缓冲池中删除指定页面，并释放相关资源
 // How: 检查页面是否存在，刷新脏页，然后从所有数据结构中移除页面
 bool BufferPool::DeletePage(int32_t page_id) {
-    // 加锁保护并发访问 - 使用unique_lock以支持临时解锁避免死锁
-    std::unique_lock<std::mutex> lock(latch_);
+    // 加锁保护并发访问 - 使用带超时的unique_lock以支持临时解锁避免死锁
+    std::unique_lock<std::timed_mutex> lock(latch_, std::defer_lock);
+    if (!lock.try_lock_for(std::chrono::milliseconds(write_lock_timeout_ms_))) {
+        // 获取锁失败，记录警告但不抛出异常，避免在高并发场景下级联失败
+        SQLCC_LOG_WARN("Failed to acquire buffer pool lock for deleting page " + std::to_string(page_id) + 
+                      ", timeout after " + std::to_string(write_lock_timeout_ms_) + "ms");
+        return false;
+    }
     
     // 检查页面是否存在
     // Why: 需要确保页面确实存在于缓冲池中，避免操作不存在的页面
@@ -295,8 +332,11 @@ bool BufferPool::DeletePage(int32_t page_id) {
         // 现在在锁外进行磁盘写入操作
         bool write_success = disk_manager_->WritePage(current_page_id, static_cast<const char*>(page_data));
         
-        // 重新获取锁
-        lock.lock();
+        // 重新获取锁 - 使用带超时的锁获取避免永久阻塞
+        if (!lock.try_lock_for(std::chrono::milliseconds(write_lock_timeout_ms_))) {
+            SQLCC_LOG_WARN("Failed to reacquire buffer pool lock after writing dirty page before deletion " + std::to_string(current_page_id));
+            return false;
+        }
         
         if (!write_success) {
             // 刷新失败，记录错误并返回false
@@ -364,8 +404,14 @@ bool BufferPool::DeletePage(int32_t page_id) {
 // What: UnpinPage方法减少页面的引用计数，并标记页面是否被修改
 // How: 检查页面是否存在，减少引用计数，标记脏页，然后返回操作结果
 bool BufferPool::UnpinPage(int32_t page_id, bool is_dirty) {
-    // 加锁保护并发访问 - 使用unique_lock以支持临时解锁避免死锁
-    std::unique_lock<std::mutex> lock(latch_);
+    // 加锁保护并发访问 - 使用带超时的unique_lock以支持临时解锁避免死锁
+    std::unique_lock<std::timed_mutex> lock(latch_, std::defer_lock);
+    if (!lock.try_lock_for(std::chrono::milliseconds(write_lock_timeout_ms_))) {
+        // 获取锁失败，记录警告但不抛出异常，避免在高并发场景下级联失败
+        SQLCC_LOG_WARN("Failed to acquire buffer pool lock for unpinning page " + std::to_string(page_id) + 
+                      ", timeout after " + std::to_string(write_lock_timeout_ms_) + "ms");
+        return false;
+    }
     
     // 检查页面是否存在
     // Why: 需要确保页面确实存在于缓冲池中，避免操作不存在的页面
@@ -384,15 +430,20 @@ bool BufferPool::UnpinPage(int32_t page_id, bool is_dirty) {
     // 减少引用计数
     // Why: 页面使用完毕，需要减少引用计数，以便缓冲池可以正确管理页面的生命周期
     // What: 减少page_refs_中该页面的引用计数
-    // How: 直接递减引用计数值，并确保不会变成负数
-    page_refs_[page_id]--;
-    if (page_refs_[page_id] < 0) {
-        // 引用计数不应该为负数，记录错误并修正
-        // Why: 引用计数为负数表示逻辑错误，需要记录并修正
-        // What: 记录错误信息并将引用计数重置为0
-        // How: 使用SQLCC_LOG_ERROR记录错误，然后将引用计数设为0
-        SQLCC_LOG_ERROR("Page ID " + std::to_string(page_id) + " reference count is negative");
-        page_refs_[page_id] = 0;
+    // How: 先检查当前引用计数，确保减少后不会变为负数
+    if (page_refs_[page_id] > 0) {
+        page_refs_[page_id]--;
+    } else {
+        // 引用计数已经为0或负数，记录严重错误
+        // Why: 这表示程序逻辑有问题，可能是重复调用UnpinPage或缺少PinPage
+        // What: 记录错误信息但不修改引用计数（避免进一步恶化）
+        // How: 使用SQLCC_LOG_ERROR记录错误级别日志
+        SQLCC_LOG_ERROR("Attempting to unpin page " + std::to_string(page_id) + " with reference count " + 
+                      std::to_string(page_refs_[page_id]));
+        // 为了安全性，确保引用计数至少为0
+        if (page_refs_[page_id] < 0) {
+            page_refs_[page_id] = 0;
+        }
     }
     
     // 标记页面为脏页（如果被修改）
@@ -416,8 +467,13 @@ bool BufferPool::UnpinPage(int32_t page_id, bool is_dirty) {
 // What: ReplacePage方法使用LRU算法选择一个可替换的页面
 // How: 从LRU链表尾部开始查找，找到第一个引用计数为0的页面
 int32_t BufferPool::ReplacePage() {
-    // 加锁保护并发访问 - 使用unique_lock以支持临时解锁避免死锁
-    std::unique_lock<std::mutex> lock(latch_);
+    // 加锁保护并发访问 - 使用带超时的unique_lock以支持临时解锁避免死锁
+    std::unique_lock<std::timed_mutex> lock(latch_, std::defer_lock);
+    if (!lock.try_lock_for(std::chrono::milliseconds(lock_timeout_ms_))) {
+        // 获取锁失败，记录警告并抛出异常
+        SQLCC_LOG_WARN("Failed to acquire buffer pool lock for page replacement");
+        throw LockTimeoutException("Failed to acquire buffer pool lock for page replacement");
+    }
     
     // 从LRU链表尾部开始查找可替换的页面
     // Why: LRU链表尾部是最近最少使用的页面，应该优先替换
@@ -476,9 +532,13 @@ int32_t BufferPool::ReplacePage() {
             
             // 重新获取锁
             // Why: 需要重新获取锁以继续保护BufferPool的数据结构
-            // What: 使用std::unique_lock的lock()方法重新加锁
-            // How: 调用lock()重新获取latch_锁
-            lock.lock();
+            // What: 使用带超时的方式重新加锁
+            // How: 调用try_lock_for()尝试重新获取latch_锁
+            if (!lock.try_lock_for(std::chrono::milliseconds(lock_timeout_ms_))) {
+                // 获取锁失败，记录警告并抛出异常
+                SQLCC_LOG_WARN("Failed to re-acquire buffer pool lock after writing page " + std::to_string(current_page_id));
+                throw LockTimeoutException("Failed to re-acquire buffer pool lock after writing page");
+            }
             
             if (!write_success) {
                 // 写入失败，恢复脏页标记
@@ -593,8 +653,17 @@ void BufferPool::MoveToHead(int32_t page_id) {
 // What: NewPage方法在缓冲池中分配一个新的页面，并返回页面指针和页面ID
 // How: 先确保有空间，然后分配页面ID，创建页面对象，添加到缓冲池管理
 Page* BufferPool::NewPage(int32_t* page_id) {
-    // 加锁保护并发访问 - 使用unique_lock以支持临时解锁避免死锁
-    std::unique_lock<std::mutex> lock(latch_);
+    // 加锁保护并发访问 - 使用带超时的unique_lock以支持临时解锁避免死锁
+    std::unique_lock<std::timed_mutex> lock(latch_, std::defer_lock);
+    if (!lock.try_lock_for(std::chrono::milliseconds(write_lock_timeout_ms_))) {
+        // 获取锁失败，记录警告但不抛出异常，避免在高并发场景下级联失败
+        SQLCC_LOG_WARN("Failed to acquire buffer pool lock for creating new page, timeout after " + 
+                      std::to_string(write_lock_timeout_ms_) + "ms");
+        if (page_id != nullptr) {
+            *page_id = -1;  // 使用-1作为无效页面ID
+        }
+        return nullptr;
+    }
     
     // 如果缓冲池已满，先进行页面替换
     // Why: 必须在分配页面ID之前确保有空间，避免页面ID重用造成数据混乱
@@ -678,7 +747,7 @@ Page* BufferPool::NewPage(int32_t* page_id) {
 
 std::vector<Page*> BufferPool::BatchFetchPages(const std::vector<int32_t>& page_ids) {
     // 加锁保护并发访问 - 使用unique_lock以支持临时解锁避免死锁
-    std::unique_lock<std::mutex> lock(latch_);
+    std::unique_lock<std::timed_mutex> lock(latch_);
     
     std::vector<Page*> result;
     result.reserve(page_ids.size());
@@ -801,8 +870,11 @@ std::vector<Page*> BufferPool::BatchFetchPages(const std::vector<int32_t>& page_
 // What: FlushAllPages方法遍历所有页面，检查脏页标记，将脏页写回磁盘
 // How: 遍历page_table_，检查每个页面的脏页标记，如果是脏页则调用WritePage写回磁盘
 void BufferPool::FlushAllPages() {
-    // 加锁保护并发访问 - 使用unique_lock以支持临时解锁避免死锁
-    std::unique_lock<std::mutex> lock(latch_);
+    // 加锁保护并发访问 - 使用带超时的unique_lock以支持临时解锁避免死锁
+    std::unique_lock<std::timed_mutex> lock(latch_, std::defer_lock);
+    if (!lock.try_lock_for(std::chrono::milliseconds(write_lock_timeout_ms_))) {
+        throw LockTimeoutException("Failed to acquire buffer pool lock within timeout: " + std::to_string(write_lock_timeout_ms_) + "ms");
+    }
     
     // 记录开始刷新所有页面的信息，便于调试
     SQLCC_LOG_DEBUG("Starting to flush all pages in buffer pool");
@@ -827,10 +899,15 @@ void BufferPool::FlushAllPages() {
     for (const auto& [page_id, page] : dirty_pages_to_flush) {
         // 执行磁盘写入操作
         if (disk_manager_->WritePage(page_id, page->GetData())) {
-            // 成功写入后重新获取锁以更新脏页标记
-            std::unique_lock<std::mutex> update_lock(latch_);
-            dirty_pages_[page_id] = false;
-            update_lock.unlock();
+            // 成功写入后尝试重新获取锁以更新脏页标记
+            std::unique_lock<std::timed_mutex> update_lock(latch_, std::defer_lock);
+            if (update_lock.try_lock_for(std::chrono::milliseconds(write_lock_timeout_ms_))) {
+                dirty_pages_[page_id] = false;
+                update_lock.unlock();
+            } else {
+                // 获取锁失败，记录警告，但继续处理其他页面
+                SQLCC_LOG_WARN("Failed to acquire buffer pool lock for updating dirty page flag after flushing page " + std::to_string(page_id));
+            }
             
             flushed_count++;
             // 记录页面刷新成功的信息，便于调试
@@ -854,13 +931,20 @@ void BufferPool::FlushAllPages() {
 // What: BatchPrefetchPages方法根据配置的预取策略和窗口大小，预取可能需要的页面
 // How: 根据访问统计和预取策略，选择要预取的页面，使用磁盘管理器的批量读取功能
 bool BufferPool::BatchPrefetchPages(const std::vector<int32_t>& page_ids) {
-    // 加锁保护并发访问 - 使用unique_lock以支持临时解锁避免死锁
-    std::unique_lock<std::mutex> lock(latch_);
-    
     // 检查预取是否启用
-    if (!config_manager_.GetBool("buffer_pool.enable_prefetch", true)) {
+    bool prefetch_enabled = config_manager_.GetBool("buffer_pool.enable_prefetch", true);
+    if (!prefetch_enabled) {
         // 预取功能被禁用，直接返回true
         return true;
+    }
+    
+    // 加锁保护并发访问 - 使用带超时的unique_lock以支持临时解锁避免死锁
+    std::unique_lock<std::timed_mutex> lock(latch_, std::defer_lock);
+    if (!lock.try_lock_for(std::chrono::milliseconds(read_lock_timeout_ms_))) {
+        // 获取锁失败，避免长时间等待，记录警告并返回
+        SQLCC_LOG_WARN("Failed to acquire buffer pool lock for batch prefetch, timeout after " + 
+                      std::to_string(read_lock_timeout_ms_) + "ms, skipping");
+        return false;
     }
     
     // 获取预取策略
@@ -906,7 +990,12 @@ bool BufferPool::BatchPrefetchPages(const std::vector<int32_t>& page_ids) {
     bool result = disk_manager_->BatchPrefetchPages(pages_to_prefetch_copy);
     
     // 重新获取锁以更新预取队列
-    lock.lock();
+    if (!lock.try_lock_for(std::chrono::milliseconds(read_lock_timeout_ms_))) {
+        // 获取锁失败，避免长时间等待，记录警告并返回
+        SQLCC_LOG_WARN("Failed to acquire buffer pool lock for updating prefetch queue, timeout after " + 
+                      std::to_string(read_lock_timeout_ms_) + "ms, skipping");
+        return result; // 返回磁盘操作的结果
+    }
     
     // 将页面ID添加到预取队列
     for (int32_t page_id : pages_to_prefetch_copy) {
@@ -915,6 +1004,12 @@ bool BufferPool::BatchPrefetchPages(const std::vector<int32_t>& page_ids) {
         if (it == prefetch_queue_.end()) {
             prefetch_queue_.push_back(page_id);
         }
+    }
+    
+    // 限制预取队列大小，避免内存占用过多
+    if (prefetch_queue_.size() > 1000) {
+        // 移除队列头部的旧预取页面
+        prefetch_queue_.erase(prefetch_queue_.begin(), prefetch_queue_.begin() + (prefetch_queue_.size() - 1000));
     }
     
     // 记录预取页面的信息，便于调试
@@ -928,12 +1023,26 @@ bool BufferPool::BatchPrefetchPages(const std::vector<int32_t>& page_ids) {
 // What: PrefetchPage方法将指定页面预加载到缓冲池
 // How: 类似FetchPage，但不增加页面的固定计数，用于预测性预取
 bool BufferPool::PrefetchPage(int32_t page_id) {
-    // 加锁保护并发访问 - 使用unique_lock以支持临时解锁避免死锁
-    std::unique_lock<std::mutex> lock(latch_);
-    
     // 检查页面ID是否有效
     if (page_id < 0) {
         SQLCC_LOG_ERROR("Invalid page ID for prefetch: " + std::to_string(page_id));
+        return false;
+    }
+    
+    // 检查预取功能是否启用
+    bool prefetch_enabled = config_manager_.GetBool("buffer_pool.enable_prefetch", true);
+    if (!prefetch_enabled) {
+        // 预取功能被禁用
+        SQLCC_LOG_DEBUG("Prefetch disabled, skipping page " + std::to_string(page_id));
+        return false;
+    }
+    
+    // 加锁保护并发访问 - 使用带超时的unique_lock以支持临时解锁避免死锁
+    std::unique_lock<std::timed_mutex> lock(latch_, std::defer_lock);
+    if (!lock.try_lock_for(std::chrono::milliseconds(read_lock_timeout_ms_))) {
+        // 获取锁失败，避免长时间等待，记录警告并返回
+        SQLCC_LOG_WARN("Failed to acquire buffer pool lock for prefetch, timeout after " + 
+                      std::to_string(read_lock_timeout_ms_) + "ms, skipping page " + std::to_string(page_id));
         return false;
     }
     
@@ -951,13 +1060,6 @@ bool BufferPool::PrefetchPage(int32_t page_id) {
         // 页面已在预取队列中，无需重复预取
         SQLCC_LOG_DEBUG("Page " + std::to_string(page_id) + " already in prefetch queue");
         return true;
-    }
-    
-    // 检查预取功能是否启用
-    if (!config_manager_.GetBool("buffer_pool.enable_prefetch", true)) {
-        // 预取功能被禁用
-        SQLCC_LOG_DEBUG("Prefetch disabled, skipping page " + std::to_string(page_id));
-        return false;
     }
     
     // 检查缓冲池是否已满
@@ -988,7 +1090,13 @@ bool BufferPool::PrefetchPage(int32_t page_id) {
     }
     
     // 重新获取锁以更新缓冲池状态
-    lock.lock();
+    if (!lock.try_lock_for(std::chrono::milliseconds(read_lock_timeout_ms_))) {
+        // 获取锁失败，清理资源并返回
+        SQLCC_LOG_WARN("Failed to acquire buffer pool lock after disk read, timeout after " + 
+                      std::to_string(read_lock_timeout_ms_) + "ms, skipping page " + std::to_string(page_id));
+        delete page;
+        return false;
+    }
     
     // 再次检查页面是否已在缓冲池中（可能已被其他线程添加）
     if (page_table_.find(page_id) != page_table_.end()) {
@@ -1034,7 +1142,7 @@ bool BufferPool::PrefetchPage(int32_t page_id) {
 // How: 收集缓冲池的当前状态信息，包括页面数量、引用计数、脏页数量等
 std::unordered_map<std::string, double> BufferPool::GetStats() const {
     // 加锁保护并发访问 - 使用unique_lock以支持临时解锁避免死锁
-    std::unique_lock<std::mutex> lock(latch_);
+    std::unique_lock<std::timed_mutex> lock(latch_);
     
     // 创建统计信息哈希表
     // Why: 需要返回一个包含所有统计信息的哈希表
@@ -1138,7 +1246,7 @@ void BufferPool::RemoveFromLRUList(int32_t page_id) {
 // How: 检查页面表是否包含该页面ID
 bool BufferPool::IsPageInBuffer(int32_t page_id) const {
     // 加锁保护并发访问 - 使用unique_lock以支持临时解锁避免死锁
-    std::unique_lock<std::mutex> lock(latch_);
+    std::unique_lock<std::timed_mutex> lock(latch_);
     
     // 检查页面是否在页面表中
     // Why: 页面表存储了当前在缓冲池中的所有页面
@@ -1227,7 +1335,7 @@ int32_t BufferPool::ReplacePageInternal() {
 // How: 在独立线程中执行大小调整，使用专用的内部方法避免死锁
 void BufferPool::AdjustBufferPoolSize(size_t new_pool_size) {
     // 加锁保护并发访问 - 使用unique_lock以支持临时解锁避免死锁
-    std::unique_lock<std::mutex> lock(latch_);
+    std::unique_lock<std::timed_mutex> lock(latch_);
     
     SQLCC_LOG_INFO("Adjusting buffer pool size from " + std::to_string(pool_size_) + " to " + std::to_string(new_pool_size));
     

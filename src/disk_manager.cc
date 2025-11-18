@@ -3,6 +3,8 @@
 #include "logger.h"
 #include <iostream>
 #include <fstream>
+#include <filesystem>
+#include <algorithm>
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <unistd.h>
@@ -18,60 +20,31 @@ namespace sqlcc {
 // What: 构造函数接收数据库文件路径和配置管理器引用，打开文件流，初始化文件大小和页面计数器
 // How: 使用fstream打开文件，如果文件不存在则创建新文件，获取文件大小并计算页面数量
 DiskManager::DiskManager(const std::string& db_file, ConfigManager& config_manager)
-    : db_file_name_(db_file), config_manager_(config_manager), file_size_(0), next_page_id_(0) {
+    : db_file_name_(db_file), config_manager_(config_manager), file_size_(0), next_page_id_(0), lock_timeout_ms_(5000) {
     // 记录初始化信息，便于调试和监控
     // Why: 日志记录有助于系统运行状态的监控和问题排查
     // What: 记录正在初始化的数据库文件路径
     // How: 使用SQLCC_LOG_INFO宏记录信息级别日志
     SQLCC_LOG_INFO("Initializing DiskManager for database file: " + db_file_name_);
-    
-    // 注册配置变更回调
-    // Why: 需要响应配置变更，动态调整磁盘管理器行为
-    // What: 注册配置变更回调函数，当配置发生变更时调用OnConfigChange方法
-    // How: 使用配置管理器的RegisterChangeCallback方法注册回调，并存储返回的回调ID
-    direct_io_callback_id_ = config_manager_.RegisterChangeCallback("disk_manager.enable_direct_io", 
-        [this](const std::string& key, const ConfigValue& value) {
-            this->OnConfigChange(key, value);
-        });
-    
-    io_queue_depth_callback_id_ = config_manager_.RegisterChangeCallback("disk_manager.io_queue_depth", 
-        [this](const std::string& key, const ConfigValue& value) {
-            this->OnConfigChange(key, value);
-        });
-    
-    async_io_callback_id_ = config_manager_.RegisterChangeCallback("disk_manager.enable_async_io", 
-        [this](const std::string& key, const ConfigValue& value) {
-            this->OnConfigChange(key, value);
-        });
-    
-    batch_io_size_callback_id_ = config_manager_.RegisterChangeCallback("disk_manager.batch_io_size", 
-        [this](const std::string& key, const ConfigValue& value) {
-            this->OnConfigChange(key, value);
-        });
-    
-    sync_strategy_callback_id_ = config_manager_.RegisterChangeCallback("disk_manager.sync_strategy", 
-        [this](const std::string& key, const ConfigValue& value) {
-            this->OnConfigChange(key, value);
-        });
-    
-    sync_interval_callback_id_ = config_manager_.RegisterChangeCallback("disk_manager.sync_interval", 
-        [this](const std::string& key, const ConfigValue& value) {
-            this->OnConfigChange(key, value);
-        });
 
-    // 以读写模式打开文件，如果文件不存在则创建
-    // Why: 需要打开数据库文件进行读写操作，如果文件不存在则需要创建
-    // What: 使用fstream的open方法打开文件，指定二进制模式和读写权限
-    // How: 使用std::ios::binary指定二进制模式，std::ios::in|std::ios::out指定读写权限，std::ios::app允许追加
-    db_io_.open(db_file_name_, std::ios::binary | std::ios::in | std::ios::out | std::ios::app);
+    // 首先检查文件是否存在
+    // Why: 需要区分新文件和现有文件，对现有文件不应该截断
+    // What: 使用std::filesystem检查文件是否存在
+    // How: 使用std::filesystem::exists()检查文件状态
+    bool file_exists = std::filesystem::exists(db_file_name_);
     
-    // 如果文件不存在，创建一个空文件
-    // Why: 如果文件不存在，第一次打开会失败，需要创建新文件
-    // What: 检查文件流状态，如果失败则清除错误状态并重新创建文件
-    // How: 使用good()方法检查文件流状态，使用clear()清除错误状态，使用trunc模式创建空文件
-    if (!db_io_.good()) {
+    if (file_exists) {
+        // 文件存在，以读写模式打开，不截断文件
+        // Why: 现有文件应该保留所有数据，只以读写模式打开
+        // What: 使用std::ios::in|std::ios::out打开现有文件
+        // How: 使用既读又写的模式打开文件，保留所有内容
+        db_io_.open(db_file_name_, std::ios::binary | std::ios::in | std::ios::out);
+    } else {
+        // 文件不存在，创建新文件
+        // Why: 新文件需要创建并初始化
+        // What: 使用std::ios::trunc模式创建新文件
+        // How: 使用截断模式创建新文件
         SQLCC_LOG_INFO("Database file does not exist, creating new file: " + db_file_name_);
-        db_io_.clear();
         db_io_.open(db_file_name_, std::ios::binary | std::ios::in | std::ios::out | std::ios::trunc);
     }
     
@@ -105,16 +78,7 @@ DiskManager::DiskManager(const std::string& db_file, ConfigManager& config_manag
 // What: 析构函数负责关闭数据库文件流，释放系统资源
 // How: 检查文件流是否打开，如果打开则调用close方法关闭
 DiskManager::~DiskManager() {
-    // 取消注册所有配置变更回调，避免内存泄漏和悬空指针
-    // Why: 防止回调函数指向已销毁的对象，避免在后续配置变更时访问无效内存
-    // What: 取消注册所有在构造函数中注册的配置变更回调
-    // How: 使用配置管理器的UnregisterChangeCallback方法取消注册
-    config_manager_.UnregisterChangeCallback(direct_io_callback_id_);
-    config_manager_.UnregisterChangeCallback(io_queue_depth_callback_id_);
-    config_manager_.UnregisterChangeCallback(async_io_callback_id_);
-    config_manager_.UnregisterChangeCallback(batch_io_size_callback_id_);
-    config_manager_.UnregisterChangeCallback(sync_strategy_callback_id_);
-    config_manager_.UnregisterChangeCallback(sync_interval_callback_id_);
+    // 注意：配置回调功能已禁用，不再需要取消注册回调
     
     // 检查文件流是否打开
     // Why: 只有在文件流打开的情况下才需要关闭
@@ -179,8 +143,11 @@ DiskManager::~DiskManager() {
 // What: WritePage方法接收页面ID和页面数据指针，将其内容写入到磁盘文件的对应位置
 // How: 计算页面在文件中的偏移量，使用seekp定位到该位置，然后调用write方法写入页面数据
 bool DiskManager::WritePage(int32_t page_id, const char* page_data) {
-    // 添加锁定保护，避免递归锁定
-    std::lock_guard<std::recursive_mutex> lock(io_mutex_);
+    // 添加带超时的锁定保护
+    std::unique_lock<std::recursive_timed_mutex> lock(io_mutex_, std::defer_lock);
+    if (!lock.try_lock_for(std::chrono::milliseconds(lock_timeout_ms_))) {
+        throw LockTimeoutException("Failed to acquire disk manager lock within timeout: " + std::to_string(lock_timeout_ms_) + "ms");
+    }
     
     // 验证页面ID的有效性
     // Why: 页面ID必须是非负数，负数是无效的页面ID
@@ -290,7 +257,7 @@ bool DiskManager::WritePage(int32_t page_id, const char* page_data) {
 // How: 计算页面在文件中的偏移量，使用seekg定位到该位置，然后调用read方法读取页面数据
 bool DiskManager::ReadPage(int32_t page_id, char* page_data) {
     // 添加锁定保护，避免递归锁定
-    std::lock_guard<std::recursive_mutex> lock(io_mutex_);
+    std::lock_guard<std::recursive_timed_mutex> lock(io_mutex_);
     
     // 验证参数的有效性
     // Why: 页面ID必须是非负数，页面数据缓冲区指针不能为空
@@ -374,7 +341,7 @@ bool DiskManager::ReadPage(int32_t page_id, char* page_data) {
 // How: 先检查空闲页面列表，如果有则重用；否则分配新的页面ID
 int32_t DiskManager::AllocatePage() {
     // 添加锁定保护，避免递归锁定
-    std::lock_guard<std::recursive_mutex> lock(io_mutex_);
+    std::lock_guard<std::recursive_timed_mutex> lock(io_mutex_);
     
     // 检查是否有可用的空闲页面
     if (!free_pages_.empty()) {
@@ -405,7 +372,7 @@ int32_t DiskManager::AllocatePage() {
 // How: 将页面ID添加到free_pages_向量中，以便后续分配时可以重用
 bool DiskManager::DeallocatePage(int32_t page_id) {
     // 添加锁定保护，避免递归锁定
-    std::lock_guard<std::recursive_mutex> lock(io_mutex_);
+    std::lock_guard<std::recursive_timed_mutex> lock(io_mutex_);
     
     // 验证页面ID的有效性
     // Why: 只有有效的页面ID才能被释放
@@ -438,7 +405,7 @@ bool DiskManager::DeallocatePage(int32_t page_id) {
 // How: 通过文件大小除以页面大小来计算页面数量
 int32_t DiskManager::GetFileSize() const {
     // 添加锁定保护，避免递归锁定
-    std::lock_guard<std::recursive_mutex> lock(io_mutex_);
+    std::lock_guard<std::recursive_timed_mutex> lock(io_mutex_);
     
     return static_cast<int32_t>(file_size_ / PAGE_SIZE);
 }
@@ -450,7 +417,7 @@ int32_t DiskManager::GetFileSize() const {
 bool DiskManager::BatchReadPages(const std::vector<int32_t>& page_ids, 
                                  std::vector<char*>& data_buffers) {
     // 添加锁定保护，避免递归锁定
-    std::lock_guard<std::recursive_mutex> lock(io_mutex_);
+    std::lock_guard<std::recursive_timed_mutex> lock(io_mutex_);
     
     // 验证参数的有效性
     // Why: 页面ID数组和数据缓冲区数组必须大小一致，且不能为空
@@ -520,7 +487,7 @@ bool DiskManager::BatchReadPages(const std::vector<int32_t>& page_ids,
 
 bool DiskManager::PrefetchPage(int32_t page_id) {
     // 添加锁定保护，避免递归锁定
-    std::lock_guard<std::recursive_mutex> lock(io_mutex_);
+    std::lock_guard<std::recursive_timed_mutex> lock(io_mutex_);
     
     if (page_id < 0) {
         return false;
@@ -550,7 +517,7 @@ bool DiskManager::PrefetchPage(int32_t page_id) {
 
 bool DiskManager::BatchPrefetchPages(const std::vector<int32_t>& page_ids) {
     // 添加锁定保护，避免递归锁定
-    std::lock_guard<std::recursive_mutex> lock(io_mutex_);
+    std::lock_guard<std::recursive_timed_mutex> lock(io_mutex_);
     
     if (page_ids.empty()) {
         return false;
@@ -612,57 +579,10 @@ bool DiskManager::BatchPrefetchPages(const std::vector<int32_t>& page_ids) {
 // Why: 需要响应配置变更，动态调整磁盘管理器行为
 // What: OnConfigChange方法处理配置变更事件，根据变更的配置项调整相应的磁盘管理器参数
 // How: 根据配置键判断变更类型，执行相应的调整操作
-void DiskManager::OnConfigChange(const std::string& key, const ConfigValue& value) {
-    std::lock_guard<std::recursive_mutex> lock(io_mutex_);
-    
-    if (key == "disk_manager.enable_direct_io") {
-        // 处理直接I/O开关变更
-        if (std::holds_alternative<bool>(value)) {
-            bool enable_direct_io = std::get<bool>(value);
-            // 这里可以添加启用/禁用直接I/O的逻辑
-            SQLCC_LOG_INFO("Direct I/O " + std::string(enable_direct_io ? "enabled" : "disabled"));
-        }
-    }
-    else if (key == "disk_manager.io_queue_depth") {
-        // 处理I/O队列深度变更
-        if (std::holds_alternative<int>(value)) {
-            int queue_depth = std::get<int>(value);
-            // 这里可以添加I/O队列深度变更的逻辑
-            SQLCC_LOG_INFO("I/O queue depth updated to: " + std::to_string(queue_depth));
-        }
-    }
-    else if (key == "disk_manager.enable_async_io") {
-        // 处理异步I/O开关变更
-        if (std::holds_alternative<bool>(value)) {
-            bool enable_async_io = std::get<bool>(value);
-            // 这里可以添加启用/禁用异步I/O的逻辑
-            SQLCC_LOG_INFO("Async I/O " + std::string(enable_async_io ? "enabled" : "disabled"));
-        }
-    }
-    else if (key == "disk_manager.batch_io_size") {
-        // 处理批量I/O大小变更
-        if (std::holds_alternative<int>(value)) {
-            int batch_size = std::get<int>(value);
-            // 这里可以添加批量I/O大小变更的逻辑
-            SQLCC_LOG_INFO("Batch I/O size updated to: " + std::to_string(batch_size));
-        }
-    }
-    else if (key == "disk_manager.sync_strategy") {
-        // 处理同步策略变更
-        if (std::holds_alternative<std::string>(value)) {
-            std::string strategy = std::get<std::string>(value);
-            // 这里可以添加同步策略变更的逻辑
-            SQLCC_LOG_INFO("Sync strategy updated to: " + strategy);
-        }
-    }
-    else if (key == "disk_manager.sync_interval") {
-        // 处理同步间隔变更
-        if (std::holds_alternative<int>(value)) {
-            int sync_interval = std::get<int>(value);
-            // 这里可以添加同步间隔变更的逻辑
-            SQLCC_LOG_INFO("Sync interval updated to: " + std::to_string(sync_interval));
-        }
-    }
+void DiskManager::OnConfigChange(const std::string& key, const ConfigValue& /*value*/) {
+    // 注意：由于配置回调功能已禁用，此方法现在不会被调用
+    // 保留此方法以保持接口兼容性
+    SQLCC_LOG_DEBUG("Dynamic configuration change handling is disabled: " + key);
 }
 
 // 同步文件到磁盘实现
@@ -670,7 +590,7 @@ void DiskManager::OnConfigChange(const std::string& key, const ConfigValue& valu
 // What: Sync方法将文件缓冲区的内容强制写入磁盘
 // How: 调用文件流的flush方法，强制将缓冲区数据写入磁盘
 bool DiskManager::Sync() {
-    std::lock_guard<std::recursive_mutex> lock(io_mutex_);
+    std::lock_guard<std::recursive_timed_mutex> lock(io_mutex_);
     
     // 检查文件流是否打开
     if (!db_io_.is_open()) {

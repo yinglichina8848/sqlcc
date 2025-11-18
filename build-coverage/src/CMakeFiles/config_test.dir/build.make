@@ -93,6 +93,7 @@ config_test_EXTERNAL_OBJECTS =
 bin/config_test: src/CMakeFiles/config_test.dir/config_test.o
 bin/config_test: src/CMakeFiles/config_test.dir/build.make
 bin/config_test: lib/libsqlcc_core.a
+bin/config_test: lib/libsqlcc_parser.a
 bin/config_test: src/CMakeFiles/config_test.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/liying/sqlcc/build-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable ../bin/config_test"
 	cd /home/liying/sqlcc/build-coverage/src && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/config_test.dir/link.txt --verbose=$(VERBOSE)

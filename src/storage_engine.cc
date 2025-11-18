@@ -1,5 +1,7 @@
 #include "storage_engine.h"
 #include "logger.h"
+#include "b_plus_tree.h"
+#include <memory>
 
 namespace sqlcc {
 
@@ -34,17 +36,13 @@ StorageEngine::StorageEngine(ConfigManager& config_manager)
     // How: 使用std::make_unique创建BufferPool对象，传入磁盘管理器指针、缓冲池大小和配置管理器
     buffer_pool_ = std::make_unique<BufferPool>(disk_manager_.get(), pool_size, config_manager_);
     
-    // 注册配置变更回调
-    config_manager_.RegisterChangeCallback("buffer_pool.pool_size", 
-        [this]([[maybe_unused]] const std::string& key, [[maybe_unused]] const ConfigValue& value) {
-            // 处理缓冲池大小变更
-            if (std::holds_alternative<int>(value)) {
-                size_t new_size = static_cast<size_t>(std::get<int>(value));
-                SQLCC_LOG_INFO("Buffer pool size changed to: " + std::to_string(new_size));
-                // 这里可以添加调整缓冲池大小的逻辑
-                // 注意：实际实现可能需要更复杂的逻辑来处理缓冲池大小调整
-            }
-        });
+    // 创建索引管理器
+    // Why: 需要一个组件负责索引的创建、管理和使用
+    // What: 创建IndexManager对象，负责索引相关操作
+    // How: 使用std::make_unique创建IndexManager对象，传入存储引擎指针和配置管理器
+    index_manager_ = std::make_unique<IndexManager>(this, config_manager_);
+    
+    // 注意：配置回调功能已禁用，不再注册配置变更回调
     
     // 记录初始化成功，便于调试
     // Why: 日志记录有助于系统运行状态的监控和问题排查
@@ -89,8 +87,14 @@ Page* StorageEngine::NewPage(int32_t* page_id) {
     // 调用缓冲池创建新页面
     // Why: 缓冲池负责管理内存中的页面，包括创建新页面
     // What: 调用BufferPool的NewPage方法创建新页面
-    // How: 直接调用buffer_pool_的NewPage方法，传入页面ID指针
-    Page* page = buffer_pool_->NewPage(page_id);
+    // How: 直接调用buffer_pool_的NewPage方法，传入页面ID指针，添加异常处理
+    Page* page = nullptr;
+    try {
+        page = buffer_pool_->NewPage(page_id);
+    } catch (const LockTimeoutException& e) {
+        SQLCC_LOG_ERROR("Lock timeout when creating new page: " + std::string(e.what()));
+        // 可以尝试重试策略或者直接返回nullptr
+    }
     // 检查创建结果，记录日志
     // Why: 需要检查操作是否成功，并记录结果
     // What: 根据页面指针是否为空判断创建是否成功，记录相应日志
@@ -116,8 +120,14 @@ Page* StorageEngine::FetchPage(int32_t page_id) {
     // 调用缓冲池获取页面
     // Why: 缓冲池负责管理内存中的页面，包括从磁盘加载页面
     // What: 调用BufferPool的FetchPage方法获取页面
-    // How: 直接调用buffer_pool_的FetchPage方法，传入页面ID
-    Page* page = buffer_pool_->FetchPage(page_id);
+    // How: 直接调用buffer_pool_的FetchPage方法，传入页面ID，添加异常处理
+    Page* page = nullptr;
+    try {
+        page = buffer_pool_->FetchPage(page_id);
+    } catch (const LockTimeoutException& e) {
+        SQLCC_LOG_ERROR("Lock timeout when fetching page: " + std::string(e.what()));
+        // 可以尝试重试策略或者直接返回nullptr
+    }
     // 检查获取结果，记录日志
     // Why: 需要检查操作是否成功，并记录结果
     // What: 根据页面指针是否为空判断获取是否成功，记录相应日志
@@ -143,8 +153,14 @@ bool StorageEngine::UnpinPage(int32_t page_id, bool is_dirty) {
     // 调用缓冲池取消固定页面
     // Why: 缓冲池负责管理内存中的页面，包括取消固定页面
     // What: 调用BufferPool的UnpinPage方法取消固定页面
-    // How: 直接调用buffer_pool_的UnpinPage方法，传入页面ID和脏页标记
-    bool result = buffer_pool_->UnpinPage(page_id, is_dirty);
+    // How: 直接调用buffer_pool_的UnpinPage方法，传入页面ID和脏页标记，添加异常处理
+    bool result = false;
+    try {
+        result = buffer_pool_->UnpinPage(page_id, is_dirty);
+    } catch (const LockTimeoutException& e) {
+        SQLCC_LOG_ERROR("Lock timeout when unpinning page: " + std::string(e.what()));
+        // 锁超时导致操作失败
+    }
     // 检查操作结果，记录日志
     // Why: 需要检查操作是否成功，并记录结果
     // What: 根据返回值判断操作是否成功，记录相应日志
@@ -170,8 +186,14 @@ bool StorageEngine::FlushPage(int32_t page_id) {
     // 调用缓冲池刷新页面
     // Why: 缓冲池负责管理内存中的页面，包括将页面写入磁盘
     // What: 调用BufferPool的FlushPage方法刷新页面
-    // How: 直接调用buffer_pool_的FlushPage方法，传入页面ID
-    bool result = buffer_pool_->FlushPage(page_id);
+    // How: 直接调用buffer_pool_的FlushPage方法，传入页面ID，添加异常处理
+    bool result = false;
+    try {
+        result = buffer_pool_->FlushPage(page_id);
+    } catch (const LockTimeoutException& e) {
+        SQLCC_LOG_ERROR("Lock timeout when flushing page: " + std::string(e.what()));
+        // 锁超时导致操作失败
+    }
     // 检查操作结果，记录日志
     // Why: 需要检查操作是否成功，并记录结果
     // What: 根据返回值判断操作是否成功，记录相应日志
@@ -197,8 +219,14 @@ bool StorageEngine::DeletePage(int32_t page_id) {
     // 调用缓冲池删除页面
     // Why: 缓冲池负责管理内存中的页面，包括删除页面
     // What: 调用BufferPool的DeletePage方法删除页面
-    // How: 直接调用buffer_pool_的DeletePage方法，传入页面ID
-    bool result = buffer_pool_->DeletePage(page_id);
+    // How: 直接调用buffer_pool_的DeletePage方法，传入页面ID，添加异常处理
+    bool result = false;
+    try {
+        result = buffer_pool_->DeletePage(page_id);
+    } catch (const LockTimeoutException& e) {
+        SQLCC_LOG_ERROR("Lock timeout when deleting page: " + std::string(e.what()));
+        // 锁超时导致操作失败
+    }
     // 检查操作结果，记录日志
     // Why: 需要检查操作是否成功，并记录结果
     // What: 根据返回值判断操作是否成功，记录相应日志
@@ -221,11 +249,17 @@ void StorageEngine::FlushAllPages() {
     // What: 记录正在刷新所有页面
     // How: 使用SQLCC_LOG_DEBUG宏记录调试级别日志
     SQLCC_LOG_DEBUG("Flushing all pages");
-    // 调用缓冲池刷新所有页面
-    // Why: 缓冲池负责管理内存中的页面，包括将所有页面写入磁盘
-    // What: 调用BufferPool的FlushAllPages方法刷新所有页面
-    // How: 直接调用buffer_pool_的FlushAllPages方法
-    buffer_pool_->FlushAllPages();
+    
+    // 直接调用缓冲池的FlushAllPages方法，不需要额外加锁
+    // 注意：这里不再使用storage_engine的锁来保护，因为BufferPool::FlushAllPages内部已经实现了正确的锁管理策略
+    // 外部再加锁会导致死锁问题
+    try {
+        buffer_pool_->FlushAllPages();
+    } catch (const LockTimeoutException& e) {
+        SQLCC_LOG_ERROR("Lock timeout when flushing all pages: " + std::string(e.what()));
+        // 锁超时，可能需要重新尝试或通知用户
+    }
+    
     // 记录操作完成，便于调试
     // Why: 日志记录有助于系统运行状态的监控和问题排查
     // What: 记录所有页面刷新完成

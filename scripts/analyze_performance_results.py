@@ -1,108 +1,127 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 """
-SQLCC性能测试结果分析和可视化工具
+SQLCC 性能测试结果分析工具
+用于分析和可视化SQLCC存储引擎的性能测试结果
 """
 
 import os
 import sys
 import argparse
 import pandas as pd
-import matplotlib
-# 设置非交互式后端
-matplotlib.use('Agg')
 import matplotlib.pyplot as plt
-import seaborn as sns
 import numpy as np
 from pathlib import Path
 
-# 设置matplotlib支持中文显示
-plt.rcParams['font.sans-serif'] = ['WenQuanYi Zen Hei', 'WenQuanYi Micro Hei', 'DejaVu Sans']
-plt.rcParams['axes.unicode_minus'] = False
+# 使用非交互式后端
+plt.switch_backend('Agg')
+
+# 设置中文字体支持
+plt.rcParams['font.sans-serif'] = ['SimHei']  # 用来正常显示中文标签
+plt.rcParams['axes.unicode_minus'] = False  # 用来正常显示负号
+
 
 class PerformanceAnalyzer:
-    """性能测试结果分析器"""
+    """SQLCC性能测试结果分析器"""
     
     def __init__(self, results_dir):
         """
-        初始化分析器
+        初始化性能分析器
         
         Args:
             results_dir: 性能测试结果目录
         """
         self.results_dir = Path(results_dir)
+        # 创建输出目录
         self.output_dir = self.results_dir / "analysis"
         self.output_dir.mkdir(exist_ok=True)
-        
-        # 设置seaborn样式
-        sns.set_style("whitegrid")
-        sns.set_palette("husl")
     
-    def load_csv_data(self, csv_file):
+    def load_csv_data(self, csv_filename):
         """
-        加载CSV数据
+        加载CSV格式的性能测试数据
         
         Args:
-            csv_file: CSV文件路径
+            csv_filename: CSV文件名
             
         Returns:
-            DataFrame: 加载的数据
+            包含测试数据的DataFrame，如果文件不存在则返回空DataFrame
         """
+        csv_path = self.results_dir / csv_filename
+        if not csv_path.exists():
+            print(f"警告: 找不到文件 {csv_filename}，跳过相关分析")
+            return pd.DataFrame()
+        
         try:
-            file_path = self.results_dir / csv_file
-            return pd.read_csv(file_path)
+            return pd.read_csv(csv_path)
         except Exception as e:
-            print(f"Error loading {csv_file}: {e}")
+            print(f"错误: 读取文件 {csv_filename} 时发生错误: {e}")
             return pd.DataFrame()
     
     def analyze_buffer_pool_results(self):
         """分析缓冲池性能测试结果"""
         print("分析缓冲池性能测试结果...")
         
-        # 加载缓存命中率测试结果
-        hit_rate_data = self.load_csv_data("buffer_pool_cache_hit_rate.csv")
+        # 加载缓冲池命中率测试结果
+        hit_rate_data = self.load_csv_data("buffer_pool_hit_rate.csv")
         if not hit_rate_data.empty:
-            self.plot_buffer_pool_hit_rate(hit_rate_data)
+            try:
+                self.plot_buffer_pool_hit_rate(hit_rate_data)
+            except Exception as e:
+                print(f"警告: 绘制缓冲池命中率图表时出错: {e}")
         
         # 加载LRU效率测试结果
         lru_data = self.load_csv_data("buffer_pool_lru_efficiency.csv")
         if not lru_data.empty:
-            self.plot_lru_efficiency(lru_data)
+            try:
+                self.plot_lru_efficiency(lru_data)
+            except Exception as e:
+                print(f"警告: 绘制LRU效率图表时出错: {e}")
         
-        # 加载访问模式测试结果
+        # 加载访问模式性能测试结果
         access_pattern_data = self.load_csv_data("buffer_pool_access_pattern.csv")
         if not access_pattern_data.empty:
-            self.plot_access_pattern(access_pattern_data)
+            try:
+                self.plot_access_pattern(access_pattern_data)
+            except Exception as e:
+                print(f"警告: 绘制访问模式图表时出错: {e}")
         
         # 加载缓冲池大小扩展性测试结果
-        scalability_data = self.load_csv_data("buffer_pool_size_scalability.csv")
-        if not scalability_data.empty:
-            self.plot_pool_size_scalability(scalability_data)
+        pool_size_data = self.load_csv_data("buffer_pool_size_scalability.csv")
+        if not pool_size_data.empty:
+            try:
+                self.plot_pool_size_scalability(pool_size_data)
+            except Exception as e:
+                print(f"警告: 绘制缓冲池大小扩展性图表时出错: {e}")
     
     def plot_buffer_pool_hit_rate(self, data):
-        """绘制缓存命中率图表"""
-        plt.figure(figsize=(10, 6))
+        """绘制缓冲池命中率图表"""
+        plt.figure(figsize=(12, 8))
         
         # 提取数据
-        pool_sizes = []
+        workloads = []
         hit_rates = []
         
         for _, row in data.iterrows():
-            pool_size = int(row['Pool Size'])
+            workload = row['Workload']
             hit_rate = float(row['Hit Rate'].rstrip('%'))
-            pool_sizes.append(pool_size)
+            workloads.append(workload)
             hit_rates.append(hit_rate)
         
         # 绘制柱状图
-        plt.bar(pool_sizes, hit_rates, color='skyblue')
-        plt.xlabel('缓冲池大小（页面数）')
-        plt.ylabel('缓存命中率（%）')
-        plt.title('不同缓冲池大小下的缓存命中率')
-        plt.xticks(pool_sizes)
-        plt.ylim(0, 100)
+        bars = plt.bar(workloads, hit_rates, color=['skyblue', 'lightgreen', 'lightcoral', 'plum'])
+        plt.ylabel('命中率（%）')
+        plt.title('不同工作负载下的缓冲池命中率')
+        plt.xticks(rotation=45, ha='right')
         
         # 添加数值标签
-        for i, (pool_size, hit_rate) in enumerate(zip(pool_sizes, hit_rates)):
-            plt.text(pool_size, hit_rate + 1, f'{hit_rate:.1f}%', ha='center')
+        for bar in bars:
+            height = bar.get_height()
+            plt.text(bar.get_x() + bar.get_width()/2., height + 0.5,
+                    f'{height:.1f}%', ha='center', va='bottom')
+        
+        # 添加90%基准线
+        plt.axhline(y=90, color='red', linestyle='--', alpha=0.7, label='90% 基准线')
+        plt.legend()
         
         plt.tight_layout()
         plt.savefig(self.output_dir / 'buffer_pool_hit_rate.png', dpi=300)
@@ -113,22 +132,47 @@ class PerformanceAnalyzer:
         plt.figure(figsize=(10, 6))
         
         # 提取数据
-        working_set_sizes = []
-        hit_rates = []
+        access_patterns = []
+        efficiencies = []
+        
+        # 检查必要的列是否存在
+        if 'Access Pattern' not in data.columns:
+            # 如果没有Access Pattern列，尝试使用其他列或默认标签
+            if 'Workload' in data.columns:
+                pattern_col = 'Workload'
+            else:
+                pattern_col = data.columns[0]  # 使用第一列
+            
+            print(f"警告: 找不到'Access Pattern'列，使用'{pattern_col}'列代替")
+        else:
+            pattern_col = 'Access Pattern'
         
         for _, row in data.iterrows():
-            working_set_size = int(row['Working Set Size'])
-            hit_rate = float(row['Hit Rate'].rstrip('%'))
-            working_set_sizes.append(working_set_size)
-            hit_rates.append(hit_rate)
+            try:
+                access_pattern = row[pattern_col]
+                # 提取效率值，处理可能的百分比符号
+                efficiency_value = row['LRU Efficiency'] if 'LRU Efficiency' in data.columns else row.iloc[1]
+                if isinstance(efficiency_value, str) and '%' in efficiency_value:
+                    efficiency = float(efficiency_value.rstrip('%'))
+                else:
+                    efficiency = float(efficiency_value)
+                access_patterns.append(access_pattern)
+                efficiencies.append(efficiency)
+            except Exception as e:
+                print(f"警告: 处理行数据时出错: {e}")
+                continue
         
-        # 绘制折线图
-        plt.plot(working_set_sizes, hit_rates, marker='o', linestyle='-', color='coral')
-        plt.xlabel('工作集大小（页面数）')
-        plt.ylabel('缓存命中率（%）')
-        plt.title('不同工作集大小下的LRU效率')
-        plt.grid(True)
-        plt.ylim(0, 100)
+        # 绘制柱状图
+        bars = plt.bar(access_patterns, efficiencies, color='lightskyblue')
+        plt.ylabel('LRU效率（%）')
+        plt.title('不同访问模式下的LRU效率')
+        plt.xticks(rotation=45, ha='right')
+        
+        # 添加数值标签
+        for bar in bars:
+            height = bar.get_height()
+            plt.text(bar.get_x() + bar.get_width()/2., height + 0.5,
+                    f'{height:.1f}%', ha='center', va='bottom')
         
         plt.tight_layout()
         plt.savefig(self.output_dir / 'lru_efficiency.png', dpi=300)
@@ -139,15 +183,15 @@ class PerformanceAnalyzer:
         plt.figure(figsize=(12, 8))
         
         # 提取数据
-        patterns = []
+        access_patterns = []
         throughputs = []
         avg_latencies = []
         
         for _, row in data.iterrows():
-            pattern = row['Access Pattern']
+            access_pattern = row['Access Pattern']
             throughput = row['Throughput(ops/sec)']
-            avg_latency = row['Avg Latency(ms)']
-            patterns.append(pattern)
+            avg_latency = float(row['Avg Latency(ms)'])
+            access_patterns.append(access_pattern)
             throughputs.append(throughput)
             avg_latencies.append(avg_latency)
         
@@ -155,28 +199,20 @@ class PerformanceAnalyzer:
         fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 6))
         
         # 绘制吞吐量
-        bars1 = ax1.bar(patterns, throughputs, color='lightgreen')
+        bars1 = ax1.bar(access_patterns, throughputs, color='lightgreen')
         ax1.set_xlabel('访问模式')
         ax1.set_ylabel('吞吐量（ops/sec）')
         ax1.set_title('不同访问模式下的吞吐量')
-        
-        # 添加数值标签
-        for bar, throughput in zip(bars1, throughputs):
-            height = bar.get_height()
-            ax1.text(bar.get_x() + bar.get_width()/2., height + height*0.01,
-                    f'{throughput:.0f}', ha='center', va='bottom')
+        ax1.tick_params(axis='x', rotation=45)
+        ax1.grid(True, axis='y')
         
         # 绘制平均延迟
-        bars2 = ax2.bar(patterns, avg_latencies, color='salmon')
+        bars2 = ax2.bar(access_patterns, avg_latencies, color='lightcoral')
         ax2.set_xlabel('访问模式')
         ax2.set_ylabel('平均延迟（ms）')
         ax2.set_title('不同访问模式下的平均延迟')
-        
-        # 添加数值标签
-        for bar, latency in zip(bars2, avg_latencies):
-            height = bar.get_height()
-            ax2.text(bar.get_x() + bar.get_width()/2., height + height*0.01,
-                    f'{latency:.3f}', ha='center', va='bottom')
+        ax2.tick_params(axis='x', rotation=45)
+        ax2.grid(True, axis='y')
         
         plt.tight_layout()
         plt.savefig(self.output_dir / 'access_pattern_performance.png', dpi=300)
@@ -194,7 +230,7 @@ class PerformanceAnalyzer:
         for _, row in data.iterrows():
             pool_size = int(row['Pool Size'])
             throughput = row['Throughput(ops/sec)']
-            avg_latency = row['Avg Latency(ms)']
+            avg_latency = float(row['Avg Latency(ms)'])
             pool_sizes.append(pool_size)
             throughputs.append(throughput)
             avg_latencies.append(avg_latency)
@@ -282,6 +318,15 @@ class PerformanceAnalyzer:
         plt.legend()
         plt.grid(True)
         
+        # 添加数值标签
+        for x, y in zip(read_page_sizes, read_throughputs):
+            plt.annotate(f'{y:.1f}', (x, y), textcoords="offset points", 
+                         xytext=(0,5), ha='center')
+        
+        for x, y in zip(write_page_sizes, write_throughputs):
+            plt.annotate(f'{y:.1f}', (x, y), textcoords="offset points", 
+                         xytext=(0,-15), ha='center')
+        
         plt.tight_layout()
         plt.savefig(self.output_dir / 'sequential_io_performance.png', dpi=300)
         plt.close()
@@ -301,13 +346,15 @@ class PerformanceAnalyzer:
             throughputs.append(throughput)
         
         # 绘制柱状图
-        plt.bar(operations, throughputs, color=['lightblue', 'lightcoral'])
+        bars = plt.bar(operations, throughputs, color=['lightblue', 'lightcoral'])
         plt.ylabel('吞吐量（MB/s）')
         plt.title('随机I/O性能')
         
         # 添加数值标签
-        for i, (operation, throughput) in enumerate(zip(operations, throughputs)):
-            plt.text(i, throughput + throughput*0.01, f'{throughput:.2f}', ha='center')
+        for bar in bars:
+            height = bar.get_height()
+            plt.text(bar.get_x() + bar.get_width()/2., height + height*0.01, 
+                     f'{height:.2f}', ha='center')
         
         plt.tight_layout()
         plt.savefig(self.output_dir / 'random_io_performance.png', dpi=300)
@@ -333,6 +380,11 @@ class PerformanceAnalyzer:
         plt.ylabel('吞吐量（MB/s）')
         plt.title('混合I/O性能与页面大小的关系')
         plt.grid(True)
+        
+        # 添加数值标签
+        for x, y in zip(page_sizes, throughputs):
+            plt.annotate(f'{y:.1f}', (x, y), textcoords="offset points", 
+                         xytext=(0,5), ha='center')
         
         plt.tight_layout()
         plt.savefig(self.output_dir / 'varying_page_size_performance.png', dpi=300)
@@ -365,6 +417,11 @@ class PerformanceAnalyzer:
         ax1.set_title('并发I/O吞吐量')
         ax1.grid(True)
         
+        # 添加数值标签
+        for x, y in zip(thread_counts, throughputs):
+            ax1.annotate(f'{y:.1f}', (x, y), textcoords="offset points", 
+                         xytext=(0,5), ha='center')
+        
         # 绘制平均延迟
         ax2.plot(thread_counts, avg_latencies, marker='s', linestyle='-', color='tomato')
         ax2.set_xlabel('线程数')
@@ -372,8 +429,199 @@ class PerformanceAnalyzer:
         ax2.set_title('并发I/O平均延迟')
         ax2.grid(True)
         
+        # 添加数值标签
+        for x, y in zip(thread_counts, avg_latencies):
+            ax2.annotate(f'{y:.2f}', (x, y), textcoords="offset points", 
+                         xytext=(0,-15), ha='center')
+        
         plt.tight_layout()
         plt.savefig(self.output_dir / 'concurrent_io_performance.png', dpi=300)
+        plt.close()
+    
+    def analyze_index_operations(self):
+        """分析索引操作性能测试结果"""
+        print("分析索引操作性能测试结果...")
+        
+        # 加载索引创建性能测试结果
+        create_index_data = self.load_csv_data("index_operations_create.csv")
+        if not create_index_data.empty:
+            self.plot_create_index_performance(create_index_data)
+        
+        # 加载索引查询性能测试结果
+        query_index_data = self.load_csv_data("index_operations_query.csv")
+        if not query_index_data.empty:
+            self.plot_query_index_performance(query_index_data)
+        
+        # 加载索引删除性能测试结果
+        drop_index_data = self.load_csv_data("index_operations_drop.csv")
+        if not drop_index_data.empty:
+            self.plot_drop_index_performance(drop_index_data)
+    
+    def plot_create_index_performance(self, data):
+        """绘制索引创建性能图表"""
+        plt.figure(figsize=(12, 8))
+        
+        # 提取数据
+        table_sizes = []
+        throughputs = []
+        avg_latencies = []
+        is_unique = []
+        
+        for _, row in data.iterrows():
+            table_size = int(row['Table Size'])
+            throughput = row['Throughput(ops/sec)']
+            avg_latency = float(row['Avg Latency(ms)'])
+            unique_flag = bool(row['Is Unique'])
+            table_sizes.append(table_size)
+            throughputs.append(throughput)
+            avg_latencies.append(avg_latency)
+            is_unique.append(unique_flag)
+        
+        # 分离唯一索引和非唯一索引数据
+        unique_data = [(ts, tp, al) for ts, tp, al in zip(table_sizes, throughputs, avg_latencies, is_unique) if unique]
+        non_unique_data = [(ts, tp, al) for ts, tp, al in zip(table_sizes, throughputs, avg_latencies, is_unique) if not unique]
+        
+        # 按表大小排序
+        unique_data.sort(key=lambda x: x[0])
+        non_unique_data.sort(key=lambda x: x[0])
+        
+        # 创建子图
+        fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 6))
+        
+        # 绘制吞吐量
+        if unique_data:
+            unique_sizes, unique_throughputs, _ = zip(*unique_data)
+            ax1.plot(unique_sizes, unique_throughputs, marker='o', linestyle='-', color='blue', label='唯一索引')
+        
+        if non_unique_data:
+            non_unique_sizes, non_unique_throughputs, _ = zip(*non_unique_data)
+            ax1.plot(non_unique_sizes, non_unique_throughputs, marker='s', linestyle='-', color='green', label='非唯一索引')
+        
+        ax1.set_xlabel('表大小（行数）')
+        ax1.set_ylabel('吞吐量（ops/sec）')
+        ax1.set_title('索引创建性能 - 吞吐量')
+        ax1.grid(True)
+        ax1.legend()
+        
+        # 绘制平均延迟
+        if unique_data:
+            _, _, unique_latencies = zip(*unique_data)
+            ax2.plot(unique_sizes, unique_latencies, marker='o', linestyle='-', color='blue', label='唯一索引')
+        
+        if non_unique_data:
+            _, _, non_unique_latencies = zip(*non_unique_data)
+            ax2.plot(non_unique_sizes, non_unique_latencies, marker='s', linestyle='-', color='green', label='非唯一索引')
+        
+        ax2.set_xlabel('表大小（行数）')
+        ax2.set_ylabel('平均延迟（ms）')
+        ax2.set_title('索引创建性能 - 平均延迟')
+        ax2.grid(True)
+        ax2.legend()
+        
+        plt.tight_layout()
+        plt.savefig(self.output_dir / 'create_index_performance.png', dpi=300)
+        plt.close()
+    
+    def plot_query_index_performance(self, data):
+        """绘制索引查询性能图表"""
+        plt.figure(figsize=(12, 8))
+        
+        # 提取数据
+        operations = []
+        with_index = []
+        without_index = []
+        
+        for _, row in data.iterrows():
+            operation = row['Query Type']
+            with_idx_time = float(row['With Index(ms)'])
+            without_idx_time = float(row['Without Index(ms)'])
+            operations.append(operation)
+            with_index.append(with_idx_time)
+            without_index.append(without_idx_time)
+        
+        # 设置条形宽度
+        width = 0.35
+        x = np.arange(len(operations))
+        
+        # 创建子图
+        fig, ax = plt.subplots(figsize=(12, 6))
+        
+        # 绘制柱状图
+        bars1 = ax.bar(x - width/2, with_index, width, label='使用索引', color='lightblue')
+        bars2 = ax.bar(x + width/2, without_index, width, label='不使用索引', color='lightcoral')
+        
+        # 设置图表
+        ax.set_xlabel('查询类型')
+        ax.set_ylabel('执行时间（ms）')
+        ax.set_title('索引对查询性能的影响')
+        ax.set_xticks(x)
+        ax.set_xticklabels(operations, rotation=45, ha='right')
+        ax.legend()
+        ax.grid(True, axis='y')
+        
+        # 添加数值标签
+        def add_labels(bars):
+            for bar in bars:
+                height = bar.get_height()
+                ax.annotate(f'{height:.2f}',
+                           xy=(bar.get_x() + bar.get_width() / 2, height),
+                           xytext=(0, 3),  # 3点垂直偏移
+                           textcoords="offset points",
+                           ha='center', va='bottom')
+        
+        add_labels(bars1)
+        add_labels(bars2)
+        
+        plt.tight_layout()
+        plt.savefig(self.output_dir / 'query_index_performance.png', dpi=300)
+        plt.close()
+    
+    def plot_drop_index_performance(self, data):
+        """绘制索引删除性能图表"""
+        plt.figure(figsize=(10, 6))
+        
+        # 提取数据
+        operations = []
+        throughputs = []
+        avg_latencies = []
+        
+        for _, row in data.iterrows():
+            operation = '带IF EXISTS' if row['If Exists'] else '标准删除'
+            throughput = row['Throughput(ops/sec)']
+            avg_latency = float(row['Avg Latency(ms)'])
+            operations.append(operation)
+            throughputs.append(throughput)
+            avg_latencies.append(avg_latency)
+        
+        # 创建子图
+        fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 6))
+        
+        # 绘制吞吐量
+        bars1 = ax1.bar(operations, throughputs, color=['lightgreen', 'lightyellow'])
+        ax1.set_ylabel('吞吐量（ops/sec）')
+        ax1.set_title('索引删除性能 - 吞吐量')
+        ax1.grid(True, axis='y')
+        
+        # 添加数值标签
+        for bar in bars1:
+            height = bar.get_height()
+            ax1.text(bar.get_x() + bar.get_width()/2., height + height*0.01,
+                    f'{height:.0f}', ha='center')
+        
+        # 绘制平均延迟
+        bars2 = ax2.bar(operations, avg_latencies, color=['lightcoral', 'lightsalmon'])
+        ax2.set_ylabel('平均延迟（ms）')
+        ax2.set_title('索引删除性能 - 平均延迟')
+        ax2.grid(True, axis='y')
+        
+        # 添加数值标签
+        for bar in bars2:
+            height = bar.get_height()
+            ax2.text(bar.get_x() + bar.get_width()/2., height + height*0.01,
+                    f'{height:.2f}', ha='center')
+        
+        plt.tight_layout()
+        plt.savefig(self.output_dir / 'drop_index_performance.png', dpi=300)
         plt.close()
     
     def analyze_mixed_workload_results(self):
@@ -419,7 +667,7 @@ class PerformanceAnalyzer:
         
         # 绘制散点图
         plt.figure(figsize=(10, 6))
-        plt.scatter(read_ratios, throughputs, s=100, alpha=0.7, c='purple')
+        scatter = plt.scatter(read_ratios, throughputs, s=100, alpha=0.7, c='purple')
         
         # 添加标签
         for i, (test_name, read_ratio, throughput) in enumerate(zip(test_names, read_ratios, throughputs)):
@@ -462,12 +710,24 @@ class PerformanceAnalyzer:
         ax1.set_title('事务大小与吞吐量的关系')
         ax1.grid(True)
         
+        # 添加趋势线
+        z = np.polyfit(tx_sizes, throughputs, 1)
+        p = np.poly1d(z)
+        ax1.plot(tx_sizes, p(tx_sizes), "r--", alpha=0.7, label=f'趋势线: y={z[0]:.2f}x+{z[1]:.2f}')
+        ax1.legend()
+        
         # 绘制平均延迟
         ax2.plot(tx_sizes, avg_latencies, marker='s', linestyle='-', color='firebrick')
         ax2.set_xlabel('事务大小（页面数）')
         ax2.set_ylabel('平均延迟（ms）')
         ax2.set_title('事务大小与平均延迟的关系')
         ax2.grid(True)
+        
+        # 添加趋势线
+        z = np.polyfit(tx_sizes, avg_latencies, 1)
+        p = np.poly1d(z)
+        ax2.plot(tx_sizes, p(tx_sizes), "r--", alpha=0.7, label=f'趋势线: y={z[0]:.2f}x+{z[1]:.2f}')
+        ax2.legend()
         
         plt.tight_layout()
         plt.savefig(self.output_dir / 'transaction_size_performance.png', dpi=300)
@@ -491,14 +751,15 @@ class PerformanceAnalyzer:
             throughputs.append(throughput)
         
         # 绘制柱状图
-        plt.bar(test_names, throughputs, color='gold')
+        bars = plt.bar(test_names, throughputs, color='gold')
         plt.ylabel('吞吐量（ops/sec）')
         plt.title('长时间运行性能')
         plt.xticks(rotation=45, ha='right')
         
         # 添加数值标签
-        for i, (test_name, throughput) in enumerate(zip(test_names, throughputs)):
-            plt.text(i, throughput + throughput*0.01, f'{throughput:.0f}', ha='center')
+        for bar in bars:
+            height = bar.get_height()
+            plt.text(bar.get_x() + bar.get_width()/2., height + height*0.01, f'{height:.0f}', ha='center')
         
         plt.tight_layout()
         plt.savefig(self.output_dir / 'long_running_performance.png', dpi=300)
@@ -531,12 +792,22 @@ class PerformanceAnalyzer:
         ax1.set_title('并发工作负载吞吐量')
         ax1.grid(True)
         
+        # 添加数值标签
+        for x, y in zip(thread_counts, throughputs):
+            ax1.annotate(f'{y:.0f}', (x, y), textcoords="offset points", 
+                         xytext=(0,5), ha='center')
+        
         # 绘制平均延迟
         ax2.plot(thread_counts, avg_latencies, marker='s', linestyle='-', color='darkorange')
         ax2.set_xlabel('线程数')
         ax2.set_ylabel('平均延迟（ms）')
         ax2.set_title('并发工作负载平均延迟')
         ax2.grid(True)
+        
+        # 添加数值标签
+        for x, y in zip(thread_counts, avg_latencies):
+            ax2.annotate(f'{y:.2f}', (x, y), textcoords="offset points", 
+                         xytext=(0,-15), ha='center')
         
         plt.tight_layout()
         plt.savefig(self.output_dir / 'concurrent_workload_performance.png', dpi=300)
@@ -562,7 +833,8 @@ class PerformanceAnalyzer:
             f.write("本报告包含以下性能测试结果:\n\n")
             f.write("1. 缓冲池性能测试\n")
             f.write("2. 磁盘I/O性能测试\n")
-            f.write("3. 混合工作负载性能测试\n\n")
+            f.write("3. 混合工作负载性能测试\n")
+            f.write("4. 索引操作性能测试\n\n")
             
             f.write("## 图表说明\n\n")
             f.write("所有性能图表已保存至 `analysis` 目录:\n\n")
@@ -611,6 +883,8 @@ class PerformanceAnalyzer:
         self.analyze_buffer_pool_results()
         self.analyze_disk_io_results()
         self.analyze_mixed_workload_results()
+        # 新增索引操作性能分析
+        self.analyze_index_operations()
         
         # 生成摘要报告
         self.generate_summary_report()

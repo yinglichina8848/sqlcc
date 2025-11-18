@@ -70,14 +70,16 @@ tests/CMakeFiles/unit_tests: bin/storage_engine_test
 tests/CMakeFiles/unit_tests: bin/buffer_pool_test
 tests/CMakeFiles/unit_tests: bin/storage_engine_newpage_test
 tests/CMakeFiles/unit_tests: bin/disk_manager_test
+tests/CMakeFiles/unit_tests: bin/deadlock_fix_test
 tests/CMakeFiles/unit_tests: bin/config_manager_test
 tests/CMakeFiles/unit_tests: bin/config_manager_enhanced_test
 tests/CMakeFiles/unit_tests: bin/buffer_pool_enhanced_test
 tests/CMakeFiles/unit_tests: bin/page_enhanced_test
 tests/CMakeFiles/unit_tests: bin/disk_manager_enhanced_test
 tests/CMakeFiles/unit_tests: bin/storage_engine_enhanced_test
+tests/CMakeFiles/unit_tests: bin/sql_parser_test
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=/home/liying/sqlcc/build-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Run all unit tests"
-	/usr/bin/ctest --output-on-failure --label-regex unit_tests
+	/usr/bin/ctest --output-on-failure
 
 unit_tests: tests/CMakeFiles/unit_tests
 unit_tests: tests/CMakeFiles/unit_tests.dir/build.make

@@ -270,7 +270,6 @@ tests/performance/CMakeFiles/performance_test.dir/batch_prefetch_performance_tes
  /usr/include/c++/13/bits/unordered_map.h \
  /usr/include/c++/13/bits/hashtable.h \
  /usr/include/c++/13/bits/hashtable_policy.h \
- /usr/include/c++/13/functional /usr/include/c++/13/bits/std_function.h \
  /usr/include/c++/13/unordered_set \
  /usr/include/c++/13/bits/unordered_set.h /usr/include/c++/13/algorithm \
  /usr/include/c++/13/bits/ranges_algo.h \

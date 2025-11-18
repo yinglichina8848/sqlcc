@@ -95,6 +95,7 @@ bin/config_manager_test: tests/CMakeFiles/config_manager_test.dir/build.make
 bin/config_manager_test: lib/libsqlcc_core.a
 bin/config_manager_test: /usr/lib/x86_64-linux-gnu/libgtest.a
 bin/config_manager_test: /usr/lib/x86_64-linux-gnu/libgtest_main.a
+bin/config_manager_test: lib/libsqlcc_parser.a
 bin/config_manager_test: /usr/lib/x86_64-linux-gnu/libgtest.a
 bin/config_manager_test: tests/CMakeFiles/config_manager_test.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/liying/sqlcc/build-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable ../bin/config_manager_test"

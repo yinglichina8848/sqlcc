@@ -228,6 +228,34 @@ disk_manager_test/fast:
 .PHONY : disk_manager_test/fast
 
 # Convenience name for target.
+tests/CMakeFiles/deadlock_fix_test.dir/rule:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/deadlock_fix_test.dir/rule
+.PHONY : tests/CMakeFiles/deadlock_fix_test.dir/rule
+
+# Convenience name for target.
+deadlock_fix_test: tests/CMakeFiles/deadlock_fix_test.dir/rule
+.PHONY : deadlock_fix_test
+
+# fast build rule for target.
+deadlock_fix_test/fast:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/deadlock_fix_test.dir/build.make tests/CMakeFiles/deadlock_fix_test.dir/build
+.PHONY : deadlock_fix_test/fast
+
+# Convenience name for target.
+tests/CMakeFiles/sql_parser_test.dir/rule:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/sql_parser_test.dir/rule
+.PHONY : tests/CMakeFiles/sql_parser_test.dir/rule
+
+# Convenience name for target.
+sql_parser_test: tests/CMakeFiles/sql_parser_test.dir/rule
+.PHONY : sql_parser_test
+
+# fast build rule for target.
+sql_parser_test/fast:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/sql_parser_test.dir/build.make tests/CMakeFiles/sql_parser_test.dir/build
+.PHONY : sql_parser_test/fast
+
+# Convenience name for target.
 tests/CMakeFiles/config_manager_test.dir/rule:
 	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/config_manager_test.dir/rule
 .PHONY : tests/CMakeFiles/config_manager_test.dir/rule
@@ -312,6 +340,34 @@ storage_engine_enhanced_test/fast:
 .PHONY : storage_engine_enhanced_test/fast
 
 # Convenience name for target.
+tests/CMakeFiles/storage_engine_tests.dir/rule:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/storage_engine_tests.dir/rule
+.PHONY : tests/CMakeFiles/storage_engine_tests.dir/rule
+
+# Convenience name for target.
+storage_engine_tests: tests/CMakeFiles/storage_engine_tests.dir/rule
+.PHONY : storage_engine_tests
+
+# fast build rule for target.
+storage_engine_tests/fast:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/storage_engine_tests.dir/build.make tests/CMakeFiles/storage_engine_tests.dir/build
+.PHONY : storage_engine_tests/fast
+
+# Convenience name for target.
+tests/CMakeFiles/sql_parser_tests.dir/rule:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/sql_parser_tests.dir/rule
+.PHONY : tests/CMakeFiles/sql_parser_tests.dir/rule
+
+# Convenience name for target.
+sql_parser_tests: tests/CMakeFiles/sql_parser_tests.dir/rule
+.PHONY : sql_parser_tests
+
+# fast build rule for target.
+sql_parser_tests/fast:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/sql_parser_tests.dir/build.make tests/CMakeFiles/sql_parser_tests.dir/build
+.PHONY : sql_parser_tests/fast
+
+# Convenience name for target.
 tests/CMakeFiles/unit_tests.dir/rule:
 	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/unit_tests.dir/rule
 .PHONY : tests/CMakeFiles/unit_tests.dir/rule
@@ -368,6 +424,21 @@ run_disk_manager_test/fast:
 .PHONY : run_disk_manager_test/fast
 
 # target to build an object file
+__/test/sql_parser/sql_parser_test.o:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/sql_parser_test.dir/build.make tests/CMakeFiles/sql_parser_test.dir/__/test/sql_parser/sql_parser_test.o
+.PHONY : __/test/sql_parser/sql_parser_test.o
+
+# target to preprocess a source file
+__/test/sql_parser/sql_parser_test.i:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/sql_parser_test.dir/build.make tests/CMakeFiles/sql_parser_test.dir/__/test/sql_parser/sql_parser_test.i
+.PHONY : __/test/sql_parser/sql_parser_test.i
+
+# target to generate assembly for a file
+__/test/sql_parser/sql_parser_test.s:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/sql_parser_test.dir/build.make tests/CMakeFiles/sql_parser_test.dir/__/test/sql_parser/sql_parser_test.s
+.PHONY : __/test/sql_parser/sql_parser_test.s
+
+# target to build an object file
 buffer_pool_test.o:
 	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/buffer_pool_test.dir/build.make tests/CMakeFiles/buffer_pool_test.dir/buffer_pool_test.o
 .PHONY : buffer_pool_test.o
@@ -381,6 +452,21 @@ buffer_pool_test.i:
 buffer_pool_test.s:
 	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/buffer_pool_test.dir/build.make tests/CMakeFiles/buffer_pool_test.dir/buffer_pool_test.s
 .PHONY : buffer_pool_test.s
+
+# target to build an object file
+deadlock_fix_test.o:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/deadlock_fix_test.dir/build.make tests/CMakeFiles/deadlock_fix_test.dir/deadlock_fix_test.o
+.PHONY : deadlock_fix_test.o
+
+# target to preprocess a source file
+deadlock_fix_test.i:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/deadlock_fix_test.dir/build.make tests/CMakeFiles/deadlock_fix_test.dir/deadlock_fix_test.i
+.PHONY : deadlock_fix_test.i
+
+# target to generate assembly for a file
+deadlock_fix_test.s:
+	cd /home/liying/sqlcc/build-coverage && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/deadlock_fix_test.dir/build.make tests/CMakeFiles/deadlock_fix_test.dir/deadlock_fix_test.s
+.PHONY : deadlock_fix_test.s
 
 # target to build an object file
 disk_manager_test.o:
@@ -533,20 +619,30 @@ help:
 	@echo "... run_buffer_pool_test"
 	@echo "... run_disk_manager_test"
 	@echo "... run_storage_engine_test"
+	@echo "... sql_parser_tests"
+	@echo "... storage_engine_tests"
 	@echo "... unit_tests"
 	@echo "... buffer_pool_enhanced_test"
 	@echo "... buffer_pool_test"
 	@echo "... config_manager_enhanced_test"
 	@echo "... config_manager_test"
+	@echo "... deadlock_fix_test"
 	@echo "... disk_manager_enhanced_test"
 	@echo "... disk_manager_test"
 	@echo "... page_enhanced_test"
+	@echo "... sql_parser_test"
 	@echo "... storage_engine_enhanced_test"
 	@echo "... storage_engine_newpage_test"
 	@echo "... storage_engine_test"
+	@echo "... __/test/sql_parser/sql_parser_test.o"
+	@echo "... __/test/sql_parser/sql_parser_test.i"
+	@echo "... __/test/sql_parser/sql_parser_test.s"
 	@echo "... buffer_pool_test.o"
 	@echo "... buffer_pool_test.i"
 	@echo "... buffer_pool_test.s"
+	@echo "... deadlock_fix_test.o"
+	@echo "... deadlock_fix_test.i"
+	@echo "... deadlock_fix_test.s"
 	@echo "... disk_manager_test.o"
 	@echo "... disk_manager_test.i"
 	@echo "... disk_manager_test.s"

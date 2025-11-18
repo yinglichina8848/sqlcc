@@ -125,6 +125,7 @@ bin/concurrency_test: tests/performance/concurrency_test/CMakeFiles/concurrency_
 bin/concurrency_test: tests/performance/concurrency_test/CMakeFiles/concurrency_test.dir/__/performance_test_base.o
 bin/concurrency_test: tests/performance/concurrency_test/CMakeFiles/concurrency_test.dir/build.make
 bin/concurrency_test: lib/libsqlcc_core.a
+bin/concurrency_test: lib/libsqlcc_parser.a
 bin/concurrency_test: tests/performance/concurrency_test/CMakeFiles/concurrency_test.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/liying/sqlcc/build-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX executable ../../../bin/concurrency_test"
 	cd /home/liying/sqlcc/build-coverage/tests/performance/concurrency_test && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/concurrency_test.dir/link.txt --verbose=$(VERBOSE)

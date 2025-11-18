@@ -95,6 +95,7 @@ bin/storage_engine_newpage_test: tests/CMakeFiles/storage_engine_newpage_test.di
 bin/storage_engine_newpage_test: lib/libsqlcc_core.a
 bin/storage_engine_newpage_test: /usr/lib/x86_64-linux-gnu/libgtest.a
 bin/storage_engine_newpage_test: /usr/lib/x86_64-linux-gnu/libgtest_main.a
+bin/storage_engine_newpage_test: lib/libsqlcc_parser.a
 bin/storage_engine_newpage_test: /usr/lib/x86_64-linux-gnu/libgtest.a
 bin/storage_engine_newpage_test: tests/CMakeFiles/storage_engine_newpage_test.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/liying/sqlcc/build-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable ../bin/storage_engine_newpage_test"

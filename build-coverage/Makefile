@@ -250,6 +250,19 @@ check_external_files/fast:
 .PHONY : check_external_files/fast
 
 #=============================================================================
+# Target rules for targets named sqlcc_parser
+
+# Build rule for target.
+sqlcc_parser: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 sqlcc_parser
+.PHONY : sqlcc_parser
+
+# fast build rule for target.
+sqlcc_parser/fast:
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_parser.dir/build.make src/CMakeFiles/sqlcc_parser.dir/build
+.PHONY : sqlcc_parser/fast
+
+#=============================================================================
 # Target rules for targets named sqlcc_core
 
 # Build rule for target.
@@ -261,6 +274,19 @@ sqlcc_core: cmake_check_build_system
 sqlcc_core/fast:
 	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_core.dir/build.make src/CMakeFiles/sqlcc_core.dir/build
 .PHONY : sqlcc_core/fast
+
+#=============================================================================
+# Target rules for targets named sqlcc_executor
+
+# Build rule for target.
+sqlcc_executor: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 sqlcc_executor
+.PHONY : sqlcc_executor
+
+# fast build rule for target.
+sqlcc_executor/fast:
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_executor.dir/build.make src/CMakeFiles/sqlcc_executor.dir/build
+.PHONY : sqlcc_executor/fast
 
 #=============================================================================
 # Target rules for targets named sqlcc_main
@@ -287,6 +313,19 @@ config_test: cmake_check_build_system
 config_test/fast:
 	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/config_test.dir/build.make src/CMakeFiles/config_test.dir/build
 .PHONY : config_test/fast
+
+#=============================================================================
+# Target rules for targets named isql
+
+# Build rule for target.
+isql: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 isql
+.PHONY : isql
+
+# fast build rule for target.
+isql/fast:
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/isql.dir/build.make src/CMakeFiles/isql.dir/build
+.PHONY : isql/fast
 
 #=============================================================================
 # Target rules for targets named storage_engine_test
@@ -339,6 +378,32 @@ disk_manager_test: cmake_check_build_system
 disk_manager_test/fast:
 	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/disk_manager_test.dir/build.make tests/CMakeFiles/disk_manager_test.dir/build
 .PHONY : disk_manager_test/fast
+
+#=============================================================================
+# Target rules for targets named deadlock_fix_test
+
+# Build rule for target.
+deadlock_fix_test: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 deadlock_fix_test
+.PHONY : deadlock_fix_test
+
+# fast build rule for target.
+deadlock_fix_test/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/deadlock_fix_test.dir/build.make tests/CMakeFiles/deadlock_fix_test.dir/build
+.PHONY : deadlock_fix_test/fast
+
+#=============================================================================
+# Target rules for targets named sql_parser_test
+
+# Build rule for target.
+sql_parser_test: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 sql_parser_test
+.PHONY : sql_parser_test
+
+# fast build rule for target.
+sql_parser_test/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/sql_parser_test.dir/build.make tests/CMakeFiles/sql_parser_test.dir/build
+.PHONY : sql_parser_test/fast
 
 #=============================================================================
 # Target rules for targets named config_manager_test
@@ -417,6 +482,32 @@ storage_engine_enhanced_test: cmake_check_build_system
 storage_engine_enhanced_test/fast:
 	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/storage_engine_enhanced_test.dir/build.make tests/CMakeFiles/storage_engine_enhanced_test.dir/build
 .PHONY : storage_engine_enhanced_test/fast
+
+#=============================================================================
+# Target rules for targets named storage_engine_tests
+
+# Build rule for target.
+storage_engine_tests: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 storage_engine_tests
+.PHONY : storage_engine_tests
+
+# fast build rule for target.
+storage_engine_tests/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/storage_engine_tests.dir/build.make tests/CMakeFiles/storage_engine_tests.dir/build
+.PHONY : storage_engine_tests/fast
+
+#=============================================================================
+# Target rules for targets named sql_parser_tests
+
+# Build rule for target.
+sql_parser_tests: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 sql_parser_tests
+.PHONY : sql_parser_tests
+
+# fast build rule for target.
+sql_parser_tests/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/sql_parser_tests.dir/build.make tests/CMakeFiles/sql_parser_tests.dir/build
+.PHONY : sql_parser_tests/fast
 
 #=============================================================================
 # Target rules for targets named unit_tests
@@ -834,6 +925,8 @@ help:
 	@echo "... run_performance_suite"
 	@echo "... run_stability_test"
 	@echo "... run_storage_engine_test"
+	@echo "... sql_parser_tests"
+	@echo "... storage_engine_tests"
 	@echo "... test_all"
 	@echo "... unit"
 	@echo "... unit_tests"
@@ -845,13 +938,18 @@ help:
 	@echo "... config_manager_test"
 	@echo "... config_test"
 	@echo "... cpu_intensive_test"
+	@echo "... deadlock_fix_test"
 	@echo "... disk_manager_enhanced_test"
 	@echo "... disk_manager_test"
+	@echo "... isql"
 	@echo "... memory_stress_test"
 	@echo "... page_enhanced_test"
 	@echo "... performance_test"
+	@echo "... sql_parser_test"
 	@echo "... sqlcc_core"
+	@echo "... sqlcc_executor"
 	@echo "... sqlcc_main"
+	@echo "... sqlcc_parser"
 	@echo "... stability_test"
 	@echo "... storage_engine_enhanced_test"
 	@echo "... storage_engine_newpage_test"

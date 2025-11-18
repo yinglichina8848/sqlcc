@@ -4,6 +4,13 @@
 #include "buffer_pool.h"
 #include "page.h"
 #include "config_manager.h"
+#include <unordered_map>
+#include <memory>
+
+// 前向声明
+namespace sqlcc {
+class IndexManager;
+}
 
 namespace sqlcc {
 
@@ -128,6 +135,15 @@ public:
      */
     std::string GetStats() const;
 
+public:
+    /**
+     * @brief 获取索引管理器
+     * @return 索引管理器指针
+     */
+    IndexManager* GetIndexManager() {
+        return index_manager_.get();
+    }
+
 private:
     /// 配置管理器引用
     // Why: 需要访问配置参数来初始化和调整存储引擎的行为
@@ -146,6 +162,12 @@ private:
     // What: buffer_pool_是一个智能指针，指向BufferPool对象，负责内存中的页面管理
     // How: 使用std::unique_ptr管理BufferPool对象的生命周期，确保资源正确释放
     std::unique_ptr<BufferPool> buffer_pool_;
+    
+    /// 索引管理器
+    // Why: 需要一个组件负责索引的创建、管理和使用
+    // What: index_manager_是一个智能指针，指向IndexManager对象，负责索引相关操作
+    // How: 使用std::unique_ptr管理IndexManager对象的生命周期，确保资源正确释放
+    std::unique_ptr<IndexManager> index_manager_;
 };
 
 }  // namespace sqlcc
