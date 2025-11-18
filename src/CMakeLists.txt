@@ -14,6 +14,7 @@ target_include_directories(sqlcc_parser PUBLIC ${CMAKE_SOURCE_DIR}/include)
 add_library(sqlcc_core STATIC
     buffer_pool.cc
     config_manager.cc
+    data_type.cpp
     disk_manager.cc
     page.cc
     storage_engine.cc
@@ -28,6 +29,7 @@ target_include_directories(sqlcc_core PUBLIC ${CMAKE_SOURCE_DIR}/include)
 
 # 创建SQL执行器库
 add_library(sqlcc_executor STATIC
+    constraint_executor.cpp
     sql_executor.cpp
 )
 

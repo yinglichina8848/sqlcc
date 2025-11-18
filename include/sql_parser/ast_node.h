@@ -51,6 +51,8 @@ public:
     virtual void visit(class BinaryExpression& node) = 0;
     virtual void visit(class UnaryExpression& node) = 0;
     virtual void visit(class FunctionExpression& node) = 0;
+    virtual void visit(class ExistsExpression& node) = 0;
+    virtual void visit(class InExpression& node) = 0;
     
     // 子句访问方法
     virtual void visit(class WhereClause& node) = 0;
@@ -105,7 +107,9 @@ public:
         NUMERIC_LITERAL,
         BINARY,
         UNARY,
-        FUNCTION
+        FUNCTION,
+        EXISTS,
+        IN
     };
     
     /**

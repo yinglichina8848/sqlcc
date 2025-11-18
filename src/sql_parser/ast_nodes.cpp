@@ -20,6 +20,10 @@ void CreateStatement::addColumn(ColumnDefinition&& column) {
     columns_.push_back(std::move(column));
 }
 
+void CreateStatement::addTableConstraint(std::unique_ptr<TableConstraint> constraint) {
+    tableConstraints_.push_back(std::move(constraint));
+}
+
 CreateStatement::Target CreateStatement::getTarget() const {
     return target_;
 }
@@ -34,6 +38,10 @@ const std::string& CreateStatement::getTableName() const {
 
 const std::vector<ColumnDefinition>& CreateStatement::getColumns() const {
     return columns_;
+}
+
+const std::vector<std::unique_ptr<TableConstraint>>& CreateStatement::getTableConstraints() const {
+    return tableConstraints_;
 }
 
 // ================ SelectStatement ================
@@ -380,6 +388,54 @@ const std::vector<std::unique_ptr<Expression>>& FunctionExpression::getArguments
     return arguments_;
 }
 
+// ================ 子查询表达式实现 ================
+
+/**
+ * SubqueryExpression 实现
+ */
+SubqueryExpression::SubqueryExpression(SubqueryType type)
+    : type_(type) {
+}
+
+SubqueryExpression::SubqueryExpression(SubqueryType type, std::unique_ptr<SelectStatement> subquery)
+    : type_(type), subquery_(std::move(subquery)) {
+}
+
+void SubqueryExpression::setSubquery(std::unique_ptr<SelectStatement> subquery) {
+    subquery_ = std::move(subquery);
+}
+
+const std::unique_ptr<SelectStatement>& SubqueryExpression::getSubquery() const {
+    return subquery_;
+}
+
+SubqueryExpression::SubqueryType SubqueryExpression::getSubqueryType() const {
+    return type_;
+}
+
+/**
+ * ExistsExpression 实现
+ */
+ExistsExpression::ExistsExpression(std::unique_ptr<SelectStatement> subquery)
+    : SubqueryExpression(SubqueryExpression::SubqueryType::EXISTS, std::move(subquery)) {
+}
+
+/**
+ * InExpression 实现
+ */
+InExpression::InExpression(std::unique_ptr<Expression> leftExpr,
+                          std::unique_ptr<SelectStatement> subquery,
+                          bool isNotIn)
+    : SubqueryExpression(isNotIn ? SubqueryExpression::SubqueryType::NOT_IN :
+                                  SubqueryExpression::SubqueryType::IN,
+                          std::move(subquery)),
+      leftExpr_(std::move(leftExpr)) {
+}
+
+const std::unique_ptr<Expression>& InExpression::getLeftExpression() const {
+    return leftExpr_;
+}
+
 // ================ WhereClause ================
 WhereClause::WhereClause(std::unique_ptr<Expression> condition)
     : condition_(std::move(condition)) {
@@ -455,6 +511,7 @@ ColumnDefinition::ColumnDefinition(const std::string& name, const std::string& t
       nullable_(true),
       primaryKey_(false),
       unique_(false) {
+    // Foreign key and check constraint members are initialized by default
 }
 
 const std::string& ColumnDefinition::getName() const {
@@ -481,6 +538,15 @@ void ColumnDefinition::setUnique(bool unique) {
     unique_ = unique;
 }
 
+void ColumnDefinition::setForeignKey(const std::string& refTable, const std::string& refColumn) {
+    referencedTable_ = refTable;
+    referencedColumn_ = refColumn;
+}
+
+void ColumnDefinition::setCheckConstraint(std::unique_ptr<Expression> checkExpr) {
+    checkConstraint_ = std::move(checkExpr);
+}
+
 bool ColumnDefinition::isNullable() const {
     return nullable_;
 }
@@ -499,6 +565,26 @@ bool ColumnDefinition::isPrimaryKey() const {
 
 bool ColumnDefinition::isUnique() const {
     return unique_;
+}
+
+bool ColumnDefinition::isForeignKey() const {
+    return !referencedTable_.empty();
+}
+
+const std::string& ColumnDefinition::getReferencedTable() const {
+    return referencedTable_;
+}
+
+const std::string& ColumnDefinition::getReferencedColumn() const {
+    return referencedColumn_;
+}
+
+bool ColumnDefinition::hasCheckConstraint() const {
+    return checkConstraint_ != nullptr;
+}
+
+const std::unique_ptr<Expression>& ColumnDefinition::getCheckConstraint() const {
+    return checkConstraint_;
 }
 
 // ================ TableReference ================
@@ -543,6 +629,98 @@ bool SelectItem::hasAlias() const {
     return !alias_.empty();
 }
 
+// ================ 表级约束实现 ================
+
+/**
+ * TableConstraint 实现
+ */
+TableConstraint::TableConstraint(Type type) : type_(type) {
+}
+
+TableConstraint::Type TableConstraint::getType() const {
+    return type_;
+}
+
+void TableConstraint::setName(const std::string& name) {
+    name_ = name;
+}
+
+const std::string& TableConstraint::getName() const {
+    return name_;
+}
+
+/**
+ * PrimaryKeyConstraint 实现
+ */
+PrimaryKeyConstraint::PrimaryKeyConstraint() : TableConstraint(TableConstraint::PRIMARY_KEY) {
+}
+
+void PrimaryKeyConstraint::addColumn(const std::string& columnName) {
+    columns_.push_back(columnName);
+}
+
+const std::vector<std::string>& PrimaryKeyConstraint::getColumns() const {
+    return columns_;
+}
+
+/**
+ * UniqueConstraint 实现
+ */
+UniqueConstraint::UniqueConstraint() : TableConstraint(TableConstraint::UNIQUE) {
+}
+
+void UniqueConstraint::addColumn(const std::string& columnName) {
+    columns_.push_back(columnName);
+}
+
+const std::vector<std::string>& UniqueConstraint::getColumns() const {
+    return columns_;
+}
+
+/**
+ * ForeignKeyConstraint 实现
+ */
+ForeignKeyConstraint::ForeignKeyConstraint() : TableConstraint(TableConstraint::FOREIGN_KEY) {
+}
+
+void ForeignKeyConstraint::addColumn(const std::string& columnName) {
+    columns_.push_back(columnName);
+}
+
+void ForeignKeyConstraint::setReferencedTable(const std::string& tableName) {
+    referencedTable_ = tableName;
+}
+
+void ForeignKeyConstraint::setReferencedColumn(const std::string& columnName) {
+    referencedColumn_ = columnName;
+}
+
+const std::vector<std::string>& ForeignKeyConstraint::getColumns() const {
+    return columns_;
+}
+
+const std::string& ForeignKeyConstraint::getReferencedTable() const {
+    return referencedTable_;
+}
+
+const std::string& ForeignKeyConstraint::getReferencedColumn() const {
+    return referencedColumn_;
+}
+
+/**
+ * CheckConstraint 实现
+ */
+CheckConstraint::CheckConstraint() : TableConstraint(TableConstraint::CHECK) {
+}
+
+void CheckConstraint::setCondition(std::unique_ptr<Expression> condition) {
+    condition_ = std::move(condition);
+}
+
+const std::unique_ptr<Expression>& CheckConstraint::getCondition() const {
+    return condition_;
+}
+
 // ================ CreateIndexStatement ================
 CreateIndexStatement::CreateIndexStatement()
     : unique_(false) {
@@ -556,8 +734,8 @@ void CreateIndexStatement::setTableName(const std::string& name) {
     tableName_ = name;
 }
 
-void CreateIndexStatement::setColumnName(const std::string& name) {
-    columnName_ = name;
+void CreateIndexStatement::addColumnName(const std::string& column) {
+    columns_.push_back(column);
 }
 
 void CreateIndexStatement::setUnique(bool unique) {
@@ -572,8 +750,17 @@ const std::string& CreateIndexStatement::getTableName() const {
     return tableName_;
 }
 
+const std::vector<std::string>& CreateIndexStatement::getColumnNames() const {
+    return columns_;
+}
+
+// 向后兼容的方法：返回第一个列名（如果有的话）
 const std::string& CreateIndexStatement::getColumnName() const {
-    return columnName_;
+    static const std::string emptyString = "";
+    if (!columns_.empty()) {
+        return columns_[0];
+    }
+    return emptyString;
 }
 
 bool CreateIndexStatement::isUnique() const {
