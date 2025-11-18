@@ -13,9 +13,9 @@
 #pragma once
 
 /** @brief SQLCC项目版本号 */
-#define SQLCC_VERSION "0.5.0"
+#define SQLCC_VERSION "0.5.1"
 
-/** @brief SQLCC版本号组件（Phase II: 约束执行器集成） */
+/** @brief SQLCC版本号组件（Phase II+: 约束存储与海量数据性能测试） */
 #define SQLCC_VERSION_MAJOR 0
 #define SQLCC_VERSION_MINOR 5
-#define SQLCC_VERSION_PATCH 0
+#define SQLCC_VERSION_PATCH 1
