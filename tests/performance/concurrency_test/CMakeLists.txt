@@ -14,6 +14,9 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 # 查找线程库
 find_package(Threads REQUIRED)
 
+# 查找Google Test库
+find_package(GTest REQUIRED)
+
 # 源文件
 set(SOURCES
     concurrency_test_runner.cc
@@ -25,8 +28,13 @@ set(SOURCES
 # 创建可执行文件
 add_executable(concurrency_test ${SOURCES})
 
-# 链接线程库和sqlcc_core库
-target_link_libraries(concurrency_test Threads::Threads sqlcc_core)
+# 链接线程库、sqlcc_core库和gtest库
+target_link_libraries(concurrency_test
+    Threads::Threads
+    sqlcc_core
+    GTest::gtest
+    GTest::gtest_main
+)
 
 # 设置编译选项
 target_compile_options(concurrency_test PRIVATE -O2 -Wall -Wextra)
