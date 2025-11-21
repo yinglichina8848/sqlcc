@@ -170,7 +170,7 @@ protected:
           insert_sql += ",";
       }
 
-      auto result = sql_executor_->Execute(insert_sql);
+      auto result = this->sql_executor_->Execute(insert_sql);
       if (batch % 10 == 0) { // 每10批打印一次进度
         std::cout << "  Inserted " << (batch + 1) * batch_size << " records..."
                   << std::endl;
@@ -385,7 +385,7 @@ protected:
     report << "- Constraint validation: Integrated in query execution\n";
 
     report << "\nRECOMMENDATIONS:\n";
-    if (improvement_count > indexed_results.size() / 2) {
+    if (static_cast<size_t>(improvement_count) > indexed_results.size() / 2) {
       report << "- Index usage is highly effective for this workload\n";
       report << "- Consider additional composite indexes for complex queries\n";
     } else {
@@ -512,7 +512,7 @@ TEST_F(LargeScaleIndexConstraintTest, ConstraintValidationPerformance) {
         )
     )";
 
-  auto result = sql_executor_->Execute(create_sql);
+  auto result = this->sql_executor_->Execute(create_sql);
   EXPECT_NE(result.find("ERROR"), std::string::npos); // 应该成功创建
 
   std::cout << "Testing constraint validation performance...\n";
@@ -527,7 +527,7 @@ TEST_F(LargeScaleIndexConstraintTest, ConstraintValidationPerformance) {
         ", " + std::to_string(i % 1000) + ", 'required', " +
         std::to_string(i % 200) + ")";
 
-    auto result = sql_executor_->Execute(insert_sql);
+    auto result = this->sql_executor_->Execute(insert_sql);
     if (result.find("ERROR") != std::string::npos &&
         result.find("Constraint") != std::string::npos) {
       std::cout << "Constraint violation at record " << i << ": " << result
