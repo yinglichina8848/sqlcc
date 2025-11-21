@@ -122,7 +122,7 @@
   - `tests/temporary/test_page_id_fix.cc` - 页面ID分配逻辑修复验证测试  
   - `tests/temporary/test_sync_functionality.cc` - 磁盘同步功能验证测试
   - `tests/temporary/test_deadlock_fix_simple.cc` - 死锁修复验证测试
-- 详细文档：[TEMPORARY_TEST_FILES.md](docs/TEMPORARY_TEST_FILES.md) 代码质量指标
+- 详细文档：[docs/testing/TEMPORARY_TEST_FILES.md](docs/testing/TEMPORARY_TEST_FILES.md) 代码质量指标
 - **总代码量**：13,671 行（核心 + 测试 + 覆盖率）
 - **测试覆盖密度**：2.09:1（测试代码与核心代码比例）
 - **平均类大小**：402 行/类
@@ -361,7 +361,7 @@ g++ -std=c++17 -Iinclude -o test_deadlock_fix_simple tests/temporary/test_deadlo
 - **临时测试文档**: [docs/TEMPORARY_TEST_FILES.md](docs/TEMPORARY_TEST_FILES.md)
 - **单元测试报告**: [docs/TESTING_SUMMARY_REPORT.md](docs/TESTING_SUMMARY_REPORT.md)
 - **覆盖率报告**: `coverage/index.html`
-- **性能基准**: [docs/performance_test_report.md](docs/performance_test_report.md)
+- **性能基准**: [docs/performance/performance_test_report.md](docs/performance/performance_test_report.md)
 ```
 
 ### 查看覆盖率报告
