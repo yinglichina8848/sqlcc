@@ -13,9 +13,9 @@
 #pragma once
 
 /** @brief SQLCC项目版本号 */
-#define SQLCC_VERSION "0.5.5"
+#define SQLCC_VERSION "0.5.7"
 
-/** @brief SQLCC版本号组件（事务管理：ACID属性完整实现） */
+/** @brief SQLCC版本号组件（完整文档体系与知识生态系统） */
 #define SQLCC_VERSION_MAJOR 0
 #define SQLCC_VERSION_MINOR 5
-#define SQLCC_VERSION_PATCH 5
+#define SQLCC_VERSION_PATCH 7
