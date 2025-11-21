@@ -561,10 +561,32 @@ open coverage/index.html  # macOS
 ### 🔗 **核心文档索引**
 - **[📖 项目文档索引](docs/guides/DOCUMENTATION_INDEX.md)** - 完整的文档导航系统 (70+文档的统一入口)
 
+### 📚 **完整的开发指南合集**
+
+#### 🚀 **开发者手册套餐**
+**新手学习路径** - 从零开始全面掌握:
+- **[🛠️ 开发环境安装配置](docs/guides/DEVELOPMENT_ENVIRONMENT_SETUP.md)** - Ubuntu C++环境+CMake+测试工具链配置 (必读第一步)
+- **[🤖 AI工具使用指南](docs/guides/AI_TOOLS_USAGE_GUIDE.md)** - 字节Trae最佳实践+人机协作模式 (效率翻倍)
+- **[🧪 测试驱动开发指南](docs/guides/TEST_DRIVEN_DEVELOPMENT_GUIDE.md)** - TDD理念+FIRST原则+测试用例设计 (质量保证)
+- **[📚 Doxygen文档配置](docs/guides/DOXYGEN_COVERAGE_CONFIGURATION.md)** - API文档生成+代码覆盖率报告 (专业文档)
+
+#### 💡 **进阶技能提升**
+**从实践到理论的深度学习路径**:
+- **[数据库知识生态系统](docs/guides/DATABASE_KNOWLEDGE_ECOSYSTEM.md)** - CS各领域知识交织全景图 (计算机组成/OS/算法/编译原理/网络/AI/数学)
+- **[🐘 数据库开发全程指南](docs/guides/DATABASE_DEVELOPMENT_JOURNEY.md)** - 从单机到分布式演进蓝图 (TiDB/OceanBase/OceanBase对比)
+- **[🚀 AI增强软件工程](docs/guides/AI_ENHANCED_SOFTWARE_ENGINEERING.md)** - 大二学生AI编程学习路径 (思维转变+实践案例)
+- **[🌐 分布式协同开发](docs/guides/DISTRIBUTED_COLLABORATIVE_DEVELOPMENT.md)** - Git/Gitee团队协作企业规范 (分支策略+PR流程)
+
+#### 🎯 **学生学者学术研究套餐**
+**本科生论文写作与科研思维培养**:
+- **[🧠 数据库知识生态系统](docs/guides/DATABASE_KNOWLEDGE_ECOSYSTEM.md)** - CS理论知识框架 (数据库与计算机科学全景图)
+- **[🤖 AI增强软件工程](docs/guides/AI_ENHANCED_SOFTWARE_ENGINEERING.md)** - 现代AI编程方法论 (学术创新视角)
+- **[🧪 测试驱动开发指南](docs/guides/TEST_DRIVEN_DEVELOPMENT_GUIDE.md)** - 科研质量保证体系 (FIRST原则学术应用)
+
 ### 🧪 **测试与质量保证**
 - **[📊 测试环境与方法详解](docs/testing/README.md)** - 全面的测试环境配置和运行方式说明
 - **[📈 测试结果与性能报告](docs/testing/TESTING_SUMMARY_REPORT.md)** - 所有测试用例运行结果和性能分析
-- **[📋 覆盖率报告](coverage/index.html)** - 自动生成的代码覆盖率HTML报告 (85%+行覆盖率)
+- **[📋 覆盖率报告](coverage/index.html)** - 自动生成的代码覆盖率HTML报告 (85%+行覆盖率)- **[📋 覆盖率报告](coverage/index.html)** - 自动生成的代码覆盖率HTML报告 (85%+行覆盖率)
 - **[⚡ 性能测试报告](docs/performance/performance_test_report.md)** - 400万ops/sec性能测试详细结果
 
 ### 📚 **开发者文档**
