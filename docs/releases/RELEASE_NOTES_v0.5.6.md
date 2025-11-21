@@ -1,94 +1,94 @@
-# Release Notes - SQLCC v0.5.6
+# SQLCC 发布说明 - 版本 v0.5.6
 
-## Release Date
+## 发布时间
 2025年11月21日
 
-## Overview
-This release focuses on comprehensive project file organization and structure improvement. Major refactoring of documentation, scripts, and source code placement for better maintainability and developer experience.
+## 概述
+此版本专注于全面的项目文件组织和结构改进。主要重新组织了文档、脚本和源代码的存放位置，以提升可维护性和开发者体验。
 
-## Key Changes
+## 主要变更
 
-### 📁 Project Structure Refactoring
-- **Documentation Organization**: Reorganized 70+ Markdown files across 8 specialized directories
-  - `docs/design/` - Architecture and design documents
-  - `docs/testing/` - Test planning and reports
-  - `docs/performance/` - Performance analysis and optimization
-  - `docs/reports/` - Status reports and assessments
-  - `docs/guides/` - User guides and documentation
-  - `docs/releases/` - Version release notes
-  - `docs/development/` - Development-related docs
-  - `docs/temp/` - Temporary working documents
+### 📁 项目结构重构
+- **文档组织**：将70+个Markdown文件重新组织为8个专门的目录
+  - `docs/design/` - 架构和设计文档
+  - `docs/testing/` - 测试规划和报告
+  - `docs/performance/` - 性能分析和优化
+  - `docs/reports/` - 状态报告和评估
+  - `docs/guides/` - 用户指南和文档
+  - `docs/releases/` - 版本发布说明
+  - `docs/development/` - 开发相关文档
+  - `docs/temp/` - 临时工作文档
 
-- **Script Organization**: Classified 19 scripts across 5 categories
-  - `scripts/sql/` - SQL test scripts
-  - `scripts/python/` - Python utility scripts
-  - `scripts/shell/` - Shell automation scripts
-  - `scripts/ci/` - CI/CD scripts
-  - `scripts/utils/` - Utility and maintenance scripts
+- **脚本组织**：将19个脚本按5个类别分类
+  - `scripts/sql/` - SQL测试脚本
+  - `scripts/python/` - Python工具脚本
+  - `scripts/shell/` - Shell自动化脚本
+  - `scripts/ci/` - CI/CD脚本
+  - `scripts/utils/` - 工具和维护脚本
 
-- **Additional Classifications**:
-  - `coverage/` - HTML coverage reports (4 files)
-  - `examples/` - Demonstration code (4 files)
-  - `bin/` - Compiled binaries (5 files)
+- **额外分类**：
+  - `coverage/` - HTML覆盖率报告（4个文件）
+  - `examples/` - 演示代码（4个文件）
+  - `bin/` - 编译后的二进制文件（5个文件）
 
-### 🧹 Root Directory Cleanup
-- Removed 38+ scattered files from project root
-- Maintained only essential files: README.md, LICENSE, VERSION, etc.
-- Achieved clean, organized project structure
+### 🧹 根目录清理
+- 移除了根目录中38+个分散的文件
+- 仅保留必要的文件：README.md、LICENSE、VERSION等
+- 实现了清洁、有序的项目结构
 
-### 📊 Organization Statistics
-- **Total files processed**: 108 files reorganized
-- **New directories created**: 11 classification directories
-- **Documentation files**: 70 files in structured hierarchy
-- **Script files**: 19 files by language and function
-- **Binary/Generated files**: 13 files properly categorized
+### 📊 组织统计
+- **处理文件总数**：108个文件重新组织
+- **新建目录**：11个分类目录
+- **文档文件**：70个文件按层次结构组织
+- **脚本文件**：19个文件按语言和功能分类
+- **二进制/生成文件**：13个文件正确归类
 
-## Technical Details
+## 技术详情
 
-### File Classification Matrix
+### 文件分类矩阵
 ```
-docs/ (70 files)
-├── design/        (8) - Architecture docs
-├── testing/       (8) - Test documents
-├── performance/   (9) - Performance docs
-├── reports/       (12) - Status reports
-├── guides/        (9) - User guides
-├── releases/      (8) - Release notes
-├── development/   (1) - Dev docs
-├── temp/          (3) - Working docs
-└── TODO.md        (1) - Root TODO
+docs/ (70个文件)
+├── design/        (8个) - 架构文档
+├── testing/       (8个) - 测试文档
+├── performance/   (9个) - 性能文档
+├── reports/       (12个) - 状态报告
+├── guides/        (9个) - 用户指南
+├── releases/      (8个) - 发布说明
+├── development/   (1个) - 开发文档
+├── temp/          (3个) - 工作文档
+└── TODO.md        (1个) - 根级TODO
 
-scripts/ (19 files)
-├── sql/           (6) - SQL scripts
-├── python/        (3) - Python scripts
-├── shell/         (7) - Shell scripts
-├── ci/            (1) - CI scripts
-└── utils/         (2) - Utils
+scripts/ (19个文件)
+├── sql/           (6个) - SQL脚本
+├── python/        (3个) - Python脚本
+├── shell/         (7个) - Shell脚本
+├── ci/            (1个) - CI脚本
+└── utils/         (2个) - 工具脚本
 
-coverage/ (4) - HTML reports
-examples/ (4) - Demo code
-bin/      (5) - Binaries
+coverage/ (4个) - HTML报告
+examples/ (4个) - 演示代码
+bin/      (5个) - 二进制文件
 ```
 
-## Impact
-- **Improved Developer Experience**: Clean directory structure for easy navigation
-- **Better Maintenance**: Clear file organization reduces confusion
-- **Enhanced Documentation**: Structured docs improve information access
-- **CI/CD Ready**: Organized scripts facilitate automation
+## 影响
+- **提升开发者体验**：清洁的目录结构便于导航
+- **改进维护工作**：清晰的文件组织减少混乱
+- **增强文档访问**：结构化的文档提升信息获取
+- **CI/CD就绪**：组织的脚本便于自动化
 
-## Files Changed
-- **Reorganized**: 108 files moved to appropriate directories
-- **Created**: New directory structure with organizational guidelines
-- **Documented**: Complete reorganization summary in `docs/temp/REORGANIZATION_SUMMARY.md`
+## 文件变更
+- **重新组织**：108个文件移动到合适目录
+- **新建**：带组织指南的新目录结构
+- **文档化**：完整的重组总结在`docs/temp/REORGANIZATION_SUMMARY.md`
 
-## Backward Compatibility
-This release focuses on file organization with no functional code changes. All existing functionality remains intact.
+## 向后兼容性
+此版本专注于文件组织，无功能代码变更。所有现有功能保持完整。
 
-## Future Recommendations
-- Follow established directory conventions for new files
-- Use `docs/temp/` for temporary working documents
-- Place generated files (binaries, reports) in appropriate directories
-- Maintain clean root directory with only essential files
+## 未来建议
+- 遵循建立的目录约定存放新文件
+- 使用`docs/temp/`存放临时工作文档
+- 将生成的文件（二进制、报告）放在合适目录
+- 保持根目录清洁且仅包含必要文件
 
 ---
-*For detailed organization summary, see `docs/temp/REORGANIZATION_SUMMARY.md`*
+*详细的组织总结请查看`docs/temp/REORGANIZATION_SUMMARY.md`*
