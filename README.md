@@ -675,11 +675,11 @@ open coverage/index.html  # macOS
 - **[🤖 AI增强软件工程](docs/guides/AI_ENHANCED_SOFTWARE_ENGINEERING.md)** - 现代AI编程方法论 (学术创新视角)
 - **[🧪 测试驱动开发指南](docs/guides/TEST_DRIVEN_DEVELOPMENT_GUIDE.md)** - 科研质量保证体系 (FIRST原则学术应用)
 
-### 🧪 **测试与质量保证**
-- **[📊 测试环境与方法详解](docs/testing/README.md)** - 全面的测试环境配置和运行方式说明
-- **[📈 测试结果与性能报告](docs/testing/TESTING_SUMMARY_REPORT.md)** - 所有测试用例运行结果和性能分析
-- **[📋 覆盖率报告](coverage/index.html)** - 自动生成的代码覆盖率HTML报告 (85%+行覆盖率)- **[📋 覆盖率报告](coverage/index.html)** - 自动生成的代码覆盖率HTML报告 (85%+行覆盖率)
-- **[⚡ 性能测试报告](docs/performance/performance_test_report.md)** - 400万ops/sec性能测试详细结果
+### 📖 **教材资源**
+**完整的数据库系统实现教学体系**:
+- **[📚 《数据库系统原理与开发实践》教学大纲](docs/textbook/OUTLINE.md)** - 16章完整教材框架，展示CS各领域知识交织融合
+- **[🎓 教学培养目标与学习路径](docs/textbook/OUTLINE.md#教学培养目标)** - 从"编程初学者"到"计算机科学思维者"的培养体系
+- **[🧬 CS知识完整认知体系](docs/textbook/OUTLINE.md#上册数据处理的历史演进与计算机技术基础)** - 数据演进史→数学基础→算法思想→硬件驱动的完整脉络
 
 ### 📚 **开发者文档**
 - **[🏗️ API文档](docs/doxygen/html/index.html)** - 自动生成的Doxygen API文档
