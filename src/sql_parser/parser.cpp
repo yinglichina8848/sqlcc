@@ -404,7 +404,7 @@ sqlcc::sql_parser::Parser::parseCreate() {
 } // namespace sql_parser
 } // namespace sqlcc
 
-sqlcc::sql_parser::ColumnDefinition sqlcc::sql_parser::Parser::parseColumnDefinition() {
+ColumnDefinition Parser::parseColumnDefinition() {
   // 检查并消费标识符
   if (this->currentToken_.getType() != Token::Type::IDENTIFIER) {
     this->reportError("Expected column name");
@@ -849,8 +849,7 @@ sqlcc::sql_parser::Parser::parseDelete() {
   return stmt;
 }
 
-std::unique_ptr<sqlcc::sql_parser::Statement>
-sqlcc::sql_parser::Parser::parseDrop() {
+std::unique_ptr<Statement> Parser::parseDrop() {
   // 检查并消费DROP关键字
   if (!this->match(Token::Type::KEYWORD_DROP)) {
     this->reportError("Expected DROP keyword");
