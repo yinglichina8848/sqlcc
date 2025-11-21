@@ -164,6 +164,33 @@ public:
   static DataType::Value convertValue(const DataType::Value &value,
                                       DataType::Type fromType,
                                       DataType::Type toType);
+
+  /**
+   * @brief 检查是否为数值类型
+   */
+  static bool isNumericType(DataType::Type type);
+
+  /**
+   * @brief 检查是否为字符串类型
+   */
+  static bool isStringType(DataType::Type type);
+
+  /**
+   * @brief 提取数值类型的值为double
+   */
+  static double extractNumericValue(const DataType::Value &value,
+                                    DataType::Type type);
+
+  /**
+   * @brief 将double转换为指定的数值类型
+   */
+  static DataType::Value convertToNumericType(double value,
+                                              DataType::Type toType);
+
+  /**
+   * @brief 获取字符串类型的数值
+   */
+  static std::string getStringValue(const DataType::Value &value);
 };
 
 } // namespace sqlcc

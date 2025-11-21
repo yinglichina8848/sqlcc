@@ -796,5 +796,11 @@ bool DropIndexStatement::isIfExists() const {
     return ifExists_;
 }
 
+// ================ SetTransactionStatement ================
+// 实现SetTransactionStatement::setIsolationLevel方法
+void SetTransactionStatement::setIsolationLevel(BeginTransactionStatement::IsolationLevel level) {
+  isolationLevel_ = level;
+}
+
 } // namespace sql_parser
 } // namespace sqlcc

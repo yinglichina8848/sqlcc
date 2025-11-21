@@ -60,14 +60,30 @@ std::unordered_map<Token::Type, std::string> Token::typeNames_ = {
     {KEYWORD_SMALLINT, "KEYWORD_SMALLINT"},
     {KEYWORD_DOUBLE, "KEYWORD_DOUBLE"},
     {KEYWORD_BOOLEAN, "KEYWORD_BOOLEAN"},
+    // 事务相关关键字
+    {KEYWORD_BEGIN, "KEYWORD_BEGIN"},
+    {KEYWORD_TRANSACTION, "KEYWORD_TRANSACTION"},
+    {KEYWORD_START, "KEYWORD_START"},
+    {KEYWORD_COMMIT, "KEYWORD_COMMIT"},
+    {KEYWORD_ROLLBACK, "KEYWORD_ROLLBACK"},
+    {KEYWORD_SAVEPOINT, "KEYWORD_SAVEPOINT"},
+    {KEYWORD_AUTOCOMMIT, "KEYWORD_AUTOCOMMIT"},
+    {KEYWORD_ISOLATION, "KEYWORD_ISOLATION"},
+    {KEYWORD_LEVEL, "KEYWORD_LEVEL"},
+    {KEYWORD_READ, "KEYWORD_READ"},
+    {KEYWORD_WRITE, "KEYWORD_WRITE"},
+    {KEYWORD_UNCOMMITTED, "KEYWORD_UNCOMMITTED"},
+    {KEYWORD_COMMITTED, "KEYWORD_COMMITTED"},
+    {KEYWORD_REPEATABLE, "KEYWORD_REPEATABLE"},
+    {KEYWORD_SERIALIZABLE, "KEYWORD_SERIALIZABLE"},
 
     // 标识符
     {IDENTIFIER, "IDENTIFIER"},
-    
+
     // 字面量
     {STRING_LITERAL, "STRING_LITERAL"},
     {NUMERIC_LITERAL, "NUMERIC_LITERAL"},
-    
+
     // 运算符
     {OPERATOR_EQUAL, "OPERATOR_EQUAL"},
     {OPERATOR_NOT_EQUAL, "OPERATOR_NOT_EQUAL"},
@@ -80,7 +96,7 @@ std::unordered_map<Token::Type, std::string> Token::typeNames_ = {
     {OPERATOR_MULTIPLY, "OPERATOR_MULTIPLY"},
     {OPERATOR_DIVIDE, "OPERATOR_DIVIDE"},
     {OPERATOR_MODULO, "OPERATOR_MODULO"},
-    
+
     // 标点符号
     {PUNCTUATION_LEFT_PAREN, "PUNCTUATION_LEFT_PAREN"},
     {PUNCTUATION_RIGHT_PAREN, "PUNCTUATION_RIGHT_PAREN"},
@@ -89,50 +105,41 @@ std::unordered_map<Token::Type, std::string> Token::typeNames_ = {
     {PUNCTUATION_DOT, "PUNCTUATION_DOT"},
     {PUNCTUATION_COLON, "PUNCTUATION_COLON"},
     {PUNCTUATION_DOUBLE_COLON, "PUNCTUATION_DOUBLE_COLON"},
-    
+
     // 其他
     {END_OF_INPUT, "END_OF_INPUT"},
-    {INVALID_TOKEN, "INVALID_TOKEN"}
-};
+    {INVALID_TOKEN, "INVALID_TOKEN"}};
 
 // 构造函数实现
-Token::Token(Type type, const std::string& lexeme, int line, int column)
-    : type_(type), lexeme_(lexeme), line_(line), column_(column) {
-}
+Token::Token(Type type, const std::string &lexeme, int line, int column)
+    : type_(type), lexeme_(lexeme), line_(line), column_(column) {}
 
 // getType方法实现
-Token::Type Token::getType() const {
-    return type_;
-}
+Token::Type Token::getType() const { return type_; }
 
 // getLexeme方法实现
-const std::string& Token::getLexeme() const {
-    return lexeme_;
-}
+const std::string &Token::getLexeme() const { return lexeme_; }
 
 // getLine方法实现
-int Token::getLine() const {
-    return line_;
-}
+int Token::getLine() const { return line_; }
 
 // getColumn方法实现
-int Token::getColumn() const {
-    return column_;
-}
+int Token::getColumn() const { return column_; }
 
 // getTypeName方法实现
 std::string Token::getTypeName() const {
-    auto it = typeNames_.find(type_);
-    if (it != typeNames_.end()) {
-        return it->second;
-    }
-    return "UNKNOWN_TYPE";
+  auto it = typeNames_.find(type_);
+  if (it != typeNames_.end()) {
+    return it->second;
+  }
+  return "UNKNOWN_TYPE";
 }
 
 // toString方法实现
 std::string Token::toString() const {
-    return "Token{type=" + getTypeName() + ", lexeme=\"" + lexeme_ + ", line=" + 
-           std::to_string(line_) + ", column=" + std::to_string(column_) + "}";
+  return "Token{type=" + getTypeName() + ", lexeme=\"" + lexeme_ +
+         ", line=" + std::to_string(line_) +
+         ", column=" + std::to_string(column_) + "}";
 }
 
 } // namespace sql_parser

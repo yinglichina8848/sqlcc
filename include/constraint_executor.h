@@ -100,31 +100,59 @@ public:
 private:
   /**
    * @brief 检查父表中是否存在对应的记录
-   * @param foreign_key_values 外键值列表
+   * @param foreign_key_value 外键值
    * @return true if parent record exists
    */
-  bool parentRecordExists(const std::vector<std::string> &foreign_key_values);
+  bool parentRecordExists(const std::string &foreign_key_value);
+
+  /**
+   * @brief 检查是否有子表记录引用此父表记录
+   * @param primary_key_value 主键值
+   * @return true if has child references
+   */
+  bool hasChildReferences(const std::string &primary_key_value);
 
   /**
    * @brief 获取记录中外键列的值
    * @param record 记录数据
    * @param table_schema 表结构
-   * @return 外键值列表
+   * @return 外键值
    */
-  std::vector<std::string> extractForeignKeyValues(
+  std::string getForeignKeyValue(
       const std::vector<std::string> &record,
       const std::vector<sql_parser::ColumnDefinition> &table_schema);
 
   /**
-   * @brief 检查是否有子表记录引用此父表记录
-   * @param parent_record 父表记录
-   * @return true if no child references exist
+   * @brief 获取记录中主键的值
+   * @param record 记录数据
+   * @param table_schema 表结构
+   * @return 主键值
    */
-  bool noChildReferences(const std::vector<std::string> &parent_record);
+  std::string getPrimaryKeyValue(
+      const std::vector<std::string> &record,
+      const std::vector<sql_parser::ColumnDefinition> &table_schema);
 
-  sql_parser::ForeignKeyConstraint constraint_; // 外键约束定义
-  StorageEngine &storage_engine_;               // 存储引擎引用
-  std::string current_table_name_;              // 当前表名（用于错误检查）
+public:
+  /**
+   * @brief 设置当前表名
+   * @param table_name 表名
+   */
+  void setCurrentTableName(const std::string &table_name);
+
+public:
+  /**
+   * @brief 字符串转换为小写
+   * @param str 输入字符串
+   * @return 小写字符串
+   */
+  std::string toLower(const std::string &str) const;
+
+  sql_parser::ForeignKeyConstraint constraint_;        // 外键约束定义
+  StorageEngine &storage_engine_;                      // 存储引擎引用
+  std::string current_table_name_;                     // 当前表名
+  std::vector<std::string> lower_foreign_key_columns_; // 小写的列名
+  std::string lower_referenced_table_;                 // 被引用表名（小写）
+  std::string lower_referenced_column_;                // 被引用列名（小写）
 };
 
 /**
@@ -166,11 +194,9 @@ private:
   /**
    * @brief 检查值是否唯一
    * @param values 要检查的值列表
-   * @param exclude_record_id 如果是更新操作，要排除的记录ID
    * @return true if values are unique
    */
-  bool isUnique(const std::vector<std::string> &values,
-                int exclude_record_id = -1);
+  bool checkUniqueness(const std::vector<std::string> &values);
 
   /**
    * @brief 获取记录中约束列的值
@@ -178,15 +204,23 @@ private:
    * @param table_schema 表结构
    * @return 约束列值列表
    */
-  std::vector<std::string> extractConstraintValues(
+  std::vector<std::string> getConstraintValues(
       const std::vector<std::string> &record,
       const std::vector<sql_parser::ColumnDefinition> &table_schema);
 
+  /**
+   * @brief 字符串转换为小写
+   * @param str 输入字符串
+   * @return 小写字符串
+   */
+  std::string toLower(const std::string &str) const;
+
   std::reference_wrapper<const sql_parser::TableConstraint>
-      constraint_;                // 约束定义
-  StorageEngine &storage_engine_; // 存储引擎引用
-  std::string table_name_;        // 表名
-  bool is_primary_key_;           // 是否为主键
+      constraint_;                                    // 约束定义
+  StorageEngine &storage_engine_;                     // 存储引擎引用
+  std::string table_name_;                            // 表名
+  bool is_primary_key_;                               // 是否为主键
+  std::vector<std::string> lower_constraint_columns_; // 小写的列名
 };
 
 /**
@@ -229,24 +263,14 @@ private:
    * @param table_schema 表结构
    * @return true if condition evaluates to true
    */
-  bool evaluateCondition(
+  bool evaluateCheckCondition(
       const std::vector<std::string> &record,
       const std::vector<sql_parser::ColumnDefinition> &table_schema);
 
-  /**
-   * @brief 递归求值表达式
-   * @param expr 表达式节点
-   * @param record 记录数据
-   * @param table_schema 表结构
-   * @return 表达式求值结果
-   */
-  bool evaluateExpression(
-      const sql_parser::Expression *expr,
-      const std::vector<std::string> &record,
-      const std::vector<sql_parser::ColumnDefinition> &table_schema);
-
-  sql_parser::CheckConstraint constraint_; // CHECK约束定义
-  std::string table_name_;                 // 表名
+  // FIXME: CheckConstraint 不能直接拷贝，使用引用避免拷贝
+  std::reference_wrapper<const sql_parser::CheckConstraint>
+      constraint_;         // CHECK约束定义
+  std::string table_name_; // 表名
 };
 
 /**
