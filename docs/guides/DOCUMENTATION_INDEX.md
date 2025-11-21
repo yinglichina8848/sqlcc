@@ -70,10 +70,22 @@ SQLCC文档体系
 4. [Doxygen文档配置](docs/guides/DOXYGEN_COVERAGE_CONFIGURATION.md) - API文档和覆盖率配置
 
 **进阶开发者**:
-1. [数据库开发全程指南](docs/guides/DATABASE_DEVELOPMENT_JOURNEY.md) - 从单机到分布式演进路径
-2. [AI增强软件工程](docs/guides/AI_ENHANCED_SOFTWARE_ENGINEERING.md) - 现代开发思维与技术
-3. [分布式协同开发](docs/guides/DISTRIBUTED_COLLABORATIVE_DEVELOPMENT.md) - Git/Gitee团队协作模式
-4. [系统架构设计](docs/design/storage_engine_design.md) - 核心组件设计原理
+1. [数据库知识生态系统](docs/guides/DATABASE_KNOWLEDGE_ECOSYSTEM.md) - 计算机科学知识全景图
+2. [数据库开发全程指南](docs/guides/DATABASE_DEVELOPMENT_JOURNEY.md) - 从单机到分布式演进路径
+3. [AI增强软件工程](docs/guides/AI_ENHANCED_SOFTWARE_ENGINEERING.md) - 现代开发思维与技术
+4. [分布式协同开发](docs/guides/DISTRIBUTED_COLLABORATIVE_DEVELOPMENT.md) - Git/Gitee团队协作模式
+5. [系统架构设计](docs/design/storage_engine_design.md) - 核心组件设计原理
+
+**架构师与研究员**:
+1. [数据库知识生态系统](docs/guides/DATABASE_KNOWLEDGE_ECOSYSTEM.md) - CS知识体系大融合
+2. [数据库开发全程指南](docs/guides/DATABASE_DEVELOPMENT_JOURNEY.md) - 数据库系统演进蓝图
+3. [AI增强软件工程](docs/guides/AI_ENHANCED_SOFTWARE_ENGINEERING.md) - AI编程新时代解析
+4. [分布式协同开发](docs/guides/DISTRIBUTED_COLLABORATIVE_DEVELOPMENT.md) - 企业级协作规范
+
+**学生学者** ([📚 学术研究套餐](docs/guides/DATABASE_KNOWLEDGE_ECOSYSTEM.md)):
+1. [数据库知识生态系统](docs/guides/DATABASE_KNOWLEDGE_ECOSYSTEM.md) - CS理论知识全景图
+2. [AI增强软件工程](docs/guides/AI_ENHANCED_SOFTWARE_ENGINEERING.md) - 大二AI编程培养指南
+3. [测试驱动开发指南](docs/guides/TEST_DRIVEN_DEVELOPMENT_GUIDE.md) - 测试思维与实践范式
 
 ### 🔬 测试工程师
 
