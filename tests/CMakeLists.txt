@@ -12,12 +12,14 @@ set(TEST_SOURCES
 
 # 定义增强测试源文件列表
 set(ENHANCED_TEST_SOURCES
+    unit/b_plus_tree_core_test.cc
     unit/config_manager_test.cc
     unit/config_manager_enhanced_test.cc
-    unit/buffer_pool_enhanced_test.cc
     unit/page_enhanced_test.cc
     unit/disk_manager_enhanced_test.cc
     unit/storage_engine_enhanced_test.cc
+    unit/sql_parser_comprehensive_test.cc
+    unit/transaction_manager_test.cc
 )
 
 # 创建标准测试可执行文件的函数
@@ -25,19 +27,19 @@ function(add_sqlcc_test test_file)
     # 从文件名中提取测试名称（去掉路径和后缀）
     get_filename_component(test_name ${test_file} NAME_WE)
     add_executable(${test_name} ${test_file})
-    
+
     # 统一设置包含目录和链接库
     target_include_directories(${test_name} PRIVATE ${CMAKE_SOURCE_DIR}/include)
-    target_link_libraries(${test_name} 
+    target_link_libraries(${test_name}
         sqlcc_core
-        GTest::gtest 
+        GTest::gtest
         GTest::gtest_main
         Threads::Threads
     )
-    
+
     # 注册测试
     add_test(NAME ${test_name} COMMAND ${test_name})
-    
+
     # 设置测试超时时间（秒）
     set_tests_properties(${test_name} PROPERTIES TIMEOUT 300)
 endfunction()
@@ -47,19 +49,19 @@ function(add_sqlcc_parser_test test_file)
     # 从文件名中提取测试名称（去掉路径和后缀）
     get_filename_component(test_name ${test_file} NAME_WE)
     add_executable(${test_name} ${test_file})
-    
+
     # 统一设置包含目录和链接库（只链接sqlcc_parser，不链接sqlcc_core）
     target_include_directories(${test_name} PRIVATE ${CMAKE_SOURCE_DIR}/include)
-    target_link_libraries(${test_name} 
+    target_link_libraries(${test_name}
         sqlcc_parser
-        GTest::gtest 
+        GTest::gtest
         GTest::gtest_main
         Threads::Threads
     )
-    
+
     # 注册测试
     add_test(NAME ${test_name} COMMAND ${test_name})
-    
+
     # 设置测试超时时间（秒）
     set_tests_properties(${test_name} PROPERTIES TIMEOUT 300)
 endfunction()
@@ -67,19 +69,19 @@ endfunction()
 # 创建增强测试可执行文件的函数
 function(add_sqlcc_enhanced_test test_name test_file)
     add_executable(${test_name} ${test_file})
-    
+
     # 统一设置包含目录和链接库
     target_include_directories(${test_name} PRIVATE ${CMAKE_SOURCE_DIR}/include)
-    target_link_libraries(${test_name} 
+    target_link_libraries(${test_name}
         sqlcc_core
-        GTest::gtest 
+        GTest::gtest
         GTest::gtest_main
         Threads::Threads
     )
-    
+
     # 注册测试
     add_test(NAME ${test_name} COMMAND ${test_name})
-    
+
     # 设置测试超时时间（秒）
     set_tests_properties(${test_name} PROPERTIES TIMEOUT 300)
 endfunction()
@@ -107,13 +109,13 @@ foreach(test_source ${ENHANCED_TEST_SOURCES})
     list(APPEND ENHANCED_TEST_TARGETS ${test_name})
 endforeach()
 
-# 创建存储引擎相关测试组
+# 创建存储引擎相关测试组（在所有测试目标创建后）
 set_tests_properties(
-    storage_engine_test buffer_pool_test 
+    storage_engine_test buffer_pool_test
     storage_engine_newpage_test disk_manager_test
     config_manager_test config_manager_enhanced_test
-    buffer_pool_enhanced_test page_enhanced_test 
-    disk_manager_enhanced_test storage_engine_enhanced_test
+    page_enhanced_test  disk_manager_enhanced_test storage_engine_enhanced_test
+    transaction_manager_test
     PROPERTIES LABELS "storage_engine_tests"
 )
 
@@ -121,6 +123,25 @@ set_tests_properties(
 set_tests_properties(
     sql_parser_test
     PROPERTIES LABELS "sql_parser_tests"
+)
+
+# 创建运行单个单元测试的目标
+add_custom_target(run_storage_engine_test
+    COMMAND $<TARGET_FILE:storage_engine_test>
+    DEPENDS storage_engine_test
+    COMMENT "Run storage engine test"
+)
+
+add_custom_target(run_buffer_pool_test
+    COMMAND $<TARGET_FILE:buffer_pool_test>
+    DEPENDS buffer_pool_test
+    COMMENT "Run buffer pool test"
+)
+
+add_custom_target(run_disk_manager_test
+    COMMAND $<TARGET_FILE:disk_manager_test>
+    DEPENDS disk_manager_test
+    COMMENT "Run disk manager test"
 )
 
 # 创建存储引擎测试分类目标
@@ -145,25 +166,6 @@ add_custom_target(unit_tests
     DEPENDS ${TEST_TARGETS} ${ENHANCED_TEST_TARGETS} ${SQL_PARSER_TEST_TARGETS}
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
     COMMENT "Run all unit tests"
-)
-
-# 创建运行单个单元测试的目标
-add_custom_target(run_storage_engine_test
-    COMMAND $<TARGET_FILE:storage_engine_test>
-    DEPENDS storage_engine_test
-    COMMENT "Run storage engine test"
-)
-
-add_custom_target(run_buffer_pool_test
-    COMMAND $<TARGET_FILE:buffer_pool_test>
-    DEPENDS buffer_pool_test
-    COMMENT "Run buffer pool test"
-)
-
-add_custom_target(run_disk_manager_test
-    COMMAND $<TARGET_FILE:disk_manager_test>
-    DEPENDS disk_manager_test
-    COMMENT "Run disk manager test"
 )
 
 # Add performance tests

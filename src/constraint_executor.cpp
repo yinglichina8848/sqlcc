@@ -174,14 +174,15 @@ UniqueConstraintExecutor::UniqueConstraintExecutor(
   if (is_primary_key) {
     // 主键约束
     const auto &pk_constraint =
-        dynamic_cast<const sql_parser::PrimaryKeyConstraint &>(constraint);
+        dynamic_cast<const sql_parser::PrimaryKeyConstraint &>(
+            constraint_.get());
     for (const auto &col : pk_constraint.getColumns()) {
       lower_constraint_columns_.push_back(toLower(col));
     }
   } else {
     // 唯一约束
     const auto &unique_constraint =
-        dynamic_cast<const sql_parser::UniqueConstraint &>(constraint);
+        dynamic_cast<const sql_parser::UniqueConstraint &>(constraint_.get());
     for (const auto &col : unique_constraint.getColumns()) {
       lower_constraint_columns_.push_back(toLower(col));
     }
@@ -259,14 +260,14 @@ bool UniqueConstraintExecutor::validateUpdate(
 }
 
 bool UniqueConstraintExecutor::validateDelete(
-    const std::vector<std::string> &record,
-    const std::vector<sql_parser::ColumnDefinition> &table_schema) {
+    [[maybe_unused]] const std::vector<std::string> &record,
+    [[maybe_unused]] const std::vector<sql_parser::ColumnDefinition> &table_schema) {
   // 删除操作不影响唯一性约束
   return true;
 }
 
 const std::string &UniqueConstraintExecutor::getConstraintName() const {
-  return constraint_.getName();
+  return constraint_.get().getName();
 }
 
 sql_parser::TableConstraint::Type
@@ -285,7 +286,8 @@ bool UniqueConstraintExecutor::checkUniqueness(
     std::vector<std::string> conditions;
     if (is_primary_key_) {
       const auto &pk_constraint =
-          dynamic_cast<const sql_parser::PrimaryKeyConstraint &>(constraint_);
+          dynamic_cast<const sql_parser::PrimaryKeyConstraint &>(
+              constraint_.get());
       const auto &columns = pk_constraint.getColumns();
       for (size_t i = 0; i < columns.size(); ++i) {
         std::string condition = columns[i] + " = '" + values[i] + "'";
@@ -293,7 +295,7 @@ bool UniqueConstraintExecutor::checkUniqueness(
       }
     } else {
       const auto &unique_constraint =
-          dynamic_cast<const sql_parser::UniqueConstraint &>(constraint_);
+          dynamic_cast<const sql_parser::UniqueConstraint &>(constraint_.get());
       const auto &columns = unique_constraint.getColumns();
       for (size_t i = 0; i < columns.size(); ++i) {
         std::string condition = columns[i] + " = '" + values[i] + "'";
@@ -328,11 +330,12 @@ std::vector<std::string> UniqueConstraintExecutor::getConstraintValues(
   std::vector<std::string> constraint_columns;
   if (is_primary_key_) {
     const auto &pk_constraint =
-        dynamic_cast<const sql_parser::PrimaryKeyConstraint &>(constraint_);
+        dynamic_cast<const sql_parser::PrimaryKeyConstraint &>(
+            constraint_.get());
     constraint_columns = pk_constraint.getColumns();
   } else {
     const auto &unique_constraint =
-        dynamic_cast<const sql_parser::UniqueConstraint &>(constraint_);
+        dynamic_cast<const sql_parser::UniqueConstraint &>(constraint_.get());
     constraint_columns = unique_constraint.getColumns();
   }
 
@@ -368,12 +371,12 @@ std::string UniqueConstraintExecutor::toLower(const std::string &str) const {
 
 // CheckConstraintExecutor 实现
 
+// FIXME: CheckConstraint 不能直接拷贝，这里使用引用
 CheckConstraintExecutor::CheckConstraintExecutor(
     const sql_parser::CheckConstraint &constraint,
     const std::string &table_name)
     : constraint_(constraint), table_name_(table_name) {
-  // 预编译CHECK约束表达式可以在这里实现
-  // 但需要完整的表达式求值引擎
+  // 使用引用包装器避免拷贝问题
 }
 
 bool CheckConstraintExecutor::validateInsert(
@@ -385,7 +388,7 @@ bool CheckConstraintExecutor::validateInsert(
 }
 
 bool CheckConstraintExecutor::validateUpdate(
-    const std::vector<std::string> &old_record,
+    [[maybe_unused]] const std::vector<std::string> &old_record,
     const std::vector<std::string> &new_record,
     const std::vector<sql_parser::ColumnDefinition> &table_schema) {
 
@@ -394,14 +397,14 @@ bool CheckConstraintExecutor::validateUpdate(
 }
 
 bool CheckConstraintExecutor::validateDelete(
-    const std::vector<std::string> &record,
-    const std::vector<sql_parser::ColumnDefinition> &table_schema) {
+    [[maybe_unused]] const std::vector<std::string> &record,
+    [[maybe_unused]] const std::vector<sql_parser::ColumnDefinition> &table_schema) {
   // 删除操作不影响CHECK约束
   return true;
 }
 
 const std::string &CheckConstraintExecutor::getConstraintName() const {
-  return constraint_.getName();
+  return constraint_.get().getName();
 }
 
 bool CheckConstraintExecutor::evaluateCheckCondition(
@@ -412,7 +415,7 @@ bool CheckConstraintExecutor::evaluateCheckCondition(
     // 简化的CHECK约束验证
     // 实际实现需要完整的表达式求值引擎
 
-    const auto &condition = constraint_.getCondition();
+    const auto &condition = constraint_.get().getCondition();
     if (!condition) {
       // 没有条件表达式，默认通过
       return true;
@@ -464,8 +467,8 @@ bool ExpressionEvaluator::evaluate(
 
 bool ExpressionEvaluator::evaluateBinaryExpression(
     const sql_parser::BinaryExpression *expr,
-    const std::vector<std::string> &record,
-    const std::vector<sql_parser::ColumnDefinition> &table_schema) {
+    [[maybe_unused]] const std::vector<std::string> &record,
+    [[maybe_unused]] const std::vector<sql_parser::ColumnDefinition> &table_schema) {
 
   if (!expr)
     return true;
