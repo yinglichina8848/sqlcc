@@ -26,7 +26,7 @@ protected:
   }
 
   // Helper method to test specific parsing methods via whitebox testing
-  void testParseMethod(const std::string &method_name, bool success_expected) {
+  void testParseMethod(const std::string & /* method_name */, bool /* success_expected */) {
     // This would require modifying Parser to expose methods or use friend
     // classes
     SUCCEED(); // Placeholder for future implementation
