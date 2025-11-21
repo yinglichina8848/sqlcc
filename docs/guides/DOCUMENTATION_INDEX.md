@@ -63,17 +63,17 @@ SQLCC文档体系
 
 ### 👨‍💻 开发者
 
-**新手开发者**:
-1. [README.md](README.md) - 了解项目背景
-2. [PROJECT_STRUCTURE.md](PROJECT_STRUCTURE.md) - 熟悉代码结构
-3. [DEVELOPMENT_GUIDE.md](DEVELOPMENT_GUIDE.md) - 学习开发流程
-4. [docs/unit_testing.md](docs/unit_testing.md) - 掌握测试方法
+**新手开发者** ([🔗 开发手册](docs/guides/DEVELOPMENT_ENVIRONMENT_SETUP.md)):
+1. [开发环境安装配置](docs/guides/DEVELOPMENT_ENVIRONMENT_SETUP.md) - Ubuntu环境配置指南
+2. [AI工具使用指南](docs/guides/AI_TOOLS_USAGE_GUIDE.md) - AI编程助手最佳实践
+3. [测试驱动开发指南](docs/guides/TEST_DRIVEN_DEVELOPMENT_GUIDE.md) - TDD方法论与实践
+4. [Doxygen文档配置](docs/guides/DOXYGEN_COVERAGE_CONFIGURATION.md) - API文档和覆盖率配置
 
 **进阶开发者**:
-1. [docs/design/storage_engine_design.md](docs/design/storage_engine_design.md) - 深入架构设计
-2. [docs/performance/performance_optimization_report.md](docs/performance/performance_optimization_report.md) - 性能优化思路
-3. [analysis/performance_summary.md](analysis/performance_summary.md) - 性能分析结果
-4. [TODO.md](TODO.md) - 了解未来规划
+1. [数据库开发全程指南](docs/guides/DATABASE_DEVELOPMENT_JOURNEY.md) - 从单机到分布式演进路径
+2. [AI增强软件工程](docs/guides/AI_ENHANCED_SOFTWARE_ENGINEERING.md) - 现代开发思维与技术
+3. [分布式协同开发](docs/guides/DISTRIBUTED_COLLABORATIVE_DEVELOPMENT.md) - Git/Gitee团队协作模式
+4. [系统架构设计](docs/design/storage_engine_design.md) - 核心组件设计原理
 
 ### 🔬 测试工程师
 
