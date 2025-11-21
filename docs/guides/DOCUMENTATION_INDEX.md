@@ -29,20 +29,20 @@ SQLCC文档体系
 
 | 文档 | 描述 | 深度 |
 |------|------|------|
-| [docs/storage_engine_design.md](docs/storage_engine_design.md) | 存储引擎架构设计 | 🔥 高级 |
-| [performance_optimization_report.md](performance_optimization_report.md) | 性能优化分析报告 | 🔥 高级 |
+| [docs/design/storage_engine_design.md](docs/design/storage_engine_design.md) | 存储引擎架构设计 | 🔥 高级 |
+| [docs/performance/performance_optimization_report.md](docs/performance/performance_optimization_report.md) | 性能优化分析报告 | 🔥 高级 |
 | [analysis/performance_summary.md](analysis/performance_summary.md) | 性能测试摘要 | ⭐ 中级 |
 
 ### 🧪 测试文档
 
 | 文档 | 描述 | 类型 |
 |------|------|------|
-| [docs/unit_testing.md](docs/unit_testing.md) | 单元测试框架说明 | 🧪 测试 |
-| [docs/TESTING_SUMMARY_REPORT.md](docs/TESTING_SUMMARY_REPORT.md) | 🆕 综合测试总结报告 | 📊 测试汇总 |
-| [docs/performance_test_report.md](docs/performance_test_report.md) | 性能测试报告 | 📊 性能 |
-| [docs/performance_test_implementation_guide.md](docs/performance_test_implementation_guide.md) | 性能测试实现指南 | 📋 指南 |
-| [docs/performance_test_improvement_suggestions.md](docs/performance_test_improvement_suggestions.md) | 测试改进建议 | 💡 建议 |
-| [docs/coverage_testing_guide.md](docs/coverage_testing_guide.md) | 代码覆盖率测试指南 | 📊 覆盖率 |
+| [docs/testing/unit_testing.md](docs/testing/unit_testing.md) | 单元测试框架说明 | 🧪 测试 |
+| [docs/testing/TESTING_SUMMARY_REPORT.md](docs/testing/TESTING_SUMMARY_REPORT.md) | 🆕 综合测试总结报告 | 📊 测试汇总 |
+| [docs/performance/performance_test_report.md](docs/performance/performance_test_report.md) | 性能测试报告 | 📊 性能 |
+| [docs/performance/performance_testing_guide.md](docs/performance/performance_testing_guide.md) | 性能测试实现指南 | 📋 指南 |
+| [docs/performance/performance_test_content_details.md](docs/performance/performance_test_content_details.md) | 测试改进建议 | 💡 建议 |
+| [docs/reports/coverage_report.md](docs/reports/coverage_report.md) | 代码覆盖率测试报告 | 📊 覆盖率 |
 
 ### 🔧 开发流程文档
 
@@ -70,31 +70,31 @@ SQLCC文档体系
 4. [docs/unit_testing.md](docs/unit_testing.md) - 掌握测试方法
 
 **进阶开发者**:
-1. [docs/storage_engine_design.md](docs/storage_engine_design.md) - 深入架构设计
-2. [performance_optimization_report.md](performance_optimization_report.md) - 性能优化思路
+1. [docs/design/storage_engine_design.md](docs/design/storage_engine_design.md) - 深入架构设计
+2. [docs/performance/performance_optimization_report.md](docs/performance/performance_optimization_report.md) - 性能优化思路
 3. [analysis/performance_summary.md](analysis/performance_summary.md) - 性能分析结果
 4. [TODO.md](TODO.md) - 了解未来规划
 
 ### 🔬 测试工程师
 
-1. [docs/unit_testing.md](docs/unit_testing.md) - 测试框架
-2. [docs/TESTING_SUMMARY_REPORT.md](docs/TESTING_SUMMARY_REPORT.md) - 🆕 综合测试报告
-3. [docs/performance_test_report.md](docs/performance_test_report.md) - 性能测试报告
-4. [docs/performance_test_implementation_guide.md](docs/performance_test_implementation_guide.md) - 测试实现
+1. [docs/testing/unit_testing.md](docs/testing/unit_testing.md) - 测试框架
+2. [docs/testing/TESTING_SUMMARY_REPORT.md](docs/testing/TESTING_SUMMARY_REPORT.md) - 🆕 综合测试报告
+3. [docs/performance/performance_test_report.md](docs/performance/performance_test_report.md) - 性能测试报告
+4. [docs/performance/performance_testing_guide.md](docs/performance/performance_testing_guide.md) - 测试实现
 5. [analysis/performance_summary.md](analysis/performance_summary.md) - 性能摘要
 
 ### 📊 性能分析师
 
-1. [performance_optimization_report.md](performance_optimization_report.md) - 优化分析
+1. [docs/performance/performance_optimization_report.md](docs/performance/performance_optimization_report.md) - 优化分析
 2. [analysis/performance_summary.md](analysis/performance_summary.md) - 性能摘要
-3. [docs/performance_test_report.md](docs/performance_test_report.md) - 测试报告
-4. [docs/performance_test_improvement_suggestions.md](docs/performance_test_improvement_suggestions.md) - 改进建议
+3. [docs/performance/performance_test_report.md](docs/performance/performance_test_report.md) - 测试报告
+4. [docs/performance/performance_test_content_details.md](docs/performance/performance_test_content_details.md) - 改进建议
 
 ### 👥 项目管理者
 
 1. [TODO.md](TODO.md) - 项目进度
-2. [ChangeLog.md](ChangeLog.md) - 版本历史
-3. [VERSION_SUMMARY.md](VERSION_SUMMARY.md) - 版本总结
+2. [docs/releases/CHANGELOG.md](docs/releases/CHANGELOG.md) - 版本历史
+3. [docs/releases/VERSION_SUMMARY.md](docs/releases/VERSION_SUMMARY.md) - 版本总结
 4. [docs/release_process.md](docs/release_process.md) - 发布流程
 5. [docs/BRANCHES.md](docs/BRANCHES.md) - 分支管理
 
@@ -231,6 +231,6 @@ grep -r "批量预取" docs/
 **更新频率**: 每周检查，重大变更即时更新
 
 ### 📊 文档质量与完整性
-- **📋 文档完整性报告**：[DOCUMENTATION_COMPLETENESS_REPORT.md](DOCUMENTATION_COMPLETENESS_REPORT.md) - 📊 项目文档体系完整性分析报告
+- **📋 文档完整性报告**：[docs/reports/DOCUMENTATION_COMPLETENESS_REPORT.md](docs/reports/DOCUMENTATION_COMPLETENESS_REPORT.md) - 📊 项目文档体系完整性分析报告
 
 **💡 提示**: 本文档索引会随项目发展持续更新，建议收藏本页面以便快速访问所有文档资源。
