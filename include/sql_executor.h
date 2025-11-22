@@ -5,19 +5,85 @@
 #include "sql_parser/ast_nodes.h"
 #include "sql_parser/parser.h"
 #include "storage_engine.h"
-#include <memory>
+#include "transaction_manager.h"
+#include <mutex>
 #include <string>
 #include <unordered_map>
 #include <vector>
 
 namespace sqlcc {
 
+// 前向声明
+class IndexManager;
+
+/**
+ * @brief 数据记录结构
+ * SQL执行的核心数据单元
+ */
+struct Record {
+  std::vector<std::string> column_values; ///< 列值数组（按表定义的列顺序）
+  uint64_t record_id;                     ///< 记录全局唯一ID
+  uint64_t txn_id = 0;                    ///< 事务ID
+  std::string table_name;                 ///< 所属表名
+
+  Record() = default;
+  Record(std::vector<std::string> values, uint64_t rid = 0)
+      : column_values(std::move(values)), record_id(rid) {}
+};
+
+/**
+ * @brief 表元数据结构
+ * 描述表的完整信息，包括列定义、约束等
+ */
+struct TableMetadata {
+  std::string table_name;                                 ///< 表名
+  std::vector<sql_parser::ColumnDefinition> columns;      ///< 列定义
+  std::unordered_map<std::string, size_t> column_indexes; ///< 列名到列索引映射
+  std::vector<sql_parser::TableConstraint> constraints;   ///< 表级约束
+  uint64_t record_count = 0;                              ///< 记录数量
+  uint32_t root_page_id = 0;                              ///< 数据页面根节点
+
+  /**
+   * @brief 获取列定义
+   * @param column_name 列名
+   * @return 列定义，如果不存在返回nullptr
+   */
+  const sql_parser::ColumnDefinition *
+  GetColumnDef(const std::string &column_name) const {
+    auto it = column_indexes.find(column_name);
+    if (it == column_indexes.end())
+      return nullptr;
+    return &columns[it->second];
+  }
+};
+
+/**
+ * @brief WHERE条件结构
+ * 简化版WHERE条件表示，用于查询过滤
+ */
+struct WhereCondition {
+  std::string column_name;   ///< 列名
+  std::string operator_type; ///< 操作符: "=", ">", "<", "!=", etc.
+  std::string value;         ///< 比较值
+
+  WhereCondition(std::string col, std::string op, std::string val)
+      : column_name(std::move(col)), operator_type(std::move(op)),
+        value(std::move(val)) {}
+};
+
+/**
+ * @brief SQL执行异常类
+ */
+class SqlExecutionException : public std::runtime_error {
+public:
+  explicit SqlExecutionException(const std::string &message)
+      : std::runtime_error(message) {}
+};
+
 /**
  * @brief SQL执行器类，负责执行SQL语句
  *
- * Why: 需要一个组件来将SQL解析器生成的AST转换为实际的存储引擎操作
- * What: SqlExecutor类提供SQL语句的执行功能，处理不同类型的SQL语句
- * How: 通过组合SQL解析器和存储引擎，实现SQL语句的执行和结果返回
+ * 设计实现SQL语句实际执行，从简单的DDL/DML操作到复杂的查询处理
  */
 class SqlExecutor {
 public:
@@ -80,13 +146,13 @@ public:
    */
   std::string ListTables();
 
-private:
   /**
    * @brief 执行单个SQL语句
    * @param stmt SQL语句节点
    * @return 执行结果字符串
    */
-  std::string ExecuteStatement(const sql_parser::Statement &stmt);
+  // 执行单个SQL语句
+  std::string ExecuteStatement(const sql_parser::Statement *stmt);
 
   /**
    * @brief 执行SELECT语句
@@ -160,6 +226,7 @@ private:
   std::string
   ExecuteDropIndex(const sql_parser::DropIndexStatement &drop_index_stmt);
 
+private:
   /**
    * @brief 设置错误信息
    * @param error 错误信息字符串
@@ -172,6 +239,37 @@ private:
   std::string current_database_;                  ///< 当前选中的数据库名称
 
   /**
+   * @brief 表元数据管理器
+   * 存储所有表的元数据信息
+   */
+  std::unordered_map<std::string, TableMetadata> table_catalog_;
+
+  /**
+   * @brief 内存记录存储
+   * 用于在内存中存储表记录数据
+   */
+  std::unordered_map<std::string, std::vector<Record>> records_;
+
+  /**
+   * @brief 记录管理器
+   * 负责记录的CRUD操作
+   */
+  std::unique_ptr<Record> record_manager_; // TODO: 需要实现RecordManager类
+
+  /**
+   * @brief 索引执行器
+   * 管理表的索引操作
+   */
+  IndexManager *index_executor_ =
+      nullptr; // 从StorageEngine获取，使用原始指针避免类型不完整问题
+
+  /**
+   * @brief 事务管理器
+   * 处理事务ACID保证
+   */
+  std::unique_ptr<TransactionManager> transaction_manager_; // TODO: 需要集成
+
+  /**
    * @brief 表约束管理器，存储每个表的约束执行器列表
    * 键：表名（小写），值：约束执行器列表
    */
@@ -180,39 +278,61 @@ private:
       table_constraints_;
 
   /**
-   * @brief 验证记录是否满足INSERT操作的约束条件
-   * @param table_name 表名
-   * @param record 插入的记录
-   * @param table_schema 表结构信息
-   * @return true表示通过验证，false表示违反约束
+   * @brief 并发控制锁
+   */
+  std::mutex execution_mutex_;
+
+  // ============== 私有辅助方法 ==============
+
+  /**
+   * @brief 创建表管理器方法
+   */
+  bool CreateTable(const std::string &table_name,
+                   const std::vector<sql_parser::ColumnDefinition> &columns,
+                   const std::vector<sql_parser::TableConstraint> &constraints);
+
+  bool DropTable(const std::string &table_name);
+
+  const TableMetadata *GetTableMetadata(const std::string &table_name) const;
+
+  /**
+   * @brief 记录管理器方法
+   */
+  bool InsertRecord(const std::string &table_name, const Record &record,
+                    uint64_t &rid);
+
+  bool UpdateRecord(const std::string &table_name, uint64_t rid,
+                    const Record &new_record);
+
+  bool DeleteRecord(const std::string &table_name, uint64_t rid);
+
+  Record GetRecord(const std::string &table_name, uint64_t rid) const;
+
+  std::vector<Record> GetAllRecords(const std::string &table_name) const;
+
+  std::vector<Record> QueryRecords(const std::string &table_name,
+                                   const WhereCondition &condition) const;
+
+public:
+  /**
+   * @brief 约束验证方法
    */
   bool ValidateInsertConstraints(
       const std::string &table_name, const std::vector<std::string> &record,
       const std::vector<sql_parser::ColumnDefinition> &table_schema);
 
-  /**
-   * @brief 验证记录UPDATE是否违反约束条件
-   * @param table_name 表名
-   * @param old_record 旧记录
-   * @param new_record 新记录
-   * @param table_schema 表结构信息
-   * @return true表示通过验证，false表示违反约束
-   */
   bool ValidateUpdateConstraints(
       const std::string &table_name, const std::vector<std::string> &old_record,
       const std::vector<std::string> &new_record,
       const std::vector<sql_parser::ColumnDefinition> &table_schema);
 
-  /**
-   * @brief 验证记录DELETE是否违反约束条件（外键约束检查）
-   * @param table_name 表名
-   * @param record 删除的记录
-   * @param table_schema 表结构信息
-   * @return true表示可以删除，false表示违反约束
-   */
   bool ValidateDeleteConstraints(
       const std::string &table_name, const std::vector<std::string> &record,
       const std::vector<sql_parser::ColumnDefinition> &table_schema);
+
+  bool ValidateConstraintDefinition(
+      const sql_parser::TableConstraint &constraint,
+      const std::vector<sql_parser::ColumnDefinition> &columns);
 
   /**
    * @brief 为表创建约束执行器（当表被创建或变更时调用）
@@ -223,13 +343,50 @@ private:
       const std::string &table_name,
       const std::vector<sql_parser::TableConstraint> &constraints);
 
+private:
   /**
    * @brief 获取表架构信息
    * @param table_name 表名
    * @return 表列定义列表
    */
   std::vector<sql_parser::ColumnDefinition>
-  GetTableSchema(const std::string &table_name);
+  GetTableSchema(const std::string &table_name) const;
+
+  /**
+   * @brief 结果格式化方法
+   */
+  std::string FormatQueryResults(const std::vector<Record> &results,
+                                 const std::vector<size_t> &column_indices,
+                                 const TableMetadata &meta) const;
+
+  std::string FormatTableSchema(const TableMetadata &meta) const;
+
+  std::string FormatTableList(const std::vector<std::string> &tables) const;
+
+  /**
+   * @brief 表名标准化
+   */
+  std::string NormalizeTableName(const std::string &name) const {
+    std::string lower_name;
+    lower_name.reserve(name.size());
+    for (char c : name) {
+      lower_name += std::tolower(static_cast<unsigned char>(c));
+    }
+    return lower_name;
+  }
+
+  /**
+   * @brief 解析WHERE条件为WhereCondition
+   */
+  std::vector<WhereCondition>
+  ParseWhereClause(const sql_parser::WhereClause &where_clause) const;
+
+  /**
+   * @brief 评估WHERE条件
+   */
+  bool EvaluateWhereCondition(
+      const sql_parser::WhereClause &where_clause, const Record &record,
+      const std::vector<sql_parser::ColumnDefinition> &columns) const;
 };
 
 } // namespace sqlcc

@@ -1,17 +1,74 @@
-cmake_minimum_required(VERSION 3.16)
-project(sqlcc LANGUAGES C CXX)
+cmake_minimum_required(VERSION 3.10)
+project(SqlCC VERSION 1.0.0 LANGUAGES CXX)
 
 # 设置C++标准
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# 设置输出目录
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+# 设置构建类型
+if(NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE "Release")
+endif()
 
-# 基础编译选项
-add_compile_options(-Wall -Wextra -pedantic)
+# 编译选项
+add_compile_options(-Wall -Wextra -Werror -Wno-unused-parameter)
+
+# 查找所需的包
+find_package(Threads REQUIRED)
+find_package(PkgConfig REQUIRED)
+find_package(GTest REQUIRED)
+
+# 查找Readline库（可选）
+pkg_check_modules(READLINE readline)
+if(READLINE_FOUND)
+    add_definitions(-DHAVE_READLINE)
+else()
+    message(WARNING "Readline library not found, using basic command line input")
+endif()
+
+# 包含目录
+include_directories(include)
+include_directories(include/config_manager)
+include_directories(include/sql_parser)
+include_directories(include/storage_engine)
+include_directories(include/transaction_manager)
+include_directories(include/sql_executor)
+include_directories(include/network)
+
+# 添加子目录
+add_subdirectory(src/config_manager)
+add_subdirectory(src/sql_parser)
+add_subdirectory(src/storage_engine)
+add_subdirectory(src/transaction_manager)
+add_subdirectory(src/sql_executor)
+
+# 网络模块暂时禁用
+# add_subdirectory(src/network)
+
+add_subdirectory(tests)
+
+# 添加主可执行文件
+add_executable(sqlcc src/main.cc)
+target_link_libraries(sqlcc 
+    sqlcc_config_manager
+    sqlcc_parser
+    sqlcc_storage_engine
+    sqlcc_transaction_manager
+)
+
+# 添加isql可执行文件
+add_executable(isql src/isql_main.cc)
+target_link_libraries(isql 
+    sqlcc_config_manager
+    sqlcc_parser
+    sqlcc_storage_engine
+    sqlcc_transaction_manager
+    sqlcc_executor
+)
+
+# 添加编译选项
+target_compile_options(sqlcc PRIVATE -Wall -Wextra -Werror -Wno-unused-parameter)
+target_compile_options(isql PRIVATE -Wall -Wextra -Werror -Wno-unused-parameter)
 
 # 根据构建类型设置优化选项
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
@@ -41,6 +98,18 @@ endif()
 
 # 添加源码目录
 add_subdirectory(src)
+
+# 定义主要的库目标，方便其他项目引用
+add_library(sqlcc INTERFACE)
+target_link_libraries(sqlcc INTERFACE 
+    sqlcc_core
+    sqlcc_parser
+    sqlcc_executor
+    sqlcc_storage_engine
+    sqlcc_config_manager
+    sqlcc_transaction_manager
+    sqlcc_network
+)
 
 # 查找Google Test库
 find_package(GTest)

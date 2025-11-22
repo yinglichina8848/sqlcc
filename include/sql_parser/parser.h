@@ -1,8 +1,8 @@
 #ifndef SQLCC_SQL_PARSER_PARSER_H
 #define SQLCC_SQL_PARSER_PARSER_H
 
-#include "ast_node.h"
-#include "ast_nodes.h"
+// 包含必要的头文件
+#include "../src/sql_parser/statement.h"
 #include "lexer.h"
 #include <memory>
 #include <vector>
@@ -21,11 +21,17 @@ public:
    * @param lexer 词法分析器
    */
   explicit Parser(Lexer &lexer);
+  
+  /**
+   * 构造函数，接收SQL字符串
+   * @param sql SQL字符串
+   */
+  explicit Parser(const std::string &sql);
 
   /**
    * 析构函数
    */
-  ~Parser() = default;
+  ~Parser();
 
   /**
    * 解析SQL语句
@@ -342,7 +348,8 @@ private:
   void reportError(const std::string &message);
 
 private:
-  Lexer &lexer_;             // 词法分析器
+  Lexer *lexer_;             // 词法分析器
+  bool ownsLexer_;           // 是否拥有词法分析器
   Token currentToken_;       // 当前Token
   bool strictMode_;          // 严格模式
   std::string errorMessage_; // 错误信息

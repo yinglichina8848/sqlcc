@@ -30,8 +30,13 @@ SQLCC文档体系
 | 文档 | 描述 | 深度 |
 |------|------|------|
 | [docs/设计文档总览.md](../设计文档总览.md) | 系统设计文档总览 | 📋 基础 |
-| [docs/design/storage_engine_design.md](docs/design/storage_engine_design.md) | 存储引擎架构设计 | 🔥 高级 |
-| [docs/performance/performance_optimization_report.md](docs/performance/performance_optimization_report.md) | 性能优化分析报告 | 🔥 高级 |
+| [docs/design/sql_parser/sql_parser-总体设计.md](../design/sql_parser/sql_parser-总体设计.md) | SQL解析器设计 | 🔥 高级 |
+| [docs/design/sql_executor/sql_executor-总体设计.md](../design/sql_executor/sql_executor-总体设计.md) | SQL执行器设计 | 🔥 高级 |
+| [docs/design/storage_engine/storage_engine-总体设计.md](../design/storage_engine/storage_engine-总体设计.md) | 存储引擎设计 | 🔥 高级 |
+| [docs/design/transaction_manager/transaction_manager-总体设计.md](../design/transaction_manager/transaction_manager-总体设计.md) | 事务管理器设计 | 🔥 高级 |
+| [docs/design/config_manager/config_manager-总体设计.md](../design/config_manager/config_manager-总体设计.md) | 配置管理器设计 | 🔥 高级 |
+| [docs/design/network/NetworkArchitecture.md](../design/network/NetworkArchitecture.md) | 网络模块设计 | 🔥 高级 |
+| [docs/performance/performance_optimization_report.md](../performance/performance_optimization_report.md) | 性能优化分析报告 | 🔥 高级 |
 | [analysis/performance_summary.md](analysis/performance_summary.md) | 性能测试摘要 | ⭐ 中级 |
 
 ### 🧪 测试文档
@@ -71,11 +76,11 @@ SQLCC文档体系
 4. [Doxygen文档配置](docs/guides/DOXYGEN_COVERAGE_CONFIGURATION.md) - API文档和覆盖率配置
 
 **进阶开发者**:
-1. [数据库知识生态系统](docs/guides/DATABASE_KNOWLEDGE_ECOSYSTEM.md) - 计算机科学知识全景图
-2. [数据库开发全程指南](docs/guides/DATABASE_DEVELOPMENT_JOURNEY.md) - 从单机到分布式演进路径
-3. [AI增强软件工程](docs/guides/AI_ENHANCED_SOFTWARE_ENGINEERING.md) - 现代开发思维与技术
-4. [分布式协同开发](docs/guides/DISTRIBUTED_COLLABORATIVE_DEVELOPMENT.md) - Git/Gitee团队协作模式
-5. [系统架构设计](docs/design/storage_engine_design.md) - 核心组件设计原理
+1. [数据库知识生态系统](DATABASE_KNOWLEDGE_ECOSYSTEM.md) - 计算机科学知识全景图
+2. [数据库开发全程指南](DATABASE_DEVELOPMENT_JOURNEY.md) - 从单机到分布式演进路径
+3. [AI增强软件工程](AI_ENHANCED_SOFTWARE_ENGINEERING.md) - 现代开发思维与技术
+4. [分布式协同开发](DISTRIBUTED_COLLABORATIVE_DEVELOPMENT.md) - Git/Gitee团队协作模式
+5. [系统架构设计](../设计文档总览.md) - 核心组件设计原理
 
 **架构师与研究员**:
 1. [数据库知识生态系统](docs/guides/DATABASE_KNOWLEDGE_ECOSYSTEM.md) - CS知识体系大融合
@@ -115,9 +120,9 @@ SQLCC文档体系
 
 ### 文档数量统计
 ```
-总文档数量: 20个
+总文档数量: 20+个
 ├── 项目概览文档: 5个
-├── 技术设计文档: 4个  
+├── 技术设计文档: 6个  
 ├── 测试相关文档: 6个
 ├── 开发流程文档: 3个
 ├── 版本管理文档: 2个

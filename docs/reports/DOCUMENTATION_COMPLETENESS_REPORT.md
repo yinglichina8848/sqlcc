@@ -14,12 +14,11 @@
 | 文档类别 | 数量 | 占比 | 主要文档 |
 |----------|------|------|----------|
 | 📖 项目概览 | 5个 | 22.7% | README.md, PROJECT_STRUCTURE.md, DEVELOPMENT_GUIDE.md |
-| 🏗️ 架构设计 | 4个 | 18.2% | storage_engine_design.md, performance_optimization_report.md |
+| 🏗️ 架构设计 | 6个 | 27.3% | 设计文档总览.md, 各子系统设计文档 |
 | 🧪 测试文档 | 5个 | 22.7% | unit_testing.md, performance_test_report.md, coverage_testing_guide.md |
 | 🔧 开发流程 | 3个 | 13.6% | release_process.md, BRANCHES.md |
 | 📚 版本管理 | 2个 | 9.1% | ChangeLog.md, VERSION_SUMMARY.md |
 | 🎯 计划管理 | 1个 | 4.5% | TODO.md |
-| 🤖 AI记录 | 1个 | 4.5% | TRAE-Chat.md |
 | 📋 导航索引 | 1个 | 4.5% | DOCUMENTATION_INDEX.md |
 
 ## 🎯 文档体系架构
@@ -72,12 +71,15 @@ README.md (入口)
 
 | 文档 | 状态 | 大小 | 主要内容 | 深度 |
 |------|------|------|----------|------|
-| [docs/storage_engine_design.md](docs/storage_engine_design.md) | ✅ | 中等 | 存储引擎架构设计 | 🔥 高级 |
-| [performance_optimization_report.md](performance_optimization_report.md) | ✅ | 2.1K | 批量预取优化分析 | 🔥 高级 |
-| [analysis/performance_summary.md](analysis/performance_summary.md) | ✅ | 中等 | 性能测试摘要 | ⭐ 中级 |
-| [docs/Guide.md](docs/Guide.md) | ✅ | 13K | 项目开发总览 | ⭐ 中级 |
+| [docs/设计文档总览.md](../设计文档总览.md) | ✅ | 中等 | 系统设计文档总览 | 📋 基础 |
+| [docs/design/sql_parser/sql_parser-总体设计.md](../design/sql_parser/sql_parser-总体设计.md) | ✅ | 中等 | SQL解析器设计 | 🔥 高级 |
+| [docs/design/sql_executor/sql_executor-总体设计.md](../design/sql_executor/sql_executor-总体设计.md) | ✅ | 中等 | SQL执行器设计 | 🔥 高级 |
+| [docs/design/storage_engine/storage_engine-总体设计.md](../design/storage_engine/storage_engine-总体设计.md) | ✅ | 中等 | 存储引擎设计 | 🔥 高级 |
+| [docs/design/transaction_manager/transaction_manager-总体设计.md](../design/transaction_manager/transaction_manager-总体设计.md) | ✅ | 中等 | 事务管理器设计 | 🔥 高级 |
+| [docs/design/config_manager/config_manager-总体设计.md](../design/config_manager/config_manager-总体设计.md) | ✅ | 中等 | 配置管理器设计 | 🔥 高级 |
+| [docs/design/network/NetworkArchitecture.md](../design/network/NetworkArchitecture.md) | ✅ | 中等 | 网络模块设计 | 🔥 高级 |
 
-**评估**: 技术设计文档覆盖了核心架构和性能优化，内容深度适中。
+**评估**: 技术设计文档全面覆盖了系统的所有核心子系统，结构清晰，内容深度适中。
 
 ### 3. 测试文档 ✅ 完整
 

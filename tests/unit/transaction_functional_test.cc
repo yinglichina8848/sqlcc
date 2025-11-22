@@ -5,6 +5,7 @@
 #include <atomic>
 #include <chrono>
 #include <gtest/gtest.h>
+#include <random>
 #include <thread>
 #include <vector>
 
@@ -49,61 +50,81 @@ TEST_F(TransactionFunctionalTest, BankTransferTransactionScenario) {
   const int to_account = 67890;
   const double transfer_amount = 100.0;
 
+  std::cout << "Step 1: Beginning transaction" << std::endl;
   // 开始转账事务
-  TransactionId transfer_txn =
+  TransactionId transfer_txn = 
       txn_mgr_->begin_transaction(IsolationLevel::SERIALIZABLE);
+  std::cout << "Step 1: Transaction begun with ID: " << transfer_txn << std::endl;
 
+  std::cout << "Step 2: Locking source account" << std::endl;
   // 阶段1: 锁定源账户
-  bool lock_source =
+  bool lock_source = 
       simulate_update_operation(transfer_txn, account_table, from_account);
+  std::cout << "Step 2: Lock source result: " << lock_source << std::endl;
   ASSERT_TRUE(lock_source) << "Failed to lock source account";
 
+  std::cout << "Step 3: Checking balance" << std::endl;
   // 阶段2: 检查账户余额（在这里我们模拟这个检查）
   simulate_read_operation(transfer_txn, account_table, from_account);
   // 在真实场景中，这里会检查余额是否足够
   double balance = 500.0; // 模拟账户余额
   ASSERT_GE(balance, transfer_amount) << "Insufficient balance for transfer";
 
+  std::cout << "Step 4: Locking destination account" << std::endl;
   // 阶段3: 锁定目标账户
-  bool lock_dest =
+  bool lock_dest = 
       simulate_update_operation(transfer_txn, account_table, to_account);
+  std::cout << "Step 4: Lock destination result: " << lock_dest << std::endl;
   ASSERT_TRUE(lock_dest) << "Failed to lock destination account";
 
+  std::cout << "Step 5: Executing transfer" << std::endl;
   // 阶段4: 执行转账
   // 扣除源账户金额
   simulate_update_operation(transfer_txn, account_table, from_account);
   // 增加目标账户金额
   simulate_update_operation(transfer_txn, account_table, to_account);
 
+  std::cout << "Step 6: Creating log entries" << std::endl;
   // 记录操作日志
-  LogEntry debit_log{transfer_txn,
-                     "UPDATE",
-                     account_table,
-                     from_account,
-                     std::chrono::system_clock::now(),
-                     std::vector<char>(sizeof(double)),
-                     std::vector<char>()};
-  LogEntry credit_log{transfer_txn,
-                      "UPDATE",
-                      account_table,
-                      to_account,
-                      std::chrono::system_clock::now(),
-                      std::vector<char>(sizeof(double)),
-                      std::vector<char>()};
+  LogEntry debit_log;
+  debit_log.txn_id = transfer_txn;
+  debit_log.table_name = account_table;
+  debit_log.operation = "UPDATE";
+  debit_log.record_id = from_account;
+  debit_log.timestamp = std::chrono::system_clock::now();
+  debit_log.old_data = std::vector<char>(sizeof(double));
+  debit_log.new_data = std::vector<char>();
+  
+  LogEntry credit_log;
+  credit_log.txn_id = transfer_txn;
+  credit_log.table_name = account_table;
+  credit_log.operation = "UPDATE";
+  credit_log.record_id = to_account;
+  credit_log.timestamp = std::chrono::system_clock::now();
+  credit_log.old_data = std::vector<char>(sizeof(double));
+  credit_log.new_data = std::vector<char>();
 
+  std::cout << "Step 7: Logging debit operation" << std::endl;
   txn_mgr_->log_operation(transfer_txn, debit_log);
+  std::cout << "Step 8: Logging credit operation" << std::endl;
   txn_mgr_->log_operation(transfer_txn, credit_log);
 
+  std::cout << "Step 9: Committing transaction" << std::endl;
   // 提交事务
   bool commit_success = txn_mgr_->commit_transaction(transfer_txn);
+  std::cout << "Step 9: Commit result: " << commit_success << std::endl;
   ASSERT_TRUE(commit_success) << "Transaction commit failed";
 
+  std::cout << "Step 10: Verifying transaction state" << std::endl;
   // 验证事务状态
   TransactionState final_state = txn_mgr_->get_transaction_state(transfer_txn);
+  std::cout << "Step 10: Final state: " << static_cast<int>(final_state) << std::endl;
   EXPECT_EQ(final_state, TransactionState::COMMITTED);
 
+  std::cout << "Step 11: Checking active transactions" << std::endl;
   // 验证没有活跃事务
   auto active_txns = txn_mgr_->get_active_transactions();
+  std::cout << "Step 11: Active txns count: " << active_txns.size() << std::endl;
   EXPECT_TRUE(active_txns.empty()) << "Active transactions remain after commit";
 }
 
@@ -279,9 +300,28 @@ TEST_F(TransactionFunctionalTest, TransactionFailureRollback) {
   simulate_update_operation(failed_txn, accounts_table, 300);
 
   // 记录操作日志
-  txn_mgr_->log_operation(failed_txn, {"UPDATE", accounts_table, 100});
-  txn_mgr_->log_operation(failed_txn, {"UPDATE", accounts_table, 200});
-  txn_mgr_->log_operation(failed_txn, {"UPDATE", accounts_table, 300});
+  LogEntry log_entry1;
+  log_entry1.txn_id = failed_txn;
+  log_entry1.table_name = accounts_table;
+  log_entry1.operation = "UPDATE";
+  log_entry1.record_id = 100;
+  log_entry1.timestamp = std::chrono::system_clock::now();
+  txn_mgr_->log_operation(failed_txn, log_entry1);
+  
+  LogEntry log_entry2;
+  log_entry2.txn_id = failed_txn;
+  log_entry2.table_name = accounts_table;
+  log_entry2.operation = "UPDATE";
+  log_entry2.record_id = 200;
+  log_entry2.timestamp = std::chrono::system_clock::now();
+  txn_mgr_->log_operation(failed_txn, log_entry2);
+  sqlcc::LogEntry log_entry;
+  log_entry.txn_id = failed_txn;
+  log_entry.table_name = accounts_table;
+  log_entry.operation = "UPDATE";
+  log_entry.record_id = 300;
+  log_entry.timestamp = std::chrono::system_clock::now();
+  txn_mgr_->log_operation(failed_txn, log_entry);
 
   // 设置保存点
   txn_mgr_->create_savepoint(failed_txn, "checkpoint");
@@ -385,8 +425,12 @@ TEST_F(TransactionFunctionalTest, BatchUpdateTransaction) {
   }
 
   // 记录批处理操作
-  LogEntry batch_log{batch_txn, "BATCH_UPDATE", "ALL_EMPLOYEES", 0,
-                     std::chrono::system_clock::now()};
+  LogEntry batch_log;
+  batch_log.txn_id = batch_txn;
+  batch_log.table_name = "ALL_EMPLOYEES";
+  batch_log.operation = "BATCH_UPDATE";
+  batch_log.record_id = 0;
+  batch_log.timestamp = std::chrono::system_clock::now();
   txn_mgr_->log_operation(batch_txn, batch_log);
 
   // 提交批处理事务
@@ -434,7 +478,7 @@ TEST_F(TransactionFunctionalTest, MultiTableComplexTransaction) {
   // 步骤3: 处理每个订单项
   for (size_t i = 0; i < items.size(); ++i) {
     int item_id = items[i];
-    int qty = quantities[i];
+    // int qty = quantities[i]; // 未使用变量，注释掉
 
     // 检查库存
     simulate_read_operation(order_txn, inventory_table, item_id);
@@ -459,7 +503,13 @@ TEST_F(TransactionFunctionalTest, MultiTableComplexTransaction) {
   ASSERT_TRUE(customer_updated) << "Failed to update customer order history";
 
   // 记录操作链
-  txn_mgr_->log_operation(order_txn, {"CREATE_ORDER", "ALL_TABLES", order_id});
+  sqlcc::LogEntry log_entry;
+  log_entry.txn_id = order_txn;
+  log_entry.table_name = "ALL_TABLES";
+  log_entry.operation = "CREATE_ORDER";
+  log_entry.record_id = static_cast<size_t>(order_id);
+  log_entry.timestamp = std::chrono::system_clock::now();
+  txn_mgr_->log_operation(order_txn, log_entry);
 
   // 提交完整订单事务
   bool success = txn_mgr_->commit_transaction(order_txn);
@@ -532,7 +582,7 @@ TEST_F(TransactionFunctionalTest, HighConcurrencyLoadTest) {
   std::atomic<int> successful_operations{0};
   std::atomic<int> failed_operations{0};
 
-  auto writer_thread = [this]() {
+  auto writer_thread = [this, &failed_operations, &successful_operations]() {
     for (int i = 0; i < OPERATIONS_PER_THREAD; ++i) {
       TransactionId txn =
           txn_mgr_->begin_transaction(IsolationLevel::READ_COMMITTED);
@@ -567,7 +617,7 @@ TEST_F(TransactionFunctionalTest, HighConcurrencyLoadTest) {
     }
   };
 
-  auto reader_thread = [this]() {
+  auto reader_thread = [this, &successful_operations]() {
     for (int i = 0; i < OPERATIONS_PER_THREAD * 2; ++i) { // 读者操作更多
       TransactionId txn =
           txn_mgr_->begin_transaction(IsolationLevel::READ_COMMITTED);
@@ -667,7 +717,7 @@ TEST_F(TransactionFunctionalTest, ResourceContentionSimulation) {
   // 并发竞争锁
   std::vector<std::thread> threads;
   for (int i = 0; i < NUM_CONTENDING_TRANSACTIONS; ++i) {
-    threads.emplace_back([this, txn = txns[i], &successful_locks]() {
+    threads.emplace_back([this, txn = txns[i], &successful_locks, &contended_resource]() {
       bool locked = simulate_update_operation(txn, contended_resource, 1);
       if (locked) {
         successful_locks++;

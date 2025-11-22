@@ -9,10 +9,17 @@
 #include <mutex>
 #include <chrono>
 #include <condition_variable>
+#include <cstdint>  // 添加 uint64_t 定义
 
 #include "exception.h"
 
 namespace sqlcc {
+
+// 前向声明
+class TransactionManager;
+
+// 事务ID类型定义
+using TransactionId = uint64_t;
 
 // WAL 记录类型
 enum class LogRecordType {
