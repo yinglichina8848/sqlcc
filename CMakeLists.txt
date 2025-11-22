@@ -48,7 +48,7 @@ add_subdirectory(src/sql_executor)
 add_subdirectory(tests)
 
 # 添加主可执行文件
-add_executable(sqlcc src/main.cc)
+add_executable(sqlcc src/main.cpp)
 target_link_libraries(sqlcc 
     sqlcc_config_manager
     sqlcc_parser
@@ -57,7 +57,7 @@ target_link_libraries(sqlcc
 )
 
 # 添加isql可执行文件
-add_executable(isql src/isql_main.cc)
+add_executable(isql src/isql_main.cpp)
 target_link_libraries(isql 
     sqlcc_config_manager
     sqlcc_parser

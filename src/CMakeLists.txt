@@ -12,7 +12,7 @@ target_include_directories(sqlcc_parser PUBLIC ${CMAKE_SOURCE_DIR}/include)
 
 # 创建config_manager库
 add_library(sqlcc_config_manager STATIC
-    config_manager/config_manager.cc
+    config_manager/config_manager.cpp
 )
 
 # 设置config_manager库的包含目录
@@ -20,13 +20,13 @@ target_include_directories(sqlcc_config_manager PUBLIC ${CMAKE_SOURCE_DIR}/inclu
 
 # 创建storage_engine库
 add_library(sqlcc_storage_engine STATIC
-    storage_engine/buffer_pool.cc
-    storage_engine/buffer_pool_new.cc
-    storage_engine/buffer_pool_sharded.cc
-    storage_engine/disk_manager.cc
-    storage_engine/page.cc
-    storage_engine/storage_engine.cc
-    storage_engine/b_plus_tree.cc
+    storage_engine/buffer_pool.cpp
+    storage_engine/buffer_pool_new.cpp
+    storage_engine/buffer_pool_sharded.cpp
+    storage_engine/disk_manager.cpp
+    storage_engine/page.cpp
+    storage_engine/storage_engine.cpp
+    storage_engine/b_plus_tree.cpp
 )
 
 # 设置storage_engine库的包含目录
@@ -34,9 +34,8 @@ target_include_directories(sqlcc_storage_engine PUBLIC ${CMAKE_SOURCE_DIR}/inclu
 
 # 创建transaction_manager库
 add_library(sqlcc_transaction_manager STATIC
-    transaction_manager/transaction_manager.cc
     transaction_manager/transaction_manager.cpp
-    transaction_manager/wal_manager.cc
+    transaction_manager/wal_manager.cpp
 )
 
 # 设置transaction_manager库的包含目录
@@ -44,7 +43,7 @@ target_include_directories(sqlcc_transaction_manager PUBLIC ${CMAKE_SOURCE_DIR}/
 
 # 创建network库
 add_library(sqlcc_network STATIC
-    network/network.cc
+    network/network.cpp
 )
 
 # 设置network库的包含目录
@@ -85,7 +84,7 @@ target_link_libraries(sqlcc_executor PRIVATE sqlcc_parser sqlcc_core sqlcc_stora
 
 # 添加dml_test可执行文件
 add_executable(dml_test
-    dml_test.cc
+    dml_test.cpp
 )
 
 # 链接所需的库

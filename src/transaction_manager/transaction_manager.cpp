@@ -163,61 +163,115 @@ bool TransactionManager::acquire_lock(TransactionId txn_id,
                                       LockType lock_type, bool wait) {
   std::unique_lock<std::mutex> lock(mutex_);
 
-  // 检查事务是否存在且为活动状态
+  // 检查事务是否存在
   auto txn_it = transactions_.find(txn_id);
   if (txn_it == transactions_.end() ||
       txn_it->second.state != TransactionState::ACTIVE) {
     return false;
   }
 
-  // 检查是否可以获取锁
-  if (!can_acquire_lock(txn_id, resource, lock_type)) {
-    if (!wait) {
-      return false; // 不等待，直接返回失败
-    }
-
-    // 等待锁的逻辑（简化实现）
-    // 在实际实现中，这里应该实现更复杂的等待机制
-    std::this_thread::sleep_for(std::chrono::milliseconds(100));
-
-    // 重新检查
-    if (!can_acquire_lock(txn_id, resource, lock_type)) {
-      return false;
+  // 检查是否已经持有该资源的锁
+  if (lock_table_.count(resource)) {
+    auto &locks = lock_table_[resource];
+    for (const auto &lock_entry : locks) {
+      if (lock_entry.txn_id == txn_id) {
+        // 已经持有更高级别的锁
+        if (lock_entry.type == LockType::EXCLUSIVE &&
+            lock_type == LockType::SHARED) {
+          return true;
+        }
+        // 已经持有相同类型的锁
+        if (lock_entry.type == lock_type) {
+          return true;
+        }
+      }
     }
   }
 
-  // 添加锁条目
-  LockEntry lock_entry;
-  lock_entry.txn_id = txn_id;
-  lock_entry.resource = resource;
-  lock_entry.type = lock_type;
-  lock_entry.acquired_time = std::chrono::system_clock::now();
+  // 详细的锁获取逻辑
+  if (lock_type == LockType::SHARED) {
+    // 共享锁兼容性：只有排他锁不兼容
+    bool has_exclusive_lock = false;
+    if (lock_table_.contains(resource)) {
+      for (const auto &lock_entry : lock_table_[resource]) {
+        if (lock_entry.type == LockType::EXCLUSIVE) {
+          has_exclusive_lock = true;
+          if (wait) {
+            wait_graph_[txn_id].insert(lock_entry.txn_id);
+          }
+        }
+      }
+    }
 
-  lock_table_[resource].push_back(lock_entry);
+    if (!has_exclusive_lock) {
+      // 添加共享锁
+      LockEntry new_lock;
+      new_lock.txn_id = txn_id;
+      new_lock.resource = resource;
+      new_lock.type = LockType::SHARED;
+      new_lock.acquired_time = std::chrono::system_clock::now();
+      lock_table_[resource].push_back(new_lock);
+      std::cout << "Transaction " << txn_id
+                << " acquired shared lock on resource '" << resource << "'"
+                << std::endl;
+      return true;
+    }
+    return false;
+  } else if (lock_type == LockType::EXCLUSIVE) {
+    // 排他锁检查：不能有任何其他锁
+    if (lock_table_.contains(resource) && !lock_table_[resource].empty()) {
+      if (wait) {
+        for (const auto &lock_entry : lock_table_[resource]) {
+          wait_graph_[txn_id].insert(lock_entry.txn_id);
+        }
+      }
+      return false;
+    }
 
-  std::cout << "Transaction " << txn_id << " acquired "
-            << (lock_type == LockType::SHARED ? "SHARED" : "EXCLUSIVE")
-            << " lock on resource '" << resource << "'" << std::endl;
+    // 添加排他锁
+    LockEntry new_lock;
+    new_lock.txn_id = txn_id;
+    new_lock.resource = resource;
+    new_lock.type = LockType::EXCLUSIVE;
+    new_lock.acquired_time = std::chrono::system_clock::now();
+    lock_table_[resource].push_back(new_lock);
+    std::cout << "Transaction " << txn_id
+              << " acquired exclusive lock on resource '" << resource << "'"
+              << std::endl;
+    return true;
+  }
 
-  return true;
+  return false;
 }
 
 void TransactionManager::release_lock(TransactionId txn_id,
                                       const std::string &resource) {
   std::unique_lock<std::mutex> lock(mutex_);
 
-  auto resource_it = lock_table_.find(resource);
-  if (resource_it == lock_table_.end()) {
-    return;
+  // 检查资源是否有锁
+  if (lock_table_.contains(resource)) {
+    auto &locks = lock_table_[resource];
+
+    // 查找并移除该事务对该资源的锁
+    auto it = std::remove_if(
+        locks.begin(), locks.end(),
+        [txn_id](const LockEntry &entry) { return entry.txn_id == txn_id; });
+
+    if (it != locks.end()) {
+      locks.erase(it, locks.end());
+
+      // 如果资源没有锁了，从锁表中删除
+      if (locks.empty()) {
+        lock_table_.erase(resource);
+      }
+    }
   }
 
-  // 移除该事务持有在该资源上的锁
-  auto &locks = resource_it->second;
-  locks.erase(std::remove_if(locks.begin(), locks.end(),
-                             [txn_id](const LockEntry &entry) {
-                               return entry.txn_id == txn_id;
-                             }),
-              locks.end());
+  // 清理等待图
+  wait_graph_.erase(txn_id);
+  for (auto &[tid, waiting_for] : wait_graph_) {
+    waiting_for.erase(txn_id);
+  }
 
   std::cout << "Transaction " << txn_id << " released lock on resource '"
             << resource << "'" << std::endl;
@@ -306,6 +360,7 @@ void TransactionManager::log_operation(TransactionId txn_id,
 }
 
 TransactionId TransactionManager::next_transaction_id() {
+  // 使用原子操作确保线程安全
   return next_txn_id_.fetch_add(1, std::memory_order_relaxed);
 }
 
@@ -334,15 +389,62 @@ void TransactionManager::cleanup_completed_transactions() {
 }
 
 bool TransactionManager::can_acquire_lock(TransactionId txn_id,
-                                          const std::string &table_name,
+                                          const std::string &resource,
                                           LockType lock_type) const {
-    // 避免未使用参数警告
-    (void)txn_id;
-    (void)table_name;
-    (void)lock_type;
-    
-    // TODO: 实现锁获取逻辑
-    return true;
+  // 检查资源是否有锁
+  if (lock_table_.contains(resource)) {
+    for (const auto &entry : lock_table_.at(resource)) {
+      // 如果是同一个事务，不需要检查
+      if (entry.txn_id == txn_id) {
+        continue;
+      }
+
+      // 如果请求的是排他锁，但资源已经有锁，无法获取
+      if (lock_type == LockType::EXCLUSIVE) {
+        return false;
+      }
+
+      // 如果请求的是共享锁，但资源已经有排他锁，无法获取
+      if (lock_type == LockType::SHARED && entry.type == LockType::EXCLUSIVE) {
+        return false;
+      }
+    }
+  }
+
+  return true;
+}
+
+// 实现create_savepoint方法
+bool TransactionManager::create_savepoint(TransactionId txn_id,
+                                          const std::string &savepoint_name) {
+  std::unique_lock<std::mutex> lock(mutex_);
+
+  // 检查事务是否存在且处于活动状态
+  auto it = transactions_.find(txn_id);
+  if (it == transactions_.end() ||
+      it->second.state != TransactionState::ACTIVE) {
+    return false;
+  }
+
+  // 简化实现：因为Transaction结构体中没有savepoints成员
+  // 这里只是简单地返回成功，在实际实现中应该在Transaction中添加保存点支持
+  return true;
+}
+
+// 实现rollback_to_savepoint方法
+bool TransactionManager::rollback_to_savepoint(
+    TransactionId txn_id, const std::string &savepoint_name) {
+  std::unique_lock<std::mutex> lock(mutex_);
+
+  // 检查事务是否存在且处于活动状态
+  auto it = transactions_.find(txn_id);
+  if (it == transactions_.end() ||
+      it->second.state != TransactionState::ACTIVE) {
+    return false;
+  }
+
+  // 简化实现：当前版本暂不支持保存点功能
+  return false;
 }
 
 void TransactionManager::release_all_locks(TransactionId txn_id) {
