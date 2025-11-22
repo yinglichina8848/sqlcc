@@ -2,12 +2,12 @@ include_directories(${CMAKE_SOURCE_DIR}/include)
 
 # 定义测试源文件列表
 set(TEST_SOURCES
-    storage_engine_test.cc
-    buffer_pool_test.cc
-    storage_engine_newpage_test.cc
-    disk_manager_test.cc
-    deadlock_fix_test.cc
-    lock_timeout_test.cc
+    storage_engine_test.cpp
+    buffer_pool_test.cpp
+    storage_engine_newpage_test.cpp
+    disk_manager_test.cpp
+    deadlock_fix_test.cpp
+    lock_timeout_test.cpp
     sql_executor/constraint_executor_test.cpp
     sql_executor/record_test.cpp
     sql_executor/sql_executor_test.cpp
@@ -17,41 +17,41 @@ set(TEST_SOURCES
 
 # 定义增强测试源文件列表
 set(ENHANCED_TEST_SOURCES
-    unit/b_plus_tree_core_test.cc
-    unit/config_manager_test.cc
-    unit/config_manager_enhanced_test.cc
-    unit/page_enhanced_test.cc
-    unit/disk_manager_enhanced_test.cc
-    unit/storage_engine_enhanced_test.cc
-    unit/sql_parser_comprehensive_test.cc
-    unit/transaction_manager_test.cc
-    unit/transaction_functional_test.cc
-    unit/network_test.cc
+    unit/b_plus_tree_core_test.cpp
+    unit/config_manager_test.cpp
+    unit/config_manager_enhanced_test.cpp
+    unit/page_enhanced_test.cpp
+    unit/disk_manager_enhanced_test.cpp
+    unit/storage_engine_enhanced_test.cpp
+    unit/sql_parser_comprehensive_test.cpp
+    unit/transaction_manager_test.cpp
+    unit/transaction_functional_test.cpp
+    unit/network_test.cpp
 )
 
 # Add unit tests
 set(UNIT_TESTS
-    storage_engine_test.cc
-    buffer_pool_test.cc
-    storage_engine_newpage_test.cc
-    disk_manager_test.cc
-    deadlock_fix_test.cc
-    lock_timeout_test.cc
-    unit/b_plus_tree_test.cc
-    unit/b_plus_tree_core_test.cc
-    unit/b_plus_tree_performance_test.cc
-    unit/buffer_pool_new_test.cc
-    unit/config_manager_test.cc
-    unit/config_manager_enhanced_test.cc
-    unit/disk_manager_enhanced_test.cc
-    unit/page_enhanced_test.cc
-    unit/storage_engine_enhanced_test.cc
-    unit/transaction_functional_test.cc
-    unit/transaction_manager_test.cc
-    unit/ast_nodes_comprehensive_test.cc
-    unit/sql_parser_comprehensive_test.cc
-    unit/network_test.cc
-    unit/network_integration_test.cc
+    storage_engine_test.cpp
+    buffer_pool_test.cpp
+    storage_engine_newpage_test.cpp
+    disk_manager_test.cpp
+    deadlock_fix_test.cpp
+    lock_timeout_test.cpp
+    unit/b_plus_tree_test.cpp
+    unit/b_plus_tree_core_test.cpp
+    unit/b_plus_tree_performance_test.cpp
+    unit/buffer_pool_new_test.cpp
+    unit/config_manager_test.cpp
+    unit/config_manager_enhanced_test.cpp
+    unit/disk_manager_enhanced_test.cpp
+    unit/page_enhanced_test.cpp
+    unit/storage_engine_enhanced_test.cpp
+    unit/transaction_functional_test.cpp
+    unit/transaction_manager_test.cpp
+    unit/ast_nodes_comprehensive_test.cpp
+    unit/sql_parser_comprehensive_test.cpp
+    unit/network_test.cpp
+    unit/network_integration_test.cpp
     sql_executor/constraint_executor_test.cpp
     sql_executor/record_test.cpp
     sql_executor/sql_executor_test.cpp
