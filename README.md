@@ -683,8 +683,8 @@ g++ -std=c++17 -Iinclude -o test_deadlock_fix_simple tests/temporary/test_deadlo
 ```
 
 ### 📊 查看测试结果
-- **临时测试文档**: [docs/TEMPORARY_TEST_FILES.md](docs/TEMPORARY_TEST_FILES.md)
-- **单元测试报告**: [docs/TESTING_SUMMARY_REPORT.md](docs/TESTING_SUMMARY_REPORT.md)
+- **临时测试文档**: [docs/testing/TEMPORARY_TEST_FILES.md](docs/testing/TEMPORARY_TEST_FILES.md)
+- **单元测试报告**: [docs/testing/TESTING_SUMMARY_REPORT.md](docs/testing/TESTING_SUMMARY_REPORT.md)
 - **覆盖率报告**: `coverage/index.html`
 - **性能基准**: [docs/performance/performance_test_report.md](docs/performance/performance_test_report.md)
 ```
@@ -733,6 +733,7 @@ open coverage/index.html  # macOS
 - **[📖 第三章：数据结构、算法思想与数学基础](docs/textbook/CHAPTER_03.md)** - 计算的核心能力，关系代数与数据库范式理论
 
 ### 📚 **开发者文档**
+- **[🏗️ 设计文档总览](docs/设计文档总览.md)** - 系统设计文档总览
 - **[🏗️ API文档](docs/doxygen/html/index.html)** - 自动生成的Doxygen API文档
 - **[📛 错误处理指南](docs/guides/error_handling.md)** - 系统异常处理和错误恢复机制
 - **[⚙️ 配置管理](docs/design/config_manager_design.md)** - 配置系统设计与使用说明
