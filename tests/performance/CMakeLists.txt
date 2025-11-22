@@ -16,20 +16,35 @@ add_subdirectory(cpu_test)
 add_subdirectory(memory_stress_test)
 add_subdirectory(stability_test)
 
-# 创建性能测试可执行文件
-add_executable(performance_test 
+# Add performance tests
+set(PERFORMANCE_TESTS
     performance_test.cc
-    performance_test_base.cc
     buffer_pool_performance_test.cc
     disk_io_performance_test.cc
+    index_performance_test.cc
     mixed_workload_test.cc
-    batch_prefetch_performance_test.cc
     million_insert_test.cc
+    cpu_test/cpu_intensive_performance_test.cc
+    concurrency_test/concurrency_performance_test.cc
+    large_scale_index_constraint_test.cc
+    index_constraint_benchmark.cc
+    batch_prefetch_performance_test.cc
+    network_performance_test.cc  # 添加网络性能测试
+    performance_test_base.cc
 )
+
+# 创建性能测试可执行文件
+add_executable(performance_test ${PERFORMANCE_TESTS})
 
 # 链接必要的库
 target_link_libraries(performance_test 
     sqlcc_core
+    sqlcc_parser
+    sqlcc_executor
+    sqlcc_storage_engine
+    sqlcc_config_manager
+    sqlcc_transaction_manager
+    sqlcc_network
     Threads::Threads
 )
 
@@ -236,6 +251,9 @@ add_custom_target(view_performance_results
 #     GTest::gtest_main
 #     sqlcc_executor
 #     sqlcc_parser
+#     sqlcc_core
+#     sqlcc_storage_engine
+#     sqlcc_transaction_manager
 #     Threads::Threads
 # )
 # 

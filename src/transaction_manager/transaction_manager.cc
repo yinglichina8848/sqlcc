@@ -131,6 +131,8 @@ TransactionManager::~TransactionManager() {
 // 实现缺失的release_all_locks方法
 void TransactionManager::release_all_locks(TransactionId txn_id) {
     // 简单实现：遍历锁表，释放该事务持有的所有锁
+    std::vector<std::string> empty_resources;
+    
     for (auto& [resource, locks] : lock_table_) {
         locks.erase(
             std::remove_if(locks.begin(), locks.end(),
@@ -139,10 +141,15 @@ void TransactionManager::release_all_locks(TransactionId txn_id) {
                            }),
             locks.end());
         
-        // 如果资源没有锁了，从锁表中删除
+        // 记录空资源锁列表，稍后删除
         if (locks.empty()) {
-            lock_table_.erase(resource);
+            empty_resources.push_back(resource);
         }
+    }
+    
+    // 在遍历完成后删除空资源锁列表，避免迭代器失效
+    for (const auto& resource : empty_resources) {
+        lock_table_.erase(resource);
     }
     
     // 清理等待图
@@ -357,7 +364,7 @@ bool TransactionManager::create_savepoint(sqlcc::TransactionId txn_id, const std
 }
 
 // 实现log_operation方法
-void TransactionManager::log_operation(sqlcc::TransactionId txn_id, const LogEntry & /* entry */) {
+void TransactionManager::log_operation(sqlcc::TransactionId txn_id, const LogEntry &entry) {
     std::unique_lock<std::mutex> lock(mutex_);
     
     // 检查事务是否存在
@@ -366,8 +373,8 @@ void TransactionManager::log_operation(sqlcc::TransactionId txn_id, const LogEnt
         return;
     }
     
-    // 简化实现：因为Transaction结构体中没有log_entries成员
-    // 这里只是简单地不做任何操作，在实际实现中应该在Transaction中添加日志支持
+    // 将日志添加到事务的undo_log中
+    it->second.undo_log.push_back(entry);
 }
 
 // 实现detect_deadlock方法

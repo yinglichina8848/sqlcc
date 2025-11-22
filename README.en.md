@@ -31,7 +31,7 @@
   - `tests/temporary/test_page_id_fix.cc` - Page ID allocation logic fix verification test
   - `tests/temporary/test_sync_functionality.cc` - Disk synchronization functionality verification test
   - `tests/temporary/test_deadlock_fix_simple.cc` - Deadlock fix verification test
-- Detailed documentation: [TEMPORARY_TEST_FILES.md](docs/TEMPORARY_TEST_FILES.md)
+- Detailed documentation: [TEMPORARY_TEST_FILES.md](docs/testing/TEMPORARY_TEST_FILES.md)
 
 ### Core Performance Metrics
 | Test Type | Throughput | Latency | Scaling |

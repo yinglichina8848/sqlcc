@@ -10,83 +10,97 @@ add_library(sqlcc_parser STATIC
 # 设置SQL parser库的包含目录
 target_include_directories(sqlcc_parser PUBLIC ${CMAKE_SOURCE_DIR}/include)
 
-# 添加核心库定义
-add_library(sqlcc_core STATIC
-    buffer_pool.cc
-    config_manager.cc
-    data_type.cpp
-    disk_manager.cc
-    page.cc
-    storage_engine.cc
-    index_manager.cpp
-    b_plus_tree.cc
-    transaction_manager.cc
-    # sqlcc/wal_manager.cc  # v0.4.8暂时移除，后续集成
+# 创建config_manager库
+add_library(sqlcc_config_manager STATIC
+    config_manager/config_manager.cc
 )
 
-# 设置包含目录
-target_include_directories(sqlcc_core PUBLIC ${CMAKE_SOURCE_DIR}/include)
+# 设置config_manager库的包含目录
+target_include_directories(sqlcc_config_manager PUBLIC ${CMAKE_SOURCE_DIR}/include)
+
+# 创建storage_engine库
+add_library(sqlcc_storage_engine STATIC
+    storage_engine/buffer_pool.cc
+    storage_engine/buffer_pool_new.cc
+    storage_engine/buffer_pool_sharded.cc
+    storage_engine/disk_manager.cc
+    storage_engine/page.cc
+    storage_engine/storage_engine.cc
+    storage_engine/b_plus_tree.cc
+)
+
+# 设置storage_engine库的包含目录
+target_include_directories(sqlcc_storage_engine PUBLIC ${CMAKE_SOURCE_DIR}/include)
+
+# 创建transaction_manager库
+add_library(sqlcc_transaction_manager STATIC
+    transaction_manager/transaction_manager.cc
+    transaction_manager/transaction_manager.cpp
+    transaction_manager/wal_manager.cc
+)
+
+# 设置transaction_manager库的包含目录
+target_include_directories(sqlcc_transaction_manager PUBLIC ${CMAKE_SOURCE_DIR}/include)
+
+# 创建network库
+add_library(sqlcc_network STATIC
+    network/network.cc
+)
+
+# 设置network库的包含目录
+target_include_directories(sqlcc_network PUBLIC ${CMAKE_SOURCE_DIR}/include)
 
 # 创建SQL执行器库
 add_library(sqlcc_executor STATIC
-    constraint_executor.cpp
-    sql_executor.cpp
+    sql_executor/sql_executor.cpp
+    sql_executor/constraint_executor.cpp
+    sql_executor/data_type.cpp
+    sql_executor/index_manager.cpp
 )
 
 # 设置SQL执行器库的包含目录
 target_include_directories(sqlcc_executor PUBLIC ${CMAKE_SOURCE_DIR}/include)
 
-# 添加线程库依赖（如果项目需要）
+# 添加必要的链接依赖
 find_package(Threads)
 if(Threads_FOUND)
     target_link_libraries(sqlcc_parser PUBLIC Threads::Threads)
-    target_link_libraries(sqlcc_core PUBLIC Threads::Threads)
+    target_link_libraries(sqlcc_config_manager PUBLIC Threads::Threads)
+    target_link_libraries(sqlcc_storage_engine PUBLIC Threads::Threads)
+    target_link_libraries(sqlcc_transaction_manager PUBLIC Threads::Threads)
 endif()
 
-# 核心库链接到SQL parser库
-target_link_libraries(sqlcc_core PUBLIC sqlcc_parser)
-
-# SQL执行器库链接到核心库和parser库
-target_link_libraries(sqlcc_executor PUBLIC sqlcc_core)
-target_link_libraries(sqlcc_executor PUBLIC sqlcc_parser)
-
-# 添加可执行文件
-add_executable(sqlcc_main main.cc)
-add_executable(config_test config_test.cc)
-
-# 添加交互式SQL工具
-add_executable(isql isql_main.cc)
-# 链接库
-target_link_libraries(sqlcc_main sqlcc_core)
-target_link_libraries(config_test sqlcc_core)
-target_link_libraries(isql sqlcc_executor sqlcc_parser)
-
-# 查找readline库（用于命令行补全和历史功能，如果可用）
-find_package(PkgConfig)
-pkg_check_modules(READLINE QUIET readline)
-if(READLINE_FOUND)
-    target_include_directories(isql PRIVATE ${READLINE_INCLUDE_DIRS})
-    target_link_libraries(isql ${READLINE_LIBRARIES})
-    target_compile_definitions(isql PRIVATE USE_READLINE=1)
-else()
-    message(WARNING "Readline library not found, using basic command line input")
-endif()
-
-# 设置可执行文件输出目录
-set_target_properties(sqlcc_main PROPERTIES
-    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
+# 创建核心库定义（作为一个元库，链接所有子库）
+add_library(sqlcc_core INTERFACE)
+target_link_libraries(sqlcc_core INTERFACE
+    sqlcc_parser
+    sqlcc_config_manager
+    sqlcc_storage_engine
+    sqlcc_transaction_manager
+    sqlcc_network
 )
 
-set_target_properties(config_test PROPERTIES
-    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
+# SQL执行器库链接到核心库、parser库和storage_engine库
+target_link_libraries(sqlcc_executor PRIVATE sqlcc_parser sqlcc_core sqlcc_storage_engine)
+
+# 添加dml_test可执行文件
+add_executable(dml_test
+    dml_test.cc
 )
 
-set_target_properties(isql PROPERTIES
-    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
+# 链接所需的库
+target_link_libraries(dml_test
+    sqlcc_parser
+    sqlcc_config_manager
+    sqlcc_storage_engine
+    sqlcc_transaction_manager
+    sqlcc_executor
 )
 
-# 安装规则
-install(TARGETS sqlcc_main DESTINATION bin)
-install(TARGETS config_test DESTINATION bin)
-install(TARGETS isql DESTINATION bin)
-install(FILES ${CMAKE_SOURCE_DIR}/config/sqlcc.conf DESTINATION etc)
+# 添加编译选项
+target_compile_options(dml_test PRIVATE
+    -Wall
+    -Wextra
+    -Werror
+    -Wno-unused-parameter
+)

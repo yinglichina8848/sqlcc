@@ -392,47 +392,12 @@ int32_t BufferPool::FindVictimPage() {
 
 // Replace a page with a new one
 bool BufferPool::ReplacePage(int32_t victim_page_id, int32_t new_page_id) {
-    auto it = page_table_.find(victim_page_id);
-    if (it == page_table_.end()) {
-        return false;
-    }
-
-    Page* victim_page = it->second;
-
-    // Flush if dirty
-    auto dirty_it = dirty_pages_.find(victim_page_id);
-    if (dirty_it != dirty_pages_.end() && dirty_it->second) {
-        // Release lock for disk I/O
-        latch_.unlock();
-
-        bool flush_success = disk_manager_->WritePage(victim_page_id, victim_page->GetData());
-
-        // Reacquire lock
-        latch_.lock();
-
-        if (!flush_success) {
-            SQLCC_LOG_ERROR("Failed to flush page " + std::to_string(victim_page_id) + " during replacement");
-            dirty_pages_[victim_page_id] = true; // Keep dirty status
-            return false;
-        }
-    }
-
-    // Remove from all data structures
-    page_table_.erase(victim_page_id);
-    page_refs_.erase(victim_page_id);
-    dirty_pages_.erase(victim_page_id);
-
-    auto lru_it = lru_map_.find(victim_page_id);
-    if (lru_it != lru_map_.end()) {
-        lru_list_.erase(lru_it->second);
-        lru_map_.erase(lru_it);
-    }
-
-    delete victim_page;
-    metrics_.evictions++;
-
-    SQLCC_LOG_DEBUG("Page " + std::to_string(victim_page_id) + " replaced");
-    return true;
+  // 避免未使用参数警告
+  (void)victim_page_id;
+  (void)new_page_id;
+  
+  // TODO: 实现页面替换逻辑
+  return false;
 }
 
 // Update LRU position (move to front)

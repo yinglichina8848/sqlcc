@@ -91,18 +91,27 @@ public:
     COMMIT,
     ROLLBACK,
     SAVEPOINT,
-    SET_TRANSACTION
+    SET_TRANSACTION,
+    OTHER
   };
 
   /**
+   * 构造函数
+   */
+  Statement(Type type = OTHER) : type_(type) {}
+  
+  /**
    * 获取语句类型
    */
-  virtual Type getType() const = 0;
+  virtual Type getType() const { return type_; }
 
   /**
    * 获取语句类型的名称
    */
   std::string getTypeName() const;
+  
+private:
+  Type type_; // 语句类型
 };
 
 /**
