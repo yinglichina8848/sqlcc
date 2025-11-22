@@ -29,6 +29,7 @@ SQLCC文档体系
 
 | 文档 | 描述 | 深度 |
 |------|------|------|
+| [docs/设计文档总览.md](../设计文档总览.md) | 系统设计文档总览 | 📋 基础 |
 | [docs/design/storage_engine_design.md](docs/design/storage_engine_design.md) | 存储引擎架构设计 | 🔥 高级 |
 | [docs/performance/performance_optimization_report.md](docs/performance/performance_optimization_report.md) | 性能优化分析报告 | 🔥 高级 |
 | [analysis/performance_summary.md](analysis/performance_summary.md) | 性能测试摘要 | ⭐ 中级 |
