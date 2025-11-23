@@ -40,7 +40,14 @@ enum MessageType {
     QUERY_RESULT = 0x06, // 查询结果
     ERROR = 0x07,        // 错误信息
     CLOSE = 0x08,        // 关闭连接请求
-    CLOSE_ACK = 0x09     // 关闭连接确认
+    CLOSE_ACK = 0x09,    // 关闭连接确认
+    KEY_EXCHANGE = 0x0A, // 密钥交换
+    KEY_EXCHANGE_ACK = 0x0B // 密钥交换确认
+};
+
+// 消息标志位定义
+enum MessageFlags {
+    ENCRYPTED = 0x01     // 消息已加密
 };
 
 // 前向声明
