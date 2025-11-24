@@ -49,6 +49,12 @@ public:
   virtual void visit(class RollbackStatement &node) = 0;
   virtual void visit(class SavepointStatement &node) = 0;
   virtual void visit(class SetTransactionStatement &node) = 0;
+  // DCL语句访问方法
+  virtual void visit(class CreateUserStatement &node) = 0;
+  virtual void visit(class DropUserStatement &node) = 0;
+  virtual void visit(class AlterUserStatement &node) = 0;
+  virtual void visit(class GrantStatement &node) = 0;
+  virtual void visit(class RevokeStatement &node) = 0;
 
   // 表达式访问方法
   virtual void visit(class IdentifierExpression &node) = 0;
@@ -72,27 +78,33 @@ public:
  */
 class Statement : public Node {
 public:
-  /**
-   * 语句类型枚举
-   */
-  enum Type {
-    CREATE,
-    SELECT,
-    INSERT,
-    UPDATE,
-    DELETE,
-    DROP,
-    ALTER,
-    USE,
-    CREATE_INDEX,
-    DROP_INDEX,
-    // 事务相关语句
-    BEGIN_TRANSACTION,
-    COMMIT,
-    ROLLBACK,
-    SAVEPOINT,
-    SET_TRANSACTION,
-    OTHER
+    /**
+     * 语句类型枚举
+     */
+    enum Type {
+      CREATE,
+      SELECT,
+      INSERT,
+      UPDATE,
+      DELETE,
+      DROP,
+      ALTER,
+      USE,
+      CREATE_INDEX,
+      DROP_INDEX,
+      // 事务相关语句
+      BEGIN_TRANSACTION,
+      COMMIT,
+      ROLLBACK,
+      SAVEPOINT,
+      SET_TRANSACTION,
+      // DCL语句类型
+      CREATE_USER,
+      DROP_USER,
+      ALTER_USER,
+      GRANT,
+      REVOKE,
+      OTHER
   };
 
   /**

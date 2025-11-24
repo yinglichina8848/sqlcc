@@ -2,10 +2,12 @@
 
 #include "page.h"
 #include "storage_engine.h"
+#include "config_manager.h"
 #include <memory>
 #include <string>
 #include <vector>
 #include <utility>
+#include <unordered_map>
 
 // 前向声明
 namespace sqlcc {
@@ -182,17 +184,17 @@ public:
     bool CreateIndex(const std::string& index_name, const std::string& table_name, const std::string& column_name, bool is_unique = false);
     bool DropIndex(const std::string& index_name, const std::string& table_name);
     bool IndexExists(const std::string& index_name, const std::string& table_name) const;
-    BPlusTreeIndex* GetIndex(const std::string& index_name, const std::string& table_name);
+    class BPlusTreeIndex* GetIndex(const std::string& index_name, const std::string& table_name);
 
     // 获取表的所有索引
-    std::vector<BPlusTreeIndex*> GetTableIndexes(const std::string& table_name) const;
+    std::vector<class BPlusTreeIndex*> GetTableIndexes(const std::string& table_name) const;
     
     // 加载所有索引
     void LoadAllIndexes();
 
 private:
     StorageEngine* storage_engine_;  // 存储引擎引用
-    std::unordered_map<std::string, std::unique_ptr<BPlusTreeIndex>> indexes_; // 索引映射表
+    std::unordered_map<std::string, std::unique_ptr<class BPlusTreeIndex>> indexes_; // 索引映射表
     
     // 辅助方法
     std::string GetIndexName(const std::string& table_name, const std::string& column_name) const;

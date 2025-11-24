@@ -1,0 +1,78 @@
+=== DCL（数据控制语言）测试开始 ===
+共读取到 14 条SQL语句
+
+执行语句 1:
+CREATE USER test_user IDENTIFIED BY 'test_password';
+结果: Query OK
+
+
+执行语句 2:
+CREATE USER admin_user IDENTIFIED BY 'admin_password';
+结果: Query OK
+
+
+执行语句 3:
+GRANT SELECT ON users TO test_user;
+结果: Query OK, 1 row affected
+
+执行语句 4:
+GRANT INSERT, UPDATE ON users TO test_user;
+结果: Query OK, 1 row affected
+
+执行语句 5:
+GRANT ALL PRIVILEGES ON *.* TO admin_user;
+结果: Query OK, 1 row affected
+
+执行语句 6:
+REVOKE UPDATE ON users FROM test_user;
+结果: ERROR: Unknown command
+
+
+执行语句 7:
+REVOKE ALL PRIVILEGES ON users FROM test_user;
+结果: ERROR: Unknown command
+
+
+执行语句 8:
+GRANT SELECT, INSERT ON products TO test_user;
+结果: Query OK, 1 row affected
+
+执行语句 9:
+GRANT DELETE ON orders TO test_user;
+结果: Query OK, 1 row affected
+
+执行语句 10:
+SHOW GRANTS FOR test_user;
+结果: Tables:
+----------
+products
+customers
+orders
+
+
+执行语句 11:
+SHOW GRANTS FOR admin_user;
+结果: Tables:
+----------
+products
+customers
+orders
+
+
+执行语句 12:
+DROP USER test_user;
+结果: Query OK
+
+
+执行语句 13:
+DROP USER admin_user;
+结果: Query OK
+
+
+执行语句 14:
+SELECT 'DCL测试完成' AS test_result;
+结果: Empty set
+
+
+=== DCL测试完成 ===
+测试执行时间: 0秒

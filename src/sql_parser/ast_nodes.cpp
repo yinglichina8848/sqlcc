@@ -802,5 +802,171 @@ void SetTransactionStatement::setIsolationLevel(BeginTransactionStatement::Isola
   isolationLevel_ = level;
 }
 
+// ================ DCL语句实现 ================
+
+// CreateUserStatement实现
+CreateUserStatement::CreateUserStatement() {
+}
+
+void CreateUserStatement::setUsername(const std::string &username) {
+    username_ = username;
+}
+
+void CreateUserStatement::setPassword(const std::string &password) {
+    password_ = password;
+}
+
+void CreateUserStatement::setRole(const std::string &role) {
+    role_ = role;
+}
+
+const std::string &CreateUserStatement::getUsername() const {
+    return username_;
+}
+
+const std::string &CreateUserStatement::getPassword() const {
+    return password_;
+}
+
+const std::string &CreateUserStatement::getRole() const {
+    return role_;
+}
+
+// DropUserStatement实现
+DropUserStatement::DropUserStatement() : ifExists_(false) {
+}
+
+void DropUserStatement::addUsername(const std::string &username) {
+    usernames_.push_back(username);
+}
+
+void DropUserStatement::setIfExists(bool ifExists) {
+    ifExists_ = ifExists;
+}
+
+const std::vector<std::string> &DropUserStatement::getUsernames() const {
+    return usernames_;
+}
+
+bool DropUserStatement::isIfExists() const {
+    return ifExists_;
+}
+
+// AlterUserStatement实现
+AlterUserStatement::AlterUserStatement() {
+}
+
+void AlterUserStatement::setUsername(const std::string &username) {
+    username_ = username;
+}
+
+void AlterUserStatement::setNewPassword(const std::string &password) {
+    newPassword_ = password;
+}
+
+void AlterUserStatement::setNewRole(const std::string &role) {
+    newRole_ = role;
+}
+
+const std::string &AlterUserStatement::getUsername() const {
+    return username_;
+}
+
+const std::string &AlterUserStatement::getNewPassword() const {
+    return newPassword_;
+}
+
+const std::string &AlterUserStatement::getNewRole() const {
+    return newRole_;
+}
+
+// GrantStatement实现
+GrantStatement::GrantStatement() : grantOption_(false) {
+}
+
+void GrantStatement::addPrivilege(const std::string &privilege) {
+    privileges_.push_back(privilege);
+}
+
+void GrantStatement::setObjectName(const std::string &name) {
+    objectName_ = name;
+}
+
+void GrantStatement::setObjectType(const std::string &type) {
+    objectType_ = type;
+}
+
+void GrantStatement::addUser(const std::string &user) {
+    users_.push_back(user);
+}
+
+void GrantStatement::setGrantOption(bool grantOption) {
+    grantOption_ = grantOption;
+}
+
+const std::vector<std::string> &GrantStatement::getPrivileges() const {
+    return privileges_;
+}
+
+const std::string &GrantStatement::getObjectName() const {
+    return objectName_;
+}
+
+const std::string &GrantStatement::getObjectType() const {
+    return objectType_;
+}
+
+const std::vector<std::string> &GrantStatement::getUsers() const {
+    return users_;
+}
+
+bool GrantStatement::hasGrantOption() const {
+    return grantOption_;
+}
+
+// RevokeStatement实现
+RevokeStatement::RevokeStatement() : grantOption_(false) {
+}
+
+void RevokeStatement::addPrivilege(const std::string &privilege) {
+    privileges_.push_back(privilege);
+}
+
+void RevokeStatement::setObjectName(const std::string &name) {
+    objectName_ = name;
+}
+
+void RevokeStatement::setObjectType(const std::string &type) {
+    objectType_ = type;
+}
+
+void RevokeStatement::addUser(const std::string &user) {
+    users_.push_back(user);
+}
+
+void RevokeStatement::setGrantOption(bool grantOption) {
+    grantOption_ = grantOption;
+}
+
+const std::vector<std::string> &RevokeStatement::getPrivileges() const {
+    return privileges_;
+}
+
+const std::string &RevokeStatement::getObjectName() const {
+    return objectName_;
+}
+
+const std::string &RevokeStatement::getObjectType() const {
+    return objectType_;
+}
+
+const std::vector<std::string> &RevokeStatement::getUsers() const {
+    return users_;
+}
+
+bool RevokeStatement::hasGrantOption() const {
+    return grantOption_;
+}
+
 } // namespace sql_parser
 } // namespace sqlcc

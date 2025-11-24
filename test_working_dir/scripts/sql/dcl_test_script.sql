@@ -1,0 +1,1 @@
+/home/liying/sqlcc/scripts/sql/dcl_test_script.sql

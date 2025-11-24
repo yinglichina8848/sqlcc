@@ -585,9 +585,150 @@ private:
   std::string savepointName_; // 保存点名称
 };
 
+// ================ DCL语句节点实现 ================
+
 /**
- * SET TRANSACTION语句节点
+ * GRANT语句节点
  */
+class GrantStatement : public Statement {
+public:
+  GrantStatement();
+
+  Type getType() const override { return GRANT; }
+  void accept(NodeVisitor &visitor) override { visitor.visit(*this); }
+
+  // 设置方法
+  void addPrivilege(const std::string &privilege);
+  void setObjectName(const std::string &name);
+  void setObjectType(const std::string &type);
+  void addUser(const std::string &user);
+  void setGrantOption(bool grantOption);
+
+  // 获取方法
+  const std::vector<std::string> &getPrivileges() const;
+  const std::string &getObjectName() const;
+  const std::string &getObjectType() const;
+  const std::vector<std::string> &getUsers() const;
+  bool hasGrantOption() const;
+
+private:
+  std::vector<std::string> privileges_; // 权限列表
+  std::string objectName_;              // 对象名
+  std::string objectType_;              // 对象类型
+  std::vector<std::string> users_;      // 用户列表
+  bool grantOption_;                    // 是否具有GRANT OPTION
+};
+
+/**
+ * REVOKE语句节点
+ */
+class RevokeStatement : public Statement {
+public:
+  RevokeStatement();
+
+  Type getType() const override { return REVOKE; }
+  void accept(NodeVisitor &visitor) override { visitor.visit(*this); }
+
+  // 设置方法
+  void addPrivilege(const std::string &privilege);
+  void setObjectName(const std::string &name);
+  void setObjectType(const std::string &type);
+  void addUser(const std::string &user);
+  void setGrantOption(bool grantOption);
+
+  // 获取方法
+  const std::vector<std::string> &getPrivileges() const;
+  const std::string &getObjectName() const;
+  const std::string &getObjectType() const;
+  const std::vector<std::string> &getUsers() const;
+  bool hasGrantOption() const;
+
+private:
+  std::vector<std::string> privileges_; // 权限列表
+  std::string objectName_;              // 对象名
+  std::string objectType_;              // 对象类型
+  std::vector<std::string> users_;      // 用户列表
+  bool grantOption_;                    // 是否撤销GRANT OPTION
+};
+
+/**
+   * CREATE USER语句节点
+   */
+  class CreateUserStatement : public Statement {
+  public:
+    CreateUserStatement();
+
+    Type getType() const override { return CREATE_USER; }
+    void accept(NodeVisitor &visitor) override { visitor.visit(*this); }
+
+    // 设置方法
+    void setUsername(const std::string &username);
+    void setPassword(const std::string &password);
+    void setRole(const std::string &role);
+
+    // 获取方法
+    const std::string &getUsername() const;
+    const std::string &getPassword() const;
+    const std::string &getRole() const;
+
+  private:
+    std::string username_;  // 用户名
+    std::string password_;  // 密码
+    std::string role_;      // 角色
+  };
+
+  /**
+   * DROP USER语句节点
+   */
+  class DropUserStatement : public Statement {
+  public:
+    DropUserStatement();
+
+    Type getType() const override { return DROP_USER; }
+    void accept(NodeVisitor &visitor) override { visitor.visit(*this); }
+
+    // 设置方法
+    void addUsername(const std::string &username);
+    void setIfExists(bool ifExists);
+
+    // 获取方法
+    const std::vector<std::string> &getUsernames() const;
+    bool isIfExists() const;
+
+  private:
+    std::vector<std::string> usernames_; // 用户名列表
+    bool ifExists_;                      // 是否有IF EXISTS子句
+  };
+
+  /**
+   * ALTER USER语句节点
+   */
+  class AlterUserStatement : public Statement {
+  public:
+    AlterUserStatement();
+
+    Type getType() const override { return ALTER_USER; }
+    void accept(NodeVisitor &visitor) override { visitor.visit(*this); }
+
+    // 设置方法
+    void setUsername(const std::string &username);
+    void setNewPassword(const std::string &password);
+    void setNewRole(const std::string &role);
+
+    // 获取方法
+    const std::string &getUsername() const;
+    const std::string &getNewPassword() const;
+    const std::string &getNewRole() const;
+
+  private:
+    std::string username_;     // 用户名
+    std::string newPassword_;  // 新密码
+    std::string newRole_;      // 新角色
+  };
+
+  /**
+   * SET TRANSACTION语句节点
+   */
 class SetTransactionStatement : public Statement {
 public:
   enum Mode { AUTOCOMMIT_ON, AUTOCOMMIT_OFF, ISOLATION_LEVEL };

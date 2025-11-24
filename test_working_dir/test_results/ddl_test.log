@@ -1,0 +1,119 @@
+=== DDL（数据定义语言）测试开始 ===
+共读取到 18 条SQL语句
+
+执行语句 1:
+CREATE TABLE test_users (
+    id INT PRIMARY KEY,
+    name VARCHAR(50),
+    email VARCHAR(100),
+    ...
+结果: Query OK
+
+
+执行语句 2:
+CREATE TABLE test_orders (
+    order_id INT PRIMARY KEY,
+    user_id INT,
+    order_date DATE,
+    t...
+结果: Query OK
+
+
+执行语句 3:
+CREATE TABLE test_products (
+    product_id INT PRIMARY KEY,
+    product_name VARCHAR(100) NOT NULL,...
+结果: Query OK
+
+
+执行语句 4:
+ALTER TABLE test_users ADD COLUMN address VARCHAR(200);
+结果: ERROR: Unknown command
+
+
+执行语句 5:
+ALTER TABLE test_users MODIFY COLUMN email VARCHAR(150);
+结果: ERROR: Unknown command
+
+
+执行语句 6:
+ALTER TABLE test_users DROP COLUMN age;
+结果: ERROR: Unknown command
+
+
+执行语句 7:
+CREATE INDEX idx_user_name ON test_users(name);
+结果: Query OK
+
+
+执行语句 8:
+ALTER TABLE test_products RENAME TO test_items;
+结果: ERROR: Unknown command
+
+
+执行语句 9:
+CREATE VIEW test_user_orders AS
+SELECT u.id, u.name, o.order_id, o.order_date, o.total_amount
+FROM t...
+结果: Query OK
+
+
+执行语句 10:
+SHOW TABLES;
+结果: Tables:
+----------
+products
+customers
+orders
+
+
+执行语句 11:
+SHOW CREATE TABLE test_users;
+结果: Tables:
+----------
+products
+customers
+orders
+
+
+执行语句 12:
+DROP TABLE test_orders;
+结果: Query OK
+
+
+执行语句 13:
+DROP TABLE test_items;
+结果: Query OK
+
+
+执行语句 14:
+DROP TABLE test_users;
+结果: Query OK
+
+
+执行语句 15:
+DROP VIEW test_user_orders;
+结果: Query OK
+
+
+执行语句 16:
+CREATE TABLE test_order_items (
+    order_id INT,
+    product_id INT,
+    quantity INT,
+    price DE...
+结果: Query OK
+
+
+执行语句 17:
+DROP TABLE IF EXISTS non_existent_table;
+结果: Query OK
+
+
+执行语句 18:
+SELECT 'DDL测试完成' AS test_result;
+结果: Empty set
+
+
+=== DDL测试完成 ===
+测试执行时间: 0秒
