@@ -1,0 +1,204 @@
+=== 高级综合SQL测试开始 ===
+共读取到 25 条SQL语句
+
+执行语句 1:
+CREATE USER test_user WITH PASSWORD 'test_password';
+结果: Query OK
+
+✓ 执行成功
+
+执行语句 2:
+GRANT ALL PRIVILEGES TO test_user;
+结果: ERROR: Invalid GRANT syntax
+✗ 执行失败
+
+执行语句 3:
+CREATE DATABASE test_company_db;
+结果: Query OK
+
+✓ 执行成功
+
+执行语句 4:
+USE test_company_db;
+结果: Database changed
+
+✓ 执行成功
+
+执行语句 5:
+CREATE TABLE customers (
+    customer_id INT PRIMARY KEY,
+    first_name VARCHAR(50) NOT NULL,
+    l...
+结果: Query OK
+
+✓ 执行成功
+
+执行语句 6:
+CREATE TABLE products (
+    product_id INT PRIMARY KEY,
+    product_name VARCHAR(100) NOT NULL,
+    ...
+结果: Query OK
+
+✓ 执行成功
+
+执行语句 7:
+CREATE TABLE orders (
+    order_id INT PRIMARY KEY,
+    customer_id INT NOT NULL,
+    order_date TIM...
+结果: Query OK
+
+✓ 执行成功
+
+执行语句 8:
+CREATE TABLE order_items (
+    item_id INT PRIMARY KEY,
+    order_id INT NOT NULL,
+    product_id IN...
+结果: Query OK
+
+✓ 执行成功
+
+执行语句 9:
+INSERT INTO customers (customer_id, first_name, last_name, email, phone, address, city, country)
+VAL...
+结果: Query OK, 1 row affected
+✓ 执行成功
+
+执行语句 10:
+INSERT INTO products (product_id, product_name, category, price, stock_quantity, description, manufa...
+结果: Query OK, 1 row affected
+✓ 执行成功
+
+执行语句 11:
+INSERT INTO orders (order_id, customer_id, order_date, total_amount, status, shipping_address, shipp...
+结果: Query OK, 1 row affected
+✓ 执行成功
+
+执行语句 12:
+INSERT INTO order_items (item_id, order_id, product_id, quantity, unit_price, item_total)
+VALUES 
+(1...
+结果: Query OK, 1 row affected
+✓ 执行成功
+
+执行语句 13:
+SELECT o.order_id, o.order_date, o.total_amount, o.status,
+       c.customer_id, c.first_name, c.las...
+结果: Empty set
+
+✓ 执行成功
+
+执行语句 14:
+SELECT o.order_id, o.order_date, o.status,
+       c.first_name || ' ' || c.last_name AS customer_nam...
+结果: Empty set
+
+✓ 执行成功
+
+执行语句 15:
+SELECT c.customer_id, c.first_name, c.last_name, 
+       COUNT(o.order_id) AS order_count,
+       SU...
+结果: Empty set
+
+✓ 执行成功
+
+执行语句 16:
+SELECT p.category,
+       COUNT(oi.item_id) AS items_sold,
+       SUM(oi.quantity) AS total_quantity...
+结果: +----------+----------+
+| name     | price    |
++----------+----------+
+| Laptop   | 999.99   |
+| Monitor  | 199.99   |
++----------+----------+
+2 row(s) in set
+
+✓ 执行成功
+
+执行语句 17:
+SELECT DISTINCT c.customer_id, c.first_name, c.last_name, c.email
+FROM customers c
+WHERE c.customer_...
+结果: Empty set
+
+✓ 执行成功
+
+执行语句 18:
+SELECT c.customer_id, c.first_name, c.last_name,
+       COUNT(o.order_id) AS order_count,
+       SUM...
+结果: Empty set
+
+✓ 执行成功
+
+执行语句 19:
+SELECT o.order_id, o.order_date, o.total_amount, o.status,
+       c.first_name, c.last_name
+FROM ord...
+结果: Empty set
+
+✓ 执行成功
+
+执行语句 20:
+SELECT '高价值客户' AS type, c.customer_id AS id, 
+       c.first_name || ' ' || c.last_name AS...
+结果: Empty set
+
+✓ 执行成功
+
+执行语句 21:
+SELECT c.customer_id, c.first_name, c.last_name,
+       o.order_id, o.order_date, o.total_amount,
+  ...
+结果: Empty set
+
+✓ 执行成功
+
+执行语句 22:
+SELECT o.order_id, o.order_date, o.total_amount, o.status,
+       c.first_name, c.last_name, c.count...
+结果: Empty set
+
+✓ 执行成功
+
+执行语句 23:
+SELECT o.order_id, o.total_amount,
+       SUM(oi.item_total) AS calculated_total,
+       CASE 
+     ...
+结果: Empty set
+
+✓ 执行成功
+
+执行语句 24:
+SELECT p.product_id, p.product_name, p.stock_quantity,
+       SUM(oi.quantity) AS sold_quantity,
+   ...
+结果: +----------+----------+
+| name     | price    |
++----------+----------+
+| Laptop   | 999.99   |
+| Monitor  | 199.99   |
++----------+----------+
+2 row(s) in set
+
+✓ 执行成功
+
+执行语句 25:
+SELECT '高级综合测试脚本执行完成！' AS message;
+结果: Empty set
+
+✓ 执行成功
+
+=== 测试统计信息 ===
+总语句数: 25
+成功执行: 24
+警告数量: 0
+失败数量: 1
+
+=== 高级综合SQL测试完成 ===
+测试执行时间: 0秒

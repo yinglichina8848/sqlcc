@@ -192,7 +192,7 @@ bool TransactionManager::acquire_lock(TransactionId txn_id,
   if (lock_type == LockType::SHARED) {
     // 共享锁兼容性：只有排他锁不兼容
     bool has_exclusive_lock = false;
-    if (lock_table_.contains(resource)) {
+    if (lock_table_.find(resource) != lock_table_.end()) {
       for (const auto &lock_entry : lock_table_[resource]) {
         if (lock_entry.type == LockType::EXCLUSIVE) {
           has_exclusive_lock = true;
@@ -219,7 +219,7 @@ bool TransactionManager::acquire_lock(TransactionId txn_id,
     return false;
   } else if (lock_type == LockType::EXCLUSIVE) {
     // 排他锁检查：不能有任何其他锁
-    if (lock_table_.contains(resource) && !lock_table_[resource].empty()) {
+    if (lock_table_.find(resource) != lock_table_.end() && !lock_table_[resource].empty()) {
       if (wait) {
         for (const auto &lock_entry : lock_table_[resource]) {
           wait_graph_[txn_id].insert(lock_entry.txn_id);
@@ -249,7 +249,7 @@ void TransactionManager::release_lock(TransactionId txn_id,
   std::unique_lock<std::mutex> lock(mutex_);
 
   // 检查资源是否有锁
-  if (lock_table_.contains(resource)) {
+  if (lock_table_.find(resource) != lock_table_.end()) {
     auto &locks = lock_table_[resource];
 
     // 查找并移除该事务对该资源的锁
@@ -392,7 +392,7 @@ bool TransactionManager::can_acquire_lock(TransactionId txn_id,
                                           const std::string &resource,
                                           LockType lock_type) const {
   // 检查资源是否有锁
-  if (lock_table_.contains(resource)) {
+  if (lock_table_.find(resource) != lock_table_.end()) {
     for (const auto &entry : lock_table_.at(resource)) {
       // 如果是同一个事务，不需要检查
       if (entry.txn_id == txn_id) {
@@ -414,38 +414,7 @@ bool TransactionManager::can_acquire_lock(TransactionId txn_id,
   return true;
 }
 
-// 实现create_savepoint方法
-bool TransactionManager::create_savepoint(TransactionId txn_id,
-                                          const std::string &savepoint_name) {
-  std::unique_lock<std::mutex> lock(mutex_);
-
-  // 检查事务是否存在且处于活动状态
-  auto it = transactions_.find(txn_id);
-  if (it == transactions_.end() ||
-      it->second.state != TransactionState::ACTIVE) {
-    return false;
-  }
-
-  // 简化实现：因为Transaction结构体中没有savepoints成员
-  // 这里只是简单地返回成功，在实际实现中应该在Transaction中添加保存点支持
-  return true;
-}
-
-// 实现rollback_to_savepoint方法
-bool TransactionManager::rollback_to_savepoint(
-    TransactionId txn_id, const std::string &savepoint_name) {
-  std::unique_lock<std::mutex> lock(mutex_);
-
-  // 检查事务是否存在且处于活动状态
-  auto it = transactions_.find(txn_id);
-  if (it == transactions_.end() ||
-      it->second.state != TransactionState::ACTIVE) {
-    return false;
-  }
-
-  // 简化实现：当前版本暂不支持保存点功能
-  return false;
-}
+// 注意：保存点功能已在前面实现
 
 void TransactionManager::release_all_locks(TransactionId txn_id) {
   // 遍历锁表，释放该事务持有的所有锁

@@ -3,7 +3,11 @@
 
 #include <memory>
 #include <string>
+#include <unordered_map>
+#include <vector>
 
+#include "page.h"
+#include "exception.h"
 #include "buffer_pool_sharded.h"
 #include "transaction_manager.h"
 
@@ -36,7 +40,7 @@ public:
      * 获取缓冲池实例
      * @return 缓冲池指针
      */
-    std::shared_ptr<ShardedBufferPool> GetBufferPool() {
+    std::shared_ptr<BufferPoolSharded> GetBufferPool() {
         return buffer_pool_;
     }
 
@@ -53,7 +57,7 @@ public:
      * @param isolation_level 隔离级别
      * @return 事务ID
      */
-    TransactionId BeginTransaction(IsolationLevel isolation_level = IsolationLevel::SNAPSHOT_ISOLATION);
+    TransactionId BeginTransaction(IsolationLevel isolation_level = IsolationLevel::REPEATABLE_READ);
 
     /**
      * 提交事务
@@ -76,7 +80,7 @@ public:
      * @param page 输出参数，返回页面指针
      * @return 是否读取成功
      */
-    bool ReadPage(TransactionId txn_id, page_id_t page_id, Page** page);
+    bool ReadPage(TransactionId txn_id, uint64_t page_id, Page** page);
 
     /**
      * 事务中写入页面
@@ -85,7 +89,7 @@ public:
      * @param page 页面指针
      * @return 是否写入成功
      */
-    bool WritePage(TransactionId txn_id, page_id_t page_id, Page* page);
+    bool WritePage(TransactionId txn_id, uint64_t page_id, Page* page);
 
     /**
      * 事务中锁定键
@@ -113,13 +117,31 @@ public:
      * 关闭数据库
      * @return 是否关闭成功
      */
+    // 数据库管理方法
+    bool CreateDatabase(const std::string& db_name);
+    bool DropDatabase(const std::string& db_name);
+    bool UseDatabase(const std::string& db_name);
+    std::vector<std::string> ListDatabases();
+    bool DatabaseExists(const std::string& db_name);
+    std::string GetCurrentDatabase() const; // 获取当前使用的数据库
+
+    // 表管理方法
+    bool CreateTable(const std::string& table_name, const std::vector<std::pair<std::string, std::string>>& columns);
+    bool DropTable(const std::string& table_name);
+    bool TableExists(const std::string& table_name);
+    std::vector<std::string> ListTables();
+
     bool Close();
 
 private:
-    std::shared_ptr<ShardedBufferPool> buffer_pool_;     // shard化缓冲池
+    std::shared_ptr<BufferPoolSharded> buffer_pool_;     // shard化缓冲池
     std::shared_ptr<TransactionManager> txn_manager_;    // 事务管理器
     std::string db_path_;                               // 数据库路径
+    std::string current_database_;                      // 当前数据库名
     bool is_closed_;                                    // 是否已关闭
+    
+    // 存储数据库和表的元数据
+    std::unordered_map<std::string, std::vector<std::string>> database_tables_;
 };
 
 }  // namespace sqlcc

@@ -188,6 +188,78 @@ TEST_F(SqlExecutorTest, TestCreateTableConstraints) {
   EXPECT_TRUE(true);
 }
 
+// 测试DCL命令功能 - 用户和权限管理
+TEST_F(SqlExecutorTest, TestDCLCommands) {
+  // 1. 测试CREATE USER命令
+  string result = executor.Execute("CREATE USER test_user IDENTIFIED BY 'password123'");
+  EXPECT_TRUE(result.find("User created successfully") != string::npos);
+
+  // 2. 测试GRANT命令
+  result = executor.Execute("GRANT SELECT, INSERT ON users TO test_user");
+  EXPECT_TRUE(result.find("Privilege granted successfully") != string::npos);
+
+  // 3. 测试REVOKE命令
+  result = executor.Execute("REVOKE INSERT ON users FROM test_user");
+  EXPECT_TRUE(result.find("Privilege revoked successfully") != string::npos);
+
+  // 4. 测试DROP USER命令
+  result = executor.Execute("DROP USER test_user");
+  EXPECT_TRUE(result.find("User dropped successfully") != string::npos);
+}
+
+// 测试更多DDL命令功能
+TEST_F(SqlExecutorTest, TestAdvancedDDLCommands) {
+  // 1. 测试CREATE TABLE带约束和默认值
+  string result = executor.Execute(
+      "CREATE TABLE test_constraints (" 
+      "id INT PRIMARY KEY, " 
+      "name VARCHAR(50) NOT NULL, " 
+      "email VARCHAR(100) UNIQUE, " 
+      "status VARCHAR(20) DEFAULT 'active', " 
+      "created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP)"
+  );
+  EXPECT_TRUE(result.find("CREATE executed") != string::npos);
+  
+  // 2. 测试ALTER TABLE命令
+  // 添加列
+  result = executor.Execute("ALTER TABLE test_constraints ADD COLUMN age INT");
+  EXPECT_TRUE(result.find("ALTER executed successfully") != string::npos);
+  
+  // 修改列
+  result = executor.Execute("ALTER TABLE test_constraints MODIFY COLUMN age INT NOT NULL");
+  EXPECT_TRUE(result.find("ALTER executed successfully") != string::npos);
+  
+  // 删除列
+  result = executor.Execute("ALTER TABLE test_constraints DROP COLUMN age");
+  EXPECT_TRUE(result.find("ALTER executed successfully") != string::npos);
+  
+  // 3. 测试CREATE INDEX
+  result = executor.Execute("CREATE INDEX idx_name ON test_constraints(name)");
+  EXPECT_TRUE(result.find("CREATE INDEX executed") != string::npos);
+  
+  // 4. 测试CREATE VIEW
+  result = executor.Execute(
+      "CREATE VIEW test_view AS SELECT id, name FROM test_constraints"
+  );
+  EXPECT_TRUE(result.find("CREATE VIEW executed") != string::npos);
+  
+  // 5. 测试SHOW TABLES
+  result = executor.Execute("SHOW TABLES");
+  EXPECT_TRUE(result.find("Tables in database") != string::npos);
+  EXPECT_TRUE(result.find("test_constraints") != string::npos);
+  
+  // 6. 测试SHOW CREATE TABLE
+  result = executor.Execute("SHOW CREATE TABLE test_constraints");
+  EXPECT_TRUE(result.find("CREATE TABLE test_constraints") != string::npos);
+  
+  // 7. 测试DROP命令
+  result = executor.Execute("DROP VIEW test_view");
+  EXPECT_TRUE(result.find("DROP VIEW executed") != string::npos);
+  
+  result = executor.Execute("DROP TABLE test_constraints");
+  EXPECT_TRUE(result.find("Query OK") != string::npos);
+}
+
 int main(int argc, char **argv) {
   ::testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();

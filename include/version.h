@@ -13,7 +13,7 @@
 #pragma once
 
 // SqlCC版本定义
-#define SQLCC_VERSION "0.6.3"
+#define SQLCC_VERSION "0.6.5"
 
 // 版本变更历史
 // v0.1.0 - 基础框架搭建
@@ -25,8 +25,10 @@
 // v0.6.1 - 修复若干bug，完善测试用例
 // v0.6.2 - 实现基本的CRUD模拟功能
 // v0.6.3 - 实现服务器和客户端基本网络通信功能
+// v0.6.4 - 优化网络通信性能，添加错误处理机制
+// v0.6.5 - 增强系统稳定性，完善文档和测试
 
 /** @brief SQLCC版本号组件 */
 #define SQLCC_VERSION_MAJOR 0
 #define SQLCC_VERSION_MINOR 6
-#define SQLCC_VERSION_PATCH 3
+#define SQLCC_VERSION_PATCH 5

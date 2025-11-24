@@ -1,6 +1,7 @@
 #include "config_manager.h"
 #include "../include/sql_executor.h"
 #include "storage_engine.h"
+#include "database_manager.h"
 #include <iostream>
 #include <memory>
 
@@ -18,12 +19,12 @@ int main() {
       std::cout << "配置文件加载失败，使用默认配置" << std::endl;
     }
 
-    // 创建存储引擎实例
-    std::unique_ptr<StorageEngine> storage_engine =
-        std::make_unique<StorageEngine>(config_manager);
+    // 创建数据库管理器实例
+    // 使用默认数据库路径和参数
+    // DatabaseManager db_manager("./data");
 
     // 创建SQL执行器实例
-    SqlExecutor executor(*storage_engine);
+    SqlExecutor executor;
 
     // 测试创建表（为DML操作准备）
     std::cout << "\n=== 创建表测试 ===" << std::endl;

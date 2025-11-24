@@ -1,0 +1,1 @@
+/home/liying/sqlcc/scripts/sql/advanced_comprehensive_test.sql

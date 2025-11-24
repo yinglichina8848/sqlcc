@@ -1,22 +1,24 @@
 /**
  * @file encryption.h
  * @brief 网络通信加密模块头文件
- *
- * 该文件定义了SQLCC数据库系统的网络通信加密相关类和接口
+ * 
+ * 该文件定义了SQLCC数据库系统的网络通信加密相关类和函数
  */
 
-#ifndef SQLCC_NETWORK_ENCRYPTION_H
-#define SQLCC_NETWORK_ENCRYPTION_H
+#ifndef SQLCC_ENCRYPTION_H
+#define SQLCC_ENCRYPTION_H
 
 #include <vector>
 #include <string>
 
-namespace sqlcc::network {
+namespace sqlcc {
+namespace network {
 
 /**
+ * @class SimpleEncryptor
  * @brief 简单加密器类
  * 
- * 提供简单的XOR加密功能，用于网络通信加密
+ * 提供基于固定密钥的XOR加密和解密功能
  */
 class SimpleEncryptor {
 public:
@@ -28,22 +30,23 @@ public:
     
     /**
      * @brief 加密数据
-     * @param data 明文数据
+     * @param data 待加密的数据
      * @return 加密后的数据
      */
-    std::vector<char> Encrypt(const std::vector<char>& data);
+    std::vector<char> Encrypt(const std::vector<char>& data) const;
     
     /**
      * @brief 解密数据
-     * @param data 密文数据
+     * @param data 待解密的数据
      * @return 解密后的数据
      */
-    std::vector<char> Decrypt(const std::vector<char>& data);
-    
+    std::vector<char> Decrypt(const std::vector<char>& data) const;
+
 private:
-    std::string key_;
+    std::string key_;  ///< 加密密钥
 };
 
-} // namespace sqlcc::network
+} // namespace network
+} // namespace sqlcc
 
-#endif // SQLCC_NETWORK_ENCRYPTION_H
+#endif // SQLCC_ENCRYPTION_H

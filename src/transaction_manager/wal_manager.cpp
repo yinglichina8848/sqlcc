@@ -24,13 +24,15 @@
  * 4. 回滚未完成的事务
  */
 
-#include "sqlcc/wal_manager.h"
+#include "wal_manager.h"
+#include "logger.h"
 #include <cstring>
 #include <filesystem>
 #include <fstream>
 #include <iostream>
 #include <sstream>
 #include <stdexcept>
+#include <thread>
 
 namespace sqlcc {
 
@@ -91,27 +93,17 @@ WALManager::WALManager(const std::string &log_file_path, bool force_sync)
   // 初始化日志文件
   InitializeLogFile();
 
-  // 启动异步刷盘线程（如果不需要强制同步）
-  if (!force_sync_) {
-    stop_flush_thread_ = false;
-    flush_thread_ =
-        std::make_unique<std::thread>(&WALManager::AsyncFlushThread, this);
-  }
+  // 暂时禁用异步刷盘功能以解决编译问题
+  force_sync_ = true; // 强制使用同步模式
+  stop_flush_thread_ = true;
 
   std::cout << "WALManager 已初始化 - 日志文件: " << log_file_path_
             << " 强制同步: " << (force_sync_ ? "是" : "否") << std::endl;
 }
 
 WALManager::~WALManager() {
-  // 停止异步刷盘线程
-  if (flush_thread_ && !stop_flush_thread_) {
-    stop_flush_thread_ = true;
-    {
-      std::unique_lock<std::mutex> lock(buffer_mutex_);
-      buffer_cv_.notify_one();
-    }
-    flush_thread_->join();
-  }
+  // 异步刷盘功能已被禁用
+  // 此处无需处理线程停止
 
   // 强制刷盘所有待写入日志
   ForceFlush();

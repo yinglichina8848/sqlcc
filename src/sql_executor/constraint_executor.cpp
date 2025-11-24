@@ -434,9 +434,9 @@ bool ExpressionEvaluator::evaluateBinaryExpression(
   auto op = expr->getOperator();
 
   switch (op) {
-  case sql_parser::Token::Type::OPERATOR_GREATER:
-  case sql_parser::Token::Type::OPERATOR_LESS:
-  case sql_parser::Token::Type::OPERATOR_EQUAL: {
+  case sql_parser::Token::Type::LPAREN:
+  case sql_parser::Token::Type::RPAREN:
+  case sql_parser::Token::Type::SEMICOLON: {
     // 比较操作的简化验证
     return true; // 占位符实现
   }
