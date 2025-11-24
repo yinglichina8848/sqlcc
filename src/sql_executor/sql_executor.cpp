@@ -1,4 +1,4 @@
-#include "sql_executor.h"
+#include "../include/sql_executor.h"
 #include <iomanip>
 #include <iostream>
 #include <sstream>
@@ -10,6 +10,11 @@ namespace sqlcc {
 // SqlExecutor类实现
 SqlExecutor::SqlExecutor() {
   // 初始化
+}
+
+SqlExecutor::SqlExecutor(StorageEngine &storage_engine) {
+  // 初始化存储引擎引用
+  // 模拟实现
 }
 
 SqlExecutor::~SqlExecutor() {
@@ -75,6 +80,32 @@ const std::string &SqlExecutor::GetLastError() const {
 
 void SqlExecutor::SetError(const std::string &error) {
   // 简单实现
+}
+
+std::string SqlExecutor::ShowTableSchema(const std::string &table_name) {
+  // 简单实现，返回模拟的表结构
+  std::stringstream ss;
+  ss << "Table: " << table_name << "\n";
+  ss << "+------------+-----------+------+-----+---------+-------+\n";
+  ss << "| Field      | Type      | Null | Key | Default | Extra |\n";
+  ss << "+------------+-----------+------+-----+---------+-------+\n";
+  ss << "| id         | INT       | NO   | PRI | NULL    |       |\n";
+  ss << "| name       | VARCHAR(50)| YES  |     | NULL    |       |\n";
+  ss << "| created_at | DATETIME  | YES  |     | NULL    |       |\n";
+  ss << "+------------+-----------+------+-----+---------+-------+\n";
+  return ss.str();
+}
+
+std::string SqlExecutor::ListTables() {
+  // 简单实现，返回模拟的表列表
+  std::stringstream ss;
+  ss << "Tables in database:\n";
+  ss << "--------------------\n";
+  ss << "products\n";
+  ss << "customers\n";
+  ss << "orders\n";
+  ss << "users\n";
+  return ss.str();
 }
 
 // 辅助函数：修剪字符串
