@@ -13,7 +13,7 @@
 #pragma once
 
 // SqlCC版本定义
-#define SQLCC_VERSION "0.6.2"
+#define SQLCC_VERSION "0.6.3"
 
 // 版本变更历史
 // v0.1.0 - 基础框架搭建
@@ -24,11 +24,9 @@
 // v0.6.0 - 约束检查和执行器实现
 // v0.6.1 - 修复若干bug，完善测试用例
 // v0.6.2 - 实现基本的CRUD模拟功能
+// v0.6.3 - 实现服务器和客户端基本网络通信功能
 
-/** @brief SQLCC项目版本号 */
-#define SQLCC_VERSION "0.6.0"
-
-/** @brief SQLCC版本号组件（完整文档体系与知识生态系统） */
+/** @brief SQLCC版本号组件 */
 #define SQLCC_VERSION_MAJOR 0
 #define SQLCC_VERSION_MINOR 6
-#define SQLCC_VERSION_PATCH 0
+#define SQLCC_VERSION_PATCH 3
