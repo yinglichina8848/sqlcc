@@ -2,6 +2,7 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include <filesystem>
 #include "../include/sql_executor.h"
 
 // 读取SQL文件内容
@@ -51,8 +52,14 @@ std::vector<std::string> splitSqlStatements(const std::string& sqlContent) {
 int main() {
     std::cout << "=== DDL（数据定义语言）测试开始 ===" << std::endl;
     
+    // 创建临时数据目录
+    std::string db_path = "./ddl_test_data";
+    std::filesystem::create_directories(db_path);
+    std::cout << "创建临时数据目录: " << db_path << std::endl;
+    
     // 创建SQL执行器实例
     sqlcc::SqlExecutor executor;
+    std::cout << "SQL执行器初始化完成" << std::endl;
     
     // 读取DDL测试脚本
     std::string sqlContent = readSqlFile("../scripts/sql/ddl_test_script.sql");
@@ -84,6 +91,11 @@ int main() {
             std::cout << "警告: 语句执行可能存在问题" << std::endl;
         }
     }
+    
+    // 清理临时目录
+    std::cout << "\n=== 清理测试数据目录 ===" << std::endl;
+    std::filesystem::remove_all(db_path);
+    std::cout << "已清理临时数据目录" << std::endl;
     
     std::cout << "\n=== DDL测试完成 ===" << std::endl;
     return 0;

@@ -23,8 +23,15 @@ set(SOURCES
 # 创建可执行文件
 add_executable(stability_test ${SOURCES})
 
-# 链接线程库
-target_link_libraries(stability_test Threads::Threads)
+# 链接所需库
+target_link_libraries(stability_test
+    PRIVATE
+    sqlcc_executor
+    sqlcc_core
+    sqlcc_config_manager
+    GTest::gtest
+    Threads::Threads
+)
 
 # 设置编译选项
 target_compile_options(stability_test PRIVATE -O2 -Wall -Wextra)

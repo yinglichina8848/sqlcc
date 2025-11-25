@@ -373,6 +373,448 @@ comprehensive_test/fast:
 	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/comprehensive_test.dir/build.make src/CMakeFiles/comprehensive_test.dir/build
 .PHONY : comprehensive_test/fast
 
+#=============================================================================
+# Target rules for targets named dcl_test_advanced
+
+# Build rule for target.
+dcl_test_advanced: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 dcl_test_advanced
+.PHONY : dcl_test_advanced
+
+# fast build rule for target.
+dcl_test_advanced/fast:
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/dcl_test_advanced.dir/build.make src/CMakeFiles/dcl_test_advanced.dir/build
+.PHONY : dcl_test_advanced/fast
+
+#=============================================================================
+# Target rules for targets named sql_executor_comprehensive_test
+
+# Build rule for target.
+sql_executor_comprehensive_test: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 sql_executor_comprehensive_test
+.PHONY : sql_executor_comprehensive_test
+
+# fast build rule for target.
+sql_executor_comprehensive_test/fast:
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/sql_executor_comprehensive_test.dir/build.make src/CMakeFiles/sql_executor_comprehensive_test.dir/build
+.PHONY : sql_executor_comprehensive_test/fast
+
+#=============================================================================
+# Target rules for targets named sql_executor_targeted_test
+
+# Build rule for target.
+sql_executor_targeted_test: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 sql_executor_targeted_test
+.PHONY : sql_executor_targeted_test
+
+# fast build rule for target.
+sql_executor_targeted_test/fast:
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/sql_executor_targeted_test.dir/build.make src/CMakeFiles/sql_executor_targeted_test.dir/build
+.PHONY : sql_executor_targeted_test/fast
+
+#=============================================================================
+# Target rules for targets named sql_executor_unit_test
+
+# Build rule for target.
+sql_executor_unit_test: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 sql_executor_unit_test
+.PHONY : sql_executor_unit_test
+
+# fast build rule for target.
+sql_executor_unit_test/fast:
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/sql_executor_unit_test.dir/build.make src/CMakeFiles/sql_executor_unit_test.dir/build
+.PHONY : sql_executor_unit_test/fast
+
+#=============================================================================
+# Target rules for targets named sql_executor_minimal_test
+
+# Build rule for target.
+sql_executor_minimal_test: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 sql_executor_minimal_test
+.PHONY : sql_executor_minimal_test
+
+# fast build rule for target.
+sql_executor_minimal_test/fast:
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/sql_executor_minimal_test.dir/build.make src/CMakeFiles/sql_executor_minimal_test.dir/build
+.PHONY : sql_executor_minimal_test/fast
+
+#=============================================================================
+# Target rules for targets named sql_network_test
+
+# Build rule for target.
+sql_network_test: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 sql_network_test
+.PHONY : sql_network_test
+
+# fast build rule for target.
+sql_network_test/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/sql_network_test.dir/build.make tests/CMakeFiles/sql_network_test.dir/build
+.PHONY : sql_network_test/fast
+
+#=============================================================================
+# Target rules for targets named performance_test
+
+# Build rule for target.
+performance_test: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 performance_test
+.PHONY : performance_test
+
+# fast build rule for target.
+performance_test/fast:
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/performance_test.dir/build.make tests/performance/CMakeFiles/performance_test.dir/build
+.PHONY : performance_test/fast
+
+#=============================================================================
+# Target rules for targets named performance_help
+
+# Build rule for target.
+performance_help: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 performance_help
+.PHONY : performance_help
+
+# fast build rule for target.
+performance_help/fast:
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/performance_help.dir/build.make tests/performance/CMakeFiles/performance_help.dir/build
+.PHONY : performance_help/fast
+
+#=============================================================================
+# Target rules for targets named ensure_performance_results_dir
+
+# Build rule for target.
+ensure_performance_results_dir: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 ensure_performance_results_dir
+.PHONY : ensure_performance_results_dir
+
+# fast build rule for target.
+ensure_performance_results_dir/fast:
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/ensure_performance_results_dir.dir/build.make tests/performance/CMakeFiles/ensure_performance_results_dir.dir/build
+.PHONY : ensure_performance_results_dir/fast
+
+#=============================================================================
+# Target rules for targets named run_all_performance_tests
+
+# Build rule for target.
+run_all_performance_tests: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 run_all_performance_tests
+.PHONY : run_all_performance_tests
+
+# fast build rule for target.
+run_all_performance_tests/fast:
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/run_all_performance_tests.dir/build.make tests/performance/CMakeFiles/run_all_performance_tests.dir/build
+.PHONY : run_all_performance_tests/fast
+
+#=============================================================================
+# Target rules for targets named run_buffer_pool_tests
+
+# Build rule for target.
+run_buffer_pool_tests: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 run_buffer_pool_tests
+.PHONY : run_buffer_pool_tests
+
+# fast build rule for target.
+run_buffer_pool_tests/fast:
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/run_buffer_pool_tests.dir/build.make tests/performance/CMakeFiles/run_buffer_pool_tests.dir/build
+.PHONY : run_buffer_pool_tests/fast
+
+#=============================================================================
+# Target rules for targets named run_disk_io_tests
+
+# Build rule for target.
+run_disk_io_tests: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 run_disk_io_tests
+.PHONY : run_disk_io_tests
+
+# fast build rule for target.
+run_disk_io_tests/fast:
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/run_disk_io_tests.dir/build.make tests/performance/CMakeFiles/run_disk_io_tests.dir/build
+.PHONY : run_disk_io_tests/fast
+
+#=============================================================================
+# Target rules for targets named run_mixed_workload_tests
+
+# Build rule for target.
+run_mixed_workload_tests: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 run_mixed_workload_tests
+.PHONY : run_mixed_workload_tests
+
+# fast build rule for target.
+run_mixed_workload_tests/fast:
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/run_mixed_workload_tests.dir/build.make tests/performance/CMakeFiles/run_mixed_workload_tests.dir/build
+.PHONY : run_mixed_workload_tests/fast
+
+#=============================================================================
+# Target rules for targets named run_batch_prefetch_tests
+
+# Build rule for target.
+run_batch_prefetch_tests: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 run_batch_prefetch_tests
+.PHONY : run_batch_prefetch_tests
+
+# fast build rule for target.
+run_batch_prefetch_tests/fast:
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/run_batch_prefetch_tests.dir/build.make tests/performance/CMakeFiles/run_batch_prefetch_tests.dir/build
+.PHONY : run_batch_prefetch_tests/fast
+
+#=============================================================================
+# Target rules for targets named run_million_insert_tests
+
+# Build rule for target.
+run_million_insert_tests: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 run_million_insert_tests
+.PHONY : run_million_insert_tests
+
+# fast build rule for target.
+run_million_insert_tests/fast:
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/run_million_insert_tests.dir/build.make tests/performance/CMakeFiles/run_million_insert_tests.dir/build
+.PHONY : run_million_insert_tests/fast
+
+#=============================================================================
+# Target rules for targets named run_concurrency_test
+
+# Build rule for target.
+run_concurrency_test: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 run_concurrency_test
+.PHONY : run_concurrency_test
+
+# fast build rule for target.
+run_concurrency_test/fast:
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/run_concurrency_test.dir/build.make tests/performance/CMakeFiles/run_concurrency_test.dir/build
+.PHONY : run_concurrency_test/fast
+
+#=============================================================================
+# Target rules for targets named run_cpu_intensive_test
+
+# Build rule for target.
+run_cpu_intensive_test: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 run_cpu_intensive_test
+.PHONY : run_cpu_intensive_test
+
+# fast build rule for target.
+run_cpu_intensive_test/fast:
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/run_cpu_intensive_test.dir/build.make tests/performance/CMakeFiles/run_cpu_intensive_test.dir/build
+.PHONY : run_cpu_intensive_test/fast
+
+#=============================================================================
+# Target rules for targets named run_memory_stress_test
+
+# Build rule for target.
+run_memory_stress_test: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 run_memory_stress_test
+.PHONY : run_memory_stress_test
+
+# fast build rule for target.
+run_memory_stress_test/fast:
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/run_memory_stress_test.dir/build.make tests/performance/CMakeFiles/run_memory_stress_test.dir/build
+.PHONY : run_memory_stress_test/fast
+
+#=============================================================================
+# Target rules for targets named run_stability_test
+
+# Build rule for target.
+run_stability_test: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 run_stability_test
+.PHONY : run_stability_test
+
+# fast build rule for target.
+run_stability_test/fast:
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/run_stability_test.dir/build.make tests/performance/CMakeFiles/run_stability_test.dir/build
+.PHONY : run_stability_test/fast
+
+#=============================================================================
+# Target rules for targets named performance_core
+
+# Build rule for target.
+performance_core: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 performance_core
+.PHONY : performance_core
+
+# fast build rule for target.
+performance_core/fast:
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/performance_core.dir/build.make tests/performance/CMakeFiles/performance_core.dir/build
+.PHONY : performance_core/fast
+
+#=============================================================================
+# Target rules for targets named performance_full
+
+# Build rule for target.
+performance_full: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 performance_full
+.PHONY : performance_full
+
+# fast build rule for target.
+performance_full/fast:
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/performance_full.dir/build.make tests/performance/CMakeFiles/performance_full.dir/build
+.PHONY : performance_full/fast
+
+#=============================================================================
+# Target rules for targets named performance_quick
+
+# Build rule for target.
+performance_quick: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 performance_quick
+.PHONY : performance_quick
+
+# fast build rule for target.
+performance_quick/fast:
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/performance_quick.dir/build.make tests/performance/CMakeFiles/performance_quick.dir/build
+.PHONY : performance_quick/fast
+
+#=============================================================================
+# Target rules for targets named performance_stress
+
+# Build rule for target.
+performance_stress: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 performance_stress
+.PHONY : performance_stress
+
+# fast build rule for target.
+performance_stress/fast:
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/performance_stress.dir/build.make tests/performance/CMakeFiles/performance_stress.dir/build
+.PHONY : performance_stress/fast
+
+#=============================================================================
+# Target rules for targets named performance_benchmark
+
+# Build rule for target.
+performance_benchmark: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 performance_benchmark
+.PHONY : performance_benchmark
+
+# fast build rule for target.
+performance_benchmark/fast:
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/performance_benchmark.dir/build.make tests/performance/CMakeFiles/performance_benchmark.dir/build
+.PHONY : performance_benchmark/fast
+
+#=============================================================================
+# Target rules for targets named clean_performance_results
+
+# Build rule for target.
+clean_performance_results: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 clean_performance_results
+.PHONY : clean_performance_results
+
+# fast build rule for target.
+clean_performance_results/fast:
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/clean_performance_results.dir/build.make tests/performance/CMakeFiles/clean_performance_results.dir/build
+.PHONY : clean_performance_results/fast
+
+#=============================================================================
+# Target rules for targets named view_performance_results
+
+# Build rule for target.
+view_performance_results: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 view_performance_results
+.PHONY : view_performance_results
+
+# fast build rule for target.
+view_performance_results/fast:
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/view_performance_results.dir/build.make tests/performance/CMakeFiles/view_performance_results.dir/build
+.PHONY : view_performance_results/fast
+
+#=============================================================================
+# Target rules for targets named run_large_scale_test
+
+# Build rule for target.
+run_large_scale_test: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 run_large_scale_test
+.PHONY : run_large_scale_test
+
+# fast build rule for target.
+run_large_scale_test/fast:
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/run_large_scale_test.dir/build.make tests/performance/CMakeFiles/run_large_scale_test.dir/build
+.PHONY : run_large_scale_test/fast
+
+#=============================================================================
+# Target rules for targets named run_index_benchmark
+
+# Build rule for target.
+run_index_benchmark: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 run_index_benchmark
+.PHONY : run_index_benchmark
+
+# fast build rule for target.
+run_index_benchmark/fast:
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/run_index_benchmark.dir/build.make tests/performance/CMakeFiles/run_index_benchmark.dir/build
+.PHONY : run_index_benchmark/fast
+
+#=============================================================================
+# Target rules for targets named run_constraint_benchmark
+
+# Build rule for target.
+run_constraint_benchmark: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 run_constraint_benchmark
+.PHONY : run_constraint_benchmark
+
+# fast build rule for target.
+run_constraint_benchmark/fast:
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/run_constraint_benchmark.dir/build.make tests/performance/CMakeFiles/run_constraint_benchmark.dir/build
+.PHONY : run_constraint_benchmark/fast
+
+#=============================================================================
+# Target rules for targets named run_performance_suite
+
+# Build rule for target.
+run_performance_suite: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 run_performance_suite
+.PHONY : run_performance_suite
+
+# fast build rule for target.
+run_performance_suite/fast:
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/run_performance_suite.dir/build.make tests/performance/CMakeFiles/run_performance_suite.dir/build
+.PHONY : run_performance_suite/fast
+
+#=============================================================================
+# Target rules for targets named concurrency_test
+
+# Build rule for target.
+concurrency_test: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 concurrency_test
+.PHONY : concurrency_test
+
+# fast build rule for target.
+concurrency_test/fast:
+	$(MAKE) $(MAKESILENT) -f tests/performance/concurrency_test/CMakeFiles/concurrency_test.dir/build.make tests/performance/concurrency_test/CMakeFiles/concurrency_test.dir/build
+.PHONY : concurrency_test/fast
+
+#=============================================================================
+# Target rules for targets named cpu_intensive_test
+
+# Build rule for target.
+cpu_intensive_test: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 cpu_intensive_test
+.PHONY : cpu_intensive_test
+
+# fast build rule for target.
+cpu_intensive_test/fast:
+	$(MAKE) $(MAKESILENT) -f tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/build.make tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/build
+.PHONY : cpu_intensive_test/fast
+
+#=============================================================================
+# Target rules for targets named memory_stress_test
+
+# Build rule for target.
+memory_stress_test: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 memory_stress_test
+.PHONY : memory_stress_test
+
+# fast build rule for target.
+memory_stress_test/fast:
+	$(MAKE) $(MAKESILENT) -f tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/build.make tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/build
+.PHONY : memory_stress_test/fast
+
+#=============================================================================
+# Target rules for targets named stability_test
+
+# Build rule for target.
+stability_test: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 stability_test
+.PHONY : stability_test
+
+# fast build rule for target.
+stability_test/fast:
+	$(MAKE) $(MAKESILENT) -f tests/performance/stability_test/CMakeFiles/stability_test.dir/build.make tests/performance/stability_test/CMakeFiles/stability_test.dir/build
+.PHONY : stability_test/fast
+
 src/dcl_test.o: src/dcl_test.cpp.o
 .PHONY : src/dcl_test.o
 
@@ -480,15 +922,48 @@ help:
 	@echo "... test"
 	@echo "... check_external_files"
 	@echo "... clean_external_files"
+	@echo "... clean_performance_results"
 	@echo "... coverage"
+	@echo "... ensure_performance_results_dir"
 	@echo "... performance"
+	@echo "... performance_benchmark"
+	@echo "... performance_core"
+	@echo "... performance_full"
+	@echo "... performance_help"
+	@echo "... performance_quick"
+	@echo "... performance_stress"
+	@echo "... run_all_performance_tests"
+	@echo "... run_batch_prefetch_tests"
+	@echo "... run_buffer_pool_tests"
+	@echo "... run_concurrency_test"
+	@echo "... run_constraint_benchmark"
+	@echo "... run_cpu_intensive_test"
+	@echo "... run_disk_io_tests"
+	@echo "... run_index_benchmark"
+	@echo "... run_large_scale_test"
+	@echo "... run_memory_stress_test"
+	@echo "... run_million_insert_tests"
+	@echo "... run_mixed_workload_tests"
+	@echo "... run_performance_suite"
+	@echo "... run_stability_test"
 	@echo "... test_all"
 	@echo "... unit"
+	@echo "... view_performance_results"
 	@echo "... comprehensive_test"
+	@echo "... concurrency_test"
+	@echo "... cpu_intensive_test"
 	@echo "... dcl_test"
+	@echo "... dcl_test_advanced"
 	@echo "... ddl_test"
 	@echo "... dml_test"
 	@echo "... isql"
+	@echo "... memory_stress_test"
+	@echo "... performance_test"
+	@echo "... sql_executor_comprehensive_test"
+	@echo "... sql_executor_minimal_test"
+	@echo "... sql_executor_targeted_test"
+	@echo "... sql_executor_unit_test"
+	@echo "... sql_network_test"
 	@echo "... sqlcc"
 	@echo "... sqlcc_config_manager"
 	@echo "... sqlcc_core_lib"
@@ -497,6 +972,7 @@ help:
 	@echo "... sqlcc_parser"
 	@echo "... sqlcc_storage_engine"
 	@echo "... sqlcc_transaction_manager"
+	@echo "... stability_test"
 	@echo "... src/dcl_test.o"
 	@echo "... src/dcl_test.i"
 	@echo "... src/dcl_test.s"

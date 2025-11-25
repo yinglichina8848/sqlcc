@@ -7,33 +7,26 @@
 #include <chrono>
 #include <map>
 #include <random>
+#include "sql_executor.h"
+#include "performance_test_base.h"
 
 namespace sqlcc {
 namespace test {
 
-class MemoryStressTest {
+class MemoryStressTest : public PerformanceTestBase {
 public:
-    struct TestResult {
-        std::string test_name;
-        double duration;
-        size_t operations_completed;
-        double throughput;
-        double avg_latency;
-        double p95_latency;
-        double p99_latency;
-        size_t peak_memory_usage;
-        size_t average_memory_usage;
-        bool memory_leak_detected;
-        std::string error_message;
-        std::map<std::string, std::string> custom_metrics;
-    };
-
+    // 使用基类的TestResult结构体
+    
     MemoryStressTest();
     ~MemoryStressTest();
 
-    void SetOutputDirectory(const std::string& directory);
-    void RunAllTests();
-    void Cleanup();
+    void SetUp();
+    void TearDown();
+    void RunAllTests() override;
+    void Cleanup() override;
+    
+    // 内存相关指标
+    // 注意：这些指标将存储在TestResult中
 
 private:
     static constexpr size_t kDefaultIterations = 1000;
@@ -47,6 +40,9 @@ private:
     static constexpr size_t kMediumBlockSize = 1024 * 10; // 10KB  
     static constexpr size_t kLargeBlockSize = 1024 * 100; // 100KB
     static constexpr size_t kAccessCount = 10000;
+    
+    // SQL执行器
+    SqlExecutor* sql_executor_;
 
     std::vector<std::unique_ptr<char[]>> allocated_memory_;
     std::vector<std::unique_ptr<char[]>> small_blocks_;

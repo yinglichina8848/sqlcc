@@ -6,5 +6,5 @@ CXX_DEFINES =
 
 CXX_INCLUDES = -I/home/liying/sqlcc/include -I/home/liying/sqlcc/include/core -I/home/liying/sqlcc/include/network -I/home/liying/sqlcc/include/sql -I/home/liying/sqlcc/include/utils
 
-CXX_FLAGS =  -Wall -Wextra -Wno-unused-parameter -O3 -DNDEBUG -O3 -DNDEBUG -std=c++17
+CXX_FLAGS =  -Wall -Wextra -Wno-unused-parameter -g -O0 --coverage -O3 -DNDEBUG -std=c++17
 

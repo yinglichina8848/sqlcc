@@ -104,6 +104,11 @@ src/all: src/CMakeFiles/sqlcc_network.dir/all
 src/all: src/CMakeFiles/sqlcc_executor.dir/all
 src/all: src/CMakeFiles/dml_test.dir/all
 src/all: src/CMakeFiles/comprehensive_test.dir/all
+src/all: src/CMakeFiles/dcl_test_advanced.dir/all
+src/all: src/CMakeFiles/sql_executor_comprehensive_test.dir/all
+src/all: src/CMakeFiles/sql_executor_targeted_test.dir/all
+src/all: src/CMakeFiles/sql_executor_unit_test.dir/all
+src/all: src/CMakeFiles/sql_executor_minimal_test.dir/all
 .PHONY : src/all
 
 # Recursive "preinstall" directory target.
@@ -120,22 +125,138 @@ src/clean: src/CMakeFiles/sqlcc_network.dir/clean
 src/clean: src/CMakeFiles/sqlcc_executor.dir/clean
 src/clean: src/CMakeFiles/dml_test.dir/clean
 src/clean: src/CMakeFiles/comprehensive_test.dir/clean
+src/clean: src/CMakeFiles/dcl_test_advanced.dir/clean
+src/clean: src/CMakeFiles/sql_executor_comprehensive_test.dir/clean
+src/clean: src/CMakeFiles/sql_executor_targeted_test.dir/clean
+src/clean: src/CMakeFiles/sql_executor_unit_test.dir/clean
+src/clean: src/CMakeFiles/sql_executor_minimal_test.dir/clean
 .PHONY : src/clean
 
 #=============================================================================
 # Directory level rules for directory tests
 
 # Recursive "all" directory target.
-tests/all:
+tests/all: tests/CMakeFiles/sql_network_test.dir/all
+tests/all: tests/performance/all
 .PHONY : tests/all
 
 # Recursive "preinstall" directory target.
-tests/preinstall:
+tests/preinstall: tests/performance/preinstall
 .PHONY : tests/preinstall
 
 # Recursive "clean" directory target.
-tests/clean:
+tests/clean: tests/CMakeFiles/sql_network_test.dir/clean
+tests/clean: tests/performance/clean
 .PHONY : tests/clean
+
+#=============================================================================
+# Directory level rules for directory tests/performance
+
+# Recursive "all" directory target.
+tests/performance/all: tests/performance/CMakeFiles/performance_test.dir/all
+tests/performance/all: tests/performance/concurrency_test/all
+tests/performance/all: tests/performance/cpu_test/all
+tests/performance/all: tests/performance/memory_stress_test/all
+tests/performance/all: tests/performance/stability_test/all
+.PHONY : tests/performance/all
+
+# Recursive "preinstall" directory target.
+tests/performance/preinstall: tests/performance/concurrency_test/preinstall
+tests/performance/preinstall: tests/performance/cpu_test/preinstall
+tests/performance/preinstall: tests/performance/memory_stress_test/preinstall
+tests/performance/preinstall: tests/performance/stability_test/preinstall
+.PHONY : tests/performance/preinstall
+
+# Recursive "clean" directory target.
+tests/performance/clean: tests/performance/CMakeFiles/performance_test.dir/clean
+tests/performance/clean: tests/performance/CMakeFiles/performance_help.dir/clean
+tests/performance/clean: tests/performance/CMakeFiles/ensure_performance_results_dir.dir/clean
+tests/performance/clean: tests/performance/CMakeFiles/run_all_performance_tests.dir/clean
+tests/performance/clean: tests/performance/CMakeFiles/run_buffer_pool_tests.dir/clean
+tests/performance/clean: tests/performance/CMakeFiles/run_disk_io_tests.dir/clean
+tests/performance/clean: tests/performance/CMakeFiles/run_mixed_workload_tests.dir/clean
+tests/performance/clean: tests/performance/CMakeFiles/run_batch_prefetch_tests.dir/clean
+tests/performance/clean: tests/performance/CMakeFiles/run_million_insert_tests.dir/clean
+tests/performance/clean: tests/performance/CMakeFiles/run_concurrency_test.dir/clean
+tests/performance/clean: tests/performance/CMakeFiles/run_cpu_intensive_test.dir/clean
+tests/performance/clean: tests/performance/CMakeFiles/run_memory_stress_test.dir/clean
+tests/performance/clean: tests/performance/CMakeFiles/run_stability_test.dir/clean
+tests/performance/clean: tests/performance/CMakeFiles/performance_core.dir/clean
+tests/performance/clean: tests/performance/CMakeFiles/performance_full.dir/clean
+tests/performance/clean: tests/performance/CMakeFiles/performance_quick.dir/clean
+tests/performance/clean: tests/performance/CMakeFiles/performance_stress.dir/clean
+tests/performance/clean: tests/performance/CMakeFiles/performance_benchmark.dir/clean
+tests/performance/clean: tests/performance/CMakeFiles/clean_performance_results.dir/clean
+tests/performance/clean: tests/performance/CMakeFiles/view_performance_results.dir/clean
+tests/performance/clean: tests/performance/CMakeFiles/run_large_scale_test.dir/clean
+tests/performance/clean: tests/performance/CMakeFiles/run_index_benchmark.dir/clean
+tests/performance/clean: tests/performance/CMakeFiles/run_constraint_benchmark.dir/clean
+tests/performance/clean: tests/performance/CMakeFiles/run_performance_suite.dir/clean
+tests/performance/clean: tests/performance/concurrency_test/clean
+tests/performance/clean: tests/performance/cpu_test/clean
+tests/performance/clean: tests/performance/memory_stress_test/clean
+tests/performance/clean: tests/performance/stability_test/clean
+.PHONY : tests/performance/clean
+
+#=============================================================================
+# Directory level rules for directory tests/performance/concurrency_test
+
+# Recursive "all" directory target.
+tests/performance/concurrency_test/all: tests/performance/concurrency_test/CMakeFiles/concurrency_test.dir/all
+.PHONY : tests/performance/concurrency_test/all
+
+# Recursive "preinstall" directory target.
+tests/performance/concurrency_test/preinstall:
+.PHONY : tests/performance/concurrency_test/preinstall
+
+# Recursive "clean" directory target.
+tests/performance/concurrency_test/clean: tests/performance/concurrency_test/CMakeFiles/concurrency_test.dir/clean
+.PHONY : tests/performance/concurrency_test/clean
+
+#=============================================================================
+# Directory level rules for directory tests/performance/cpu_test
+
+# Recursive "all" directory target.
+tests/performance/cpu_test/all: tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/all
+.PHONY : tests/performance/cpu_test/all
+
+# Recursive "preinstall" directory target.
+tests/performance/cpu_test/preinstall:
+.PHONY : tests/performance/cpu_test/preinstall
+
+# Recursive "clean" directory target.
+tests/performance/cpu_test/clean: tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/clean
+.PHONY : tests/performance/cpu_test/clean
+
+#=============================================================================
+# Directory level rules for directory tests/performance/memory_stress_test
+
+# Recursive "all" directory target.
+tests/performance/memory_stress_test/all: tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/all
+.PHONY : tests/performance/memory_stress_test/all
+
+# Recursive "preinstall" directory target.
+tests/performance/memory_stress_test/preinstall:
+.PHONY : tests/performance/memory_stress_test/preinstall
+
+# Recursive "clean" directory target.
+tests/performance/memory_stress_test/clean: tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/clean
+.PHONY : tests/performance/memory_stress_test/clean
+
+#=============================================================================
+# Directory level rules for directory tests/performance/stability_test
+
+# Recursive "all" directory target.
+tests/performance/stability_test/all: tests/performance/stability_test/CMakeFiles/stability_test.dir/all
+.PHONY : tests/performance/stability_test/all
+
+# Recursive "preinstall" directory target.
+tests/performance/stability_test/preinstall:
+.PHONY : tests/performance/stability_test/preinstall
+
+# Recursive "clean" directory target.
+tests/performance/stability_test/clean: tests/performance/stability_test/CMakeFiles/stability_test.dir/clean
+.PHONY : tests/performance/stability_test/clean
 
 #=============================================================================
 # Target rules for target CMakeFiles/sqlcc.dir
@@ -150,12 +271,12 @@ CMakeFiles/sqlcc.dir/all: src/CMakeFiles/sqlcc_network.dir/all
 CMakeFiles/sqlcc.dir/all: src/CMakeFiles/sqlcc_executor.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sqlcc.dir/build.make CMakeFiles/sqlcc.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sqlcc.dir/build.make CMakeFiles/sqlcc.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/liying/sqlcc/test_working_dir/build/CMakeFiles --progress-num=15,16 "Built target sqlcc"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/liying/sqlcc/test_working_dir/build/CMakeFiles --progress-num=68,69 "Built target sqlcc"
 .PHONY : CMakeFiles/sqlcc.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/sqlcc.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 29
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 26
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/sqlcc.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 0
 .PHONY : CMakeFiles/sqlcc.dir/rule
@@ -182,12 +303,12 @@ CMakeFiles/isql.dir/all: src/CMakeFiles/sqlcc_network.dir/all
 CMakeFiles/isql.dir/all: src/CMakeFiles/sqlcc_executor.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/isql.dir/build.make CMakeFiles/isql.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/isql.dir/build.make CMakeFiles/isql.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/liying/sqlcc/test_working_dir/build/CMakeFiles --progress-num=12,13 "Built target isql"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/liying/sqlcc/test_working_dir/build/CMakeFiles --progress-num=22,23 "Built target isql"
 .PHONY : CMakeFiles/isql.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/isql.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 29
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 26
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/isql.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 0
 .PHONY : CMakeFiles/isql.dir/rule
@@ -207,16 +328,17 @@ CMakeFiles/isql.dir/clean:
 # All Build rule for target.
 CMakeFiles/dcl_test.dir/all: src/CMakeFiles/sqlcc_core_lib.dir/all
 CMakeFiles/dcl_test.dir/all: src/CMakeFiles/sqlcc_parser.dir/all
+CMakeFiles/dcl_test.dir/all: src/CMakeFiles/sqlcc_config_manager.dir/all
 CMakeFiles/dcl_test.dir/all: src/CMakeFiles/sqlcc_storage_engine.dir/all
 CMakeFiles/dcl_test.dir/all: src/CMakeFiles/sqlcc_executor.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/dcl_test.dir/build.make CMakeFiles/dcl_test.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/dcl_test.dir/build.make CMakeFiles/dcl_test.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/liying/sqlcc/test_working_dir/build/CMakeFiles --progress-num=6,7 "Built target dcl_test"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/liying/sqlcc/test_working_dir/build/CMakeFiles --progress-num=14,15 "Built target dcl_test"
 .PHONY : CMakeFiles/dcl_test.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/dcl_test.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 22
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 21
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/dcl_test.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 0
 .PHONY : CMakeFiles/dcl_test.dir/rule
@@ -236,16 +358,17 @@ CMakeFiles/dcl_test.dir/clean:
 # All Build rule for target.
 CMakeFiles/ddl_test.dir/all: src/CMakeFiles/sqlcc_core_lib.dir/all
 CMakeFiles/ddl_test.dir/all: src/CMakeFiles/sqlcc_parser.dir/all
+CMakeFiles/ddl_test.dir/all: src/CMakeFiles/sqlcc_config_manager.dir/all
 CMakeFiles/ddl_test.dir/all: src/CMakeFiles/sqlcc_storage_engine.dir/all
 CMakeFiles/ddl_test.dir/all: src/CMakeFiles/sqlcc_executor.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ddl_test.dir/build.make CMakeFiles/ddl_test.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ddl_test.dir/build.make CMakeFiles/ddl_test.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/liying/sqlcc/test_working_dir/build/CMakeFiles --progress-num=8,9 "Built target ddl_test"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/liying/sqlcc/test_working_dir/build/CMakeFiles --progress-num=18 "Built target ddl_test"
 .PHONY : CMakeFiles/ddl_test.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/ddl_test.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 22
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 20
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/ddl_test.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 0
 .PHONY : CMakeFiles/ddl_test.dir/rule
@@ -266,7 +389,7 @@ CMakeFiles/ddl_test.dir/clean:
 CMakeFiles/unit.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit.dir/build.make CMakeFiles/unit.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit.dir/build.make CMakeFiles/unit.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/liying/sqlcc/test_working_dir/build/CMakeFiles --progress-num=45 "Built target unit"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/liying/sqlcc/test_working_dir/build/CMakeFiles --progress-num=99 "Built target unit"
 .PHONY : CMakeFiles/unit.dir/all
 
 # Build rule for subdir invocation for target.
@@ -289,15 +412,18 @@ CMakeFiles/unit.dir/clean:
 # Target rules for target CMakeFiles/coverage.dir
 
 # All Build rule for target.
-CMakeFiles/coverage.dir/all:
+CMakeFiles/coverage.dir/all: CMakeFiles/dcl_test.dir/all
+CMakeFiles/coverage.dir/all: CMakeFiles/ddl_test.dir/all
+CMakeFiles/coverage.dir/all: src/CMakeFiles/dml_test.dir/all
+CMakeFiles/coverage.dir/all: src/CMakeFiles/comprehensive_test.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/coverage.dir/build.make CMakeFiles/coverage.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/coverage.dir/build.make CMakeFiles/coverage.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/liying/sqlcc/test_working_dir/build/CMakeFiles --progress-num=5 "Built target coverage"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/liying/sqlcc/test_working_dir/build/CMakeFiles --progress-num= "Built target coverage"
 .PHONY : CMakeFiles/coverage.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/coverage.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 1
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 29
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/coverage.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 0
 .PHONY : CMakeFiles/coverage.dir/rule
@@ -318,12 +444,12 @@ CMakeFiles/coverage.dir/clean:
 CMakeFiles/performance.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/performance.dir/build.make CMakeFiles/performance.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/performance.dir/build.make CMakeFiles/performance.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/liying/sqlcc/test_working_dir/build/CMakeFiles --progress-num=14 "Built target performance"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/liying/sqlcc/test_working_dir/build/CMakeFiles --progress-num= "Built target performance"
 .PHONY : CMakeFiles/performance.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/performance.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 1
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 0
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/performance.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 0
 .PHONY : CMakeFiles/performance.dir/rule
@@ -344,7 +470,7 @@ CMakeFiles/performance.dir/clean:
 CMakeFiles/test_all.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all.dir/build.make CMakeFiles/test_all.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all.dir/build.make CMakeFiles/test_all.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/liying/sqlcc/test_working_dir/build/CMakeFiles --progress-num=44 "Built target test_all"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/liying/sqlcc/test_working_dir/build/CMakeFiles --progress-num=98 "Built target test_all"
 .PHONY : CMakeFiles/test_all.dir/all
 
 # Build rule for subdir invocation for target.
@@ -370,7 +496,7 @@ CMakeFiles/test_all.dir/clean:
 CMakeFiles/clean_external_files.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/clean_external_files.dir/build.make CMakeFiles/clean_external_files.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/clean_external_files.dir/build.make CMakeFiles/clean_external_files.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/liying/sqlcc/test_working_dir/build/CMakeFiles --progress-num=2 "Built target clean_external_files"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/liying/sqlcc/test_working_dir/build/CMakeFiles --progress-num=1 "Built target clean_external_files"
 .PHONY : CMakeFiles/clean_external_files.dir/all
 
 # Build rule for subdir invocation for target.
@@ -396,12 +522,12 @@ CMakeFiles/clean_external_files.dir/clean:
 CMakeFiles/check_external_files.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/check_external_files.dir/build.make CMakeFiles/check_external_files.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/check_external_files.dir/build.make CMakeFiles/check_external_files.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/liying/sqlcc/test_working_dir/build/CMakeFiles --progress-num=1 "Built target check_external_files"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/liying/sqlcc/test_working_dir/build/CMakeFiles --progress-num= "Built target check_external_files"
 .PHONY : CMakeFiles/check_external_files.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/check_external_files.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 1
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 0
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/check_external_files.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 0
 .PHONY : CMakeFiles/check_external_files.dir/rule
@@ -422,12 +548,12 @@ CMakeFiles/check_external_files.dir/clean:
 src/CMakeFiles/sqlcc_core_lib.dir/all:
 	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_core_lib.dir/build.make src/CMakeFiles/sqlcc_core_lib.dir/depend
 	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_core_lib.dir/build.make src/CMakeFiles/sqlcc_core_lib.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/liying/sqlcc/test_working_dir/build/CMakeFiles --progress-num=19,20 "Built target sqlcc_core_lib"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/liying/sqlcc/test_working_dir/build/CMakeFiles --progress-num=72 "Built target sqlcc_core_lib"
 .PHONY : src/CMakeFiles/sqlcc_core_lib.dir/all
 
 # Build rule for subdir invocation for target.
 src/CMakeFiles/sqlcc_core_lib.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 2
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 1
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/sqlcc_core_lib.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 0
 .PHONY : src/CMakeFiles/sqlcc_core_lib.dir/rule
@@ -448,12 +574,12 @@ src/CMakeFiles/sqlcc_core_lib.dir/clean:
 src/CMakeFiles/sqlcc_parser.dir/all:
 	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_parser.dir/build.make src/CMakeFiles/sqlcc_parser.dir/depend
 	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_parser.dir/build.make src/CMakeFiles/sqlcc_parser.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/liying/sqlcc/test_working_dir/build/CMakeFiles --progress-num=29,30,31,32 "Built target sqlcc_parser"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/liying/sqlcc/test_working_dir/build/CMakeFiles --progress-num=81,82,83 "Built target sqlcc_parser"
 .PHONY : src/CMakeFiles/sqlcc_parser.dir/all
 
 # Build rule for subdir invocation for target.
 src/CMakeFiles/sqlcc_parser.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 4
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 3
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/sqlcc_parser.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 0
 .PHONY : src/CMakeFiles/sqlcc_parser.dir/rule
@@ -474,7 +600,7 @@ src/CMakeFiles/sqlcc_parser.dir/clean:
 src/CMakeFiles/sqlcc_config_manager.dir/all:
 	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_config_manager.dir/build.make src/CMakeFiles/sqlcc_config_manager.dir/depend
 	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_config_manager.dir/build.make src/CMakeFiles/sqlcc_config_manager.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/liying/sqlcc/test_working_dir/build/CMakeFiles --progress-num=17,18 "Built target sqlcc_config_manager"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/liying/sqlcc/test_working_dir/build/CMakeFiles --progress-num=70,71 "Built target sqlcc_config_manager"
 .PHONY : src/CMakeFiles/sqlcc_config_manager.dir/all
 
 # Build rule for subdir invocation for target.
@@ -497,15 +623,15 @@ src/CMakeFiles/sqlcc_config_manager.dir/clean:
 # Target rules for target src/CMakeFiles/sqlcc_storage_engine.dir
 
 # All Build rule for target.
-src/CMakeFiles/sqlcc_storage_engine.dir/all:
+src/CMakeFiles/sqlcc_storage_engine.dir/all: src/CMakeFiles/sqlcc_config_manager.dir/all
 	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_storage_engine.dir/build.make src/CMakeFiles/sqlcc_storage_engine.dir/depend
 	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_storage_engine.dir/build.make src/CMakeFiles/sqlcc_storage_engine.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/liying/sqlcc/test_working_dir/build/CMakeFiles --progress-num=33,34,35,36,37,38,39,40 "Built target sqlcc_storage_engine"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/liying/sqlcc/test_working_dir/build/CMakeFiles --progress-num=84,85,86,87,88,89,90 "Built target sqlcc_storage_engine"
 .PHONY : src/CMakeFiles/sqlcc_storage_engine.dir/all
 
 # Build rule for subdir invocation for target.
 src/CMakeFiles/sqlcc_storage_engine.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 8
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 9
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/sqlcc_storage_engine.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 0
 .PHONY : src/CMakeFiles/sqlcc_storage_engine.dir/rule
@@ -526,7 +652,7 @@ src/CMakeFiles/sqlcc_storage_engine.dir/clean:
 src/CMakeFiles/sqlcc_transaction_manager.dir/all:
 	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_transaction_manager.dir/build.make src/CMakeFiles/sqlcc_transaction_manager.dir/depend
 	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_transaction_manager.dir/build.make src/CMakeFiles/sqlcc_transaction_manager.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/liying/sqlcc/test_working_dir/build/CMakeFiles --progress-num=41,42,43 "Built target sqlcc_transaction_manager"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/liying/sqlcc/test_working_dir/build/CMakeFiles --progress-num=91,92,93 "Built target sqlcc_transaction_manager"
 .PHONY : src/CMakeFiles/sqlcc_transaction_manager.dir/all
 
 # Build rule for subdir invocation for target.
@@ -552,7 +678,7 @@ src/CMakeFiles/sqlcc_transaction_manager.dir/clean:
 src/CMakeFiles/sqlcc_network.dir/all:
 	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_network.dir/build.make src/CMakeFiles/sqlcc_network.dir/depend
 	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_network.dir/build.make src/CMakeFiles/sqlcc_network.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/liying/sqlcc/test_working_dir/build/CMakeFiles --progress-num=27,28 "Built target sqlcc_network"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/liying/sqlcc/test_working_dir/build/CMakeFiles --progress-num=79,80 "Built target sqlcc_network"
 .PHONY : src/CMakeFiles/sqlcc_network.dir/all
 
 # Build rule for subdir invocation for target.
@@ -577,15 +703,16 @@ src/CMakeFiles/sqlcc_network.dir/clean:
 # All Build rule for target.
 src/CMakeFiles/sqlcc_executor.dir/all: src/CMakeFiles/sqlcc_core_lib.dir/all
 src/CMakeFiles/sqlcc_executor.dir/all: src/CMakeFiles/sqlcc_parser.dir/all
+src/CMakeFiles/sqlcc_executor.dir/all: src/CMakeFiles/sqlcc_config_manager.dir/all
 src/CMakeFiles/sqlcc_executor.dir/all: src/CMakeFiles/sqlcc_storage_engine.dir/all
 	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_executor.dir/build.make src/CMakeFiles/sqlcc_executor.dir/depend
 	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_executor.dir/build.make src/CMakeFiles/sqlcc_executor.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/liying/sqlcc/test_working_dir/build/CMakeFiles --progress-num=21,22,23,24,25,26 "Built target sqlcc_executor"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/liying/sqlcc/test_working_dir/build/CMakeFiles --progress-num=73,74,75,76,77,78 "Built target sqlcc_executor"
 .PHONY : src/CMakeFiles/sqlcc_executor.dir/all
 
 # Build rule for subdir invocation for target.
 src/CMakeFiles/sqlcc_executor.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 20
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 19
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/sqlcc_executor.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 0
 .PHONY : src/CMakeFiles/sqlcc_executor.dir/rule
@@ -611,12 +738,12 @@ src/CMakeFiles/dml_test.dir/all: src/CMakeFiles/sqlcc_transaction_manager.dir/al
 src/CMakeFiles/dml_test.dir/all: src/CMakeFiles/sqlcc_executor.dir/all
 	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/dml_test.dir/build.make src/CMakeFiles/dml_test.dir/depend
 	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/dml_test.dir/build.make src/CMakeFiles/dml_test.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/liying/sqlcc/test_working_dir/build/CMakeFiles --progress-num=10,11 "Built target dml_test"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/liying/sqlcc/test_working_dir/build/CMakeFiles --progress-num=19,20 "Built target dml_test"
 .PHONY : src/CMakeFiles/dml_test.dir/all
 
 # Build rule for subdir invocation for target.
 src/CMakeFiles/dml_test.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 27
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 24
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/dml_test.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 0
 .PHONY : src/CMakeFiles/dml_test.dir/rule
@@ -647,7 +774,7 @@ src/CMakeFiles/comprehensive_test.dir/all: src/CMakeFiles/sqlcc_executor.dir/all
 
 # Build rule for subdir invocation for target.
 src/CMakeFiles/comprehensive_test.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 27
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 24
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/comprehensive_test.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 0
 .PHONY : src/CMakeFiles/comprehensive_test.dir/rule
@@ -660,6 +787,955 @@ comprehensive_test: src/CMakeFiles/comprehensive_test.dir/rule
 src/CMakeFiles/comprehensive_test.dir/clean:
 	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/comprehensive_test.dir/build.make src/CMakeFiles/comprehensive_test.dir/clean
 .PHONY : src/CMakeFiles/comprehensive_test.dir/clean
+
+#=============================================================================
+# Target rules for target src/CMakeFiles/dcl_test_advanced.dir
+
+# All Build rule for target.
+src/CMakeFiles/dcl_test_advanced.dir/all: src/CMakeFiles/sqlcc_core_lib.dir/all
+src/CMakeFiles/dcl_test_advanced.dir/all: src/CMakeFiles/sqlcc_parser.dir/all
+src/CMakeFiles/dcl_test_advanced.dir/all: src/CMakeFiles/sqlcc_config_manager.dir/all
+src/CMakeFiles/dcl_test_advanced.dir/all: src/CMakeFiles/sqlcc_storage_engine.dir/all
+src/CMakeFiles/dcl_test_advanced.dir/all: src/CMakeFiles/sqlcc_transaction_manager.dir/all
+src/CMakeFiles/dcl_test_advanced.dir/all: src/CMakeFiles/sqlcc_executor.dir/all
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/dcl_test_advanced.dir/build.make src/CMakeFiles/dcl_test_advanced.dir/depend
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/dcl_test_advanced.dir/build.make src/CMakeFiles/dcl_test_advanced.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/liying/sqlcc/test_working_dir/build/CMakeFiles --progress-num=16,17 "Built target dcl_test_advanced"
+.PHONY : src/CMakeFiles/dcl_test_advanced.dir/all
+
+# Build rule for subdir invocation for target.
+src/CMakeFiles/dcl_test_advanced.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 24
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/dcl_test_advanced.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 0
+.PHONY : src/CMakeFiles/dcl_test_advanced.dir/rule
+
+# Convenience name for target.
+dcl_test_advanced: src/CMakeFiles/dcl_test_advanced.dir/rule
+.PHONY : dcl_test_advanced
+
+# clean rule for target.
+src/CMakeFiles/dcl_test_advanced.dir/clean:
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/dcl_test_advanced.dir/build.make src/CMakeFiles/dcl_test_advanced.dir/clean
+.PHONY : src/CMakeFiles/dcl_test_advanced.dir/clean
+
+#=============================================================================
+# Target rules for target src/CMakeFiles/sql_executor_comprehensive_test.dir
+
+# All Build rule for target.
+src/CMakeFiles/sql_executor_comprehensive_test.dir/all: src/CMakeFiles/sqlcc_core_lib.dir/all
+src/CMakeFiles/sql_executor_comprehensive_test.dir/all: src/CMakeFiles/sqlcc_parser.dir/all
+src/CMakeFiles/sql_executor_comprehensive_test.dir/all: src/CMakeFiles/sqlcc_config_manager.dir/all
+src/CMakeFiles/sql_executor_comprehensive_test.dir/all: src/CMakeFiles/sqlcc_storage_engine.dir/all
+src/CMakeFiles/sql_executor_comprehensive_test.dir/all: src/CMakeFiles/sqlcc_transaction_manager.dir/all
+src/CMakeFiles/sql_executor_comprehensive_test.dir/all: src/CMakeFiles/sqlcc_executor.dir/all
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/sql_executor_comprehensive_test.dir/build.make src/CMakeFiles/sql_executor_comprehensive_test.dir/depend
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/sql_executor_comprehensive_test.dir/build.make src/CMakeFiles/sql_executor_comprehensive_test.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/liying/sqlcc/test_working_dir/build/CMakeFiles --progress-num=59,60 "Built target sql_executor_comprehensive_test"
+.PHONY : src/CMakeFiles/sql_executor_comprehensive_test.dir/all
+
+# Build rule for subdir invocation for target.
+src/CMakeFiles/sql_executor_comprehensive_test.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 24
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/sql_executor_comprehensive_test.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 0
+.PHONY : src/CMakeFiles/sql_executor_comprehensive_test.dir/rule
+
+# Convenience name for target.
+sql_executor_comprehensive_test: src/CMakeFiles/sql_executor_comprehensive_test.dir/rule
+.PHONY : sql_executor_comprehensive_test
+
+# clean rule for target.
+src/CMakeFiles/sql_executor_comprehensive_test.dir/clean:
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/sql_executor_comprehensive_test.dir/build.make src/CMakeFiles/sql_executor_comprehensive_test.dir/clean
+.PHONY : src/CMakeFiles/sql_executor_comprehensive_test.dir/clean
+
+#=============================================================================
+# Target rules for target src/CMakeFiles/sql_executor_targeted_test.dir
+
+# All Build rule for target.
+src/CMakeFiles/sql_executor_targeted_test.dir/all: src/CMakeFiles/sqlcc_core_lib.dir/all
+src/CMakeFiles/sql_executor_targeted_test.dir/all: src/CMakeFiles/sqlcc_parser.dir/all
+src/CMakeFiles/sql_executor_targeted_test.dir/all: src/CMakeFiles/sqlcc_config_manager.dir/all
+src/CMakeFiles/sql_executor_targeted_test.dir/all: src/CMakeFiles/sqlcc_storage_engine.dir/all
+src/CMakeFiles/sql_executor_targeted_test.dir/all: src/CMakeFiles/sqlcc_transaction_manager.dir/all
+src/CMakeFiles/sql_executor_targeted_test.dir/all: src/CMakeFiles/sqlcc_executor.dir/all
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/sql_executor_targeted_test.dir/build.make src/CMakeFiles/sql_executor_targeted_test.dir/depend
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/sql_executor_targeted_test.dir/build.make src/CMakeFiles/sql_executor_targeted_test.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/liying/sqlcc/test_working_dir/build/CMakeFiles --progress-num=63 "Built target sql_executor_targeted_test"
+.PHONY : src/CMakeFiles/sql_executor_targeted_test.dir/all
+
+# Build rule for subdir invocation for target.
+src/CMakeFiles/sql_executor_targeted_test.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 23
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/sql_executor_targeted_test.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 0
+.PHONY : src/CMakeFiles/sql_executor_targeted_test.dir/rule
+
+# Convenience name for target.
+sql_executor_targeted_test: src/CMakeFiles/sql_executor_targeted_test.dir/rule
+.PHONY : sql_executor_targeted_test
+
+# clean rule for target.
+src/CMakeFiles/sql_executor_targeted_test.dir/clean:
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/sql_executor_targeted_test.dir/build.make src/CMakeFiles/sql_executor_targeted_test.dir/clean
+.PHONY : src/CMakeFiles/sql_executor_targeted_test.dir/clean
+
+#=============================================================================
+# Target rules for target src/CMakeFiles/sql_executor_unit_test.dir
+
+# All Build rule for target.
+src/CMakeFiles/sql_executor_unit_test.dir/all: src/CMakeFiles/sqlcc_core_lib.dir/all
+src/CMakeFiles/sql_executor_unit_test.dir/all: src/CMakeFiles/sqlcc_parser.dir/all
+src/CMakeFiles/sql_executor_unit_test.dir/all: src/CMakeFiles/sqlcc_config_manager.dir/all
+src/CMakeFiles/sql_executor_unit_test.dir/all: src/CMakeFiles/sqlcc_storage_engine.dir/all
+src/CMakeFiles/sql_executor_unit_test.dir/all: src/CMakeFiles/sqlcc_transaction_manager.dir/all
+src/CMakeFiles/sql_executor_unit_test.dir/all: src/CMakeFiles/sqlcc_executor.dir/all
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/sql_executor_unit_test.dir/build.make src/CMakeFiles/sql_executor_unit_test.dir/depend
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/sql_executor_unit_test.dir/build.make src/CMakeFiles/sql_executor_unit_test.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/liying/sqlcc/test_working_dir/build/CMakeFiles --progress-num=64,65 "Built target sql_executor_unit_test"
+.PHONY : src/CMakeFiles/sql_executor_unit_test.dir/all
+
+# Build rule for subdir invocation for target.
+src/CMakeFiles/sql_executor_unit_test.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 24
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/sql_executor_unit_test.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 0
+.PHONY : src/CMakeFiles/sql_executor_unit_test.dir/rule
+
+# Convenience name for target.
+sql_executor_unit_test: src/CMakeFiles/sql_executor_unit_test.dir/rule
+.PHONY : sql_executor_unit_test
+
+# clean rule for target.
+src/CMakeFiles/sql_executor_unit_test.dir/clean:
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/sql_executor_unit_test.dir/build.make src/CMakeFiles/sql_executor_unit_test.dir/clean
+.PHONY : src/CMakeFiles/sql_executor_unit_test.dir/clean
+
+#=============================================================================
+# Target rules for target src/CMakeFiles/sql_executor_minimal_test.dir
+
+# All Build rule for target.
+src/CMakeFiles/sql_executor_minimal_test.dir/all: src/CMakeFiles/sqlcc_core_lib.dir/all
+src/CMakeFiles/sql_executor_minimal_test.dir/all: src/CMakeFiles/sqlcc_parser.dir/all
+src/CMakeFiles/sql_executor_minimal_test.dir/all: src/CMakeFiles/sqlcc_config_manager.dir/all
+src/CMakeFiles/sql_executor_minimal_test.dir/all: src/CMakeFiles/sqlcc_storage_engine.dir/all
+src/CMakeFiles/sql_executor_minimal_test.dir/all: src/CMakeFiles/sqlcc_transaction_manager.dir/all
+src/CMakeFiles/sql_executor_minimal_test.dir/all: src/CMakeFiles/sqlcc_executor.dir/all
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/sql_executor_minimal_test.dir/build.make src/CMakeFiles/sql_executor_minimal_test.dir/depend
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/sql_executor_minimal_test.dir/build.make src/CMakeFiles/sql_executor_minimal_test.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/liying/sqlcc/test_working_dir/build/CMakeFiles --progress-num=61,62 "Built target sql_executor_minimal_test"
+.PHONY : src/CMakeFiles/sql_executor_minimal_test.dir/all
+
+# Build rule for subdir invocation for target.
+src/CMakeFiles/sql_executor_minimal_test.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 24
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/sql_executor_minimal_test.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 0
+.PHONY : src/CMakeFiles/sql_executor_minimal_test.dir/rule
+
+# Convenience name for target.
+sql_executor_minimal_test: src/CMakeFiles/sql_executor_minimal_test.dir/rule
+.PHONY : sql_executor_minimal_test
+
+# clean rule for target.
+src/CMakeFiles/sql_executor_minimal_test.dir/clean:
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/sql_executor_minimal_test.dir/build.make src/CMakeFiles/sql_executor_minimal_test.dir/clean
+.PHONY : src/CMakeFiles/sql_executor_minimal_test.dir/clean
+
+#=============================================================================
+# Target rules for target tests/CMakeFiles/sql_network_test.dir
+
+# All Build rule for target.
+tests/CMakeFiles/sql_network_test.dir/all:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/sql_network_test.dir/build.make tests/CMakeFiles/sql_network_test.dir/depend
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/sql_network_test.dir/build.make tests/CMakeFiles/sql_network_test.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/liying/sqlcc/test_working_dir/build/CMakeFiles --progress-num=66,67 "Built target sql_network_test"
+.PHONY : tests/CMakeFiles/sql_network_test.dir/all
+
+# Build rule for subdir invocation for target.
+tests/CMakeFiles/sql_network_test.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 2
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/sql_network_test.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 0
+.PHONY : tests/CMakeFiles/sql_network_test.dir/rule
+
+# Convenience name for target.
+sql_network_test: tests/CMakeFiles/sql_network_test.dir/rule
+.PHONY : sql_network_test
+
+# clean rule for target.
+tests/CMakeFiles/sql_network_test.dir/clean:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/sql_network_test.dir/build.make tests/CMakeFiles/sql_network_test.dir/clean
+.PHONY : tests/CMakeFiles/sql_network_test.dir/clean
+
+#=============================================================================
+# Target rules for target tests/performance/CMakeFiles/performance_test.dir
+
+# All Build rule for target.
+tests/performance/CMakeFiles/performance_test.dir/all: src/CMakeFiles/sqlcc_core_lib.dir/all
+tests/performance/CMakeFiles/performance_test.dir/all: src/CMakeFiles/sqlcc_parser.dir/all
+tests/performance/CMakeFiles/performance_test.dir/all: src/CMakeFiles/sqlcc_config_manager.dir/all
+tests/performance/CMakeFiles/performance_test.dir/all: src/CMakeFiles/sqlcc_storage_engine.dir/all
+tests/performance/CMakeFiles/performance_test.dir/all: src/CMakeFiles/sqlcc_transaction_manager.dir/all
+tests/performance/CMakeFiles/performance_test.dir/all: src/CMakeFiles/sqlcc_network.dir/all
+tests/performance/CMakeFiles/performance_test.dir/all: src/CMakeFiles/sqlcc_executor.dir/all
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/performance_test.dir/build.make tests/performance/CMakeFiles/performance_test.dir/depend
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/performance_test.dir/build.make tests/performance/CMakeFiles/performance_test.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/liying/sqlcc/test_working_dir/build/CMakeFiles --progress-num=34,35,36,37,38,39,40,41,42,43,44,45 "Built target performance_test"
+.PHONY : tests/performance/CMakeFiles/performance_test.dir/all
+
+# Build rule for subdir invocation for target.
+tests/performance/CMakeFiles/performance_test.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 36
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/performance/CMakeFiles/performance_test.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 0
+.PHONY : tests/performance/CMakeFiles/performance_test.dir/rule
+
+# Convenience name for target.
+performance_test: tests/performance/CMakeFiles/performance_test.dir/rule
+.PHONY : performance_test
+
+# clean rule for target.
+tests/performance/CMakeFiles/performance_test.dir/clean:
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/performance_test.dir/build.make tests/performance/CMakeFiles/performance_test.dir/clean
+.PHONY : tests/performance/CMakeFiles/performance_test.dir/clean
+
+#=============================================================================
+# Target rules for target tests/performance/CMakeFiles/performance_help.dir
+
+# All Build rule for target.
+tests/performance/CMakeFiles/performance_help.dir/all: tests/performance/CMakeFiles/performance_test.dir/all
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/performance_help.dir/build.make tests/performance/CMakeFiles/performance_help.dir/depend
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/performance_help.dir/build.make tests/performance/CMakeFiles/performance_help.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/liying/sqlcc/test_working_dir/build/CMakeFiles --progress-num=31 "Built target performance_help"
+.PHONY : tests/performance/CMakeFiles/performance_help.dir/all
+
+# Build rule for subdir invocation for target.
+tests/performance/CMakeFiles/performance_help.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 37
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/performance/CMakeFiles/performance_help.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 0
+.PHONY : tests/performance/CMakeFiles/performance_help.dir/rule
+
+# Convenience name for target.
+performance_help: tests/performance/CMakeFiles/performance_help.dir/rule
+.PHONY : performance_help
+
+# clean rule for target.
+tests/performance/CMakeFiles/performance_help.dir/clean:
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/performance_help.dir/build.make tests/performance/CMakeFiles/performance_help.dir/clean
+.PHONY : tests/performance/CMakeFiles/performance_help.dir/clean
+
+#=============================================================================
+# Target rules for target tests/performance/CMakeFiles/ensure_performance_results_dir.dir
+
+# All Build rule for target.
+tests/performance/CMakeFiles/ensure_performance_results_dir.dir/all:
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/ensure_performance_results_dir.dir/build.make tests/performance/CMakeFiles/ensure_performance_results_dir.dir/depend
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/ensure_performance_results_dir.dir/build.make tests/performance/CMakeFiles/ensure_performance_results_dir.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/liying/sqlcc/test_working_dir/build/CMakeFiles --progress-num=21 "Built target ensure_performance_results_dir"
+.PHONY : tests/performance/CMakeFiles/ensure_performance_results_dir.dir/all
+
+# Build rule for subdir invocation for target.
+tests/performance/CMakeFiles/ensure_performance_results_dir.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 1
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/performance/CMakeFiles/ensure_performance_results_dir.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 0
+.PHONY : tests/performance/CMakeFiles/ensure_performance_results_dir.dir/rule
+
+# Convenience name for target.
+ensure_performance_results_dir: tests/performance/CMakeFiles/ensure_performance_results_dir.dir/rule
+.PHONY : ensure_performance_results_dir
+
+# clean rule for target.
+tests/performance/CMakeFiles/ensure_performance_results_dir.dir/clean:
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/ensure_performance_results_dir.dir/build.make tests/performance/CMakeFiles/ensure_performance_results_dir.dir/clean
+.PHONY : tests/performance/CMakeFiles/ensure_performance_results_dir.dir/clean
+
+#=============================================================================
+# Target rules for target tests/performance/CMakeFiles/run_all_performance_tests.dir
+
+# All Build rule for target.
+tests/performance/CMakeFiles/run_all_performance_tests.dir/all: tests/performance/CMakeFiles/performance_test.dir/all
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/run_all_performance_tests.dir/build.make tests/performance/CMakeFiles/run_all_performance_tests.dir/depend
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/run_all_performance_tests.dir/build.make tests/performance/CMakeFiles/run_all_performance_tests.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/liying/sqlcc/test_working_dir/build/CMakeFiles --progress-num=46 "Built target run_all_performance_tests"
+.PHONY : tests/performance/CMakeFiles/run_all_performance_tests.dir/all
+
+# Build rule for subdir invocation for target.
+tests/performance/CMakeFiles/run_all_performance_tests.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 37
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/performance/CMakeFiles/run_all_performance_tests.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 0
+.PHONY : tests/performance/CMakeFiles/run_all_performance_tests.dir/rule
+
+# Convenience name for target.
+run_all_performance_tests: tests/performance/CMakeFiles/run_all_performance_tests.dir/rule
+.PHONY : run_all_performance_tests
+
+# clean rule for target.
+tests/performance/CMakeFiles/run_all_performance_tests.dir/clean:
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/run_all_performance_tests.dir/build.make tests/performance/CMakeFiles/run_all_performance_tests.dir/clean
+.PHONY : tests/performance/CMakeFiles/run_all_performance_tests.dir/clean
+
+#=============================================================================
+# Target rules for target tests/performance/CMakeFiles/run_buffer_pool_tests.dir
+
+# All Build rule for target.
+tests/performance/CMakeFiles/run_buffer_pool_tests.dir/all: tests/performance/CMakeFiles/performance_test.dir/all
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/run_buffer_pool_tests.dir/build.make tests/performance/CMakeFiles/run_buffer_pool_tests.dir/depend
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/run_buffer_pool_tests.dir/build.make tests/performance/CMakeFiles/run_buffer_pool_tests.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/liying/sqlcc/test_working_dir/build/CMakeFiles --progress-num=48 "Built target run_buffer_pool_tests"
+.PHONY : tests/performance/CMakeFiles/run_buffer_pool_tests.dir/all
+
+# Build rule for subdir invocation for target.
+tests/performance/CMakeFiles/run_buffer_pool_tests.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 37
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/performance/CMakeFiles/run_buffer_pool_tests.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 0
+.PHONY : tests/performance/CMakeFiles/run_buffer_pool_tests.dir/rule
+
+# Convenience name for target.
+run_buffer_pool_tests: tests/performance/CMakeFiles/run_buffer_pool_tests.dir/rule
+.PHONY : run_buffer_pool_tests
+
+# clean rule for target.
+tests/performance/CMakeFiles/run_buffer_pool_tests.dir/clean:
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/run_buffer_pool_tests.dir/build.make tests/performance/CMakeFiles/run_buffer_pool_tests.dir/clean
+.PHONY : tests/performance/CMakeFiles/run_buffer_pool_tests.dir/clean
+
+#=============================================================================
+# Target rules for target tests/performance/CMakeFiles/run_disk_io_tests.dir
+
+# All Build rule for target.
+tests/performance/CMakeFiles/run_disk_io_tests.dir/all: tests/performance/CMakeFiles/performance_test.dir/all
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/run_disk_io_tests.dir/build.make tests/performance/CMakeFiles/run_disk_io_tests.dir/depend
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/run_disk_io_tests.dir/build.make tests/performance/CMakeFiles/run_disk_io_tests.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/liying/sqlcc/test_working_dir/build/CMakeFiles --progress-num=52 "Built target run_disk_io_tests"
+.PHONY : tests/performance/CMakeFiles/run_disk_io_tests.dir/all
+
+# Build rule for subdir invocation for target.
+tests/performance/CMakeFiles/run_disk_io_tests.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 37
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/performance/CMakeFiles/run_disk_io_tests.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 0
+.PHONY : tests/performance/CMakeFiles/run_disk_io_tests.dir/rule
+
+# Convenience name for target.
+run_disk_io_tests: tests/performance/CMakeFiles/run_disk_io_tests.dir/rule
+.PHONY : run_disk_io_tests
+
+# clean rule for target.
+tests/performance/CMakeFiles/run_disk_io_tests.dir/clean:
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/run_disk_io_tests.dir/build.make tests/performance/CMakeFiles/run_disk_io_tests.dir/clean
+.PHONY : tests/performance/CMakeFiles/run_disk_io_tests.dir/clean
+
+#=============================================================================
+# Target rules for target tests/performance/CMakeFiles/run_mixed_workload_tests.dir
+
+# All Build rule for target.
+tests/performance/CMakeFiles/run_mixed_workload_tests.dir/all: tests/performance/CMakeFiles/performance_test.dir/all
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/run_mixed_workload_tests.dir/build.make tests/performance/CMakeFiles/run_mixed_workload_tests.dir/depend
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/run_mixed_workload_tests.dir/build.make tests/performance/CMakeFiles/run_mixed_workload_tests.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/liying/sqlcc/test_working_dir/build/CMakeFiles --progress-num=56 "Built target run_mixed_workload_tests"
+.PHONY : tests/performance/CMakeFiles/run_mixed_workload_tests.dir/all
+
+# Build rule for subdir invocation for target.
+tests/performance/CMakeFiles/run_mixed_workload_tests.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 37
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/performance/CMakeFiles/run_mixed_workload_tests.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 0
+.PHONY : tests/performance/CMakeFiles/run_mixed_workload_tests.dir/rule
+
+# Convenience name for target.
+run_mixed_workload_tests: tests/performance/CMakeFiles/run_mixed_workload_tests.dir/rule
+.PHONY : run_mixed_workload_tests
+
+# clean rule for target.
+tests/performance/CMakeFiles/run_mixed_workload_tests.dir/clean:
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/run_mixed_workload_tests.dir/build.make tests/performance/CMakeFiles/run_mixed_workload_tests.dir/clean
+.PHONY : tests/performance/CMakeFiles/run_mixed_workload_tests.dir/clean
+
+#=============================================================================
+# Target rules for target tests/performance/CMakeFiles/run_batch_prefetch_tests.dir
+
+# All Build rule for target.
+tests/performance/CMakeFiles/run_batch_prefetch_tests.dir/all: tests/performance/CMakeFiles/performance_test.dir/all
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/run_batch_prefetch_tests.dir/build.make tests/performance/CMakeFiles/run_batch_prefetch_tests.dir/depend
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/run_batch_prefetch_tests.dir/build.make tests/performance/CMakeFiles/run_batch_prefetch_tests.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/liying/sqlcc/test_working_dir/build/CMakeFiles --progress-num=47 "Built target run_batch_prefetch_tests"
+.PHONY : tests/performance/CMakeFiles/run_batch_prefetch_tests.dir/all
+
+# Build rule for subdir invocation for target.
+tests/performance/CMakeFiles/run_batch_prefetch_tests.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 37
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/performance/CMakeFiles/run_batch_prefetch_tests.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 0
+.PHONY : tests/performance/CMakeFiles/run_batch_prefetch_tests.dir/rule
+
+# Convenience name for target.
+run_batch_prefetch_tests: tests/performance/CMakeFiles/run_batch_prefetch_tests.dir/rule
+.PHONY : run_batch_prefetch_tests
+
+# clean rule for target.
+tests/performance/CMakeFiles/run_batch_prefetch_tests.dir/clean:
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/run_batch_prefetch_tests.dir/build.make tests/performance/CMakeFiles/run_batch_prefetch_tests.dir/clean
+.PHONY : tests/performance/CMakeFiles/run_batch_prefetch_tests.dir/clean
+
+#=============================================================================
+# Target rules for target tests/performance/CMakeFiles/run_million_insert_tests.dir
+
+# All Build rule for target.
+tests/performance/CMakeFiles/run_million_insert_tests.dir/all: tests/performance/CMakeFiles/performance_test.dir/all
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/run_million_insert_tests.dir/build.make tests/performance/CMakeFiles/run_million_insert_tests.dir/depend
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/run_million_insert_tests.dir/build.make tests/performance/CMakeFiles/run_million_insert_tests.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/liying/sqlcc/test_working_dir/build/CMakeFiles --progress-num=55 "Built target run_million_insert_tests"
+.PHONY : tests/performance/CMakeFiles/run_million_insert_tests.dir/all
+
+# Build rule for subdir invocation for target.
+tests/performance/CMakeFiles/run_million_insert_tests.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 37
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/performance/CMakeFiles/run_million_insert_tests.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 0
+.PHONY : tests/performance/CMakeFiles/run_million_insert_tests.dir/rule
+
+# Convenience name for target.
+run_million_insert_tests: tests/performance/CMakeFiles/run_million_insert_tests.dir/rule
+.PHONY : run_million_insert_tests
+
+# clean rule for target.
+tests/performance/CMakeFiles/run_million_insert_tests.dir/clean:
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/run_million_insert_tests.dir/build.make tests/performance/CMakeFiles/run_million_insert_tests.dir/clean
+.PHONY : tests/performance/CMakeFiles/run_million_insert_tests.dir/clean
+
+#=============================================================================
+# Target rules for target tests/performance/CMakeFiles/run_concurrency_test.dir
+
+# All Build rule for target.
+tests/performance/CMakeFiles/run_concurrency_test.dir/all: tests/performance/concurrency_test/CMakeFiles/concurrency_test.dir/all
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/run_concurrency_test.dir/build.make tests/performance/CMakeFiles/run_concurrency_test.dir/depend
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/run_concurrency_test.dir/build.make tests/performance/CMakeFiles/run_concurrency_test.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/liying/sqlcc/test_working_dir/build/CMakeFiles --progress-num=49 "Built target run_concurrency_test"
+.PHONY : tests/performance/CMakeFiles/run_concurrency_test.dir/all
+
+# Build rule for subdir invocation for target.
+tests/performance/CMakeFiles/run_concurrency_test.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 30
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/performance/CMakeFiles/run_concurrency_test.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 0
+.PHONY : tests/performance/CMakeFiles/run_concurrency_test.dir/rule
+
+# Convenience name for target.
+run_concurrency_test: tests/performance/CMakeFiles/run_concurrency_test.dir/rule
+.PHONY : run_concurrency_test
+
+# clean rule for target.
+tests/performance/CMakeFiles/run_concurrency_test.dir/clean:
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/run_concurrency_test.dir/build.make tests/performance/CMakeFiles/run_concurrency_test.dir/clean
+.PHONY : tests/performance/CMakeFiles/run_concurrency_test.dir/clean
+
+#=============================================================================
+# Target rules for target tests/performance/CMakeFiles/run_cpu_intensive_test.dir
+
+# All Build rule for target.
+tests/performance/CMakeFiles/run_cpu_intensive_test.dir/all: tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/all
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/run_cpu_intensive_test.dir/build.make tests/performance/CMakeFiles/run_cpu_intensive_test.dir/depend
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/run_cpu_intensive_test.dir/build.make tests/performance/CMakeFiles/run_cpu_intensive_test.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/liying/sqlcc/test_working_dir/build/CMakeFiles --progress-num=51 "Built target run_cpu_intensive_test"
+.PHONY : tests/performance/CMakeFiles/run_cpu_intensive_test.dir/all
+
+# Build rule for subdir invocation for target.
+tests/performance/CMakeFiles/run_cpu_intensive_test.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 29
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/performance/CMakeFiles/run_cpu_intensive_test.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 0
+.PHONY : tests/performance/CMakeFiles/run_cpu_intensive_test.dir/rule
+
+# Convenience name for target.
+run_cpu_intensive_test: tests/performance/CMakeFiles/run_cpu_intensive_test.dir/rule
+.PHONY : run_cpu_intensive_test
+
+# clean rule for target.
+tests/performance/CMakeFiles/run_cpu_intensive_test.dir/clean:
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/run_cpu_intensive_test.dir/build.make tests/performance/CMakeFiles/run_cpu_intensive_test.dir/clean
+.PHONY : tests/performance/CMakeFiles/run_cpu_intensive_test.dir/clean
+
+#=============================================================================
+# Target rules for target tests/performance/CMakeFiles/run_memory_stress_test.dir
+
+# All Build rule for target.
+tests/performance/CMakeFiles/run_memory_stress_test.dir/all: tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/all
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/run_memory_stress_test.dir/build.make tests/performance/CMakeFiles/run_memory_stress_test.dir/depend
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/run_memory_stress_test.dir/build.make tests/performance/CMakeFiles/run_memory_stress_test.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/liying/sqlcc/test_working_dir/build/CMakeFiles --progress-num= "Built target run_memory_stress_test"
+.PHONY : tests/performance/CMakeFiles/run_memory_stress_test.dir/all
+
+# Build rule for subdir invocation for target.
+tests/performance/CMakeFiles/run_memory_stress_test.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 28
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/performance/CMakeFiles/run_memory_stress_test.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 0
+.PHONY : tests/performance/CMakeFiles/run_memory_stress_test.dir/rule
+
+# Convenience name for target.
+run_memory_stress_test: tests/performance/CMakeFiles/run_memory_stress_test.dir/rule
+.PHONY : run_memory_stress_test
+
+# clean rule for target.
+tests/performance/CMakeFiles/run_memory_stress_test.dir/clean:
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/run_memory_stress_test.dir/build.make tests/performance/CMakeFiles/run_memory_stress_test.dir/clean
+.PHONY : tests/performance/CMakeFiles/run_memory_stress_test.dir/clean
+
+#=============================================================================
+# Target rules for target tests/performance/CMakeFiles/run_stability_test.dir
+
+# All Build rule for target.
+tests/performance/CMakeFiles/run_stability_test.dir/all: tests/performance/stability_test/CMakeFiles/stability_test.dir/all
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/run_stability_test.dir/build.make tests/performance/CMakeFiles/run_stability_test.dir/depend
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/run_stability_test.dir/build.make tests/performance/CMakeFiles/run_stability_test.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/liying/sqlcc/test_working_dir/build/CMakeFiles --progress-num=58 "Built target run_stability_test"
+.PHONY : tests/performance/CMakeFiles/run_stability_test.dir/all
+
+# Build rule for subdir invocation for target.
+tests/performance/CMakeFiles/run_stability_test.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 29
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/performance/CMakeFiles/run_stability_test.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 0
+.PHONY : tests/performance/CMakeFiles/run_stability_test.dir/rule
+
+# Convenience name for target.
+run_stability_test: tests/performance/CMakeFiles/run_stability_test.dir/rule
+.PHONY : run_stability_test
+
+# clean rule for target.
+tests/performance/CMakeFiles/run_stability_test.dir/clean:
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/run_stability_test.dir/build.make tests/performance/CMakeFiles/run_stability_test.dir/clean
+.PHONY : tests/performance/CMakeFiles/run_stability_test.dir/clean
+
+#=============================================================================
+# Target rules for target tests/performance/CMakeFiles/performance_core.dir
+
+# All Build rule for target.
+tests/performance/CMakeFiles/performance_core.dir/all: tests/performance/CMakeFiles/performance_test.dir/all
+tests/performance/CMakeFiles/performance_core.dir/all: tests/performance/concurrency_test/CMakeFiles/concurrency_test.dir/all
+tests/performance/CMakeFiles/performance_core.dir/all: tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/all
+tests/performance/CMakeFiles/performance_core.dir/all: tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/all
+tests/performance/CMakeFiles/performance_core.dir/all: tests/performance/stability_test/CMakeFiles/stability_test.dir/all
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/performance_core.dir/build.make tests/performance/CMakeFiles/performance_core.dir/depend
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/performance_core.dir/build.make tests/performance/CMakeFiles/performance_core.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/liying/sqlcc/test_working_dir/build/CMakeFiles --progress-num=29 "Built target performance_core"
+.PHONY : tests/performance/CMakeFiles/performance_core.dir/all
+
+# Build rule for subdir invocation for target.
+tests/performance/CMakeFiles/performance_core.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 54
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/performance/CMakeFiles/performance_core.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 0
+.PHONY : tests/performance/CMakeFiles/performance_core.dir/rule
+
+# Convenience name for target.
+performance_core: tests/performance/CMakeFiles/performance_core.dir/rule
+.PHONY : performance_core
+
+# clean rule for target.
+tests/performance/CMakeFiles/performance_core.dir/clean:
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/performance_core.dir/build.make tests/performance/CMakeFiles/performance_core.dir/clean
+.PHONY : tests/performance/CMakeFiles/performance_core.dir/clean
+
+#=============================================================================
+# Target rules for target tests/performance/CMakeFiles/performance_full.dir
+
+# All Build rule for target.
+tests/performance/CMakeFiles/performance_full.dir/all: tests/performance/CMakeFiles/performance_test.dir/all
+tests/performance/CMakeFiles/performance_full.dir/all: tests/performance/concurrency_test/CMakeFiles/concurrency_test.dir/all
+tests/performance/CMakeFiles/performance_full.dir/all: tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/all
+tests/performance/CMakeFiles/performance_full.dir/all: tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/all
+tests/performance/CMakeFiles/performance_full.dir/all: tests/performance/stability_test/CMakeFiles/stability_test.dir/all
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/performance_full.dir/build.make tests/performance/CMakeFiles/performance_full.dir/depend
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/performance_full.dir/build.make tests/performance/CMakeFiles/performance_full.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/liying/sqlcc/test_working_dir/build/CMakeFiles --progress-num=30 "Built target performance_full"
+.PHONY : tests/performance/CMakeFiles/performance_full.dir/all
+
+# Build rule for subdir invocation for target.
+tests/performance/CMakeFiles/performance_full.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 54
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/performance/CMakeFiles/performance_full.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 0
+.PHONY : tests/performance/CMakeFiles/performance_full.dir/rule
+
+# Convenience name for target.
+performance_full: tests/performance/CMakeFiles/performance_full.dir/rule
+.PHONY : performance_full
+
+# clean rule for target.
+tests/performance/CMakeFiles/performance_full.dir/clean:
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/performance_full.dir/build.make tests/performance/CMakeFiles/performance_full.dir/clean
+.PHONY : tests/performance/CMakeFiles/performance_full.dir/clean
+
+#=============================================================================
+# Target rules for target tests/performance/CMakeFiles/performance_quick.dir
+
+# All Build rule for target.
+tests/performance/CMakeFiles/performance_quick.dir/all: tests/performance/CMakeFiles/performance_test.dir/all
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/performance_quick.dir/build.make tests/performance/CMakeFiles/performance_quick.dir/depend
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/performance_quick.dir/build.make tests/performance/CMakeFiles/performance_quick.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/liying/sqlcc/test_working_dir/build/CMakeFiles --progress-num=32 "Built target performance_quick"
+.PHONY : tests/performance/CMakeFiles/performance_quick.dir/all
+
+# Build rule for subdir invocation for target.
+tests/performance/CMakeFiles/performance_quick.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 37
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/performance/CMakeFiles/performance_quick.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 0
+.PHONY : tests/performance/CMakeFiles/performance_quick.dir/rule
+
+# Convenience name for target.
+performance_quick: tests/performance/CMakeFiles/performance_quick.dir/rule
+.PHONY : performance_quick
+
+# clean rule for target.
+tests/performance/CMakeFiles/performance_quick.dir/clean:
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/performance_quick.dir/build.make tests/performance/CMakeFiles/performance_quick.dir/clean
+.PHONY : tests/performance/CMakeFiles/performance_quick.dir/clean
+
+#=============================================================================
+# Target rules for target tests/performance/CMakeFiles/performance_stress.dir
+
+# All Build rule for target.
+tests/performance/CMakeFiles/performance_stress.dir/all: tests/performance/CMakeFiles/performance_test.dir/all
+tests/performance/CMakeFiles/performance_stress.dir/all: tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/all
+tests/performance/CMakeFiles/performance_stress.dir/all: tests/performance/stability_test/CMakeFiles/stability_test.dir/all
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/performance_stress.dir/build.make tests/performance/CMakeFiles/performance_stress.dir/depend
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/performance_stress.dir/build.make tests/performance/CMakeFiles/performance_stress.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/liying/sqlcc/test_working_dir/build/CMakeFiles --progress-num=33 "Built target performance_stress"
+.PHONY : tests/performance/CMakeFiles/performance_stress.dir/all
+
+# Build rule for subdir invocation for target.
+tests/performance/CMakeFiles/performance_stress.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 45
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/performance/CMakeFiles/performance_stress.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 0
+.PHONY : tests/performance/CMakeFiles/performance_stress.dir/rule
+
+# Convenience name for target.
+performance_stress: tests/performance/CMakeFiles/performance_stress.dir/rule
+.PHONY : performance_stress
+
+# clean rule for target.
+tests/performance/CMakeFiles/performance_stress.dir/clean:
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/performance_stress.dir/build.make tests/performance/CMakeFiles/performance_stress.dir/clean
+.PHONY : tests/performance/CMakeFiles/performance_stress.dir/clean
+
+#=============================================================================
+# Target rules for target tests/performance/CMakeFiles/performance_benchmark.dir
+
+# All Build rule for target.
+tests/performance/CMakeFiles/performance_benchmark.dir/all: tests/performance/CMakeFiles/performance_test.dir/all
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/performance_benchmark.dir/build.make tests/performance/CMakeFiles/performance_benchmark.dir/depend
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/performance_benchmark.dir/build.make tests/performance/CMakeFiles/performance_benchmark.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/liying/sqlcc/test_working_dir/build/CMakeFiles --progress-num=28 "Built target performance_benchmark"
+.PHONY : tests/performance/CMakeFiles/performance_benchmark.dir/all
+
+# Build rule for subdir invocation for target.
+tests/performance/CMakeFiles/performance_benchmark.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 37
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/performance/CMakeFiles/performance_benchmark.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 0
+.PHONY : tests/performance/CMakeFiles/performance_benchmark.dir/rule
+
+# Convenience name for target.
+performance_benchmark: tests/performance/CMakeFiles/performance_benchmark.dir/rule
+.PHONY : performance_benchmark
+
+# clean rule for target.
+tests/performance/CMakeFiles/performance_benchmark.dir/clean:
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/performance_benchmark.dir/build.make tests/performance/CMakeFiles/performance_benchmark.dir/clean
+.PHONY : tests/performance/CMakeFiles/performance_benchmark.dir/clean
+
+#=============================================================================
+# Target rules for target tests/performance/CMakeFiles/clean_performance_results.dir
+
+# All Build rule for target.
+tests/performance/CMakeFiles/clean_performance_results.dir/all:
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/clean_performance_results.dir/build.make tests/performance/CMakeFiles/clean_performance_results.dir/depend
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/clean_performance_results.dir/build.make tests/performance/CMakeFiles/clean_performance_results.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/liying/sqlcc/test_working_dir/build/CMakeFiles --progress-num=2 "Built target clean_performance_results"
+.PHONY : tests/performance/CMakeFiles/clean_performance_results.dir/all
+
+# Build rule for subdir invocation for target.
+tests/performance/CMakeFiles/clean_performance_results.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 1
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/performance/CMakeFiles/clean_performance_results.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 0
+.PHONY : tests/performance/CMakeFiles/clean_performance_results.dir/rule
+
+# Convenience name for target.
+clean_performance_results: tests/performance/CMakeFiles/clean_performance_results.dir/rule
+.PHONY : clean_performance_results
+
+# clean rule for target.
+tests/performance/CMakeFiles/clean_performance_results.dir/clean:
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/clean_performance_results.dir/build.make tests/performance/CMakeFiles/clean_performance_results.dir/clean
+.PHONY : tests/performance/CMakeFiles/clean_performance_results.dir/clean
+
+#=============================================================================
+# Target rules for target tests/performance/CMakeFiles/view_performance_results.dir
+
+# All Build rule for target.
+tests/performance/CMakeFiles/view_performance_results.dir/all:
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/view_performance_results.dir/build.make tests/performance/CMakeFiles/view_performance_results.dir/depend
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/view_performance_results.dir/build.make tests/performance/CMakeFiles/view_performance_results.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/liying/sqlcc/test_working_dir/build/CMakeFiles --progress-num=100 "Built target view_performance_results"
+.PHONY : tests/performance/CMakeFiles/view_performance_results.dir/all
+
+# Build rule for subdir invocation for target.
+tests/performance/CMakeFiles/view_performance_results.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 1
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/performance/CMakeFiles/view_performance_results.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 0
+.PHONY : tests/performance/CMakeFiles/view_performance_results.dir/rule
+
+# Convenience name for target.
+view_performance_results: tests/performance/CMakeFiles/view_performance_results.dir/rule
+.PHONY : view_performance_results
+
+# clean rule for target.
+tests/performance/CMakeFiles/view_performance_results.dir/clean:
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/view_performance_results.dir/build.make tests/performance/CMakeFiles/view_performance_results.dir/clean
+.PHONY : tests/performance/CMakeFiles/view_performance_results.dir/clean
+
+#=============================================================================
+# Target rules for target tests/performance/CMakeFiles/run_large_scale_test.dir
+
+# All Build rule for target.
+tests/performance/CMakeFiles/run_large_scale_test.dir/all:
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/run_large_scale_test.dir/build.make tests/performance/CMakeFiles/run_large_scale_test.dir/depend
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/run_large_scale_test.dir/build.make tests/performance/CMakeFiles/run_large_scale_test.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/liying/sqlcc/test_working_dir/build/CMakeFiles --progress-num=54 "Built target run_large_scale_test"
+.PHONY : tests/performance/CMakeFiles/run_large_scale_test.dir/all
+
+# Build rule for subdir invocation for target.
+tests/performance/CMakeFiles/run_large_scale_test.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 1
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/performance/CMakeFiles/run_large_scale_test.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 0
+.PHONY : tests/performance/CMakeFiles/run_large_scale_test.dir/rule
+
+# Convenience name for target.
+run_large_scale_test: tests/performance/CMakeFiles/run_large_scale_test.dir/rule
+.PHONY : run_large_scale_test
+
+# clean rule for target.
+tests/performance/CMakeFiles/run_large_scale_test.dir/clean:
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/run_large_scale_test.dir/build.make tests/performance/CMakeFiles/run_large_scale_test.dir/clean
+.PHONY : tests/performance/CMakeFiles/run_large_scale_test.dir/clean
+
+#=============================================================================
+# Target rules for target tests/performance/CMakeFiles/run_index_benchmark.dir
+
+# All Build rule for target.
+tests/performance/CMakeFiles/run_index_benchmark.dir/all:
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/run_index_benchmark.dir/build.make tests/performance/CMakeFiles/run_index_benchmark.dir/depend
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/run_index_benchmark.dir/build.make tests/performance/CMakeFiles/run_index_benchmark.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/liying/sqlcc/test_working_dir/build/CMakeFiles --progress-num=53 "Built target run_index_benchmark"
+.PHONY : tests/performance/CMakeFiles/run_index_benchmark.dir/all
+
+# Build rule for subdir invocation for target.
+tests/performance/CMakeFiles/run_index_benchmark.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 1
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/performance/CMakeFiles/run_index_benchmark.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 0
+.PHONY : tests/performance/CMakeFiles/run_index_benchmark.dir/rule
+
+# Convenience name for target.
+run_index_benchmark: tests/performance/CMakeFiles/run_index_benchmark.dir/rule
+.PHONY : run_index_benchmark
+
+# clean rule for target.
+tests/performance/CMakeFiles/run_index_benchmark.dir/clean:
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/run_index_benchmark.dir/build.make tests/performance/CMakeFiles/run_index_benchmark.dir/clean
+.PHONY : tests/performance/CMakeFiles/run_index_benchmark.dir/clean
+
+#=============================================================================
+# Target rules for target tests/performance/CMakeFiles/run_constraint_benchmark.dir
+
+# All Build rule for target.
+tests/performance/CMakeFiles/run_constraint_benchmark.dir/all:
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/run_constraint_benchmark.dir/build.make tests/performance/CMakeFiles/run_constraint_benchmark.dir/depend
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/run_constraint_benchmark.dir/build.make tests/performance/CMakeFiles/run_constraint_benchmark.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/liying/sqlcc/test_working_dir/build/CMakeFiles --progress-num=50 "Built target run_constraint_benchmark"
+.PHONY : tests/performance/CMakeFiles/run_constraint_benchmark.dir/all
+
+# Build rule for subdir invocation for target.
+tests/performance/CMakeFiles/run_constraint_benchmark.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 1
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/performance/CMakeFiles/run_constraint_benchmark.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 0
+.PHONY : tests/performance/CMakeFiles/run_constraint_benchmark.dir/rule
+
+# Convenience name for target.
+run_constraint_benchmark: tests/performance/CMakeFiles/run_constraint_benchmark.dir/rule
+.PHONY : run_constraint_benchmark
+
+# clean rule for target.
+tests/performance/CMakeFiles/run_constraint_benchmark.dir/clean:
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/run_constraint_benchmark.dir/build.make tests/performance/CMakeFiles/run_constraint_benchmark.dir/clean
+.PHONY : tests/performance/CMakeFiles/run_constraint_benchmark.dir/clean
+
+#=============================================================================
+# Target rules for target tests/performance/CMakeFiles/run_performance_suite.dir
+
+# All Build rule for target.
+tests/performance/CMakeFiles/run_performance_suite.dir/all: tests/performance/CMakeFiles/performance_test.dir/all
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/run_performance_suite.dir/build.make tests/performance/CMakeFiles/run_performance_suite.dir/depend
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/run_performance_suite.dir/build.make tests/performance/CMakeFiles/run_performance_suite.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/liying/sqlcc/test_working_dir/build/CMakeFiles --progress-num=57 "Built target run_performance_suite"
+.PHONY : tests/performance/CMakeFiles/run_performance_suite.dir/all
+
+# Build rule for subdir invocation for target.
+tests/performance/CMakeFiles/run_performance_suite.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 37
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/performance/CMakeFiles/run_performance_suite.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 0
+.PHONY : tests/performance/CMakeFiles/run_performance_suite.dir/rule
+
+# Convenience name for target.
+run_performance_suite: tests/performance/CMakeFiles/run_performance_suite.dir/rule
+.PHONY : run_performance_suite
+
+# clean rule for target.
+tests/performance/CMakeFiles/run_performance_suite.dir/clean:
+	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/run_performance_suite.dir/build.make tests/performance/CMakeFiles/run_performance_suite.dir/clean
+.PHONY : tests/performance/CMakeFiles/run_performance_suite.dir/clean
+
+#=============================================================================
+# Target rules for target tests/performance/concurrency_test/CMakeFiles/concurrency_test.dir
+
+# All Build rule for target.
+tests/performance/concurrency_test/CMakeFiles/concurrency_test.dir/all: src/CMakeFiles/sqlcc_core_lib.dir/all
+tests/performance/concurrency_test/CMakeFiles/concurrency_test.dir/all: src/CMakeFiles/sqlcc_parser.dir/all
+tests/performance/concurrency_test/CMakeFiles/concurrency_test.dir/all: src/CMakeFiles/sqlcc_config_manager.dir/all
+tests/performance/concurrency_test/CMakeFiles/concurrency_test.dir/all: src/CMakeFiles/sqlcc_storage_engine.dir/all
+tests/performance/concurrency_test/CMakeFiles/concurrency_test.dir/all: src/CMakeFiles/sqlcc_transaction_manager.dir/all
+tests/performance/concurrency_test/CMakeFiles/concurrency_test.dir/all: src/CMakeFiles/sqlcc_network.dir/all
+tests/performance/concurrency_test/CMakeFiles/concurrency_test.dir/all: src/CMakeFiles/sqlcc_executor.dir/all
+	$(MAKE) $(MAKESILENT) -f tests/performance/concurrency_test/CMakeFiles/concurrency_test.dir/build.make tests/performance/concurrency_test/CMakeFiles/concurrency_test.dir/depend
+	$(MAKE) $(MAKESILENT) -f tests/performance/concurrency_test/CMakeFiles/concurrency_test.dir/build.make tests/performance/concurrency_test/CMakeFiles/concurrency_test.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/liying/sqlcc/test_working_dir/build/CMakeFiles --progress-num=5,6,7,8,9 "Built target concurrency_test"
+.PHONY : tests/performance/concurrency_test/CMakeFiles/concurrency_test.dir/all
+
+# Build rule for subdir invocation for target.
+tests/performance/concurrency_test/CMakeFiles/concurrency_test.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 29
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/performance/concurrency_test/CMakeFiles/concurrency_test.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 0
+.PHONY : tests/performance/concurrency_test/CMakeFiles/concurrency_test.dir/rule
+
+# Convenience name for target.
+concurrency_test: tests/performance/concurrency_test/CMakeFiles/concurrency_test.dir/rule
+.PHONY : concurrency_test
+
+# clean rule for target.
+tests/performance/concurrency_test/CMakeFiles/concurrency_test.dir/clean:
+	$(MAKE) $(MAKESILENT) -f tests/performance/concurrency_test/CMakeFiles/concurrency_test.dir/build.make tests/performance/concurrency_test/CMakeFiles/concurrency_test.dir/clean
+.PHONY : tests/performance/concurrency_test/CMakeFiles/concurrency_test.dir/clean
+
+#=============================================================================
+# Target rules for target tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir
+
+# All Build rule for target.
+tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/all: src/CMakeFiles/sqlcc_core_lib.dir/all
+tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/all: src/CMakeFiles/sqlcc_parser.dir/all
+tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/all: src/CMakeFiles/sqlcc_config_manager.dir/all
+tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/all: src/CMakeFiles/sqlcc_storage_engine.dir/all
+tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/all: src/CMakeFiles/sqlcc_transaction_manager.dir/all
+tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/all: src/CMakeFiles/sqlcc_network.dir/all
+tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/all: src/CMakeFiles/sqlcc_executor.dir/all
+	$(MAKE) $(MAKESILENT) -f tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/build.make tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/depend
+	$(MAKE) $(MAKESILENT) -f tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/build.make tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/liying/sqlcc/test_working_dir/build/CMakeFiles --progress-num=10,11,12,13 "Built target cpu_intensive_test"
+.PHONY : tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/all
+
+# Build rule for subdir invocation for target.
+tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 28
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 0
+.PHONY : tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/rule
+
+# Convenience name for target.
+cpu_intensive_test: tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/rule
+.PHONY : cpu_intensive_test
+
+# clean rule for target.
+tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/clean:
+	$(MAKE) $(MAKESILENT) -f tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/build.make tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/clean
+.PHONY : tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/clean
+
+#=============================================================================
+# Target rules for target tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir
+
+# All Build rule for target.
+tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/all: src/CMakeFiles/sqlcc_core_lib.dir/all
+tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/all: src/CMakeFiles/sqlcc_parser.dir/all
+tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/all: src/CMakeFiles/sqlcc_config_manager.dir/all
+tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/all: src/CMakeFiles/sqlcc_storage_engine.dir/all
+tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/all: src/CMakeFiles/sqlcc_transaction_manager.dir/all
+tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/all: src/CMakeFiles/sqlcc_network.dir/all
+tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/all: src/CMakeFiles/sqlcc_executor.dir/all
+	$(MAKE) $(MAKESILENT) -f tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/build.make tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/depend
+	$(MAKE) $(MAKESILENT) -f tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/build.make tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/liying/sqlcc/test_working_dir/build/CMakeFiles --progress-num=24,25,26,27 "Built target memory_stress_test"
+.PHONY : tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/all
+
+# Build rule for subdir invocation for target.
+tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 28
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 0
+.PHONY : tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/rule
+
+# Convenience name for target.
+memory_stress_test: tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/rule
+.PHONY : memory_stress_test
+
+# clean rule for target.
+tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/clean:
+	$(MAKE) $(MAKESILENT) -f tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/build.make tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/clean
+.PHONY : tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/clean
+
+#=============================================================================
+# Target rules for target tests/performance/stability_test/CMakeFiles/stability_test.dir
+
+# All Build rule for target.
+tests/performance/stability_test/CMakeFiles/stability_test.dir/all: src/CMakeFiles/sqlcc_core_lib.dir/all
+tests/performance/stability_test/CMakeFiles/stability_test.dir/all: src/CMakeFiles/sqlcc_parser.dir/all
+tests/performance/stability_test/CMakeFiles/stability_test.dir/all: src/CMakeFiles/sqlcc_config_manager.dir/all
+tests/performance/stability_test/CMakeFiles/stability_test.dir/all: src/CMakeFiles/sqlcc_storage_engine.dir/all
+tests/performance/stability_test/CMakeFiles/stability_test.dir/all: src/CMakeFiles/sqlcc_transaction_manager.dir/all
+tests/performance/stability_test/CMakeFiles/stability_test.dir/all: src/CMakeFiles/sqlcc_network.dir/all
+tests/performance/stability_test/CMakeFiles/stability_test.dir/all: src/CMakeFiles/sqlcc_executor.dir/all
+	$(MAKE) $(MAKESILENT) -f tests/performance/stability_test/CMakeFiles/stability_test.dir/build.make tests/performance/stability_test/CMakeFiles/stability_test.dir/depend
+	$(MAKE) $(MAKESILENT) -f tests/performance/stability_test/CMakeFiles/stability_test.dir/build.make tests/performance/stability_test/CMakeFiles/stability_test.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/liying/sqlcc/test_working_dir/build/CMakeFiles --progress-num=94,95,96,97 "Built target stability_test"
+.PHONY : tests/performance/stability_test/CMakeFiles/stability_test.dir/all
+
+# Build rule for subdir invocation for target.
+tests/performance/stability_test/CMakeFiles/stability_test.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 28
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/performance/stability_test/CMakeFiles/stability_test.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 0
+.PHONY : tests/performance/stability_test/CMakeFiles/stability_test.dir/rule
+
+# Convenience name for target.
+stability_test: tests/performance/stability_test/CMakeFiles/stability_test.dir/rule
+.PHONY : stability_test
+
+# clean rule for target.
+tests/performance/stability_test/CMakeFiles/stability_test.dir/clean:
+	$(MAKE) $(MAKESILENT) -f tests/performance/stability_test/CMakeFiles/stability_test.dir/build.make tests/performance/stability_test/CMakeFiles/stability_test.dir/clean
+.PHONY : tests/performance/stability_test/CMakeFiles/stability_test.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

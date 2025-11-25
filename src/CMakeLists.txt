@@ -93,6 +93,10 @@ target_include_directories(sqlcc_executor PUBLIC
     ${CMAKE_SOURCE_DIR}/include/core
 )
 
+# 设置编译选项，启用覆盖率测试
+target_compile_options(sqlcc_executor PRIVATE -g -O0 --coverage)
+target_link_options(sqlcc_executor PRIVATE --coverage)
+
 # 添加必要的链接依赖
 find_package(Threads)
 if(Threads_FOUND)
@@ -116,6 +120,9 @@ target_link_libraries(sqlcc_core INTERFACE
 
 # SQL执行器库链接到核心库、parser库和storage_engine库
 target_link_libraries(sqlcc_executor PRIVATE sqlcc_parser sqlcc_core_lib sqlcc_storage_engine)
+
+# storage_engine库链接到config_manager库，因为buffer_pool.cpp使用了ConfigManager类
+target_link_libraries(sqlcc_storage_engine PRIVATE sqlcc_config_manager)
 
 # 添加dml_test可执行文件
 add_executable(dml_test
@@ -160,6 +167,107 @@ target_compile_options(comprehensive_test PRIVATE
     -Wextra
     -Wno-unused-parameter
 )
+
+# 添加dcl_test_advanced可执行文件
+add_executable(dcl_test_advanced
+    dcl_test_advanced.cpp
+)
+
+# 链接所需的库
+target_link_libraries(dcl_test_advanced
+    sqlcc_core_lib
+    sqlcc_parser
+    sqlcc_config_manager
+    sqlcc_storage_engine
+    sqlcc_transaction_manager
+    sqlcc_executor
+)
+
+# 添加编译选项
+target_compile_options(dcl_test_advanced PRIVATE
+    -Wall
+    -Wextra
+    -Wno-unused-parameter
+)
+
+# 添加sql_executor_comprehensive_test可执行文件
+add_executable(sql_executor_comprehensive_test
+    sql_executor_comprehensive_test.cpp
+)
+
+# 链接所需的库
+target_link_libraries(sql_executor_comprehensive_test
+    sqlcc_core_lib
+    sqlcc_parser
+    sqlcc_config_manager
+    sqlcc_storage_engine
+    sqlcc_transaction_manager
+    sqlcc_executor
+)
+
+# 添加编译选项
+target_compile_options(sql_executor_comprehensive_test PRIVATE
+    -Wall
+    -Wextra
+    -Wno-unused-parameter
+)
+
+# 设置覆盖率测试选项
+target_compile_options(sql_executor_comprehensive_test PRIVATE -g -O0 --coverage)
+target_link_options(sql_executor_comprehensive_test PRIVATE --coverage)
+
+# 添加sql_executor_targeted_test可执行文件
+add_executable(sql_executor_targeted_test
+    sql_executor_targeted_test.cpp
+)
+
+# 链接所需的库
+target_link_libraries(sql_executor_targeted_test
+    sqlcc_core_lib
+    sqlcc_parser
+    sqlcc_config_manager
+    sqlcc_storage_engine
+    sqlcc_transaction_manager
+    sqlcc_executor
+)
+
+# 设置编译选项，启用覆盖率测试
+target_compile_options(sql_executor_targeted_test PRIVATE -g -O0 --coverage)
+target_link_options(sql_executor_targeted_test PRIVATE --coverage)
+
+# 添加SQL执行器精确单元测试
+add_executable(sql_executor_unit_test sql_executor_unit_test.cpp)
+
+# 链接所需的库
+target_link_libraries(sql_executor_unit_test
+    sqlcc_core_lib
+    sqlcc_parser
+    sqlcc_config_manager
+    sqlcc_storage_engine
+    sqlcc_transaction_manager
+    sqlcc_executor
+)
+
+# 设置编译选项，启用覆盖率测试
+target_compile_options(sql_executor_unit_test PRIVATE -g -O0 --coverage)
+target_link_options(sql_executor_unit_test PRIVATE --coverage)
+
+# 添加SQL执行器最小化测试
+add_executable(sql_executor_minimal_test sql_executor_minimal_test.cpp)
+
+# 链接所需的库
+target_link_libraries(sql_executor_minimal_test
+    sqlcc_core_lib
+    sqlcc_parser
+    sqlcc_config_manager
+    sqlcc_storage_engine
+    sqlcc_transaction_manager
+    sqlcc_executor
+)
+
+# 设置编译选项，启用覆盖率测试
+target_compile_options(sql_executor_minimal_test PRIVATE -g -O0 --coverage)
+target_link_options(sql_executor_minimal_test PRIVATE --coverage)
 
 # 确保所有库都能正确处理.cpp后缀文件
 set(CMAKE_CXX_SOURCE_FILE_EXTENSIONS cpp)

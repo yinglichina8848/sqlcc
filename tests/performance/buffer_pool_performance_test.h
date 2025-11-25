@@ -1,6 +1,7 @@
 #pragma once
 
 #include "performance_test_base.h"
+#include "sql_executor.h"
 #include <vector>
 #include <random>
 #include <memory>
@@ -34,6 +35,17 @@ protected:
      * 清理测试环境
      */
     void Cleanup() override;
+
+public:
+    /**
+     * 设置测试环境
+     */
+    void SetUp();
+    
+    /**
+     * 清理测试环境
+     */
+    void TearDown();
 
 private:
     /**
@@ -98,6 +110,9 @@ private:
     size_t current_pool_size_;
     std::vector<int32_t> buffer_pool_;
     std::vector<bool> dirty_flags_;
+    
+    // SQL执行器
+    sqlcc::SqlExecutor* sql_executor_; // SQL执行器指针
     std::vector<std::chrono::high_resolution_clock::time_point> access_times_;
     
     // LRU相关成员

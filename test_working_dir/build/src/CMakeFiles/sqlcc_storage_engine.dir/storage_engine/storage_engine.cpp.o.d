@@ -215,6 +215,7 @@ src/CMakeFiles/sqlcc_storage_engine.dir/storage_engine/storage_engine.cpp.o: \
  /usr/include/c++/13/list /usr/include/c++/13/bits/stl_list.h \
  /usr/include/c++/13/bits/list.tcc \
  /home/liying/sqlcc/include/../include/sql_executor.h \
+ /home/liying/sqlcc/include/../include/user_manager.h \
  /home/liying/sqlcc/include/logger.h /usr/include/c++/13/iostream \
  /usr/include/c++/13/iomanip /usr/include/c++/13/locale \
  /usr/include/c++/13/bits/locale_facets_nonio.h \

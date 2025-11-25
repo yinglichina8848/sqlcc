@@ -4,6 +4,7 @@
 #include "database_manager.h"
 #include <iostream>
 #include <memory>
+#include <filesystem>
 
 using namespace sqlcc;
 
@@ -19,12 +20,14 @@ int main() {
       std::cout << "配置文件加载失败，使用默认配置" << std::endl;
     }
 
-    // 创建数据库管理器实例
-    // 使用默认数据库路径和参数
-    // DatabaseManager db_manager("./data");
+    // 创建临时数据目录
+    std::string db_path = "./dml_test_data";
+    std::filesystem::create_directories(db_path);
+    std::cout << "创建临时数据目录: " << db_path << std::endl;
 
-    // 创建SQL执行器实例
+    // 创建SQL执行器实例（使用默认初始化）
     SqlExecutor executor;
+    std::cout << "SQL执行器初始化完成" << std::endl;
 
     // 测试创建表（为DML操作准备）
     std::cout << "\n=== 创建表测试 ===" << std::endl;
@@ -76,6 +79,15 @@ int main() {
     std::string select_result4 = executor.Execute("SELECT * FROM users");
     std::cout << select_result4 << std::endl;
 
+    // 清理测试数据
+    std::cout << "\n=== 清理测试数据 ===" << std::endl;
+    std::string drop_result = executor.Execute("DROP TABLE IF EXISTS users");
+    std::cout << drop_result << std::endl;
+    
+    // 清理临时目录
+    std::filesystem::remove_all(db_path);
+    std::cout << "已清理临时数据目录" << std::endl;
+    
     std::cout << "\nDML功能测试完成!" << std::endl;
   } catch (const std::exception &e) {
     std::cerr << "错误: " << e.what() << std::endl;

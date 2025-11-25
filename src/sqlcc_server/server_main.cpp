@@ -1,5 +1,6 @@
 #include "network/network.h"
 #include "network/encryption.h"
+#include "sql_executor.h"
 #include <iostream>
 #include <string>
 #include <cstring>
@@ -47,9 +48,15 @@ int main(int argc, char* argv[]) {
     
     std::cout << "SqlCC Server starting on port " << port << std::endl;
     
+    // 创建SQL执行器
+    auto sql_executor = std::make_shared<sqlcc::SqlExecutor>();
+    
     // 创建服务器网络管理器
     ServerNetworkManager server(port);
     g_server = &server;
+    
+    // 设置SQL执行器到服务器网络管理器
+    server.SetSqlExecutor(sql_executor);
     
     // 注册信号处理函数
     std::signal(SIGINT, signalHandler);

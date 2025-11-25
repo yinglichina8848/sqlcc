@@ -20,7 +20,7 @@ public:
     std::string ExecuteFile(const std::string &file_path);
     
     // 获取最后一次执行的错误信息
-    const std::string &GetLastError() const;
+    std::string GetLastError();
     
     // 设置错误信息
     void SetError(const std::string &error);
@@ -28,6 +28,11 @@ public:
 private:
     // 简化的SELECT查询执行
     std::string ExecuteSelect(const std::string &sql);
+    
+    // 其他SQL命令执行方法
+    std::string ExecuteInsert(const std::string &sql);
+    std::string ExecuteUpdate(const std::string &sql);
+    std::string ExecuteDelete(const std::string &sql);
     
     // 成员变量
     std::string last_error_;

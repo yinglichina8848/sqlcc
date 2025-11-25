@@ -225,6 +225,7 @@ CMakeFiles/isql.dir/src/isql_main.cpp.o: \
  /usr/include/c++/13/bits/stl_bvector.h \
  /usr/include/c++/13/bits/vector.tcc /usr/include/c++/13/chrono \
  /home/liying/sqlcc/src/../include/sql_executor.h \
+ /home/liying/sqlcc/src/../include/user_manager.h \
  /home/liying/sqlcc/include/exception.h \
  /home/liying/sqlcc/include/storage_engine.h \
  /home/liying/sqlcc/include/buffer_pool.h \

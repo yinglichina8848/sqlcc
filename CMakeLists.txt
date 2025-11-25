@@ -30,13 +30,6 @@ set(CMAKE_CXX_SOURCE_FILE_EXTENSIONS cpp cc)
 # 设置默认源文件扩展名首选项为.cc
 set(CMAKE_CXX_CREATE_WIN32_RESOURCE cxx)
 
-# 根据构建类型设置优化选项
-if(CMAKE_BUILD_TYPE STREQUAL "Debug")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O0")
-elseif(CMAKE_BUILD_TYPE STREQUAL "Release")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -DNDEBUG")
-endif()
-
 # 代码覆盖率支持选项
 option(ENABLE_COVERAGE "Enable code coverage testing" ON)
 
@@ -45,11 +38,21 @@ find_program(GCov gcov)
 find_program(LCOV lcov)
 find_program(GENHTML genhtml)
 
+# 根据构建类型和覆盖率选项设置编译标志
 if(ENABLE_COVERAGE AND GCov AND LCOV AND GENHTML)
     message(STATUS "启用覆盖率测试支持")
+    # 覆盖率测试强制使用Debug模式的编译选项
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O0 --coverage")
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} --coverage")
+    # 确保不使用NDEBUG
+    string(REPLACE "-DNDEBUG" "" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
 else()
+    # 正常的构建类型设置
+    if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O0")
+    elseif(CMAKE_BUILD_TYPE STREQUAL "Release")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -DNDEBUG")
+    endif()
     message(WARNING "未找到覆盖率测试工具(gcov/lcov/genhtml)，禁用覆盖率测试")
     set(ENABLE_COVERAGE OFF)
 endif()

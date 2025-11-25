@@ -20,12 +20,12 @@ public:
     IndexPerformanceTest();
     virtual ~IndexPerformanceTest();
     
-    virtual void SetUp() override;
-    virtual void TearDown() override;
-    virtual void RunTests() override;
+    virtual void SetUp();
+    virtual void TearDown();
+    virtual void RunTests();
     
-    virtual std::string GetOutputDirectory() const override;
-    virtual void CleanOutputDirectory() override;
+    virtual std::string GetOutputDirectory() const;
+    virtual void CleanOutputDirectory();
     
 private:
     // 测试辅助方法
