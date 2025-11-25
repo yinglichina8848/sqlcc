@@ -93,12 +93,12 @@ sqlcc_EXTERNAL_OBJECTS =
 bin/sqlcc: CMakeFiles/sqlcc.dir/src/main.cpp.o
 bin/sqlcc: CMakeFiles/sqlcc.dir/build.make
 bin/sqlcc: src/libsqlcc_executor.a
-bin/sqlcc: src/libsqlcc_config_manager.a
 bin/sqlcc: src/libsqlcc_transaction_manager.a
 bin/sqlcc: src/libsqlcc_network.a
 bin/sqlcc: src/libsqlcc_core_lib.a
 bin/sqlcc: src/libsqlcc_parser.a
 bin/sqlcc: src/libsqlcc_storage_engine.a
+bin/sqlcc: src/libsqlcc_config_manager.a
 bin/sqlcc: CMakeFiles/sqlcc.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/liying/sqlcc/test_working_dir/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable bin/sqlcc"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/sqlcc.dir/link.txt --verbose=$(VERBOSE)

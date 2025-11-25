@@ -126,6 +126,44 @@ depend:
 	cd /home/liying/sqlcc/test_working_dir/build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
+# Convenience name for target.
+tests/CMakeFiles/sql_network_test.dir/rule:
+	cd /home/liying/sqlcc/test_working_dir/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/sql_network_test.dir/rule
+.PHONY : tests/CMakeFiles/sql_network_test.dir/rule
+
+# Convenience name for target.
+sql_network_test: tests/CMakeFiles/sql_network_test.dir/rule
+.PHONY : sql_network_test
+
+# fast build rule for target.
+sql_network_test/fast:
+	cd /home/liying/sqlcc/test_working_dir/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/sql_network_test.dir/build.make tests/CMakeFiles/sql_network_test.dir/build
+.PHONY : sql_network_test/fast
+
+network/sql_network_test.o: network/sql_network_test.cpp.o
+.PHONY : network/sql_network_test.o
+
+# target to build an object file
+network/sql_network_test.cpp.o:
+	cd /home/liying/sqlcc/test_working_dir/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/sql_network_test.dir/build.make tests/CMakeFiles/sql_network_test.dir/network/sql_network_test.cpp.o
+.PHONY : network/sql_network_test.cpp.o
+
+network/sql_network_test.i: network/sql_network_test.cpp.i
+.PHONY : network/sql_network_test.i
+
+# target to preprocess a source file
+network/sql_network_test.cpp.i:
+	cd /home/liying/sqlcc/test_working_dir/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/sql_network_test.dir/build.make tests/CMakeFiles/sql_network_test.dir/network/sql_network_test.cpp.i
+.PHONY : network/sql_network_test.cpp.i
+
+network/sql_network_test.s: network/sql_network_test.cpp.s
+.PHONY : network/sql_network_test.s
+
+# target to generate assembly for a file
+network/sql_network_test.cpp.s:
+	cd /home/liying/sqlcc/test_working_dir/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/sql_network_test.dir/build.make tests/CMakeFiles/sql_network_test.dir/network/sql_network_test.cpp.s
+.PHONY : network/sql_network_test.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -135,6 +173,10 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... test"
+	@echo "... sql_network_test"
+	@echo "... network/sql_network_test.o"
+	@echo "... network/sql_network_test.i"
+	@echo "... network/sql_network_test.s"
 .PHONY : help
 
 

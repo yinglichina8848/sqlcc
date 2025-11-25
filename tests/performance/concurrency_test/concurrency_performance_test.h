@@ -12,6 +12,7 @@
 #include "../../include/buffer_pool.h"
 #include "../../include/disk_manager.h"
 #include "../../include/config_manager.h"
+#include "../../include/sql_executor.h"
 
 namespace sqlcc {
 namespace test {
@@ -84,19 +85,19 @@ protected:
     TestResult TestLockContention();
 
     /**
-     * 模拟读取操作
+     * 执行真实读取操作（SQL查询）
      */
-    void SimulateReadOperation(int thread_id, int operation_id);
+    bool ExecuteRealReadOperation(int32_t key);
 
     /**
-     * 模拟写入操作
+     * 执行真实写入操作（SQL插入/更新）
      */
-    void SimulateWriteOperation(int thread_id, int operation_id);
+    bool ExecuteRealWriteOperation(int32_t key, const std::string& value);
 
     /**
-     * 模拟锁竞争操作
+     * 执行真实锁操作（事务锁）
      */
-    void SimulateLockOperation(int thread_id, int operation_id, std::mutex& mutex);
+    bool ExecuteRealLockOperation(int32_t lock_id);
 
     /**
      * 清理测试环境
@@ -140,14 +141,9 @@ private:
     void GenerateTestData();
 
     /**
-     * 执行页面读取操作
+     * 初始化测试表结构
      */
-    bool ExecutePageRead(int32_t page_id);
-
-    /**
-     * 执行页面写入操作
-     */
-    bool ExecutePageWrite(int32_t page_id, const std::string& data);
+    void InitializeTestTables();
 
 private:
     // 常量定义
@@ -156,11 +152,15 @@ private:
     static constexpr size_t kDataSize = 10000;
     static constexpr size_t kWorkingSetSize = 100;
     static constexpr size_t kLockCount = 100;
+    static constexpr const char* kTestDatabase = "concurrency_test_db";
+    static constexpr const char* kTestTable = "test_data";
 
     // 测试环境
     std::unique_ptr<sqlcc::BufferPool> buffer_pool_;
     std::unique_ptr<sqlcc::DiskManager> disk_manager_;
+    std::unique_ptr<sqlcc::SqlExecutor> sql_executor_;
     std::string test_db_file_ = "./test_concurrency.db";
+    std::string test_table_name_;
 
     // 测试数据
     std::vector<int32_t> test_data_;
@@ -173,7 +173,7 @@ private:
 
     // 随机数生成器
     std::mt19937 rng_;
-    std::uniform_int_distribution<int32_t> page_id_dist_;
+    std::uniform_int_distribution<int32_t> key_dist_;
     std::uniform_real_distribution<double> random_dist_;
 };
 

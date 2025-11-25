@@ -66,20 +66,24 @@ include CMakeFiles/coverage.dir/compiler_depend.make
 # Include the progress variables for this target.
 include CMakeFiles/coverage.dir/progress.make
 
-CMakeFiles/coverage:
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=/home/liying/sqlcc/test_working_dir/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Configure, build and run tests with code coverage"
-	echo ===\ 配置覆盖率构建\ ===
-	/usr/bin/cmake -DCMAKE_BUILD_TYPE=Coverage -DENABLE_COVERAGE=ON /home/liying/sqlcc
-	echo ===\ 构建覆盖率版本\ ===
-	/usr/bin/cmake --build /home/liying/sqlcc/test_working_dir/build --parallel
+CMakeFiles/coverage: dcl_test
+CMakeFiles/coverage: ddl_test
+CMakeFiles/coverage: src/dml_test
+CMakeFiles/coverage: src/comprehensive_test
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=/home/liying/sqlcc/test_working_dir/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) 生成代码覆盖率报告
 	echo ===\ 运行覆盖率测试\ ===
-	/usr/bin/cmake --build /home/liying/sqlcc/test_working_dir/build --target test
-	echo ===\ 生成覆盖率报告\ ===
-	/usr/bin/cmake -E make_directory /home/liying/sqlcc/test_working_dir/build/coverage
-	gcovr --root /home/liying/sqlcc --html --html-details -o /home/liying/sqlcc/test_working_dir/build/coverage/index.html --exclude /home/liying/sqlcc/tests/ --exclude /home/liying/sqlcc/build/ --merge-mode-functions=merge-use-line-0 --object-directory /home/liying/sqlcc/test_working_dir/build --gcov-object-directory /home/liying/sqlcc/test_working_dir/build
-	echo ===\ 清理临时gcov文件\ ===
-	find /home/liying/sqlcc/test_working_dir/build -name *.gcov -delete
-	echo ===\ 覆盖率测试完成，报告已生成\ ===
+	mkdir -p /home/liying/sqlcc/test_working_dir/build/coverage
+	/usr/bin/lcov --directory /home/liying/sqlcc/test_working_dir/build --zerocounters
+	/home/liying/sqlcc/test_working_dir/build/dcl_test || echo DCL测试失败，但继续生成覆盖率报告
+	/home/liying/sqlcc/test_working_dir/build/ddl_test || echo DDL测试失败，但继续生成覆盖率报告
+	/home/liying/sqlcc/test_working_dir/build/dml_test || echo DML测试失败，但继续生成覆盖率报告
+	/home/liying/sqlcc/test_working_dir/build/comprehensive_test || echo 综合测试失败，但继续生成覆盖率报告
+	/usr/bin/lcov --capture --directory /home/liying/sqlcc/test_working_dir/build --output-file /home/liying/sqlcc/test_working_dir/build/coverage/coverage.info
+	/usr/bin/lcov --remove /home/liying/sqlcc/test_working_dir/build/coverage/coverage.info /home/liying/sqlcc/tests/* /home/liying/sqlcc/build/* *test_*.cpp --output-file /home/liying/sqlcc/test_working_dir/build/coverage/coverage_clean.info --ignore-errors unused
+	/usr/bin/genhtml --output-directory /home/liying/sqlcc/test_working_dir/build/coverage /home/liying/sqlcc/test_working_dir/build/coverage/coverage_clean.info
+	/usr/bin/lcov --list /home/liying/sqlcc/test_working_dir/build/coverage/coverage_clean.info
+	echo ===\ 覆盖率报告生成完成\ ===
+	echo ===\ HTML报告路径:\ /home/liying/sqlcc/test_working_dir/build/coverage/index.html\ ===
 
 coverage: CMakeFiles/coverage
 coverage: CMakeFiles/coverage.dir/build.make

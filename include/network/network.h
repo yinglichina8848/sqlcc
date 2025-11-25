@@ -15,6 +15,8 @@
 #include <mutex>
 #include <vector>
 
+#include "sql_executor.h"
+
 namespace sqlcc {
 namespace network {
 
@@ -53,11 +55,19 @@ public:
         authenticated_ = true;
         user_ = user;
     }
+    
+    // 加密和认证控制方法
+    void SetEncryptionDisabled(bool disabled);
+    bool IsEncryptionDisabled() const;
+    void SetAuthenticationDisabled(bool disabled);
+    bool IsAuthenticationDisabled() const;
 
 private:
     int session_id_;
     bool authenticated_;
     std::string user_;
+    bool encryption_disabled_;     // 是否禁用加密
+    bool authentication_disabled_; // 是否禁用认证
 };
 
 // 会话管理器
@@ -121,7 +131,7 @@ private:
 // 连接处理器
 class ConnectionHandler {
 public:
-    ConnectionHandler(int fd, std::shared_ptr<SessionManager> session_manager);
+    ConnectionHandler(int fd, std::shared_ptr<SessionManager> session_manager, std::shared_ptr<sqlcc::SqlExecutor> sql_executor);
     ~ConnectionHandler();
     
     int GetFd() const;
@@ -143,6 +153,7 @@ private:
     
     int fd_;
     std::shared_ptr<SessionManager> session_manager_;
+    std::shared_ptr<sqlcc::SqlExecutor> sql_executor_;
     std::shared_ptr<Session> session_;
     bool closed_;
     std::queue<std::vector<char>> write_queue_;
@@ -167,6 +178,7 @@ public:
     bool Start();
     void Stop();
     void ProcessEvents();
+    void SetSqlExecutor(std::shared_ptr<sqlcc::SqlExecutor> sql_executor);
 
 private:
     void AcceptConnection();
@@ -177,6 +189,7 @@ private:
     int epoll_fd_;
     bool running_;
     std::shared_ptr<SessionManager> session_manager_;
+    std::shared_ptr<sqlcc::SqlExecutor> sql_executor_;
     std::unordered_map<int, ConnectionHandler*> connections_;
 };
 

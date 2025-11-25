@@ -45,6 +45,8 @@ target_link_libraries(performance_test
     sqlcc_config_manager
     sqlcc_transaction_manager
     sqlcc_network
+    GTest::gtest
+    GTest::gtest_main
     Threads::Threads
 )
 

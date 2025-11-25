@@ -23,8 +23,16 @@ set(SOURCES
 # 创建可执行文件
 add_executable(memory_stress_test ${SOURCES})
 
-# 链接线程库和sqlcc_core库
-target_link_libraries(memory_stress_test Threads::Threads sqlcc_core)
+# 链接所需库
+target_link_libraries(memory_stress_test
+    PRIVATE
+    sqlcc_executor
+    sqlcc_core
+    sqlcc_config_manager
+    GTest::gtest
+    GTest::gtest_main
+    Threads::Threads
+)
 
 # 设置编译选项
 target_compile_options(memory_stress_test PRIVATE -O2 -Wall -Wextra)

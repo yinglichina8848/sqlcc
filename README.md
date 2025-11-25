@@ -104,7 +104,7 @@
 
 ---
 
-## 📦 当前版本：v0.6.5
+## 📦 当前版本：v1.0.0
 
 ### 🆕 功能特性
 
@@ -749,8 +749,8 @@ open coverage/index.html  # macOS
 - **[📛 错误处理指南](docs/guides/error_handling.md)** - 系统异常处理和错误恢复机制
 
 ### 📜 **版本管理**
-- **[📝 变更日志](docs/releases/CHANGELOG.md)** - 完整的版本变更历史记录
-- **[📄 v0.5.7发布说明](docs/releases/RELEASE_NOTES_v0.5.7.md)** - 当前版本详细特性说明
+- **[📝 变更日志](CHANGELOG.md)** - 完整的版本变更历史记录
+- **[📄 v1.0.0版本综合报告](reports/1.0.0版本综合报告.md)** - 当前版本详细特性说明和统计信息
 - **[📊 版本摘要](docs/releases/VERSION_SUMMARY.md)** - 项目全周期发展演进总览
 
 ## 🤝 贡献指南

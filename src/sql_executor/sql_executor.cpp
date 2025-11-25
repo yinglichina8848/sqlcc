@@ -302,8 +302,8 @@ std::string sqlcc::SqlExecutor::ExecuteFile(const std::string &file_path) {
   return result;
 }
 
-const std::string &sqlcc::SqlExecutor::GetLastError() const {
-  return last_error_;
+std::string sqlcc::SqlExecutor::GetLastError() {
+    return last_error_;
 }
 
 void sqlcc::SqlExecutor::SetError(const std::string &error) {

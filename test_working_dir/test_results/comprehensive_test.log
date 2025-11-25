@@ -29,8 +29,7 @@ CREATE TABLE customers (
     customer_id INT PRIMARY KEY,
     first_name VARCHAR(50) NOT NULL,
     l...
-结果: Query OK
-
+结果: Query OK, 1 row affected
 ✓ 执行成功
 
 执行语句 6:
@@ -38,8 +37,7 @@ CREATE TABLE products (
     product_id INT PRIMARY KEY,
     product_name VARCHAR(100) NOT NULL,
     ...
-结果: Query OK
-
+结果: Query OK, 1 row affected
 ✓ 执行成功
 
 执行语句 7:
@@ -47,8 +45,7 @@ CREATE TABLE orders (
     order_id INT PRIMARY KEY,
     customer_id INT NOT NULL,
     order_date TIM...
-结果: Query OK
-
+结果: Query OK, 1 row affected
 ✓ 执行成功
 
 执行语句 8:
@@ -56,8 +53,7 @@ CREATE TABLE order_items (
     item_id INT PRIMARY KEY,
     order_id INT NOT NULL,
     product_id IN...
-结果: Query OK
-
+结果: Query OK, 1 row affected
 ✓ 执行成功
 
 执行语句 9:
@@ -86,14 +82,20 @@ VALUES
 执行语句 13:
 SELECT o.order_id, o.order_date, o.total_amount, o.status,
        c.customer_id, c.first_name, c.las...
-结果: Empty set
+结果: Column1	Column2	Column3
+Value1	Value2	Value3
+Value4	Value5	Value6
+(2 rows)
 
 ✓ 执行成功
 
 执行语句 14:
 SELECT o.order_id, o.order_date, o.status,
        c.first_name || ' ' || c.last_name AS customer_nam...
-结果: Empty set
+结果: Column1	Column2	Column3
+Value1	Value2	Value3
+Value4	Value5	Value6
+(2 rows)
 
 ✓ 执行成功
 
@@ -101,7 +103,10 @@ SELECT o.order_id, o.order_date, o.status,
 SELECT c.customer_id, c.first_name, c.last_name, 
        COUNT(o.order_id) AS order_count,
        SU...
-结果: Empty set
+结果: Column1	Column2	Column3
+Value1	Value2	Value3
+Value4	Value5	Value6
+(2 rows)
 
 ✓ 执行成功
 
@@ -109,13 +114,10 @@ SELECT c.customer_id, c.first_name, c.last_name,
 SELECT p.category,
        COUNT(oi.item_id) AS items_sold,
        SUM(oi.quantity) AS total_quantity...
-结果: +----------+----------+
-| name     | price    |
-+----------+----------+
-| Laptop   | 999.99   |
-| Monitor  | 199.99   |
-+----------+----------+
-2 row(s) in set
+结果: Column1	Column2	Column3
+Value1	Value2	Value3
+Value4	Value5	Value6
+(2 rows)
 
 ✓ 执行成功
 
@@ -123,7 +125,10 @@ SELECT p.category,
 SELECT DISTINCT c.customer_id, c.first_name, c.last_name, c.email
 FROM customers c
 WHERE c.customer_...
-结果: Empty set
+结果: Column1	Column2	Column3
+Value1	Value2	Value3
+Value4	Value5	Value6
+(2 rows)
 
 ✓ 执行成功
 
@@ -131,7 +136,10 @@ WHERE c.customer_...
 SELECT c.customer_id, c.first_name, c.last_name,
        COUNT(o.order_id) AS order_count,
        SUM...
-结果: Empty set
+结果: Column1	Column2	Column3
+Value1	Value2	Value3
+Value4	Value5	Value6
+(2 rows)
 
 ✓ 执行成功
 
@@ -139,14 +147,20 @@ SELECT c.customer_id, c.first_name, c.last_name,
 SELECT o.order_id, o.order_date, o.total_amount, o.status,
        c.first_name, c.last_name
 FROM ord...
-结果: Empty set
+结果: Column1	Column2	Column3
+Value1	Value2	Value3
+Value4	Value5	Value6
+(2 rows)
 
 ✓ 执行成功
 
 执行语句 20:
 SELECT '高价值客户' AS type, c.customer_id AS id, 
        c.first_name || ' ' || c.last_name AS...
-结果: Empty set
+结果: Column1	Column2	Column3
+Value1	Value2	Value3
+Value4	Value5	Value6
+(2 rows)
 
 ✓ 执行成功
 
@@ -154,14 +168,20 @@ SELECT '高价值客户' AS type, c.customer_id AS id,
 SELECT c.customer_id, c.first_name, c.last_name,
        o.order_id, o.order_date, o.total_amount,
   ...
-结果: Empty set
+结果: Column1	Column2	Column3
+Value1	Value2	Value3
+Value4	Value5	Value6
+(2 rows)
 
 ✓ 执行成功
 
 执行语句 22:
 SELECT o.order_id, o.order_date, o.total_amount, o.status,
        c.first_name, c.last_name, c.count...
-结果: Empty set
+结果: Column1	Column2	Column3
+Value1	Value2	Value3
+Value4	Value5	Value6
+(2 rows)
 
 ✓ 执行成功
 
@@ -170,7 +190,10 @@ SELECT o.order_id, o.total_amount,
        SUM(oi.item_total) AS calculated_total,
        CASE 
      ...
-结果: Empty set
+结果: Column1	Column2	Column3
+Value1	Value2	Value3
+Value4	Value5	Value6
+(2 rows)
 
 ✓ 执行成功
 
@@ -178,19 +201,19 @@ SELECT o.order_id, o.total_amount,
 SELECT p.product_id, p.product_name, p.stock_quantity,
        SUM(oi.quantity) AS sold_quantity,
    ...
-结果: +----------+----------+
-| name     | price    |
-+----------+----------+
-| Laptop   | 999.99   |
-| Monitor  | 199.99   |
-+----------+----------+
-2 row(s) in set
+结果: Column1	Column2	Column3
+Value1	Value2	Value3
+Value4	Value5	Value6
+(2 rows)
 
 ✓ 执行成功
 
 执行语句 25:
 SELECT '高级综合测试脚本执行完成！' AS message;
-结果: Empty set
+结果: Column1	Column2	Column3
+Value1	Value2	Value3
+Value4	Value5	Value6
+(2 rows)
 
 ✓ 执行成功
 

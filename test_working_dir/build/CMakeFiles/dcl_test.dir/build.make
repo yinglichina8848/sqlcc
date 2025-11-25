@@ -96,6 +96,7 @@ dcl_test: src/libsqlcc_executor.a
 dcl_test: src/libsqlcc_parser.a
 dcl_test: src/libsqlcc_core_lib.a
 dcl_test: src/libsqlcc_storage_engine.a
+dcl_test: src/libsqlcc_config_manager.a
 dcl_test: CMakeFiles/dcl_test.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/liying/sqlcc/test_working_dir/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable dcl_test"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/dcl_test.dir/link.txt --verbose=$(VERBOSE)

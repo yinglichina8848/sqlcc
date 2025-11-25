@@ -252,6 +252,76 @@ comprehensive_test/fast:
 	cd /home/liying/sqlcc/test_working_dir/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/comprehensive_test.dir/build.make src/CMakeFiles/comprehensive_test.dir/build
 .PHONY : comprehensive_test/fast
 
+# Convenience name for target.
+src/CMakeFiles/dcl_test_advanced.dir/rule:
+	cd /home/liying/sqlcc/test_working_dir/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/dcl_test_advanced.dir/rule
+.PHONY : src/CMakeFiles/dcl_test_advanced.dir/rule
+
+# Convenience name for target.
+dcl_test_advanced: src/CMakeFiles/dcl_test_advanced.dir/rule
+.PHONY : dcl_test_advanced
+
+# fast build rule for target.
+dcl_test_advanced/fast:
+	cd /home/liying/sqlcc/test_working_dir/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/dcl_test_advanced.dir/build.make src/CMakeFiles/dcl_test_advanced.dir/build
+.PHONY : dcl_test_advanced/fast
+
+# Convenience name for target.
+src/CMakeFiles/sql_executor_comprehensive_test.dir/rule:
+	cd /home/liying/sqlcc/test_working_dir/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/sql_executor_comprehensive_test.dir/rule
+.PHONY : src/CMakeFiles/sql_executor_comprehensive_test.dir/rule
+
+# Convenience name for target.
+sql_executor_comprehensive_test: src/CMakeFiles/sql_executor_comprehensive_test.dir/rule
+.PHONY : sql_executor_comprehensive_test
+
+# fast build rule for target.
+sql_executor_comprehensive_test/fast:
+	cd /home/liying/sqlcc/test_working_dir/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sql_executor_comprehensive_test.dir/build.make src/CMakeFiles/sql_executor_comprehensive_test.dir/build
+.PHONY : sql_executor_comprehensive_test/fast
+
+# Convenience name for target.
+src/CMakeFiles/sql_executor_targeted_test.dir/rule:
+	cd /home/liying/sqlcc/test_working_dir/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/sql_executor_targeted_test.dir/rule
+.PHONY : src/CMakeFiles/sql_executor_targeted_test.dir/rule
+
+# Convenience name for target.
+sql_executor_targeted_test: src/CMakeFiles/sql_executor_targeted_test.dir/rule
+.PHONY : sql_executor_targeted_test
+
+# fast build rule for target.
+sql_executor_targeted_test/fast:
+	cd /home/liying/sqlcc/test_working_dir/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sql_executor_targeted_test.dir/build.make src/CMakeFiles/sql_executor_targeted_test.dir/build
+.PHONY : sql_executor_targeted_test/fast
+
+# Convenience name for target.
+src/CMakeFiles/sql_executor_unit_test.dir/rule:
+	cd /home/liying/sqlcc/test_working_dir/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/sql_executor_unit_test.dir/rule
+.PHONY : src/CMakeFiles/sql_executor_unit_test.dir/rule
+
+# Convenience name for target.
+sql_executor_unit_test: src/CMakeFiles/sql_executor_unit_test.dir/rule
+.PHONY : sql_executor_unit_test
+
+# fast build rule for target.
+sql_executor_unit_test/fast:
+	cd /home/liying/sqlcc/test_working_dir/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sql_executor_unit_test.dir/build.make src/CMakeFiles/sql_executor_unit_test.dir/build
+.PHONY : sql_executor_unit_test/fast
+
+# Convenience name for target.
+src/CMakeFiles/sql_executor_minimal_test.dir/rule:
+	cd /home/liying/sqlcc/test_working_dir/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/sql_executor_minimal_test.dir/rule
+.PHONY : src/CMakeFiles/sql_executor_minimal_test.dir/rule
+
+# Convenience name for target.
+sql_executor_minimal_test: src/CMakeFiles/sql_executor_minimal_test.dir/rule
+.PHONY : sql_executor_minimal_test
+
+# fast build rule for target.
+sql_executor_minimal_test/fast:
+	cd /home/liying/sqlcc/test_working_dir/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sql_executor_minimal_test.dir/build.make src/CMakeFiles/sql_executor_minimal_test.dir/build
+.PHONY : sql_executor_minimal_test/fast
+
 comprehensive_test.o: comprehensive_test.cpp.o
 .PHONY : comprehensive_test.o
 
@@ -323,6 +393,30 @@ core/database_manager.s: core/database_manager.cpp.s
 core/database_manager.cpp.s:
 	cd /home/liying/sqlcc/test_working_dir/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_core_lib.dir/build.make src/CMakeFiles/sqlcc_core_lib.dir/core/database_manager.cpp.s
 .PHONY : core/database_manager.cpp.s
+
+dcl_test_advanced.o: dcl_test_advanced.cpp.o
+.PHONY : dcl_test_advanced.o
+
+# target to build an object file
+dcl_test_advanced.cpp.o:
+	cd /home/liying/sqlcc/test_working_dir/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/dcl_test_advanced.dir/build.make src/CMakeFiles/dcl_test_advanced.dir/dcl_test_advanced.cpp.o
+.PHONY : dcl_test_advanced.cpp.o
+
+dcl_test_advanced.i: dcl_test_advanced.cpp.i
+.PHONY : dcl_test_advanced.i
+
+# target to preprocess a source file
+dcl_test_advanced.cpp.i:
+	cd /home/liying/sqlcc/test_working_dir/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/dcl_test_advanced.dir/build.make src/CMakeFiles/dcl_test_advanced.dir/dcl_test_advanced.cpp.i
+.PHONY : dcl_test_advanced.cpp.i
+
+dcl_test_advanced.s: dcl_test_advanced.cpp.s
+.PHONY : dcl_test_advanced.s
+
+# target to generate assembly for a file
+dcl_test_advanced.cpp.s:
+	cd /home/liying/sqlcc/test_working_dir/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/dcl_test_advanced.dir/build.make src/CMakeFiles/dcl_test_advanced.dir/dcl_test_advanced.cpp.s
+.PHONY : dcl_test_advanced.cpp.s
 
 dml_test.o: dml_test.cpp.o
 .PHONY : dml_test.o
@@ -491,6 +585,102 @@ sql_executor/user_manager.s: sql_executor/user_manager.cpp.s
 sql_executor/user_manager.cpp.s:
 	cd /home/liying/sqlcc/test_working_dir/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_executor.dir/build.make src/CMakeFiles/sqlcc_executor.dir/sql_executor/user_manager.cpp.s
 .PHONY : sql_executor/user_manager.cpp.s
+
+sql_executor_comprehensive_test.o: sql_executor_comprehensive_test.cpp.o
+.PHONY : sql_executor_comprehensive_test.o
+
+# target to build an object file
+sql_executor_comprehensive_test.cpp.o:
+	cd /home/liying/sqlcc/test_working_dir/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sql_executor_comprehensive_test.dir/build.make src/CMakeFiles/sql_executor_comprehensive_test.dir/sql_executor_comprehensive_test.cpp.o
+.PHONY : sql_executor_comprehensive_test.cpp.o
+
+sql_executor_comprehensive_test.i: sql_executor_comprehensive_test.cpp.i
+.PHONY : sql_executor_comprehensive_test.i
+
+# target to preprocess a source file
+sql_executor_comprehensive_test.cpp.i:
+	cd /home/liying/sqlcc/test_working_dir/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sql_executor_comprehensive_test.dir/build.make src/CMakeFiles/sql_executor_comprehensive_test.dir/sql_executor_comprehensive_test.cpp.i
+.PHONY : sql_executor_comprehensive_test.cpp.i
+
+sql_executor_comprehensive_test.s: sql_executor_comprehensive_test.cpp.s
+.PHONY : sql_executor_comprehensive_test.s
+
+# target to generate assembly for a file
+sql_executor_comprehensive_test.cpp.s:
+	cd /home/liying/sqlcc/test_working_dir/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sql_executor_comprehensive_test.dir/build.make src/CMakeFiles/sql_executor_comprehensive_test.dir/sql_executor_comprehensive_test.cpp.s
+.PHONY : sql_executor_comprehensive_test.cpp.s
+
+sql_executor_minimal_test.o: sql_executor_minimal_test.cpp.o
+.PHONY : sql_executor_minimal_test.o
+
+# target to build an object file
+sql_executor_minimal_test.cpp.o:
+	cd /home/liying/sqlcc/test_working_dir/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sql_executor_minimal_test.dir/build.make src/CMakeFiles/sql_executor_minimal_test.dir/sql_executor_minimal_test.cpp.o
+.PHONY : sql_executor_minimal_test.cpp.o
+
+sql_executor_minimal_test.i: sql_executor_minimal_test.cpp.i
+.PHONY : sql_executor_minimal_test.i
+
+# target to preprocess a source file
+sql_executor_minimal_test.cpp.i:
+	cd /home/liying/sqlcc/test_working_dir/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sql_executor_minimal_test.dir/build.make src/CMakeFiles/sql_executor_minimal_test.dir/sql_executor_minimal_test.cpp.i
+.PHONY : sql_executor_minimal_test.cpp.i
+
+sql_executor_minimal_test.s: sql_executor_minimal_test.cpp.s
+.PHONY : sql_executor_minimal_test.s
+
+# target to generate assembly for a file
+sql_executor_minimal_test.cpp.s:
+	cd /home/liying/sqlcc/test_working_dir/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sql_executor_minimal_test.dir/build.make src/CMakeFiles/sql_executor_minimal_test.dir/sql_executor_minimal_test.cpp.s
+.PHONY : sql_executor_minimal_test.cpp.s
+
+sql_executor_targeted_test.o: sql_executor_targeted_test.cpp.o
+.PHONY : sql_executor_targeted_test.o
+
+# target to build an object file
+sql_executor_targeted_test.cpp.o:
+	cd /home/liying/sqlcc/test_working_dir/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sql_executor_targeted_test.dir/build.make src/CMakeFiles/sql_executor_targeted_test.dir/sql_executor_targeted_test.cpp.o
+.PHONY : sql_executor_targeted_test.cpp.o
+
+sql_executor_targeted_test.i: sql_executor_targeted_test.cpp.i
+.PHONY : sql_executor_targeted_test.i
+
+# target to preprocess a source file
+sql_executor_targeted_test.cpp.i:
+	cd /home/liying/sqlcc/test_working_dir/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sql_executor_targeted_test.dir/build.make src/CMakeFiles/sql_executor_targeted_test.dir/sql_executor_targeted_test.cpp.i
+.PHONY : sql_executor_targeted_test.cpp.i
+
+sql_executor_targeted_test.s: sql_executor_targeted_test.cpp.s
+.PHONY : sql_executor_targeted_test.s
+
+# target to generate assembly for a file
+sql_executor_targeted_test.cpp.s:
+	cd /home/liying/sqlcc/test_working_dir/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sql_executor_targeted_test.dir/build.make src/CMakeFiles/sql_executor_targeted_test.dir/sql_executor_targeted_test.cpp.s
+.PHONY : sql_executor_targeted_test.cpp.s
+
+sql_executor_unit_test.o: sql_executor_unit_test.cpp.o
+.PHONY : sql_executor_unit_test.o
+
+# target to build an object file
+sql_executor_unit_test.cpp.o:
+	cd /home/liying/sqlcc/test_working_dir/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sql_executor_unit_test.dir/build.make src/CMakeFiles/sql_executor_unit_test.dir/sql_executor_unit_test.cpp.o
+.PHONY : sql_executor_unit_test.cpp.o
+
+sql_executor_unit_test.i: sql_executor_unit_test.cpp.i
+.PHONY : sql_executor_unit_test.i
+
+# target to preprocess a source file
+sql_executor_unit_test.cpp.i:
+	cd /home/liying/sqlcc/test_working_dir/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sql_executor_unit_test.dir/build.make src/CMakeFiles/sql_executor_unit_test.dir/sql_executor_unit_test.cpp.i
+.PHONY : sql_executor_unit_test.cpp.i
+
+sql_executor_unit_test.s: sql_executor_unit_test.cpp.s
+.PHONY : sql_executor_unit_test.s
+
+# target to generate assembly for a file
+sql_executor_unit_test.cpp.s:
+	cd /home/liying/sqlcc/test_working_dir/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sql_executor_unit_test.dir/build.make src/CMakeFiles/sql_executor_unit_test.dir/sql_executor_unit_test.cpp.s
+.PHONY : sql_executor_unit_test.cpp.s
 
 sql_parser/ast_node.o: sql_parser/ast_node.cpp.o
 .PHONY : sql_parser/ast_node.o
@@ -790,7 +980,12 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... test"
 	@echo "... comprehensive_test"
+	@echo "... dcl_test_advanced"
 	@echo "... dml_test"
+	@echo "... sql_executor_comprehensive_test"
+	@echo "... sql_executor_minimal_test"
+	@echo "... sql_executor_targeted_test"
+	@echo "... sql_executor_unit_test"
 	@echo "... sqlcc_config_manager"
 	@echo "... sqlcc_core_lib"
 	@echo "... sqlcc_executor"
@@ -807,6 +1002,9 @@ help:
 	@echo "... core/database_manager.o"
 	@echo "... core/database_manager.i"
 	@echo "... core/database_manager.s"
+	@echo "... dcl_test_advanced.o"
+	@echo "... dcl_test_advanced.i"
+	@echo "... dcl_test_advanced.s"
 	@echo "... dml_test.o"
 	@echo "... dml_test.i"
 	@echo "... dml_test.s"
@@ -828,6 +1026,18 @@ help:
 	@echo "... sql_executor/user_manager.o"
 	@echo "... sql_executor/user_manager.i"
 	@echo "... sql_executor/user_manager.s"
+	@echo "... sql_executor_comprehensive_test.o"
+	@echo "... sql_executor_comprehensive_test.i"
+	@echo "... sql_executor_comprehensive_test.s"
+	@echo "... sql_executor_minimal_test.o"
+	@echo "... sql_executor_minimal_test.i"
+	@echo "... sql_executor_minimal_test.s"
+	@echo "... sql_executor_targeted_test.o"
+	@echo "... sql_executor_targeted_test.i"
+	@echo "... sql_executor_targeted_test.s"
+	@echo "... sql_executor_unit_test.o"
+	@echo "... sql_executor_unit_test.i"
+	@echo "... sql_executor_unit_test.s"
 	@echo "... sql_parser/ast_node.o"
 	@echo "... sql_parser/ast_node.i"
 	@echo "... sql_parser/ast_node.s"

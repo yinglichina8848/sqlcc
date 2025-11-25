@@ -26,7 +26,23 @@ namespace sqlcc {
 namespace network {
 
 // Session实现
-Session::Session(int session_id) : session_id_(session_id), authenticated_(false) {}
+Session::Session(int session_id) : session_id_(session_id), authenticated_(false), encryption_disabled_(false), authentication_disabled_(false) {}
+
+void Session::SetEncryptionDisabled(bool disabled) {
+    encryption_disabled_ = disabled;
+}
+
+bool Session::IsEncryptionDisabled() const {
+    return encryption_disabled_;
+}
+
+void Session::SetAuthenticationDisabled(bool disabled) {
+    authentication_disabled_ = disabled;
+}
+
+bool Session::IsAuthenticationDisabled() const {
+    return authentication_disabled_;
+}
 
 // SessionManager实现
 SessionManager::SessionManager() : next_session_id_(1) {}
@@ -239,8 +255,9 @@ bool ClientNetworkManager::SendAuthMessage(const std::string& username, const st
 
 
 // ConnectionHandler实现
-ConnectionHandler::ConnectionHandler(int fd, std::shared_ptr<SessionManager> session_manager)
-    : fd_(fd), session_manager_(std::move(session_manager)), closed_(false) {
+ConnectionHandler::ConnectionHandler(int fd, std::shared_ptr<SessionManager> session_manager, std::shared_ptr<sqlcc::SqlExecutor> sql_executor)
+    : fd_(fd), session_manager_(std::move(session_manager)), sql_executor_(std::move(sql_executor)), 
+      session_(nullptr), closed_(false) {
 #ifdef __linux__
     // 设置为非阻塞模式
     int flags = fcntl(fd_, F_GETFL, 0);
@@ -378,12 +395,31 @@ void ConnectionHandler::HandleConnectMessage(const std::vector<char>& data) {
     // 创建会话
     session_ = session_manager_->CreateSession();
     
-    // 发送连接确认消息
+    // 检查客户端连接消息中的标志
+    uint32_t client_flags = 0;
+    if (data.size() >= sizeof(MessageHeader)) {
+        MessageHeader* header = reinterpret_cast<MessageHeader*>(const_cast<char*>(data.data()));
+        client_flags = header->flags;
+        
+        // 如果客户端请求禁用加密，记录到会话中
+        if (client_flags & 0x01) {
+            session_->SetEncryptionDisabled(true);
+        }
+        
+        // 如果客户端请求禁用认证，记录到会话中
+        if (client_flags & 0x02) {
+            session_->SetAuthenticationDisabled(true);
+            // 自动通过认证
+            session_->SetAuthenticated("anonymous");
+        }
+    }
+    
+    // 发送连接确认消息，包含相同的标志
     MessageHeader ack_header;
     ack_header.magic = 0x53514C43; // 'SQLC'
     ack_header.length = 0;
     ack_header.type = CONN_ACK;
-    ack_header.flags = 0;
+    ack_header.flags = client_flags; // 回显客户端的标志
     ack_header.sequence_id = 1;
 
     std::vector<char> ack_msg(sizeof(MessageHeader));
@@ -434,8 +470,15 @@ void ConnectionHandler::HandleAuthMessage(const std::vector<char>& data) {
 }
 
 void ConnectionHandler::HandleQueryMessage(const std::vector<char>& data) {
-    if (!session_ || !session_->IsAuthenticated()) {
-        // 未认证的会话不能执行查询
+    if (!session_) {
+        // 会话不存在
+        SendErrorMessage("Session not found");
+        return;
+    }
+    
+    // 检查是否需要认证（只有在未禁用认证的情况下才要求认证）
+    if (!session_->IsAuthenticationDisabled() && !session_->IsAuthenticated()) {
+        // 未禁用认证但用户未认证，拒绝请求
         SendErrorMessage("Not authenticated");
         return;
     }
@@ -448,15 +491,35 @@ void ConnectionHandler::HandleQueryMessage(const std::vector<char>& data) {
         return;
     }
     
-    // 构造查询结果消息
+    // 获取查询语句
     std::string query(data.data() + sizeof(MessageHeader), header->length);
-    std::string result = "Executed query: " + query;
     
+    // 执行SQL查询
+    std::string result;
+    bool success = true;  // 默认成功，只有发生错误时设为false
+    
+    if (sql_executor_) {
+        try {
+            result = sql_executor_->Execute(query);
+            // 检查执行结果是否表示错误
+            if (result.find("ERROR:") == 0 || result.find("Error:") == 0) {
+                success = false;
+            }
+        } catch (const std::exception& e) {
+            result = "Exception: " + std::string(e.what());
+            success = false;
+        }
+    } else {
+        result = "SQL executor not initialized";
+        success = false;
+    }
+    
+    // 构造查询结果消息
     MessageHeader result_header;
     result_header.magic = 0x53514C43; // 'SQLC'
     result_header.length = result.length();
     result_header.type = QUERY_RESULT;
-    result_header.flags = 0;
+    result_header.flags = success ? 0 : 1; // 使用flags表示执行结果
     result_header.sequence_id = header->sequence_id;
 
     std::vector<char> result_msg(sizeof(MessageHeader) + result.length());
@@ -616,6 +679,10 @@ void ServerNetworkManager::ProcessEvents() {
 #endif
 }
 
+void ServerNetworkManager::SetSqlExecutor(std::shared_ptr<sqlcc::SqlExecutor> sql_executor) {
+    sql_executor_ = std::move(sql_executor);
+}
+
 void ServerNetworkManager::AcceptConnection() {
 #ifdef __linux__
     struct sockaddr_in client_addr;
@@ -626,8 +693,8 @@ void ServerNetworkManager::AcceptConnection() {
         return;
     }
 
-    // 创建连接处理器
-    ConnectionHandler* handler = new ConnectionHandler(client_fd, session_manager_);
+    // 创建连接处理器，传入SQL执行器
+    ConnectionHandler* handler = new ConnectionHandler(client_fd, session_manager_, sql_executor_);
     
     // 添加到epoll
     struct epoll_event ev;

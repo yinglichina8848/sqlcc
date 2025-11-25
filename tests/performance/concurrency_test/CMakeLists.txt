@@ -28,10 +28,12 @@ set(SOURCES
 # 创建可执行文件
 add_executable(concurrency_test ${SOURCES})
 
-# 链接线程库、sqlcc_core库和gtest库
+# 链接线程库、sqlcc_executor库和gtest库
 target_link_libraries(concurrency_test
     Threads::Threads
+    sqlcc_executor
     sqlcc_core
+    sqlcc_config_manager
     GTest::gtest
     GTest::gtest_main
 )

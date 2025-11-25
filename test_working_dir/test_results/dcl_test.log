@@ -13,15 +13,15 @@ CREATE USER admin_user IDENTIFIED BY 'admin_password';
 
 执行语句 3:
 GRANT SELECT ON users TO test_user;
-结果: Query OK, 1 row affected
+结果: ERROR: User not found: test_user;
 
 执行语句 4:
 GRANT INSERT, UPDATE ON users TO test_user;
-结果: Query OK, 1 row affected
+结果: ERROR: User not found: test_user;
 
 执行语句 5:
 GRANT ALL PRIVILEGES ON *.* TO admin_user;
-结果: Query OK, 1 row affected
+结果: ERROR: User not found: admin_user;
 
 执行语句 6:
 REVOKE UPDATE ON users FROM test_user;
@@ -35,29 +35,19 @@ REVOKE ALL PRIVILEGES ON users FROM test_user;
 
 执行语句 8:
 GRANT SELECT, INSERT ON products TO test_user;
-结果: Query OK, 1 row affected
+结果: ERROR: User not found: test_user;
 
 执行语句 9:
 GRANT DELETE ON orders TO test_user;
-结果: Query OK, 1 row affected
+结果: ERROR: User not found: test_user;
 
 执行语句 10:
 SHOW GRANTS FOR test_user;
-结果: Tables:
-----------
-products
-customers
-orders
-
+结果: Unsupported SHOW command
 
 执行语句 11:
 SHOW GRANTS FOR admin_user;
-结果: Tables:
-----------
-products
-customers
-orders
-
+结果: Unsupported SHOW command
 
 执行语句 12:
 DROP USER test_user;
@@ -71,7 +61,10 @@ DROP USER admin_user;
 
 执行语句 14:
 SELECT 'DCL测试完成' AS test_result;
-结果: Empty set
+结果: Column1	Column2	Column3
+Value1	Value2	Value3
+Value4	Value5	Value6
+(2 rows)
 
 
 === DCL测试完成 ===

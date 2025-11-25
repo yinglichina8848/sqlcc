@@ -93,12 +93,12 @@ isql_EXTERNAL_OBJECTS =
 bin/isql: CMakeFiles/isql.dir/src/isql_main.cpp.o
 bin/isql: CMakeFiles/isql.dir/build.make
 bin/isql: src/libsqlcc_executor.a
-bin/isql: src/libsqlcc_config_manager.a
 bin/isql: src/libsqlcc_transaction_manager.a
 bin/isql: src/libsqlcc_network.a
 bin/isql: src/libsqlcc_core_lib.a
 bin/isql: src/libsqlcc_parser.a
 bin/isql: src/libsqlcc_storage_engine.a
+bin/isql: src/libsqlcc_config_manager.a
 bin/isql: CMakeFiles/isql.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/liying/sqlcc/test_working_dir/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable bin/isql"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/isql.dir/link.txt --verbose=$(VERBOSE)

@@ -5,11 +5,13 @@
 #include <string>
 #include <map>
 #include <chrono>
+#include "performance_test_base.h"
+#include "sql_executor.h"
 
 namespace sqlcc {
 namespace test {
 
-class CpuIntensivePerformanceTest {
+class CpuIntensivePerformanceTest : public PerformanceTestBase {
 public:
     struct TestResult {
         std::string test_name;
@@ -27,6 +29,10 @@ public:
 
     void SetOutputDirectory(const std::string& directory);
     void RunAllTests();
+    
+    // 测试设置和清理方法
+    void SetUp();
+    void TearDown();
 
 private:
     static constexpr size_t kDataSize = 10000;
@@ -41,6 +47,9 @@ private:
     std::vector<int> search_keys_;
     std::vector<std::string> log_data_;
     std::string output_directory_;
+    
+    // SQL执行器
+    SqlExecutor* sql_executor_;
 
     void GenerateTestData();
     void Cleanup();

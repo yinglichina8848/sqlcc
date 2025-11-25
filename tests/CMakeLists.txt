@@ -6,6 +6,9 @@ include_directories(
     ${CMAKE_SOURCE_DIR}/include/utils
 )
 
+# Add performance test directory
+add_subdirectory(performance)
+
 # 定义测试源文件列表
 set(TEST_SOURCES
     storage_engine_test.cpp
@@ -63,7 +66,11 @@ set(UNIT_TESTS
     sql_executor/sql_executor_test.cpp
     sql_parser/sql_parser_test.cpp
     sql_parser/test_parser.cpp
+    network/sql_network_test.cpp
 )
+
+# 创建SQL网络测试可执行文件
+add_executable(sql_network_test network/sql_network_test.cpp)
 
 # 注释掉缺少的测试文件
 # 创建dcl_operations_test测试可执行文件
@@ -73,6 +80,15 @@ set(UNIT_TESTS
 
 # 确保所有测试都能正确处理.cc和.cpp后缀文件
 set(CMAKE_CXX_SOURCE_FILE_EXTENSIONS cc cpp)
+
+# 链接必要的库
+ target_link_libraries(sql_network_test
+     PRIVATE
+     gtest
+     gtest_main
+     pthread
+     ${CMAKE_DL_LIBS}
+ )
 
 # 注释掉缺少测试文件的链接库部分
 # 链接必要的库
@@ -92,6 +108,12 @@ set(CMAKE_CXX_SOURCE_FILE_EXTENSIONS cc cpp)
 #     pthread
 #     ${CMAKE_DL_LIBS}
 # )
+
+# 将SQL网络测试添加到CTest
+add_test(
+    NAME sql_network_test
+    COMMAND sql_network_test
+)
 
 # 注释掉缺少测试文件的CTest注册
 # 将测试添加到CTest

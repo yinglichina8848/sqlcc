@@ -6,11 +6,13 @@
 #include <chrono>
 #include <atomic>
 #include <thread>
+#include "performance_test_base.h"
+#include "sql_executor.h"
 
 namespace sqlcc {
 namespace test {
 
-class LongTermStabilityTest {
+class LongTermStabilityTest : public PerformanceTestBase {
 public:
     struct StabilityTestResult {
         std::string test_name;
@@ -40,6 +42,8 @@ public:
 
     void SetOutputDirectory(const std::string& directory);
     void SetConfig(const TestConfig& config);
+    void SetUp();
+    void TearDown();
     void RunAllTests();
     void Cleanup();
 
@@ -48,6 +52,9 @@ private:
     static constexpr size_t kMaxConcurrentThreads = 10;
     static constexpr size_t kMaxOperationsPerSecond = 1000;
     static constexpr double kMaxErrorRate = 0.01; // 1% error rate
+    
+    // SQL执行器
+    SqlExecutor* sql_executor_;
 
     std::atomic<bool> test_running_;
     std::atomic<size_t> total_operations_;

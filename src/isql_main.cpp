@@ -11,6 +11,7 @@
 #include <iostream>
 #include <memory>
 #include <string>
+#include <unistd.h>
 
 // 条件包含readline库
 #ifdef USE_READLINE
@@ -177,16 +178,6 @@ int main(int argc, char *argv[]) {
   }
 
   try {
-    // 创建配置管理器（使用默认参数）
-    auto config_mgr = std::make_shared<sqlcc::ConfigManager>();
-    config_mgr->LoadDefaultConfig();
-
-    // 创建临时数据库文件路径
-    std::string db_path = "./temp_isql_db";
-
-    // 创建数据库管理器
-    // DatabaseManager db_manager(db_path, 1024, 4, 16);
-
     // 创建SQL执行器
     SqlExecutor executor;
 
@@ -255,18 +246,73 @@ int main(int argc, char *argv[]) {
       // 处理SQL语句
       current_sql += input;
 
-      // 检查语句是否结束（以分号结尾）
-      if (current_sql.find_last_of(';') != std::string::npos) {
-        // 执行SQL语句
-        std::string result = executor.Execute(current_sql);
-        std::cout << result << std::endl;
-
-        // 重置当前SQL语句
-        current_sql.clear();
+      // 处理非交互式输入（管道输入）
+      if (!isatty(fileno(stdin))) {
+        std::string line;
+        std::string sql_buffer;
+        
+        while (std::getline(std::cin, line)) {
+          // 去除行尾换行符和空格
+          size_t end_pos = line.find_last_not_of(" \t\r\n");
+          if (end_pos != std::string::npos) {
+            line = line.substr(0, end_pos + 1);
+          } else {
+            line.clear(); // 空行
+          }
+          
+          // 跳过注释行和空行
+          if (line.empty() || (line.size() >= 2 && line[0] == '-' && line[1] == '-')) {
+            continue;
+          }
+          
+          sql_buffer += line + ' ';
+          
+          // 查找分号分割多个SQL语句
+          size_t semicolon_pos = sql_buffer.find(';');
+          if (semicolon_pos != std::string::npos) {
+            std::string sql_statement = sql_buffer.substr(0, semicolon_pos + 1);
+            sql_buffer = sql_buffer.substr(semicolon_pos + 1);
+            
+            // 打印执行的SQL语句（可选）
+            std::cout << "sqlcc> " << sql_statement << std::endl;
+            
+            // 执行SQL语句
+            std::string result = executor.Execute(sql_statement);
+            std::cout << result << std::endl;
+          }
+        }
+        
+        // 处理文件结束时可能剩余的SQL语句（如果不以分号结束）
+        if (!sql_buffer.empty()) {
+          std::string trimmed = sql_buffer;
+          size_t end = trimmed.find_last_not_of(" \t\r\n");
+          if (end != std::string::npos) {
+            trimmed = trimmed.substr(0, end + 1);
+          }
+          
+          if (!trimmed.empty()) {
+            std::cout << "sqlcc> " << trimmed << std::endl;
+            std::string result = executor.Execute(trimmed);
+            std::cout << result << std::endl;
+          }
+        }
+        
+        return 0;
       } else {
-        // SQL语句未结束，继续输入
-        prompt = "...> ";
-        continue;
+        // 交互式模式的原始逻辑
+        // 检查语句是否结束（以分号结尾）
+        if (current_sql.find_last_of(';') != std::string::npos) {
+          // 执行SQL语句
+          std::string result = executor.Execute(current_sql);
+          std::cout << result << std::endl;
+
+          // 重置当前SQL语句
+          current_sql.clear();
+        } else {
+          // SQL语句未结束，继续输入
+          prompt = "...> ";
+          continue;
+        }
       }
 
       // 重置提示符
