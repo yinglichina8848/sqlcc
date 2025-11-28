@@ -512,9 +512,6 @@ int32_t BufferPool::ReplacePage() {
             void* page_data = page->GetData();
             int32_t current_page_id = page_id;
             
-            // 先从脏页列表中移除，标记为正在处理
-            dirty_pages_.erase(dirty_it);
-            
             // 释放锁，进行磁盘写入操作 - 这是避免死锁的关键修复
             // Why: 需要先释放BufferPool锁，再调用DiskManager避免循环锁等待
             // What: 使用std::unique_lock的unlock()方法临时释放锁
@@ -572,9 +569,7 @@ int32_t BufferPool::ReplacePage() {
         // Why: 需要从脏页表中删除页面，以释放脏页标记占用的内存
         // What: 从dirty_pages_哈希表中删除页面ID
         // How: 使用std::unordered_map的erase方法删除
-        if (dirty_it != dirty_pages_.end()) {
-            dirty_pages_.erase(dirty_it);
-        }
+        dirty_pages_.erase(page_id);
         
         // 从引用计数表中移除
         // Why: 需要从引用计数表中删除页面，以释放引用计数占用的内存
@@ -587,9 +582,8 @@ int32_t BufferPool::ReplacePage() {
         // 从LRU链表中移除
         // Why: 需要从LRU链表中删除页面，以维护LRU链表的正确性
         // What: 从lru_list_和lru_map_中删除页面ID
-        // How: 使用pop_back方法从链表尾部删除，并从lru_map_中删除映射
-        lru_list_.pop_back();
-        lru_map_.erase(page_id);
+        // How: 使用RemoveFromLRUList方法正确移除当前页面
+        RemoveFromLRUList(page_id);
         
         // 记录页面替换成功，便于调试
         SQLCC_LOG_DEBUG("Page ID " + std::to_string(page_id) + " replaced");
@@ -682,6 +676,9 @@ Page* BufferPool::NewPage(int32_t* page_id) {
             // How: 使用SQLCC_LOG_ERROR记录错误级别日志
             std::string error_msg = "Failed to replace page in buffer pool for new page allocation";
             SQLCC_LOG_ERROR(error_msg);
+            if (page_id != nullptr) {
+                *page_id = -1;  // 使用-1作为无效页面ID
+            }
             return nullptr;
         }
     }
