@@ -1,0 +1,141 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: database_manager.cpp 文件参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_aebb8dcc11953d78e620bbef0b9e2183.html">core</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#namespaces">命名空间</a>  </div>
+  <div class="headertitle"><div class="title">database_manager.cpp 文件参考</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &quot;../include/database_manager.h&quot;</code><br />
+<code>#include &quot;../include/config_manager.h&quot;</code><br />
+<code>#include &quot;../include/disk_manager.h&quot;</code><br />
+<code>#include &quot;../include/buffer_pool_sharded.h&quot;</code><br />
+<code>#include &quot;../include/transaction_manager.h&quot;</code><br />
+<code>#include &quot;../include/page.h&quot;</code><br />
+<code>#include &lt;stdexcept&gt;</code><br />
+<code>#include &lt;algorithm&gt;</code><br />
+<code>#include &lt;cstdint&gt;</code><br />
+<code>#include &lt;memory&gt;</code><br />
+<code>#include &lt;unordered_map&gt;</code><br />
+<code>#include &lt;string&gt;</code><br />
+<code>#include &lt;vector&gt;</code><br />
+</div><div class="textblock"><div class="dynheader">
+database_manager.cpp 的引用(Include)关系图:</div>
+<div class="dyncontent">
+<div class="center"><img src="database__manager_8cpp__incl.png" border="0" usemap="#adatabase__manager_8cpp" alt=""/></div>
+<map name="adatabase__manager_8cpp" id="adatabase__manager_8cpp">
+<area shape="rect" title=" " alt="" coords="1087,5,1261,31"/>
+<area shape="rect" title=" " alt="" coords="5,79,151,119"/>
+<area shape="poly" title=" " alt="" coords="1087,23,919,26,692,35,432,53,165,81,164,76,431,47,691,30,919,21,1087,17"/>
+<area shape="rect" title=" " alt="" coords="175,86,375,111"/>
+<area shape="poly" title=" " alt="" coords="1087,26,778,45,583,61,388,81,351,86,351,81,387,76,583,55,777,40,1087,21"/>
+<area shape="rect" title=" " alt="" coords="400,86,588,111"/>
+<area shape="poly" title=" " alt="" coords="1087,29,866,50,600,81,568,86,567,81,599,76,865,44,1087,24"/>
+<area shape="rect" title=" " alt="" coords="612,79,771,119"/>
+<area shape="poly" title=" " alt="" coords="1091,33,785,81,784,76,1090,28"/>
+<area shape="rect" title=" " alt="" coords="795,79,953,119"/>
+<area shape="poly" title=" " alt="" coords="1131,33,960,78,959,73,1130,28"/>
+<area shape="rect" title=" " alt="" coords="977,86,1107,111"/>
+<area shape="poly" title=" " alt="" coords="1156,33,1074,81,1072,77,1153,29"/>
+<area shape="rect" title=" " alt="" coords="1131,86,1217,111"/>
+<area shape="poly" title=" " alt="" coords="1177,31,1177,72,1171,72,1171,31"/>
+<area shape="rect" title=" " alt="" coords="1242,86,1327,111"/>
+<area shape="poly" title=" " alt="" coords="1192,29,1258,76,1255,80,1189,33"/>
+<area shape="rect" title=" " alt="" coords="1351,86,1418,111"/>
+<area shape="poly" title=" " alt="" coords="1208,28,1340,76,1346,78,1344,83,1338,81,1206,33"/>
+<area shape="rect" title=" " alt="" coords="1442,86,1519,111"/>
+<area shape="poly" title=" " alt="" coords="1233,28,1326,49,1431,76,1439,79,1438,84,1429,81,1325,54,1232,33"/>
+<area shape="rect" title=" " alt="" coords="1544,86,1668,111"/>
+<area shape="poly" title=" " alt="" coords="1254,28,1385,49,1532,76,1550,80,1549,85,1531,81,1384,54,1253,33"/>
+<area shape="rect" title=" " alt="" coords="1693,86,1751,111"/>
+<area shape="poly" title=" " alt="" coords="1261,19,1349,24,1455,34,1569,51,1681,76,1688,78,1687,83,1680,81,1568,56,1455,39,1349,29,1261,24"/>
+<area shape="rect" title=" " alt="" coords="1776,86,1839,111"/>
+<area shape="poly" title=" " alt="" coords="1261,17,1364,21,1490,31,1628,48,1764,76,1772,78,1770,84,1763,81,1627,54,1490,36,1364,27,1261,23"/>
+</map>
+</div>
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+命名空间</h2></td></tr>
+<tr class="memitem:namespacesqlcc" id="r_namespacesqlcc"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc.html">sqlcc</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

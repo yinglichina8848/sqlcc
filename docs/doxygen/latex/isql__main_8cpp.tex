@@ -1,0 +1,132 @@
+\doxysection{isql\+\_\+main.\+cpp 文件参考}
+\hypertarget{isql__main_8cpp}{}\label{isql__main_8cpp}\index{isql\_main.cpp@{isql\_main.cpp}}
+{\ttfamily \#include $<$csignal$>$}\newline
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$memory$>$}\newline
+{\ttfamily \#include $<$string$>$}\newline
+{\ttfamily \#include $<$unistd.\+h$>$}\newline
+{\ttfamily \#include "{}../include/config\+\_\+manager.\+h"{}}\newline
+{\ttfamily \#include "{}../include/sql\+\_\+executor.\+h"{}}\newline
+{\ttfamily \#include "{}exception.\+h"{}}\newline
+{\ttfamily \#include "{}storage\+\_\+engine.\+h"{}}\newline
+{\ttfamily \#include "{}version.\+h"{}}\newline
+isql\+\_\+main.\+cpp 的引用(Include)关系图\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isql__main_8cpp__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{函数}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{isql__main_8cpp_ad2e59c7203b3bddc1bc9a2224b52e8e7}{signal\+Handler}} (int signal)
+\begin{DoxyCompactList}\small\item\em 信号处理函数，处理\+Ctrl+\+C信号 \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{isql__main_8cpp_aec315d77f5c38417289a0e311d2a9d31}{show\+Help}} ()
+\begin{DoxyCompactList}\small\item\em 显示帮助信息 \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{isql__main_8cpp_a2de507730a8ffeaa8ef728c753eecbfb}{show\+Version}} ()
+\begin{DoxyCompactList}\small\item\em 显示版本信息 \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{isql__main_8cpp_a6ff3862f54b38494ec35d2b1b6856a26}{handle\+Interactive\+Command}} (const std\+::string \&cmd, Sql\+Executor \&executor)
+\begin{DoxyCompactList}\small\item\em 处理交互式命令 \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{isql__main_8cpp_a05d07fa54743305c09f3bc65ecc4414e}{execute\+Script}} (const std\+::string \&file\+\_\+path, Sql\+Executor \&executor)
+\begin{DoxyCompactList}\small\item\em 执行\+SQL脚本文件 \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{isql__main_8cpp_a0ddf1224851353fc92bfbff6f499fa97}{main}} (int argc, char \texorpdfstring{$\ast$}{*}argv\mbox{[}$\,$\mbox{]})
+\begin{DoxyCompactList}\small\item\em 主函数 \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{变量}
+\begin{DoxyCompactItemize}
+\item 
+volatile sig\+\_\+atomic\+\_\+t \mbox{\hyperlink{isql__main_8cpp_acf1c5eb591219d4325e9988cb7ff85e1}{g\+\_\+running}} = 1
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{函数说明}
+\Hypertarget{isql__main_8cpp_a05d07fa54743305c09f3bc65ecc4414e}\label{isql__main_8cpp_a05d07fa54743305c09f3bc65ecc4414e} 
+\index{isql\_main.cpp@{isql\_main.cpp}!executeScript@{executeScript}}
+\index{executeScript@{executeScript}!isql\_main.cpp@{isql\_main.cpp}}
+\doxysubsubsection{\texorpdfstring{executeScript()}{executeScript()}}
+{\footnotesize\ttfamily bool execute\+Script (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{file\+\_\+path,  }\item[{Sql\+Executor \&}]{executor }\end{DoxyParamCaption})}
+
+
+
+执行\+SQL脚本文件 
+
+
+\begin{DoxyParams}{参数}
+{\em file\+\_\+path} & 文件路径 \\
+\hline
+{\em executor} & SQL执行器引用 \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{返回}
+执行是否成功 
+\end{DoxyReturn}
+\Hypertarget{isql__main_8cpp_a6ff3862f54b38494ec35d2b1b6856a26}\label{isql__main_8cpp_a6ff3862f54b38494ec35d2b1b6856a26} 
+\index{isql\_main.cpp@{isql\_main.cpp}!handleInteractiveCommand@{handleInteractiveCommand}}
+\index{handleInteractiveCommand@{handleInteractiveCommand}!isql\_main.cpp@{isql\_main.cpp}}
+\doxysubsubsection{\texorpdfstring{handleInteractiveCommand()}{handleInteractiveCommand()}}
+{\footnotesize\ttfamily bool handle\+Interactive\+Command (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{cmd,  }\item[{Sql\+Executor \&}]{executor }\end{DoxyParamCaption})}
+
+
+
+处理交互式命令 
+
+
+\begin{DoxyParams}{参数}
+{\em cmd} & 命令字符串 \\
+\hline
+{\em executor} & SQL执行器引用 \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{返回}
+是否应该退出程序 
+\end{DoxyReturn}
+\Hypertarget{isql__main_8cpp_a0ddf1224851353fc92bfbff6f499fa97}\label{isql__main_8cpp_a0ddf1224851353fc92bfbff6f499fa97} 
+\index{isql\_main.cpp@{isql\_main.cpp}!main@{main}}
+\index{main@{main}!isql\_main.cpp@{isql\_main.cpp}}
+\doxysubsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily int main (\begin{DoxyParamCaption}\item[{int}]{argc,  }\item[{char \texorpdfstring{$\ast$}{*}}]{argv\mbox{[}$\,$\mbox{]} }\end{DoxyParamCaption})}
+
+
+
+主函数 
+
+\Hypertarget{isql__main_8cpp_aec315d77f5c38417289a0e311d2a9d31}\label{isql__main_8cpp_aec315d77f5c38417289a0e311d2a9d31} 
+\index{isql\_main.cpp@{isql\_main.cpp}!showHelp@{showHelp}}
+\index{showHelp@{showHelp}!isql\_main.cpp@{isql\_main.cpp}}
+\doxysubsubsection{\texorpdfstring{showHelp()}{showHelp()}}
+{\footnotesize\ttfamily void show\+Help (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+显示帮助信息 
+
+\Hypertarget{isql__main_8cpp_a2de507730a8ffeaa8ef728c753eecbfb}\label{isql__main_8cpp_a2de507730a8ffeaa8ef728c753eecbfb} 
+\index{isql\_main.cpp@{isql\_main.cpp}!showVersion@{showVersion}}
+\index{showVersion@{showVersion}!isql\_main.cpp@{isql\_main.cpp}}
+\doxysubsubsection{\texorpdfstring{showVersion()}{showVersion()}}
+{\footnotesize\ttfamily void show\+Version (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+显示版本信息 
+
+\Hypertarget{isql__main_8cpp_ad2e59c7203b3bddc1bc9a2224b52e8e7}\label{isql__main_8cpp_ad2e59c7203b3bddc1bc9a2224b52e8e7} 
+\index{isql\_main.cpp@{isql\_main.cpp}!signalHandler@{signalHandler}}
+\index{signalHandler@{signalHandler}!isql\_main.cpp@{isql\_main.cpp}}
+\doxysubsubsection{\texorpdfstring{signalHandler()}{signalHandler()}}
+{\footnotesize\ttfamily void signal\+Handler (\begin{DoxyParamCaption}\item[{int}]{signal }\end{DoxyParamCaption})}
+
+
+
+信号处理函数，处理\+Ctrl+\+C信号 
+
+
+
+\doxysubsection{变量说明}
+\Hypertarget{isql__main_8cpp_acf1c5eb591219d4325e9988cb7ff85e1}\label{isql__main_8cpp_acf1c5eb591219d4325e9988cb7ff85e1} 
+\index{isql\_main.cpp@{isql\_main.cpp}!g\_running@{g\_running}}
+\index{g\_running@{g\_running}!isql\_main.cpp@{isql\_main.cpp}}
+\doxysubsubsection{\texorpdfstring{g\_running}{g\_running}}
+{\footnotesize\ttfamily volatile sig\+\_\+atomic\+\_\+t g\+\_\+running = 1}
+

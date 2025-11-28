@@ -1,0 +1,25 @@
+var classsqlcc_1_1TransactionManager =
+[
+    [ "TransactionManager", "classsqlcc_1_1TransactionManager.html#abe5b7bffd6a7e7c7fbfb40e8c85347be", null ],
+    [ "~TransactionManager", "classsqlcc_1_1TransactionManager.html#a6bc444d66f238d3722c05806e4608693", null ],
+    [ "acquire_lock", "classsqlcc_1_1TransactionManager.html#a12af6a39399459fb75cce36a1225e543", null ],
+    [ "begin_transaction", "classsqlcc_1_1TransactionManager.html#a05db25198754abcea8b19c81ae54fe99", null ],
+    [ "can_acquire_lock", "classsqlcc_1_1TransactionManager.html#aa8f7c1c8eda3a8c963142b86013cf6da", null ],
+    [ "cleanup_completed_transactions", "classsqlcc_1_1TransactionManager.html#a0eeba8f70cb8d913416e0adb30f9e158", null ],
+    [ "commit_transaction", "classsqlcc_1_1TransactionManager.html#adb51a287c89b54b34e9d4fe00c74ddf4", null ],
+    [ "create_savepoint", "classsqlcc_1_1TransactionManager.html#aeaee8cf0eae471aa90e64771f3ffac14", null ],
+    [ "detect_deadlock", "classsqlcc_1_1TransactionManager.html#a114b0ffdffafdd6be011d43e096a5521", null ],
+    [ "get_active_transactions", "classsqlcc_1_1TransactionManager.html#a2e9a167ce9c6eef35d53dd37acd4220e", null ],
+    [ "get_transaction_state", "classsqlcc_1_1TransactionManager.html#a7cff6d1da8adc701ea6893ac138fc823", null ],
+    [ "log_operation", "classsqlcc_1_1TransactionManager.html#a6643e0b9e287c5de529a1eef437c4567", null ],
+    [ "next_transaction_id", "classsqlcc_1_1TransactionManager.html#adbe345c0242744f4192b0a69cc30875c", null ],
+    [ "release_all_locks", "classsqlcc_1_1TransactionManager.html#a755e6bebb4b804b97acd85542ad401e3", null ],
+    [ "release_lock", "classsqlcc_1_1TransactionManager.html#a5722ea156091c14f0af60b4255ec2f60", null ],
+    [ "rollback_to_savepoint", "classsqlcc_1_1TransactionManager.html#a43b84f7a79a083d913fc6f317eb18bf8", null ],
+    [ "rollback_transaction", "classsqlcc_1_1TransactionManager.html#a8e48b65d6115edc02d54f1fb347c0b85", null ],
+    [ "lock_table_", "classsqlcc_1_1TransactionManager.html#a2ea57a41359c8c6c13acdcfc5b99b323", null ],
+    [ "mutex_", "classsqlcc_1_1TransactionManager.html#a118d97323ed72d94df69496bf06407a8", null ],
+    [ "next_txn_id_", "classsqlcc_1_1TransactionManager.html#a64693b580dd5d678b4116fdfe05dd618", null ],
+    [ "transactions_", "classsqlcc_1_1TransactionManager.html#ab35bd4768f3c8a11b90beed16ff30767", null ],
+    [ "wait_graph_", "classsqlcc_1_1TransactionManager.html#aba87f1b666716f0f834cd6f1bf47b80c", null ]
+];

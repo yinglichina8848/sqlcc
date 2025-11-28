@@ -1,0 +1,193 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: disk_manager.cpp 文件参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_7dcb077a4c8c4495a12c89124ab03608.html">storage_engine</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#namespaces">命名空间</a> &#124;
+<a href="#var-members">变量</a>  </div>
+  <div class="headertitle"><div class="title">disk_manager.cpp 文件参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>磁盘管理器核心实现  
+<a href="#details">更多...</a></p>
+<div class="textblock"><code>#include &quot;disk_manager.h&quot;</code><br />
+<code>#include &quot;exception.h&quot;</code><br />
+<code>#include &quot;logger.h&quot;</code><br />
+<code>#include &lt;iostream&gt;</code><br />
+<code>#include &lt;fstream&gt;</code><br />
+<code>#include &lt;filesystem&gt;</code><br />
+<code>#include &lt;algorithm&gt;</code><br />
+<code>#include &lt;sys/stat.h&gt;</code><br />
+<code>#include &lt;fcntl.h&gt;</code><br />
+<code>#include &lt;unistd.h&gt;</code><br />
+<code>#include &lt;cstring&gt;</code><br />
+</div><div class="textblock"><div class="dynheader">
+storage_engine/disk_manager.cpp 的引用(Include)关系图:</div>
+<div class="dyncontent">
+<div class="center"><img src="storage__engine_2disk__manager_8cpp__incl.png" border="0" usemap="#adisk__manager_8cpp" alt=""/></div>
+<map name="adisk__manager_8cpp" id="adisk__manager_8cpp">
+<area shape="rect" title="磁盘管理器核心实现" alt="" coords="554,5,694,31"/>
+<area shape="rect" title=" " alt="" coords="5,79,131,104"/>
+<area shape="poly" title=" " alt="" coords="554,30,144,81,144,76,553,25"/>
+<area shape="rect" title=" " alt="" coords="155,79,253,104"/>
+<area shape="poly" title=" " alt="" coords="554,33,268,81,267,76,553,28"/>
+<area shape="rect" title=" " alt="" coords="277,79,352,104"/>
+<area shape="poly" title=" " alt="" coords="575,33,366,81,365,76,574,28"/>
+<area shape="rect" title=" " alt="" coords="376,79,456,104"/>
+<area shape="poly" title=" " alt="" coords="591,33,464,77,462,72,590,28"/>
+<area shape="rect" title=" " alt="" coords="481,79,554,104"/>
+<area shape="poly" title=" " alt="" coords="608,33,548,73,545,69,605,28"/>
+<area shape="rect" title=" " alt="" coords="579,79,669,104"/>
+<area shape="poly" title=" " alt="" coords="627,31,627,65,621,65,621,31"/>
+<area shape="rect" title=" " alt="" coords="693,79,779,104"/>
+<area shape="poly" title=" " alt="" coords="643,28,707,69,704,73,641,33"/>
+<area shape="rect" title=" " alt="" coords="803,79,888,104"/>
+<area shape="poly" title=" " alt="" coords="660,28,798,72,796,77,659,33"/>
+<area shape="rect" title=" " alt="" coords="913,79,975,104"/>
+<area shape="poly" title=" " alt="" coords="681,28,899,76,898,81,680,33"/>
+<area shape="rect" title=" " alt="" coords="1000,79,1075,104"/>
+<area shape="poly" title=" " alt="" coords="694,27,826,47,987,76,986,81,825,53,694,32"/>
+<area shape="rect" title=" " alt="" coords="1099,79,1165,104"/>
+<area shape="poly" title=" " alt="" coords="694,23,868,43,1086,76,1085,81,868,48,694,28"/>
+</map>
+</div>
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+命名空间</h2></td></tr>
+<tr class="memitem:namespacesqlcc" id="r_namespacesqlcc"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc.html">sqlcc</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
+变量</h2></td></tr>
+<tr class="memitem:af60e67b7145f8e316bfefd914d7c4e7b" id="r_af60e67b7145f8e316bfefd914d7c4e7b"><td class="memItemLeft" align="right" valign="top">constexpr size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="storage__engine_2disk__manager_8cpp.html#af60e67b7145f8e316bfefd914d7c4e7b">PAGE_SIZE</a> = 8192</td></tr>
+<tr class="separator:af60e67b7145f8e316bfefd914d7c4e7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>磁盘管理器核心实现 </p>
+<p>实现了SQLCC数据库的磁盘管理器，负责管理数据库文件的读写操作 </p><dl class="section author"><dt>作者</dt><dd>SQLCC项目组 </dd></dl>
+<dl class="section date"><dt>日期</dt><dd>2024-11-28 </dd></dl>
+<dl class="section version"><dt>版本</dt><dd>0.6.0</dd></dl>
+<dl class="section user"><dt>版权信息</dt><dd>版权所有 (c) 2024 SQLCC 项目组</dd></dl>
+<dl class="section user"><dt>相关文件</dt><dd></dd></dl>
+<dl class="section see"><dt>参见</dt><dd>disk_manager.h - 磁盘管理器接口定义 </dd>
+<dd>
+exception.h - 异常类定义 </dd>
+<dd>
+logger.h - 日志管理接口定义</dd></dl>
+<dl class="section user"><dt>数据库原理知识点</dt><dd><ul>
+<li>磁盘I/O管理：实现了高效的磁盘读写操作</li>
+<li>页面管理：负责页面的分配、释放、读写等操作</li>
+<li>文件管理：管理数据库文件的打开、关闭、同步等操作</li>
+<li>性能优化：支持批量读取和预取操作，提高磁盘I/O效率</li>
+<li>事务持久性：确保事务的持久性特性，保证已提交的事务数据不会丢失</li>
+</ul>
+</dd></dl>
+<dl class="section user"><dt>设计模式</dt><dd><ul>
+<li>单例模式：磁盘管理器在存储引擎中通常是单例存在</li>
+<li>策略模式：支持不同的预取策略</li>
+<li>观察者模式：支持配置变更的通知机制 </li>
+</ul>
+</dd></dl>
+</div><h2 class="groupheader">变量说明</h2>
+<a id="af60e67b7145f8e316bfefd914d7c4e7b" name="af60e67b7145f8e316bfefd914d7c4e7b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af60e67b7145f8e316bfefd914d7c4e7b">&#9670;&#160;</a></span>PAGE_SIZE</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr size_t PAGE_SIZE = 8192</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

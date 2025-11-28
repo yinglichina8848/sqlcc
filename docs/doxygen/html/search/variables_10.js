@@ -1,0 +1,26 @@
+var searchData=
+[
+  ['random_5fdist_5f_0',['random_dist_',['../classsqlcc_1_1test_1_1ConcurrencyPerformanceTest.html#a2230a7d12f404b132695e11ab41c75e8',1,'sqlcc::test::ConcurrencyPerformanceTest']]],
+  ['rd_5f_1',['rd_',['../classsqlcc_1_1test_1_1MemoryStressTest.html#a76c94d186219135caeea00f325ce612c',1,'sqlcc::test::MemoryStressTest']]],
+  ['read_5flock_5ftimeout_5fms_5f_2',['read_lock_timeout_ms_',['../classsqlcc_1_1BufferPool.html#abe6985900d8804e2c0fe37299133eb08',1,'sqlcc::BufferPool']]],
+  ['read_5fratio_3',['read_ratio',['../structsqlcc_1_1test_1_1MixedWorkloadTest_1_1WorkloadConfig.html#a40dbd0729f99b7f80cfbb93c1229e891',1,'sqlcc::test::MixedWorkloadTest::WorkloadConfig']]],
+  ['read_5ftables_4',['read_tables',['../structsqlcc_1_1Transaction.html#a1dd7a53b9a18de5cb483dd7404b814dd',1,'sqlcc::Transaction']]],
+  ['readonly_5f_5',['readOnly_',['../classsqlcc_1_1sql__parser_1_1BeginTransactionStatement.html#a43d1b6993bfd2d3002e7748d15d68a44',1,'sqlcc::sql_parser::BeginTransactionStatement']]],
+  ['record_5fid_6',['record_id',['../structsqlcc_1_1LogEntry.html#a31c7e2a86b93bb85fd2a8c74772767fd',1,'sqlcc::LogEntry']]],
+  ['record_5fsize_7',['record_size',['../structsqlcc_1_1test_1_1MillionInsertTest_1_1InsertTestConfig.html#aaafc114085cfd03405c927e66429b04a',1,'sqlcc::test::MillionInsertTest::InsertTestConfig']]],
+  ['records_5finserted_5f_8',['records_inserted_',['../classsqlcc_1_1test_1_1MillionInsertTest.html#a11964fda2262c53b10bc53c3b1815e39',1,'sqlcc::test::MillionInsertTest']]],
+  ['ref_5fcount_9',['ref_count',['../structsqlcc_1_1BufferPoolSharded_1_1PageWrapper.html#ad8f50a51117d3770b1ef4d81558b2ae7',1,'sqlcc::BufferPoolSharded::PageWrapper']]],
+  ['referencedcolumn_5f_10',['referencedcolumn_',['../classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#aa4f109da66d96b6ae3bedcede5bd8e01',1,'sqlcc::sql_parser::ForeignKeyConstraint::referencedColumn_'],['../classsqlcc_1_1sql__parser_1_1ColumnDefinition.html#a0fd2421b9666ec1a76e82822af56dd04',1,'sqlcc::sql_parser::ColumnDefinition::referencedColumn_']]],
+  ['referencedtable_5f_11',['referencedtable_',['../classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a135e11e8b5fbccfdb6dac0e09c1e27d6',1,'sqlcc::sql_parser::ForeignKeyConstraint::referencedTable_'],['../classsqlcc_1_1sql__parser_1_1ColumnDefinition.html#a818923b59f8b8ba29b72ef0e8bd9a512',1,'sqlcc::sql_parser::ColumnDefinition::referencedTable_']]],
+  ['resource_12',['resource',['../structsqlcc_1_1LockEntry.html#ac7eb26d5d6b5bac53e2a899c4f5c4753',1,'sqlcc::LockEntry']]],
+  ['results_5f_13',['results_',['../classsqlcc_1_1test_1_1performance_1_1IndexPerformanceTest.html#ae4e9b98a78bd30fb719c3a7eeaf2f850',1,'sqlcc::test::performance::IndexPerformanceTest']]],
+  ['right_5f_14',['right_',['../classsqlcc_1_1sql__parser_1_1BinaryExpression.html#a13bb33dfa2f9b4bc9b47d61f46e72888',1,'sqlcc::sql_parser::BinaryExpression']]],
+  ['rng_5f_15',['rng_',['../classsqlcc_1_1test_1_1BatchPrefetchPerformanceTest.html#aede6c9080717ba52a5b524b798d034db',1,'sqlcc::test::BatchPrefetchPerformanceTest::rng_'],['../classsqlcc_1_1test_1_1BufferPoolPerformanceTest.html#a579d9f537281ef4dceebcc0165c5df28',1,'sqlcc::test::BufferPoolPerformanceTest::rng_'],['../classsqlcc_1_1test_1_1ConcurrencyPerformanceTest.html#abb7341cd5aa60eca770357f4ec653d54',1,'sqlcc::test::ConcurrencyPerformanceTest::rng_'],['../classsqlcc_1_1test_1_1DiskIOPerformanceTest.html#a4361db297b1776a16b32d738c2dc482c',1,'sqlcc::test::DiskIOPerformanceTest::rng_'],['../classsqlcc_1_1test_1_1MillionInsertTest.html#a4f9bc46d8dd4decb94bc6e5bcb1258df',1,'sqlcc::test::MillionInsertTest::rng_'],['../classsqlcc_1_1test_1_1MixedWorkloadTest.html#a228e88955ef0e0520dbc27a06b167623',1,'sqlcc::test::MixedWorkloadTest::rng_']]],
+  ['role_16',['role',['../structsqlcc_1_1User.html#a3f8ef6689010153cffb04747417eb68f',1,'sqlcc::User']]],
+  ['role_5f_17',['role_',['../classsqlcc_1_1sql__parser_1_1CreateUserStatement.html#ad5cbda173c677b0e9aa94cada8bbbd83',1,'sqlcc::sql_parser::CreateUserStatement']]],
+  ['role_5fadmin_18',['ROLE_ADMIN',['../classsqlcc_1_1UserManager.html#a3f6f7ff94d118311fd9b3cd02fe9398e',1,'sqlcc::UserManager']]],
+  ['role_5fsuperuser_19',['ROLE_SUPERUSER',['../classsqlcc_1_1UserManager.html#ad09586dc99ddf020aaa8b4d568cd5b6f',1,'sqlcc::UserManager']]],
+  ['role_5fuser_20',['ROLE_USER',['../classsqlcc_1_1UserManager.html#a3c20dde9c66b412235cce173cabeaf5e',1,'sqlcc::UserManager']]],
+  ['root_5fpage_5fid_5f_21',['root_page_id_',['../classsqlcc_1_1BPlusTreeIndex.html#aab67576cb0b8a8920732ccfb59bb9c40',1,'sqlcc::BPlusTreeIndex']]],
+  ['running_5f_22',['running_',['../classsqlcc_1_1network_1_1ServerNetworkManager.html#acdcfae58bea333a213b8e442307c4ce7',1,'sqlcc::network::ServerNetworkManager']]]
+];

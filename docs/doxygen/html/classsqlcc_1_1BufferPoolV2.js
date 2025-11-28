@@ -1,0 +1,27 @@
+var classsqlcc_1_1BufferPoolV2 =
+[
+    [ "Metrics", "structsqlcc_1_1BufferPoolV2_1_1Metrics.html", "structsqlcc_1_1BufferPoolV2_1_1Metrics" ],
+    [ "BufferPoolV2", "classsqlcc_1_1BufferPoolV2.html#ae097b68d071044f53a0aa84b5c9b01d4", null ],
+    [ "BufferPoolV2", "classsqlcc_1_1BufferPoolV2.html#ac8087d1c0ce894e757f6928b0facf5ff", null ],
+    [ "~BufferPoolV2", "classsqlcc_1_1BufferPoolV2.html#aee26cddcf295f346a44dd21054ee6c10", null ],
+    [ "DeletePage", "classsqlcc_1_1BufferPoolV2.html#a0abc053f842aa1e88af79f785621b87b", null ],
+    [ "EvictOnePage", "classsqlcc_1_1BufferPoolV2.html#acb4c6e7673ee08e174739fd56a600969", null ],
+    [ "FetchPage", "classsqlcc_1_1BufferPoolV2.html#a546265dcdeadb8cbcb05b7bb3fcf180b", null ],
+    [ "FlushAllPages", "classsqlcc_1_1BufferPoolV2.html#a1b6d9bd6f2caa4009886d4b55d89cb0b", null ],
+    [ "FlushPage", "classsqlcc_1_1BufferPoolV2.html#a5906a6f2ee831fd3ef264c2dbc51e79e", null ],
+    [ "GetMetrics", "classsqlcc_1_1BufferPoolV2.html#a2cb74293b430be467f922650b4d3cc8f", null ],
+    [ "GetPoolSize", "classsqlcc_1_1BufferPoolV2.html#ad349b2de87f5833a69a5f397d130eed1", null ],
+    [ "NewPage", "classsqlcc_1_1BufferPoolV2.html#ad4dd4aab30870521086e370d20135a5b", null ],
+    [ "operator=", "classsqlcc_1_1BufferPoolV2.html#a883752cb9ae051552624054748a52be9", null ],
+    [ "PutPageToCache", "classsqlcc_1_1BufferPoolV2.html#aa3fd06ad511bea450674baed3308f67e", null ],
+    [ "RemovePageFromCache", "classsqlcc_1_1BufferPoolV2.html#a2ba8eff27831eec4d53703e6422fc580", null ],
+    [ "Resize", "classsqlcc_1_1BufferPoolV2.html#aa3b55424b23d431a3afb63466099524f", null ],
+    [ "UnpinPage", "classsqlcc_1_1BufferPoolV2.html#af631b30c4d3fab4273e393cf6f8927e8", null ],
+    [ "dirty_pages_", "classsqlcc_1_1BufferPoolV2.html#a763121a1877709c56e240bbc753c6c82", null ],
+    [ "disk_manager_", "classsqlcc_1_1BufferPoolV2.html#a1243075b19dc8332839cd693361e73a3", null ],
+    [ "lru_cache_", "classsqlcc_1_1BufferPoolV2.html#a662ae4b37817f6cd0085c4ff052b3a3f", null ],
+    [ "metrics_", "classsqlcc_1_1BufferPoolV2.html#a97eeeef2ec5619f58695ed93fb17958e", null ],
+    [ "metrics_mutex_", "classsqlcc_1_1BufferPoolV2.html#ab093da7d55db57f8e0fec99fda2eb1ba", null ],
+    [ "page_refs_", "classsqlcc_1_1BufferPoolV2.html#a9392b14ec7998b17bc69e2b648d0489c", null ],
+    [ "pool_size_", "classsqlcc_1_1BufferPoolV2.html#abc79e2110dd4a01953a3e33c47466ddd", null ]
+];

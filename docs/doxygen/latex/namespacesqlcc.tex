@@ -1,0 +1,192 @@
+\doxysection{sqlcc 命名空间参考}
+\hypertarget{namespacesqlcc}{}\label{namespacesqlcc}\index{sqlcc@{sqlcc}}
+\doxysubsubsection*{命名空间}
+\begin{DoxyCompactItemize}
+\item 
+namespace \mbox{\hyperlink{namespacesqlcc_1_1network}{network}}
+\item 
+namespace \mbox{\hyperlink{namespacesqlcc_1_1sql__parser}{sql\+\_\+parser}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{函数}
+\begin{DoxyCompactItemize}
+\item 
+std\+::string \mbox{\hyperlink{namespacesqlcc_a44d3d369c14bdc6088fac0d9214e85ae}{to\+Lower}} (const std\+::string \&str)
+\item 
+void \mbox{\hyperlink{namespacesqlcc_a6314fe8039183b743aa4844166a84814}{Trim\+String}} (std\+::string \&str)
+\begin{DoxyCompactList}\small\item\em 修剪字符串 \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{详细描述}
+\DoxyHorRuler{0}
+ \hypertarget{namespacesqlcc_autotoc_md1}{}\doxysubsection{\texorpdfstring{商业数据库核心索引技术：\+B+树设计思想深度剖析}{商业数据库核心索引技术：B+树设计思想深度剖析}}\label{namespacesqlcc_autotoc_md1}
+\hypertarget{namespacesqlcc_autotoc_md2}{}\doxysubsubsection{\texorpdfstring{WHY (为什么选择\+B+树作为索引核心)\+:}{WHY (为什么选择B+树作为索引核心):}}\label{namespacesqlcc_autotoc_md2}
+商用数据库的核心挑战：
+\begin{DoxyEnumerate}
+\item 海量数据存储(EB级别)和高效查询需求
+\item 磁盘\+I/\+O最小化和随机访问优化
+\item 并发访问控制和事务一致性
+\item 可预测的查询性能和系统稳定性
+\item 索引维护成本与查询性能的平衡
+\end{DoxyEnumerate}
+
+B+树的设计巧妙解决了这些商业数据库的核心问题：
+\begin{DoxyItemize}
+\item 平衡多叉树：充分利用磁盘页大小，减少\+I/\+O次数
+\item 数据仅存叶子：内部节点作为路标，减少索引大小
+\item 叶子节点链：支持高效的范围查询和顺序扫描
+\item 平衡操作：保持树的平衡，查询性能可预测
+\end{DoxyItemize}\hypertarget{namespacesqlcc_autotoc_md3}{}\doxysubsubsection{\texorpdfstring{WHAT (\+B+树如何工作)\+:}{WHAT (B+树如何工作):}}\label{namespacesqlcc_autotoc_md3}
+核心设计理念：
+\begin{DoxyEnumerate}
+\item 多层索引结构：根 → 内部节点 → 叶子节点
+\item 磁盘页映射：每棵子树对应一个磁盘页
+\item 自平衡操作：通过分裂和合并维持平衡
+\item 范围查询支持：叶子节点通过指针相连
+\end{DoxyEnumerate}
+
+商业场景应用：
+\begin{DoxyItemize}
+\item WHERE条件查询：\+O(log\+N)定位 + O(\+K)获取
+\item 范围查询：叶子链顺序扫描，极高效率
+\item 索引维护：增删改后自平衡调整
+\item 并发控制：细粒度锁管理 + MVCC支持
+\end{DoxyItemize}\hypertarget{namespacesqlcc_autotoc_md4}{}\doxysubsubsection{\texorpdfstring{HOW (\+B+树在商业数据库中的实现要点)\+:}{HOW (B+树在商业数据库中的实现要点):}}\label{namespacesqlcc_autotoc_md4}
+
+\begin{DoxyEnumerate}
+\item 节点结构设计：
+\begin{DoxyItemize}
+\item 内部节点：只存储关键值+子指针，占用空间小
+\item 叶子节点：存储完整数据+前后指针，支持范围查询
+\item 填充因子：预留空间给频繁的插入操作
+\end{DoxyItemize}
+\item 分裂策略：
+\begin{DoxyItemize}
+\item 溢出时中点分裂，确保左子树 ≤ 中点 ≤ 右子树
+\item 批量分裂：减少递归分裂的性能开销
+\item 并发分裂：细粒度锁控制，无阻塞设计
+\end{DoxyItemize}
+\item 性能优化：
+\begin{DoxyItemize}
+\item 预取策略：预测性加载后续页面到缓冲池
+\item 合并优化：延迟合并减少\+I/\+O开销
+\item 缓存友好：节点大小适配\+CPU缓存行
+\end{DoxyItemize}
+\item 并发控制：
+\begin{DoxyItemize}
+\item 乐观并发：版本戳控制冲突检测
+\item 协同锁协议：允许读并发，写互斥
+\item 锁升级策略：细粒度→粗粒度，按需升级
+\end{DoxyItemize}
+\item 商业数据库的特殊考虑：
+\begin{DoxyItemize}
+\item WAL(预写日志)：确保崩溃恢复的一致性
+\item 索引重构：在线重建索引保证业务连续
+\item 统计信息：动态更新索引选择性信息
+\end{DoxyItemize}
+\end{DoxyEnumerate}\hypertarget{namespacesqlcc_autotoc_md5}{}\doxysubsubsection{\texorpdfstring{WHY B+树主导商用数据库的核心性能指标：}{WHY B+树主导商用数据库的核心性能指标：}}\label{namespacesqlcc_autotoc_md5}
+
+\begin{DoxyEnumerate}
+\item I/\+O效率：
+\begin{DoxyItemize}
+\item B+树的阶数可达几百，树高度很低
+\item 单次查询\+I/\+O次数通常为3-\/4次(根+内部+叶子)
+\item 相比\+B树减少了30\%-\/50的I/\+O开销
+\end{DoxyItemize}
+\item 缓存效率：
+\begin{DoxyItemize}
+\item 内部节点缓存热点，减少重复加载
+\item 叶子节点预取策略，预测性缓存
+\item 局部性原理得到充分应用
+\end{DoxyItemize}
+\item 并发效率：
+\begin{DoxyItemize}
+\item 多版本\+B+树支持无阻塞快照读
+\item 分层锁协议允许多并发访问
+\item 乐观锁减少锁竞争开销
+\end{DoxyItemize}
+\item 维护效率：
+\begin{DoxyItemize}
+\item 自平衡操作保证查询性能稳定
+\item 批量操作减少维护时的性能抖动
+\item 在线重建支持24x7业务连续性
+\end{DoxyItemize}
+\item 扩展性：
+\begin{DoxyItemize}
+\item 支持索引分区和分布式部署
+\item 动态调整适应数据量变化
+\item 兼容多租户和大数据分析场景
+\end{DoxyItemize}
+\end{DoxyEnumerate}
+
+\DoxyHorRuler{0}
+ \hypertarget{namespacesqlcc_autotoc_md7}{}\doxysubsection{\texorpdfstring{这个\+B+树实现的商业价值和学习意义}{这个B+树实现的商业价值和学习意义}}\label{namespacesqlcc_autotoc_md7}
+对于学生和开发者而言，理解\+B+树不仅仅是数据结构的知识，更重要的是：
+
+
+\begin{DoxyEnumerate}
+\item 数据库系统设计思维：
+\begin{DoxyItemize}
+\item 磁盘\+I/\+O是最昂贵的操作，一切设计围绕\+I/\+O优化
+\item 树结构设计权衡读写操作的复杂度
+\item 并发控制策略影响整个系统的伸缩性
+\end{DoxyItemize}
+\item 商业数据库的核心性能要求：
+\begin{DoxyItemize}
+\item 查询延迟：毫秒级响应是基本要求
+\item 吞吐量：每秒万级\+QPS是最低目标
+\item 稳定性：99.99可用性和可预测性能
+\item 扩展性：无缝扩容到\+PB级别数据
+\end{DoxyItemize}
+\item 系统设计的最佳实践：
+\begin{DoxyItemize}
+\item 抽象与封装：接口设计决定系统扩展性
+\item 模块化设计：各组件职责清晰，独立演进 
+\end{DoxyItemize}
+\end{DoxyEnumerate}\hypertarget{namespacesqlcc_autotoc_md8}{}\doxysubsection{\texorpdfstring{-\/ 性能监控：埋点和调优是持续性工作}{- 性能监控：埋点和调优是持续性工作}}\label{namespacesqlcc_autotoc_md8}
+
+
+\doxysubsection{函数说明}
+\Hypertarget{namespacesqlcc_a44d3d369c14bdc6088fac0d9214e85ae}\label{namespacesqlcc_a44d3d369c14bdc6088fac0d9214e85ae} 
+\index{sqlcc@{sqlcc}!toLower@{toLower}}
+\index{toLower@{toLower}!sqlcc@{sqlcc}}
+\doxysubsubsection{\texorpdfstring{toLower()}{toLower()}}
+{\footnotesize\ttfamily std\+::string sqlcc\+::to\+Lower (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{str }\end{DoxyParamCaption})}
+
+\Hypertarget{namespacesqlcc_a6314fe8039183b743aa4844166a84814}\label{namespacesqlcc_a6314fe8039183b743aa4844166a84814} 
+\index{sqlcc@{sqlcc}!TrimString@{TrimString}}
+\index{TrimString@{TrimString}!sqlcc@{sqlcc}}
+\doxysubsubsection{\texorpdfstring{TrimString()}{TrimString()}}
+{\footnotesize\ttfamily void sqlcc\+::\+Trim\+String (\begin{DoxyParamCaption}\item[{std\+::string \&}]{str }\end{DoxyParamCaption})}
+
+
+
+修剪字符串 
+
+移除字符串前后的空格、制表符和换行符
+
+
+\begin{DoxyParams}{参数}
+{\em str} & 要修剪的字符串\\
+\hline
+\end{DoxyParams}
+\begin{DoxyParagraph}{算法复杂度}
+
+\begin{DoxyItemize}
+\item 时间复杂度：\+O(n)，其中n是字符串长度
+\item 空间复杂度：\+O(n)
+\end{DoxyItemize}
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{设计思路}
+
+\begin{DoxyItemize}
+\item 移除前导空格、制表符和换行符
+\item 移除尾随空格、制表符和换行符
+\item 如果字符串全部是空白字符，清空字符串
+\end{DoxyItemize}
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{注意事项}
+
+\begin{DoxyItemize}
+\item 此函数在命名空间外实现，与头文件声明匹配 
+\end{DoxyItemize}
+\end{DoxyParagraph}
