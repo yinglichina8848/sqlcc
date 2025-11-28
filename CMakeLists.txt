@@ -151,14 +151,7 @@ target_link_libraries(isql
     ${CMAKE_THREAD_LIBS_INIT}
 )
 
-# 添加B+树调试程序
-add_executable(b_plus_tree_debug src/b_plus_tree_debug.cpp)
-target_link_libraries(b_plus_tree_debug
-    PRIVATE
-    sqlcc_core
-    sqlcc_storage_engine
-    ${CMAKE_THREAD_LIBS_INIT}
-)
+# B+树调试程序已移除，因为源文件不存在
 
 # 构建DCL测试
 add_executable(dcl_test src/dcl_test.cpp)
