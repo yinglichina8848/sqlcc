@@ -4,7 +4,7 @@
 cmake_minimum_required(VERSION 3.10)
 
 # 项目名称和版本
-project(sqlcc VERSION 1.0.0 LANGUAGES CXX)
+project(sqlcc VERSION 1.0.2 LANGUAGES CXX)
 
 # 设置编译选项
 set(CMAKE_CXX_STANDARD 17)
@@ -90,14 +90,32 @@ include_directories(${CMAKE_SOURCE_DIR}/include/network)
 include_directories(${CMAKE_SOURCE_DIR}/include/sql)
 include_directories(${CMAKE_SOURCE_DIR}/include/utils)
 
+# 明确设置源码目录和测试目录的关系
+# 确保源码和测试代码分离
+# 1. 源码放在src目录
+# 2. 测试代码放在tests目录
+
 # 添加源码目录（必须先于tests添加，因为tests可能依赖src中的库）
 add_subdirectory(src)
 
-# 添加子目录
+# 添加测试目录
 add_subdirectory(tests)
 
 # 查找Google Test库
-find_package(GTest)
+find_package(GTest REQUIRED)
+
+# 确保GTest被正确配置
+if(GTest_FOUND)
+    include_directories(${GTEST_INCLUDE_DIRS})
+    message(STATUS "Found Google Test: ${GTEST_VERSION}")
+else()
+    message(FATAL_ERROR "Google Test not found, tests cannot be built")
+endif()
+
+# 确保源码和测试代码分离的策略
+# - 源码文件不会被包含在测试目录中
+# - 测试文件不会被包含在源码目录中
+# - 测试通过依赖关系访问源码，而不是直接包含源码文件
 if(NOT GTest_FOUND)
     include(FetchContent)
     FetchContent_Declare(
@@ -130,6 +148,15 @@ target_link_libraries(isql
     sqlcc_core
     sqlcc_executor
     ${READLINE_LIBRARIES}
+    ${CMAKE_THREAD_LIBS_INIT}
+)
+
+# 添加B+树调试程序
+add_executable(b_plus_tree_debug src/b_plus_tree_debug.cpp)
+target_link_libraries(b_plus_tree_debug
+    PRIVATE
+    sqlcc_core
+    sqlcc_storage_engine
     ${CMAKE_THREAD_LIBS_INIT}
 )
 
@@ -182,6 +209,8 @@ if(ENABLE_COVERAGE AND GCov AND LCOV AND GENHTML)
         COMMAND ${CMAKE_BINARY_DIR}/ddl_test || echo "DDL测试失败，但继续生成覆盖率报告"
         COMMAND ${CMAKE_BINARY_DIR}/dml_test || echo "DML测试失败，但继续生成覆盖率报告"
         COMMAND ${CMAKE_BINARY_DIR}/comprehensive_test || echo "综合测试失败，但继续生成覆盖率报告"
+        # 运行性能测试以收集覆盖率数据
+        COMMAND ${CMAKE_COMMAND} -E chdir ${CMAKE_BINARY_DIR} ${CMAKE_MAKE_PROGRAM} run_performance_suite
         # 捕获覆盖率数据
         COMMAND ${LCOV} --capture --directory ${CMAKE_BINARY_DIR} --output-file ${CMAKE_BINARY_DIR}/coverage/coverage.info
         # 排除不需要的文件，忽略未使用的模式错误
@@ -192,9 +221,45 @@ if(ENABLE_COVERAGE AND GCov AND LCOV AND GENHTML)
         COMMAND ${LCOV} --list ${CMAKE_BINARY_DIR}/coverage/coverage_clean.info
         COMMAND echo "=== 覆盖率报告生成完成 ==="
         COMMAND echo "=== HTML报告路径: ${CMAKE_BINARY_DIR}/coverage/index.html ==="
+        COMMAND echo "=== 包含单元测试和性能测试的覆盖率数据 ==="
         DEPENDS dcl_test ddl_test dml_test comprehensive_test
         WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
-        COMMENT "生成代码覆盖率报告"
+        COMMENT "生成代码覆盖率报告（包含性能测试）"
+    )
+    
+    # 创建单独的性能测试覆盖率目标
+    add_custom_target(coverage_performance_only
+        COMMAND echo "=== 运行性能测试覆盖率测试 ==="
+        COMMAND mkdir -p ${CMAKE_BINARY_DIR}/coverage/performance
+        # 先清理旧的覆盖率数据
+        COMMAND ${LCOV} --directory ${CMAKE_BINARY_DIR} --zerocounters
+        # 仅运行性能测试
+        COMMAND ${CMAKE_COMMAND} -E chdir ${CMAKE_BINARY_DIR} ${CMAKE_MAKE_PROGRAM} run_performance_suite
+        # 捕获覆盖率数据
+        COMMAND ${LCOV} --capture --directory ${CMAKE_BINARY_DIR} --output-file ${CMAKE_BINARY_DIR}/coverage/coverage_performance.info
+        # 排除不需要的文件，忽略未使用的模式错误
+        COMMAND ${LCOV} --remove ${CMAKE_BINARY_DIR}/coverage/coverage_performance.info "${CMAKE_SOURCE_DIR}/tests/*" "${CMAKE_SOURCE_DIR}/build/*" "*test_*.cpp" --output-file ${CMAKE_BINARY_DIR}/coverage/coverage_performance_clean.info --ignore-errors unused
+        # 生成HTML报告
+        COMMAND ${GENHTML} --output-directory ${CMAKE_BINARY_DIR}/coverage/performance ${CMAKE_BINARY_DIR}/coverage/coverage_performance_clean.info
+        # 显示文本摘要
+        COMMAND ${LCOV} --list ${CMAKE_BINARY_DIR}/coverage/coverage_performance_clean.info
+        COMMAND echo "=== 性能测试覆盖率报告生成完成 ==="
+        COMMAND echo "=== HTML报告路径: ${CMAKE_BINARY_DIR}/coverage/performance/index.html ==="
+        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+        COMMENT "生成性能测试代码覆盖率报告"
+    )
+else()
+    # 如果未启用覆盖率测试，创建一个虚拟目标
+    add_custom_target(coverage
+        COMMAND echo "覆盖率测试已禁用。要启用，请使用 -DENABLE_COVERAGE=ON 构建"
+        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+        COMMENT "虚拟覆盖率目标（覆盖率测试已禁用时）"
+    )
+    
+    add_custom_target(coverage_performance_only
+        COMMAND echo "覆盖率测试已禁用。要启用，请使用 -DENABLE_COVERAGE=ON 构建"
+        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+        COMMENT "虚拟性能测试覆盖率目标"
     )
 endif()
 
@@ -206,7 +271,8 @@ add_custom_target(performance
 )
 
 # 创建完整的测试套件目标（按分类运行所有测试）
-add_custom_target(test_all
+# 重命名以避免冲突
+add_custom_target(run_all_tests
     COMMAND echo "=== 运行单元测试 ==="
     COMMAND ${CMAKE_COMMAND} --build ${CMAKE_BINARY_DIR} --target test
     COMMAND echo "=== 运行性能测试 ==="

@@ -81,6 +81,96 @@ TEST_F(SqlParserTest, SelectStatementJoinClause) {
     EXPECT_TRUE(stmt != nullptr);
 }
 
+// 测试SELECT语句的LEFT JOIN子句
+TEST_F(SqlParserTest, SelectStatementLeftJoinClause) {
+    std::string sql = "SELECT users.id, orders.order_id FROM users LEFT JOIN orders ON users.id = orders.user_id;";
+    auto stmt = parseSingleStatement(sql);
+    
+    // 只检查语句不为nullptr
+    EXPECT_TRUE(stmt != nullptr);
+}
+
+// 测试SELECT语句的RIGHT JOIN子句
+TEST_F(SqlParserTest, SelectStatementRightJoinClause) {
+    std::string sql = "SELECT users.id, orders.order_id FROM users RIGHT JOIN orders ON users.id = orders.user_id;";
+    auto stmt = parseSingleStatement(sql);
+    
+    // 只检查语句不为nullptr
+    EXPECT_TRUE(stmt != nullptr);
+}
+
+// 测试SELECT语句的FULL JOIN子句
+TEST_F(SqlParserTest, SelectStatementFullJoinClause) {
+    std::string sql = "SELECT users.id, orders.order_id FROM users FULL JOIN orders ON users.id = orders.user_id;";
+    auto stmt = parseSingleStatement(sql);
+    
+    // 只检查语句不为nullptr
+    EXPECT_TRUE(stmt != nullptr);
+}
+
+// 测试SELECT语句的CROSS JOIN子句
+TEST_F(SqlParserTest, SelectStatementCrossJoinClause) {
+    std::string sql = "SELECT users.id, products.name FROM users CROSS JOIN products;";
+    auto stmt = parseSingleStatement(sql);
+    
+    // 只检查语句不为nullptr
+    EXPECT_TRUE(stmt != nullptr);
+}
+
+// 测试SELECT语句的EXISTS子查询
+TEST_F(SqlParserTest, SelectStatementExistsSubquery) {
+    std::string sql = "SELECT name FROM users WHERE EXISTS (SELECT * FROM orders WHERE orders.user_id = users.id);";
+    auto stmt = parseSingleStatement(sql);
+    
+    // 只检查语句不为nullptr
+    EXPECT_TRUE(stmt != nullptr);
+}
+
+// 测试SELECT语句的IN子查询
+TEST_F(SqlParserTest, SelectStatementInSubquery) {
+    std::string sql = "SELECT name FROM users WHERE id IN (SELECT user_id FROM orders WHERE order_date > '2023-01-01');";
+    auto stmt = parseSingleStatement(sql);
+    
+    // 只检查语句不为nullptr
+    EXPECT_TRUE(stmt != nullptr);
+}
+
+// 测试SELECT语句的NOT IN子查询
+TEST_F(SqlParserTest, SelectStatementNotInSubquery) {
+    std::string sql = "SELECT name FROM users WHERE id NOT IN (SELECT user_id FROM orders WHERE order_date > '2023-01-01');";
+    auto stmt = parseSingleStatement(sql);
+    
+    // 只检查语句不为nullptr
+    EXPECT_TRUE(stmt != nullptr);
+}
+
+// 测试SELECT语句的标量子查询
+TEST_F(SqlParserTest, SelectStatementScalarSubquery) {
+    std::string sql = "SELECT name, (SELECT COUNT(*) FROM orders WHERE orders.user_id = users.id) AS order_count FROM users;";
+    auto stmt = parseSingleStatement(sql);
+    
+    // 只检查语句不为nullptr
+    EXPECT_TRUE(stmt != nullptr);
+}
+
+// 测试CREATE VIEW语句
+TEST_F(SqlParserTest, CreateViewStatement) {
+    std::string sql = "CREATE VIEW user_orders AS SELECT users.id, users.name, orders.order_id FROM users JOIN orders ON users.id = orders.user_id;";
+    auto stmt = parseSingleStatement(sql);
+    
+    // 只检查语句不为nullptr
+    EXPECT_TRUE(stmt != nullptr);
+}
+
+// 测试DROP VIEW语句
+TEST_F(SqlParserTest, DropViewStatement) {
+    std::string sql = "DROP VIEW user_orders;";
+    auto stmt = parseSingleStatement(sql);
+    
+    // 只检查语句不为nullptr
+    EXPECT_TRUE(stmt != nullptr);
+}
+
 // 测试CREATE TABLE语句 - 简化版本
 TEST_F(SqlParserTest, CreateTableStatement) {
     std::string sql = "CREATE TABLE users (id INT PRIMARY KEY, name VARCHAR(255) NOT NULL, age INT DEFAULT 0);";
@@ -244,14 +334,14 @@ TEST_F(SqlParserTest, LexerBasic) {
     Lexer lexer(sql);
     
     Token token = lexer.nextToken();
-    EXPECT_EQ(token.getType(), Token::KEYWORD_SELECT);
+    EXPECT_EQ(token.getType(), Token::SELECT);
     
     token = lexer.nextToken();
     EXPECT_EQ(token.getType(), Token::IDENTIFIER);
     EXPECT_EQ(token.getLexeme(), "id");
     
     token = lexer.nextToken();
-    EXPECT_EQ(token.getType(), Token::PUNCTUATION_COMMA);
+    EXPECT_EQ(token.getType(), Token::COMMA);
 }
 
 // 测试注释处理
