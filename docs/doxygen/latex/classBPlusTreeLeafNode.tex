@@ -1,0 +1,48 @@
+\doxysection{BPlus\+Tree\+Leaf\+Node类 参考}
+\hypertarget{classBPlusTreeLeafNode}{}\label{classBPlusTreeLeafNode}\index{BPlusTreeLeafNode@{BPlusTreeLeafNode}}
+
+
+B+树叶子节点类  
+
+
+
+
+\doxysubsection{详细描述}
+B+树叶子节点类 
+
+实现了\+B+树叶子节点的功能，用于存储实际的索引数据和指向下一个叶子节点的指针
+
+\begin{DoxyParagraph}{设计思路}
+
+\begin{DoxyItemize}
+\item 继承自\+BPlus\+Tree\+Node基类
+\item 存储实际的索引条目，包括键和数据指针
+\item 每个叶子节点包含指向下一个叶子节点的指针，支持范围查询
+\item 提供序列化、反序列化、插入、删除、查询等接口
+\item 支持自平衡操作，如分裂、合并等
+\end{DoxyItemize}
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{数据库原理知识点}
+
+\begin{DoxyItemize}
+\item B+树索引：实现了\+B+树叶子节点的核心功能
+\item 范围查询：通过叶子节点链支持高效的范围查询
+\item 磁盘\+I/\+O优化：通过缓冲池减少磁盘\+I/\+O次数
+\item 页管理：每个节点对应一个磁盘页，高效管理内存和磁盘数据
+\end{DoxyItemize}
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{示例用法}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\mbox{\hyperlink{classBPlusTreeLeafNode}{BPlusTreeLeafNode}}\ *leaf\_node\ =\ \textcolor{keyword}{new}\ \mbox{\hyperlink{classBPlusTreeLeafNode}{BPlusTreeLeafNode}}(storage\_engine,}
+\DoxyCodeLine{page\_id);\ leaf\_node-\/>Insert(entry);\ std::vector<IndexEntry>\ results\ =}
+\DoxyCodeLine{leaf\_node-\/>Search(key);}
+
+\end{DoxyCode}
+ 
+\end{DoxyParagraph}
+
+
+该类的文档由以下文件生成\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{b__plus__tree_8cpp}{b\+\_\+plus\+\_\+tree.\+cpp}}\end{DoxyCompactItemize}

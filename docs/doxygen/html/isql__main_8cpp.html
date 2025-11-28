@@ -1,0 +1,334 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: isql_main.cpp 文件参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#func-members">函数</a> &#124;
+<a href="#var-members">变量</a>  </div>
+  <div class="headertitle"><div class="title">isql_main.cpp 文件参考</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &lt;csignal&gt;</code><br />
+<code>#include &lt;iostream&gt;</code><br />
+<code>#include &lt;memory&gt;</code><br />
+<code>#include &lt;string&gt;</code><br />
+<code>#include &lt;unistd.h&gt;</code><br />
+<code>#include &quot;../include/config_manager.h&quot;</code><br />
+<code>#include &quot;../include/sql_executor.h&quot;</code><br />
+<code>#include &quot;exception.h&quot;</code><br />
+<code>#include &quot;storage_engine.h&quot;</code><br />
+<code>#include &quot;version.h&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+isql_main.cpp 的引用(Include)关系图:</div>
+<div class="dyncontent">
+<div class="center"><img src="isql__main_8cpp__incl.png" border="0" usemap="#aisql__main_8cpp" alt=""/></div>
+<map name="aisql__main_8cpp" id="aisql__main_8cpp">
+<area shape="rect" title=" " alt="" coords="447,5,559,31"/>
+<area shape="rect" title=" " alt="" coords="5,79,73,104"/>
+<area shape="poly" title=" " alt="" coords="447,28,289,48,87,81,86,76,289,43,447,23"/>
+<area shape="rect" title=" " alt="" coords="98,79,178,104"/>
+<area shape="poly" title=" " alt="" coords="448,32,192,81,191,76,447,27"/>
+<area shape="rect" title=" " alt="" coords="202,79,279,104"/>
+<area shape="poly" title=" " alt="" coords="462,33,293,79,292,73,460,28"/>
+<area shape="rect" title=" " alt="" coords="303,79,362,104"/>
+<area shape="poly" title=" " alt="" coords="477,33,374,76,372,71,475,28"/>
+<area shape="rect" title=" " alt="" coords="386,79,461,104"/>
+<area shape="poly" title=" " alt="" coords="492,33,448,72,445,68,489,29"/>
+<area shape="rect" title=" " alt="" coords="485,79,685,104"/>
+<area shape="poly" title=" " alt="" coords="518,29,563,68,559,72,515,33"/>
+<area shape="rect" title=" " alt="" coords="709,79,887,104"/>
+<area shape="poly" title=" " alt="" coords="551,28,738,73,737,78,550,33"/>
+<area shape="rect" title=" " alt="" coords="911,79,1010,104"/>
+<area shape="poly" title=" " alt="" coords="560,25,898,76,898,81,559,30"/>
+<area shape="rect" title=" " alt="" coords="1035,79,1169,104"/>
+<area shape="poly" title=" " alt="" coords="560,23,1021,76,1021,81,559,28"/>
+<area shape="rect" title=" " alt="" coords="1194,79,1277,104"/>
+<area shape="poly" title=" " alt="" coords="560,19,824,37,999,53,1180,76,1180,81,999,59,823,42,559,25"/>
+</map>
+</div>
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+函数</h2></td></tr>
+<tr class="memitem:ad2e59c7203b3bddc1bc9a2224b52e8e7" id="r_ad2e59c7203b3bddc1bc9a2224b52e8e7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="isql__main_8cpp.html#ad2e59c7203b3bddc1bc9a2224b52e8e7">signalHandler</a> (int signal)</td></tr>
+<tr class="memdesc:ad2e59c7203b3bddc1bc9a2224b52e8e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">信号处理函数，处理Ctrl+C信号  <br /></td></tr>
+<tr class="separator:ad2e59c7203b3bddc1bc9a2224b52e8e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aec315d77f5c38417289a0e311d2a9d31" id="r_aec315d77f5c38417289a0e311d2a9d31"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="isql__main_8cpp.html#aec315d77f5c38417289a0e311d2a9d31">showHelp</a> ()</td></tr>
+<tr class="memdesc:aec315d77f5c38417289a0e311d2a9d31"><td class="mdescLeft">&#160;</td><td class="mdescRight">显示帮助信息  <br /></td></tr>
+<tr class="separator:aec315d77f5c38417289a0e311d2a9d31"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2de507730a8ffeaa8ef728c753eecbfb" id="r_a2de507730a8ffeaa8ef728c753eecbfb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="isql__main_8cpp.html#a2de507730a8ffeaa8ef728c753eecbfb">showVersion</a> ()</td></tr>
+<tr class="memdesc:a2de507730a8ffeaa8ef728c753eecbfb"><td class="mdescLeft">&#160;</td><td class="mdescRight">显示版本信息  <br /></td></tr>
+<tr class="separator:a2de507730a8ffeaa8ef728c753eecbfb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6ff3862f54b38494ec35d2b1b6856a26" id="r_a6ff3862f54b38494ec35d2b1b6856a26"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="isql__main_8cpp.html#a6ff3862f54b38494ec35d2b1b6856a26">handleInteractiveCommand</a> (const std::string &amp;cmd, SqlExecutor &amp;executor)</td></tr>
+<tr class="memdesc:a6ff3862f54b38494ec35d2b1b6856a26"><td class="mdescLeft">&#160;</td><td class="mdescRight">处理交互式命令  <br /></td></tr>
+<tr class="separator:a6ff3862f54b38494ec35d2b1b6856a26"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a05d07fa54743305c09f3bc65ecc4414e" id="r_a05d07fa54743305c09f3bc65ecc4414e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="isql__main_8cpp.html#a05d07fa54743305c09f3bc65ecc4414e">executeScript</a> (const std::string &amp;file_path, SqlExecutor &amp;executor)</td></tr>
+<tr class="memdesc:a05d07fa54743305c09f3bc65ecc4414e"><td class="mdescLeft">&#160;</td><td class="mdescRight">执行SQL脚本文件  <br /></td></tr>
+<tr class="separator:a05d07fa54743305c09f3bc65ecc4414e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0ddf1224851353fc92bfbff6f499fa97" id="r_a0ddf1224851353fc92bfbff6f499fa97"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="isql__main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97">main</a> (int argc, char *argv[])</td></tr>
+<tr class="memdesc:a0ddf1224851353fc92bfbff6f499fa97"><td class="mdescLeft">&#160;</td><td class="mdescRight">主函数  <br /></td></tr>
+<tr class="separator:a0ddf1224851353fc92bfbff6f499fa97"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
+变量</h2></td></tr>
+<tr class="memitem:acf1c5eb591219d4325e9988cb7ff85e1" id="r_acf1c5eb591219d4325e9988cb7ff85e1"><td class="memItemLeft" align="right" valign="top">volatile sig_atomic_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="isql__main_8cpp.html#acf1c5eb591219d4325e9988cb7ff85e1">g_running</a> = 1</td></tr>
+<tr class="separator:acf1c5eb591219d4325e9988cb7ff85e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">函数说明</h2>
+<a id="a05d07fa54743305c09f3bc65ecc4414e" name="a05d07fa54743305c09f3bc65ecc4414e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a05d07fa54743305c09f3bc65ecc4414e">&#9670;&#160;</a></span>executeScript()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool executeScript </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>file_path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">SqlExecutor &amp;&#160;</td>
+          <td class="paramname"><em>executor</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>执行SQL脚本文件 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">file_path</td><td>文件路径 </td></tr>
+    <tr><td class="paramname">executor</td><td>SQL执行器引用 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>执行是否成功 </dd></dl>
+
+</div>
+</div>
+<a id="a6ff3862f54b38494ec35d2b1b6856a26" name="a6ff3862f54b38494ec35d2b1b6856a26"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6ff3862f54b38494ec35d2b1b6856a26">&#9670;&#160;</a></span>handleInteractiveCommand()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool handleInteractiveCommand </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>cmd</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">SqlExecutor &amp;&#160;</td>
+          <td class="paramname"><em>executor</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>处理交互式命令 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">cmd</td><td>命令字符串 </td></tr>
+    <tr><td class="paramname">executor</td><td>SQL执行器引用 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>是否应该退出程序 </dd></dl>
+
+</div>
+</div>
+<a id="a0ddf1224851353fc92bfbff6f499fa97" name="a0ddf1224851353fc92bfbff6f499fa97"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0ddf1224851353fc92bfbff6f499fa97">&#9670;&#160;</a></span>main()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int main </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>argc</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>argv</em>[]&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>主函数 </p>
+
+</div>
+</div>
+<a id="aec315d77f5c38417289a0e311d2a9d31" name="aec315d77f5c38417289a0e311d2a9d31"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aec315d77f5c38417289a0e311d2a9d31">&#9670;&#160;</a></span>showHelp()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void showHelp </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>显示帮助信息 </p>
+
+</div>
+</div>
+<a id="a2de507730a8ffeaa8ef728c753eecbfb" name="a2de507730a8ffeaa8ef728c753eecbfb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2de507730a8ffeaa8ef728c753eecbfb">&#9670;&#160;</a></span>showVersion()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void showVersion </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>显示版本信息 </p>
+
+</div>
+</div>
+<a id="ad2e59c7203b3bddc1bc9a2224b52e8e7" name="ad2e59c7203b3bddc1bc9a2224b52e8e7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad2e59c7203b3bddc1bc9a2224b52e8e7">&#9670;&#160;</a></span>signalHandler()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void signalHandler </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>signal</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>信号处理函数，处理Ctrl+C信号 </p>
+
+</div>
+</div>
+<h2 class="groupheader">变量说明</h2>
+<a id="acf1c5eb591219d4325e9988cb7ff85e1" name="acf1c5eb591219d4325e9988cb7ff85e1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acf1c5eb591219d4325e9988cb7ff85e1">&#9670;&#160;</a></span>g_running</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">volatile sig_atomic_t g_running = 1</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

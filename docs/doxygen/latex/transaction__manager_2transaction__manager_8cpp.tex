@@ -1,0 +1,73 @@
+\doxysection{transaction\+\_\+manager/transaction\+\_\+manager.cpp 文件参考}
+\hypertarget{transaction__manager_2transaction__manager_8cpp}{}\label{transaction__manager_2transaction__manager_8cpp}\index{transaction\_manager.cpp@{transaction\_manager.cpp}}
+
+
+事务管理器核心实现  
+
+
+{\ttfamily \#include "{}transaction\+\_\+manager.\+h"{}}\newline
+{\ttfamily \#include $<$algorithm$>$}\newline
+{\ttfamily \#include $<$condition\+\_\+variable$>$}\newline
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$queue$>$}\newline
+{\ttfamily \#include $<$stack$>$}\newline
+{\ttfamily \#include $<$thread$>$}\newline
+transaction\+\_\+manager/transaction\+\_\+manager.cpp 的引用(Include)关系图\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{transaction__manager_2transaction__manager_8cpp__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{命名空间}
+\begin{DoxyCompactItemize}
+\item 
+namespace \mbox{\hyperlink{namespacesqlcc}{sqlcc}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{详细描述}
+事务管理器核心实现 
+
+实现了\+SQLCC数据库的事务管理器，负责事务的创建、提交、回滚和锁管理等功能 \begin{DoxyAuthor}{作者}
+SQLCC项目组 
+\end{DoxyAuthor}
+\begin{DoxyDate}{日期}
+2024-\/11-\/28 
+\end{DoxyDate}
+\begin{DoxyVersion}{版本}
+0.\+6.\+0
+\end{DoxyVersion}
+\begin{DoxyParagraph}{版权信息}
+版权所有 (c) 2024 SQLCC 项目组
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{相关文件}
+
+\end{DoxyParagraph}
+\begin{DoxySeeAlso}{参见}
+transaction\+\_\+manager.\+h -\/ 事务管理器接口定义 
+
+storage\+\_\+engine.\+h -\/ 存储引擎接口定义 
+
+logger.\+h -\/ 日志管理器接口定义
+\end{DoxySeeAlso}
+\begin{DoxyParagraph}{数据库原理知识点}
+
+\begin{DoxyItemize}
+\item 事务管理：实现了事务的\+ACID特性
+\item 并发控制：使用锁机制确保多线程环境下的数据一致性
+\item 死锁检测：实现了基于拓扑排序的死锁检测算法
+\item 锁协议：支持共享锁和排他锁
+\item 事务隔离级别：支持不同的事务隔离级别
+\item 保存点：支持事务保存点功能
+\end{DoxyItemize}
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{设计模式}
+
+\begin{DoxyItemize}
+\item 单例模式：事务管理器在系统中通常是单例存在
+\item 观察者模式：支持事务状态变化的通知机制
+\item 策略模式：支持不同的死锁检测和处理策略 
+\end{DoxyItemize}
+\end{DoxyParagraph}

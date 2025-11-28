@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: BPlusTreeLeafNode类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle"><div class="title">BPlusTreeLeafNode类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>B+树叶子节点类  
+ <a href="classBPlusTreeLeafNode.html#details">更多...</a></p>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>B+树叶子节点类 </p>
+<p>实现了B+树叶子节点的功能，用于存储实际的索引数据和指向下一个叶子节点的指针</p>
+<dl class="section user"><dt>设计思路</dt><dd><ul>
+<li>继承自BPlusTreeNode基类</li>
+<li>存储实际的索引条目，包括键和数据指针</li>
+<li>每个叶子节点包含指向下一个叶子节点的指针，支持范围查询</li>
+<li>提供序列化、反序列化、插入、删除、查询等接口</li>
+<li>支持自平衡操作，如分裂、合并等</li>
+</ul>
+</dd></dl>
+<dl class="section user"><dt>数据库原理知识点</dt><dd><ul>
+<li>B+树索引：实现了B+树叶子节点的核心功能</li>
+<li>范围查询：通过叶子节点链支持高效的范围查询</li>
+<li>磁盘I/O优化：通过缓冲池减少磁盘I/O次数</li>
+<li>页管理：每个节点对应一个磁盘页，高效管理内存和磁盘数据</li>
+</ul>
+</dd></dl>
+<dl class="section user"><dt>示例用法</dt><dd><div class="fragment"><div class="line"><a class="code hl_class" href="classBPlusTreeLeafNode.html">BPlusTreeLeafNode</a> *leaf_node = <span class="keyword">new</span> <a class="code hl_class" href="classBPlusTreeLeafNode.html">BPlusTreeLeafNode</a>(storage_engine,</div>
+<div class="line">page_id); leaf_node-&gt;Insert(entry); std::vector&lt;IndexEntry&gt; results =</div>
+<div class="line">leaf_node-&gt;Search(key);</div>
+<div class="ttc" id="aclassBPlusTreeLeafNode_html"><div class="ttname"><a href="classBPlusTreeLeafNode.html">BPlusTreeLeafNode</a></div><div class="ttdoc">B+树叶子节点类</div></div>
+</div><!-- fragment --> </dd></dl>
+</div><hr/>该类的文档由以下文件生成:<ul>
+<li><a class="el" href="b__plus__tree_8cpp.html">b_plus_tree.cpp</a></li>
+</ul>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

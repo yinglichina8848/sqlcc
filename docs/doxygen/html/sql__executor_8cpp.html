@@ -1,0 +1,146 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: sql_executor.cpp 文件参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#namespaces">命名空间</a>  </div>
+  <div class="headertitle"><div class="title">sql_executor.cpp 文件参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>SQL执行器核心实现  
+<a href="#details">更多...</a></p>
+<div class="textblock"><code>#include &quot;sql_executor.h&quot;</code><br />
+<code>#include &lt;algorithm&gt;</code><br />
+<code>#include &lt;cctype&gt;</code><br />
+<code>#include &lt;iostream&gt;</code><br />
+<code>#include &lt;string&gt;</code><br />
+</div><div class="textblock"><div class="dynheader">
+sql_executor.cpp 的引用(Include)关系图:</div>
+<div class="dyncontent">
+<div class="center"><img src="sql__executor_8cpp__incl.png" border="0" usemap="#asql__executor_8cpp" alt=""/></div>
+<map name="asql__executor_8cpp" id="asql__executor_8cpp">
+<area shape="rect" title="SQL执行器核心实现" alt="" coords="221,5,352,31"/>
+<area shape="rect" title=" " alt="" coords="5,79,120,104"/>
+<area shape="poly" title=" " alt="" coords="251,33,113,77,111,72,250,28"/>
+<area shape="rect" title=" " alt="" coords="144,79,229,104"/>
+<area shape="poly" title=" " alt="" coords="272,33,216,73,213,68,269,29"/>
+<area shape="rect" title=" " alt="" coords="254,79,319,104"/>
+<area shape="poly" title=" " alt="" coords="289,31,289,65,284,65,284,31"/>
+<area shape="rect" title=" " alt="" coords="344,79,424,104"/>
+<area shape="poly" title=" " alt="" coords="304,29,358,68,355,72,301,33"/>
+<area shape="rect" title=" " alt="" coords="448,79,507,104"/>
+<area shape="poly" title=" " alt="" coords="318,28,435,72,434,77,316,33"/>
+</map>
+</div>
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+命名空间</h2></td></tr>
+<tr class="memitem:namespacesqlcc" id="r_namespacesqlcc"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc.html">sqlcc</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>SQL执行器核心实现 </p>
+<p>实现了SQLCC数据库的SQL执行器，负责解析和执行SQL语句 </p><dl class="section author"><dt>作者</dt><dd>SQLCC项目组 </dd></dl>
+<dl class="section date"><dt>日期</dt><dd>2024-11-28 </dd></dl>
+<dl class="section version"><dt>版本</dt><dd>0.6.0</dd></dl>
+<dl class="section user"><dt>版权信息</dt><dd>版权所有 (c) 2024 SQLCC 项目组</dd></dl>
+<dl class="section user"><dt>相关文件</dt><dd></dd></dl>
+<dl class="section see"><dt>参见</dt><dd>sql_executor.h - SQL执行器接口定义 </dd>
+<dd>
+sql_parser/parser.h - SQL解析器接口定义 </dd>
+<dd>
+user_manager.h - 用户管理器接口定义</dd></dl>
+<dl class="section user"><dt>数据库原理知识点</dt><dd><ul>
+<li>SQL执行：实现了SQL语句的解析和执行</li>
+<li>查询优化：支持基本的查询优化</li>
+<li>事务处理：支持事务的ACID特性</li>
+<li>权限管理：实现了基本的用户权限管理</li>
+<li>错误处理：提供了完整的错误处理机制</li>
+</ul>
+</dd></dl>
+<dl class="section user"><dt>设计模式</dt><dd><ul>
+<li>单例模式：SQL执行器在系统中通常是单例存在</li>
+<li>策略模式：支持不同的SQL执行策略</li>
+<li>观察者模式：支持执行结果的通知机制 </li>
+</ul>
+</dd></dl>
+</div></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

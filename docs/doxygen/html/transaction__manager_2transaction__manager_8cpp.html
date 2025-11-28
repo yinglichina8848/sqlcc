@@ -1,0 +1,153 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: transaction_manager.cpp 文件参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_fb9ae7a49cebe7b7fa8032746ce165dc.html">transaction_manager</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#namespaces">命名空间</a>  </div>
+  <div class="headertitle"><div class="title">transaction_manager.cpp 文件参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>事务管理器核心实现  
+<a href="#details">更多...</a></p>
+<div class="textblock"><code>#include &quot;transaction_manager.h&quot;</code><br />
+<code>#include &lt;algorithm&gt;</code><br />
+<code>#include &lt;condition_variable&gt;</code><br />
+<code>#include &lt;iostream&gt;</code><br />
+<code>#include &lt;queue&gt;</code><br />
+<code>#include &lt;stack&gt;</code><br />
+<code>#include &lt;thread&gt;</code><br />
+</div><div class="textblock"><div class="dynheader">
+transaction_manager/transaction_manager.cpp 的引用(Include)关系图:</div>
+<div class="dyncontent">
+<div class="center"><img src="transaction__manager_2transaction__manager_8cpp__incl.png" border="0" usemap="#atransaction__manager_8cpp" alt=""/></div>
+<map name="atransaction__manager_8cpp" id="atransaction__manager_8cpp">
+<area shape="rect" title="事务管理器核心实现" alt="" coords="424,5,611,31"/>
+<area shape="rect" title=" " alt="" coords="5,79,176,104"/>
+<area shape="poly" title=" " alt="" coords="449,33,173,79,172,74,448,28"/>
+<area shape="rect" title=" " alt="" coords="200,79,285,104"/>
+<area shape="poly" title=" " alt="" coords="474,33,300,78,298,73,473,28"/>
+<area shape="rect" title=" " alt="" coords="310,79,453,104"/>
+<area shape="poly" title=" " alt="" coords="497,33,417,75,414,70,494,28"/>
+<area shape="rect" title=" " alt="" coords="477,79,557,104"/>
+<area shape="poly" title=" " alt="" coords="520,31,520,65,515,65,515,31"/>
+<area shape="rect" title=" " alt="" coords="582,79,645,104"/>
+<area shape="poly" title=" " alt="" coords="534,29,588,68,585,72,531,33"/>
+<area shape="rect" title=" " alt="" coords="669,79,726,104"/>
+<area shape="poly" title=" " alt="" coords="547,28,657,71,655,76,545,33"/>
+<area shape="rect" title=" " alt="" coords="751,79,815,104"/>
+<area shape="poly" title=" " alt="" coords="561,28,738,75,737,81,559,33"/>
+</map>
+</div>
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+命名空间</h2></td></tr>
+<tr class="memitem:namespacesqlcc" id="r_namespacesqlcc"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc.html">sqlcc</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>事务管理器核心实现 </p>
+<p>实现了SQLCC数据库的事务管理器，负责事务的创建、提交、回滚和锁管理等功能 </p><dl class="section author"><dt>作者</dt><dd>SQLCC项目组 </dd></dl>
+<dl class="section date"><dt>日期</dt><dd>2024-11-28 </dd></dl>
+<dl class="section version"><dt>版本</dt><dd>0.6.0</dd></dl>
+<dl class="section user"><dt>版权信息</dt><dd>版权所有 (c) 2024 SQLCC 项目组</dd></dl>
+<dl class="section user"><dt>相关文件</dt><dd></dd></dl>
+<dl class="section see"><dt>参见</dt><dd>transaction_manager.h - 事务管理器接口定义 </dd>
+<dd>
+storage_engine.h - 存储引擎接口定义 </dd>
+<dd>
+logger.h - 日志管理器接口定义</dd></dl>
+<dl class="section user"><dt>数据库原理知识点</dt><dd><ul>
+<li>事务管理：实现了事务的ACID特性</li>
+<li>并发控制：使用锁机制确保多线程环境下的数据一致性</li>
+<li>死锁检测：实现了基于拓扑排序的死锁检测算法</li>
+<li>锁协议：支持共享锁和排他锁</li>
+<li>事务隔离级别：支持不同的事务隔离级别</li>
+<li>保存点：支持事务保存点功能</li>
+</ul>
+</dd></dl>
+<dl class="section user"><dt>设计模式</dt><dd><ul>
+<li>单例模式：事务管理器在系统中通常是单例存在</li>
+<li>观察者模式：支持事务状态变化的通知机制</li>
+<li>策略模式：支持不同的死锁检测和处理策略 </li>
+</ul>
+</dd></dl>
+</div></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

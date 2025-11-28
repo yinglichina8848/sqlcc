@@ -1,0 +1,161 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: parser.cpp 文件参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_4e9519691b83054e0e6e19a7ab9a95b9.html">sql_parser</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#namespaces">命名空间</a>  </div>
+  <div class="headertitle"><div class="title">parser.cpp 文件参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>SQL解析器核心实现  
+<a href="#details">更多...</a></p>
+<div class="textblock"><code>#include &quot;sql_parser/parser.h&quot;</code><br />
+<code>#include &quot;../include/sql_parser/ast_node.h&quot;</code><br />
+<code>#include &quot;../include/sql_parser/ast_nodes.h&quot;</code><br />
+<code>#include &quot;../include/sql_parser/lexer.h&quot;</code><br />
+<code>#include &quot;../include/sql_parser/token.h&quot;</code><br />
+<code>#include &lt;iostream&gt;</code><br />
+<code>#include &lt;memory&gt;</code><br />
+<code>#include &lt;stdexcept&gt;</code><br />
+</div><div class="textblock"><div class="dynheader">
+parser.cpp 的引用(Include)关系图:</div>
+<div class="dyncontent">
+<div class="center"><img src="parser_8cpp__incl.png" border="0" usemap="#aparser_8cpp" alt=""/></div>
+<map name="aparser_8cpp" id="aparser_8cpp">
+<area shape="rect" title="SQL解析器核心实现" alt="" coords="647,5,736,31"/>
+<area shape="rect" title=" " alt="" coords="5,86,151,111"/>
+<area shape="poly" title=" " alt="" coords="647,25,438,45,301,61,164,81,140,86,139,81,163,76,301,56,437,40,646,20"/>
+<area shape="rect" title=" " alt="" coords="175,79,327,119"/>
+<area shape="poly" title=" " alt="" coords="647,29,341,81,340,76,646,24"/>
+<area shape="rect" title=" " alt="" coords="351,79,503,119"/>
+<area shape="poly" title=" " alt="" coords="654,33,504,77,503,72,652,28"/>
+<area shape="rect" title=" " alt="" coords="527,79,679,119"/>
+<area shape="poly" title=" " alt="" coords="680,33,636,72,633,68,677,29"/>
+<area shape="rect" title=" " alt="" coords="703,79,855,119"/>
+<area shape="poly" title=" " alt="" coords="706,29,750,68,746,72,703,33"/>
+<area shape="rect" title=" " alt="" coords="879,86,959,111"/>
+<area shape="poly" title=" " alt="" coords="727,28,868,76,876,79,874,84,866,81,725,33"/>
+<area shape="rect" title=" " alt="" coords="983,86,1061,111"/>
+<area shape="poly" title=" " alt="" coords="737,24,845,45,972,76,981,79,980,84,971,81,844,50,736,29"/>
+<area shape="rect" title=" " alt="" coords="1085,86,1172,111"/>
+<area shape="poly" title=" " alt="" coords="737,21,887,41,980,56,1073,76,1085,79,1084,85,1072,81,979,62,886,46,736,27"/>
+</map>
+</div>
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+命名空间</h2></td></tr>
+<tr class="memitem:namespacesqlcc" id="r_namespacesqlcc"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc.html">sqlcc</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:namespacesqlcc_1_1sql__parser" id="r_namespacesqlcc_1_1sql__parser"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc_1_1sql__parser.html">sqlcc::sql_parser</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>SQL解析器核心实现 </p>
+<p>实现了SQLCC数据库的SQL解析器，负责将SQL语句解析为抽象语法树(AST) </p><dl class="section author"><dt>作者</dt><dd>SQLCC项目组 </dd></dl>
+<dl class="section date"><dt>日期</dt><dd>2024-11-28 </dd></dl>
+<dl class="section version"><dt>版本</dt><dd>0.6.0</dd></dl>
+<dl class="section user"><dt>版权信息</dt><dd>版权所有 (c) 2024 SQLCC 项目组</dd></dl>
+<dl class="section user"><dt>相关文件</dt><dd></dd></dl>
+<dl class="section see"><dt>参见</dt><dd>parser.h - SQL解析器接口定义 </dd>
+<dd>
+ast_node.h - 抽象语法树节点基类定义 </dd>
+<dd>
+ast_nodes.h - 具体语法树节点定义 </dd>
+<dd>
+lexer.h - 词法分析器接口定义 </dd>
+<dd>
+token.h - 词法单元定义</dd></dl>
+<dl class="section user"><dt>数据库原理知识点</dt><dd><ul>
+<li>SQL语法分析：实现了SQL语句的语法分析功能</li>
+<li>抽象语法树(AST)：将SQL语句转换为抽象语法树，便于后续处理</li>
+<li>词法分析：与词法分析器配合，将SQL文本转换为词法单元序列</li>
+<li>语法规则：实现了SQL语法规则的解析</li>
+<li>错误处理：处理语法错误，提供错误恢复机制</li>
+</ul>
+</dd></dl>
+<dl class="section user"><dt>设计模式</dt><dd><ul>
+<li>组合模式：使用组合模式构建抽象语法树</li>
+<li>访问者模式：支持AST节点的访问者模式，便于遍历和处理AST</li>
+<li>单例模式：解析器在系统中通常是单例存在 </li>
+</ul>
+</dd></dl>
+</div></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

@@ -1,0 +1,88 @@
+var namespacesqlcc =
+[
+    [ "network", "namespacesqlcc_1_1network.html", "namespacesqlcc_1_1network" ],
+    [ "sql_parser", "namespacesqlcc_1_1sql__parser.html", "namespacesqlcc_1_1sql__parser" ],
+    [ "test", "namespacesqlcc_1_1test.html", "namespacesqlcc_1_1test" ],
+    [ "BPlusTreeIndex", "classsqlcc_1_1BPlusTreeIndex.html", "classsqlcc_1_1BPlusTreeIndex" ],
+    [ "BPlusTreeInternalNode", "classsqlcc_1_1BPlusTreeInternalNode.html", "classsqlcc_1_1BPlusTreeInternalNode" ],
+    [ "BPlusTreeLeafNode", "classsqlcc_1_1BPlusTreeLeafNode.html", "classsqlcc_1_1BPlusTreeLeafNode" ],
+    [ "BPlusTreeNode", "classsqlcc_1_1BPlusTreeNode.html", "classsqlcc_1_1BPlusTreeNode" ],
+    [ "BufferPool", "classsqlcc_1_1BufferPool.html", "classsqlcc_1_1BufferPool" ],
+    [ "BufferPoolException", "classsqlcc_1_1BufferPoolException.html", "classsqlcc_1_1BufferPoolException" ],
+    [ "BufferPoolSharded", "classsqlcc_1_1BufferPoolSharded.html", "classsqlcc_1_1BufferPoolSharded" ],
+    [ "BufferPoolV2", "classsqlcc_1_1BufferPoolV2.html", "classsqlcc_1_1BufferPoolV2" ],
+    [ "CheckConstraintExecutor", "classsqlcc_1_1CheckConstraintExecutor.html", "classsqlcc_1_1CheckConstraintExecutor" ],
+    [ "CheckpointState", "structsqlcc_1_1CheckpointState.html", "structsqlcc_1_1CheckpointState" ],
+    [ "ConfigManager", "classsqlcc_1_1ConfigManager.html", "classsqlcc_1_1ConfigManager" ],
+    [ "ConstraintExecutor", "classsqlcc_1_1ConstraintExecutor.html", "classsqlcc_1_1ConstraintExecutor" ],
+    [ "DatabaseManager", "classsqlcc_1_1DatabaseManager.html", "classsqlcc_1_1DatabaseManager" ],
+    [ "DataType", "classsqlcc_1_1DataType.html", "classsqlcc_1_1DataType" ],
+    [ "DataTypeException", "classsqlcc_1_1DataTypeException.html", "classsqlcc_1_1DataTypeException" ],
+    [ "DataTypeUtils", "classsqlcc_1_1DataTypeUtils.html", "classsqlcc_1_1DataTypeUtils" ],
+    [ "DiskManager", "classsqlcc_1_1DiskManager.html", "classsqlcc_1_1DiskManager" ],
+    [ "DiskManagerException", "classsqlcc_1_1DiskManagerException.html", "classsqlcc_1_1DiskManagerException" ],
+    [ "Exception", "classsqlcc_1_1Exception.html", "classsqlcc_1_1Exception" ],
+    [ "ExpressionEvaluator", "classsqlcc_1_1ExpressionEvaluator.html", "classsqlcc_1_1ExpressionEvaluator" ],
+    [ "ForeignKeyConstraintExecutor", "classsqlcc_1_1ForeignKeyConstraintExecutor.html", "classsqlcc_1_1ForeignKeyConstraintExecutor" ],
+    [ "IndexEntry", "structsqlcc_1_1IndexEntry.html", "structsqlcc_1_1IndexEntry" ],
+    [ "IndexManager", "classsqlcc_1_1IndexManager.html", "classsqlcc_1_1IndexManager" ],
+    [ "IOException", "classsqlcc_1_1IOException.html", "classsqlcc_1_1IOException" ],
+    [ "LockEntry", "structsqlcc_1_1LockEntry.html", "structsqlcc_1_1LockEntry" ],
+    [ "LockTimeoutException", "classsqlcc_1_1LockTimeoutException.html", "classsqlcc_1_1LockTimeoutException" ],
+    [ "LogEntry", "structsqlcc_1_1LogEntry.html", "structsqlcc_1_1LogEntry" ],
+    [ "Logger", "classsqlcc_1_1Logger.html", "classsqlcc_1_1Logger" ],
+    [ "LogRecord", "structsqlcc_1_1LogRecord.html", "structsqlcc_1_1LogRecord" ],
+    [ "Page", "classsqlcc_1_1Page.html", "classsqlcc_1_1Page" ],
+    [ "PageException", "classsqlcc_1_1PageException.html", "classsqlcc_1_1PageException" ],
+    [ "Permission", "structsqlcc_1_1Permission.html", "structsqlcc_1_1Permission" ],
+    [ "SqlExecutor", "classsqlcc_1_1SqlExecutor.html", "classsqlcc_1_1SqlExecutor" ],
+    [ "StorageEngine", "classsqlcc_1_1StorageEngine.html", "classsqlcc_1_1StorageEngine" ],
+    [ "TestDiskManager", "classsqlcc_1_1TestDiskManager.html", "classsqlcc_1_1TestDiskManager" ],
+    [ "Transaction", "structsqlcc_1_1Transaction.html", "structsqlcc_1_1Transaction" ],
+    [ "TransactionManager", "classsqlcc_1_1TransactionManager.html", "classsqlcc_1_1TransactionManager" ],
+    [ "UniqueConstraintExecutor", "classsqlcc_1_1UniqueConstraintExecutor.html", "classsqlcc_1_1UniqueConstraintExecutor" ],
+    [ "User", "structsqlcc_1_1User.html", "structsqlcc_1_1User" ],
+    [ "UserManager", "classsqlcc_1_1UserManager.html", "classsqlcc_1_1UserManager" ],
+    [ "Value", "structsqlcc_1_1Value.html", "structsqlcc_1_1Value" ],
+    [ "WALManager", "classsqlcc_1_1WALManager.html", "classsqlcc_1_1WALManager" ],
+    [ "ConfigValue", "namespacesqlcc.html#a35365cc4e9f1ef07e5d024b9963eff15", null ],
+    [ "TransactionId", "namespacesqlcc.html#a39e312beb85ecaf1f79763e7ce9d1b22", null ],
+    [ "BPlusTreeNodeType", "namespacesqlcc.html#a886b26d87f6d6d2a64b43a7581516472", [
+      [ "INTERNAL_NODE", "namespacesqlcc.html#a886b26d87f6d6d2a64b43a7581516472ae512fe8d3e8000835a4e0b4f20848289", null ],
+      [ "LEAF_NODE", "namespacesqlcc.html#a886b26d87f6d6d2a64b43a7581516472a77b8fe852b75e828e86f733ed668c8bb", null ]
+    ] ],
+    [ "IsolationLevel", "namespacesqlcc.html#a91ca65c8871779ea0f361a427df0b8b5", [
+      [ "READ_UNCOMMITTED", "namespacesqlcc.html#a91ca65c8871779ea0f361a427df0b8b5a7b5722b7d02a9d8ff3a8bdfcb7d278c3", null ],
+      [ "READ_COMMITTED", "namespacesqlcc.html#a91ca65c8871779ea0f361a427df0b8b5a1671fb17b5ce9bd0af0cf47f3f4ea337", null ],
+      [ "REPEATABLE_READ", "namespacesqlcc.html#a91ca65c8871779ea0f361a427df0b8b5aa4b37efaa1a6b533614ed81660dbf912", null ],
+      [ "SERIALIZABLE", "namespacesqlcc.html#a91ca65c8871779ea0f361a427df0b8b5aadfafde622c8622bb72e4ff73e295cdb", null ]
+    ] ],
+    [ "LockType", "namespacesqlcc.html#ad4cd9e5426c83d2c3c1579f653c6ebb4", [
+      [ "SHARED", "namespacesqlcc.html#ad4cd9e5426c83d2c3c1579f653c6ebb4a049518eb4dc1859c7cebbe15876cfd63", null ],
+      [ "EXCLUSIVE", "namespacesqlcc.html#ad4cd9e5426c83d2c3c1579f653c6ebb4af45c3a0bb3687ed8e221253b3fd4a2ce", null ]
+    ] ],
+    [ "LogLevel", "namespacesqlcc.html#a0c5dde84a24b6c109800b05b81ad12f3", [
+      [ "DEBUG", "namespacesqlcc.html#a0c5dde84a24b6c109800b05b81ad12f3adc30ec20708ef7b0f641ef78b7880a15", null ],
+      [ "INFO", "namespacesqlcc.html#a0c5dde84a24b6c109800b05b81ad12f3a551b723eafd6a31d444fcb2f5920fbd3", null ],
+      [ "WARN", "namespacesqlcc.html#a0c5dde84a24b6c109800b05b81ad12f3a32bd8a1db2275458673903bdb84cb277", null ],
+      [ "ERROR", "namespacesqlcc.html#a0c5dde84a24b6c109800b05b81ad12f3abb1ca97ec761fc37101737ba0aa2e7c5", null ]
+    ] ],
+    [ "LogRecordType", "namespacesqlcc.html#a20e2bc332b842e56915ec0aecffa57e3", [
+      [ "BEGIN", "namespacesqlcc.html#a20e2bc332b842e56915ec0aecffa57e3a19aad9f2fe3ce0023298ab83f7e75775", null ],
+      [ "COMMIT", "namespacesqlcc.html#a20e2bc332b842e56915ec0aecffa57e3a1d0ba376e273b9d622641124d8c59264", null ],
+      [ "ABORT", "namespacesqlcc.html#a20e2bc332b842e56915ec0aecffa57e3a8d12a2ca7e5a64036d7251a3eda51a38", null ],
+      [ "UPDATE", "namespacesqlcc.html#a20e2bc332b842e56915ec0aecffa57e3a15a8022d0ed9cd9c2a2e756822703eb4", null ],
+      [ "INSERT", "namespacesqlcc.html#a20e2bc332b842e56915ec0aecffa57e3a61ee777e7f71dc466c3b2c685d8d313b", null ],
+      [ "DELETE", "namespacesqlcc.html#a20e2bc332b842e56915ec0aecffa57e3a32f68a60cef40faedbc6af20298c1a1e", null ],
+      [ "COMPENSATE", "namespacesqlcc.html#a20e2bc332b842e56915ec0aecffa57e3a29f42a1755feb702481dc9c2bc0b57bb", null ]
+    ] ],
+    [ "TransactionState", "namespacesqlcc.html#a0c57d89a2dad7e9c0f7a8a52f9788835", [
+      [ "ACTIVE", "namespacesqlcc.html#a0c57d89a2dad7e9c0f7a8a52f9788835a18ff74f43da410c5529f7d6fca84f115", null ],
+      [ "COMMITTED", "namespacesqlcc.html#a0c57d89a2dad7e9c0f7a8a52f9788835a1c372d13f50af5ca9a935ebc78006e82", null ],
+      [ "ABORTED", "namespacesqlcc.html#a0c57d89a2dad7e9c0f7a8a52f9788835a4e6c860e5da10e31c5fd9cb76ddc2025", null ],
+      [ "ROLLING_BACK", "namespacesqlcc.html#a0c57d89a2dad7e9c0f7a8a52f9788835a704940fadc36a1ea05e200e3ccaeb298", null ]
+    ] ],
+    [ "toLower", "namespacesqlcc.html#a44d3d369c14bdc6088fac0d9214e85ae", null ],
+    [ "TrimString", "namespacesqlcc.html#a6314fe8039183b743aa4844166a84814", null ],
+    [ "PAGE_SIZE", "namespacesqlcc.html#af06e8fb32fbce59846caac4b3fc5cdbb", null ]
+];
