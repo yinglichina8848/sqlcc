@@ -1,6 +1,53 @@
 # SqlCC 变更日志
 
+## [1.0.4] - 2025-12-02
+### 新增
+- **完整测试覆盖率报告**
+  - 生成详细的代码覆盖率分析报告
+  - 总体代码行覆盖率: 50.6% (2,538/5,019行)
+  - 函数覆盖率: 66.4% (383/577个函数)
+  - 包含所有核心模块的详细覆盖率分析
+  - HTML可视化报告: test_reports/coverage/index.html
+
+- **全面的测试执行**
+  - 运行28个测试用例，21个通过(75%通过率)
+  - 包含单元测试、集成测试、性能测试和覆盖率测试
+  - 所有临时文件集中在test_working_dir目录，主目录保持干净
+  - 测试报告集中存放在test_reports目录
+
+### 改进
+- **测试基础设施优化**
+  - 优化测试脚本，避免在主目录生成临时文件
+  - 使用lcov生成详细的覆盖率报告
+  - 改进测试报告的组织和展示
+
+### 文档
+- 新增详细的代码覆盖率报告文档
+- 包含核心模块覆盖率分析
+- 提供覆盖率改进建议和目标
+
 ## [1.0.3] - 2025-12-02
+### 修复
+- **UserManager死锁问题**
+  - 修复了UserManager中SaveToFile递归获取锁导致的死锁问题
+  - 创建SaveToFileInternal内部方法，避免在持有锁时重复获取锁
+  - 修改CreateUser、DropUser、AlterUserPassword等10+个方法调用内部版本
+  - 解决了SqlExecutor构造函数长时间挂起的根本原因
+  - 确保所有测试用例可以正常初始化和运行
+
+- **TransactionManager死锁问题**
+  - 修复了TransactionManager中release_all_locks递归获取锁导致的死锁问题
+  - 创建release_all_locks_internal内部方法，避免在持有锁时重复获取锁
+  - 修改commit_transaction和rollback_transaction调用内部版本
+  - 解决了transaction_manager_test超时挂起的问题
+  - 事务管理器测试现可正常运行，8/12个测试通过
+
+- **网络模块稳定性**
+  - 验证sqlcc_server和isql_network可以正常启动和停止
+  - 确认不存在启动时的死锁问题
+  - 网络单元测试（network_unit_test）全部通过，11/11个测试
+  - 服务器可以快速响应SIGTERM信号正常关闭
+
 ### 新增
 - **HMAC-SHA256防篡改机制**
   - 实现消息体末尾追加32字节MAC完整性校验
