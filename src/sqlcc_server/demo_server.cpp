@@ -1,6 +1,10 @@
-#include "network/network.h"
-#include "network/encryption.h"
-#include "sql_executor.h"
+/**
+ * @file demo_server.cpp
+ * @brief SQLCC数据库加密通信服务器演示程序
+ * 
+ * 用于演示AESE加密通信功能，不依赖完整的SqlExecutor库
+ */
+
 #include <iostream>
 #include <string>
 #include <cstring>
@@ -12,6 +16,9 @@
 #include <errno.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
+
+#include "network/network.h"
+#include "network/encryption.h"
 
 using namespace sqlcc::network;
 
@@ -56,15 +63,9 @@ int main(int argc, char* argv[]) {
         std::cout << "[加密模式] 对所有连接启用AES-256-CBC加密" << std::endl;
     }
     
-    // 创建SQL执行器
-    auto sql_executor = std::make_shared<sqlcc::SqlExecutor>();
-    
     // 创建服务器网络管理器
     ServerNetworkManager server(port);
     g_server = &server;
-    
-    // 设置SQL执行器到服务器网络管理器
-    server.SetSqlExecutor(sql_executor);
     
     // 注册信号处理函数
     std::signal(SIGINT, signalHandler);

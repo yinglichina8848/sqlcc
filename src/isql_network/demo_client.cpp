@@ -1,9 +1,9 @@
 /**
- * @file client_main.cpp
- * @brief SQLCC网络客户端主程序
+ * @file demo_client.cpp
+ * @brief SQLCC网络客户端主程序演示版本
  * 
  * 该文件实现了SQLCC网络客户端的主程序入口，用于连接数据库服务器、
- * 认证并发送测试查询。
+ * 认证并发送测试查询。支持AES-256-CBC加密通信。
  */
 
 #include <iostream>
@@ -12,11 +12,8 @@
 #include <vector>
 #include <unistd.h>
 
-#include "version.h"
 #include "network/network.h"
 #include "network/encryption.h"
-
-#define SQLCC_VERSION "0.6.2"
 
 using namespace sqlcc::network;
 
@@ -199,8 +196,9 @@ namespace sqlcc::network {
             return false;
         }
 
-        resp_header = reinterpret_cast<MessageHeader*>(auth_resp.data());
-        if (resp_header->magic != 0x53514C43 || resp_header->type != AUTH_ACK) {
+        MessageHeader* auth_resp_header = reinterpret_cast<MessageHeader*>(auth_resp.data());
+        if (auth_resp_header->magic != 0x53514C43 || auth_resp_header->type != AUTH_ACK) {
+            this->Disconnect();
             return false;
         }
 
