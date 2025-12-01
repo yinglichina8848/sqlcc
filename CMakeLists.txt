@@ -2,47 +2,55 @@
 
 # 最低CMake版本要求
 cmake_minimum_required(VERSION 3.10)
+project(SQLCC)
 
-# 项目名称和版本
-project(sqlcc VERSION 1.0.2 LANGUAGES CXX)
-
-# 设置编译选项
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_EXTENSIONS OFF)
 
-# 禁止在源目录构建
-if(CMAKE_SOURCE_DIR STREQUAL CMAKE_BINARY_DIR)
-    message(FATAL_ERROR "Please build in a separate directory: mkdir -p build && cd build && cmake ..")
+# 查找所需的库
+find_package(Threads REQUIRED)
+find_package(Readline)
+find_package(OpenSSL REQUIRED)
+
+# 包含目录
+include_directories(${CMAKE_SOURCE_DIR}/include)
+include_directories(${CMAKE_SOURCE_DIR}/src)
+
+# 选项控制是否使用spdlog
+option(USE_SPDLOG "Use spdlog for logging" ON)
+
+# 查找第三方依赖
+# 如果系统没有安装spdlog，则使用本地版本
+find_package(spdlog QUIET)
+if(spdlog_FOUND)
+    message(STATUS "Found system spdlog")
+    set(USE_SPDLOG ON)
+else()
+    message(STATUS "spdlog not found, using bundled version")
+    include_directories(${CMAKE_SOURCE_DIR}/third_party/spdlog/include)
+    set(USE_SPDLOG ON)
 endif()
 
-# 设置构建类型
-if(NOT CMAKE_BUILD_TYPE)
-    set(CMAKE_BUILD_TYPE "Release")
+# 检查是否启用JSON支持
+option(ENABLE_JSON "Enable JSON support" ON)
+if(ENABLE_JSON)
+    find_package(nlohmann_json QUIET)
+    if(NOT nlohmann_json_FOUND)
+        # 如果未在系统中找到nlohmann_json，则使用本地副本
+        include_directories(${CMAKE_SOURCE_DIR}/third_party/nlohmann_json/include)
+    endif()
+    message(STATUS "JSON support enabled")
+    add_definitions(-DENABLE_JSON)
+else()
+    message(STATUS "JSON support disabled")
 endif()
 
-# 设置编译选项
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wno-unused-parameter")
-
-# 设置源文件扩展名支持
-set(CMAKE_CXX_SOURCE_FILE_EXTENSIONS cpp cc)
-
-# 设置默认源文件扩展名首选项为.cc
-set(CMAKE_CXX_CREATE_WIN32_RESOURCE cxx)
-
-# 代码覆盖率支持选项
-option(ENABLE_COVERAGE "Enable code coverage testing" ON)
-
-# 查找覆盖率测试工具
-find_program(GCov gcov)
-find_program(LCOV lcov)
-find_program(GENHTML genhtml)
-
-# 根据构建类型和覆盖率选项设置编译标志
-if(ENABLE_COVERAGE AND GCov AND LCOV AND GENHTML)
+# 检查是否启用覆盖率测试支持
+option(ENABLE_COVERAGE "Enable coverage testing support" ON)
+if(ENABLE_COVERAGE)
     message(STATUS "启用覆盖率测试支持")
-    # 覆盖率测试强制使用Debug模式的编译选项
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O0 --coverage")
+    # 启用覆盖率编译选项
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --coverage")
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} --coverage")
     # 确保不使用NDEBUG
     string(REPLACE "-DNDEBUG" "" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
@@ -53,8 +61,7 @@ else()
     elseif(CMAKE_BUILD_TYPE STREQUAL "Release")
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -DNDEBUG")
     endif()
-    message(WARNING "未找到覆盖率测试工具(gcov/lcov/genhtml)，禁用覆盖率测试")
-    set(ENABLE_COVERAGE OFF)
+    message(WARNING "覆盖率测试已禁用")
 endif()
 
 # 查找GCOVR作为备用工具
@@ -69,18 +76,13 @@ endif()
 find_package(Threads REQUIRED)
 find_package(PkgConfig)
 
-# 尝试查找readline库（可选）
-if(PkgConfig_FOUND)
-    pkg_check_modules(READLINE QUIET readline)
-    if(READLINE_FOUND)
-        include_directories(${READLINE_INCLUDE_DIRS})
-        link_directories(${READLINE_LIBRARY_DIRS})
-        add_definitions(-DHAVE_READLINE)
-    else()
-        message(WARNING "Readline library not found, using basic command line input")
-    endif()
+# 检查Readline库
+if(READLINE_FOUND)
+    include_directories(${READLINE_INCLUDE_DIRS})
+    message(STATUS "Found Readline library")
+    add_definitions(-DHAVE_READLINE)
 else()
-    message(WARNING "PkgConfig not found, cannot search for readline")
+    message(WARNING "Readline library not found, using basic command line input")
 endif()
 
 # 设置包含目录
@@ -133,33 +135,155 @@ enable_testing()
 
 # 添加主可执行文件
 add_executable(sqlcc src/main.cpp)
-target_link_libraries(sqlcc
+target_link_libraries(sqlcc 
     PRIVATE
     sqlcc_core
     sqlcc_executor
     ${READLINE_LIBRARIES}
-    ${CMAKE_THREAD_LIBS_INIT}
+    Threads::Threads
 )
 
 # 添加isql可执行文件
-add_executable(isql src/isql_main.cpp)
-target_link_libraries(isql
+add_executable(isql src/bin/isql_main.cpp)
+target_link_libraries(isql 
     PRIVATE
     sqlcc_core
     sqlcc_executor
     ${READLINE_LIBRARIES}
-    ${CMAKE_THREAD_LIBS_INIT}
+    Threads::Threads
+)
+
+# 添加加密网络服务器可执行文件
+add_executable(sqlcc_server src/sqlcc_server/server_main.cpp)
+target_link_libraries(sqlcc_server
+    PRIVATE
+    sqlcc_network
+    sqlcc_executor
+    sqlcc_core
+    Threads::Threads
+    OpenSSL::Crypto
+)
+set_target_properties(sqlcc_server PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
+)
+
+# 添加加密网络客户端可执行文件
+add_executable(isql_network src/isql_network/client_main.cpp)
+target_link_libraries(isql_network
+    PRIVATE
+    sqlcc_network
+    Threads::Threads
+    OpenSSL::Crypto
+)
+set_target_properties(isql_network PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
 )
 
 # B+树调试程序已移除，因为源文件不存在
 
-# 构建DCL测试
-add_executable(dcl_test src/dcl_test.cpp)
-target_link_libraries(dcl_test sqlcc_executor)
+# 添加测试可执行文件
+add_executable(test_table_storage test_table_storage.cpp)
+add_executable(test_db_persistence test_db_persistence.cpp)
+add_executable(simple_db_test simple_db_test.cpp)
+add_executable(pure_fs_test pure_fs_test.cpp)
+add_executable(test_dcl_ddl_persistence test_dcl_ddl_persistence.cpp)
+add_executable(simple_dcl_ddl_test simple_dcl_ddl_test.cpp)
+add_executable(persistence_check persistence_check.cpp)
+add_executable(dcl_ddl_persistence_test dcl_ddl_persistence_test.cpp)
+add_executable(user_persistence_test user_persistence_test.cpp)
 
-# 构建DDL测试
-add_executable(ddl_test src/ddl_test.cpp)
-target_link_libraries(ddl_test sqlcc_executor)
+# 链接所需的库
+target_link_libraries(test_table_storage 
+    sqlcc_core_lib
+    sqlcc_storage_engine
+    sqlcc_config_manager
+    sqlcc_parser
+    sqlcc_executor
+    sqlcc_transaction_manager
+    sqlcc_network
+    ${READLINE_LIBRARIES}
+    ${CMAKE_THREAD_LIBS_INIT}
+)
+
+target_link_libraries(test_db_persistence 
+    sqlcc_core_lib
+    sqlcc_storage_engine
+    sqlcc_config_manager
+    sqlcc_parser
+    sqlcc_executor
+    sqlcc_transaction_manager
+    sqlcc_network
+    ${READLINE_LIBRARIES}
+    ${CMAKE_THREAD_LIBS_INIT}
+)
+
+target_link_libraries(simple_db_test 
+    sqlcc_core_lib
+    sqlcc_storage_engine
+    sqlcc_config_manager
+    sqlcc_parser
+    sqlcc_executor
+    sqlcc_transaction_manager
+    sqlcc_network
+    ${READLINE_LIBRARIES}
+    ${CMAKE_THREAD_LIBS_INIT}
+)
+
+target_link_libraries(pure_fs_test 
+    ${CMAKE_THREAD_LIBS_INIT}
+)
+
+target_link_libraries(test_dcl_ddl_persistence 
+    sqlcc_core_lib
+    sqlcc_storage_engine
+    sqlcc_config_manager
+    sqlcc_parser
+    sqlcc_executor
+    sqlcc_transaction_manager
+    sqlcc_network
+    ${READLINE_LIBRARIES}
+    ${CMAKE_THREAD_LIBS_INIT}
+)
+
+target_link_libraries(simple_dcl_ddl_test 
+    sqlcc_core_lib
+    sqlcc_storage_engine
+    sqlcc_config_manager
+    sqlcc_parser
+    sqlcc_executor
+    sqlcc_transaction_manager
+    sqlcc_network
+    ${READLINE_LIBRARIES}
+    ${CMAKE_THREAD_LIBS_INIT}
+)
+
+target_link_libraries(persistence_check 
+    ${CMAKE_THREAD_LIBS_INIT}
+)
+
+target_link_libraries(dcl_ddl_persistence_test 
+    sqlcc_core_lib
+    sqlcc_storage_engine
+    sqlcc_config_manager
+    sqlcc_parser
+    sqlcc_executor
+    sqlcc_transaction_manager
+    sqlcc_network
+    ${READLINE_LIBRARIES}
+    ${CMAKE_THREAD_LIBS_INIT}
+)
+
+target_link_libraries(user_persistence_test 
+    sqlcc_core_lib
+    sqlcc_storage_engine
+    sqlcc_config_manager
+    sqlcc_parser
+    sqlcc_executor
+    sqlcc_transaction_manager
+    sqlcc_network
+    ${READLINE_LIBRARIES}
+    ${CMAKE_THREAD_LIBS_INIT}
+)
 
 # 设置输出目录
 set_target_properties(sqlcc isql PROPERTIES
@@ -171,11 +295,13 @@ set_target_properties(sqlcc isql PROPERTIES
 # 查找Google Test库
 find_package(GTest)
 
-# 如果找到GTest，则启用测试
-if(GTest_FOUND)
-    enable_testing()
-else()
-    message(WARNING "GTest not found. Tests will not be built.")
+# 启用测试
+enable_testing()
+
+# 添加GoogleTest
+find_package(GTest REQUIRED)
+if(GTEST_FOUND)
+    message(STATUS "Found Google Test")
 endif()
 
 # 检查是否启用性能测试
@@ -190,70 +316,49 @@ add_custom_target(unit
     COMMENT "Run unit tests"
 )
 
-# 创建覆盖率测试目标
-if(ENABLE_COVERAGE AND GCov AND LCOV AND GENHTML)
-    add_custom_target(coverage
-        COMMAND echo "=== 运行覆盖率测试 ==="
-        COMMAND mkdir -p ${CMAKE_BINARY_DIR}/coverage
-        # 先清理旧的覆盖率数据
-        COMMAND ${LCOV} --directory ${CMAKE_BINARY_DIR} --zerocounters
-        # 运行所有测试
-        COMMAND ${CMAKE_BINARY_DIR}/dcl_test || echo "DCL测试失败，但继续生成覆盖率报告"
-        COMMAND ${CMAKE_BINARY_DIR}/ddl_test || echo "DDL测试失败，但继续生成覆盖率报告"
-        COMMAND ${CMAKE_BINARY_DIR}/dml_test || echo "DML测试失败，但继续生成覆盖率报告"
-        COMMAND ${CMAKE_BINARY_DIR}/comprehensive_test || echo "综合测试失败，但继续生成覆盖率报告"
-        # 运行性能测试以收集覆盖率数据
-        COMMAND ${CMAKE_COMMAND} -E chdir ${CMAKE_BINARY_DIR} ${CMAKE_MAKE_PROGRAM} run_performance_suite
-        # 捕获覆盖率数据
-        COMMAND ${LCOV} --capture --directory ${CMAKE_BINARY_DIR} --output-file ${CMAKE_BINARY_DIR}/coverage/coverage.info
-        # 排除不需要的文件，忽略未使用的模式错误
-        COMMAND ${LCOV} --remove ${CMAKE_BINARY_DIR}/coverage/coverage.info "${CMAKE_SOURCE_DIR}/tests/*" "${CMAKE_SOURCE_DIR}/build/*" "*test_*.cpp" --output-file ${CMAKE_BINARY_DIR}/coverage/coverage_clean.info --ignore-errors unused
-        # 生成HTML报告
-        COMMAND ${GENHTML} --output-directory ${CMAKE_BINARY_DIR}/coverage ${CMAKE_BINARY_DIR}/coverage/coverage_clean.info
-        # 显示文本摘要
-        COMMAND ${LCOV} --list ${CMAKE_BINARY_DIR}/coverage/coverage_clean.info
-        COMMAND echo "=== 覆盖率报告生成完成 ==="
-        COMMAND echo "=== HTML报告路径: ${CMAKE_BINARY_DIR}/coverage/index.html ==="
-        COMMAND echo "=== 包含单元测试和性能测试的覆盖率数据 ==="
-        DEPENDS dcl_test ddl_test dml_test comprehensive_test
-        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
-        COMMENT "生成代码覆盖率报告（包含性能测试）"
-    )
-    
-    # 创建单独的性能测试覆盖率目标
-    add_custom_target(coverage_performance_only
-        COMMAND echo "=== 运行性能测试覆盖率测试 ==="
-        COMMAND mkdir -p ${CMAKE_BINARY_DIR}/coverage/performance
-        # 先清理旧的覆盖率数据
-        COMMAND ${LCOV} --directory ${CMAKE_BINARY_DIR} --zerocounters
-        # 仅运行性能测试
-        COMMAND ${CMAKE_COMMAND} -E chdir ${CMAKE_BINARY_DIR} ${CMAKE_MAKE_PROGRAM} run_performance_suite
-        # 捕获覆盖率数据
-        COMMAND ${LCOV} --capture --directory ${CMAKE_BINARY_DIR} --output-file ${CMAKE_BINARY_DIR}/coverage/coverage_performance.info
-        # 排除不需要的文件，忽略未使用的模式错误
-        COMMAND ${LCOV} --remove ${CMAKE_BINARY_DIR}/coverage/coverage_performance.info "${CMAKE_SOURCE_DIR}/tests/*" "${CMAKE_SOURCE_DIR}/build/*" "*test_*.cpp" --output-file ${CMAKE_BINARY_DIR}/coverage/coverage_performance_clean.info --ignore-errors unused
-        # 生成HTML报告
-        COMMAND ${GENHTML} --output-directory ${CMAKE_BINARY_DIR}/coverage/performance ${CMAKE_BINARY_DIR}/coverage/coverage_performance_clean.info
-        # 显示文本摘要
-        COMMAND ${LCOV} --list ${CMAKE_BINARY_DIR}/coverage/coverage_performance_clean.info
-        COMMAND echo "=== 性能测试覆盖率报告生成完成 ==="
-        COMMAND echo "=== HTML报告路径: ${CMAKE_BINARY_DIR}/coverage/performance/index.html ==="
-        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
-        COMMENT "生成性能测试代码覆盖率报告"
-    )
-else()
-    # 如果未启用覆盖率测试，创建一个虚拟目标
-    add_custom_target(coverage
-        COMMAND echo "覆盖率测试已禁用。要启用，请使用 -DENABLE_COVERAGE=ON 构建"
-        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
-        COMMENT "虚拟覆盖率目标（覆盖率测试已禁用时）"
-    )
-    
-    add_custom_target(coverage_performance_only
-        COMMAND echo "覆盖率测试已禁用。要启用，请使用 -DENABLE_COVERAGE=ON 构建"
-        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
-        COMMENT "虚拟性能测试覆盖率目标"
-    )
+# 创建更详细的测试分类目标
+add_custom_target(unit_tests
+    COMMAND ctest -R "^test_" --output-on-failure
+    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+    COMMENT "Run all unit tests"
+)
+
+add_custom_target(integration_tests
+    COMMAND ${CMAKE_BINARY_DIR}/tests/comprehensive_test
+    COMMAND ${CMAKE_BINARY_DIR}/tests/isql_integration_test
+    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+    COMMENT "Run integration tests"
+)
+
+add_custom_target(performance_tests
+    COMMAND ${CMAKE_COMMAND} -E chdir ${CMAKE_BINARY_DIR} ${CMAKE_MAKE_PROGRAM} run_performance_suite
+    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+    COMMENT "Run performance tests"
+)
+
+# 统一测试目标 - 一键运行所有测试
+add_custom_target(all_tests
+    COMMAND echo "=== 运行所有测试 ==="
+    COMMAND ${CMAKE_COMMAND} --build ${CMAKE_BINARY_DIR} --target unit_tests
+    COMMAND ${CMAKE_COMMAND} --build ${CMAKE_BINARY_DIR} --target integration_tests
+    COMMAND ${CMAKE_COMMAND} --build ${CMAKE_BINARY_DIR} --target performance_tests
+    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+    COMMENT "Run all tests (unit, integration, performance)"
+)
+
+# 添加覆盖率报告目标
+if(ENABLE_COVERAGE)
+    find_program(GCOVR_PATH gcovr)
+    if(GCOVR_PATH)
+        message(STATUS "Found gcovr: ${GCOVR_PATH}")
+        add_custom_target(coverage
+            COMMAND ${GCOVR_PATH} --exclude-throw-branches --exclude-unreachable-branches --html-details -o coverage.html .
+            WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+            COMMENT "Generating HTML coverage report"
+        )
+    else()
+        message(WARNING "gcovr not found, coverage report generation skipped")
+    endif()
 endif()
 
 # 创建性能测试目标
@@ -288,4 +393,18 @@ add_custom_target(check_external_files
     COMMAND ${CMAKE_SOURCE_DIR}/check_external_files.sh
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
     COMMENT "Check for intermediate files outside build directory"
+)
+
+# 创建统一报告生成目标
+add_custom_target(test_report
+    COMMAND echo "=== 生成测试报告 ==="
+    COMMAND ${CMAKE_COMMAND} --build ${CMAKE_BINARY_DIR} --target all_tests
+    COMMAND ${CMAKE_COMMAND} --build ${CMAKE_BINARY_DIR} --target coverage
+    COMMAND mkdir -p ${CMAKE_BINARY_DIR}/test_reports
+    # 生成统一HTML报告
+    COMMAND ${CMAKE_SOURCE_DIR}/scripts/generate_test_report.py
+        --results-dir ${CMAKE_BINARY_DIR}
+        --output ${CMAKE_BINARY_DIR}/test_reports/index.html
+    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+    COMMENT "Generate comprehensive test report"
 )
