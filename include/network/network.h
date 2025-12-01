@@ -16,6 +16,10 @@
 #include <vector>
 
 #include "sql_executor.h"
+#include "network/encryption.h"
+#ifdef __linux__
+#include <openssl/ssl.h>
+#endif
 
 namespace sqlcc {
 namespace network {
@@ -61,6 +65,11 @@ public:
     bool IsEncryptionDisabled() const;
     void SetAuthenticationDisabled(bool disabled);
     bool IsAuthenticationDisabled() const;
+    
+    // AES加密支持
+    void SetAESEncryptor(std::shared_ptr<AESEncryptor> encryptor);
+    std::shared_ptr<AESEncryptor> GetAESEncryptor() const;
+    bool IsAESEncryptionEnabled() const;
 
 private:
     int session_id_;
@@ -68,6 +77,7 @@ private:
     std::string user_;
     bool encryption_disabled_;     // 是否禁用加密
     bool authentication_disabled_; // 是否禁用认证
+    std::shared_ptr<class AESEncryptor> aes_encryptor_;  // AES加密器
 };
 
 // 会话管理器
@@ -101,11 +111,23 @@ public:
     bool SendData(const std::vector<char>& data);
     std::vector<char> ReceiveData();
 
+    // TLS/SSL 支持
+    void EnableTLS(bool enabled);
+#ifdef __linux__
+    bool ConfigureTLSClient(const std::string& ca_cert_path);
+#endif
+
 private:
     std::string host_;
     int port_;
     bool connected_;
     int socket_fd_;
+#ifdef __linux__
+    bool tls_enabled_ = false;
+    std::string ca_cert_path_;
+    struct ssl_ctx_st* ssl_ctx_ = nullptr; // SSL_CTX*
+    struct ssl_st* ssl_ = nullptr;         // SSL*
+#endif
 };
 
 // 客户端网络管理器
@@ -122,10 +144,27 @@ public:
     bool ConnectAndAuthenticate(const std::string& username,
                                const std::string& password);
     bool SendAuthMessage(const std::string& username, const std::string& password);
+    
+    // AES加密支持
+    bool InitiateKeyExchange();  // 起动密钥交换
+    void SetAESEncryptor(std::shared_ptr<AESEncryptor> encryptor);
+    std::shared_ptr<AESEncryptor> GetAESEncryptor() const;
+    bool IsAESEncryptionEnabled() const;
+
+    // TLS 客户端支持
+    void EnableTLS(bool enabled);
+#ifdef __linux__
+    bool ConfigureTLSClient(const std::string& ca_cert_path);
+#endif
 
 private:
+    // AES加密半加密/解密方法
+    std::vector<char> EncryptMessage(const std::vector<char>& message);
+    std::vector<char> DecryptMessage(const std::vector<char>& message);
+    
     std::unique_ptr<ClientConnection> connection_;
     std::shared_ptr<SessionManager> session_manager_;
+    std::shared_ptr<AESEncryptor> aes_encryptor_;  // AES加密器
 };
 
 // 连接处理器
@@ -139,6 +178,10 @@ public:
     void HandleEvent(uint32_t events);
     void ProcessMessage(const std::vector<char>& data);
 
+#ifdef __linux__
+    void SetTLS(struct ssl_st* ssl, bool enabled);
+#endif
+
 private:
     void HandleRead();
     void HandleWrite();
@@ -151,6 +194,10 @@ private:
     void HandleKeyExchangeMessage(const std::vector<char>& data);
     void SendErrorMessage(const std::string& error);
     
+    // AES加密半加密/解密方法
+    std::vector<char> EncryptMessage(const std::vector<char>& message);
+    std::vector<char> DecryptMessage(const std::vector<char>& message);
+    
     int fd_;
     std::shared_ptr<SessionManager> session_manager_;
     std::shared_ptr<sqlcc::SqlExecutor> sql_executor_;
@@ -158,6 +205,10 @@ private:
     bool closed_;
     std::queue<std::vector<char>> write_queue_;
     std::mutex write_mutex_;
+#ifdef __linux__
+    struct ssl_st* ssl_ = nullptr;
+    bool tls_enabled_ = false;
+#endif
 };
 
 // 消息处理器
@@ -167,6 +218,16 @@ public:
     
 private:
     std::shared_ptr<SessionManager> session_manager_;
+};
+
+// 密钥轮换策略
+class KeyRotationPolicy {
+public:
+    explicit KeyRotationPolicy(size_t interval_messages = 1000)
+        : interval_(interval_messages) {}
+    bool ShouldRotate(size_t messages_sent) const { return interval_ > 0 && (messages_sent % interval_) == 0; }
+private:
+    size_t interval_;
 };
 
 // 服务器网络管理器
@@ -180,6 +241,13 @@ public:
     void ProcessEvents();
     void SetSqlExecutor(std::shared_ptr<sqlcc::SqlExecutor> sql_executor);
 
+#ifdef __linux__
+    void EnableTLS(bool enabled);
+    bool ConfigureTLSServer(const std::string& cert_path,
+                            const std::string& key_path,
+                            const std::string& ca_cert_path = "");
+#endif
+
 private:
     void AcceptConnection();
     
@@ -191,6 +259,10 @@ private:
     std::shared_ptr<SessionManager> session_manager_;
     std::shared_ptr<sqlcc::SqlExecutor> sql_executor_;
     std::unordered_map<int, ConnectionHandler*> connections_;
+#ifdef __linux__
+    bool tls_enabled_ = false;
+    struct ssl_ctx_st* ssl_ctx_ = nullptr; // SSL_CTX*
+#endif
 };
 
 } // namespace network
