@@ -114,6 +114,7 @@
 - **[项目综合评估报告](docs/evaluation/v1.0.4_project_evaluation.md)** - 测试结果、代码覆盖率、功能完整性评估
 - **[SQL持久化深度评估](docs/evaluation/v1.0.4_sql_persistence_evaluation.md)** - DDL/DCL/DML命令执行真实性和持久化能力分析
 - **[详细改进计划](docs/evaluation/v1.0.4_improvement_plan.md)** - 分阶段改进计划（205-292人日工作量估算）
+- **[代码规模统计报告](docs/evaluation/v1.0.4_code_statistics.md)** - 核心代码20,729行，测试代码11,651行
 
 ### 关键指标
 
