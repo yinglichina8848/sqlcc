@@ -1,5 +1,83 @@
 # SqlCC 变更日志
 
+## [1.0.3] - 2025-12-02
+### 新增
+- **HMAC-SHA256防篡改机制**
+  - 实现消息体末尾追加32字节MAC完整性校验
+  - 采用常量时间比较验证，防止时序攻击
+  - 集成到SendMessage/ProcessMessage自动加密验证
+  
+- **PBKDF2密钥派生**
+  - 基于OpenSSL PKCS5_PBKDF2_HMAC实现
+  - 支持从口令派生AES-256密钥与IV
+  - 可配置迭代次数和输出长度
+  - 提供DeriveEncryptionKeyFromPassword便捷接口
+
+- **TLS/SSL完整集成**
+  - 服务端：EnableTLS, ConfigureTLSServer, SSL_accept握手
+  - 客户端：EnableTLS, ConfigureTLSClient, SSL_connect握手
+  - 支持SSL_read/SSL_write加密传输
+  - 客户端SSL_read添加5秒超时防止阻塞
+  - 服务端SSL_accept临时切换阻塞模式完成握手
+
+- **密钥轮换策略**
+  - KeyRotationPolicy类按消息数触发轮换判定
+  - 支持配置轮换间隔（默认1000条消息）
+  - 为未来自动密钥更新提供基础
+
+- **端到端测试**
+  - 创建tls_e2e_test.cc验证完整流程
+  - 测试覆盖CONNECT/KEY_EXCHANGE/HMAC验证
+  - 生成自签名证书用于TLS测试
+  - 验证AES-256-CBC加密器初始化
+
+### 改进
+- **消息加密架构**
+  - 消息头保持明文便于路由
+  - 仅加密消息体并追加HMAC
+  - KEY_EXCHANGE_ACK消息不加密避免握手失败
+  
+- **网络架构优化**
+  - epoll从边缘触发改为水平触发模式简化处理
+  - SendMessage写队列管理优化避免死锁
+  - ConnectionHandler添加析构函数释放SSL资源
+  - HandleWrite支持EPOLLOUT事件注册
+
+### 测试
+- 24组单元测试覆盖HMAC/PBKDF2/AES边界场景
+  - HMAC计算与验证、篡改检测
+  - PBKDF2不同参数、迭代次数影响
+  - AES不同IV、错误密钥处理
+- 端到端测试验证密钥交换与HMAC功能（405ms通过）
+- 所有测试在独立编译与工程构建中均通过
+
+### 技术细节
+- 加密算法：AES-256-CBC (OpenSSL EVP)
+- 完整性校验：HMAC-SHA256 (32字节)
+- 密钥派生：PBKDF2-HMAC-SHA256
+- 传输安全：TLS 1.2+ (可选)
+- 消息模型：头部(明文) + 体(密文) + MAC(32字节)
+
+## [1.0.3] - 2025-11-30
+### 修复
+- 修复了StorageEngine类，正确包含了BufferPoolSharded头文件
+- 修复了StorageEngine类，实现了完整的构造函数，正确初始化磁盘管理器和缓冲池
+- 修复了StorageEngine类，实现了所有核心方法（NewPage, FetchPage, UnpinPage, FlushPage, DeletePage等）
+- 修复了DatabaseManager类，添加了storage_engine_成员变量
+- 修复了DatabaseManager类，修正了ConfigManager API调用（使用SetValue而不是Set）
+- 修复了DatabaseManager类，修正了TransactionManager API调用（使用正确的函数名如commit_transaction）
+- 修复了DatabaseManager类，正确初始化了所有组件
+
+### 新增
+- 成功编译了整个项目，验证了持久化功能的实现
+- 程序正常启动并创建了数据库文件
+- 数据库文件./data/sqlcc.db已成功创建
+
+### 改进
+- 完善了磁盘管理：DiskManager负责实际的文件I/O操作，当创建新页面时，数据会被写入磁盘文件，当读取页面时，如果不在内存中，会从磁盘加载
+- 完善了缓冲池管理：BufferPoolSharded提供内存缓存，减少磁盘I/O，使用LRU算法管理页面替换，脏页会在适当时机刷新到磁盘
+- 完善了数据持久化：页面数据通过BufferPool最终写入磁盘文件，系统关闭时会自动刷新所有脏页，支持手动刷新特定页面或所有页面
+
 ## [1.0.1] - 2025-11-28
 ### 修复
 - 修复了B+树大规模数据插入时的无效页面ID问题
