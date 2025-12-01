@@ -254,11 +254,39 @@ g++ -std=c++17 -o encrypted_test \
 - PKCS7 自动填充
 - 密钥轮换支持
 
+### 已实现的增强功能（v1.0.3）
+1. ✅ **HMAC-SHA256防篡改机制**
+   - 消息体末尾追加32字节MAC完整性校验
+   - 采用常量时间比较验证，防止时序攻击
+   - 集成到SendMessage/ProcessMessage自动处理
+
+2. ✅ **PBKDF2密钥派生**
+   - 基于OpenSSL PKCS5_PBKDF2_HMAC实现
+   - 支持从口令派生AES-256密钥与IV
+   - 可配置迭代次数（默认100000次）
+   - 提供DeriveEncryptionKeyFromPassword便捷接口
+
+3. ✅ **TLS/SSL完整集成**
+   - 服务端：EnableTLS, ConfigureTLSServer, SSL_accept握手
+   - 客户端：EnableTLS, ConfigureTLSClient, SSL_connect握手
+   - 支持SSL_read/SSL_write加密传输层
+   - 自动处理证书验证和安全握手
+
+4. ✅ **密钥轮换策略**
+   - KeyRotationPolicy类按消息数触发轮换
+   - 支持配置轮换间隔（默认1000条消息）
+   - 为未来自动密钥更新提供基础架构
+
+5. ✅ **端到端安全测试**
+   - 24组单元测试覆盖HMAC/PBKDF2/AES边界场景
+   - 端到端测试验证完整的密钥交换与HMAC流程
+   - 测试覆盖率：加密、完整性、密钥派生全覆盖
+
 ### 建议的后续增强
-1. 实现消息认证码 (HMAC) 防止篡改
-2. 实现密钥派生函数 (PBKDF2/Argon2)
-3. 实现完全前向保密 (Perfect Forward Secrecy)
-4. 添加审计日志记录所有加密通信
+1. 实现完全前向保密 (Perfect Forward Secrecy, Diffie-Hellman)
+2. 添加审计日志记录所有加密通信
+3. 实现更高级的密钥管理系统（HSM集成）
+4. 支持多种加密套件协商
 
 ## 性能指标
 
