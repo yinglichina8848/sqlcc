@@ -90,6 +90,9 @@ private:
     // TODO: 支持BETWEEN操作符
     // TODO: 支持LIKE模式匹配
     
+    // 比较操作汁助方法
+    bool compareValues(const std::string& left, const std::string& right, const std::string& op);
+    
     // 约束验证方法
     bool validateColumnConstraints(const std::vector<std::string>& record,
                                   std::shared_ptr<TableMetadata> metadata,
