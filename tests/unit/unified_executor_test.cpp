@@ -54,13 +54,13 @@ TEST_F(UnifiedExecutorTest, ExecutionContextExtensionTest) {
   const auto &context = unified_executor_->getLastExecutionContext();
 
   // 验证扩展字段的初始值
-  EXPECT_EQ(context.execution_time_ms, 0);
-  EXPECT_EQ(context.plan_details, "");
-  EXPECT_EQ(context.optimized_plan, "");
-  EXPECT_FALSE(context.query_optimized);
-  EXPECT_TRUE(context.optimization_rules.empty());
-  EXPECT_EQ(context.index_info, "");
-  EXPECT_EQ(context.cost_estimate, 0.0);
+  EXPECT_EQ(context.execution_time_ms_, 0);
+  EXPECT_EQ(context.plan_details_, "");
+  EXPECT_EQ(context.optimized_plan_, "");
+  EXPECT_FALSE(context.query_optimized_);
+  EXPECT_TRUE(context.optimization_rules_.empty());
+  EXPECT_EQ(context.index_info_, "");
+  EXPECT_EQ(context.cost_estimate_, 0.0);
 }
 
 // 测试ExecutionPlan生成 - 暂时注释，需要修复模拟对象问题
@@ -204,13 +204,13 @@ TEST_F(UnifiedExecutorTest, ExecutionContextUpdateTest) {
   EXPECT_EQ(context.records_affected, 1);
   EXPECT_FALSE(context.used_index);
   EXPECT_NE(context.execution_plan, "");
-  EXPECT_EQ(context.execution_time_ms, 0); // 简化实现，实际应记录执行时间
-  EXPECT_EQ(context.plan_details, "");
-  EXPECT_EQ(context.optimized_plan, "");
-  EXPECT_FALSE(context.query_optimized);
-  EXPECT_TRUE(context.optimization_rules.empty());
-  EXPECT_EQ(context.index_info, "");
-  EXPECT_EQ(context.cost_estimate, 0.0);
+  EXPECT_EQ(context.execution_time_ms_, 0); // 简化实现，实际应记录执行时间
+  EXPECT_EQ(context.plan_details_, "");
+  EXPECT_EQ(context.optimized_plan_, "");
+  EXPECT_FALSE(context.query_optimized_);
+  EXPECT_TRUE(context.optimization_rules_.empty());
+  EXPECT_EQ(context.index_info_, "");
+  EXPECT_EQ(context.cost_estimate_, 0.0);
 }
 
 // 测试策略模式的改进

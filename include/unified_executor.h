@@ -1,6 +1,7 @@
 #ifndef SQLCC_UNIFIED_EXECUTOR_H
 #define SQLCC_UNIFIED_EXECUTOR_H
 
+#include "execution_context.h" // 使用统一的ExecutionContext定义
 #include "execution_engine.h"
 #include "sql_parser/ast_nodes.h"
 #include "system_database.h"
@@ -11,45 +12,7 @@
 
 namespace sqlcc {
 
-/**
- * @brief 执行上下文
- * 统一管理执行过程中的状态信息
- */
-struct ExecutionContext {
-  std::string current_database;
-  std::string current_user;
-  std::shared_ptr<UserManager> user_manager;
-  std::shared_ptr<SystemDatabase> system_db;
-  std::shared_ptr<DatabaseManager> db_manager;
-
-  // 执行统计
-  size_t records_affected;
-  bool used_index;
-  std::string execution_plan;
-
-  // 扩展执行状态信息
-  uint64_t execution_time_ms;                  // 执行时间（毫秒）
-  std::string plan_details;                    // 执行计划详情
-  std::string optimized_plan;                  // 优化后的执行计划
-  bool query_optimized;                        // 查询是否被优化
-  std::vector<std::string> optimization_rules; // 使用的优化规则
-  std::string index_info;                      // 索引使用详情
-  double cost_estimate;                        // 成本估算
-
-  ExecutionContext(std::shared_ptr<DatabaseManager> db,
-                   std::shared_ptr<UserManager> um = nullptr,
-                   std::shared_ptr<SystemDatabase> sd = nullptr)
-      : db_manager(db), user_manager(um), system_db(sd), records_affected(0),
-        used_index(false), execution_time_ms(0), query_optimized(false),
-        cost_estimate(0.0) {
-    // 初始化当前数据库和用户
-    if (db_manager) {
-      current_database = db_manager->GetCurrentDatabase();
-    }
-    // TODO: 从会话管理器获取当前用户
-    current_user = "admin";
-  }
-};
+// ExecutionContext 已在 execution_context.h 中定义
 
 /**
  * @brief 执行策略接口
@@ -155,6 +118,38 @@ protected:
   void maintainIndexesOnDelete(const std::vector<std::string> &record,
                                const std::string &table_name, int32_t page_id,
                                size_t offset, ExecutionContext &context);
+
+  // 权限检查辅助方法
+  bool checkCreatePermission(const sql_parser::CreateStatement *stmt,
+                             const ExecutionContext &context);
+  bool checkSelectPermission(const sql_parser::SelectStatement *stmt,
+                             const ExecutionContext &context);
+  bool checkInsertPermission(const sql_parser::InsertStatement *stmt,
+                             const ExecutionContext &context);
+  bool checkUpdatePermission(const sql_parser::UpdateStatement *stmt,
+                             const ExecutionContext &context);
+  bool checkDeletePermission(const sql_parser::DeleteStatement *stmt,
+                             const ExecutionContext &context);
+  bool checkDropPermission(const sql_parser::DropStatement *stmt,
+                           const ExecutionContext &context);
+  bool checkAlterPermission(const sql_parser::AlterStatement *stmt,
+                            const ExecutionContext &context);
+  bool checkUsePermission(const sql_parser::UseStatement *stmt,
+                          const ExecutionContext &context);
+  bool checkCreateIndexPermission(const sql_parser::CreateIndexStatement *stmt,
+                                  const ExecutionContext &context);
+  bool checkDropIndexPermission(const sql_parser::DropIndexStatement *stmt,
+                                const ExecutionContext &context);
+  bool checkCreateUserPermission(const sql_parser::CreateUserStatement *stmt,
+                                 const ExecutionContext &context);
+  bool checkDropUserPermission(const sql_parser::DropUserStatement *stmt,
+                               const ExecutionContext &context);
+  bool checkGrantPermission(const sql_parser::GrantStatement *stmt,
+                            const ExecutionContext &context);
+  bool checkRevokePermission(const sql_parser::RevokeStatement *stmt,
+                             const ExecutionContext &context);
+  bool checkShowPermission(const sql_parser::ShowStatement *stmt,
+                           const ExecutionContext &context);
 };
 
 /**
@@ -415,6 +410,15 @@ public:
   ~UnifiedExecutor() override;
 
   ExecutionResult execute(std::unique_ptr<sql_parser::Statement> stmt) override;
+
+  /**
+   * @brief 执行SQL语句，带有执行上下文
+   * @param stmt 要执行的语句
+   * @param context 执行上下文
+   * @return 执行结果
+   */
+  ExecutionResult execute(std::unique_ptr<sql_parser::Statement> stmt,
+                          std::shared_ptr<ExecutionContext> context);
 
   // 获取执行统计信息
   const ExecutionContext &getLastExecutionContext() const {
