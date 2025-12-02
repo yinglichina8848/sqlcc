@@ -1,5 +1,72 @@
 # SqlCC 变更日志
 
+## [1.0.6] - 2025-12-02
+### 新增
+- **DDL/DML权限检查框架实现**
+  - 添加DDLExecutor(system_db, user_manager)构造函数，支持权限管理集成
+  - 实现checkDDLPermission()方法框架，待集成UserManager权限验证
+  - 添加DMLExecutor(user_manager)构造函数，支持DML权限管理
+  - 实现checkDMLPermission()方法框架，待集成UserManager权限验证
+  - CREATE TABLE：添加权限检查和SystemDatabase元数据记录（框架实现）
+  - DROP TABLE：添加权限检查和元数据清理
+  - INSERT/UPDATE/DELETE：添加权限检查框架
+  - 所有权限检查当前默认允许（向后兼容），待UserManager权限系统集成
+
+- **DDL元数据同步框架**
+  - CREATE TABLE调用system_db->CreateTableRecord()记录表元数据
+  - CREATE TABLE调用system_db->CreateColumnRecord()记录列元数据
+  - DROP TABLE调用system_db->DropTableRecord()清理元数据
+  - 框架设计支持完整的表/列/约束/索引元数据同步
+  - 当前使用临时ID值（1），待从DatabaseManager获取实际ID
+
+- **索引维护框架清晰化**
+  - 明确标注maintainIndexesOnInsert()的缺失部分：需要SystemDatabase::GetIndexesForTable()
+  - 明确标注maintainIndexesOnUpdate()的缺失部分：索引删除+重插入逻辑框架
+  - 明确标注maintainIndexesOnDelete()的缺失部分：索引删除逻辑框架
+  - 提供示例代码展示完整实现方式
+
+### 改进
+- **权限管理架构**
+  - 分离DDL和DML权限检查逻辑
+  - 权限检查框架与实际权限验证解耦
+  - 支持灵活集成UserManager权限系统
+  - 默认允许确保向后兼容性
+
+- **元数据同步设计**
+  - DDL操作自动同步到SystemDatabase
+  - 框架设计支持完整的元数据生命周期
+  - 清晰的TODO标记标注待集成部分
+  - 为数据库ID、schema、owner提供占位符
+
+### 已识别的待实现部分
+1. **权限检查集成（P1-高）**
+   - 从UserManager集成实际的权限验证逻辑
+   - checkDDLPermission()需要检查user是否有CREATE/DROP权限
+   - checkDMLPermission()需要检查user是否有INSERT/UPDATE/DELETE权限
+   - 工作量估计：2-3人日
+
+2. **元数据ID同步（P1-高）**
+   - 从DatabaseManager获取当前数据库的真实db_id
+   - 从CreateTableRecord返回值获取table_id，用于列记录
+   - 处理schema名称与database名称的映射
+   - 工作量估计：1-2人日
+
+3. **索引维护完整实现（P2-中）**
+   - 实现SystemDatabase::GetIndexesForTable()查询方法
+   - 集成IndexManager的InsertEntry/RemoveEntry方法
+   - 处理多列索引和UNIQUE索引的特殊逻辑
+   - 工作量估计：2-3人日
+
+### 技术细节
+- **向后兼容性**：未提供user_manager或system_db时，执行器仍可正常工作（权限检查被跳过）
+- **框架完整性**：权限检查和元数据同步的骨架已完整，待实现细节填充
+- **编译状态**：✅ sqlcc_executor编译成功
+- **测试状态**：⚠️ 集成测试待补充（需要实际权限检查逻辑）
+
+### 提交历史
+1. 添加DDL/DML权限检查和元数据同步框架（cda3af7）
+2. 清理和完善索引维护框架注释（6c9f10b）
+
 ## [1.0.5] - 2025-12-02
 ### 新增
 - **DML执行器约束验证完整实现**
