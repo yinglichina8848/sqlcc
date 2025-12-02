@@ -647,39 +647,108 @@ bool DMLExecutor::checkUniqueKeyConstraints(const std::vector<std::string>& reco
 void DMLExecutor::maintainIndexesOnInsert(const std::vector<std::string>& record,
                                          const std::string& table_name,
                                          int32_t page_id, size_t offset) {
-    // TODO: 实现索引维护逻辑
+    // 实现索引维护逻辑
     // 步骤：
     // 1. 获取表的所有索引
     // 2. 为每个索引提取对应列的值
-    // 3. 拘新的IndexEntry并插入索引
+    // 3. 今IndexEntry制作并插入索引
     
-    // 当前为空实现，仅显示了结构
-    // 称为其他功能应用此模板
+    if (!db_manager_) {
+        return; // 不能空
+    }
+    
+    auto storage_engine = db_manager_->GetStorageEngine();
+    if (!storage_engine) {
+        return;
+    }
+    
+    // TODO: 提取表的所有索引信息
+    // 这类信息可以从系統数据库的索引表中查询
+    // 归约需要SystemDatabase::GetIndexesForTable()方法
+    
+    // 当前为框架实现
+    // 完整实现需要部上下IndexManager的API
+    
+    // 示例代码（需要实际实现）:
+    // auto indexes = db_manager_->GetSystemDatabase()->GetIndexesForTable(table_name);
+    // for (const auto& index_info : indexes) {
+    //     std::string key_value = record[index_info.column_index];
+    //     IndexEntry entry(key_value, page_id, offset);
+    //     index_manager->Insert(index_info.index_name, entry);
+    // }
 }
 
 void DMLExecutor::maintainIndexesOnUpdate(const std::vector<std::string>& old_record,
                                           const std::vector<std::string>& new_record,
                                           const std::string& table_name,
                                           int32_t page_id, size_t offset) {
-    // TODO: 实现索引更新逻辑
+    // 实现索引更新逻辑
     // 步骤：
     // 1. 获取表的所有索引
     // 2. 为每个索引：
     //    a. 删除旧记录的索引条目
     //    b. 插入新记录的索引条目
     
-    // 当前为空实现，仅显示了结构
+    if (!db_manager_) {
+        return;
+    }
+    
+    auto storage_engine = db_manager_->GetStorageEngine();
+    if (!storage_engine) {
+        return;
+    }
+    
+    // TODO: 提取表的所有索引信息
+    // 归约需要SystemDatabase::GetIndexesForTable()方法
+    
+    // 当前为框架实现
+    // 完整实现需要部上下IndexManager的API
+    
+    // 示例代码（需要实际实现）:
+    // auto indexes = db_manager_->GetSystemDatabase()->GetIndexesForTable(table_name);
+    // for (const auto& index_info : indexes) {
+    //     // 删除旧值
+    //     std::string old_key_value = old_record[index_info.column_index];
+    //     IndexEntry old_entry(old_key_value, page_id, offset);
+    //     index_manager->Remove(index_info.index_name, old_entry);
+    //     
+    //     // 插入新值
+    //     std::string new_key_value = new_record[index_info.column_index];
+    //     IndexEntry new_entry(new_key_value, page_id, offset);
+    //     index_manager->Insert(index_info.index_name, new_entry);
+    // }
 }
 
 void DMLExecutor::maintainIndexesOnDelete(const std::vector<std::string>& record,
                                           const std::string& table_name,
                                           int32_t page_id, size_t offset) {
-    // TODO: 实现索引删除逻辑
+    // 实现索引删除逻辑
     // 步骤：
     // 1. 获取表的所有索引
     // 2. 为每个索引删除对应记录的索引条目
     
-    // 当前为空实现，仅显示了结构
+    if (!db_manager_) {
+        return;
+    }
+    
+    auto storage_engine = db_manager_->GetStorageEngine();
+    if (!storage_engine) {
+        return;
+    }
+    
+    // TODO: 提取表的所有索引信息
+    // 归约需要SystemDatabase::GetIndexesForTable()方法
+    
+    // 当前为框架实现
+    // 完整实现需要部上下IndexManager的API
+    
+    // 示例代码（需要实际实现）:
+    // auto indexes = db_manager_->GetSystemDatabase()->GetIndexesForTable(table_name);
+    // for (const auto& index_info : indexes) {
+    //     std::string key_value = record[index_info.column_index];
+    //     IndexEntry entry(key_value, page_id, offset);
+    //     index_manager->Remove(index_info.index_name, entry);
+    // }
 }
 
 // ==================== DCLExecutor ====================
