@@ -33,15 +33,42 @@ DDLExecutor::DDLExecutor(std::shared_ptr<DatabaseManager> db_manager,
     : ExecutionEngine(db_manager), system_db_(system_db), user_manager_(user_manager) {
 }
 
-bool DDLExecutor::checkDDLPermission(const std::string& operation, const std::string& resource) {
+bool DDLExecutor::checkDDLPermission(const std::string& operation, const std::string& object_type) {
     // 如果没有UserManager，默认允许（向后兼容）
     if (!user_manager_) {
         return true;
     }
     
-    // TODO: 集成UserManager权限检查
-    // 当前默认允许，待实现权限系统集成
-    return true;
+    // 获取当前数据库上下文
+    std::string current_db;
+    if (db_manager_) {
+        current_db = db_manager_->GetCurrentDatabase();
+        if (current_db.empty()) {
+            // 如果没有选择数据库，使用默认数据库
+            current_db = "default";
+        }
+    } else {
+        current_db = "default";
+    }
+    
+    // 获取当前用户名（假设为"admin"，实际应该从会话中获取）
+    std::string current_user = "admin";
+    
+    // 映射操作到权限类型
+    std::string required_privilege;
+    if (operation == "CREATE") {
+        required_privilege = UserManager::PRIVILEGE_CREATE;
+    } else if (operation == "DROP") {
+        required_privilege = UserManager::PRIVILEGE_DROP;
+    } else if (operation == "ALTER") {
+        required_privilege = UserManager::PRIVILEGE_ALTER;
+    } else {
+        // 未知操作类型，默认拒绝
+        return false;
+    }
+    
+    // 使用权限矩阵进行权限检查
+    return user_manager_->CheckPermission(current_user, current_db, "", required_privilege);
 }
 
 ExecutionResult DDLExecutor::execute(std::unique_ptr<sql_parser::Statement> stmt) {
@@ -203,9 +230,38 @@ bool DMLExecutor::checkDMLPermission(const std::string& operation, const std::st
         return true;
     }
     
-    // TODO: 集成UserManager权限检查
-    // 当前默认允许，待实现权限系统集成
-    return true;
+    // 获取当前数据库上下文
+    std::string current_db;
+    if (db_manager_) {
+        current_db = db_manager_->GetCurrentDatabase();
+        if (current_db.empty()) {
+            // 如果没有选择数据库，使用默认数据库
+            current_db = "default";
+        }
+    } else {
+        current_db = "default";
+    }
+    
+    // 获取当前用户名（假设为"admin"，实际应该从会话中获取）
+    std::string current_user = "admin";
+    
+    // 映射操作到权限类型
+    std::string required_privilege;
+    if (operation == "INSERT") {
+        required_privilege = UserManager::PRIVILEGE_INSERT;
+    } else if (operation == "UPDATE") {
+        required_privilege = UserManager::PRIVILEGE_UPDATE;
+    } else if (operation == "DELETE") {
+        required_privilege = UserManager::PRIVILEGE_DELETE;
+    } else if (operation == "SELECT") {
+        required_privilege = UserManager::PRIVILEGE_SELECT;
+    } else {
+        // 未知操作类型，默认拒绝
+        return false;
+    }
+    
+    // 使用权限矩阵进行权限检查
+    return user_manager_->CheckPermission(current_user, current_db, table_name, required_privilege);
 }
 
 ExecutionResult DMLExecutor::execute(std::unique_ptr<sql_parser::Statement> stmt) {

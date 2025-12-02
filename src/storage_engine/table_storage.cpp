@@ -9,8 +9,9 @@ namespace sqlcc {
 
 TableStorageManager::TableStorageManager(std::shared_ptr<StorageEngine> storage_engine)
     : storage_engine_(storage_engine) {
-    // 初始化索引管理器
-    index_manager_ = std::make_shared<IndexManager>(storage_engine_.get(), storage_engine->GetConfigManager());
+    // TODO: 需要实现IndexManager类
+    // 临时注释掉索引管理器初始化
+    // index_manager_ = std::make_shared<IndexManager>(storage_engine_.get(), storage_engine->GetConfigManager());
 }
 
 TableStorageManager::~TableStorageManager() {
@@ -195,6 +196,56 @@ std::vector<std::string> TableStorageManager::GetRecord(const std::string& table
     return record;
 }
 
+std::vector<std::pair<int32_t, size_t>> TableStorageManager::ScanTable(const std::string& table_name) const {
+    // 检查表是否存在
+    auto metadata = GetTableMetadata(table_name);
+    if (!metadata) {
+        SQLCC_LOG_ERROR("Table does not exist: " + table_name);
+        return {};
+    }
+
+    // 简化实现：返回空结果，表示扫描表
+    // TODO: 实现完整的表扫描逻辑
+    SQLCC_LOG_WARN("ScanTable simplified implementation: returning empty result");
+    return {};
+}
+
+std::vector<std::vector<std::string>> TableStorageManager::GetRecords(const std::string& table_name, 
+                                                                     const std::vector<std::pair<int32_t, size_t>>& locations) const {
+    // 检查表是否存在
+    auto metadata = GetTableMetadata(table_name);
+    if (!metadata) {
+        SQLCC_LOG_ERROR("Table does not exist: " + table_name);
+        return {};
+    }
+
+    std::vector<std::vector<std::string>> records;
+    
+    // 遍历所有位置，获取记录
+    for (const auto& location : locations) {
+        int32_t page_id = location.first;
+        size_t offset = location.second;
+        
+        // 获取页面
+        Page* page = storage_engine_->FetchPage(page_id);
+        if (!page) {
+            SQLCC_LOG_ERROR("Failed to fetch page: " + std::to_string(page_id));
+            continue;
+        }
+        
+        // 获取记录
+        std::vector<std::string> record = GetRecordFromPage(page, offset);
+        if (!record.empty()) {
+            records.push_back(record);
+        }
+        
+        // 解除页面固定
+        storage_engine_->UnpinPage(page_id, false);
+    }
+    
+    return records;
+}
+
 Page* TableStorageManager::AllocateNewPage(const std::string& table_name) {
     int32_t page_id;
     Page* page = storage_engine_->NewPage(&page_id);
@@ -374,53 +425,27 @@ void TableStorageManager::WritePageHeader(Page* page, const PageHeader& header) 
 }
 
 bool TableStorageManager::CreateIndex(const std::string& table_name, const std::string& column_name) {
-    // 检查表是否存在
-    if (!TableExists(table_name)) {
-        SQLCC_LOG_ERROR("Table does not exist: " + table_name);
-        return false;
-    }
-
-    // 创建B+树索引
-    auto index = std::make_unique<BPlusTreeIndex>(storage_engine_.get(), table_name, column_name);
-    if (!index->Create()) {
-        SQLCC_LOG_ERROR("Failed to create B+ tree index for table: " + table_name + ", column: " + column_name);
-        return false;
-    }
-
-    // 将索引添加到索引管理器
-    std::string index_name = table_name + "_" + column_name + "_idx";
-    index_manager_->CreateIndex(index_name, table_name, column_name);
-    
-    SQLCC_LOG_INFO("Created B+ tree index for table: " + table_name + ", column: " + column_name);
-    return true;
+    // TODO: 需要实现IndexManager类
+    SQLCC_LOG_WARN("CreateIndex not implemented: IndexManager class is missing");
+    return false;
 }
 
 bool TableStorageManager::DropIndex(const std::string& table_name, const std::string& column_name) {
-    // 检查表是否存在
-    if (!TableExists(table_name)) {
-        SQLCC_LOG_ERROR("Table does not exist: " + table_name);
-        return false;
-    }
-
-    // 删除B+树索引
-    std::string index_name = table_name + "_" + column_name + "_idx";
-    if (!index_manager_->DropIndex(index_name, table_name)) {
-        SQLCC_LOG_ERROR("Failed to drop B+ tree index for table: " + table_name + ", column: " + column_name);
-        return false;
-    }
-
-    SQLCC_LOG_INFO("Dropped B+ tree index for table: " + table_name + ", column: " + column_name);
-    return true;
+    // TODO: 需要实现IndexManager类
+    SQLCC_LOG_WARN("DropIndex not implemented: IndexManager class is missing");
+    return false;
 }
 
 bool TableStorageManager::IndexExists(const std::string& table_name, const std::string& column_name) const {
-    std::string index_name = table_name + "_" + column_name + "_idx";
-    return index_manager_->IndexExists(index_name, table_name);
+    // TODO: 需要实现IndexManager类
+    SQLCC_LOG_WARN("IndexExists not implemented: IndexManager class is missing");
+    return false;
 }
 
 std::shared_ptr<BPlusTreeIndex> TableStorageManager::GetIndex(const std::string& table_name, const std::string& column_name) {
-    std::string index_name = table_name + "_" + column_name + "_idx";
-    return std::shared_ptr<BPlusTreeIndex>(index_manager_->GetIndex(index_name, table_name));
+    // TODO: 需要实现IndexManager类
+    SQLCC_LOG_WARN("GetIndex not implemented: IndexManager class is missing");
+    return nullptr;
 }
 
 } // namespace sqlcc

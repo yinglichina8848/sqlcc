@@ -240,6 +240,10 @@ const WhereClause& UpdateStatement::getWhereClause() const {
     return whereClause_;
 }
 
+bool UpdateStatement::hasWhereClause() const {
+    return !whereClause_.getColumnName().empty();
+}
+
 // ==================== DeleteStatement ====================
 
 DeleteStatement::DeleteStatement(const std::string& tableName)
@@ -259,6 +263,10 @@ const std::string& DeleteStatement::getTableName() const {
 
 const WhereClause& DeleteStatement::getWhereClause() const {
     return whereClause_;
+}
+
+bool DeleteStatement::hasWhereClause() const {
+    return !whereClause_.getColumnName().empty();
 }
 
 // ==================== DropStatement ====================

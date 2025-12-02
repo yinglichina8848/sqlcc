@@ -104,6 +104,9 @@ set(SQL_EXECUTOR_SOURCES
     sql_executor/user_manager.cpp
     sql_executor/system_database.cpp
     execution_engine.cpp
+    unified_query_plan.cpp
+    error_handler.cpp
+    permission_validator.cpp
 )
 
 add_library(sqlcc_executor STATIC

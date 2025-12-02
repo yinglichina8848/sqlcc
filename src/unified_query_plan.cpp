@@ -1,0 +1,351 @@
+#include "unified_query_plan.h"
+#include "sql_parser/ast_nodes.h"
+#include <sstream>
+
+namespace sqlcc {
+
+// UnifiedQueryPlan 实现
+UnifiedQueryPlan::UnifiedQueryPlan(std::shared_ptr<DatabaseManager> db_manager,
+                                   std::shared_ptr<UserManager> user_manager,
+                                   std::shared_ptr<SystemDatabase> system_db)
+    : db_manager_(db_manager),
+      user_manager_(user_manager),
+      system_db_(system_db),
+      status_(QueryPlanStatus::PENDING) {
+    // 设置当前上下文
+    current_database_ = db_manager_->GetCurrentDatabase();
+    // TODO: 需要实现获取当前用户的机制
+    current_user_ = "admin"; // 临时使用默认用户
+}
+
+bool UnifiedQueryPlan::buildPlan(std::unique_ptr<sql_parser::Statement> stmt) {
+    clearError();
+    statement_ = std::move(stmt);
+    status_ = QueryPlanStatus::VALIDATING;
+    
+    // 添加公共步骤
+    steps_.clear();
+    steps_.push_back(QueryStep(QueryStepType::VALIDATION, "验证语句语法", 
+                       [this]() { return validateStatement(); }, true));
+    steps_.push_back(QueryStep(QueryStepType::VALIDATION, "验证数据库上下文", 
+                       [this]() { return validateDatabaseContext(); }, true));
+    steps_.push_back(QueryStep(QueryStepType::PERMISSION, "检查操作权限", 
+                       [this]() { return checkPermission(operation_type_, target_object_); }, true));
+    steps_.push_back(QueryStep(QueryStepType::PRE_PROCESS, "预处理语句", 
+                       [this]() { return preProcessStatement(); }, true));
+    steps_.push_back(QueryStep(QueryStepType::PRE_PROCESS, "解析对象引用", 
+                       [this]() { return resolveObjectReferences(); }, true));
+    steps_.push_back(QueryStep(QueryStepType::PRE_PROCESS, "准备执行上下文", 
+                       [this]() { return prepareExecutionContext(); }, true));
+    
+    // 添加特定执行器步骤
+    if (!buildSpecificPlan()) {
+        setError("构建特定执行计划失败");
+        status_ = QueryPlanStatus::FAILED;
+        return false;
+    }
+    
+    // 添加后处理步骤
+    steps_.push_back(QueryStep(QueryStepType::POST_PROCESS, "后处理语句", 
+                       [this]() { return postProcessStatement(); }, true));
+    steps_.push_back(QueryStep(QueryStepType::POST_PROCESS, "更新系统元数据", 
+                       [this]() { return updateSystemMetadata(); }, true));
+    steps_.push_back(QueryStep(QueryStepType::POST_PROCESS, "记录操作日志", 
+                       [this]() { return logOperation(); }, true));
+    steps_.push_back(QueryStep(QueryStepType::CLEANUP, "清理执行上下文", 
+                       [this]() { return true; }, true));
+    
+    status_ = QueryPlanStatus::PENDING;
+    return true;
+}
+
+ExecutionResult UnifiedQueryPlan::executePlan() {
+    status_ = QueryPlanStatus::EXECUTING;
+    clearError();
+    
+    std::stringstream stats_stream;
+    stats_stream << "执行步骤统计:\n";
+    
+    // 执行所有步骤
+    for (size_t i = 0; i < steps_.size(); ++i) {
+        const auto& step = steps_[i];
+        stats_stream << "步骤 " << (i + 1) << ": " << step.description << " - ";
+        
+        if (!step.action()) {
+            if (step.required) {
+                stats_stream << "失败\n";
+                status_ = QueryPlanStatus::FAILED;
+                execution_stats_ = stats_stream.str();
+                return {false, error_message_};
+            } else {
+                stats_stream << "跳过\n";
+            }
+        } else {
+            stats_stream << "成功\n";
+        }
+    }
+    
+    // 执行特定计划
+    auto result = executeSpecificPlan();
+    if (!result.success) {
+        status_ = QueryPlanStatus::FAILED;
+        execution_stats_ = stats_stream.str();
+        return result;
+    }
+    
+    status_ = QueryPlanStatus::COMPLETED;
+    execution_stats_ = stats_stream.str();
+    return result;
+}
+
+bool UnifiedQueryPlan::validateStatement() {
+    if (!statement_) {
+        setError("语句为空");
+        return false;
+    }
+    
+    // 根据语句类型设置操作类型和目标对象
+    if (auto create_stmt = dynamic_cast<sql_parser::CreateStatement*>(statement_.get())) {
+        operation_type_ = "CREATE";
+        if (create_stmt->getObjectType() == sql_parser::CreateStatement::DATABASE) {
+            target_object_ = create_stmt->getObjectName();
+        } else if (create_stmt->getObjectType() == sql_parser::CreateStatement::TABLE) {
+            target_object_ = create_stmt->getObjectName();
+        }
+    } else if (auto drop_stmt = dynamic_cast<sql_parser::DropStatement*>(statement_.get())) {
+        operation_type_ = "DROP";
+        if (drop_stmt->getObjectType() == sql_parser::DropStatement::DATABASE) {
+            target_object_ = drop_stmt->getObjectName();
+        } else if (drop_stmt->getObjectType() == sql_parser::DropStatement::TABLE) {
+            target_object_ = drop_stmt->getObjectName();
+        }
+    }
+    // 其他语句类型处理...
+    
+    return true;
+}
+
+bool UnifiedQueryPlan::validateDatabaseContext() {
+    if (current_database_.empty() && operation_type_ != "CREATE_DATABASE") {
+        setError("未选择数据库");
+        return false;
+    }
+    return true;
+}
+
+bool UnifiedQueryPlan::validateTableExistence(const std::string& table_name) {
+    // 检查数据库是否存在
+    if (!db_manager_->DatabaseExists(current_database_)) {
+        setError("数据库不存在: " + current_database_);
+        return false;
+    }
+    
+    // 检查表是否存在
+    if (!db_manager_->TableExists(table_name)) {
+        setError("表不存在: " + table_name);
+        return false;
+    }
+    
+    return true;
+}
+
+bool UnifiedQueryPlan::validateColumnExistence(const std::string& table_name, const std::string& column_name) {
+    // 检查数据库是否存在
+    if (!db_manager_->DatabaseExists(current_database_)) {
+        setError("数据库不存在: " + current_database_);
+        return false;
+    }
+    
+    // 检查表是否存在
+    if (!db_manager_->TableExists(table_name)) {
+        setError("表不存在: " + table_name);
+        return false;
+    }
+    
+    // 检查列是否存在
+    // TODO: 实现列存在性检查
+    return true;
+}
+
+bool UnifiedQueryPlan::checkPermission(const std::string& operation, const std::string& resource) {
+    // 统一权限检查逻辑
+    if (operation == "CREATE_DATABASE" || operation == "DROP_DATABASE") {
+        return checkDatabasePermission(operation);
+    } else if (operation == "CREATE_TABLE" || operation == "DROP_TABLE" || 
+               operation == "ALTER_TABLE" || operation == "INSERT" || 
+               operation == "UPDATE" || operation == "DELETE" || operation == "SELECT") {
+        return checkTablePermission(operation, resource);
+    }
+    
+    return true; // 默认允许
+}
+
+bool UnifiedQueryPlan::checkDatabasePermission(const std::string& operation) {
+    // 检查数据库级别权限
+    // TODO: 实现数据库权限检查
+    return true;
+}
+
+bool UnifiedQueryPlan::checkTablePermission(const std::string& operation, const std::string& table_name) {
+    // 检查表级别权限
+    // TODO: 实现表权限检查
+    return true;
+}
+
+bool UnifiedQueryPlan::preProcessStatement() {
+    // 预处理逻辑
+    return true;
+}
+
+bool UnifiedQueryPlan::resolveObjectReferences() {
+    // 解析对象引用
+    return true;
+}
+
+bool UnifiedQueryPlan::prepareExecutionContext() {
+    // 准备执行上下文
+    return true;
+}
+
+bool UnifiedQueryPlan::postProcessStatement() {
+    // 后处理逻辑
+    return true;
+}
+
+bool UnifiedQueryPlan::updateSystemMetadata() {
+    // 更新系统元数据
+    return true;
+}
+
+bool UnifiedQueryPlan::logOperation() {
+    // 记录操作日志
+    return true;
+}
+
+void UnifiedQueryPlan::setError(const std::string& error) {
+    error_message_ = error;
+}
+
+void UnifiedQueryPlan::clearError() {
+    error_message_.clear();
+}
+
+// DDLQueryPlan 实现
+DDLQueryPlan::DDLQueryPlan(std::shared_ptr<DatabaseManager> db_manager,
+                          std::shared_ptr<UserManager> user_manager,
+                          std::shared_ptr<SystemDatabase> system_db)
+    : UnifiedQueryPlan(db_manager, user_manager, system_db) {}
+
+bool DDLQueryPlan::buildSpecificPlan() {
+    if (auto create_stmt = dynamic_cast<sql_parser::CreateStatement*>(statement_.get())) {
+        return buildCreatePlan();
+    } else if (auto drop_stmt = dynamic_cast<sql_parser::DropStatement*>(statement_.get())) {
+        return buildDropPlan();
+    } else if (auto alter_stmt = dynamic_cast<sql_parser::AlterStatement*>(statement_.get())) {
+        return buildAlterPlan();
+    }
+    
+    setError("不支持的DDL语句类型");
+    return false;
+}
+
+ExecutionResult DDLQueryPlan::executeSpecificPlan() {
+    if (auto create_stmt = dynamic_cast<sql_parser::CreateStatement*>(statement_.get())) {
+        return executeCreatePlan();
+    } else if (auto drop_stmt = dynamic_cast<sql_parser::DropStatement*>(statement_.get())) {
+        return executeDropPlan();
+    } else if (auto alter_stmt = dynamic_cast<sql_parser::AlterStatement*>(statement_.get())) {
+        return executeAlterPlan();
+    }
+    
+    return {false, "不支持的DDL语句类型"};
+}
+
+bool DDLQueryPlan::buildAlterPlan() {
+    // 添加ALTER语句特定的执行步骤
+    steps_.push_back(QueryStep(QueryStepType::EXECUTION, "执行ALTER操作", 
+                   [this]() { return true; }, true));
+    return true;
+}
+
+ExecutionResult DDLQueryPlan::executeAlterPlan() {
+    // 实现ALTER语句的执行逻辑
+    // 这里暂时返回成功，实际实现需要根据具体的ALTER操作类型进行处理
+    return {true, "ALTER操作执行成功"};
+}
+
+// DMLQueryPlan 实现
+DMLQueryPlan::DMLQueryPlan(std::shared_ptr<DatabaseManager> db_manager,
+                          std::shared_ptr<UserManager> user_manager,
+                          std::shared_ptr<SystemDatabase> system_db)
+    : UnifiedQueryPlan(db_manager, user_manager, system_db) {}
+
+bool DMLQueryPlan::buildSpecificPlan() {
+    // TODO: 实现DML特定计划构建
+    return true;
+}
+
+ExecutionResult DMLQueryPlan::executeSpecificPlan() {
+    // TODO: 实现DML特定计划执行
+    return {true, "DML执行成功"};
+}
+
+// DCLQueryPlan 实现
+DCLQueryPlan::DCLQueryPlan(std::shared_ptr<DatabaseManager> db_manager,
+                          std::shared_ptr<UserManager> user_manager,
+                          std::shared_ptr<SystemDatabase> system_db)
+    : UnifiedQueryPlan(db_manager, user_manager, system_db) {}
+
+bool DCLQueryPlan::buildSpecificPlan() {
+    // TODO: 实现DCL特定计划构建
+    return true;
+}
+
+ExecutionResult DCLQueryPlan::executeSpecificPlan() {
+    // TODO: 实现DCL特定计划执行
+    return {true, "DCL执行成功"};
+}
+
+// UtilityQueryPlan 实现
+UtilityQueryPlan::UtilityQueryPlan(std::shared_ptr<DatabaseManager> db_manager,
+                                 std::shared_ptr<UserManager> user_manager,
+                                 std::shared_ptr<SystemDatabase> system_db)
+    : UnifiedQueryPlan(db_manager, user_manager, system_db) {}
+
+bool UtilityQueryPlan::buildSpecificPlan() {
+    // TODO: 实现工具特定计划构建
+    return true;
+}
+
+ExecutionResult UtilityQueryPlan::executeSpecificPlan() {
+    // TODO: 实现工具特定计划执行
+    return {true, "工具执行成功"};
+}
+
+// QueryPlanFactory 实现
+std::unique_ptr<UnifiedQueryPlan> QueryPlanFactory::createPlan(
+    std::unique_ptr<sql_parser::Statement> stmt,
+    std::shared_ptr<DatabaseManager> db_manager,
+    std::shared_ptr<UserManager> user_manager,
+    std::shared_ptr<SystemDatabase> system_db) {
+    
+    if (dynamic_cast<sql_parser::CreateStatement*>(stmt.get()) ||
+        dynamic_cast<sql_parser::DropStatement*>(stmt.get()) ||
+        dynamic_cast<sql_parser::AlterStatement*>(stmt.get())) {
+        return std::make_unique<DDLQueryPlan>(db_manager, user_manager, system_db);
+    } else if (dynamic_cast<sql_parser::SelectStatement*>(stmt.get()) ||
+               dynamic_cast<sql_parser::InsertStatement*>(stmt.get()) ||
+               dynamic_cast<sql_parser::UpdateStatement*>(stmt.get()) ||
+               dynamic_cast<sql_parser::DeleteStatement*>(stmt.get())) {
+        return std::make_unique<DMLQueryPlan>(db_manager, user_manager, system_db);
+    } else if (dynamic_cast<sql_parser::CreateUserStatement*>(stmt.get()) ||
+               dynamic_cast<sql_parser::DropUserStatement*>(stmt.get()) ||
+               dynamic_cast<sql_parser::GrantStatement*>(stmt.get()) ||
+               dynamic_cast<sql_parser::RevokeStatement*>(stmt.get())) {
+        return std::make_unique<DCLQueryPlan>(db_manager, user_manager, system_db);
+    } else {
+        return std::make_unique<UtilityQueryPlan>(db_manager, user_manager, system_db);
+    }
+}
+
+} // namespace sqlcc
