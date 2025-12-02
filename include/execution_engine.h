@@ -94,6 +94,15 @@ private:
     bool validateColumnConstraints(const std::vector<std::string>& record,
                                   std::shared_ptr<TableMetadata> metadata,
                                   const std::string& table_name);
+    bool checkUniqueConstraints(const std::vector<std::string>& record,
+                               std::shared_ptr<TableMetadata> metadata,
+                               const std::string& table_name);
+    bool checkPrimaryKeyConstraints(const std::vector<std::string>& record,
+                                   std::shared_ptr<TableMetadata> metadata,
+                                   const std::string& table_name);
+    bool checkUniqueKeyConstraints(const std::vector<std::string>& record,
+                                  std::shared_ptr<TableMetadata> metadata,
+                                  const std::string& table_name);
         
     // 索引维护方法
     void maintainIndexesOnInsert(const std::vector<std::string>& record,
