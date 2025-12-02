@@ -70,6 +70,9 @@ public:
     DMLExecutor(std::shared_ptr<DatabaseManager> db_manager);
 
     ExecutionResult execute(std::unique_ptr<sqlcc::sql_parser::Statement> stmt) override;
+    
+    // 公开的辅助方法（用于WHERE条件评估，可以被外部访问）
+    bool compareValues(const std::string& left, const std::string& right, const std::string& op);
 
 private:
     ExecutionResult executeInsert(sqlcc::sql_parser::InsertStatement* stmt);
@@ -89,9 +92,6 @@ private:
     // TODO: 支持IN操作符
     // TODO: 支持BETWEEN操作符
     // TODO: 支持LIKE模式匹配
-    
-    // 比较操作汁助方法
-    bool compareValues(const std::string& left, const std::string& right, const std::string& op);
     
     // 约束验证方法
     bool validateColumnConstraints(const std::vector<std::string>& record,
