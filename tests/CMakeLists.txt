@@ -410,6 +410,19 @@ add_test(NAME where_clause_optimization_test COMMAND where_clause_optimization_t
 
 # DML改进已完成，通过AST节点方法实现
 
+# CompareValues单元测试
+add_executable(compare_values_test unit/compare_values_test.cpp)
+
+target_link_libraries(compare_values_test
+    PRIVATE
+    gtest
+    gtest_main
+    pthread
+    ${CMAKE_DL_LIBS}
+)
+
+add_test(NAME compare_values_test COMMAND compare_values_test)
+
 # ... existing code ...
 
 # 创建 simple_test可执行文件
