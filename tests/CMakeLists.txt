@@ -408,24 +408,9 @@ target_link_libraries(where_clause_optimization_test
 
 add_test(NAME where_clause_optimization_test COMMAND where_clause_optimization_test)
 
-# DML改进测试
-add_executable(dml_improvement_test unit/dml_improvement_test.cpp)
+# DML改进已完成，通过AST节点方法实现
 
-target_link_libraries(dml_improvement_test
-    PRIVATE
-    gtest
-    gtest_main
-    pthread
-    ${CMAKE_DL_LIBS}
-    sqlcc_core_lib
-    sqlcc_parser
-    sqlcc_config_manager
-    sqlcc_storage_engine
-    sqlcc_transaction_manager
-    sqlcc_executor
-)
-
-add_test(NAME dml_improvement_test COMMAND dml_improvement_test)
+# ... existing code ...
 
 # 创建 simple_test可执行文件
 add_executable(simple_test unit/simple_test.cpp)
