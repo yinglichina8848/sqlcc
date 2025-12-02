@@ -11,8 +11,6 @@
 
 namespace sqlcc {
 
-// 前向声明
-class SqlExecutor;
 
 // 系统数据库常量定义
 const std::string SYSTEM_DB_NAME = "system";
@@ -402,7 +400,6 @@ public:
 
 private:
     std::shared_ptr<DatabaseManager> db_manager_;  // 数据库管理器
-    std::shared_ptr<SqlExecutor> sql_executor_;    // SQL执行器
     std::string last_error_;                       // 最后一次错误信息
 
     // 系统表创建方法
