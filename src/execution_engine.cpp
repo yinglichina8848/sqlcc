@@ -394,6 +394,49 @@ ExecutionResult DMLExecutor::executeDelete(sql_parser::DeleteStatement* stmt) {
     return ExecutionResult(true, message);
 }
 
+bool DMLExecutor::compareValues(const std::string& left, const std::string& right, const std::string& op) {
+    if (op == "=") {
+        return left == right;
+    } else if (op == "<>") {
+        return left != right;
+    } else if (op == "<") {
+        try {
+            return std::stoi(left) < std::stoi(right);
+        } catch (...) {
+            return left < right;
+        }
+    } else if (op == ">") {
+        try {
+            return std::stoi(left) > std::stoi(right);
+        } catch (...) {
+            return left > right;
+        }
+    } else if (op == "<=") {
+        try {
+            return std::stoi(left) <= std::stoi(right);
+        } catch (...) {
+            return left <= right;
+        }
+    } else if (op == ">=") {
+        try {
+            return std::stoi(left) >= std::stoi(right);
+        } catch (...) {
+            return left >= right;
+        }
+    } else if (op == "LIKE") {
+        // TODO: 实现模式匹配
+        return left.find(right) != std::string::npos; // 简化实现：仅检查是否包含
+    } else if (op == "IN") {
+        // TODO: 实现IN操作符
+        return false; // 待实现
+    } else if (op == "BETWEEN") {
+        // TODO: 实现BETWEEN操作符
+        return false; // 待实现
+    }
+    
+    return false; // 未知操作符
+}
+
 bool DMLExecutor::matchesWhereClause(const std::vector<std::string>& record,
                                      const sql_parser::WhereClause& where_clause,
                                      std::shared_ptr<TableMetadata> metadata) {
@@ -407,38 +450,8 @@ bool DMLExecutor::matchesWhereClause(const std::vector<std::string>& record,
     std::string condition_value = where_clause.getValue();
     std::string op = where_clause.getOp();
     
-    // 比较操作
-    if (op == "=") {
-        return column_value == condition_value;
-    } else if (op == "<>") {
-        return column_value != condition_value;
-    } else if (op == "<") {
-        try {
-            return std::stoi(column_value) < std::stoi(condition_value);
-        } catch (...) {
-            return column_value < condition_value;
-        }
-    } else if (op == ">") {
-        try {
-            return std::stoi(column_value) > std::stoi(condition_value);
-        } catch (...) {
-            return column_value > condition_value;
-        }
-    } else if (op == "<=") {
-        try {
-            return std::stoi(column_value) <= std::stoi(condition_value);
-        } catch (...) {
-            return column_value <= condition_value;
-        }
-    } else if (op == ">=") {
-        try {
-            return std::stoi(column_value) >= std::stoi(condition_value);
-        } catch (...) {
-            return column_value >= condition_value;
-        }
-    }
-    
-    return true;
+    // 使用比较是否匹配
+    return compareValues(column_value, condition_value, op);
 }
 
 std::string DMLExecutor::getColumnValue(const std::vector<std::string>& record,
