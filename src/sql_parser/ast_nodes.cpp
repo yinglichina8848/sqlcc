@@ -199,6 +199,18 @@ void InsertStatement::addValueRow(const std::vector<std::unique_ptr<Expression>>
     }
 }
 
+const std::string& InsertStatement::getTableName() const {
+    return tableName_;
+}
+
+const std::vector<std::string>& InsertStatement::getColumns() const {
+    return columns_;
+}
+
+const std::vector<std::vector<std::string>>& InsertStatement::getValues() const {
+    return values_;
+}
+
 // ==================== UpdateStatement ====================
 
 UpdateStatement::UpdateStatement(const std::string& tableName)
@@ -216,6 +228,18 @@ void UpdateStatement::setWhereClause(const WhereClause& where) {
     whereClause_ = where;
 }
 
+const std::string& UpdateStatement::getTableName() const {
+    return tableName_;
+}
+
+const std::unordered_map<std::string, std::string>& UpdateStatement::getUpdateValues() const {
+    return updateValues_;
+}
+
+const WhereClause& UpdateStatement::getWhereClause() const {
+    return whereClause_;
+}
+
 // ==================== DeleteStatement ====================
 
 DeleteStatement::DeleteStatement(const std::string& tableName)
@@ -227,6 +251,14 @@ DeleteStatement::~DeleteStatement() {
 
 void DeleteStatement::setWhereClause(const WhereClause& where) {
     whereClause_ = where;
+}
+
+const std::string& DeleteStatement::getTableName() const {
+    return tableName_;
+}
+
+const WhereClause& DeleteStatement::getWhereClause() const {
+    return whereClause_;
 }
 
 // ==================== DropStatement ====================
