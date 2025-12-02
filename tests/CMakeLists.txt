@@ -389,6 +389,25 @@ target_link_libraries(index_maintenance_test
 
 add_test(NAME index_maintenance_test COMMAND index_maintenance_test)
 
+# WHERE条件优化测试
+add_executable(where_clause_optimization_test unit/where_clause_optimization_test.cpp)
+
+target_link_libraries(where_clause_optimization_test
+    PRIVATE
+    gtest
+    gtest_main
+    pthread
+    ${CMAKE_DL_LIBS}
+    sqlcc_core_lib
+    sqlcc_parser
+    sqlcc_config_manager
+    sqlcc_storage_engine
+    sqlcc_transaction_manager
+    sqlcc_executor
+)
+
+add_test(NAME where_clause_optimization_test COMMAND where_clause_optimization_test)
+
 # 创建simple_test可执行文件
 add_executable(simple_test unit/simple_test.cpp)
 

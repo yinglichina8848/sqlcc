@@ -84,6 +84,12 @@ private:
                               const std::string& column_name,
                               std::shared_ptr<TableMetadata> metadata);
     
+    // WHERE条件评估辅助方法
+    // TODO: 支持AND/OR组合条件
+    // TODO: 支持IN操作符
+    // TODO: 支持BETWEEN操作符
+    // TODO: 支持LIKE模式匹配
+    
     // 约束验证方法
     bool validateColumnConstraints(const std::vector<std::string>& record,
                                   std::shared_ptr<TableMetadata> metadata,
