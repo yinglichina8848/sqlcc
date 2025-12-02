@@ -245,8 +245,6 @@ ExecutionResult DMLExecutor::executeInsert(sql_parser::InsertStatement* stmt) {
         return ExecutionResult(false, "Table '" + table_name + "' does not exist");
     }
     
-    // ... 余下正常的INSERT逻辑
-    
     // 获取存储引擎
     auto storage_engine = db_manager_->GetStorageEngine();
     if (!storage_engine) {
@@ -746,14 +744,14 @@ void DMLExecutor::maintainIndexesOnInsert(const std::vector<std::string>& record
         return;
     }
     
-    // TODO: 提取表的所有索引信息
-    // 这类信息可以从系統数据库的索引表中查询
-    // 归约需要SystemDatabase::GetIndexesForTable()方法
+    // TODO: Extract all indexes information for the table
+    // This information can be queried from the system database's index table
+    // Requirement: SystemDatabase::GetIndexesForTable() method
     
-    // 当前为框架实现
-    // 完整实现需要部上下IndexManager的API
+    // Current implementation is a framework
+    // Complete implementation requires integration with IndexManager API
     
-    // 示例代码（需要实际实现）:
+    // Example code (needs actual implementation):
     // auto indexes = db_manager_->GetSystemDatabase()->GetIndexesForTable(table_name);
     // for (const auto& index_info : indexes) {
     //     std::string key_value = record[index_info.column_index];
