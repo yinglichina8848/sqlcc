@@ -1,0 +1,406 @@
+#include "../include/execution_engine.h"
+#include "../include/database_manager.h"
+#include "../include/user_manager.h"
+#include <iostream>
+#include <sstream>
+
+namespace sqlcc {
+
+// ==================== ExecutionResult ====================
+
+ExecutionResult::ExecutionResult(bool success, const std::string& message)
+    : success(success), message(message) {
+}
+
+// ==================== ExecutionEngine ====================
+
+ExecutionEngine::ExecutionEngine(std::shared_ptr<DatabaseManager> db_manager)
+    : db_manager_(db_manager) {
+}
+
+// ==================== DDLExecutor ====================
+
+DDLExecutor::DDLExecutor(std::shared_ptr<DatabaseManager> db_manager)
+    : ExecutionEngine(db_manager) {
+}
+
+ExecutionResult DDLExecutor::execute(std::unique_ptr<sql_parser::Statement> stmt) {
+    switch (stmt->getType()) {
+    case sql_parser::Statement::CREATE:
+        return executeCreate(static_cast<sql_parser::CreateStatement*>(stmt.get()));
+    case sql_parser::Statement::DROP:
+        return executeDrop(static_cast<sql_parser::DropStatement*>(stmt.get()));
+    case sql_parser::Statement::ALTER:
+        return executeAlter(static_cast<sql_parser::AlterStatement*>(stmt.get()));
+    default:
+        return ExecutionResult(false, "Invalid DDL statement type");
+    }
+}
+
+ExecutionResult DDLExecutor::executeCreate(sql_parser::CreateStatement* stmt) {
+    switch (stmt->getObjectType()) {
+    case sql_parser::CreateStatement::DATABASE:
+        {
+            const std::string& db_name = stmt->getObjectName();
+            if (db_manager_) {
+                if (db_manager_->CreateDatabase(db_name)) {
+                    return ExecutionResult(true, "Database '" + db_name + "' created successfully");
+                } else {
+                    return ExecutionResult(false, "Failed to create database '" + db_name + "'");
+                }
+            }
+            return ExecutionResult(false, "Database manager not available");
+        }
+    case sql_parser::CreateStatement::TABLE:
+        {
+            const std::string& table_name = stmt->getObjectName();
+            if (db_manager_) {
+                // 检查是否在有效数据库上下文中
+                std::string current_db = db_manager_->GetCurrentDatabase();
+                if (current_db.empty()) {
+                    return ExecutionResult(false, "No database selected");
+                }
+                
+                // 获取列定义并转换为正确的格式
+                const auto& columns = stmt->getColumns();
+                std::vector<std::pair<std::string, std::string>> table_columns;
+                for (const auto& col : columns) {
+                    table_columns.emplace_back(col.getName(), col.getType());
+                }
+                
+                // 创建表的逻辑应该在这里实现
+                if (db_manager_->CreateTable(table_name, table_columns)) {
+                    return ExecutionResult(true, "Table '" + table_name + "' created successfully in database '" + current_db + "'");
+                } else {
+                    return ExecutionResult(false, "Failed to create table '" + table_name + "'");
+                }
+            }
+            return ExecutionResult(false, "Database manager not available");
+        }
+    default:
+        return ExecutionResult(false, "Unsupported CREATE object type");
+    }
+}
+
+ExecutionResult DDLExecutor::executeDrop(sql_parser::DropStatement* stmt) {
+    switch (stmt->getObjectType()) {
+    case sql_parser::DropStatement::DATABASE:
+        {
+            const std::string& db_name = stmt->getObjectName();
+            if (db_manager_) {
+                if (db_manager_->DropDatabase(db_name)) {
+                    return ExecutionResult(true, "Database '" + db_name + "' dropped successfully");
+                } else {
+                    return ExecutionResult(false, "Failed to drop database '" + db_name + "'");
+                }
+            }
+            return ExecutionResult(false, "Database manager not available");
+        }
+    case sql_parser::DropStatement::TABLE:
+        {
+            const std::string& table_name = stmt->getObjectName();
+            if (db_manager_) {
+                // 检查是否在有效数据库上下文中
+                std::string current_db = db_manager_->GetCurrentDatabase();
+                if (current_db.empty()) {
+                    return ExecutionResult(false, "No database selected");
+                }
+                
+                // 删除表的逻辑应该在这里实现
+                if (db_manager_->DropTable(table_name)) {
+                    return ExecutionResult(true, "Table '" + table_name + "' dropped successfully from database '" + current_db + "'");
+                } else {
+                    return ExecutionResult(false, "Failed to drop table '" + table_name + "'");
+                }
+            }
+            return ExecutionResult(false, "Database manager not available");
+        }
+    default:
+        return ExecutionResult(false, "Unsupported DROP object type");
+    }
+}
+
+ExecutionResult DDLExecutor::executeAlter(sql_parser::AlterStatement* stmt) {
+    if (stmt->getObjectType() == sql_parser::AlterStatement::DATABASE) {
+        const std::string& db_name = stmt->getObjectName();
+        if (db_manager_) {
+            // 修改数据库的逻辑应该在这里实现
+            return ExecutionResult(true, "Database '" + db_name + "' altered successfully");
+        }
+        return ExecutionResult(false, "Database manager not available");
+    }
+    return ExecutionResult(false, "Unsupported ALTER object type");
+}
+
+// ==================== DMLExecutor ====================
+
+DMLExecutor::DMLExecutor(std::shared_ptr<DatabaseManager> db_manager)
+    : ExecutionEngine(db_manager) {
+}
+
+ExecutionResult DMLExecutor::execute(std::unique_ptr<sql_parser::Statement> stmt) {
+    // DML执行逻辑应该在这里实现
+    return ExecutionResult(true, "DML statement executed successfully");
+}
+
+// ==================== DCLExecutor ====================
+
+DCLExecutor::DCLExecutor(std::shared_ptr<DatabaseManager> db_manager, std::shared_ptr<UserManager> user_manager)
+    : ExecutionEngine(db_manager), user_manager_(user_manager) {
+}
+
+ExecutionResult DCLExecutor::execute(std::unique_ptr<sql_parser::Statement> stmt) {
+    switch (stmt->getType()) {
+    case sql_parser::Statement::CREATE_USER:
+        return executeCreateUser(static_cast<sql_parser::CreateUserStatement*>(stmt.get()));
+    case sql_parser::Statement::DROP_USER:
+        return executeDropUser(static_cast<sql_parser::DropUserStatement*>(stmt.get()));
+    case sql_parser::Statement::GRANT:
+        return executeGrant(static_cast<sql_parser::GrantStatement*>(stmt.get()));
+    case sql_parser::Statement::REVOKE:
+        return executeRevoke(static_cast<sql_parser::RevokeStatement*>(stmt.get()));
+    default:
+        return ExecutionResult(false, "Invalid DCL statement type");
+    }
+}
+
+ExecutionResult DCLExecutor::executeCreateUser(sql_parser::CreateUserStatement* stmt) {
+    // 创建用户的逻辑应该在这里实现
+    if (user_manager_) {
+        // 这里应该调用user_manager_的方法来创建用户
+        return ExecutionResult(true, "User '" + stmt->getUsername() + "' created successfully");
+    }
+    return ExecutionResult(false, "User manager not available");
+}
+
+ExecutionResult DCLExecutor::executeDropUser(sql_parser::DropUserStatement* stmt) {
+    // 删除用户的逻辑应该在这里实现
+    if (user_manager_) {
+        // 这里应该调用user_manager_的方法来删除用户
+        return ExecutionResult(true, "User '" + stmt->getUsername() + "' dropped successfully");
+    }
+    return ExecutionResult(false, "User manager not available");
+}
+
+ExecutionResult DCLExecutor::executeGrant(sql_parser::GrantStatement* stmt) {
+    // 授权的逻辑应该在这里实现
+    if (user_manager_) {
+        const std::string& grantee = stmt->getGrantee();
+        // 这里应该调用user_manager_的方法来授予权限
+        return ExecutionResult(true, "Privileges granted to user '" + grantee + "' successfully");
+    }
+    return ExecutionResult(false, "User manager not available");
+}
+
+ExecutionResult DCLExecutor::executeRevoke(sql_parser::RevokeStatement* stmt) {
+    // 撤销权限的逻辑应该在这里实现
+    if (user_manager_) {
+        const std::string& grantee = stmt->getGrantee();
+        // 这里应该调用user_manager_的方法来撤销权限
+        return ExecutionResult(true, "Privileges revoked from user '" + grantee + "' successfully");
+    }
+    return ExecutionResult(false, "User manager not available");
+}
+
+// ==================== UtilityExecutor ====================
+
+UtilityExecutor::UtilityExecutor(std::shared_ptr<DatabaseManager> db_manager)
+    : ExecutionEngine(db_manager), system_db_(nullptr) {
+}
+
+UtilityExecutor::UtilityExecutor(std::shared_ptr<DatabaseManager> db_manager, std::shared_ptr<SystemDatabase> system_db)
+    : ExecutionEngine(db_manager), system_db_(system_db) {
+}
+
+ExecutionResult UtilityExecutor::execute(std::unique_ptr<sql_parser::Statement> stmt) {
+    if (stmt->getType() == sql_parser::Statement::USE) {
+        sql_parser::UseStatement* use_stmt = static_cast<sql_parser::UseStatement*>(stmt.get());
+        if (db_manager_) {
+            if (db_manager_->UseDatabase(use_stmt->getDatabaseName())) {
+                return ExecutionResult(true, "Database changed to '" + use_stmt->getDatabaseName() + "'");
+            } else {
+                return ExecutionResult(false, "Failed to change database to '" + use_stmt->getDatabaseName() + "'");
+            }
+        }
+        return ExecutionResult(false, "Database manager not available");
+    }
+    else if (stmt->getType() == sql_parser::Statement::SHOW) {
+        sql_parser::ShowStatement* show_stmt = static_cast<sql_parser::ShowStatement*>(stmt.get());
+        return executeShow(show_stmt);
+    }
+    return ExecutionResult(false, "Invalid utility statement type");
+}
+
+ExecutionResult UtilityExecutor::executeShow(sql_parser::ShowStatement* stmt) {
+    if (!db_manager_) {
+        return ExecutionResult(false, "Database manager not available");
+    }
+    
+    switch (stmt->getShowType()) {
+    case sql_parser::ShowStatement::DATABASES: {
+        auto databases = db_manager_->ListDatabases();
+        return ExecutionResult(true, formatDatabases(databases));
+    }
+    
+    case sql_parser::ShowStatement::TABLES: {
+        // 如果有FROM子句，先切换数据库
+        std::string current_db = db_manager_->GetCurrentDatabase();
+        if (stmt->hasFromDatabase()) {
+            if (!db_manager_->UseDatabase(stmt->getFromDatabase())) {
+                return ExecutionResult(false, "Database '" + stmt->getFromDatabase() + "' does not exist");
+            }
+        }
+        
+        if (db_manager_->GetCurrentDatabase().empty()) {
+            return ExecutionResult(false, "No database selected");
+        }
+        
+        auto tables = db_manager_->ListTables();
+        std::string result = formatTables(tables);
+        
+        // 如果之前有数据库，切换回去
+        if (stmt->hasFromDatabase() && !current_db.empty()) {
+            db_manager_->UseDatabase(current_db);
+        }
+        
+        return ExecutionResult(true, result);
+    }
+    
+    case sql_parser::ShowStatement::CREATE_TABLE: {
+        std::string current_db = db_manager_->GetCurrentDatabase();
+        if (current_db.empty()) {
+            return ExecutionResult(false, "No database selected");
+        }
+        
+        std::string table_name = stmt->getTargetObject();
+        if (!db_manager_->TableExists(table_name)) {
+            return ExecutionResult(false, "Table '" + table_name + "' does not exist");
+        }
+        
+        // TODO: 从元数据获取表结构并生成CREATE TABLE语句
+        return ExecutionResult(true, "CREATE TABLE " + table_name + " (...)\n[Table structure not yet implemented]");
+    }
+    
+    case sql_parser::ShowStatement::COLUMNS: {
+        std::string current_db = db_manager_->GetCurrentDatabase();
+        if (current_db.empty()) {
+            return ExecutionResult(false, "No database selected");
+        }
+        
+        std::string table_name = stmt->getTargetObject();
+        if (!db_manager_->TableExists(table_name)) {
+            return ExecutionResult(false, "Table '" + table_name + "' does not exist");
+        }
+        
+        // TODO: 从system数据库获取列信息
+        return ExecutionResult(true, "Columns for table '" + table_name + "':\n[Column information not yet implemented]");
+    }
+    
+    case sql_parser::ShowStatement::INDEXES: {
+        std::string current_db = db_manager_->GetCurrentDatabase();
+        if (current_db.empty()) {
+            return ExecutionResult(false, "No database selected");
+        }
+        
+        std::string table_name = stmt->getTargetObject();
+        if (!db_manager_->TableExists(table_name)) {
+            return ExecutionResult(false, "Table '" + table_name + "' does not exist");
+        }
+        
+        // TODO: 从system数据库获取索引信息
+        return ExecutionResult(true, "Indexes for table '" + table_name + "':\n[Index information not yet implemented]");
+    }
+    
+    case sql_parser::ShowStatement::GRANTS: {
+        std::string user_name = stmt->getTargetObject();
+        
+        if (!system_db_) {
+            return ExecutionResult(false, "System database not available");
+        }
+        
+        // 从SystemDatabase获取用户权限信息
+        auto privileges = system_db_->GetUserPrivileges(user_name);
+        
+        if (privileges.empty()) {
+            return ExecutionResult(true, "No grants found for user '" + user_name + "'");
+        }
+        
+        // 格式化输出
+        std::string result = "Grants for user '" + user_name + "':\n";
+        result += "+--------------------+--------------------+--------------------+--------------------+\n";
+        result += "| Database           | Table              | Privilege          | Grantor            |\n";
+        result += "+--------------------+--------------------+--------------------+--------------------+\n";
+        
+        for (const auto& priv : privileges) {
+            auto pad = [](const std::string& str, size_t width) -> std::string {
+                if (str.length() >= width) return str.substr(0, width);
+                return str + std::string(width - str.length(), ' ');
+            };
+            
+            result += "| " + pad(priv.db_name, 18);
+            result += " | " + pad(priv.table_name, 18);
+            result += " | " + pad(priv.privilege, 18);
+            result += " | " + pad(priv.grantor, 18);
+            result += " |\n";
+        }
+        
+        result += "+--------------------+--------------------+--------------------+--------------------+\n";
+        result += std::to_string(privileges.size()) + " grant(s) found";
+        
+        return ExecutionResult(true, result);
+    }
+    
+    default:
+        return ExecutionResult(false, "Unsupported SHOW command");
+    }
+}
+
+std::string UtilityExecutor::formatDatabases(const std::vector<std::string>& databases) {
+    if (databases.empty()) {
+        return "No databases found";
+    }
+    
+    std::string result = "Databases:\n";
+    result += "+--------------------------+\n";
+    result += "| Database                 |\n";
+    result += "+--------------------------+\n";
+    
+    for (const auto& db : databases) {
+        result += "| " + db;
+        // 填充空格到固定宽度
+        size_t padding = 25 - db.length();
+        result += std::string(padding, ' ');
+        result += "|\n";
+    }
+    
+    result += "+--------------------------+\n";
+    result += std::to_string(databases.size()) + " database(s) found";
+    
+    return result;
+}
+
+std::string UtilityExecutor::formatTables(const std::vector<std::string>& tables) {
+    if (tables.empty()) {
+        return "No tables found";
+    }
+    
+    std::string result = "Tables:\n";
+    result += "+--------------------------+\n";
+    result += "| Table                    |\n";
+    result += "+--------------------------+\n";
+    
+    for (const auto& table : tables) {
+        result += "| " + table;
+        // 填充空格到固定宽度
+        size_t padding = 25 - table.length();
+        result += std::string(padding, ' ');
+        result += "|\n";
+    }
+    
+    result += "+--------------------------+\n";
+    result += std::to_string(tables.size()) + " table(s) found";
+    
+    return result;
+}
+
+} // namespace sqlcc

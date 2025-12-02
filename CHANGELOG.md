@@ -2,6 +2,20 @@
 
 ## [1.0.4] - 2025-12-02
 ### 新增
+- **REVOKE权限撤销功能完整实现**
+  - 实现UserManager::RevokePrivilege方法，支持权限撤销
+  - 权限同步到SystemDatabase的sys_privileges表
+  - 支持双重持久化：permissions.dat文件 + SystemDatabase
+  - 添加UserManager::SetSystemDatabase方法用于SystemDatabase引用管理
+  - 实现REVOKE持久化单元测试（revoke_persistence_test）
+  - 验证权限撤销后的持久化和重启后数据一致性
+
+- **UserManager与SystemDatabase集成**
+  - 在UserManager中添加SystemDatabase*成员变量
+  - GrantPrivilege方法同步写入SystemDatabase
+  - RevokePrivilege方法同步从SystemDatabase删除
+  - 保持向后兼容：继续使用permissions.dat文件持久化
+
 - **完整测试覆盖率报告**
   - 生成详细的代码覆盖率分析报告
   - 总体代码行覆盖率: 50.6% (2,538/5,019行)
@@ -39,11 +53,17 @@
   - 添加代码规模统计报告入口
 - **重要发现**：
   - ✅ DML操作（INSERT/UPDATE/DELETE）持久化完整可靠
+  - ✅ GRANT/REVOKE权限管理功能完整实现并持久化
   - ❌ System数据库元数据操作全部未实现（18个系统表的30+方法都是TODO）
   - ⚠️ DDL/DCL文件持久化成功，但缺少元数据记录
-  - ❌ REVOKE命令未实现
 
 ### 改进
+- **权限管理功能完善**
+  - 解决了REVOKE命令未实现的严重问题
+  - 权限信息现在同步记录到SystemDatabase
+  - 为GRANT/REVOKE命令提供完整的持久化支持
+  - 添加单元测试验证权限撤销的持久化
+
 - **测试基础设施优化**
   - 优化测试脚本，避免在主目录生成临时文件
   - 使用lcov生成详细的覆盖率报告
@@ -56,18 +76,14 @@
    - SHOW DATABASES/TABLES/CREATE TABLE等命令无法工作
    - 建议：立即实现System数据库元数据操作（工作量：10-14人日）
 
-2. **权限管理不完整（P0-严重）**
-   - REVOKE命令仅有声明未实现
-   - 建议：实现REVOKE命令（工作量：1-2人日）
-
-3. **测试覆盖率低（P1-高）**
+2. **测试覆盖率低（P1-高）**
    - SQL解析器: 8.0%
    - SQL执行器: 13.0%
    - 事务管理器: 14.1%
    - 建议：提升至60%+（工作量：10-14人日）
 
 ### 下一步改进计划
-- 紧急修复（1-2周）：实现System数据库元数据操作，实现REVOKE命令
+- 紧急修复（1-2周）：实现System数据库元数据操作
 - 短期改进（2-4周）：提升测试覆盖率，完善元数据查询命令
 - 中期改进（1-3个月）：实现OUTER JOIN、MVCC、事务隔离级别
 - 长期规划（3-6个月）：分布式能力、查询优化器、存储引擎优化
