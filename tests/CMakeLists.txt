@@ -423,8 +423,6 @@ target_link_libraries(compare_values_test
 
 add_test(NAME compare_values_test COMMAND compare_values_test)
 
-# ... existing code ...
-
 # 创建 simple_test可执行文件
 add_executable(simple_test unit/simple_test.cpp)
 
@@ -620,6 +618,24 @@ add_test(NAME sql_executor_minimal_test COMMAND sql_executor_minimal_test)
 add_test(NAME sql_executor_targeted_test COMMAND sql_executor_targeted_test)
 add_test(NAME sql_executor_unit_test COMMAND sql_executor_unit_test)
 add_test(NAME test_sql_executor COMMAND test_sql_executor)
+add_test(NAME permission_check_test COMMAND permission_check_test)
+
+# 创建权限检查测试可执行文件
+add_executable(permission_check_test unit/permission_check_test.cpp)
+
+target_link_libraries(permission_check_test
+    PRIVATE
+    gtest
+    gtest_main
+    pthread
+    ${CMAKE_DL_LIBS}
+    sqlcc_core_lib
+    sqlcc_parser
+    sqlcc_config_manager
+    sqlcc_storage_engine
+    sqlcc_transaction_manager
+    # 不链接sqlcc_executor以避免链接错误
+)
 
 # 添加客户机-服务器测试
 # 创建客户机-服务器集成测试可执行文件
