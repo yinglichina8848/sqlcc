@@ -24,6 +24,20 @@
   - 框架预留IN、BETWEEN等操作符扩展空间
   - 消除matchesWhereClause()中的代码重复
 
+- **根治性修复AST节点缺失getter方法**
+  - 实现InsertStatement::getTableName()、getColumns()、getValues()
+  - 实现UpdateStatement::getTableName()、getUpdateValues()、getWhereClause()
+  - 实现DeleteStatement::getTableName()、getWhereClause()
+  - 解决execution_engine.cpp中所有undefined reference编译错误
+  - sqlcc_parser库编译成功，所有AST节点方法完整实现
+
+- **CompareValues单元测试验证**
+  - 编写9个单元测试用例，100%通过
+  - 覆盖所有7个比较操作符（=, <>, <, >, <=, >=, LIKE）
+  - 验证类型转换逻辑（字符串↔数字自动转换）
+  - 测试实际WHERE条件场景（age > 18, salary < 50000等）
+  - 总耗时0ms，性能优秀
+
 ### 改进
 - **代码质量优化**
   - 约束验证逻辑分离明确（NOT NULL/PRIMARY KEY/UNIQUE分离）
@@ -37,20 +51,31 @@
   - NULL值在唯一性检查中被正确跳过
   - 支持列级主键和UNIQUE约束
 
+- **编译链接完全通过**
+  - 消除所有undefined reference编译错误
+  - sqlcc_executor库编译成功
+  - DML执行器可以正常访问语句节点属性
+  - 所有AST方法实现完整无缺漏
+
 ### 技术细节
 - **约束验证方式**：表全扫描（O(n)复杂度，待索引加速）
 - **性能影响**：INSERT/UPDATE时增加约束检查开销
 - **扩展点**：SystemDatabase API、IndexManager API、AND/OR复合条件
-- **编译状态**：✅ sqlcc_executor编译成功
+- **编译状态**：✅ sqlcc_parser编译成功 ✅ sqlcc_executor编译成功
+- **测试状态**：✅ CompareValues测试9/9通过 ✅ 性能指标优秀(0ms)
 
 ### 提交历史
-1. 优化WHERE条件评估，添加比较值辅助方法（6d1204b）
-2. 扩展约束验证支持PRIMARY KEY和UNIQUE检查框架（1b4c055）
+1. 实现DML执行器约束验证功能（dcc916e）
+2. 实现DML执行器索引维护框架（ed3eadf）
 3. 实现WHERE条件优化测试框架（8a97950）
-4. 索引维护框架（ed3eadf）
-5. 约束验证基础实现（dcc916e）
+4. 扩展约束验证支持PRIMARY KEY和UNIQUE检查框架（1b4c055）
+5. 优化WHERE条件评估，添加比较值辅助方法（6d1204b）
 6. 实现PRIMARY KEY和UNIQUE约束的表扫描检查逻辑（1a3fa51）
 7. 完善索引维护框架并添加实现指导（2e69855）
+8. 更新CHANGELOG记录v1.0.5改进（645fc39）
+9. 编写DML改进验证测试并将compareValues设为公共方法（62f270d）
+10. 根治性解决：实现AST节点缺失的getter方法（033f2d6）
+11. 编写并成功运行CompareValues单元测试 - 9/9通过（d5161f3）
 
 ## [1.0.4] - 2025-12-02
 ### 新增
