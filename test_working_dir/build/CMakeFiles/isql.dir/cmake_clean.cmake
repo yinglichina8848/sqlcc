@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/isql.dir/src/isql_main.cpp.o"
-  "CMakeFiles/isql.dir/src/isql_main.cpp.o.d"
+  "CMakeFiles/isql.dir/src/bin/isql_main.cpp.o"
+  "CMakeFiles/isql.dir/src/bin/isql_main.cpp.o.d"
   "bin/isql"
   "bin/isql.pdb"
 )

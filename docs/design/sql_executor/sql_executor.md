@@ -34,6 +34,7 @@ private:
     std::string ExecuteUse(const sql_parser::UseStatement &use_stmt);
     std::string ExecuteCreateIndex(const sql_parser::CreateIndexStatement &create_index_stmt);
     std::string ExecuteDropIndex(const sql_parser::DropIndexStatement &drop_index_stmt);
+    std::string ExecuteDCL(const sql_parser::Statement* stmt); // 新增DCL语句执行方法
     
     void SetError(const std::string &error);
     bool CreateTable(const std::string &table_name, 
@@ -75,6 +76,7 @@ private:
 
 private:
     std::shared_ptr<StorageEngine> storage_engine_;
+    std::shared_ptr<SystemDatabase> system_database_; // 系统数据库管理器
     std::string last_error_;
     std::string current_database_;
     std::unordered_map<std::string, TableMetadata> table_catalog_;
@@ -93,16 +95,18 @@ private:
 默认构造函数：
 
 1. 初始化存储引擎为空指针
-2. 初始化当前数据库为"default"
-3. 初始化其他成员变量
+2. 初始化系统数据库管理器
+3. 初始化当前数据库为"default"
+4. 初始化其他成员变量
 
 ### SqlExecutor(StorageEngine &storage_engine)
 
 带参数的构造函数：
 
 1. 初始化存储引擎引用
-2. 初始化当前数据库为"default"
-3. 初始化其他成员变量
+2. 初始化系统数据库管理器
+3. 初始化当前数据库为"default"
+4. 初始化其他成员变量
 
 ## 析构函数
 
@@ -199,252 +203,38 @@ private:
 2. 验证约束
 3. 执行更新操作
 
-### std::string ExecuteDelete(const sql_parser::DeleteStatement &delete_stmt)
+### std::string ExecuteDCL(const sql_parser::Statement* stmt)
 
-执行DELETE语句：
+执行DCL（数据控制语言）语句：
 
-1. 解析删除条件
-2. 验证约束
-3. 执行删除操作
+1. 检查用户权限
+2. 根据具体语句类型分发到相应的处理函数
+3. 调用SystemDatabase执行真实的用户和权限管理操作
+4. 返回执行结果
 
-### std::string ExecuteCreate(const sql_parser::CreateStatement &create_stmt)
+支持的DCL语句包括：
+- CREATE USER - 创建用户
+- DROP USER - 删除用户
+- GRANT - 授予权限
+- REVOKE - 撤销权限
 
-执行CREATE语句：
+## 系统数据库集成
 
-1. 解析创建对象类型和定义
-2. 执行创建操作
+### SystemDatabase集成
 
-### std::string ExecuteDrop(const sql_parser::DropStatement &drop_stmt)
+SqlExecutor集成了SystemDatabase管理器，用于执行真实的元数据操作：
 
-执行DROP语句：
+1. 在初始化时创建SystemDatabase实例
+2. 所有的DDL/DCL操作都会通过SystemDatabase执行
+3. SystemDatabase提供了所有元数据的持久化存储
+4. 通过SystemDatabase可以查询用户、表、列等各种元数据信息
 
-1. 解析删除对象类型和名称
-2. 执行删除操作
+### 元数据管理
 
-### std::string ExecuteAlter(const sql_parser::AlterStatement &alter_stmt)
+所有的元数据操作都通过SystemDatabase进行：
 
-执行ALTER语句：
+1. 表元数据：表结构、列信息、索引信息等
+2. 用户元数据：用户信息、角色信息、权限信息等
+3. 数据库元数据：数据库信息、视图信息等
 
-1. 解析修改对象类型和定义
-2. 执行修改操作
-
-### std::string ExecuteUse(const sql_parser::UseStatement &use_stmt)
-
-执行USE语句：
-
-1. 切换当前数据库
-
-### std::string ExecuteCreateIndex(const sql_parser::CreateIndexStatement &create_index_stmt)
-
-执行CREATE INDEX语句：
-
-1. 解析索引定义
-2. 执行索引创建操作
-
-### std::string ExecuteDropIndex(const sql_parser::DropIndexStatement &drop_index_stmt)
-
-执行DROP INDEX语句：
-
-1. 解析索引名称
-2. 执行索引删除操作
-
-## 错误处理方法
-
-### void SetError(const std::string &error)
-
-设置错误信息：
-
-1. 设置last_error_成员变量
-
-## 数据操作方法
-
-### bool CreateTable(const std::string &table_name, const std::vector<sql_parser::ColumnDefinition> &columns, const std::vector<sql_parser::TableConstraint> &constraints)
-
-创建表：
-
-1. 验证表名和定义
-2. 创建表结构
-3. 注册表元数据
-
-### bool DropTable(const std::string &table_name)
-
-删除表：
-
-1. 验证表是否存在
-2. 删除表数据和结构
-3. 清理元数据
-
-### const TableMetadata *GetTableMetadata(const std::string &table_name) const
-
-获取表元数据：
-
-1. 在表目录中查找表元数据
-
-### bool InsertRecord(const std::string &table_name, const Record &record, uint64_t &rid)
-
-插入记录：
-
-1. 验证记录格式
-2. 调用存储引擎插入记录
-3. 返回记录ID
-
-### bool UpdateRecord(const std::string &table_name, uint64_t rid, const Record &new_record)
-
-更新记录：
-
-1. 验证记录格式
-2. 调用存储引擎更新记录
-
-### bool DeleteRecord(const std::string &table_name, uint64_t rid)
-
-删除记录：
-
-1. 调用存储引擎删除记录
-
-### Record GetRecord(const std::string &table_name, uint64_t rid) const
-
-获取记录：
-
-1. 调用存储引擎获取记录
-
-### std::vector<Record> GetAllRecords(const std::string &table_name) const
-
-获取所有记录：
-
-1. 调用存储引擎获取表中所有记录
-
-### std::vector<Record> QueryRecords(const std::string &table_name, const WhereCondition &condition) const
-
-查询记录：
-
-1. 根据条件查询记录
-2. 返回匹配的记录列表
-
-## 约束验证方法
-
-### bool ValidateInsertConstraints(const std::string &table_name, const std::vector<std::string> &record, const std::vector<sql_parser::ColumnDefinition> &table_schema)
-
-验证插入约束：
-
-1. 验证新记录是否满足表约束
-
-### bool ValidateUpdateConstraints(const std::string &table_name, const std::vector<std::string> &old_record, const std::vector<std::string> &new_record, const std::vector<sql_parser::ColumnDefinition> &table_schema)
-
-验证更新约束：
-
-1. 验证更新后的记录是否满足表约束
-
-### bool ValidateDeleteConstraints(const std::string &table_name, const std::vector<std::string> &record, const std::vector<sql_parser::ColumnDefinition> &table_schema)
-
-验证删除约束：
-
-1. 验证删除操作是否满足约束要求
-
-### bool ValidateConstraintDefinition(const sql_parser::TableConstraint &constraint, const std::vector<sql_parser::ColumnDefinition> &columns) const
-
-验证约束定义：
-
-1. 验证约束定义是否有效
-
-### void CreateTableConstraints(const std::string &table_name, const std::vector<sql_parser::TableConstraint> &constraints)
-
-创建表约束：
-
-1. 为表创建约束执行器
-
-## 辅助方法
-
-### std::vector<sql_parser::ColumnDefinition> GetTableSchema(const std::string &table_name) const
-
-获取表架构：
-
-1. 返回表的列定义列表
-
-### std::string FormatQueryResults(const std::vector<Record> &results, const std::vector<size_t> &column_indices, const TableMetadata &meta) const
-
-格式化查询结果：
-
-1. 将查询结果格式化为表格形式
-
-### std::string FormatTableSchema(const TableMetadata &meta) const
-
-格式化表结构：
-
-1. 将表结构信息格式化为可读形式
-
-### std::string FormatTableList(const std::vector<std::string> &tables) const
-
-格式化表列表：
-
-1. 将表列表格式化为表格形式
-
-### std::string NormalizeTableName(const std::string &name) const
-
-表名标准化：
-
-1. 将表名转换为小写
-
-### std::vector<WhereCondition> ParseWhereClause(const sql_parser::WhereClause &where_clause) const
-
-解析WHERE子句：
-
-1. 将WHERE子句解析为条件列表
-
-## 成员变量
-
-### std::shared_ptr<StorageEngine> storage_engine_
-
-存储引擎智能指针：
-
-1. 指向存储引擎实例
-2. 用于执行实际的数据操作
-
-### std::string last_error_
-
-最后一次错误信息：
-
-1. 存储最近一次执行的错误信息
-
-### std::string current_database_
-
-当前选中的数据库名称：
-
-1. 存储当前操作的数据库名称
-
-### std::unordered_map<std::string, TableMetadata> table_catalog_
-
-表元数据管理器：
-
-1. 存储所有表的元数据信息
-
-### std::unique_ptr<Record> record_manager_
-
-记录管理器：
-
-1. 负责记录的CRUD操作（预留）
-
-### IndexManager* index_executor_
-
-索引执行器：
-
-1. 管理表的索引操作
-2. 从StorageEngine获取，使用原始指针避免类型不完整问题
-
-### std::unique_ptr<TransactionManager> transaction_manager_
-
-事务管理器：
-
-1. 处理事务ACID保证（预留）
-
-### std::unordered_map<std::string, std::vector<std::unique_ptr<ConstraintExecutor>>> table_constraints_
-
-表约束管理器：
-
-1. 存储每个表的约束执行器列表
-2. 键：表名（小写），值：约束执行器列表
-
-### std::mutex execution_mutex_
-
-并发控制锁：
-
-1. 保护执行过程中的并发访问
+这种方式确保了元数据的一致性和持久化。

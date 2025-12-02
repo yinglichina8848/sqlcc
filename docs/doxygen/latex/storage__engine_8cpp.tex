@@ -1,10 +1,5 @@
 \doxysection{storage\+\_\+engine.\+cpp 文件参考}
 \hypertarget{storage__engine_8cpp}{}\label{storage__engine_8cpp}\index{storage\_engine.cpp@{storage\_engine.cpp}}
-
-
-存储引擎核心实现  
-
-
 {\ttfamily \#include "{}storage\+\_\+engine.\+h"{}}\newline
 {\ttfamily \#include "{}../include/sql\+\_\+executor.\+h"{}}\newline
 {\ttfamily \#include "{}logger.\+h"{}}\newline
@@ -22,51 +17,3 @@ storage\+\_\+engine.\+cpp 的引用(Include)关系图\+:
 \item 
 namespace \mbox{\hyperlink{namespacesqlcc}{sqlcc}}
 \end{DoxyCompactItemize}
-
-
-\doxysubsection{详细描述}
-存储引擎核心实现 
-
-实现了\+SQLCC数据库的存储引擎，负责管理磁盘\+I/\+O、缓冲池和页面管理等核心功能 \begin{DoxyAuthor}{作者}
-SQLCC项目组 
-\end{DoxyAuthor}
-\begin{DoxyDate}{日期}
-2024-\/11-\/28 
-\end{DoxyDate}
-\begin{DoxyVersion}{版本}
-0.\+6.\+0
-\end{DoxyVersion}
-\begin{DoxyParagraph}{版权信息}
-版权所有 (c) 2024 SQLCC 项目组
-\end{DoxyParagraph}
-\begin{DoxyParagraph}{相关文件}
-
-\end{DoxyParagraph}
-\begin{DoxySeeAlso}{参见}
-storage\+\_\+engine.\+h -\/ 存储引擎接口定义 
-
-disk\+\_\+manager.\+h -\/ 磁盘管理器接口定义 
-
-buffer\+\_\+pool.\+h -\/ 缓冲池管理器接口定义 
-
-config\+\_\+manager.\+h -\/ 配置管理器接口定义
-\end{DoxySeeAlso}
-\begin{DoxyParagraph}{数据库原理知识点}
-
-\begin{DoxyItemize}
-\item 存储引擎：实现了数据库的存储层，负责数据的持久化存储
-\item 磁盘\+I/\+O管理：通过磁盘管理器实现高效的磁盘读写操作
-\item 缓冲池管理：通过缓冲池提高数据库性能，减少磁盘\+I/\+O次数
-\item 页面管理：实现了页面的创建、获取、更新、删除等操作
-\item 事务支持：支持事务的\+ACID特性，确保数据的一致性和持久性
-\end{DoxyItemize}
-\end{DoxyParagraph}
-\begin{DoxyParagraph}{设计模式}
-
-\begin{DoxyItemize}
-\item 单例模式：存储引擎在系统中通常是单例存在
-\item 组合模式：存储引擎组合了磁盘管理器和缓冲池管理器
-\item 策略模式：支持不同的缓冲池替换策略
-\item 观察者模式：支持配置变更的通知机制 
-\end{DoxyItemize}
-\end{DoxyParagraph}

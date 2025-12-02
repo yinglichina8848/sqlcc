@@ -8,8 +8,8 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/home/liying/sqlcc/src/transaction_manager/transaction_manager.cpp" "src/CMakeFiles/sqlcc_transaction_manager.dir/transaction_manager/transaction_manager.cpp.o" "gcc" "src/CMakeFiles/sqlcc_transaction_manager.dir/transaction_manager/transaction_manager.cpp.o.d"
-  "/home/liying/sqlcc/src/transaction_manager/wal_manager.cpp" "src/CMakeFiles/sqlcc_transaction_manager.dir/transaction_manager/wal_manager.cpp.o" "gcc" "src/CMakeFiles/sqlcc_transaction_manager.dir/transaction_manager/wal_manager.cpp.o.d"
+  "/home/liying/sqlcc_qoder/src/transaction_manager/transaction_manager.cpp" "src/CMakeFiles/sqlcc_transaction_manager.dir/transaction_manager/transaction_manager.cpp.o" "gcc" "src/CMakeFiles/sqlcc_transaction_manager.dir/transaction_manager/transaction_manager.cpp.o.d"
+  "/home/liying/sqlcc_qoder/src/transaction_manager/wal_manager.cpp" "src/CMakeFiles/sqlcc_transaction_manager.dir/transaction_manager/wal_manager.cpp.o" "gcc" "src/CMakeFiles/sqlcc_transaction_manager.dir/transaction_manager/wal_manager.cpp.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

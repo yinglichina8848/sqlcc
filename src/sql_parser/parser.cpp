@@ -1,355 +1,1174 @@
-#include "sql_parser/parser.h"
-#include "../include/sql_parser/ast_node.h"
-#include "../include/sql_parser/ast_nodes.h"
-#include "../include/sql_parser/lexer.h"
-#include "../include/sql_parser/token.h"
-#include <iostream>
+#include "../../include/sql_parser/parser.h"
 #include <memory>
 #include <stdexcept>
+#include <iostream>
+#include <algorithm>
+#include <cctype>
 
 namespace sqlcc {
 namespace sql_parser {
 
-Parser::Parser()
-    : lexer_(nullptr), ownsLexer_(false),
-      currentToken_(Token::END_OF_INPUT, "", 0, 0) {}
-
-Parser::Parser(Lexer &lexer)
-    : lexer_(&lexer), ownsLexer_(false),
-      currentToken_(Token::END_OF_INPUT, "", 0, 0) {
-  // 初始化时获取第一个token
-  currentToken_ = lexer_->nextToken();
+Parser::Parser(const std::string& input) : lexer_(input) {
+    nextToken();
 }
 
-Parser::Parser(const std::string &sql)
-    : ownsLexer_(true), currentToken_(Token::END_OF_INPUT, "", 0, 0) {
-  // 创建新的lexer对象
-  lexer_ = new Lexer(sql);
-  // 初始化时获取第一个token
-  currentToken_ = lexer_->nextToken();
+void Parser::nextToken() {
+    currentToken_ = lexer_.nextToken();
 }
 
-Parser::~Parser() {
-  // 如果拥有lexer对象，则释放它
-  if (ownsLexer_ && lexer_) {
-    delete lexer_;
-    lexer_ = nullptr;
-  }
+bool Parser::match(Token::Type type) {
+    return currentToken_.getType() == type;
 }
 
-bool Parser::match(Token::Type expectedType) {
-  // 比较当前token的类型
-  return currentToken_.getType() == expectedType;
-}
-
-void Parser::reportError(const std::string &message) {
-  throw std::runtime_error(message);
+void Parser::consume(Token::Type type) {
+    if (currentToken_.getType() == type) {
+        nextToken();
+    } else {
+        std::string expected = Token::getTypeName(type);
+        std::string actual = Token::getTypeName(currentToken_.getType());
+        throw std::runtime_error("Expected token '" + expected + "', but found '" + actual + "'");
+    }
 }
 
 void Parser::consume() {
-  // 消费当前token，获取下一个token
-  if (lexer_) {
-    currentToken_ = lexer_->nextToken();
-  }
+    nextToken();
+}
+
+void Parser::expect(Token::Type type, const std::string& errorMessage) {
+    if (!match(type)) {
+        throw std::runtime_error(errorMessage);
+    }
+    consume();
+}
+
+void Parser::reportError(const std::string& message) {
+    throw std::runtime_error("Parse error at line " + std::to_string(currentToken_.getLine()) + 
+                            ", column " + std::to_string(currentToken_.getColumn()) + ": " + message);
 }
 
 std::vector<std::unique_ptr<Statement>> Parser::parseStatements() {
-  std::vector<std::unique_ptr<Statement>> statements;
-
-  // 确保初始token已加载
-  if (currentToken_.getType() == Token::END_OF_INPUT && lexer_) {
-    consume();
-  }
-
-  // 循环解析语句，直到遇到文件结束符
-  while (currentToken_.getType() != Token::END_OF_INPUT) {
-    try {
-      // 尝试解析单个完整的语句（包括分号）
-      auto stmt = parseStatement();
-      if (stmt) {
-        // 检查是否有分号结束符，如果有则消费它
-        if (currentToken_.getType() == Token::SEMICOLON) {
-          consume();
+    std::vector<std::unique_ptr<Statement>> statements;
+    
+    while (!match(Token::END_OF_INPUT)) {
+        if (match(Token::SEMICOLON)) {
+            consume(); // 跳过分号
+            continue;
         }
-        statements.push_back(std::move(stmt));
-      }
-    } catch (const std::exception &e) {
-      // 如果解析出错，尝试跳过当前语句（消费到分号或结束符）
-      // 这是简单的错误恢复机制
-      while (currentToken_.getType() != Token::END_OF_INPUT &&
-             currentToken_.getType() != Token::SEMICOLON) {
-        consume();
-      }
-      // 消费分号
-      if (currentToken_.getType() == Token::SEMICOLON) {
-        consume();
-      }
+        
+        std::unique_ptr<Statement> stmt = parseStatement();
+        if (stmt) {
+            statements.push_back(std::move(stmt));
+        }
+        
+        // 跳过分号（如果存在）
+        if (match(Token::SEMICOLON)) {
+            consume();
+        }
     }
-  }
-
-  return statements;
-}
-
-std::unique_ptr<Statement> Parser::parseSingleStatement() {
-  // 解析单个SQL语句
-  auto stmt = parseStatement();
-
-  // 期望语句以分号结束
-  if (stmt && currentToken_.getType() == Token::SEMICOLON) {
-    consume(); // 消费分号
-  }
-
-  return stmt;
+    
+    return statements;
 }
 
 std::unique_ptr<Statement> Parser::parseStatement() {
-  // 移除try-catch块，让错误能够正常传播以便调试
-  if (!lexer_) {
-    return nullptr;
-  }
-
-  if (currentToken_.getType() == Token::END_OF_INPUT) {
-    return nullptr;
-  }
-
-  // 简化实现，只识别基本的SELECT语句
-  std::string lexeme = currentToken_.getLexeme();
-  if (lexeme == "SELECT") {
-    consume();
-    // 创建一个临时SelectStatement子类来避免构造函数参数问题
-    class TempSelectStatement : public Statement {
-    public:
-      Type getType() const override { return Statement::SELECT; }
-      void accept(NodeVisitor &visitor) override {
-        // 不调用visitor以避免类型不匹配错误
-        (void)visitor; // 显式忽略未使用的参数
-      }
-    };
-    return std::make_unique<TempSelectStatement>();
-  }
-
-  // 对于其他类型的语句，使用对应的子类
-  if (lexeme == "INSERT") {
-    consume();
-    // 创建一个临时InsertStatement子类来避免构造函数参数问题
-    class TempInsertStatement : public Statement {
-    public:
-      Type getType() const override { return Statement::INSERT; }
-      void accept(NodeVisitor &visitor) override {
-        // 不调用visitor以避免类型不匹配错误
-        (void)visitor; // 显式忽略未使用的参数
-      }
-    };
-    return std::make_unique<TempInsertStatement>();
-  } else if (lexeme == "UPDATE") {
-    consume();
-    // 创建一个临时UpdateStatement子类来避免构造函数参数问题
-    class TempUpdateStatement : public Statement {
-    public:
-      Type getType() const override { return Statement::UPDATE; }
-      void accept(NodeVisitor &visitor) override {
-        // 不调用visitor以避免类型不匹配错误
-        (void)visitor; // 显式忽略未使用的参数
-      }
-    };
-    return std::make_unique<TempUpdateStatement>();
-  } else if (lexeme == "DELETE") {
-    consume();
-    // 创建一个临时DeleteStatement子类来避免构造函数参数问题
-    class TempDeleteStatement : public Statement {
-    public:
-      Type getType() const override { return Statement::DELETE; }
-      void accept(NodeVisitor &visitor) override {
-        // 不调用visitor以避免类型不匹配错误
-        (void)visitor; // 显式忽略未使用的参数
-      }
-    };
-    return std::make_unique<TempDeleteStatement>();
-  } else if (lexeme == "CREATE") {
-    consume();
-    // 创建一个临时CreateStatement子类来避免构造函数参数问题
-    class TempCreateStatement : public Statement {
-    public:
-      Type getType() const override { return Statement::CREATE; }
-      void accept(NodeVisitor &visitor) override {
-        // 不调用visitor以避免类型不匹配错误
-        (void)visitor; // 显式忽略未使用的参数
-      }
-    };
-    return std::make_unique<TempCreateStatement>();
-  } else if (lexeme == "DROP") {
-    consume();
-    // 创建一个临时DropStatement子类来避免构造函数参数问题
-    class TempDropStatement : public Statement {
-    public:
-      Type getType() const override { return Statement::DROP; }
-      void accept(NodeVisitor &visitor) override {
-        // 不调用visitor以避免类型不匹配错误
-        (void)visitor; // 显式忽略未使用的参数
-      }
-    };
-    return std::make_unique<TempDropStatement>();
-  } else if (lexeme == "ALTER") {
-    consume();
-    // 创建一个临时AlterStatement子类来避免构造函数参数问题
-    class TempAlterStatement : public Statement {
-    public:
-      Type getType() const override { return Statement::ALTER; }
-      void accept(NodeVisitor &visitor) override {
-        // 不调用visitor以避免类型不匹配错误
-        (void)visitor; // 显式忽略未使用的参数
-      }
-    };
-    return std::make_unique<TempAlterStatement>();
-  } else if (lexeme == "BEGIN") {
-    consume();
-    // 创建一个临时BeginTransactionStatement子类来避免构造函数参数问题
-    class TempBeginTransactionStatement : public Statement {
-    public:
-      Type getType() const override { return Statement::BEGIN_TRANSACTION; }
-      void accept(NodeVisitor &visitor) override {
-        // 不调用visitor以避免类型不匹配错误
-        (void)visitor; // 显式忽略未使用的参数
-      }
-    };
-    return std::make_unique<TempBeginTransactionStatement>();
-  } else if (lexeme == "COMMIT") {
-    consume();
-    // 创建一个临时CommitStatement子类来避免构造函数参数问题
-    class TempCommitStatement : public Statement {
-    public:
-      Type getType() const override { return Statement::COMMIT; }
-      void accept(NodeVisitor &visitor) override {
-        // 不调用visitor以避免类型不匹配错误
-        (void)visitor; // 显式忽略未使用的参数
-      }
-    };
-    return std::make_unique<TempCommitStatement>();
-  } else if (lexeme == "ROLLBACK") {
-    consume();
-    // 创建一个临时RollbackStatement子类来避免构造函数参数问题
-    class TempRollbackStatement : public Statement {
-    public:
-      Type getType() const override { return Statement::ROLLBACK; }
-      void accept(NodeVisitor &visitor) override {
-        // 不调用visitor以避免类型不匹配错误
-        (void)visitor; // 显式忽略未使用的参数
-      }
-    };
-    return std::make_unique<TempRollbackStatement>();
-  }
-
-  // 默认情况下消费当前token并返回OTHER类型
-  consume();
-  // 对于OTHER类型，我们创建一个临时的具体子类
-  class OtherStatement : public Statement {
-  public:
-    Type getType() const override { return Statement::OTHER; }
-    void accept(NodeVisitor &visitor) override {
-      // 由于NodeVisitor没有visit(OtherStatement&)方法，这里需要特殊处理
-      // 简单起见，我们可以选择不调用visitor
-      (void)visitor; // 显式忽略未使用的参数
+    if (match(Token::KEYWORD_CREATE)) {
+        return parseCreateStatement();
+    } else if (match(Token::KEYWORD_SELECT)) {
+        return parseSelectStatement();
+    } else if (match(Token::KEYWORD_INSERT)) {
+        return parseInsertStatement();
+    } else if (match(Token::KEYWORD_UPDATE)) {
+        return parseUpdateStatement();
+    } else if (match(Token::KEYWORD_DELETE)) {
+        return parseDeleteStatement();
+    } else if (match(Token::KEYWORD_DROP)) {
+        return parseDropStatement();
+    } else if (match(Token::KEYWORD_ALTER)) {
+        return parseAlterStatement();
+    } else if (match(Token::KEYWORD_USE)) {
+        return parseUseStatement();
+    } else if (match(Token::KEYWORD_GRANT)) {
+        return parseGrantStatement();
+    } else if (match(Token::KEYWORD_REVOKE)) {
+        return parseRevokeStatement();
+    } else if (match(Token::KEYWORD_SHOW)) {
+        return parseShowStatement();
+    } else {
+        reportError("Unexpected token: " + currentToken_.getLexeme());
+        return nullptr;
     }
-  };
-  return std::make_unique<OtherStatement>();
 }
 
-std::unique_ptr<Statement> Parser::parseRollback() {
-  consume(); // 消费ROLLBACK关键字
-  // 创建一个临时RollbackStatement子类来避免构造函数参数问题
-  class TempRollbackStatement : public Statement {
-  public:
-    Type getType() const override { return Statement::ROLLBACK; }
-    void accept(NodeVisitor &visitor) override {
-      // 不调用visitor以避免类型不匹配错误
-      (void)visitor; // 显式忽略未使用的参数
+std::unique_ptr<Statement> Parser::parseCreateStatement() {
+    consume(Token::KEYWORD_CREATE);
+    
+    // 检查UNIQUE关键字（CREATE UNIQUE INDEX）
+    bool isUnique = false;
+    if (match(Token::KEYWORD_UNIQUE)) {
+        isUnique = true;
+        consume();
+        
+        // UNIQUE后面必须是INDEX
+        if (!match(Token::KEYWORD_INDEX)) {
+            reportError("Expected INDEX after UNIQUE");
+            return nullptr;
+        }
+        
+        std::unique_ptr<CreateIndexStatement> indexStmt = parseCreateIndexStatement();
+        if (indexStmt) {
+            indexStmt->setUnique(true);
+        }
+        return std::unique_ptr<Statement>(indexStmt.release());
     }
-  };
-  return std::make_unique<TempRollbackStatement>();
+    
+    if (match(Token::KEYWORD_DATABASE)) {
+        return parseCreateDatabaseStatement();
+    } else if (match(Token::KEYWORD_TABLE)) {
+        return parseCreateTableStatement();
+    } else if (match(Token::KEYWORD_USER)) {
+        // 处理CREATE USER语句
+        return parseCreateUserStatement();
+    } else if (match(Token::KEYWORD_INDEX)) {
+        // 注意：这里需要进行类型转换
+        std::unique_ptr<CreateIndexStatement> indexStmt = parseCreateIndexStatement();
+        return std::unique_ptr<Statement>(indexStmt.release());
+    } else {
+        reportError("Expected DATABASE, TABLE, USER, or INDEX after CREATE");
+        return nullptr;
+    }
 }
 
-std::unique_ptr<Statement> Parser::parseSavepoint() {
-  consume(); // 消费SAVEPOINT关键字
-
-  // 创建一个临时Statement子类来避免构造函数问题
-  class TempSavepointStatement : public Statement {
-  public:
-    // 重写getType方法
-    Statement::Type getType() const override { return Statement::SAVEPOINT; }
-
-    // 重写accept方法
-    void accept(NodeVisitor &visitor) override {
-      (void)visitor; // 显式忽略未使用的参数
+std::unique_ptr<CreateStatement> Parser::parseCreateDatabaseStatement() {
+    consume(Token::KEYWORD_DATABASE);
+    
+    if (!match(Token::IDENTIFIER)) {
+        reportError("Expected database name");
+        return nullptr;
     }
-  };
-
-  auto stmt = std::make_unique<TempSavepointStatement>();
-
-  // 消费标识符（如果存在）
-  if (currentToken_.getType() == Token::IDENTIFIER) {
-    consume(); // 消费保存点名称
-  }
-
-  return stmt;
+    
+    std::string dbName = currentToken_.getLexeme();
+    consume();
+    
+    auto stmt = std::make_unique<CreateStatement>(CreateStatement::DATABASE, dbName);
+    
+    return stmt;
 }
 
-std::unique_ptr<Statement> Parser::parseSetTransaction() {
-  consume(); // 消费SET关键字
-  consume(); // 消费TRANSACTION关键字
-
-  // 创建一个临时Statement子类来避免构造函数问题
-  class TempSetTransactionStatement : public Statement {
-  public:
-    // 重写getType方法
-    Statement::Type getType() const override {
-      return Statement::SET_TRANSACTION;
+std::unique_ptr<CreateStatement> Parser::parseCreateTableStatement() {
+    consume(Token::KEYWORD_TABLE);
+    
+    if (!match(Token::IDENTIFIER)) {
+        reportError("Expected table name");
+        return nullptr;
     }
-
-    // 重写accept方法
-    void accept(NodeVisitor &visitor) override {
-      (void)visitor; // 显式忽略未使用的参数
-    }
-  };
-
-  auto stmt = std::make_unique<TempSetTransactionStatement>();
-  return stmt;
+    
+    std::string tableName = currentToken_.getLexeme();
+    consume();
+    
+    auto stmt = std::make_unique<CreateStatement>(CreateStatement::TABLE, tableName);
+    
+    consume(Token::LPAREN);
+    parseColumnDefinitions(*stmt);
+    consume(Token::RPAREN);
+    
+    return stmt;
 }
 
-// 由于我们已经在parseStatement中直接处理了SELECT语句，这里可以简化parseSelect方法
-std::unique_ptr<Statement> Parser::parseSelect() {
-  // 创建一个临时SelectStatement子类来避免构造函数参数问题
-  class TempSelectStatement : public Statement {
-  public:
-    Type getType() const override { return Statement::SELECT; }
-    void accept(NodeVisitor &visitor) override {
-      // 不调用visitor以避免类型不匹配错误
-      (void)visitor; // 显式忽略未使用的参数
+std::unique_ptr<CreateIndexStatement> Parser::parseCreateIndexStatement() {
+    consume(Token::KEYWORD_INDEX);
+    
+    if (!match(Token::IDENTIFIER)) {
+        reportError("Expected index name");
+        return nullptr;
     }
-  };
-  return std::make_unique<TempSelectStatement>();
+    
+    std::string indexName = currentToken_.getLexeme();
+    consume();
+    
+    expect(Token::KEYWORD_ON, "Expected ON keyword");
+    
+    if (!match(Token::IDENTIFIER)) {
+        reportError("Expected table name");
+        return nullptr;
+    }
+    
+    std::string tableName = currentToken_.getLexeme();
+    consume();
+    
+    consume(Token::LPAREN);
+    
+    // 解析第一个列名
+    if (!match(Token::IDENTIFIER)) {
+        reportError("Expected column name");
+        return nullptr;
+    }
+    
+    std::string columnName = currentToken_.getLexeme();
+    consume();
+    
+    auto stmt = std::make_unique<CreateIndexStatement>(indexName, tableName, columnName);
+    
+    // 解析额外的列名（多列索引）
+    while (match(Token::COMMA)) {
+        consume(); // 消耗逗号
+        
+        if (!match(Token::IDENTIFIER)) {
+            reportError("Expected column name after comma");
+            return nullptr;
+        }
+        
+        stmt->addColumn(currentToken_.getLexeme());
+        consume();
+    }
+    
+    consume(Token::RPAREN);
+    
+    return stmt;
 }
 
-std::unique_ptr<Statement> Parser::parseCreate() {
-  consume(); // 消费CREATE关键字
+void Parser::parseColumnDefinitions(CreateStatement& stmt) {
+    do {
+        if (!match(Token::IDENTIFIER)) {
+            reportError("Expected column name");
+            return;
+        }
+        
+        std::string columnName = currentToken_.getLexeme();
+        consume();
+        
+        std::string dataType = parseDataType();
+        
+        ColumnDefinition column(columnName, dataType);
+        
+        // 解析列约束
+        while (isColumnConstraint()) {
+            parseColumnConstraint(column);
+        }
+        
+        stmt.addColumn(std::move(column));
+        
+        // 如果下一个token不是逗号，则结束列定义
+        if (!match(Token::COMMA)) {
+            break;
+        }
+        
+        consume(); // 消费逗号
+        
+    } while (!match(Token::RPAREN));
+}
 
-  // 检查下一个token以确定CREATE的类型
-  // 因为token.h中没有TABLE和DATABASE关键字枚举，我们使用lexeme检查
-  if (currentToken_.getLexeme() == "TABLE") {
-    consume(); // 消费TABLE关键字
-  } else if (currentToken_.getLexeme() == "DATABASE") {
-    consume(); // 消费DATABASE关键字
-  }
-
-  // 创建一个临时CreateStatement子类来避免构造函数参数问题
-  class TempCreateStatement : public Statement {
-  public:
-    Type getType() const override { return Statement::CREATE; }
-    void accept(NodeVisitor &visitor) override {
-      // 不调用visitor以避免类型不匹配错误
-      (void)visitor; // 显式忽略未使用的参数
+std::string Parser::parseDataType() {
+    if (!match(Token::IDENTIFIER)) {
+        reportError("Expected data type");
+        return "";
     }
-  };
-  return std::make_unique<TempCreateStatement>();
+    
+    std::string type = currentToken_.getLexeme();
+    consume();
+    
+    // 检查是否有大小参数，如VARCHAR(255)
+    if (match(Token::LPAREN)) {
+        consume();
+        
+        if (!match(Token::NUMBER)) {
+            reportError("Expected number in data type size");
+            return type;
+        }
+        
+        std::string size = currentToken_.getLexeme();
+        consume();
+        
+        consume(Token::RPAREN);
+        
+        type += "(" + size + ")";
+    }
+    
+    return type;
+}
+
+bool Parser::isColumnConstraint() {
+    return match(Token::KEYWORD_PRIMARY) || 
+           match(Token::KEYWORD_NOT) ||
+           match(Token::KEYWORD_UNIQUE) ||
+           match(Token::KEYWORD_CHECK) ||
+           match(Token::KEYWORD_DEFAULT) ||
+           match(Token::KEYWORD_AUTO_INCREMENT) ||
+           match(Token::KEYWORD_REFERENCES);
+}
+
+void Parser::parseColumnConstraint(ColumnDefinition& columnDef) {
+    std::string lexeme = currentToken_.getLexeme();
+    
+    if (match(Token::KEYWORD_PRIMARY)) {
+        consume();
+        expect(Token::KEYWORD_KEY, "Expected KEY after PRIMARY");
+        columnDef.setIsPrimaryKey(true);
+        columnDef.setIsNullable(false);
+    } else if (match(Token::KEYWORD_NOT)) {
+        consume();
+        expect(Token::KEYWORD_NULL, "Expected NULL after NOT");
+        columnDef.setIsNullable(false);
+    } else if (match(Token::KEYWORD_NULL)) {
+        consume();
+        columnDef.setIsNullable(true);
+    } else if (match(Token::KEYWORD_UNIQUE)) {
+        consume();
+        columnDef.setIsUnique(true);
+    } else if (match(Token::KEYWORD_DEFAULT)) {
+        consume();
+        // 简化处理，只处理字符串和数字默认值
+        if (match(Token::STRING) || match(Token::NUMBER)) {
+            std::string defaultValue = currentToken_.getLexeme();
+            consume();
+            columnDef.setDefaultValue(defaultValue);
+        } else {
+            reportError("Expected default value");
+        }
+    } else if (match(Token::KEYWORD_AUTO_INCREMENT)) {
+        consume();
+        columnDef.setIsAutoIncrement(true);
+    } else {
+        reportError("Unknown column constraint: " + lexeme);
+    }
+}
+
+std::unique_ptr<SelectStatement> Parser::parseSelectStatement() {
+    consume(Token::KEYWORD_SELECT);
+    
+    auto stmt = std::make_unique<SelectStatement>();
+    
+    parseSelectList(*stmt);
+    
+    if (match(Token::KEYWORD_FROM)) {
+        parseFromClause(*stmt);
+    }
+    
+    if (match(Token::KEYWORD_WHERE)) {
+        parseWhereClause(*stmt);
+    }
+    
+    if (match(Token::KEYWORD_GROUP)) {
+        parseGroupByClause(*stmt);
+    }
+    
+    if (match(Token::KEYWORD_ORDER)) {
+        parseOrderByClause(*stmt);
+    }
+    
+    return stmt;
+}
+
+void Parser::parseSelectList(SelectStatement& stmt) {
+    if (match(Token::MULTIPLY)) {
+        stmt.setSelectAll(true);
+        consume();
+        return;
+    }
+    
+    // 支持逗号分隔的列名列表
+    do {
+        std::string columnName;
+        
+        // 处理 table.column 格式
+        if (match(Token::IDENTIFIER)) {
+            columnName = currentToken_.getLexeme();
+            consume();
+            
+            // 检查是否有点号（table.column）
+            if (match(Token::DOT)) {
+                consume(); // 消费点号
+                
+                if (!match(Token::IDENTIFIER)) {
+                    reportError("Expected column name after dot");
+                    return;
+                }
+                
+                columnName += "." + currentToken_.getLexeme();
+                consume();
+            }
+            
+            stmt.addSelectColumn(columnName);
+        } else {
+            reportError("Expected column name or *");
+            return;
+        }
+        
+        // 检查是否有更多列
+        if (!match(Token::COMMA)) {
+            break;
+        }
+        
+        consume(); // 消费逗号
+        
+    } while (match(Token::IDENTIFIER));
+}
+
+void Parser::parseFromClause(SelectStatement& stmt) {
+    consume(Token::KEYWORD_FROM);
+    
+    if (!match(Token::IDENTIFIER)) {
+        reportError("Expected table name");
+        return;
+    }
+    
+    std::string tableName = currentToken_.getLexeme();
+    consume();
+    stmt.setTableName(tableName);
+}
+
+void Parser::parseWhereClause(SelectStatement& stmt) {
+    consume(Token::KEYWORD_WHERE);
+    
+    // 简化处理，只处理简单的条件
+    if (!match(Token::IDENTIFIER)) {
+        reportError("Expected column name");
+        return;
+    }
+    
+    std::string columnName = currentToken_.getLexeme();
+    consume();
+    
+    if (!match(Token::EQUAL) && !match(Token::NOT_EQUAL) && 
+        !match(Token::LESS) && !match(Token::LESS_EQUAL) &&
+        !match(Token::GREATER) && !match(Token::GREATER_EQUAL)) {
+        reportError("Expected comparison operator");
+        return;
+    }
+    
+    std::string op = currentToken_.getLexeme();
+    consume();
+    
+    if (!match(Token::STRING) && !match(Token::NUMBER)) {
+        reportError("Expected value");
+        return;
+    }
+    
+    std::string value = currentToken_.getLexeme();
+    consume();
+    
+    WhereClause whereClause(columnName, op, value);
+    stmt.setWhereClause(whereClause);
+}
+
+void Parser::parseGroupByClause(SelectStatement& stmt) {
+    consume(Token::KEYWORD_GROUP);
+    expect(Token::KEYWORD_BY, "Expected BY after GROUP");
+    
+    if (!match(Token::IDENTIFIER)) {
+        reportError("Expected column name in GROUP BY");
+        return;
+    }
+    
+    std::string columnName = currentToken_.getLexeme();
+    consume();
+    stmt.setGroupByColumn(columnName);
+}
+
+void Parser::parseOrderByClause(SelectStatement& stmt) {
+    consume(Token::KEYWORD_ORDER);
+    expect(Token::KEYWORD_BY, "Expected BY after ORDER");
+    
+    // 支持多列排序，但只使用第一列（保持向后兼容）
+    do {
+        if (!match(Token::IDENTIFIER)) {
+            reportError("Expected column name in ORDER BY");
+            return;
+        }
+        
+        std::string columnName = currentToken_.getLexeme();
+        consume();
+        
+        // 只保存第一列的排序
+        if (stmt.getOrderByColumn().empty()) {
+            stmt.setOrderByColumn(columnName);
+            
+            // 可选的ASC/DESC
+            if (match(Token::IDENTIFIER)) {
+                std::string direction = currentToken_.getLexeme();
+                // 转换为大写
+                std::transform(direction.begin(), direction.end(), direction.begin(), ::toupper);
+                if (direction == "ASC" || direction == "DESC") {
+                    consume();
+                    stmt.setOrderDirection(direction);
+                }
+            }
+        } else {
+            // 跳过后续列的ASC/DESC
+            if (match(Token::IDENTIFIER)) {
+                std::string direction = currentToken_.getLexeme();
+                std::transform(direction.begin(), direction.end(), direction.begin(), ::toupper);
+                if (direction == "ASC" || direction == "DESC") {
+                    consume();
+                }
+            }
+        }
+        
+        // 检查是否有更多列
+        if (!match(Token::COMMA)) {
+            break;
+        }
+        
+        consume(); // 消费逗号
+        
+    } while (match(Token::IDENTIFIER));
+}
+
+std::unique_ptr<InsertStatement> Parser::parseInsertStatement() {
+    consume(Token::KEYWORD_INSERT);
+    expect(Token::KEYWORD_INTO, "Expected INTO after INSERT");
+    
+    if (!match(Token::IDENTIFIER)) {
+        reportError("Expected table name");
+        return nullptr;
+    }
+    
+    std::string tableName = currentToken_.getLexeme();
+    consume();
+    
+    auto stmt = std::make_unique<InsertStatement>(tableName);
+    
+    // 可选的列列表
+    if (match(Token::LPAREN)) {
+        parseInsertColumns(*stmt);
+    }
+    
+    expect(Token::KEYWORD_VALUES, "Expected VALUES");
+    parseInsertValues(*stmt);
+    
+    return stmt;
+}
+
+void Parser::parseInsertColumns(InsertStatement& stmt) {
+    consume(Token::LPAREN);
+    
+    do {
+        if (!match(Token::IDENTIFIER)) {
+            reportError("Expected column name");
+            return;
+        }
+        
+        std::string columnName = currentToken_.getLexeme();
+        stmt.addColumn(columnName);
+        consume();
+        
+        if (!match(Token::COMMA)) {
+            break;
+        }
+        
+        consume(); // 消费逗号
+        
+    } while (!match(Token::RPAREN));
+    
+    consume(Token::RPAREN);
+}
+
+void Parser::parseInsertValues(InsertStatement& stmt) {
+    consume(Token::LPAREN);
+    
+    do {
+        if (match(Token::STRING) || match(Token::NUMBER)) {
+            std::string value = currentToken_.getLexeme();
+            stmt.addValue(value);
+            consume();
+        } else {
+            reportError("Expected string or number literal");
+            return;
+        }
+        
+        if (!match(Token::COMMA)) {
+            break;
+        }
+        
+        consume(); // 消费逗号
+        
+    } while (!match(Token::RPAREN));
+    
+    consume(Token::RPAREN);
+}
+
+std::unique_ptr<UpdateStatement> Parser::parseUpdateStatement() {
+    consume(Token::KEYWORD_UPDATE);
+    
+    if (!match(Token::IDENTIFIER)) {
+        reportError("Expected table name");
+        return nullptr;
+    }
+    
+    std::string tableName = currentToken_.getLexeme();
+    consume();
+    
+    auto stmt = std::make_unique<UpdateStatement>(tableName);
+    
+    parseUpdateSetClause(*stmt);
+    
+    if (match(Token::KEYWORD_WHERE)) {
+        parseWhereClause(*stmt);
+    }
+    
+    return stmt;
+}
+
+void Parser::parseUpdateSetClause(UpdateStatement& stmt) {
+    expect(Token::KEYWORD_SET, "Expected SET");
+    
+    do {
+        if (!match(Token::IDENTIFIER)) {
+            reportError("Expected column name");
+            return;
+        }
+        
+        std::string columnName = currentToken_.getLexeme();
+        consume();
+        
+        expect(Token::EQUAL, "Expected =");
+        
+        if (match(Token::STRING) || match(Token::NUMBER)) {
+            std::string value = currentToken_.getLexeme();
+            stmt.addUpdateValue(columnName, value);
+            consume();
+        } else {
+            reportError("Expected value in SET clause");
+            return;
+        }
+        
+        if (!match(Token::COMMA)) {
+            break;
+        }
+        
+        consume(); // 消费逗号
+        
+    } while (!match(Token::KEYWORD_WHERE) && !match(Token::SEMICOLON) && !match(Token::END_OF_INPUT));
+}
+
+void Parser::parseWhereClause(UpdateStatement& stmt) {
+    consume(Token::KEYWORD_WHERE);
+    
+    // 简化处理，只处理简单的条件
+    if (!match(Token::IDENTIFIER)) {
+        reportError("Expected column name");
+        return;
+    }
+    
+    std::string columnName = currentToken_.getLexeme();
+    consume();
+    
+    if (!match(Token::EQUAL) && !match(Token::NOT_EQUAL) && 
+        !match(Token::LESS) && !match(Token::LESS_EQUAL) &&
+        !match(Token::GREATER) && !match(Token::GREATER_EQUAL)) {
+        reportError("Expected comparison operator");
+        return;
+    }
+    
+    std::string op = currentToken_.getLexeme();
+    consume();
+    
+    if (!match(Token::STRING) && !match(Token::NUMBER)) {
+        reportError("Expected value");
+        return;
+    }
+    
+    std::string value = currentToken_.getLexeme();
+    consume();
+    
+    WhereClause whereClause(columnName, op, value);
+    stmt.setWhereClause(whereClause);
+}
+
+std::unique_ptr<DeleteStatement> Parser::parseDeleteStatement() {
+    consume(Token::KEYWORD_DELETE);
+    expect(Token::KEYWORD_FROM, "Expected FROM after DELETE");
+    
+    if (!match(Token::IDENTIFIER)) {
+        reportError("Expected table name after DELETE FROM");
+        return nullptr;
+    }
+    
+    std::string tableName = currentToken_.getLexeme();
+    consume();
+    
+    auto stmt = std::make_unique<DeleteStatement>(tableName);
+    
+    if (match(Token::KEYWORD_WHERE)) {
+        parseWhereClause(*stmt);
+    }
+    
+    return stmt;
+}
+
+void Parser::parseWhereClause(DeleteStatement& stmt) {
+    consume(Token::KEYWORD_WHERE);
+    
+    // 简化处理，只处理简单的条件
+    if (!match(Token::IDENTIFIER)) {
+        reportError("Expected column name");
+        return;
+    }
+    
+    std::string columnName = currentToken_.getLexeme();
+    consume();
+    
+    if (!match(Token::EQUAL) && !match(Token::NOT_EQUAL) && 
+        !match(Token::LESS) && !match(Token::LESS_EQUAL) &&
+        !match(Token::GREATER) && !match(Token::GREATER_EQUAL)) {
+        reportError("Expected comparison operator");
+        return;
+    }
+    
+    std::string op = currentToken_.getLexeme();
+    consume();
+    
+    if (!match(Token::STRING) && !match(Token::NUMBER)) {
+        reportError("Expected value");
+        return;
+    }
+    
+    std::string value = currentToken_.getLexeme();
+    consume();
+    
+    WhereClause whereClause(columnName, op, value);
+    stmt.setWhereClause(whereClause);
+}
+
+std::unique_ptr<Statement> Parser::parseDropStatement() {
+    consume(Token::KEYWORD_DROP);
+    
+    if (match(Token::KEYWORD_DATABASE)) {
+        return parseDropDatabaseStatement();
+    } else if (match(Token::KEYWORD_TABLE)) {
+        return parseDropTableStatement();
+    } else if (match(Token::KEYWORD_INDEX)) {
+        return parseDropIndexStatement();
+    } else if (match(Token::KEYWORD_USER)) {
+        return parseDropUserStatement();
+    } else {
+        reportError("Expected DATABASE, TABLE, INDEX, or USER after DROP");
+        return nullptr;
+    }
+}
+
+std::unique_ptr<DropStatement> Parser::parseDropDatabaseStatement() {
+    consume(Token::KEYWORD_DATABASE);
+    
+    if (!match(Token::IDENTIFIER)) {
+        reportError("Expected database name");
+        return nullptr;
+    }
+    
+    std::string dbName = currentToken_.getLexeme();
+    consume();
+    
+    auto stmt = std::make_unique<DropStatement>(DropStatement::DATABASE, dbName);
+    
+    return stmt;
+}
+
+std::unique_ptr<DropStatement> Parser::parseDropTableStatement() {
+    consume(Token::KEYWORD_TABLE);
+    
+    if (!match(Token::IDENTIFIER)) {
+        reportError("Expected table name");
+        return nullptr;
+    }
+    
+    std::string tableName = currentToken_.getLexeme();
+    consume();
+    
+    auto stmt = std::make_unique<DropStatement>(DropStatement::TABLE, tableName);
+    
+    return stmt;
+}
+
+std::unique_ptr<DropIndexStatement> Parser::parseDropIndexStatement() {
+    consume(Token::KEYWORD_INDEX);
+    
+    // 检查IF EXISTS
+    bool ifExists = false;
+    if (match(Token::KEYWORD_IF)) {
+        consume();
+        expect(Token::KEYWORD_EXISTS, "Expected EXISTS after IF");
+        ifExists = true;
+    }
+    
+    if (!match(Token::IDENTIFIER)) {
+        reportError("Expected index name");
+        return nullptr;
+    }
+    
+    std::string indexName = currentToken_.getLexeme();
+    consume();
+    
+    auto stmt = std::make_unique<DropIndexStatement>(indexName);
+    stmt->setIfExists(ifExists);
+    
+    // 检查ON table_name
+    if (match(Token::KEYWORD_ON)) {
+        consume();
+        
+        if (!match(Token::IDENTIFIER)) {
+            reportError("Expected table name after ON");
+            return nullptr;
+        }
+        
+        stmt->setTableName(currentToken_.getLexeme());
+        consume();
+    }
+    
+    return stmt;
+}
+
+std::unique_ptr<AlterStatement> Parser::parseAlterStatement() {
+    consume(Token::KEYWORD_ALTER);
+    
+    if (match(Token::KEYWORD_DATABASE)) {
+        return parseAlterDatabaseStatement();
+    } else {
+        reportError("Unsupported ALTER statement type: " + currentToken_.getLexeme());
+        return nullptr;
+    }
+}
+
+std::unique_ptr<AlterStatement> Parser::parseAlterDatabaseStatement() {
+    consume(Token::KEYWORD_DATABASE);
+    
+    if (!match(Token::IDENTIFIER)) {
+        reportError("Expected database name");
+        return nullptr;
+    }
+    
+    std::string dbName = currentToken_.getLexeme();
+    consume();
+    
+    auto stmt = std::make_unique<AlterStatement>(AlterStatement::DATABASE, dbName);
+    
+    return stmt;
+}
+
+std::unique_ptr<UseStatement> Parser::parseUseStatement() {
+    consume(Token::KEYWORD_USE);
+    
+    if (!match(Token::IDENTIFIER)) {
+        reportError("Expected database name");
+        return nullptr;
+    }
+    
+    std::string dbName = currentToken_.getLexeme();
+    consume();
+    
+    auto stmt = std::make_unique<UseStatement>(dbName);
+    
+    return stmt;
+}
+
+// DCL语句解析方法
+std::unique_ptr<Statement> Parser::parseCreateUserStatement() {
+    consume(Token::KEYWORD_USER);
+    
+    if (!match(Token::IDENTIFIER)) {
+        reportError("Expected username");
+        return nullptr;
+    }
+    
+    std::string username = currentToken_.getLexeme();
+    consume();
+    
+    std::string password = "";
+    bool withPassword = false;
+    
+    // 支持两种语法：IDENTIFIED BY 和 WITH PASSWORD
+    if (match(Token::KEYWORD_IDENTIFIED)) {
+        consume();
+        expect(Token::KEYWORD_BY, "Expected BY keyword after IDENTIFIED");
+        
+        if (!match(Token::STRING)) {
+            reportError("Expected password string");
+            return nullptr;
+        }
+        
+        password = currentToken_.getLexeme();
+        // 移除字符串引号
+        if (password.length() >= 2 && password.front() == '\'' && password.back() == '\'') {
+            password = password.substr(1, password.length() - 2);
+        }
+        consume();
+    } else if (match(Token::KEYWORD_WITH)) {
+        consume();
+        expect(Token::KEYWORD_PASSWORD, "Expected PASSWORD keyword");
+        withPassword = true;
+        
+        if (!match(Token::STRING)) {
+            reportError("Expected password string");
+            return nullptr;
+        }
+        
+        password = currentToken_.getLexeme();
+        // 移除字符串引号
+        if (password.length() >= 2 && password.front() == '\'' && password.back() == '\'') {
+            password = password.substr(1, password.length() - 2);
+        }
+        consume();
+    }
+    
+    auto stmt = std::make_unique<CreateUserStatement>(username, password);
+    stmt->setWithPassword(withPassword);
+    
+    return stmt;
+}
+
+std::unique_ptr<Statement> Parser::parseDropUserStatement() {
+    consume(Token::KEYWORD_USER);
+    
+    bool ifExists = false;
+    if (match(Token::KEYWORD_IF)) {
+        consume();
+        expect(Token::KEYWORD_EXISTS, "Expected EXISTS after IF");
+        ifExists = true;
+    }
+    
+    if (!match(Token::IDENTIFIER)) {
+        reportError("Expected username");
+        return nullptr;
+    }
+    
+    std::string username = currentToken_.getLexeme();
+    consume();
+    
+    auto stmt = std::make_unique<DropUserStatement>(username);
+    stmt->setIfExists(ifExists);
+    
+    return stmt;
+}
+
+std::unique_ptr<Statement> Parser::parseGrantStatement() {
+    consume(Token::KEYWORD_GRANT);
+    
+    auto stmt = std::make_unique<GrantStatement>();
+    
+    // 解析权限列表
+    // 特殊处理 ALL PRIVILEGES
+    if (match(Token::IDENTIFIER) && currentToken_.getLexeme() == "ALL") {
+        consume();
+        if ((match(Token::IDENTIFIER) || match(Token::KEYWORD_PRIVILEGES)) && currentToken_.getLexeme() == "PRIVILEGES") {
+            consume();
+        }
+        stmt->addPrivilege("ALL");
+    } else {
+        do {
+            if (!(match(Token::IDENTIFIER) || currentToken_.getType() == Token::KEYWORD_SELECT || currentToken_.getType() == Token::KEYWORD_INSERT || currentToken_.getType() == Token::KEYWORD_UPDATE || currentToken_.getType() == Token::KEYWORD_DELETE)) {
+                reportError("Expected privilege");
+                return nullptr;
+            }
+            
+            std::string privilege = currentToken_.getLexeme();
+            stmt->addPrivilege(privilege);
+            consume();
+            
+            if (!match(Token::COMMA)) {
+                break;
+            }
+            
+            consume(); // 消费逗号
+        } while (true);
+    }
+    
+    expect(Token::KEYWORD_ON, "Expected ON keyword");
+    
+    // 解析对象类型
+    if (!(match(Token::IDENTIFIER) || match(Token::KEYWORD_TABLE) || match(Token::KEYWORD_DATABASE))) {
+        reportError("Expected object type");
+        return nullptr;
+    }
+    
+    std::string objectType = currentToken_.getLexeme();
+    // 转换为大写
+    std::transform(objectType.begin(), objectType.end(), objectType.begin(), ::toupper);
+    stmt->setObjectType(objectType);
+    consume();
+    
+    // 解析对象名称
+    if (!match(Token::IDENTIFIER)) {
+        reportError("Expected object name");
+        return nullptr;
+    }
+    
+    std::string objectName = currentToken_.getLexeme();
+    stmt->setObjectName(objectName);
+    consume();
+    
+    expect(Token::KEYWORD_TO, "Expected TO keyword");
+    
+    // 解析被授权者
+    if (!match(Token::IDENTIFIER)) {
+        reportError("Expected grantee");
+        return nullptr;
+    }
+    
+    std::string grantee = currentToken_.getLexeme();
+    stmt->setGrantee(grantee);
+    consume();
+    
+    return stmt;
+}
+
+std::unique_ptr<Statement> Parser::parseRevokeStatement() {
+    consume(Token::KEYWORD_REVOKE);
+    
+    auto stmt = std::make_unique<RevokeStatement>();
+    
+    // 解析权限列表
+    // 特殊处理 ALL PRIVILEGES
+    if (match(Token::IDENTIFIER) && currentToken_.getLexeme() == "ALL") {
+        consume();
+        if ((match(Token::IDENTIFIER) || match(Token::KEYWORD_PRIVILEGES)) && currentToken_.getLexeme() == "PRIVILEGES") {
+            consume();
+        }
+        stmt->addPrivilege("ALL");
+    } else {
+        do {
+            if (!(match(Token::IDENTIFIER) || currentToken_.getType() == Token::KEYWORD_SELECT || currentToken_.getType() == Token::KEYWORD_INSERT || currentToken_.getType() == Token::KEYWORD_UPDATE || currentToken_.getType() == Token::KEYWORD_DELETE)) {
+                reportError("Expected privilege");
+                return nullptr;
+            }
+            
+            std::string privilege = currentToken_.getLexeme();
+            stmt->addPrivilege(privilege);
+            consume();
+            
+            if (!match(Token::COMMA)) {
+                break;
+            }
+            
+            consume(); // 消费逗号
+        } while (true);
+    }
+    
+    expect(Token::KEYWORD_ON, "Expected ON keyword");
+    
+    // 解析对象类型
+    if (!(match(Token::IDENTIFIER) || match(Token::KEYWORD_TABLE) || match(Token::KEYWORD_DATABASE))) {
+        reportError("Expected object type");
+        return nullptr;
+    }
+    
+    std::string objectType = currentToken_.getLexeme();
+    // 转换为大写
+    std::transform(objectType.begin(), objectType.end(), objectType.begin(), ::toupper);
+    stmt->setObjectType(objectType);
+    consume();
+    
+    // 解析对象名称
+    if (!match(Token::IDENTIFIER)) {
+        reportError("Expected object name");
+        return nullptr;
+    }
+    
+    std::string objectName = currentToken_.getLexeme();
+    stmt->setObjectName(objectName);
+    consume();
+    
+    expect(Token::KEYWORD_FROM, "Expected FROM keyword");
+    
+    // 解析被撤销权限者
+    if (!match(Token::IDENTIFIER)) {
+        reportError("Expected revokee");
+        return nullptr;
+    }
+    
+    std::string grantee = currentToken_.getLexeme();
+    stmt->setGrantee(grantee);
+    consume();
+    
+    return stmt;
+}
+
+std::unique_ptr<Statement> Parser::parseShowStatement() {
+    consume(Token::KEYWORD_SHOW);
+    
+    // 判断SHOW的类型
+    if (match(Token::KEYWORD_DATABASES)) {
+        consume();
+        auto stmt = std::make_unique<ShowStatement>(ShowStatement::DATABASES);
+        return stmt;
+    } 
+    else if (match(Token::KEYWORD_TABLES)) {
+        consume();
+        auto stmt = std::make_unique<ShowStatement>(ShowStatement::TABLES);
+        
+        // 检查是否有FROM子句：SHOW TABLES [FROM db]
+        if (match(Token::KEYWORD_FROM)) {
+            consume();
+            if (!match(Token::IDENTIFIER)) {
+                reportError("Expected database name after FROM");
+                return nullptr;
+            }
+            stmt->setFromDatabase(currentToken_.getLexeme());
+            consume();
+        }
+        
+        return stmt;
+    }
+    else if (match(Token::KEYWORD_CREATE)) {
+        consume();
+        expect(Token::KEYWORD_TABLE, "Expected TABLE after CREATE");
+        
+        if (!match(Token::IDENTIFIER)) {
+            reportError("Expected table name");
+            return nullptr;
+        }
+        
+        auto stmt = std::make_unique<ShowStatement>(ShowStatement::CREATE_TABLE);
+        stmt->setTargetObject(currentToken_.getLexeme());
+        consume();
+        
+        return stmt;
+    }
+    else if (match(Token::KEYWORD_COLUMNS)) {
+        consume();
+        expect(Token::KEYWORD_FROM, "Expected FROM after COLUMNS");
+        
+        if (!match(Token::IDENTIFIER)) {
+            reportError("Expected table name");
+            return nullptr;
+        }
+        
+        auto stmt = std::make_unique<ShowStatement>(ShowStatement::COLUMNS);
+        stmt->setTargetObject(currentToken_.getLexeme());
+        consume();
+        
+        return stmt;
+    }
+    else if (match(Token::KEYWORD_INDEXES)) {
+        consume();
+        expect(Token::KEYWORD_FROM, "Expected FROM after INDEXES");
+        
+        if (!match(Token::IDENTIFIER)) {
+            reportError("Expected table name");
+            return nullptr;
+        }
+        
+        auto stmt = std::make_unique<ShowStatement>(ShowStatement::INDEXES);
+        stmt->setTargetObject(currentToken_.getLexeme());
+        consume();
+        
+        return stmt;
+    }
+    else if (match(Token::KEYWORD_GRANTS)) {
+        consume();
+        expect(Token::KEYWORD_FOR, "Expected FOR after GRANTS");
+        
+        if (!match(Token::IDENTIFIER)) {
+            reportError("Expected user name");
+            return nullptr;
+        }
+        
+        auto stmt = std::make_unique<ShowStatement>(ShowStatement::GRANTS);
+        stmt->setTargetObject(currentToken_.getLexeme());
+        consume();
+        
+        return stmt;
+    }
+    else {
+        reportError("Unexpected token after SHOW: " + currentToken_.getLexeme());
+        return nullptr;
+    }
 }
 
 } // namespace sql_parser

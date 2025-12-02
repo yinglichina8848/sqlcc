@@ -1,77 +1,88 @@
-#ifndef PARSER_H
-#define PARSER_H
+#ifndef SQLCC_SQL_PARSER_PARSER_H
+#define SQLCC_SQL_PARSER_PARSER_H
 
-#include <string>
 #include <memory>
+#include <string>
 #include <vector>
-
-#include "../include/sql_parser/token.h"
-#include "../include/sql_parser/ast_nodes.h"
-#include "../include/sql_parser/ast_node.h"
-#include "../include/sql_parser/lexer.h"
+#include "token.h"
+#include "ast_nodes.h"
+#include "lexer.h"
 
 namespace sqlcc {
 namespace sql_parser {
 
-// 前向声明
-class Statement;
-class SavepointStatement;
-class SetTransactionStatement;
-
 class Parser {
 public:
-    Parser();
-    /**
-     * 构造函数，接收Lexer引用
-     * @param lexer Lexer引用，用于获取token
-     */
-    explicit Parser(Lexer& lexer);
-    
-    /**
-     * 构造函数，接收SQL字符串
-     * @param sql SQL字符串
-     */
-    Parser(const std::string& sql);
-    
-    /**
-     * 析构函数
-     */
-    ~Parser();
-    
-    bool match(Token::Type expectedType);
-    void reportError(const std::string& message);
+    Parser(const std::string& input);
+    ~Parser() = default;
     
     std::vector<std::unique_ptr<Statement>> parseStatements();
-    std::unique_ptr<Statement> parseSingleStatement();
-    std::unique_ptr<Statement> parseStatement();
-    
-    std::unique_ptr<Statement> parseRollback();
-    std::unique_ptr<Statement> parseSavepoint();
-    std::unique_ptr<Statement> parseSetTransaction();
-    
-    std::unique_ptr<Statement> parseCreate();
-    std::unique_ptr<Statement> parseSelect();
     
 private:
-    // Lexer指针
-    Lexer* lexer_;
-    
-    // 是否拥有lexer对象
-    bool ownsLexer_;
-    
-    // 当前token
+    Lexer lexer_;
     Token currentToken_;
     
-    // 严格模式标志
-    bool strictMode_ = false;
-    
-    // 错误消息
-    std::string errorMessage_;
-    
+    // 通用解析方法
+    void nextToken();
+    bool match(Token::Type type);
+    void consume(Token::Type type);
     void consume();
+    void expect(Token::Type type, const std::string& errorMessage);
+    void reportError(const std::string& message);
+    
+    // 语句解析方法
+    std::unique_ptr<Statement> parseStatement();
+    std::unique_ptr<Statement> parseCreateStatement();
+    std::unique_ptr<CreateStatement> parseCreateDatabaseStatement();
+    std::unique_ptr<CreateStatement> parseCreateTableStatement();
+    std::unique_ptr<CreateIndexStatement> parseCreateIndexStatement();
+    std::unique_ptr<SelectStatement> parseSelectStatement();
+    std::unique_ptr<InsertStatement> parseInsertStatement();
+    std::unique_ptr<UpdateStatement> parseUpdateStatement();
+    std::unique_ptr<DeleteStatement> parseDeleteStatement();
+    std::unique_ptr<Statement> parseDropStatement();
+    std::unique_ptr<AlterStatement> parseAlterStatement();
+    std::unique_ptr<UseStatement> parseUseStatement();
+    
+    // DCL语句解析方法
+    std::unique_ptr<Statement> parseCreateUserStatement();
+    std::unique_ptr<Statement> parseDropUserStatement();
+    std::unique_ptr<Statement> parseGrantStatement();
+    std::unique_ptr<Statement> parseRevokeStatement();
+    
+    // SHOW语句解析方法
+    std::unique_ptr<Statement> parseShowStatement();
+    
+    // 辅助解析方法
+    void parseColumnDefinitions(CreateStatement& stmt);
+    std::string parseDataType();
+    void parseColumnConstraint(ColumnDefinition& columnDef);
+    bool isColumnConstraint();
+    void parseSelectList(SelectStatement& stmt);
+    void parseFromClause(SelectStatement& stmt);
+    void parseWhereClause(SelectStatement& stmt);
+    void parseJoinClause(SelectStatement& stmt);
+    void parseGroupByClause(SelectStatement& stmt);
+    void parseOrderByClause(SelectStatement& stmt);
+    std::unique_ptr<Expression> parseExpression();
+    std::unique_ptr<Expression> parseComparisonExpression();
+    std::unique_ptr<Expression> parseAdditiveExpression();
+    std::unique_ptr<Expression> parseMultiplicativeExpression();
+    std::unique_ptr<Expression> parsePrimaryExpression();
+    
+    // 新增的解析方法声明
+    std::unique_ptr<DropStatement> parseDropDatabaseStatement();
+    std::unique_ptr<DropStatement> parseDropTableStatement();
+    std::unique_ptr<DropIndexStatement> parseDropIndexStatement();
+    std::unique_ptr<AlterStatement> parseAlterDatabaseStatement();
+    void parseInsertColumns(InsertStatement& stmt);
+    void parseInsertValues(InsertStatement& stmt);
+    void parseUpdateSetClause(UpdateStatement& stmt);
+    void parseWhereClause(UpdateStatement& stmt);
+    void parseWhereClause(DeleteStatement& stmt);
 };
 
 } // namespace sql_parser
 } // namespace sqlcc
 
-#endif // PARSER_H
+#endif // SQLCC_SQL_PARSER_PARSER_H

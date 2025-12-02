@@ -40,12 +40,73 @@ BufferPoolSharded::~BufferPoolSharded() {
 }
 
 Page *BufferPoolSharded::FetchPage(int32_t page_id, bool exclusive) {
-  // 避免未使用参数警告
-  (void)page_id;
-  (void)exclusive;
+  size_t shard_idx = GetShardIndex(page_id);
+  Shard &shard = *shards_[shard_idx];
 
-  // TODO: 实现页面获取逻辑
-  return nullptr;
+  std::lock_guard<std::mutex> lock(shard.mutex);
+
+  // 查找页面是否已在缓冲池中
+  auto it = shard.page_table.find(page_id);
+  if (it != shard.page_table.end()) {
+    // 页面已在缓冲池中
+    std::shared_ptr<PageWrapper> page_wrapper = it->second;
+    
+    // 更新引用计数
+    page_wrapper->ref_count++;
+    
+    // 如果页面在LRU列表中，则将其移到头部
+    if (page_wrapper->is_in_lru) {
+      MoveToHead(shard, page_id);
+    }
+    
+    stats_.total_hits++;
+    return page_wrapper->page;
+  }
+
+  // 页面不在缓冲池中，需要从磁盘加载
+  stats_.total_misses++;
+
+  // 如果shard已满，需要替换页面
+  if (shard.current_size >= shard.max_size) {
+    int32_t replaced_page_id = ReplacePage(shard);
+    if (replaced_page_id == -1) {
+      SQLCC_LOG_ERROR("Failed to replace page for page_id: " + std::to_string(page_id));
+      return nullptr;
+    }
+  }
+
+  // 从磁盘读取页面数据
+  char page_data[PAGE_SIZE];
+  bool read_success = disk_manager_->ReadPage(page_id, page_data);
+  if (!read_success) {
+    // 如果读取失败，可能是新页面，创建一个新的页面
+    memset(page_data, 0, PAGE_SIZE);
+  }
+
+  // 创建新页面
+  auto page = std::make_unique<Page>(page_id);
+  memcpy(page->GetData(), page_data, PAGE_SIZE);
+  Page *page_ptr = page.release();
+
+  auto page_wrapper = std::make_shared<PageWrapper>(page_ptr);
+  page_wrapper->ref_count = 1;
+  page_wrapper->is_dirty = false;
+
+  shard.page_table[page_id] = page_wrapper;
+  shard.lru_list.push_front(page_id);
+  shard.lru_map[page_id] = shard.lru_list.begin();
+  page_wrapper->lru_iter = shard.lru_list.begin();
+  page_wrapper->is_in_lru = true;
+  shard.current_size++;
+
+  // 记录已分配的页面
+  {
+    std::lock_guard<std::mutex> alloc_lock(allocated_pages_mutex_);
+    allocated_pages_.insert(page_id);
+  }
+
+  stats_.total_accesses++;
+  return page_ptr;
 }
 
 bool BufferPoolSharded::FlushPage(int32_t page_id) {
@@ -64,14 +125,8 @@ bool BufferPoolSharded::FlushPage(int32_t page_id) {
     return true;
   }
 
-  // 释放锁，执行磁盘I/O
-  lock.~lock_guard();
-
   bool write_success = disk_manager_->WritePage(
       page_id, static_cast<char *>(page_wrapper->page->GetData()));
-
-  // 重新获取锁
-  std::lock_guard<std::mutex> lock2(shard.mutex);
 
   if (write_success) {
     page_wrapper->is_dirty = false;
@@ -90,12 +145,7 @@ void BufferPoolSharded::FlushAllPages() {
       std::shared_ptr<PageWrapper> page_wrapper = pair.second;
 
       if (page_wrapper->is_dirty) {
-        // 释放锁，执行磁盘I/O
-        lock.~lock_guard();
-        disk_manager_->WritePage(
-            page_id, static_cast<char *>(page_wrapper->page->GetData()));
-        // 重新获取锁
-        std::lock_guard<std::mutex> lock2(shard.mutex);
+        
         page_wrapper->is_dirty = false;
       }
     }
@@ -155,6 +205,7 @@ Page *BufferPoolSharded::NewPage(int32_t *page_id) {
   shard.page_table[new_page_id] = page_wrapper;
   shard.lru_list.push_front(new_page_id);
   shard.lru_map[new_page_id] = shard.lru_list.begin();
+  page_wrapper->lru_iter = shard.lru_list.begin();
   page_wrapper->is_in_lru = true;
   shard.current_size++;
 
@@ -224,6 +275,13 @@ int32_t BufferPoolSharded::ReplacePage(Shard &shard) {
           shard.page_table.erase(page_it);
           shard.current_size--;
           stats_.total_evictions++;
+                  
+          // 从已分配页面集合中移除
+          {
+            std::lock_guard<std::mutex> alloc_lock(allocated_pages_mutex_);
+            allocated_pages_.erase(page_id);
+          }
+                  
           return page_id;
         }
       }
@@ -258,8 +316,10 @@ void BufferPoolSharded::RemoveFromLRU(Shard &shard, int32_t page_id) {
 
 size_t BufferPoolSharded::GetCurrentPageCount() const {
   size_t total_count = 0;
-  (void)total_count; // 避免未使用变量警告
-  return 0;
+  for (const auto& shard : shards_) {
+    total_count += shard->current_size;
+  }
+  return total_count;
 }
 
 std::unordered_map<std::string, double> BufferPoolSharded::GetStats() const {
@@ -276,7 +336,7 @@ std::unordered_map<std::string, double> BufferPoolSharded::GetStats() const {
     stats["hit_rate"] = 0.0;
   }
 
-  stats["current_page_count"] = GetCurrentPageCount();
+  stats["current_page_count"] = static_cast<double>(GetCurrentPageCount());
   stats["pool_size"] = static_cast<double>(pool_size_);
   stats["num_shards"] = static_cast<double>(num_shards_);
 

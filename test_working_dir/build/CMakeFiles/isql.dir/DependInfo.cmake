@@ -8,7 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/home/liying/sqlcc/src/isql_main.cpp" "CMakeFiles/isql.dir/src/isql_main.cpp.o" "gcc" "CMakeFiles/isql.dir/src/isql_main.cpp.o.d"
+  "/home/liying/sqlcc_qoder/src/bin/isql_main.cpp" "CMakeFiles/isql.dir/src/bin/isql_main.cpp.o" "gcc" "CMakeFiles/isql.dir/src/bin/isql_main.cpp.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

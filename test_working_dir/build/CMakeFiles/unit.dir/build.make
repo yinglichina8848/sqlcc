@@ -53,10 +53,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/liying/sqlcc
+CMAKE_SOURCE_DIR = /home/liying/sqlcc_qoder
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/liying/sqlcc/test_working_dir/build
+CMAKE_BINARY_DIR = /home/liying/sqlcc_qoder/test_working_dir/build
 
 # Utility rule file for unit.
 
@@ -67,8 +67,8 @@ include CMakeFiles/unit.dir/compiler_depend.make
 include CMakeFiles/unit.dir/progress.make
 
 CMakeFiles/unit:
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=/home/liying/sqlcc/test_working_dir/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Run unit tests"
-	/usr/bin/cmake --build /home/liying/sqlcc/test_working_dir/build --target test
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=/home/liying/sqlcc_qoder/test_working_dir/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Run unit tests"
+	/usr/bin/cmake --build /home/liying/sqlcc_qoder/test_working_dir/build --target test
 
 unit: CMakeFiles/unit
 unit: CMakeFiles/unit.dir/build.make
@@ -83,6 +83,6 @@ CMakeFiles/unit.dir/clean:
 .PHONY : CMakeFiles/unit.dir/clean
 
 CMakeFiles/unit.dir/depend:
-	cd /home/liying/sqlcc/test_working_dir/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/liying/sqlcc /home/liying/sqlcc /home/liying/sqlcc/test_working_dir/build /home/liying/sqlcc/test_working_dir/build /home/liying/sqlcc/test_working_dir/build/CMakeFiles/unit.dir/DependInfo.cmake "--color=$(COLOR)"
+	cd /home/liying/sqlcc_qoder/test_working_dir/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/liying/sqlcc_qoder /home/liying/sqlcc_qoder /home/liying/sqlcc_qoder/test_working_dir/build /home/liying/sqlcc_qoder/test_working_dir/build /home/liying/sqlcc_qoder/test_working_dir/build/CMakeFiles/unit.dir/DependInfo.cmake "--color=$(COLOR)"
 .PHONY : CMakeFiles/unit.dir/depend
 

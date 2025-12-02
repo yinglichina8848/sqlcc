@@ -1,10 +1,5 @@
 \doxysection{parser.\+cpp 文件参考}
 \hypertarget{parser_8cpp}{}\label{parser_8cpp}\index{parser.cpp@{parser.cpp}}
-
-
-SQL解析器核心实现  
-
-
 {\ttfamily \#include "{}sql\+\_\+parser/parser.\+h"{}}\newline
 {\ttfamily \#include "{}../include/sql\+\_\+parser/ast\+\_\+node.\+h"{}}\newline
 {\ttfamily \#include "{}../include/sql\+\_\+parser/ast\+\_\+nodes.\+h"{}}\newline
@@ -28,52 +23,3 @@ namespace \mbox{\hyperlink{namespacesqlcc}{sqlcc}}
 \item 
 namespace \mbox{\hyperlink{namespacesqlcc_1_1sql__parser}{sqlcc\+::sql\+\_\+parser}}
 \end{DoxyCompactItemize}
-
-
-\doxysubsection{详细描述}
-SQL解析器核心实现 
-
-实现了\+SQLCC数据库的\+SQL解析器，负责将\+SQL语句解析为抽象语法树(\+AST) \begin{DoxyAuthor}{作者}
-SQLCC项目组 
-\end{DoxyAuthor}
-\begin{DoxyDate}{日期}
-2024-\/11-\/28 
-\end{DoxyDate}
-\begin{DoxyVersion}{版本}
-0.\+6.\+0
-\end{DoxyVersion}
-\begin{DoxyParagraph}{版权信息}
-版权所有 (c) 2024 SQLCC 项目组
-\end{DoxyParagraph}
-\begin{DoxyParagraph}{相关文件}
-
-\end{DoxyParagraph}
-\begin{DoxySeeAlso}{参见}
-parser.\+h -\/ SQL解析器接口定义 
-
-ast\+\_\+node.\+h -\/ 抽象语法树节点基类定义 
-
-ast\+\_\+nodes.\+h -\/ 具体语法树节点定义 
-
-lexer.\+h -\/ 词法分析器接口定义 
-
-token.\+h -\/ 词法单元定义
-\end{DoxySeeAlso}
-\begin{DoxyParagraph}{数据库原理知识点}
-
-\begin{DoxyItemize}
-\item SQL语法分析：实现了\+SQL语句的语法分析功能
-\item 抽象语法树(\+AST)：将\+SQL语句转换为抽象语法树，便于后续处理
-\item 词法分析：与词法分析器配合，将\+SQL文本转换为词法单元序列
-\item 语法规则：实现了\+SQL语法规则的解析
-\item 错误处理：处理语法错误，提供错误恢复机制
-\end{DoxyItemize}
-\end{DoxyParagraph}
-\begin{DoxyParagraph}{设计模式}
-
-\begin{DoxyItemize}
-\item 组合模式：使用组合模式构建抽象语法树
-\item 访问者模式：支持\+AST节点的访问者模式，便于遍历和处理\+AST
-\item 单例模式：解析器在系统中通常是单例存在 
-\end{DoxyItemize}
-\end{DoxyParagraph}

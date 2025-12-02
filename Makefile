@@ -16,7 +16,7 @@ build:
 # 运行测试
 test: build
 	@echo "运行单元测试..."
-	@cd build && ./bin/storage_engine_test
+	@cd build && ctest --output-on-failure
 	@echo "测试完成!"
 
 # 验证构建结果
@@ -39,9 +39,10 @@ coverage:
 	@mkdir -p docs/coverage
 	@cd $(BUILD_DIR) && gcovr --root .. --html --html-details -o ../docs/coverage/index.html \
 		--exclude ../tests/ --exclude ../build/ --merge-mode-functions=merge-use-line-0 \
-		--object-directory . --gcov-object-directory .
+		--object-directory .
 	@echo "清理临时gcov文件..."
 	@cd $(BUILD_DIR) && find . -name "*.gcov" -delete
+	@find . -maxdepth 1 -name "*.gcov" -delete
 	@echo "覆盖率报告生成完成! 报告位置: docs/coverage/index.html"
 
 # 生成Doxygen文档

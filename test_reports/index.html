@@ -1,0 +1,410 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQLCC测试报告</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .summary {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+        
+        .summary h2 {
+            color: #3498db;
+            margin-bottom: 15px;
+        }
+        
+        .summary-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .stat-card {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 6px;
+            text-align: center;
+        }
+        
+        .stat-card h3 {
+            color: #6c757d;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        
+        .stat-card .value {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .stat-card.passed .value {
+            color: #28a745;
+        }
+        
+        .stat-card.failed .value {
+            color: #dc3545;
+        }
+        
+        .stat-card.total .value {
+            color: #007bff;
+        }
+        
+        .stat-card.rate .value {
+            color: #ffc107;
+        }
+        
+        .section {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+        
+        .section h2 {
+            color: #3498db;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #e9ecef;
+            padding-bottom: 10px;
+        }
+        
+        .test-results {
+            margin-top: 20px;
+        }
+        
+        .test-category {
+            margin-bottom: 30px;
+        }
+        
+        .test-category h3 {
+            color: #6c757d;
+            margin-bottom: 15px;
+        }
+        
+        .test-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .test-table th,
+        .test-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .test-table th {
+            background-color: #f8f9fa;
+            font-weight: bold;
+            color: #495057;
+        }
+        
+        .test-table tr:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .status {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .status.passed {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .status.failed {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        
+        .coverage-info {
+            margin-top: 20px;
+        }
+        
+        .coverage-summary {
+            background-color: #e3f2fd;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+        
+        .coverage-summary h3 {
+            color: #1565c0;
+            margin-bottom: 10px;
+        }
+        
+        .coverage-files {
+            margin-top: 20px;
+        }
+        
+        .coverage-files table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .coverage-files th,
+        .coverage-files td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .coverage-files th {
+            background-color: #f8f9fa;
+            font-weight: bold;
+        }
+        
+        .footer {
+            text-align: center;
+            color: #6c757d;
+            font-size: 14px;
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid #e9ecef;
+        }
+        
+        .timestamp {
+            color: #6c757d;
+            font-size: 14px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .toggle-button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+        
+        .toggle-button:hover {
+            background-color: #0056b3;
+        }
+        
+        .test-output {
+            max-height: 200px;
+            overflow-y: auto;
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 12px;
+            margin-top: 5px;
+            display: none;
+        }
+        
+        .test-output.visible {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>SQLCC测试报告</h1>
+        <div class="timestamp">生成时间：2025-12-02 04:38:33</div>
+        
+        <div class="summary">
+            <h2>测试摘要</h2>
+            <div class="summary-stats">
+                <div class="stat-card total">
+                    <h3>总测试数</h3>
+                    <div class="value">0</div>
+                </div>
+                <div class="stat-card passed">
+                    <h3>通过测试数</h3>
+                    <div class="value">0</div>
+                </div>
+                <div class="stat-card failed">
+                    <h3>失败测试数</h3>
+                    <div class="value">0</div>
+                </div>
+                <div class="stat-card rate">
+                    <h3>通过率</h3>
+                    <div class="value">0.00%</div>
+                </div>
+                <div class="stat-card">
+                    <h3>代码覆盖率</h3>
+                    <div class="value">0.00%</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>测试结果详情</h2>
+            
+            <div class="test-results">
+                {% if unit_tests %}
+                <div class="test-category">
+                    <h3>单元测试</h3>
+                    <table class="test-table">
+                        <thead>
+                            <tr>
+                                <th>测试名称</th>
+                                <th>状态</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for test in unit_tests %}
+                            <tr>
+                                <td>{{ test.name }}</td>
+                                <td><span class="status {{ 'passed' if test.status == 'PASSED' else 'failed' }}">{{ test.status }}</span></td>
+                                <td>
+                                    <button class="toggle-button" onclick="toggleOutput(this)">查看输出</button>
+                                    <div class="test-output">{{ test.output }}</div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% endif %}
+                
+                {% if integration_tests %}
+                <div class="test-category">
+                    <h3>集成测试</h3>
+                    <table class="test-table">
+                        <thead>
+                            <tr>
+                                <th>测试名称</th>
+                                <th>状态</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for test in integration_tests %}
+                            <tr>
+                                <td>{{ test.name }}</td>
+                                <td><span class="status {{ 'passed' if test.status == 'PASSED' else 'failed' }}">{{ test.status }}</span></td>
+                                <td>
+                                    <button class="toggle-button" onclick="toggleOutput(this)">查看输出</button>
+                                    <div class="test-output">{{ test.output }}</div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% endif %}
+                
+                {% if performance_tests %}
+                <div class="test-category">
+                    <h3>性能测试</h3>
+                    <table class="test-table">
+                        <thead>
+                            <tr>
+                                <th>测试名称</th>
+                                <th>状态</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for test in performance_tests %}
+                            <tr>
+                                <td>{{ test.name }}</td>
+                                <td><span class="status {{ 'passed' if test.status == 'PASSED' else 'failed' }}">{{ test.status }}</span></td>
+                                <td>
+                                    <button class="toggle-button" onclick="toggleOutput(this)">查看输出</button>
+                                    <div class="test-output">{{ test.output }}</div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>代码覆盖率报告</h2>
+            <div class="coverage-info">
+                <div class="coverage-summary">
+                    <h3>覆盖率摘要</h3>
+                    <p>总代码覆盖率：0.00%</p>
+                </div>
+                
+                {% if coverage_files %}
+                <div class="coverage-files">
+                    <h3>文件覆盖率详情</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>文件路径</th>
+                                <th>覆盖率</th>
+                                <th>覆盖行数</th>
+                                <th>总行数</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for file in coverage_files %}
+                            <tr>
+                                <td>{{ file.path }}</td>
+                                <td>{{ file.coverage }}</td>
+                                <td>{{ file.covered_lines }}</td>
+                                <td>{{ file.total_lines }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% endif %}
+                
+                <p style="margin-top: 20px;">
+                    <a href="../coverage/index.html" target="_blank">查看详细覆盖率报告</a>
+                </p>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>SQLCC测试报告 - 自动生成</p>
+        </div>
+    </div>
+    
+    <script>
+        function toggleOutput(button) {
+            const outputDiv = button.nextElementSibling;
+            outputDiv.classList.toggle('visible');
+            button.textContent = outputDiv.classList.contains('visible') ? '隐藏输出' : '查看输出';
+        }
+    </script>
+</body>
+</html>
+    

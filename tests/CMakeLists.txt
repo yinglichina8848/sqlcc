@@ -332,6 +332,25 @@ target_link_libraries(dml_test
     sqlcc_executor
 )
 
+# DML执行器集成测试
+add_executable(dml_executor_integration_test unit/dml_executor_integration_test.cpp)
+
+target_link_libraries(dml_executor_integration_test
+    PRIVATE
+    gtest
+    gtest_main
+    pthread
+    ${CMAKE_DL_LIBS}
+    sqlcc_core_lib
+    sqlcc_parser
+    sqlcc_config_manager
+    sqlcc_storage_engine
+    sqlcc_transaction_manager
+    sqlcc_executor
+)
+
+add_test(NAME dml_executor_integration_test COMMAND dml_executor_integration_test)
+
 # 创建simple_test可执行文件
 add_executable(simple_test unit/simple_test.cpp)
 

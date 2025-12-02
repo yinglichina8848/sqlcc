@@ -53,10 +53,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/liying/sqlcc
+CMAKE_SOURCE_DIR = /home/liying/sqlcc_qoder
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/liying/sqlcc/test_working_dir/build
+CMAKE_BINARY_DIR = /home/liying/sqlcc_qoder/test_working_dir/build
 
 # Utility rule file for coverage.
 
@@ -66,24 +66,9 @@ include CMakeFiles/coverage.dir/compiler_depend.make
 # Include the progress variables for this target.
 include CMakeFiles/coverage.dir/progress.make
 
-CMakeFiles/coverage: dcl_test
-CMakeFiles/coverage: ddl_test
-CMakeFiles/coverage: src/dml_test
-CMakeFiles/coverage: src/comprehensive_test
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=/home/liying/sqlcc/test_working_dir/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) 生成代码覆盖率报告
-	echo ===\ 运行覆盖率测试\ ===
-	mkdir -p /home/liying/sqlcc/test_working_dir/build/coverage
-	/usr/bin/lcov --directory /home/liying/sqlcc/test_working_dir/build --zerocounters
-	/home/liying/sqlcc/test_working_dir/build/dcl_test || echo DCL测试失败，但继续生成覆盖率报告
-	/home/liying/sqlcc/test_working_dir/build/ddl_test || echo DDL测试失败，但继续生成覆盖率报告
-	/home/liying/sqlcc/test_working_dir/build/dml_test || echo DML测试失败，但继续生成覆盖率报告
-	/home/liying/sqlcc/test_working_dir/build/comprehensive_test || echo 综合测试失败，但继续生成覆盖率报告
-	/usr/bin/lcov --capture --directory /home/liying/sqlcc/test_working_dir/build --output-file /home/liying/sqlcc/test_working_dir/build/coverage/coverage.info
-	/usr/bin/lcov --remove /home/liying/sqlcc/test_working_dir/build/coverage/coverage.info /home/liying/sqlcc/tests/* /home/liying/sqlcc/build/* *test_*.cpp --output-file /home/liying/sqlcc/test_working_dir/build/coverage/coverage_clean.info --ignore-errors unused
-	/usr/bin/genhtml --output-directory /home/liying/sqlcc/test_working_dir/build/coverage /home/liying/sqlcc/test_working_dir/build/coverage/coverage_clean.info
-	/usr/bin/lcov --list /home/liying/sqlcc/test_working_dir/build/coverage/coverage_clean.info
-	echo ===\ 覆盖率报告生成完成\ ===
-	echo ===\ HTML报告路径:\ /home/liying/sqlcc/test_working_dir/build/coverage/index.html\ ===
+CMakeFiles/coverage:
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=/home/liying/sqlcc_qoder/test_working_dir/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating HTML coverage report"
+	/usr/bin/gcovr --exclude-throw-branches --exclude-unreachable-branches --html-details -o coverage.html .
 
 coverage: CMakeFiles/coverage
 coverage: CMakeFiles/coverage.dir/build.make
@@ -98,6 +83,6 @@ CMakeFiles/coverage.dir/clean:
 .PHONY : CMakeFiles/coverage.dir/clean
 
 CMakeFiles/coverage.dir/depend:
-	cd /home/liying/sqlcc/test_working_dir/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/liying/sqlcc /home/liying/sqlcc /home/liying/sqlcc/test_working_dir/build /home/liying/sqlcc/test_working_dir/build /home/liying/sqlcc/test_working_dir/build/CMakeFiles/coverage.dir/DependInfo.cmake "--color=$(COLOR)"
+	cd /home/liying/sqlcc_qoder/test_working_dir/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/liying/sqlcc_qoder /home/liying/sqlcc_qoder /home/liying/sqlcc_qoder/test_working_dir/build /home/liying/sqlcc_qoder/test_working_dir/build /home/liying/sqlcc_qoder/test_working_dir/build/CMakeFiles/coverage.dir/DependInfo.cmake "--color=$(COLOR)"
 .PHONY : CMakeFiles/coverage.dir/depend
 

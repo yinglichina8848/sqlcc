@@ -8,6 +8,7 @@ ENABLE_PARALLEL=false  # 是否启用并行测试执行（并行模式有bug，�
 PARALLEL_JOBS=$(nproc) # 并行任务数，默认为CPU核心数
 ENABLE_CACHE=true      # 是否启用测试结果缓存
 TIMEOUT=30             # 单个测试的超时时间（秒）
+NETWORK_TIMEOUT=60     # 网络相关测试的超时时间（秒）
 
 # 测试工作目录配置
 TEST_WORKING_DIR="test_working_dir"  # 专门的测试工作目录
@@ -46,6 +47,18 @@ for arg in "$@"; do
         --timeout=*)
             TIMEOUT="${arg#*=}"
             echo -e "${YELLOW}测试超时时间已设置为 $TIMEOUT 秒${NC}"
+            ;;
+        --all)
+            RUN_ALL_TESTS=true
+            echo -e "${YELLOW}将运行所有测试（单元、集成、客户机-服务器、性能）${NC}"
+            ;;
+        --client-server)
+            RUN_CLIENT_SERVER_TESTS=true
+            echo -e "${YELLOW}将运行客户机-服务器测试${NC}"
+            ;;
+        --report)
+            GENERATE_REPORT=true
+            echo -e "${YELLOW}将生成完整测试报告${NC}"
             ;;
     esac
 done
@@ -205,18 +218,25 @@ echo -e "${BLUE}\n列出可执行文件...${NC}"
 find . -type f -executable | grep -v "CMakeFiles" | sort
 
 # 定义测试用例数组 - 只包含实际存在的测试可执行文件
-TEST_CASES=(
-    "dcl_test"
-    "ddl_test"
-    "src/dml_test"
-    "comprehensive_test"
-)
-
-# 输出测试用例列表
-echo -e "${BLUE}测试用例列表:${NC}"
-for test in "${TEST_CASES[@]}"; do
-    echo "- $test"
-done
+# 如果指定了--all参数，则使用新的CMake目标运行所有测试
+if [ "$RUN_ALL_TESTS" == "true" ]; then
+    TEST_CASES=()
+    echo -e "${BLUE}将使用CMake all_tests目标运行所有测试${NC}"
+else
+    TEST_CASES=(
+        "dcl_test"
+        "ddl_test"
+        "dml_test"
+        "comprehensive_test"
+        "isql_integration_test"
+    )
+    
+    # 输出测试用例列表
+    echo -e "${BLUE}测试用例列表:${NC}"
+    for test in "${TEST_CASES[@]}"; do
+        echo "- $test"
+    done
+fi
 
 # 创建覆盖率报告目录
 COVERAGE_DIR="$ORIGINAL_DIR/coverage"
@@ -266,17 +286,23 @@ function run_test_with_timeout() {
     local test_path="./tests/$test_name"
     local log_file="$RESULT_DIR/${test_name}.log"
     
+    # 根据测试名称选择超时时间
+    local test_timeout=$TIMEOUT
+    if [[ "$test_name" == *"client_server"* || "$test_name" == *"network"* ]]; then
+        test_timeout=$NETWORK_TIMEOUT
+    fi
+    
     # 开始计时
     local start_time=$(date +%s)
     
     # 使用timeout命令运行测试
     if command -v timeout &> /dev/null; then
-        timeout $TIMEOUT $test_path > "$log_file" 2>&1
+        timeout $test_timeout $test_path > "$log_file" 2>&1
         local exit_code=$?
         
         # 检查是否因为超时而失败
         if [ $exit_code -eq 124 ]; then
-            echo "测试超时（${TIMEOUT}秒）" >> "$log_file"
+            echo "测试超时（${test_timeout}秒）" >> "$log_file"
             echo -e "${RED}✗ 测试超时: $test_name${NC}"
             return 124
         fi
@@ -303,8 +329,67 @@ echo -e "=====================================\n"
 # 初始化统计变量
 TEST_START_TIME=$(date +%s)
 
+# 如果指定了--all参数，手动运行各个测试用例，并应用超时机制
+if [ "$RUN_ALL_TESTS" == "true" ]; then
+    echo -e "${YELLOW}手动运行所有测试用例，并应用超时机制${NC}"
+    
+    # 查找所有测试可执行文件
+    TEST_EXECUTABLES=($(find . -name "*_test" -type f -executable | grep -v "CMakeFiles" | sort))
+    
+    # 特殊处理：添加dcl_test, ddl_test, dml_test等可执行文件
+    for test_name in dcl_test ddl_test dml_test comprehensive_test; do
+        if [ -f "./$test_name" ]; then
+            TEST_EXECUTABLES+=("./$test_name")
+        fi
+    done
+    
+    # 去重
+    TEST_EXECUTABLES=($(echo "${TEST_EXECUTABLES[@]}" | tr ' ' '\n' | sort -u | tr '\n' ' '))
+    
+    # 输出测试可执行文件列表
+    echo -e "${BLUE}找到的测试可执行文件：${NC}"
+    for test in "${TEST_EXECUTABLES[@]}"; do
+        echo -e "- $test"
+    done
+    
+    # 运行所有测试可执行文件，每个都应用超时机制
+    for TEST in "${TEST_EXECUTABLES[@]}"; do
+        TESTS_TOTAL=$((TESTS_TOTAL + 1))
+        
+        echo -e "${YELLOW}运行测试：$TEST${NC}"
+        
+        # 定义日志文件路径
+        test_base_name=$(basename "$TEST")
+        log_file="$RESULT_DIR/${test_base_name}.log"
+        
+        # 根据测试名称选择超时时间
+        test_timeout=$TIMEOUT
+        if [[ "$test_base_name" == *"client_server"* || "$test_base_name" == *"network"* ]]; then
+            test_timeout=$NETWORK_TIMEOUT
+        fi
+        
+        # 运行测试，应用超时机制
+        timeout $test_timeout "$TEST" > "$log_file" 2>&1
+        exit_code=$?
+        
+        # 检查是否因为超时而失败
+        if [ $exit_code -eq 124 ]; then
+            echo "测试超时（${test_timeout}秒）" >> "$log_file"
+            echo -e "${RED}✗ 测试超时: $TEST${NC}"
+            TESTS_FAILED=$((TESTS_FAILED + 1))
+        elif [ $exit_code -eq 0 ]; then
+            echo -e "${GREEN}✓ 测试通过: $TEST${NC}"
+            TESTS_PASSED=$((TESTS_PASSED + 1))
+        else
+            echo -e "${RED}✗ 测试失败: $TEST${NC}"
+            TESTS_FAILED=$((TESTS_FAILED + 1))
+        fi
+        
+        echo -e "-------------------------------------
+"
+    done
 # 如果启用并行测试
-if [ "$ENABLE_PARALLEL" == "true" ] && [ ${#TEST_CASES[@]} -gt 1 ]; then
+elif [ "$ENABLE_PARALLEL" == "true" ] && [ ${#TEST_CASES[@]} -gt 1 ]; then
     echo -e "使用并行测试执行，任务数: $PARALLEL_JOBS"
     
     # 创建临时文件存储结果
@@ -682,36 +767,43 @@ if [ "$ENABLE_COVERAGE" == "true" ]; then
     
     # 检查lcov是否安装
     if command -v lcov &> /dev/null; then
-        # 收集覆盖率数据
-        lcov --capture --directory . --output-file "${COVERAGE_DIR}/coverage.info" --no-external 2>/dev/null || true
-        
-        # 过滤掉测试文件
-        lcov --remove "${COVERAGE_DIR}/coverage.info" '*test*' '/usr/*' --output-file "${COVERAGE_DIR}/coverage.filtered.info" 2>/dev/null || true
-        
-        # 生成HTML报告
-        genhtml "${COVERAGE_DIR}/coverage.filtered.info" --output-directory "${COVERAGE_DIR}/html" 2>/dev/null || true
-        
-        if [ $? -eq 0 ]; then
-            echo -e "${GREEN}代码覆盖率HTML报告已生成: ${COVERAGE_DIR}/html/index.html${NC}"
+        # 尝试使用gcovr工具生成覆盖率报告，这是一个更可靠的解决方案
+        if command -v gcovr &> /dev/null; then
+            echo -e "${BLUE}使用gcovr生成覆盖率报告...${NC}"
             
-            # 获取覆盖率统计
-            COVERAGE_PERCENT=$(lcov --summary "${COVERAGE_DIR}/coverage.filtered.info" 2>/dev/null | grep -oP 'lines\.*:\s+\K\d+\.\d+')
-            if [ -z "$COVERAGE_PERCENT" ]; then
-                COVERAGE_PERCENT="0.00"
+            # 先确保覆盖率报告目录存在
+            mkdir -p "${COVERAGE_DIR}/html"
+            
+            # 使用gcovr生成HTML报告，指定构建目录
+            gcovr "$ORIGINAL_DIR/test_working_dir/build" --root "$ORIGINAL_DIR" --filter "$ORIGINAL_DIR/src/" --filter "$ORIGINAL_DIR/include/" --html --html-details --output "${COVERAGE_DIR}/html/index.html" --exclude "*test*" --exclude "*/test/*" --exclude "*/tests/*" 2>/dev/null || true
+            
+            # 使用gcovr生成文本摘要，直接从文本输出中提取覆盖率数据
+            gcovr_output=$(gcovr "$ORIGINAL_DIR/test_working_dir/build" --root "$ORIGINAL_DIR" --filter "$ORIGINAL_DIR/src/" --filter "$ORIGINAL_DIR/include/" --exclude "*test*" --exclude "*/test/*" --exclude "*/tests/*" 2>/dev/null)
+            
+            # 从文本输出中提取覆盖率数据
+            COVERAGE_PERCENT=$(echo "$gcovr_output" | grep -oP 'lines:\s+\K\d+\.\d+')
+            
+            if [ -n "$COVERAGE_PERCENT" ]; then
+                echo -e "${GREEN}代码覆盖率: ${COVERAGE_PERCENT}%${NC}"
+                
+                # 添加到HTML报告中
+                COVERAGE_HTML="<div class='coverage'>
+                    <h2>代码覆盖率</h2>
+                    <p class='coverage-rate'>覆盖率: ${COVERAGE_PERCENT}%</p>
+                    <p><a href='../coverage/html/index.html' target='_blank'>查看详细覆盖率报告</a></p>
+                </div>"
+            else
+                echo -e "${RED}gcovr生成覆盖率报告失败${NC}"
+                COVERAGE_HTML="<div class='coverage'>
+                    <h2>代码覆盖率</h2>
+                    <p class='failed'>生成失败</p>
+                </div>"
             fi
-            echo -e "${GREEN}代码覆盖率: ${COVERAGE_PERCENT}%${NC}"
-            
-            # 添加到HTML报告中
-            COVERAGE_HTML="<div class='coverage'>
-                <h2>代码覆盖率</h2>
-                <p class='coverage-rate'>覆盖率: ${COVERAGE_PERCENT}%</p>
-                <p><a href='../coverage/html/index.html' target='_blank'>查看详细覆盖率报告</a></p>
-            </div>"
         else
-            echo -e "${RED}生成代码覆盖率报告失败${NC}"
+            echo -e "${YELLOW}gcovr未安装，无法生成代码覆盖率报告${NC}"
             COVERAGE_HTML="<div class='coverage'>
                 <h2>代码覆盖率</h2>
-                <p class='failed'>生成失败</p>
+                <p style='color:orange'>未生成（gcovr未安装）</p>
             </div>"
         fi
     else
@@ -806,6 +898,25 @@ cat >> "$RESULT_DIR/test_report.html" << EOF
 EOF
 
 echo -e "${GREEN}HTML测试报告已生成: $RESULT_DIR/test_report.html${NC}"
+
+# 如果指定了--report参数，生成完整测试报告
+if [ "$GENERATE_REPORT" == "true" ]; then
+    echo -e "${BLUE}生成完整测试报告...${NC}"
+    
+    # 确保脚本有执行权限
+    chmod +x "$ORIGINAL_DIR/scripts/generate_test_report.py"
+    
+    # 创建测试报告目录
+    mkdir -p "$ORIGINAL_DIR/test_reports"
+    
+    # 运行报告生成脚本
+    python3 "$ORIGINAL_DIR/scripts/generate_test_report.py" \
+        --results-dir "$ORIGINAL_DIR/$TEST_WORKING_DIR/build" \
+        --output "$ORIGINAL_DIR/test_reports/index.html"
+    
+    echo -e "${GREEN}完整测试报告已生成: $ORIGINAL_DIR/test_reports/index.html${NC}"
+fi
+
 # 切换回原始目录
 cd "$ORIGINAL_DIR" || echo -e "${YELLOW}警告：无法切换回原始目录${NC}"
 

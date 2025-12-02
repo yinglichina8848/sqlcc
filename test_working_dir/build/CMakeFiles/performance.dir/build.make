@@ -53,10 +53,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/liying/sqlcc
+CMAKE_SOURCE_DIR = /home/liying/sqlcc_qoder
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/liying/sqlcc/test_working_dir/build
+CMAKE_BINARY_DIR = /home/liying/sqlcc_qoder/test_working_dir/build
 
 # Utility rule file for performance.
 
@@ -67,8 +67,8 @@ include CMakeFiles/performance.dir/compiler_depend.make
 include CMakeFiles/performance.dir/progress.make
 
 CMakeFiles/performance:
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=/home/liying/sqlcc/test_working_dir/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Run comprehensive performance test suite"
-	/usr/bin/cmake --build /home/liying/sqlcc/test_working_dir/build --target run_performance_suite
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=/home/liying/sqlcc_qoder/test_working_dir/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Run comprehensive performance test suite"
+	/usr/bin/cmake --build /home/liying/sqlcc_qoder/test_working_dir/build --target run_performance_suite
 
 performance: CMakeFiles/performance
 performance: CMakeFiles/performance.dir/build.make
@@ -83,6 +83,6 @@ CMakeFiles/performance.dir/clean:
 .PHONY : CMakeFiles/performance.dir/clean
 
 CMakeFiles/performance.dir/depend:
-	cd /home/liying/sqlcc/test_working_dir/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/liying/sqlcc /home/liying/sqlcc /home/liying/sqlcc/test_working_dir/build /home/liying/sqlcc/test_working_dir/build /home/liying/sqlcc/test_working_dir/build/CMakeFiles/performance.dir/DependInfo.cmake "--color=$(COLOR)"
+	cd /home/liying/sqlcc_qoder/test_working_dir/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/liying/sqlcc_qoder /home/liying/sqlcc_qoder /home/liying/sqlcc_qoder/test_working_dir/build /home/liying/sqlcc_qoder/test_working_dir/build /home/liying/sqlcc_qoder/test_working_dir/build/CMakeFiles/performance.dir/DependInfo.cmake "--color=$(COLOR)"
 .PHONY : CMakeFiles/performance.dir/depend
 

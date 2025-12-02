@@ -206,6 +206,12 @@ private:
   void release_all_locks(TransactionId txn_id);
 
   /**
+   * 释放事务持有的所有锁（内部版本，不加锁）
+   * @param txn_id 事务ID
+   */
+  void release_all_locks_internal(TransactionId txn_id);
+
+  /**
    * 等待图结构（用于死锁检测）
    */
   std::unordered_map<TransactionId, std::unordered_set<TransactionId>>

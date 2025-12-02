@@ -1,276 +1,465 @@
-#include "database_manager.h"
-
+#include "../../include/database_manager.h"
+#include "../../include/storage_engine.h"
+#include "../../include/table_storage.h"
+#include "../../include/buffer_pool.h"
+#include "../../include/buffer_pool_sharded.h"
+#include <filesystem>
+#include <fstream>
+#include <iostream>
 #include <algorithm>
-#include <sstream>
+
+// 确保正确包含spdlog
+#ifdef USE_SPDLOG
+#include <spdlog/spdlog.h>
+#include <spdlog/sinks/basic_file_sink.h>
+#include <spdlog/sinks/stdout_color_sinks.h>
+#endif
+
+namespace fs = std::filesystem;
 
 namespace sqlcc {
 
-DatabaseManager::DatabaseManager(const std::string& db_path,
-                               size_t buffer_pool_size,
-                               size_t shard_count,
-                               size_t stripe_count)
-    : db_path_(db_path), current_database_(), is_closed_(false), database_tables_() {
-    // 初始化配置管理器
-    auto config_manager = std::make_shared<ConfigManager>();
-    config_manager->SetValue("buffer_pool.size", static_cast<int>(buffer_pool_size));
-    config_manager->SetValue("buffer_pool.stripe_count", static_cast<int>(stripe_count));
-    // 注意：构造函数没有max_connections参数，使用shard_count作为连接池相关配置
+DatabaseManager::DatabaseManager(const std::string& db_path, 
+                                 size_t buffer_pool_size, 
+                                 size_t shard_count, 
+                                 size_t stripe_count)
+    : db_path_(db_path)
+    , current_database_("")
+    , is_closed_(false)
+    , config_manager_(nullptr)
+    , storage_engine_(nullptr)
+    , buffer_pool_(nullptr)
+    , txn_manager_(nullptr) {
     
-    // 初始化磁盘管理器
-    auto disk_manager = std::make_shared<DiskManager>(db_path, *config_manager);
+    // 确保数据库目录存在
+    fs::create_directories(db_path_);
     
-    // 初始化shard化缓冲池
-    buffer_pool_ = std::make_shared<BufferPoolSharded>(
-        disk_manager.get(),
-        *config_manager,
-        buffer_pool_size,
-        shard_count
-    );
-    
-    // 初始化事务管理器
-    txn_manager_ = std::make_shared<TransactionManager>();
+#ifdef USE_SPDLOG
+    try {
+        // 检查logger是否已经存在，避免重复创建
+        auto console_logger = spdlog::get("console");
+        if (!console_logger) {
+            console_logger = spdlog::stdout_color_mt("console");
+            spdlog::set_default_logger(console_logger);
+        }
+        
+        auto file_logger = spdlog::get("file_logger");
+        if (!file_logger) {
+            // 确保日志目录存在
+            fs::create_directories("logs");
+            file_logger = spdlog::basic_logger_mt("file_logger", "logs/database_manager.log");
+        }
+        
+        spdlog::set_level(spdlog::level::info);
+        SPDLOG_INFO("DatabaseManager initialized with db_path={}, buffer_pool_size={}, shard_count={}, stripe_count={}",
+                   db_path, buffer_pool_size, shard_count, stripe_count);
+    } catch (const spdlog::spdlog_ex& ex) {
+        std::cerr << "Log initialization failed: " << ex.what() << std::endl;
+    }
+#endif
 }
 
 DatabaseManager::~DatabaseManager() {
-    if (!is_closed_) {
-        Close();
-    }
+    Close();
 }
 
-TransactionId DatabaseManager::BeginTransaction(IsolationLevel isolation_level) {
-    if (is_closed_) {
-        throw Exception("Database is closed");
-    }
-    
-    return txn_manager_->begin_transaction(isolation_level);
-}
-
-bool DatabaseManager::CommitTransaction(TransactionId txn_id) {
-    if (is_closed_) {
-        return false;
-    }
-    
-    return txn_manager_->commit_transaction(txn_id);
-}
-
-bool DatabaseManager::RollbackTransaction(TransactionId txn_id) {
-    if (is_closed_) {
-        return false;
-    }
-    
-    return txn_manager_->rollback_transaction(txn_id);
-}
-
-bool DatabaseManager::ReadPage(TransactionId txn_id, uint64_t page_id, Page** page) {
-    if (is_closed_) {
-        return false;
-    }
-    
-    // 检查事务状态
-    try {
-        TransactionState state = txn_manager_->get_transaction_state(txn_id);
-        if (state != TransactionState::ACTIVE) {
-            return false;
-        }
-    } catch (const Exception& e) {
-        return false;
-    }
-    
-    // 从缓冲池读取页面（读事务无需锁，通过快照机制保证一致性）
-    return buffer_pool_->FetchPage(page_id, page);
-}
-
-bool DatabaseManager::WritePage(TransactionId txn_id, uint64_t page_id, Page* page) {
-    if (is_closed_) {
-        throw Exception("Database is closed");
-    }
-    // 确保页面被锁
-    if (!LockKey(txn_id, std::to_string(page_id))) {
-        return false;
-    }
-    bool success = buffer_pool_->FlushPage(static_cast<int32_t>(page_id));
-    UnlockKey(txn_id, std::to_string(page_id));
-    return success;
-}
-
-bool DatabaseManager::LockKey(TransactionId txn_id, const std::string& key) {
-    if (is_closed_) {
-        throw Exception("Database is closed");
-    }
-    return txn_manager_->acquire_lock(txn_id, key, LockType::EXCLUSIVE);
-}
-
-bool DatabaseManager::UnlockKey(TransactionId txn_id, const std::string& key) {
-    if (is_closed_) {
-        throw Exception("Database is closed");
-    }
-    txn_manager_->release_lock(txn_id, key);
-    return true;
-}
-
-bool DatabaseManager::FlushAllPages() {
-    if (is_closed_) {
-        throw Exception("Database is closed");
-    }
-    buffer_pool_->FlushAllPages();
-    return true;
-}
-
-bool DatabaseManager::Close() {
-    if (is_closed_) {
-        return true;
-    }
-    
-    // 刷新所有脏页
-    if (!FlushAllPages()) {
-        return false;
-    }
-    
-    // 关闭缓冲池
-    buffer_pool_.reset();
-    
-    // 关闭事务管理器
-    txn_manager_.reset();
-    
-    is_closed_ = true;
-    return true;
-}
-
-// 数据库管理方法实现
+// 数据库管理方法
 bool DatabaseManager::CreateDatabase(const std::string& db_name) {
-    if (is_closed_) {
-        return false;
-    }
+    std::lock_guard<std::mutex> lock(mutex_);
     
     // 检查数据库是否已存在
     if (database_tables_.find(db_name) != database_tables_.end()) {
+#ifdef USE_SPDLOG
+        SPDLOG_ERROR("Database {} already exists", db_name);
+#endif
         return false;
     }
     
-    // 创建数据库（在内存中创建表列表）
-    database_tables_[db_name] = std::vector<std::string>();
-    return true;
+    try {
+        // 创建数据库目录
+        std::string db_path = db_path_ + "/" + db_name;
+        if (!std::filesystem::exists(db_path)) {
+            std::filesystem::create_directories(db_path);
+        }
+        
+        // 初始化数据库元数据
+        database_tables_[db_name] = {};
+        
+        // 直接创建系统表（避免递归锁）
+        database_tables_[db_name].push_back("__tables__");
+        std::string table_file_path = db_path + "/__tables__.table";
+        std::ofstream file(table_file_path);
+        file.close();
+        
+#ifdef USE_SPDLOG
+        SPDLOG_INFO("Created database: {}", db_name);
+#endif
+        return true;
+    } catch (const std::exception& e) {
+#ifdef USE_SPDLOG
+        SPDLOG_ERROR("Failed to create database {}: {}", db_name, e.what());
+#endif
+        return false;
+    }
 }
 
 bool DatabaseManager::DropDatabase(const std::string& db_name) {
-    if (is_closed_) {
-        return false;
-    }
+    std::lock_guard<std::mutex> lock(mutex_);
     
-    // 检查数据库是否存在
     auto it = database_tables_.find(db_name);
     if (it == database_tables_.end()) {
+#ifdef USE_SPDLOG
+        SPDLOG_ERROR("Database {} does not exist", db_name);
+#endif
         return false;
     }
     
-    // 如果删除的是当前数据库，清空当前数据库
-    if (db_name == current_database_) {
-        current_database_.clear();
+    // 不能删除当前使用的数据库
+    if (current_database_ == db_name) {
+#ifdef USE_SPDLOG
+        SPDLOG_ERROR("Cannot drop current database: {}", db_name);
+#endif
+        return false;
     }
     
-    // 删除数据库
-    database_tables_.erase(it);
-    return true;
+    try {
+        std::string db_full_path = db_path_ + "/" + db_name;
+        fs::remove_all(db_full_path);
+        database_tables_.erase(it);
+        
+        // 清理表存储
+        table_storages_.erase(db_name);
+        
+#ifdef USE_SPDLOG
+        SPDLOG_INFO("Dropped database: {}", db_name);
+#endif
+        return true;
+    } catch (const std::exception& e) {
+#ifdef USE_SPDLOG
+        SPDLOG_ERROR("Failed to drop database {}: {}", db_name, e.what());
+#endif
+        return false;
+    }
 }
 
 bool DatabaseManager::UseDatabase(const std::string& db_name) {
-    if (is_closed_) {
-        return false;
-    }
+    std::lock_guard<std::mutex> lock(mutex_);
     
-    // 检查数据库是否存在
     if (database_tables_.find(db_name) == database_tables_.end()) {
-        return false;
+        // 尝试加载数据库
+        std::string db_full_path = db_path_ + "/" + db_name;
+        if (!fs::exists(db_full_path)) {
+#ifdef USE_SPDLOG
+            SPDLOG_ERROR("Database {} does not exist", db_name);
+#endif
+            return false;
+        }
+        database_tables_[db_name] = {}; // 初始化空的表列表
+        
+        // 直接加载表（避免递归锁）
+        try {
+            std::string db_path = db_path_ + "/" + db_name;
+            if (fs::exists(db_path)) {
+                for (const auto& entry : fs::directory_iterator(db_path)) {
+                    if (entry.is_regular_file() && entry.path().extension() == ".table") {
+                        std::string table_name = entry.path().stem().string();
+                        database_tables_[db_name].push_back(table_name);
+                    }
+                }
+            }
+        } catch (const std::exception& e) {
+#ifdef USE_SPDLOG
+            SPDLOG_ERROR("Failed to load tables for database {}: {}", db_name, e.what());
+#endif
+        }
     }
     
-    // 切换到指定数据库
     current_database_ = db_name;
+    
+#ifdef USE_SPDLOG
+    SPDLOG_INFO("Switched to database: {}", db_name);
+#endif
     return true;
 }
 
 std::vector<std::string> DatabaseManager::ListDatabases() {
-    std::vector<std::string> databases;
-    if (is_closed_) {
-        return databases;
-    }
-    
-    // 收集所有数据库名
+    std::lock_guard<std::mutex> lock(mutex_);
+    std::vector<std::string> db_names;
     for (const auto& pair : database_tables_) {
-        databases.push_back(pair.first);
+        db_names.push_back(pair.first);
     }
-    return databases;
+    return db_names;
 }
 
 bool DatabaseManager::DatabaseExists(const std::string& db_name) {
-    if (is_closed_) {
-        return false;
-    }
+    if (is_closed_) return false;
     
-    return database_tables_.find(db_name) != database_tables_.end();
+    std::string db_dir = db_path_ + "/" + db_name;
+    return fs::exists(db_dir);
 }
 
 std::string DatabaseManager::GetCurrentDatabase() const {
+    std::lock_guard<std::mutex> lock(mutex_);
     return current_database_;
 }
 
-// 表管理方法实现
-bool DatabaseManager::CreateTable(const std::string& table_name, const std::vector<std::pair<std::string, std::string>>& columns) {
-    if (is_closed_) {
-        return false;
-    }
+// 表管理方法
+bool DatabaseManager::CreateTable(const std::string& db_name, const std::string& table_name,
+                                const std::vector<std::pair<std::string, std::string>>& columns) {
+    std::lock_guard<std::mutex> lock(mutex_);
     
-    // 检查是否已选择数据库
-    if (current_database_.empty()) {
+    // 检查数据库是否存在
+    if (database_tables_.find(db_name) == database_tables_.end()) {
+#ifdef USE_SPDLOG
+        SPDLOG_ERROR("Database {} does not exist", db_name);
+#endif
         return false;
     }
     
     // 检查表是否已存在
-    if (TableExists(table_name)) {
+    auto& tables = database_tables_[db_name];
+    if (std::find(tables.begin(), tables.end(), table_name) != tables.end()) {
+#ifdef USE_SPDLOG
+        SPDLOG_ERROR("Table {} already exists in database {}", table_name, db_name);
+#endif
         return false;
     }
     
-    // 在当前数据库中创建表
-    database_tables_[current_database_].push_back(table_name);
-    return true;
+    try {
+        // 创建表文件并写入元数据
+        std::string table_file_path = db_path_ + "/" + db_name + "/" + table_name + ".table";
+        std::ofstream table_file(table_file_path);
+        if (!table_file) {
+#ifdef USE_SPDLOG
+            SPDLOG_ERROR("Failed to create table file: {}", table_file_path);
+#endif
+            return false;
+        }
+        
+        // 写入表元数据（简单的JSON格式）
+        table_file << "{\"table_name\":\"" << table_name << "\",";
+        table_file << "\"columns\":[";
+        for (size_t i = 0; i < columns.size(); ++i) {
+            if (i > 0) table_file << ",";
+            table_file << "{\"name\":\"" << columns[i].first << "\",";
+            table_file << "\"type\":\"" << columns[i].second << "\"}";
+        }
+        table_file << "],\"rows\":[]}" << std::endl;
+        table_file.close();
+        
+        // 将表添加到数据库表列表中
+        tables.push_back(table_name);
+        
+#ifdef USE_SPDLOG
+        SPDLOG_INFO("Created table: {} in database: {}", table_name, db_name);
+#endif
+        return true;
+    } catch (const std::exception& e) {
+#ifdef USE_SPDLOG
+        SPDLOG_ERROR("Failed to create table {} in database {}: {}", table_name, db_name, e.what());
+#endif
+        return false;
+    }
+}
+
+bool DatabaseManager::CreateTable(const std::string& table_name,
+                                const std::vector<std::pair<std::string, std::string>>& columns) {
+    return CreateTable(current_database_, table_name, columns);
 }
 
 bool DatabaseManager::DropTable(const std::string& table_name) {
-    if (is_closed_) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    if (current_database_.empty()) {
+#ifdef USE_SPDLOG
+        SPDLOG_ERROR("No database selected");
+#endif
         return false;
     }
     
-    // 检查是否已选择数据库
+    auto& tables = database_tables_[current_database_];
+    auto it = std::find(tables.begin(), tables.end(), table_name);
+    if (it == tables.end()) {
+#ifdef USE_SPDLOG
+        SPDLOG_ERROR("Table {} does not exist in database {}", table_name, current_database_);
+#endif
+        return false;
+    }
+    
+    try {
+        // 删除表文件
+        std::string table_file_path = db_path_ + "/" + current_database_ + "/" + table_name + ".table";
+        fs::remove(table_file_path);
+        
+        // 从列表中移除
+        tables.erase(it);
+        
+        // 从表存储中移除
+        table_storages_[current_database_].erase(table_name);
+        
+#ifdef USE_SPDLOG
+        SPDLOG_INFO("Dropped table {} from database {}", table_name, current_database_);
+#endif
+        return true;
+    } catch (const std::exception& e) {
+#ifdef USE_SPDLOG
+        SPDLOG_ERROR("Failed to drop table {} from database {}: {}", table_name, current_database_, e.what());
+#endif
+        return false;
+    }
+}
+
+bool DatabaseManager::TableExists(const std::string& table_name) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
     if (current_database_.empty()) {
         return false;
     }
     
-    // 检查表是否存在
     auto& tables = database_tables_[current_database_];
-    auto it = std::find(tables.begin(), tables.end(), table_name);
-    if (it == tables.end()) {
-        return false;
-    }
-    
-    // 删除表
-    tables.erase(it);
-    return true;
-}
-
-bool DatabaseManager::TableExists(const std::string& table_name) {
-    if (is_closed_ || current_database_.empty()) {
-        return false;
-    }
-    
-    const auto& tables = database_tables_[current_database_];
     return std::find(tables.begin(), tables.end(), table_name) != tables.end();
 }
 
 std::vector<std::string> DatabaseManager::ListTables() {
-    if (is_closed_ || current_database_.empty()) {
-        return std::vector<std::string>();
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    if (current_database_.empty()) {
+        return {};
     }
     
     return database_tables_[current_database_];
 }
 
-}  // namespace sqlcc
+// 事务相关方法
+// TODO: 这些方法需要在database_manager.h中声明
+TransactionId DatabaseManager::BeginTransaction(IsolationLevel isolation_level) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    if (is_closed_) {
+        throw std::runtime_error("DatabaseManager is closed");
+    }
+    static std::atomic<TransactionId> next_id{1};
+    TransactionId id = next_id++;
+    // TODO: 集成实际TransactionManager逻辑
+    return id;
+}
+
+bool DatabaseManager::CommitTransaction(TransactionId txn_id) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    if (is_closed_) {
+        return false;
+    }
+    // TODO: 集成实际TransactionManager逻辑
+    return true;
+}
+
+bool DatabaseManager::RollbackTransaction(TransactionId txn_id) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    if (is_closed_) {
+        return false;
+    }
+    // TODO: 集成实际TransactionManager逻辑
+    return true;
+}
+
+bool DatabaseManager::ReadPage(TransactionId txn_id, int32_t page_id, Page** page) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    if (is_closed_ || !buffer_pool_) return false;
+    *page = buffer_pool_->FetchPage(page_id);
+    return *page != nullptr;
+}
+
+bool DatabaseManager::WritePage(TransactionId txn_id, int32_t page_id, Page* page) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    if (is_closed_ || !buffer_pool_) return false;
+    buffer_pool_->UnpinPage(page_id, true);
+    return true;
+}
+
+bool DatabaseManager::LockKey(TransactionId txn_id, const std::string& key) {
+    // 这里应该实现实际的锁机制
+    // 暂时返回true表示成功
+    return true;
+}
+
+bool DatabaseManager::UnlockKey(TransactionId txn_id, const std::string& key) {
+    // 这里应该实现实际的解锁机制
+    // 暂时返回true表示成功
+    return true;
+}
+
+bool DatabaseManager::FlushAllPages() {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    if (is_closed_) {
+        throw std::runtime_error("DatabaseManager is closed");
+    }
+    
+    // buffer_pool_->FlushAllPages();
+    return true;
+}
+
+bool DatabaseManager::Close() {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    if (is_closed_) {
+        return true;
+    }
+    
+    try {
+        // 关闭所有表存储
+        for (auto& db_pair : table_storages_) {
+            for (auto& table_pair : db_pair.second) {
+                // table_pair.second->Close();
+            }
+        }
+        
+        table_storages_.clear();
+        database_tables_.clear();
+        
+        if (buffer_pool_) {
+            // buffer_pool_->Close();
+        }
+        
+        if (storage_engine_) {
+            // storage_engine_->Close();
+        }
+        
+        is_closed_ = true;
+        
+#ifdef USE_SPDLOG
+        SPDLOG_INFO("DatabaseManager closed successfully");
+#endif
+        return true;
+    } catch (const std::exception& e) {
+#ifdef USE_SPDLOG
+        SPDLOG_ERROR("Error closing DatabaseManager: {}", e.what());
+#endif
+        return false;
+    }
+}
+
+// LoadDatabases方法已按新风格调整，保持与上面一致
+
+bool DatabaseManager::LoadTables(const std::string& db_name) {
+    // 注意：此方法现在不再需要锁，因为它只在已加锁的UseDatabase中调用
+    // 但为了兼容性保留，如果单独调用需要加锁
+    try {
+        std::string db_path = db_path_ + "/" + db_name;
+        if (fs::exists(db_path)) {
+            for (const auto& entry : fs::directory_iterator(db_path)) {
+                if (entry.is_regular_file() && entry.path().extension() == ".table") {
+                    std::string table_name = entry.path().stem().string();
+                    database_tables_[db_name].push_back(table_name);
+                }
+            }
+        }
+        return true;
+    } catch (const std::exception& e) {
+#ifdef USE_SPDLOG
+        SPDLOG_ERROR("Failed to load tables for database {}: {}", db_name, e.what());
+#endif
+        return false;
+    }
+}
+
+} // namespace sqlcc

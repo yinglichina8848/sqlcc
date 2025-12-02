@@ -34,4 +34,4 @@
 /** @brief SQLCC版本号组件 */
 #define SQLCC_VERSION_MAJOR 1
 #define SQLCC_VERSION_MINOR 0
-#define SQLCC_VERSION_PATCH 1
+#define SQLCC_VERSION_PATCH 2

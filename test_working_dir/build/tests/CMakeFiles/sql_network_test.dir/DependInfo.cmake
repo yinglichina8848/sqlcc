@@ -8,7 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/home/liying/sqlcc/tests/network/sql_network_test.cpp" "tests/CMakeFiles/sql_network_test.dir/network/sql_network_test.cpp.o" "gcc" "tests/CMakeFiles/sql_network_test.dir/network/sql_network_test.cpp.o.d"
+  "/home/liying/sqlcc_qoder/tests/network/sql_network_test.cpp" "tests/CMakeFiles/sql_network_test.dir/network/sql_network_test.cpp.o" "gcc" "tests/CMakeFiles/sql_network_test.dir/network/sql_network_test.cpp.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

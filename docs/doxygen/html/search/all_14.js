@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['商业数据库核心索引技术：b_20树设计思想深度剖析_0',['商业数据库核心索引技术：B+树设计思想深度剖析',['../namespacesqlcc.html#autotoc_md1',1,'']]]
+  ['性能监控：埋点和调优是持续性工作_0',['- 性能监控：埋点和调优是持续性工作',['../namespacesqlcc.html#autotoc_md8',1,'']]]
 ];

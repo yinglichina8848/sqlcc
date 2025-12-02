@@ -57,10 +57,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/liying/sqlcc
+CMAKE_SOURCE_DIR = /home/liying/sqlcc_qoder
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/liying/sqlcc/test_working_dir/build
+CMAKE_BINARY_DIR = /home/liying/sqlcc_qoder/test_working_dir/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -97,9 +97,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles /home/liying/sqlcc/test_working_dir/build//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc_qoder/test_working_dir/build/CMakeFiles /home/liying/sqlcc_qoder/test_working_dir/build//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc/test_working_dir/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liying/sqlcc_qoder/test_working_dir/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -153,30 +153,147 @@ isql/fast:
 .PHONY : isql/fast
 
 #=============================================================================
-# Target rules for targets named dcl_test
+# Target rules for targets named sqlcc_server
 
 # Build rule for target.
-dcl_test: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 dcl_test
-.PHONY : dcl_test
+sqlcc_server: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 sqlcc_server
+.PHONY : sqlcc_server
 
 # fast build rule for target.
-dcl_test/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/dcl_test.dir/build.make CMakeFiles/dcl_test.dir/build
-.PHONY : dcl_test/fast
+sqlcc_server/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sqlcc_server.dir/build.make CMakeFiles/sqlcc_server.dir/build
+.PHONY : sqlcc_server/fast
 
 #=============================================================================
-# Target rules for targets named ddl_test
+# Target rules for targets named isql_network
 
 # Build rule for target.
-ddl_test: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 ddl_test
-.PHONY : ddl_test
+isql_network: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 isql_network
+.PHONY : isql_network
 
 # fast build rule for target.
-ddl_test/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ddl_test.dir/build.make CMakeFiles/ddl_test.dir/build
-.PHONY : ddl_test/fast
+isql_network/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/isql_network.dir/build.make CMakeFiles/isql_network.dir/build
+.PHONY : isql_network/fast
+
+#=============================================================================
+# Target rules for targets named test_table_storage
+
+# Build rule for target.
+test_table_storage: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_table_storage
+.PHONY : test_table_storage
+
+# fast build rule for target.
+test_table_storage/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_table_storage.dir/build.make CMakeFiles/test_table_storage.dir/build
+.PHONY : test_table_storage/fast
+
+#=============================================================================
+# Target rules for targets named test_db_persistence
+
+# Build rule for target.
+test_db_persistence: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_db_persistence
+.PHONY : test_db_persistence
+
+# fast build rule for target.
+test_db_persistence/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_db_persistence.dir/build.make CMakeFiles/test_db_persistence.dir/build
+.PHONY : test_db_persistence/fast
+
+#=============================================================================
+# Target rules for targets named simple_db_test
+
+# Build rule for target.
+simple_db_test: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 simple_db_test
+.PHONY : simple_db_test
+
+# fast build rule for target.
+simple_db_test/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/simple_db_test.dir/build.make CMakeFiles/simple_db_test.dir/build
+.PHONY : simple_db_test/fast
+
+#=============================================================================
+# Target rules for targets named pure_fs_test
+
+# Build rule for target.
+pure_fs_test: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 pure_fs_test
+.PHONY : pure_fs_test
+
+# fast build rule for target.
+pure_fs_test/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pure_fs_test.dir/build.make CMakeFiles/pure_fs_test.dir/build
+.PHONY : pure_fs_test/fast
+
+#=============================================================================
+# Target rules for targets named test_dcl_ddl_persistence
+
+# Build rule for target.
+test_dcl_ddl_persistence: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_dcl_ddl_persistence
+.PHONY : test_dcl_ddl_persistence
+
+# fast build rule for target.
+test_dcl_ddl_persistence/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dcl_ddl_persistence.dir/build.make CMakeFiles/test_dcl_ddl_persistence.dir/build
+.PHONY : test_dcl_ddl_persistence/fast
+
+#=============================================================================
+# Target rules for targets named simple_dcl_ddl_test
+
+# Build rule for target.
+simple_dcl_ddl_test: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 simple_dcl_ddl_test
+.PHONY : simple_dcl_ddl_test
+
+# fast build rule for target.
+simple_dcl_ddl_test/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/simple_dcl_ddl_test.dir/build.make CMakeFiles/simple_dcl_ddl_test.dir/build
+.PHONY : simple_dcl_ddl_test/fast
+
+#=============================================================================
+# Target rules for targets named persistence_check
+
+# Build rule for target.
+persistence_check: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 persistence_check
+.PHONY : persistence_check
+
+# fast build rule for target.
+persistence_check/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/persistence_check.dir/build.make CMakeFiles/persistence_check.dir/build
+.PHONY : persistence_check/fast
+
+#=============================================================================
+# Target rules for targets named dcl_ddl_persistence_test
+
+# Build rule for target.
+dcl_ddl_persistence_test: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 dcl_ddl_persistence_test
+.PHONY : dcl_ddl_persistence_test
+
+# fast build rule for target.
+dcl_ddl_persistence_test/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/dcl_ddl_persistence_test.dir/build.make CMakeFiles/dcl_ddl_persistence_test.dir/build
+.PHONY : dcl_ddl_persistence_test/fast
+
+#=============================================================================
+# Target rules for targets named user_persistence_test
+
+# Build rule for target.
+user_persistence_test: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 user_persistence_test
+.PHONY : user_persistence_test
+
+# fast build rule for target.
+user_persistence_test/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/user_persistence_test.dir/build.make CMakeFiles/user_persistence_test.dir/build
+.PHONY : user_persistence_test/fast
 
 #=============================================================================
 # Target rules for targets named unit
@@ -190,6 +307,58 @@ unit: cmake_check_build_system
 unit/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit.dir/build.make CMakeFiles/unit.dir/build
 .PHONY : unit/fast
+
+#=============================================================================
+# Target rules for targets named unit_tests
+
+# Build rule for target.
+unit_tests: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 unit_tests
+.PHONY : unit_tests
+
+# fast build rule for target.
+unit_tests/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/build
+.PHONY : unit_tests/fast
+
+#=============================================================================
+# Target rules for targets named integration_tests
+
+# Build rule for target.
+integration_tests: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 integration_tests
+.PHONY : integration_tests
+
+# fast build rule for target.
+integration_tests/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/integration_tests.dir/build.make CMakeFiles/integration_tests.dir/build
+.PHONY : integration_tests/fast
+
+#=============================================================================
+# Target rules for targets named performance_tests
+
+# Build rule for target.
+performance_tests: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 performance_tests
+.PHONY : performance_tests
+
+# fast build rule for target.
+performance_tests/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/performance_tests.dir/build.make CMakeFiles/performance_tests.dir/build
+.PHONY : performance_tests/fast
+
+#=============================================================================
+# Target rules for targets named all_tests
+
+# Build rule for target.
+all_tests: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all_tests
+.PHONY : all_tests
+
+# fast build rule for target.
+all_tests/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/all_tests.dir/build.make CMakeFiles/all_tests.dir/build
+.PHONY : all_tests/fast
 
 #=============================================================================
 # Target rules for targets named coverage
@@ -218,17 +387,17 @@ performance/fast:
 .PHONY : performance/fast
 
 #=============================================================================
-# Target rules for targets named test_all
+# Target rules for targets named run_all_tests
 
 # Build rule for target.
-test_all: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_all
-.PHONY : test_all
+run_all_tests: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 run_all_tests
+.PHONY : run_all_tests
 
 # fast build rule for target.
-test_all/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_all.dir/build.make CMakeFiles/test_all.dir/build
-.PHONY : test_all/fast
+run_all_tests/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/run_all_tests.dir/build.make CMakeFiles/run_all_tests.dir/build
+.PHONY : run_all_tests/fast
 
 #=============================================================================
 # Target rules for targets named clean_external_files
@@ -255,6 +424,19 @@ check_external_files: cmake_check_build_system
 check_external_files/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/check_external_files.dir/build.make CMakeFiles/check_external_files.dir/build
 .PHONY : check_external_files/fast
+
+#=============================================================================
+# Target rules for targets named test_report
+
+# Build rule for target.
+test_report: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_report
+.PHONY : test_report
+
+# fast build rule for target.
+test_report/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_report.dir/build.make CMakeFiles/test_report.dir/build
+.PHONY : test_report/fast
 
 #=============================================================================
 # Target rules for targets named sqlcc_core_lib
@@ -348,97 +530,6 @@ sqlcc_executor/fast:
 .PHONY : sqlcc_executor/fast
 
 #=============================================================================
-# Target rules for targets named dml_test
-
-# Build rule for target.
-dml_test: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 dml_test
-.PHONY : dml_test
-
-# fast build rule for target.
-dml_test/fast:
-	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/dml_test.dir/build.make src/CMakeFiles/dml_test.dir/build
-.PHONY : dml_test/fast
-
-#=============================================================================
-# Target rules for targets named comprehensive_test
-
-# Build rule for target.
-comprehensive_test: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 comprehensive_test
-.PHONY : comprehensive_test
-
-# fast build rule for target.
-comprehensive_test/fast:
-	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/comprehensive_test.dir/build.make src/CMakeFiles/comprehensive_test.dir/build
-.PHONY : comprehensive_test/fast
-
-#=============================================================================
-# Target rules for targets named dcl_test_advanced
-
-# Build rule for target.
-dcl_test_advanced: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 dcl_test_advanced
-.PHONY : dcl_test_advanced
-
-# fast build rule for target.
-dcl_test_advanced/fast:
-	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/dcl_test_advanced.dir/build.make src/CMakeFiles/dcl_test_advanced.dir/build
-.PHONY : dcl_test_advanced/fast
-
-#=============================================================================
-# Target rules for targets named sql_executor_comprehensive_test
-
-# Build rule for target.
-sql_executor_comprehensive_test: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 sql_executor_comprehensive_test
-.PHONY : sql_executor_comprehensive_test
-
-# fast build rule for target.
-sql_executor_comprehensive_test/fast:
-	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/sql_executor_comprehensive_test.dir/build.make src/CMakeFiles/sql_executor_comprehensive_test.dir/build
-.PHONY : sql_executor_comprehensive_test/fast
-
-#=============================================================================
-# Target rules for targets named sql_executor_targeted_test
-
-# Build rule for target.
-sql_executor_targeted_test: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 sql_executor_targeted_test
-.PHONY : sql_executor_targeted_test
-
-# fast build rule for target.
-sql_executor_targeted_test/fast:
-	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/sql_executor_targeted_test.dir/build.make src/CMakeFiles/sql_executor_targeted_test.dir/build
-.PHONY : sql_executor_targeted_test/fast
-
-#=============================================================================
-# Target rules for targets named sql_executor_unit_test
-
-# Build rule for target.
-sql_executor_unit_test: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 sql_executor_unit_test
-.PHONY : sql_executor_unit_test
-
-# fast build rule for target.
-sql_executor_unit_test/fast:
-	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/sql_executor_unit_test.dir/build.make src/CMakeFiles/sql_executor_unit_test.dir/build
-.PHONY : sql_executor_unit_test/fast
-
-#=============================================================================
-# Target rules for targets named sql_executor_minimal_test
-
-# Build rule for target.
-sql_executor_minimal_test: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 sql_executor_minimal_test
-.PHONY : sql_executor_minimal_test
-
-# fast build rule for target.
-sql_executor_minimal_test/fast:
-	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/sql_executor_minimal_test.dir/build.make src/CMakeFiles/sql_executor_minimal_test.dir/build
-.PHONY : sql_executor_minimal_test/fast
-
-#=============================================================================
 # Target rules for targets named sql_network_test
 
 # Build rule for target.
@@ -452,440 +543,390 @@ sql_network_test/fast:
 .PHONY : sql_network_test/fast
 
 #=============================================================================
-# Target rules for targets named performance_test
+# Target rules for targets named tls_e2e_test
 
 # Build rule for target.
-performance_test: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 performance_test
-.PHONY : performance_test
+tls_e2e_test: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tls_e2e_test
+.PHONY : tls_e2e_test
 
 # fast build rule for target.
-performance_test/fast:
-	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/performance_test.dir/build.make tests/performance/CMakeFiles/performance_test.dir/build
-.PHONY : performance_test/fast
+tls_e2e_test/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/tls_e2e_test.dir/build.make tests/CMakeFiles/tls_e2e_test.dir/build
+.PHONY : tls_e2e_test/fast
 
 #=============================================================================
-# Target rules for targets named performance_help
+# Target rules for targets named aes_encryption_test
 
 # Build rule for target.
-performance_help: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 performance_help
-.PHONY : performance_help
+aes_encryption_test: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 aes_encryption_test
+.PHONY : aes_encryption_test
 
 # fast build rule for target.
-performance_help/fast:
-	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/performance_help.dir/build.make tests/performance/CMakeFiles/performance_help.dir/build
-.PHONY : performance_help/fast
+aes_encryption_test/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/aes_encryption_test.dir/build.make tests/CMakeFiles/aes_encryption_test.dir/build
+.PHONY : aes_encryption_test/fast
 
 #=============================================================================
-# Target rules for targets named ensure_performance_results_dir
+# Target rules for targets named sql_parser_test
 
 # Build rule for target.
-ensure_performance_results_dir: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 ensure_performance_results_dir
-.PHONY : ensure_performance_results_dir
+sql_parser_test: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 sql_parser_test
+.PHONY : sql_parser_test
 
 # fast build rule for target.
-ensure_performance_results_dir/fast:
-	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/ensure_performance_results_dir.dir/build.make tests/performance/CMakeFiles/ensure_performance_results_dir.dir/build
-.PHONY : ensure_performance_results_dir/fast
+sql_parser_test/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/sql_parser_test.dir/build.make tests/CMakeFiles/sql_parser_test.dir/build
+.PHONY : sql_parser_test/fast
 
 #=============================================================================
-# Target rules for targets named run_all_performance_tests
+# Target rules for targets named lexer_test
 
 # Build rule for target.
-run_all_performance_tests: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 run_all_performance_tests
-.PHONY : run_all_performance_tests
+lexer_test: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 lexer_test
+.PHONY : lexer_test
 
 # fast build rule for target.
-run_all_performance_tests/fast:
-	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/run_all_performance_tests.dir/build.make tests/performance/CMakeFiles/run_all_performance_tests.dir/build
-.PHONY : run_all_performance_tests/fast
+lexer_test/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/lexer_test.dir/build.make tests/CMakeFiles/lexer_test.dir/build
+.PHONY : lexer_test/fast
 
 #=============================================================================
-# Target rules for targets named run_buffer_pool_tests
+# Target rules for targets named comprehensive_test
 
 # Build rule for target.
-run_buffer_pool_tests: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 run_buffer_pool_tests
-.PHONY : run_buffer_pool_tests
+comprehensive_test: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 comprehensive_test
+.PHONY : comprehensive_test
 
 # fast build rule for target.
-run_buffer_pool_tests/fast:
-	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/run_buffer_pool_tests.dir/build.make tests/performance/CMakeFiles/run_buffer_pool_tests.dir/build
-.PHONY : run_buffer_pool_tests/fast
+comprehensive_test/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/comprehensive_test.dir/build.make tests/CMakeFiles/comprehensive_test.dir/build
+.PHONY : comprehensive_test/fast
 
 #=============================================================================
-# Target rules for targets named run_disk_io_tests
+# Target rules for targets named dcl_test
 
 # Build rule for target.
-run_disk_io_tests: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 run_disk_io_tests
-.PHONY : run_disk_io_tests
+dcl_test: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 dcl_test
+.PHONY : dcl_test
 
 # fast build rule for target.
-run_disk_io_tests/fast:
-	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/run_disk_io_tests.dir/build.make tests/performance/CMakeFiles/run_disk_io_tests.dir/build
-.PHONY : run_disk_io_tests/fast
+dcl_test/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/dcl_test.dir/build.make tests/CMakeFiles/dcl_test.dir/build
+.PHONY : dcl_test/fast
 
 #=============================================================================
-# Target rules for targets named run_mixed_workload_tests
+# Target rules for targets named dcl_test_advanced
 
 # Build rule for target.
-run_mixed_workload_tests: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 run_mixed_workload_tests
-.PHONY : run_mixed_workload_tests
+dcl_test_advanced: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 dcl_test_advanced
+.PHONY : dcl_test_advanced
 
 # fast build rule for target.
-run_mixed_workload_tests/fast:
-	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/run_mixed_workload_tests.dir/build.make tests/performance/CMakeFiles/run_mixed_workload_tests.dir/build
-.PHONY : run_mixed_workload_tests/fast
+dcl_test_advanced/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/dcl_test_advanced.dir/build.make tests/CMakeFiles/dcl_test_advanced.dir/build
+.PHONY : dcl_test_advanced/fast
 
 #=============================================================================
-# Target rules for targets named run_batch_prefetch_tests
+# Target rules for targets named dcl_parser_test
 
 # Build rule for target.
-run_batch_prefetch_tests: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 run_batch_prefetch_tests
-.PHONY : run_batch_prefetch_tests
+dcl_parser_test: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 dcl_parser_test
+.PHONY : dcl_parser_test
 
 # fast build rule for target.
-run_batch_prefetch_tests/fast:
-	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/run_batch_prefetch_tests.dir/build.make tests/performance/CMakeFiles/run_batch_prefetch_tests.dir/build
-.PHONY : run_batch_prefetch_tests/fast
+dcl_parser_test/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/dcl_parser_test.dir/build.make tests/CMakeFiles/dcl_parser_test.dir/build
+.PHONY : dcl_parser_test/fast
 
 #=============================================================================
-# Target rules for targets named run_million_insert_tests
+# Target rules for targets named ddl_test
 
 # Build rule for target.
-run_million_insert_tests: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 run_million_insert_tests
-.PHONY : run_million_insert_tests
+ddl_test: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 ddl_test
+.PHONY : ddl_test
 
 # fast build rule for target.
-run_million_insert_tests/fast:
-	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/run_million_insert_tests.dir/build.make tests/performance/CMakeFiles/run_million_insert_tests.dir/build
-.PHONY : run_million_insert_tests/fast
+ddl_test/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/ddl_test.dir/build.make tests/CMakeFiles/ddl_test.dir/build
+.PHONY : ddl_test/fast
 
 #=============================================================================
-# Target rules for targets named run_concurrency_test
+# Target rules for targets named dml_test
 
 # Build rule for target.
-run_concurrency_test: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 run_concurrency_test
-.PHONY : run_concurrency_test
+dml_test: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 dml_test
+.PHONY : dml_test
 
 # fast build rule for target.
-run_concurrency_test/fast:
-	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/run_concurrency_test.dir/build.make tests/performance/CMakeFiles/run_concurrency_test.dir/build
-.PHONY : run_concurrency_test/fast
+dml_test/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/dml_test.dir/build.make tests/CMakeFiles/dml_test.dir/build
+.PHONY : dml_test/fast
 
 #=============================================================================
-# Target rules for targets named run_cpu_intensive_test
+# Target rules for targets named simple_test
 
 # Build rule for target.
-run_cpu_intensive_test: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 run_cpu_intensive_test
-.PHONY : run_cpu_intensive_test
+simple_test: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 simple_test
+.PHONY : simple_test
 
 # fast build rule for target.
-run_cpu_intensive_test/fast:
-	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/run_cpu_intensive_test.dir/build.make tests/performance/CMakeFiles/run_cpu_intensive_test.dir/build
-.PHONY : run_cpu_intensive_test/fast
+simple_test/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/simple_test.dir/build.make tests/CMakeFiles/simple_test.dir/build
+.PHONY : simple_test/fast
 
 #=============================================================================
-# Target rules for targets named run_memory_stress_test
+# Target rules for targets named transaction_manager_test
 
 # Build rule for target.
-run_memory_stress_test: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 run_memory_stress_test
-.PHONY : run_memory_stress_test
+transaction_manager_test: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 transaction_manager_test
+.PHONY : transaction_manager_test
 
 # fast build rule for target.
-run_memory_stress_test/fast:
-	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/run_memory_stress_test.dir/build.make tests/performance/CMakeFiles/run_memory_stress_test.dir/build
-.PHONY : run_memory_stress_test/fast
+transaction_manager_test/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/transaction_manager_test.dir/build.make tests/CMakeFiles/transaction_manager_test.dir/build
+.PHONY : transaction_manager_test/fast
 
 #=============================================================================
-# Target rules for targets named run_stability_test
+# Target rules for targets named disk_manager_test
 
 # Build rule for target.
-run_stability_test: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 run_stability_test
-.PHONY : run_stability_test
+disk_manager_test: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 disk_manager_test
+.PHONY : disk_manager_test
 
 # fast build rule for target.
-run_stability_test/fast:
-	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/run_stability_test.dir/build.make tests/performance/CMakeFiles/run_stability_test.dir/build
-.PHONY : run_stability_test/fast
+disk_manager_test/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/disk_manager_test.dir/build.make tests/CMakeFiles/disk_manager_test.dir/build
+.PHONY : disk_manager_test/fast
 
 #=============================================================================
-# Target rules for targets named performance_core
+# Target rules for targets named buffer_pool_test
 
 # Build rule for target.
-performance_core: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 performance_core
-.PHONY : performance_core
+buffer_pool_test: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 buffer_pool_test
+.PHONY : buffer_pool_test
 
 # fast build rule for target.
-performance_core/fast:
-	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/performance_core.dir/build.make tests/performance/CMakeFiles/performance_core.dir/build
-.PHONY : performance_core/fast
+buffer_pool_test/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/buffer_pool_test.dir/build.make tests/CMakeFiles/buffer_pool_test.dir/build
+.PHONY : buffer_pool_test/fast
 
 #=============================================================================
-# Target rules for targets named performance_full
+# Target rules for targets named b_plus_tree_test
 
 # Build rule for target.
-performance_full: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 performance_full
-.PHONY : performance_full
+b_plus_tree_test: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 b_plus_tree_test
+.PHONY : b_plus_tree_test
 
 # fast build rule for target.
-performance_full/fast:
-	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/performance_full.dir/build.make tests/performance/CMakeFiles/performance_full.dir/build
-.PHONY : performance_full/fast
+b_plus_tree_test/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/b_plus_tree_test.dir/build.make tests/CMakeFiles/b_plus_tree_test.dir/build
+.PHONY : b_plus_tree_test/fast
 
 #=============================================================================
-# Target rules for targets named performance_quick
+# Target rules for targets named sql_executor_comprehensive_test
 
 # Build rule for target.
-performance_quick: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 performance_quick
-.PHONY : performance_quick
+sql_executor_comprehensive_test: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 sql_executor_comprehensive_test
+.PHONY : sql_executor_comprehensive_test
 
 # fast build rule for target.
-performance_quick/fast:
-	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/performance_quick.dir/build.make tests/performance/CMakeFiles/performance_quick.dir/build
-.PHONY : performance_quick/fast
+sql_executor_comprehensive_test/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/sql_executor_comprehensive_test.dir/build.make tests/CMakeFiles/sql_executor_comprehensive_test.dir/build
+.PHONY : sql_executor_comprehensive_test/fast
 
 #=============================================================================
-# Target rules for targets named performance_stress
+# Target rules for targets named sql_executor_minimal_test
 
 # Build rule for target.
-performance_stress: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 performance_stress
-.PHONY : performance_stress
+sql_executor_minimal_test: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 sql_executor_minimal_test
+.PHONY : sql_executor_minimal_test
 
 # fast build rule for target.
-performance_stress/fast:
-	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/performance_stress.dir/build.make tests/performance/CMakeFiles/performance_stress.dir/build
-.PHONY : performance_stress/fast
+sql_executor_minimal_test/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/sql_executor_minimal_test.dir/build.make tests/CMakeFiles/sql_executor_minimal_test.dir/build
+.PHONY : sql_executor_minimal_test/fast
 
 #=============================================================================
-# Target rules for targets named performance_benchmark
+# Target rules for targets named sql_executor_targeted_test
 
 # Build rule for target.
-performance_benchmark: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 performance_benchmark
-.PHONY : performance_benchmark
+sql_executor_targeted_test: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 sql_executor_targeted_test
+.PHONY : sql_executor_targeted_test
 
 # fast build rule for target.
-performance_benchmark/fast:
-	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/performance_benchmark.dir/build.make tests/performance/CMakeFiles/performance_benchmark.dir/build
-.PHONY : performance_benchmark/fast
+sql_executor_targeted_test/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/sql_executor_targeted_test.dir/build.make tests/CMakeFiles/sql_executor_targeted_test.dir/build
+.PHONY : sql_executor_targeted_test/fast
 
 #=============================================================================
-# Target rules for targets named clean_performance_results
+# Target rules for targets named sql_executor_unit_test
 
 # Build rule for target.
-clean_performance_results: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 clean_performance_results
-.PHONY : clean_performance_results
+sql_executor_unit_test: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 sql_executor_unit_test
+.PHONY : sql_executor_unit_test
 
 # fast build rule for target.
-clean_performance_results/fast:
-	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/clean_performance_results.dir/build.make tests/performance/CMakeFiles/clean_performance_results.dir/build
-.PHONY : clean_performance_results/fast
+sql_executor_unit_test/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/sql_executor_unit_test.dir/build.make tests/CMakeFiles/sql_executor_unit_test.dir/build
+.PHONY : sql_executor_unit_test/fast
 
 #=============================================================================
-# Target rules for targets named view_performance_results
+# Target rules for targets named test_sql_executor
 
 # Build rule for target.
-view_performance_results: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 view_performance_results
-.PHONY : view_performance_results
+test_sql_executor: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_sql_executor
+.PHONY : test_sql_executor
 
 # fast build rule for target.
-view_performance_results/fast:
-	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/view_performance_results.dir/build.make tests/performance/CMakeFiles/view_performance_results.dir/build
-.PHONY : view_performance_results/fast
+test_sql_executor/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_sql_executor.dir/build.make tests/CMakeFiles/test_sql_executor.dir/build
+.PHONY : test_sql_executor/fast
 
 #=============================================================================
-# Target rules for targets named run_large_scale_test
+# Target rules for targets named client_server_integration_test
 
 # Build rule for target.
-run_large_scale_test: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 run_large_scale_test
-.PHONY : run_large_scale_test
+client_server_integration_test: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 client_server_integration_test
+.PHONY : client_server_integration_test
 
 # fast build rule for target.
-run_large_scale_test/fast:
-	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/run_large_scale_test.dir/build.make tests/performance/CMakeFiles/run_large_scale_test.dir/build
-.PHONY : run_large_scale_test/fast
+client_server_integration_test/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/client_server_integration_test.dir/build.make tests/CMakeFiles/client_server_integration_test.dir/build
+.PHONY : client_server_integration_test/fast
 
 #=============================================================================
-# Target rules for targets named run_index_benchmark
+# Target rules for targets named network_unit_test
 
 # Build rule for target.
-run_index_benchmark: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 run_index_benchmark
-.PHONY : run_index_benchmark
+network_unit_test: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 network_unit_test
+.PHONY : network_unit_test
 
 # fast build rule for target.
-run_index_benchmark/fast:
-	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/run_index_benchmark.dir/build.make tests/performance/CMakeFiles/run_index_benchmark.dir/build
-.PHONY : run_index_benchmark/fast
+network_unit_test/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/network_unit_test.dir/build.make tests/CMakeFiles/network_unit_test.dir/build
+.PHONY : network_unit_test/fast
 
 #=============================================================================
-# Target rules for targets named run_constraint_benchmark
+# Target rules for targets named client_server_tests
 
 # Build rule for target.
-run_constraint_benchmark: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 run_constraint_benchmark
-.PHONY : run_constraint_benchmark
+client_server_tests: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 client_server_tests
+.PHONY : client_server_tests
 
 # fast build rule for target.
-run_constraint_benchmark/fast:
-	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/run_constraint_benchmark.dir/build.make tests/performance/CMakeFiles/run_constraint_benchmark.dir/build
-.PHONY : run_constraint_benchmark/fast
+client_server_tests/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/client_server_tests.dir/build.make tests/CMakeFiles/client_server_tests.dir/build
+.PHONY : client_server_tests/fast
 
 #=============================================================================
-# Target rules for targets named run_performance_suite
+# Target rules for targets named isql_integration_test
 
 # Build rule for target.
-run_performance_suite: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 run_performance_suite
-.PHONY : run_performance_suite
+isql_integration_test: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 isql_integration_test
+.PHONY : isql_integration_test
 
 # fast build rule for target.
-run_performance_suite/fast:
-	$(MAKE) $(MAKESILENT) -f tests/performance/CMakeFiles/run_performance_suite.dir/build.make tests/performance/CMakeFiles/run_performance_suite.dir/build
-.PHONY : run_performance_suite/fast
+isql_integration_test/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/isql_integration_test.dir/build.make tests/CMakeFiles/isql_integration_test.dir/build
+.PHONY : isql_integration_test/fast
 
 #=============================================================================
-# Target rules for targets named concurrency_test
+# Target rules for targets named isql_integration_tests
 
 # Build rule for target.
-concurrency_test: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 concurrency_test
-.PHONY : concurrency_test
+isql_integration_tests: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 isql_integration_tests
+.PHONY : isql_integration_tests
 
 # fast build rule for target.
-concurrency_test/fast:
-	$(MAKE) $(MAKESILENT) -f tests/performance/concurrency_test/CMakeFiles/concurrency_test.dir/build.make tests/performance/concurrency_test/CMakeFiles/concurrency_test.dir/build
-.PHONY : concurrency_test/fast
+isql_integration_tests/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/isql_integration_tests.dir/build.make tests/CMakeFiles/isql_integration_tests.dir/build
+.PHONY : isql_integration_tests/fast
 
 #=============================================================================
-# Target rules for targets named cpu_intensive_test
+# Target rules for targets named parser_verification_test
 
 # Build rule for target.
-cpu_intensive_test: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 cpu_intensive_test
-.PHONY : cpu_intensive_test
+parser_verification_test: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 parser_verification_test
+.PHONY : parser_verification_test
 
 # fast build rule for target.
-cpu_intensive_test/fast:
-	$(MAKE) $(MAKESILENT) -f tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/build.make tests/performance/cpu_test/CMakeFiles/cpu_intensive_test.dir/build
-.PHONY : cpu_intensive_test/fast
+parser_verification_test/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/parser_verification_test.dir/build.make tests/CMakeFiles/parser_verification_test.dir/build
+.PHONY : parser_verification_test/fast
 
-#=============================================================================
-# Target rules for targets named memory_stress_test
-
-# Build rule for target.
-memory_stress_test: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 memory_stress_test
-.PHONY : memory_stress_test
-
-# fast build rule for target.
-memory_stress_test/fast:
-	$(MAKE) $(MAKESILENT) -f tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/build.make tests/performance/memory_stress_test/CMakeFiles/memory_stress_test.dir/build
-.PHONY : memory_stress_test/fast
-
-#=============================================================================
-# Target rules for targets named stability_test
-
-# Build rule for target.
-stability_test: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 stability_test
-.PHONY : stability_test
-
-# fast build rule for target.
-stability_test/fast:
-	$(MAKE) $(MAKESILENT) -f tests/performance/stability_test/CMakeFiles/stability_test.dir/build.make tests/performance/stability_test/CMakeFiles/stability_test.dir/build
-.PHONY : stability_test/fast
-
-src/dcl_test.o: src/dcl_test.cpp.o
-.PHONY : src/dcl_test.o
+src/bin/isql_main.o: src/bin/isql_main.cpp.o
+.PHONY : src/bin/isql_main.o
 
 # target to build an object file
-src/dcl_test.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/dcl_test.dir/build.make CMakeFiles/dcl_test.dir/src/dcl_test.cpp.o
-.PHONY : src/dcl_test.cpp.o
+src/bin/isql_main.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/isql.dir/build.make CMakeFiles/isql.dir/src/bin/isql_main.cpp.o
+.PHONY : src/bin/isql_main.cpp.o
 
-src/dcl_test.i: src/dcl_test.cpp.i
-.PHONY : src/dcl_test.i
+src/bin/isql_main.i: src/bin/isql_main.cpp.i
+.PHONY : src/bin/isql_main.i
 
 # target to preprocess a source file
-src/dcl_test.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/dcl_test.dir/build.make CMakeFiles/dcl_test.dir/src/dcl_test.cpp.i
-.PHONY : src/dcl_test.cpp.i
+src/bin/isql_main.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/isql.dir/build.make CMakeFiles/isql.dir/src/bin/isql_main.cpp.i
+.PHONY : src/bin/isql_main.cpp.i
 
-src/dcl_test.s: src/dcl_test.cpp.s
-.PHONY : src/dcl_test.s
+src/bin/isql_main.s: src/bin/isql_main.cpp.s
+.PHONY : src/bin/isql_main.s
 
 # target to generate assembly for a file
-src/dcl_test.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/dcl_test.dir/build.make CMakeFiles/dcl_test.dir/src/dcl_test.cpp.s
-.PHONY : src/dcl_test.cpp.s
+src/bin/isql_main.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/isql.dir/build.make CMakeFiles/isql.dir/src/bin/isql_main.cpp.s
+.PHONY : src/bin/isql_main.cpp.s
 
-src/ddl_test.o: src/ddl_test.cpp.o
-.PHONY : src/ddl_test.o
+src/isql_network/client_main.o: src/isql_network/client_main.cpp.o
+.PHONY : src/isql_network/client_main.o
 
 # target to build an object file
-src/ddl_test.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ddl_test.dir/build.make CMakeFiles/ddl_test.dir/src/ddl_test.cpp.o
-.PHONY : src/ddl_test.cpp.o
+src/isql_network/client_main.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/isql_network.dir/build.make CMakeFiles/isql_network.dir/src/isql_network/client_main.cpp.o
+.PHONY : src/isql_network/client_main.cpp.o
 
-src/ddl_test.i: src/ddl_test.cpp.i
-.PHONY : src/ddl_test.i
-
-# target to preprocess a source file
-src/ddl_test.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ddl_test.dir/build.make CMakeFiles/ddl_test.dir/src/ddl_test.cpp.i
-.PHONY : src/ddl_test.cpp.i
-
-src/ddl_test.s: src/ddl_test.cpp.s
-.PHONY : src/ddl_test.s
-
-# target to generate assembly for a file
-src/ddl_test.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ddl_test.dir/build.make CMakeFiles/ddl_test.dir/src/ddl_test.cpp.s
-.PHONY : src/ddl_test.cpp.s
-
-src/isql_main.o: src/isql_main.cpp.o
-.PHONY : src/isql_main.o
-
-# target to build an object file
-src/isql_main.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/isql.dir/build.make CMakeFiles/isql.dir/src/isql_main.cpp.o
-.PHONY : src/isql_main.cpp.o
-
-src/isql_main.i: src/isql_main.cpp.i
-.PHONY : src/isql_main.i
+src/isql_network/client_main.i: src/isql_network/client_main.cpp.i
+.PHONY : src/isql_network/client_main.i
 
 # target to preprocess a source file
-src/isql_main.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/isql.dir/build.make CMakeFiles/isql.dir/src/isql_main.cpp.i
-.PHONY : src/isql_main.cpp.i
+src/isql_network/client_main.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/isql_network.dir/build.make CMakeFiles/isql_network.dir/src/isql_network/client_main.cpp.i
+.PHONY : src/isql_network/client_main.cpp.i
 
-src/isql_main.s: src/isql_main.cpp.s
-.PHONY : src/isql_main.s
+src/isql_network/client_main.s: src/isql_network/client_main.cpp.s
+.PHONY : src/isql_network/client_main.s
 
 # target to generate assembly for a file
-src/isql_main.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/isql.dir/build.make CMakeFiles/isql.dir/src/isql_main.cpp.s
-.PHONY : src/isql_main.cpp.s
+src/isql_network/client_main.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/isql_network.dir/build.make CMakeFiles/isql_network.dir/src/isql_network/client_main.cpp.s
+.PHONY : src/isql_network/client_main.cpp.s
 
 src/main.o: src/main.cpp.o
 .PHONY : src/main.o
@@ -911,6 +952,246 @@ src/main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sqlcc.dir/build.make CMakeFiles/sqlcc.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 
+src/sqlcc_server/server_main.o: src/sqlcc_server/server_main.cpp.o
+.PHONY : src/sqlcc_server/server_main.o
+
+# target to build an object file
+src/sqlcc_server/server_main.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sqlcc_server.dir/build.make CMakeFiles/sqlcc_server.dir/src/sqlcc_server/server_main.cpp.o
+.PHONY : src/sqlcc_server/server_main.cpp.o
+
+src/sqlcc_server/server_main.i: src/sqlcc_server/server_main.cpp.i
+.PHONY : src/sqlcc_server/server_main.i
+
+# target to preprocess a source file
+src/sqlcc_server/server_main.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sqlcc_server.dir/build.make CMakeFiles/sqlcc_server.dir/src/sqlcc_server/server_main.cpp.i
+.PHONY : src/sqlcc_server/server_main.cpp.i
+
+src/sqlcc_server/server_main.s: src/sqlcc_server/server_main.cpp.s
+.PHONY : src/sqlcc_server/server_main.s
+
+# target to generate assembly for a file
+src/sqlcc_server/server_main.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sqlcc_server.dir/build.make CMakeFiles/sqlcc_server.dir/src/sqlcc_server/server_main.cpp.s
+.PHONY : src/sqlcc_server/server_main.cpp.s
+
+tests/legacy/dcl_ddl_persistence_test.o: tests/legacy/dcl_ddl_persistence_test.cpp.o
+.PHONY : tests/legacy/dcl_ddl_persistence_test.o
+
+# target to build an object file
+tests/legacy/dcl_ddl_persistence_test.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/dcl_ddl_persistence_test.dir/build.make CMakeFiles/dcl_ddl_persistence_test.dir/tests/legacy/dcl_ddl_persistence_test.cpp.o
+.PHONY : tests/legacy/dcl_ddl_persistence_test.cpp.o
+
+tests/legacy/dcl_ddl_persistence_test.i: tests/legacy/dcl_ddl_persistence_test.cpp.i
+.PHONY : tests/legacy/dcl_ddl_persistence_test.i
+
+# target to preprocess a source file
+tests/legacy/dcl_ddl_persistence_test.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/dcl_ddl_persistence_test.dir/build.make CMakeFiles/dcl_ddl_persistence_test.dir/tests/legacy/dcl_ddl_persistence_test.cpp.i
+.PHONY : tests/legacy/dcl_ddl_persistence_test.cpp.i
+
+tests/legacy/dcl_ddl_persistence_test.s: tests/legacy/dcl_ddl_persistence_test.cpp.s
+.PHONY : tests/legacy/dcl_ddl_persistence_test.s
+
+# target to generate assembly for a file
+tests/legacy/dcl_ddl_persistence_test.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/dcl_ddl_persistence_test.dir/build.make CMakeFiles/dcl_ddl_persistence_test.dir/tests/legacy/dcl_ddl_persistence_test.cpp.s
+.PHONY : tests/legacy/dcl_ddl_persistence_test.cpp.s
+
+tests/legacy/persistence_check.o: tests/legacy/persistence_check.cpp.o
+.PHONY : tests/legacy/persistence_check.o
+
+# target to build an object file
+tests/legacy/persistence_check.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/persistence_check.dir/build.make CMakeFiles/persistence_check.dir/tests/legacy/persistence_check.cpp.o
+.PHONY : tests/legacy/persistence_check.cpp.o
+
+tests/legacy/persistence_check.i: tests/legacy/persistence_check.cpp.i
+.PHONY : tests/legacy/persistence_check.i
+
+# target to preprocess a source file
+tests/legacy/persistence_check.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/persistence_check.dir/build.make CMakeFiles/persistence_check.dir/tests/legacy/persistence_check.cpp.i
+.PHONY : tests/legacy/persistence_check.cpp.i
+
+tests/legacy/persistence_check.s: tests/legacy/persistence_check.cpp.s
+.PHONY : tests/legacy/persistence_check.s
+
+# target to generate assembly for a file
+tests/legacy/persistence_check.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/persistence_check.dir/build.make CMakeFiles/persistence_check.dir/tests/legacy/persistence_check.cpp.s
+.PHONY : tests/legacy/persistence_check.cpp.s
+
+tests/legacy/pure_fs_test.o: tests/legacy/pure_fs_test.cpp.o
+.PHONY : tests/legacy/pure_fs_test.o
+
+# target to build an object file
+tests/legacy/pure_fs_test.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pure_fs_test.dir/build.make CMakeFiles/pure_fs_test.dir/tests/legacy/pure_fs_test.cpp.o
+.PHONY : tests/legacy/pure_fs_test.cpp.o
+
+tests/legacy/pure_fs_test.i: tests/legacy/pure_fs_test.cpp.i
+.PHONY : tests/legacy/pure_fs_test.i
+
+# target to preprocess a source file
+tests/legacy/pure_fs_test.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pure_fs_test.dir/build.make CMakeFiles/pure_fs_test.dir/tests/legacy/pure_fs_test.cpp.i
+.PHONY : tests/legacy/pure_fs_test.cpp.i
+
+tests/legacy/pure_fs_test.s: tests/legacy/pure_fs_test.cpp.s
+.PHONY : tests/legacy/pure_fs_test.s
+
+# target to generate assembly for a file
+tests/legacy/pure_fs_test.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pure_fs_test.dir/build.make CMakeFiles/pure_fs_test.dir/tests/legacy/pure_fs_test.cpp.s
+.PHONY : tests/legacy/pure_fs_test.cpp.s
+
+tests/legacy/simple_db_test.o: tests/legacy/simple_db_test.cpp.o
+.PHONY : tests/legacy/simple_db_test.o
+
+# target to build an object file
+tests/legacy/simple_db_test.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/simple_db_test.dir/build.make CMakeFiles/simple_db_test.dir/tests/legacy/simple_db_test.cpp.o
+.PHONY : tests/legacy/simple_db_test.cpp.o
+
+tests/legacy/simple_db_test.i: tests/legacy/simple_db_test.cpp.i
+.PHONY : tests/legacy/simple_db_test.i
+
+# target to preprocess a source file
+tests/legacy/simple_db_test.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/simple_db_test.dir/build.make CMakeFiles/simple_db_test.dir/tests/legacy/simple_db_test.cpp.i
+.PHONY : tests/legacy/simple_db_test.cpp.i
+
+tests/legacy/simple_db_test.s: tests/legacy/simple_db_test.cpp.s
+.PHONY : tests/legacy/simple_db_test.s
+
+# target to generate assembly for a file
+tests/legacy/simple_db_test.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/simple_db_test.dir/build.make CMakeFiles/simple_db_test.dir/tests/legacy/simple_db_test.cpp.s
+.PHONY : tests/legacy/simple_db_test.cpp.s
+
+tests/legacy/simple_dcl_ddl_test.o: tests/legacy/simple_dcl_ddl_test.cpp.o
+.PHONY : tests/legacy/simple_dcl_ddl_test.o
+
+# target to build an object file
+tests/legacy/simple_dcl_ddl_test.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/simple_dcl_ddl_test.dir/build.make CMakeFiles/simple_dcl_ddl_test.dir/tests/legacy/simple_dcl_ddl_test.cpp.o
+.PHONY : tests/legacy/simple_dcl_ddl_test.cpp.o
+
+tests/legacy/simple_dcl_ddl_test.i: tests/legacy/simple_dcl_ddl_test.cpp.i
+.PHONY : tests/legacy/simple_dcl_ddl_test.i
+
+# target to preprocess a source file
+tests/legacy/simple_dcl_ddl_test.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/simple_dcl_ddl_test.dir/build.make CMakeFiles/simple_dcl_ddl_test.dir/tests/legacy/simple_dcl_ddl_test.cpp.i
+.PHONY : tests/legacy/simple_dcl_ddl_test.cpp.i
+
+tests/legacy/simple_dcl_ddl_test.s: tests/legacy/simple_dcl_ddl_test.cpp.s
+.PHONY : tests/legacy/simple_dcl_ddl_test.s
+
+# target to generate assembly for a file
+tests/legacy/simple_dcl_ddl_test.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/simple_dcl_ddl_test.dir/build.make CMakeFiles/simple_dcl_ddl_test.dir/tests/legacy/simple_dcl_ddl_test.cpp.s
+.PHONY : tests/legacy/simple_dcl_ddl_test.cpp.s
+
+tests/legacy/test_db_persistence.o: tests/legacy/test_db_persistence.cpp.o
+.PHONY : tests/legacy/test_db_persistence.o
+
+# target to build an object file
+tests/legacy/test_db_persistence.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_db_persistence.dir/build.make CMakeFiles/test_db_persistence.dir/tests/legacy/test_db_persistence.cpp.o
+.PHONY : tests/legacy/test_db_persistence.cpp.o
+
+tests/legacy/test_db_persistence.i: tests/legacy/test_db_persistence.cpp.i
+.PHONY : tests/legacy/test_db_persistence.i
+
+# target to preprocess a source file
+tests/legacy/test_db_persistence.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_db_persistence.dir/build.make CMakeFiles/test_db_persistence.dir/tests/legacy/test_db_persistence.cpp.i
+.PHONY : tests/legacy/test_db_persistence.cpp.i
+
+tests/legacy/test_db_persistence.s: tests/legacy/test_db_persistence.cpp.s
+.PHONY : tests/legacy/test_db_persistence.s
+
+# target to generate assembly for a file
+tests/legacy/test_db_persistence.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_db_persistence.dir/build.make CMakeFiles/test_db_persistence.dir/tests/legacy/test_db_persistence.cpp.s
+.PHONY : tests/legacy/test_db_persistence.cpp.s
+
+tests/legacy/test_dcl_ddl_persistence.o: tests/legacy/test_dcl_ddl_persistence.cpp.o
+.PHONY : tests/legacy/test_dcl_ddl_persistence.o
+
+# target to build an object file
+tests/legacy/test_dcl_ddl_persistence.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dcl_ddl_persistence.dir/build.make CMakeFiles/test_dcl_ddl_persistence.dir/tests/legacy/test_dcl_ddl_persistence.cpp.o
+.PHONY : tests/legacy/test_dcl_ddl_persistence.cpp.o
+
+tests/legacy/test_dcl_ddl_persistence.i: tests/legacy/test_dcl_ddl_persistence.cpp.i
+.PHONY : tests/legacy/test_dcl_ddl_persistence.i
+
+# target to preprocess a source file
+tests/legacy/test_dcl_ddl_persistence.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dcl_ddl_persistence.dir/build.make CMakeFiles/test_dcl_ddl_persistence.dir/tests/legacy/test_dcl_ddl_persistence.cpp.i
+.PHONY : tests/legacy/test_dcl_ddl_persistence.cpp.i
+
+tests/legacy/test_dcl_ddl_persistence.s: tests/legacy/test_dcl_ddl_persistence.cpp.s
+.PHONY : tests/legacy/test_dcl_ddl_persistence.s
+
+# target to generate assembly for a file
+tests/legacy/test_dcl_ddl_persistence.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dcl_ddl_persistence.dir/build.make CMakeFiles/test_dcl_ddl_persistence.dir/tests/legacy/test_dcl_ddl_persistence.cpp.s
+.PHONY : tests/legacy/test_dcl_ddl_persistence.cpp.s
+
+tests/legacy/test_table_storage.o: tests/legacy/test_table_storage.cpp.o
+.PHONY : tests/legacy/test_table_storage.o
+
+# target to build an object file
+tests/legacy/test_table_storage.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_table_storage.dir/build.make CMakeFiles/test_table_storage.dir/tests/legacy/test_table_storage.cpp.o
+.PHONY : tests/legacy/test_table_storage.cpp.o
+
+tests/legacy/test_table_storage.i: tests/legacy/test_table_storage.cpp.i
+.PHONY : tests/legacy/test_table_storage.i
+
+# target to preprocess a source file
+tests/legacy/test_table_storage.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_table_storage.dir/build.make CMakeFiles/test_table_storage.dir/tests/legacy/test_table_storage.cpp.i
+.PHONY : tests/legacy/test_table_storage.cpp.i
+
+tests/legacy/test_table_storage.s: tests/legacy/test_table_storage.cpp.s
+.PHONY : tests/legacy/test_table_storage.s
+
+# target to generate assembly for a file
+tests/legacy/test_table_storage.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_table_storage.dir/build.make CMakeFiles/test_table_storage.dir/tests/legacy/test_table_storage.cpp.s
+.PHONY : tests/legacy/test_table_storage.cpp.s
+
+tests/legacy/user_persistence_test.o: tests/legacy/user_persistence_test.cpp.o
+.PHONY : tests/legacy/user_persistence_test.o
+
+# target to build an object file
+tests/legacy/user_persistence_test.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/user_persistence_test.dir/build.make CMakeFiles/user_persistence_test.dir/tests/legacy/user_persistence_test.cpp.o
+.PHONY : tests/legacy/user_persistence_test.cpp.o
+
+tests/legacy/user_persistence_test.i: tests/legacy/user_persistence_test.cpp.i
+.PHONY : tests/legacy/user_persistence_test.i
+
+# target to preprocess a source file
+tests/legacy/user_persistence_test.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/user_persistence_test.dir/build.make CMakeFiles/user_persistence_test.dir/tests/legacy/user_persistence_test.cpp.i
+.PHONY : tests/legacy/user_persistence_test.cpp.i
+
+tests/legacy/user_persistence_test.s: tests/legacy/user_persistence_test.cpp.s
+.PHONY : tests/legacy/user_persistence_test.s
+
+# target to generate assembly for a file
+tests/legacy/user_persistence_test.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/user_persistence_test.dir/build.make CMakeFiles/user_persistence_test.dir/tests/legacy/user_persistence_test.cpp.s
+.PHONY : tests/legacy/user_persistence_test.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -920,71 +1201,103 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... test"
+	@echo "... all_tests"
 	@echo "... check_external_files"
 	@echo "... clean_external_files"
-	@echo "... clean_performance_results"
+	@echo "... client_server_tests"
 	@echo "... coverage"
-	@echo "... ensure_performance_results_dir"
+	@echo "... integration_tests"
+	@echo "... isql_integration_tests"
 	@echo "... performance"
-	@echo "... performance_benchmark"
-	@echo "... performance_core"
-	@echo "... performance_full"
-	@echo "... performance_help"
-	@echo "... performance_quick"
-	@echo "... performance_stress"
-	@echo "... run_all_performance_tests"
-	@echo "... run_batch_prefetch_tests"
-	@echo "... run_buffer_pool_tests"
-	@echo "... run_concurrency_test"
-	@echo "... run_constraint_benchmark"
-	@echo "... run_cpu_intensive_test"
-	@echo "... run_disk_io_tests"
-	@echo "... run_index_benchmark"
-	@echo "... run_large_scale_test"
-	@echo "... run_memory_stress_test"
-	@echo "... run_million_insert_tests"
-	@echo "... run_mixed_workload_tests"
-	@echo "... run_performance_suite"
-	@echo "... run_stability_test"
-	@echo "... test_all"
+	@echo "... performance_tests"
+	@echo "... run_all_tests"
+	@echo "... test_report"
 	@echo "... unit"
-	@echo "... view_performance_results"
+	@echo "... unit_tests"
+	@echo "... aes_encryption_test"
+	@echo "... b_plus_tree_test"
+	@echo "... buffer_pool_test"
+	@echo "... client_server_integration_test"
 	@echo "... comprehensive_test"
-	@echo "... concurrency_test"
-	@echo "... cpu_intensive_test"
+	@echo "... dcl_ddl_persistence_test"
+	@echo "... dcl_parser_test"
 	@echo "... dcl_test"
 	@echo "... dcl_test_advanced"
 	@echo "... ddl_test"
+	@echo "... disk_manager_test"
 	@echo "... dml_test"
 	@echo "... isql"
-	@echo "... memory_stress_test"
-	@echo "... performance_test"
+	@echo "... isql_integration_test"
+	@echo "... isql_network"
+	@echo "... lexer_test"
+	@echo "... network_unit_test"
+	@echo "... parser_verification_test"
+	@echo "... persistence_check"
+	@echo "... pure_fs_test"
+	@echo "... simple_db_test"
+	@echo "... simple_dcl_ddl_test"
+	@echo "... simple_test"
 	@echo "... sql_executor_comprehensive_test"
 	@echo "... sql_executor_minimal_test"
 	@echo "... sql_executor_targeted_test"
 	@echo "... sql_executor_unit_test"
 	@echo "... sql_network_test"
+	@echo "... sql_parser_test"
 	@echo "... sqlcc"
 	@echo "... sqlcc_config_manager"
 	@echo "... sqlcc_core_lib"
 	@echo "... sqlcc_executor"
 	@echo "... sqlcc_network"
 	@echo "... sqlcc_parser"
+	@echo "... sqlcc_server"
 	@echo "... sqlcc_storage_engine"
 	@echo "... sqlcc_transaction_manager"
-	@echo "... stability_test"
-	@echo "... src/dcl_test.o"
-	@echo "... src/dcl_test.i"
-	@echo "... src/dcl_test.s"
-	@echo "... src/ddl_test.o"
-	@echo "... src/ddl_test.i"
-	@echo "... src/ddl_test.s"
-	@echo "... src/isql_main.o"
-	@echo "... src/isql_main.i"
-	@echo "... src/isql_main.s"
+	@echo "... test_db_persistence"
+	@echo "... test_dcl_ddl_persistence"
+	@echo "... test_sql_executor"
+	@echo "... test_table_storage"
+	@echo "... tls_e2e_test"
+	@echo "... transaction_manager_test"
+	@echo "... user_persistence_test"
+	@echo "... src/bin/isql_main.o"
+	@echo "... src/bin/isql_main.i"
+	@echo "... src/bin/isql_main.s"
+	@echo "... src/isql_network/client_main.o"
+	@echo "... src/isql_network/client_main.i"
+	@echo "... src/isql_network/client_main.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
+	@echo "... src/sqlcc_server/server_main.o"
+	@echo "... src/sqlcc_server/server_main.i"
+	@echo "... src/sqlcc_server/server_main.s"
+	@echo "... tests/legacy/dcl_ddl_persistence_test.o"
+	@echo "... tests/legacy/dcl_ddl_persistence_test.i"
+	@echo "... tests/legacy/dcl_ddl_persistence_test.s"
+	@echo "... tests/legacy/persistence_check.o"
+	@echo "... tests/legacy/persistence_check.i"
+	@echo "... tests/legacy/persistence_check.s"
+	@echo "... tests/legacy/pure_fs_test.o"
+	@echo "... tests/legacy/pure_fs_test.i"
+	@echo "... tests/legacy/pure_fs_test.s"
+	@echo "... tests/legacy/simple_db_test.o"
+	@echo "... tests/legacy/simple_db_test.i"
+	@echo "... tests/legacy/simple_db_test.s"
+	@echo "... tests/legacy/simple_dcl_ddl_test.o"
+	@echo "... tests/legacy/simple_dcl_ddl_test.i"
+	@echo "... tests/legacy/simple_dcl_ddl_test.s"
+	@echo "... tests/legacy/test_db_persistence.o"
+	@echo "... tests/legacy/test_db_persistence.i"
+	@echo "... tests/legacy/test_db_persistence.s"
+	@echo "... tests/legacy/test_dcl_ddl_persistence.o"
+	@echo "... tests/legacy/test_dcl_ddl_persistence.i"
+	@echo "... tests/legacy/test_dcl_ddl_persistence.s"
+	@echo "... tests/legacy/test_table_storage.o"
+	@echo "... tests/legacy/test_table_storage.i"
+	@echo "... tests/legacy/test_table_storage.s"
+	@echo "... tests/legacy/user_persistence_test.o"
+	@echo "... tests/legacy/user_persistence_test.i"
+	@echo "... tests/legacy/user_persistence_test.s"
 .PHONY : help
 
 

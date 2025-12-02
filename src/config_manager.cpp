@@ -51,179 +51,116 @@ bool ConfigManager::ParseConfigFile(const std::string& file_path) {
         ParseConfigLine(line, current_section);
     }
     
-    file.close();
     return true;
 }
 
 // 解析配置行
-bool ConfigManager::ParseConfigLine(const std::string& line, std::string& current_section) {
-    // 简化的配置行解析
-    std::string trimmed = line;
-    // 移除首尾空格
-    trimmed.erase(0, trimmed.find_first_not_of(" \t"));
-    trimmed.erase(trimmed.find_last_not_of(" \t\r\n") + 1);
-    
-    // 跳过空行和注释
-    if (trimmed.empty() || trimmed[0] == '#') {
-        return true;
+void ConfigManager::ParseConfigLine(const std::string& line, std::string& current_section) {
+    // 跳过空行和注释行
+    if (line.empty() || line[0] == '#' || line[0] == ';') {
+        return;
     }
-    
-    // 处理section行 [section]
-    if (trimmed[0] == '[' && trimmed.back() == ']') {
-        current_section = trimmed.substr(1, trimmed.size() - 2);
-        return true;
+
+    // 处理节标题 [section]
+    if (line[0] == '[' && line.back() == ']') {
+        current_section = line.substr(1, line.length() - 2);
+        return;
     }
-    
-    // 处理key=value行
-    size_t eq_pos = trimmed.find('=');
-    if (eq_pos != std::string::npos) {
-        std::string key = trimmed.substr(0, eq_pos);
-        std::string value = trimmed.substr(eq_pos + 1);
+
+    // 处理键值对 key=value
+    size_t equal_pos = line.find('=');
+    if (equal_pos != std::string::npos) {
+        std::string key = line.substr(0, equal_pos);
+        std::string value = line.substr(equal_pos + 1);
         
-        // 移除键和值的空格
+        // 去除首尾空格
+        key.erase(0, key.find_first_not_of(" \t"));
         key.erase(key.find_last_not_of(" \t") + 1);
         value.erase(0, value.find_first_not_of(" \t"));
-        value.erase(value.find_last_not_of(" \t\r\n") + 1);
+        value.erase(value.find_last_not_of(" \t") + 1);
         
-        // 如果有section，添加section前缀
-        if (!current_section.empty()) {
-            key = current_section + "." + key;
-        }
-        
-        // 尝试解析不同类型的值
-        if (value == "true" || value == "false") {
-            SetValue(key, value == "true");
-        } else if (value.find_first_not_of("-0123456789") == std::string::npos) {
-            SetValue(key, std::stoi(value));
-        } else if (value.find_first_not_of("-0123456789.") == std::string::npos && 
-                  value.find('.') != std::string::npos) {
-            SetValue(key, std::stod(value));
-        } else {
-            // 去掉引号（如果有）
-            if (value.size() >= 2 && ((value[0] == '"' && value.back() == '"') || 
-                                     (value[0] == '\'' && value.back() == '\''))) {
-                value = value.substr(1, value.size() - 2);
-            }
-            SetValue(key, value);
-        }
-        
-        return true;
+        // 如果有节，则加上节前缀
+        std::string full_key = current_section.empty() ? key : current_section + "." + key;
+        SetValue(full_key, value);
     }
-    
-    return false;
-}
-
-// 获取布尔类型配置值
-bool ConfigManager::GetBool(const std::string& key, bool default_value) const {
-    std::lock_guard<std::mutex> lock(config_mutex_);
-    auto it = config_map_.find(key);
-    if (it != config_map_.end() && std::holds_alternative<bool>(it->second)) {
-        return std::get<bool>(it->second);
-    }
-    return default_value;
-}
-
-// 获取整数类型配置值
-int ConfigManager::GetInt(const std::string& key, int default_value) const {
-    std::lock_guard<std::mutex> lock(config_mutex_);
-    auto it = config_map_.find(key);
-    if (it != config_map_.end()) {
-        if (std::holds_alternative<int>(it->second)) {
-            return std::get<int>(it->second);
-        }
-        // 尝试从其他类型转换
-        if (std::holds_alternative<bool>(it->second)) {
-            return std::get<bool>(it->second) ? 1 : 0;
-        }
-    }
-    return default_value;
-}
-
-// 获取双精度浮点类型配置值
-double ConfigManager::GetDouble(const std::string& key, double default_value) const {
-    std::lock_guard<std::mutex> lock(config_mutex_);
-    auto it = config_map_.find(key);
-    if (it != config_map_.end()) {
-        if (std::holds_alternative<double>(it->second)) {
-            return std::get<double>(it->second);
-        }
-        if (std::holds_alternative<int>(it->second)) {
-            return static_cast<double>(std::get<int>(it->second));
-        }
-    }
-    return default_value;
-}
-
-// 获取字符串类型配置值
-std::string ConfigManager::GetString(const std::string& key, const std::string& default_value) const {
-    std::lock_guard<std::mutex> lock(config_mutex_);
-    auto it = config_map_.find(key);
-    if (it != config_map_.end() && std::holds_alternative<std::string>(it->second)) {
-        return std::get<std::string>(it->second);
-    }
-    return default_value;
 }
 
 // 设置配置值
-bool ConfigManager::SetValue(const std::string& key, const ConfigValue& value) {
-    std::lock_guard<std::mutex> lock(config_mutex_);
-    config_map_[key] = value;
-    return true;
+void ConfigManager::SetValue(const std::string& key, const std::variant<bool, int, double, std::string>& value) {
+    config_values_[key] = value;
 }
 
-// 检查配置键是否存在
+// 获取布尔值配置
+bool ConfigManager::GetBool(const std::string& key, bool default_value) const {
+    auto it = config_values_.find(key);
+    if (it != config_values_.end()) {
+        if (std::holds_alternative<bool>(it->second)) {
+            return std::get<bool>(it->second);
+        } else if (std::holds_alternative<std::string>(it->second)) {
+            std::string str_value = std::get<std::string>(it->second);
+            std::transform(str_value.begin(), str_value.end(), str_value.begin(), ::tolower);
+            return (str_value == "true" || str_value == "1" || str_value == "yes" || str_value == "on");
+        }
+    }
+    return default_value;
+}
+
+// 获取整数值配置
+int ConfigManager::GetInt(const std::string& key, int default_value) const {
+    auto it = config_values_.find(key);
+    if (it != config_values_.end()) {
+        if (std::holds_alternative<int>(it->second)) {
+            return std::get<int>(it->second);
+        } else if (std::holds_alternative<std::string>(it->second)) {
+            try {
+                return std::stoi(std::get<std::string>(it->second));
+            } catch (const std::exception&) {
+                // 转换失败，返回默认值
+            }
+        }
+    }
+    return default_value;
+}
+
+// 获取双精度浮点数配置
+double ConfigManager::GetDouble(const std::string& key, double default_value) const {
+    auto it = config_values_.find(key);
+    if (it != config_values_.end()) {
+        if (std::holds_alternative<double>(it->second)) {
+            return std::get<double>(it->second);
+        } else if (std::holds_alternative<int>(it->second)) {
+            return static_cast<double>(std::get<int>(it->second));
+        } else if (std::holds_alternative<std::string>(it->second)) {
+            try {
+                return std::stod(std::get<std::string>(it->second));
+            } catch (const std::exception&) {
+                // 转换失败，返回默认值
+            }
+        }
+    }
+    return default_value;
+}
+
+// 获取字符串配置
+std::string ConfigManager::GetString(const std::string& key, const std::string& default_value) const {
+    auto it = config_values_.find(key);
+    if (it != config_values_.end()) {
+        if (std::holds_alternative<std::string>(it->second)) {
+            return std::get<std::string>(it->second);
+        } else if (std::holds_alternative<bool>(it->second)) {
+            return std::get<bool>(it->second) ? "true" : "false";
+        } else if (std::holds_alternative<int>(it->second)) {
+            return std::to_string(std::get<int>(it->second));
+        } else if (std::holds_alternative<double>(it->second)) {
+            return std::to_string(std::get<double>(it->second));
+        }
+    }
+    return default_value;
+}
+
+// 检查键是否存在
 bool ConfigManager::HasKey(const std::string& key) const {
-    std::lock_guard<std::mutex> lock(config_mutex_);
-    return config_map_.find(key) != config_map_.end();
-}
-
-// 保存当前配置到文件
-bool ConfigManager::SaveToFile(const std::string& file_path) const {
-    std::ofstream file(file_path);
-    if (!file.is_open()) {
-        return false;
-    }
-    
-    std::lock_guard<std::mutex> lock(config_mutex_);
-    for (const auto& [key, value] : config_map_) {
-        file << key << " = ";
-        if (std::holds_alternative<bool>(value)) {
-            file << (std::get<bool>(value) ? "true" : "false");
-        } else if (std::holds_alternative<int>(value)) {
-            file << std::get<int>(value);
-        } else if (std::holds_alternative<double>(value)) {
-            file << std::get<double>(value);
-        } else if (std::holds_alternative<std::string>(value)) {
-            file << '"' << std::get<std::string>(value) << '"';
-        }
-        file << std::endl;
-    }
-    
-    file.close();
-    return true;
-}
-
-// 获取所有配置键
-std::vector<std::string> ConfigManager::GetAllKeys() const {
-    std::lock_guard<std::mutex> lock(config_mutex_);
-    std::vector<std::string> keys;
-    keys.reserve(config_map_.size());
-    for (const auto& [key, _] : config_map_) {
-        keys.push_back(key);
-    }
-    return keys;
-}
-
-// 获取指定前缀的所有配置键
-std::vector<std::string> ConfigManager::GetKeysWithPrefix(const std::string& prefix) const {
-    std::lock_guard<std::mutex> lock(config_mutex_);
-    std::vector<std::string> keys;
-    for (const auto& [key, _] : config_map_) {
-        if (key.find(prefix) == 0) {
-            keys.push_back(key);
-        }
-    }
-    return keys;
+    return config_values_.find(key) != config_values_.end();
 }
 
 // 设置操作超时时间
@@ -231,9 +168,54 @@ void ConfigManager::SetOperationTimeout(int timeout_ms) {
     operation_timeout_ms_ = timeout_ms;
 }
 
-// 获取当前操作超时时间
+// 获取操作超时时间
 int ConfigManager::GetOperationTimeout() const {
     return operation_timeout_ms_;
+}
+
+// 保存配置到文件
+bool ConfigManager::SaveToFile(const std::string& file_path) const {
+    std::ofstream file(file_path);
+    if (!file.is_open()) {
+        return false;
+    }
+
+    for (const auto& pair : config_values_) {
+        const std::string& key = pair.first;
+        const auto& value = pair.second;
+
+        if (std::holds_alternative<bool>(value)) {
+            file << key << "=" << (std::get<bool>(value) ? "true" : "false") << "\n";
+        } else if (std::holds_alternative<int>(value)) {
+            file << key << "=" << std::get<int>(value) << "\n";
+        } else if (std::holds_alternative<double>(value)) {
+            file << key << "=" << std::get<double>(value) << "\n";
+        } else if (std::holds_alternative<std::string>(value)) {
+            file << key << "=" << std::get<std::string>(value) << "\n";
+        }
+    }
+
+    return true;
+}
+
+// 获取所有键
+std::vector<std::string> ConfigManager::GetAllKeys() const {
+    std::vector<std::string> keys;
+    for (const auto& pair : config_values_) {
+        keys.push_back(pair.first);
+    }
+    return keys;
+}
+
+// 根据前缀获取键
+std::vector<std::string> ConfigManager::GetKeysWithPrefix(const std::string& prefix) const {
+    std::vector<std::string> keys;
+    for (const auto& pair : config_values_) {
+        if (pair.first.substr(0, prefix.length()) == prefix) {
+            keys.push_back(pair.first);
+        }
+    }
+    return keys;
 }
 
 }  // namespace sqlcc

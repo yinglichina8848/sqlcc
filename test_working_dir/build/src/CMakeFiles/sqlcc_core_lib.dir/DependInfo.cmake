@@ -8,7 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/home/liying/sqlcc/src/core/database_manager.cpp" "src/CMakeFiles/sqlcc_core_lib.dir/core/database_manager.cpp.o" "gcc" "src/CMakeFiles/sqlcc_core_lib.dir/core/database_manager.cpp.o.d"
+  "/home/liying/sqlcc_qoder/src/core/database_manager.cpp" "src/CMakeFiles/sqlcc_core_lib.dir/core/database_manager.cpp.o" "gcc" "src/CMakeFiles/sqlcc_core_lib.dir/core/database_manager.cpp.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.
