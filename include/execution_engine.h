@@ -88,6 +88,18 @@ private:
     bool validateColumnConstraints(const std::vector<std::string>& record,
                                   std::shared_ptr<TableMetadata> metadata,
                                   const std::string& table_name);
+        
+    // 索引维护方法
+    void maintainIndexesOnInsert(const std::vector<std::string>& record,
+                                const std::string& table_name,
+                                int32_t page_id, size_t offset);
+    void maintainIndexesOnUpdate(const std::vector<std::string>& old_record,
+                                const std::vector<std::string>& new_record,
+                                const std::string& table_name,
+                                int32_t page_id, size_t offset);
+    void maintainIndexesOnDelete(const std::vector<std::string>& record,
+                                const std::string& table_name,
+                                int32_t page_id, size_t offset);
 };
 
 
