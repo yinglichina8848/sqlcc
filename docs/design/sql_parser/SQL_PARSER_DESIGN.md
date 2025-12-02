@@ -44,6 +44,12 @@ SQL文本 -> 词法分析器 -> Token流 -> 语法分析器 -> 抽象语法树(A
    - UPDATE
    - DELETE
 
+5. **数据控制语句(DCL)**
+   - CREATE USER
+   - DROP USER
+   - GRANT
+   - REVOKE
+
 ## 2. 详细设计
 
 ### 2.1 词法分析器(Lexer/Scanner)
@@ -66,6 +72,9 @@ public:
         KEYWORD_ON, KEYWORD_GROUP, KEYWORD_BY,
         KEYWORD_HAVING, KEYWORD_ORDER, KEYWORD_INTO,
         KEYWORD_VALUES, KEYWORD_SET,
+        KEYWORD_USER, KEYWORD_GRANT, KEYWORD_REVOKE, // 新增DCL关键字
+        KEYWORD_PRIVILEGES, KEYWORD_TO, KEYWORD_FROM,
+        KEYWORD_WITH, KEYWORD_PASSWORD, KEYWORD_IDENTIFIED,
         
         // 标识符
         IDENTIFIER,
@@ -176,6 +185,12 @@ private:
     std::unique_ptr<Statement> parseAlterStatement();
     std::unique_ptr<Statement> parseUseStatement();
     
+    // DCL语句解析方法
+    std::unique_ptr<Statement> parseCreateUserStatement();
+    std::unique_ptr<Statement> parseDropUserStatement();
+    std::unique_ptr<Statement> parseGrantStatement();
+    std::unique_ptr<Statement> parseRevokeStatement();
+    
     // 表达式解析方法
     std::unique_ptr<Expression> parseExpression();
     std::unique_ptr<Expression> parseTerm();
@@ -268,7 +283,11 @@ public:
         DELETE,
         DROP,
         ALTER,
-        USE
+        USE,
+        CREATE_USER,  // 新增DCL语句类型
+        DROP_USER,    // 新增DCL语句类型
+        GRANT,        // 新增DCL语句类型
+        REVOKE        // 新增DCL语句类型
     };
     
     virtual Type getType() const = 0;
@@ -398,6 +417,65 @@ CREATE TABLE table_name (
 1. 词法错误：记录错误位置和详细信息，返回`INVALID_TOKEN`
 2. 语法错误：抛出详细的`std::runtime_error`异常，包含错误位置和预期的Token类型
 3. 错误恢复：提供基本的错误恢复机制，允许在简单错误后继续解析
+
+## 3.4 数据控制语句(DCL)
+
+### 3.4.1 CREATE USER语句
+
+#### 语法
+```
+CREATE USER username IDENTIFIED BY 'password'
+CREATE USER username WITH PASSWORD 'password'
+```
+
+#### 示例
+```sql
+CREATE USER 'john' IDENTIFIED BY 'password123';
+CREATE USER 'jane' WITH PASSWORD 'mypassword';
+```
+
+### 3.4.2 DROP USER语句
+
+#### 语法
+```
+DROP USER [IF EXISTS] username
+```
+
+#### 示例
+```sql
+DROP USER 'john';
+DROP USER IF EXISTS 'jane';
+```
+
+### 3.4.3 GRANT语句
+
+#### 语法
+```
+GRANT privilege [, privilege]* ON object_type object_name TO grantee
+GRANT ALL PRIVILEGES ON object_type object_name TO grantee
+```
+
+#### 示例
+```sql
+GRANT SELECT ON TABLE users TO 'john';
+GRANT SELECT, INSERT, UPDATE ON TABLE orders TO 'jane';
+GRANT ALL PRIVILEGES ON DATABASE mydb TO 'admin';
+```
+
+### 3.4.4 REVOKE语句
+
+#### 语法
+```
+REVOKE privilege [, privilege]* ON object_type object_name FROM grantee
+REVOKE ALL PRIVILEGES ON object_type object_name FROM grantee
+```
+
+#### 示例
+```sql
+REVOKE SELECT ON TABLE users FROM 'john';
+REVOKE SELECT, INSERT, UPDATE ON TABLE orders FROM 'jane';
+REVOKE ALL PRIVILEGES ON DATABASE mydb FROM 'admin';
+```
 
 ### 3.2 性能优化考虑
 

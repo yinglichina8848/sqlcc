@@ -1,6 +1,9 @@
 #include "../include/execution_engine.h"
 #include "../include/database_manager.h"
 #include "../include/user_manager.h"
+#include "../include/table_storage.h"
+#include "../include/storage_engine.h"
+#include "../include/b_plus_tree.h"
 #include <iostream>
 #include <sstream>
 
@@ -139,8 +142,302 @@ DMLExecutor::DMLExecutor(std::shared_ptr<DatabaseManager> db_manager)
 }
 
 ExecutionResult DMLExecutor::execute(std::unique_ptr<sql_parser::Statement> stmt) {
-    // DML执行逻辑应该在这里实现
-    return ExecutionResult(true, "DML statement executed successfully");
+    switch (stmt->getType()) {
+    case sql_parser::Statement::INSERT:
+        return executeInsert(static_cast<sql_parser::InsertStatement*>(stmt.get()));
+    case sql_parser::Statement::UPDATE:
+        return executeUpdate(static_cast<sql_parser::UpdateStatement*>(stmt.get()));
+    case sql_parser::Statement::DELETE:
+        return executeDelete(static_cast<sql_parser::DeleteStatement*>(stmt.get()));
+    default:
+        return ExecutionResult(false, "Invalid DML statement type");
+    }
+}
+
+ExecutionResult DMLExecutor::executeInsert(sql_parser::InsertStatement* stmt) {
+    if (!db_manager_) {
+        return ExecutionResult(false, "Database manager not available");
+    }
+    
+    // 检查是否选择了数据库
+    std::string current_db = db_manager_->GetCurrentDatabase();
+    if (current_db.empty()) {
+        return ExecutionResult(false, "No database selected");
+    }
+    
+    // 获取表名
+    const std::string& table_name = stmt->getTableName();
+    
+    // 检查表是否存在
+    if (!db_manager_->TableExists(table_name)) {
+        return ExecutionResult(false, "Table '" + table_name + "' does not exist");
+    }
+    
+    // 获取存储引擎
+    auto storage_engine = db_manager_->GetStorageEngine();
+    if (!storage_engine) {
+        return ExecutionResult(false, "Storage engine not available");
+    }
+    
+    // 创建TableStorageManager实例
+    TableStorageManager table_storage(storage_engine);
+    
+    // 获取要插入的值
+    const auto& value_rows = stmt->getValues();
+    if (value_rows.empty()) {
+        return ExecutionResult(false, "No values to insert");
+    }
+    
+    int rows_inserted = 0;
+    
+    // 处理每一行数据
+    for (const auto& values : value_rows) {
+        // TODO: 在此处添加约束验证
+        // 1. 获取表的约束信息（PRIMARY KEY, UNIQUE, FOREIGN KEY, CHECK, NOT NULL）
+        // 2. 使用ConstraintExecutor验证约束
+        
+        // 插入记录
+        int32_t page_id;
+        size_t offset;
+        if (!table_storage.InsertRecord(table_name, values, page_id, offset)) {
+            return ExecutionResult(false, "Failed to insert record into table '" + table_name + "'");
+        }
+        
+        // TODO: 更新所有相关的B+树索引
+        // 1. 获取表的所有索引
+        // 2. 为每个索引创建IndexEntry并插入
+        // 示例代码（需要实际实现）:
+        // auto indexes = index_manager_->GetTableIndexes(table_name);
+        // for (auto* index : indexes) {
+        //     std::string key_value = ...; // 从values中提取索引键值
+        //     IndexEntry entry(key_value, page_id, offset);
+        //     index->Insert(entry);
+        // }
+        
+        rows_inserted++;
+    }
+    
+    std::string message = "INSERT INTO " + table_name + " executed successfully, " + 
+                         std::to_string(rows_inserted) + " row(s) inserted";
+    return ExecutionResult(true, message);
+}
+
+ExecutionResult DMLExecutor::executeUpdate(sql_parser::UpdateStatement* stmt) {
+    if (!db_manager_) {
+        return ExecutionResult(false, "Database manager not available");
+    }
+    
+    // 检查是否选择了数据库
+    std::string current_db = db_manager_->GetCurrentDatabase();
+    if (current_db.empty()) {
+        return ExecutionResult(false, "No database selected");
+    }
+    
+    // 获取表名
+    const std::string& table_name = stmt->getTableName();
+    
+    // 检查表是否存在
+    if (!db_manager_->TableExists(table_name)) {
+        return ExecutionResult(false, "Table '" + table_name + "' does not exist");
+    }
+    
+    // 获取存储引擎
+    auto storage_engine = db_manager_->GetStorageEngine();
+    if (!storage_engine) {
+        return ExecutionResult(false, "Storage engine not available");
+    }
+    
+    // 创建TableStorageManager实例
+    TableStorageManager table_storage(storage_engine);
+    
+    // 扫描表找到符合WHERE条件的记录
+    auto locations = table_storage.ScanTable(table_name);
+    int rows_updated = 0;
+    
+    // 获取表元数据
+    auto metadata = table_storage.GetTableMetadata(table_name);
+    if (!metadata) {
+        return ExecutionResult(false, "Failed to get table metadata");
+    }
+    
+    // 获取UPDATE值
+    const auto& update_values = stmt->getUpdateValues();
+    
+    // 处理每一条记录
+    for (const auto& location : locations) {
+        int32_t page_id = location.first;
+        size_t offset = location.second;
+        
+        // 获取记录
+        std::vector<std::string> record = table_storage.GetRecord(table_name, page_id, offset);
+        if (record.empty()) {
+            continue;
+        }
+        
+        // 检查WHERE条件
+        if (!stmt->hasWhereClause() || matchesWhereClause(record, stmt->getWhereClause(), metadata)) {
+            // 混合带田的值
+            std::vector<std::string> new_values = record;
+            for (const auto& update_pair : update_values) {
+                const std::string& column_name = update_pair.first;
+                const std::string& new_value = update_pair.second;
+                
+                auto col_it = metadata->column_index_map.find(column_name);
+                if (col_it != metadata->column_index_map.end()) {
+                    int col_index = col_it->second;
+                    if (col_index >= 0 && col_index < static_cast<int>(new_values.size())) {
+                        new_values[col_index] = new_value;
+                    }
+                }
+            }
+            
+            // TODO: 验证约束
+            // TODO: 更新索引
+            
+            // 更新记录
+            if (table_storage.UpdateRecord(table_name, page_id, offset, new_values)) {
+                rows_updated++;
+            }
+        }
+    }
+    
+    std::string message = "UPDATE " + table_name + " executed successfully, " + 
+                         std::to_string(rows_updated) + " row(s) updated";
+    return ExecutionResult(true, message);
+}
+
+ExecutionResult DMLExecutor::executeDelete(sql_parser::DeleteStatement* stmt) {
+    if (!db_manager_) {
+        return ExecutionResult(false, "Database manager not available");
+    }
+    
+    // 检查是否选择了数据库
+    std::string current_db = db_manager_->GetCurrentDatabase();
+    if (current_db.empty()) {
+        return ExecutionResult(false, "No database selected");
+    }
+    
+    // 获取表名
+    const std::string& table_name = stmt->getTableName();
+    
+    // 检查表是否存在
+    if (!db_manager_->TableExists(table_name)) {
+        return ExecutionResult(false, "Table '" + table_name + "' does not exist");
+    }
+    
+    // 获取存储引擎
+    auto storage_engine = db_manager_->GetStorageEngine();
+    if (!storage_engine) {
+        return ExecutionResult(false, "Storage engine not available");
+    }
+    
+    // 创建TableStorageManager实例
+    TableStorageManager table_storage(storage_engine);
+    
+    // 扫描表找到符合WHERE条件的记录
+    auto locations = table_storage.ScanTable(table_name);
+    int rows_deleted = 0;
+    
+    // 获取表元数据
+    auto metadata = table_storage.GetTableMetadata(table_name);
+    if (!metadata) {
+        return ExecutionResult(false, "Failed to get table metadata");
+    }
+    
+    // 处理每一条记录
+    for (const auto& location : locations) {
+        int32_t page_id = location.first;
+        size_t offset = location.second;
+        
+        // 获取记录
+        std::vector<std::string> record = table_storage.GetRecord(table_name, page_id, offset);
+        if (record.empty()) {
+            continue;
+        }
+        
+        // 检查WHERE条件
+        if (!stmt->hasWhereClause() || matchesWhereClause(record, stmt->getWhereClause(), metadata)) {
+            // TODO: 检查外键约束（使用ForeignKeyConstraintExecutor::validateDelete）
+            // TODO: 从所有索引中删除
+            
+            // 删除记录
+            if (table_storage.DeleteRecord(table_name, page_id, offset)) {
+                rows_deleted++;
+            }
+        }
+    }
+    
+    std::string message = "DELETE FROM " + table_name + " executed successfully, " + 
+                         std::to_string(rows_deleted) + " row(s) deleted";
+    return ExecutionResult(true, message);
+}
+
+bool DMLExecutor::matchesWhereClause(const std::vector<std::string>& record,
+                                     const sql_parser::WhereClause& where_clause,
+                                     std::shared_ptr<TableMetadata> metadata) {
+    // 如果没有WHERE子句，则匹配所有记录
+    if (where_clause.getColumnName().empty()) {
+        return true;
+    }
+    
+    // 获取列的值
+    std::string column_value = getColumnValue(record, where_clause.getColumnName(), metadata);
+    std::string condition_value = where_clause.getValue();
+    std::string op = where_clause.getOperator();
+    
+    // 比较操作
+    if (op == "=") {
+        return column_value == condition_value;
+    } else if (op == "<>") {
+        return column_value != condition_value;
+    } else if (op == "<") {
+        try {
+            return std::stoi(column_value) < std::stoi(condition_value);
+        } catch (...) {
+            return column_value < condition_value;
+        }
+    } else if (op == ">") {
+        try {
+            return std::stoi(column_value) > std::stoi(condition_value);
+        } catch (...) {
+            return column_value > condition_value;
+        }
+    } else if (op == "<=") {
+        try {
+            return std::stoi(column_value) <= std::stoi(condition_value);
+        } catch (...) {
+            return column_value <= condition_value;
+        }
+    } else if (op == ">=") {
+        try {
+            return std::stoi(column_value) >= std::stoi(condition_value);
+        } catch (...) {
+            return column_value >= condition_value;
+        }
+    }
+    
+    return true;
+}
+
+std::string DMLExecutor::getColumnValue(const std::vector<std::string>& record,
+                                       const std::string& column_name,
+                                       std::shared_ptr<TableMetadata> metadata) {
+    if (!metadata) {
+        return "";
+    }
+    
+    // 查找列的索引
+    auto it = metadata->column_index_map.find(column_name);
+    if (it == metadata->column_index_map.end()) {
+        return "";
+    }
+    
+    int column_index = it->second;
+    if (column_index < 0 || column_index >= static_cast<int>(record.size())) {
+        return "";
+    }
+    
+    return record[column_index];
 }
 
 // ==================== DCLExecutor ====================

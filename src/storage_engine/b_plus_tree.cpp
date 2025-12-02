@@ -594,8 +594,7 @@ int32_t BPlusTreeInternalNode::FindChildPageId(const std::string &key) const {
   return child_page_ids_[pos];
 }
 
-void BPlusTreeInternalNode::Split(BPlusTreeInternalNode *&new_node,
-                                  std::string &promoted_key) {
+void BPlusTreeInternalNode::Split(BPlusTreeInternalNode *&new_node) {
   // 创建新节点
   if (!storage_engine_)
     return;
@@ -606,9 +605,6 @@ void BPlusTreeInternalNode::Split(BPlusTreeInternalNode *&new_node,
 
   // 计算中间位置
   size_t mid = keys_.size() / 2;
-
-  // 保存中间键用于提升
-  promoted_key = keys_[mid];
 
   // 将后半部分的键和子节点移动到新节点
   new_node->keys_.assign(keys_.begin() + mid + 1, keys_.end());
@@ -1738,12 +1734,43 @@ BPlusTreeIndex::SearchRange(const std::string &lower_bound,
     std::vector<IndexEntry> results =
         leaf->SearchRange(lower_bound, upper_bound);
 
+    // 检查当前叶子节点的结果是否已经包含了所有需要的结果
+    if (!results.empty() && results.back().key >= upper_bound) {
+      return results;
+    }
+
     // 如果需要，继续搜索下一个叶子节点
-    BPlusTreeLeafNode *current_leaf = leaf;
-    while (current_leaf && current_leaf->GetNextPageId() != -1) {
-      int32_t next_page_id = current_leaf->GetNextPageId();
+    int32_t next_page_id = leaf->GetNextPageId();
+    std::unordered_set<int32_t> visited_pages;
+    visited_pages.insert(leaf->GetPageId());
+
+    while (next_page_id != -1) {
+      // 检查是否已经访问过这个页面，避免无限循环
+      if (visited_pages.count(next_page_id) > 0) {
+        break;
+      }
+      visited_pages.insert(next_page_id);
+
+      // 加载下一个叶子节点
+      BPlusTreeNode *next_node =
+          const_cast<BPlusTreeIndex *>(this)->LoadNode(next_page_id);
+      if (!next_node) {
+        break;
+      }
       BPlusTreeLeafNode *next_leaf =
-          new BPlusTreeLeafNode(storage_engine_, next_page_id);
+          dynamic_cast<BPlusTreeLeafNode *>(next_node);
+      if (!next_leaf) {
+        delete next_node;
+        break;
+      }
+
+      // 检查下一个叶子节点的第一个键是否已经超过上限
+      // 如果超过上限，直接返回结果
+      if (!next_leaf->GetEntries().empty() &&
+          next_leaf->GetEntries().front().key > upper_bound) {
+        delete next_leaf;
+        break;
+      }
 
       std::vector<IndexEntry> next_results =
           next_leaf->SearchRange(lower_bound, upper_bound);
@@ -1752,20 +1779,32 @@ BPlusTreeIndex::SearchRange(const std::string &lower_bound,
         break;
       }
 
-      results.insert(results.end(), next_results.begin(), next_results.end());
+      // 只添加范围内的结果
+      bool added = false;
+      for (const auto &entry : next_results) {
+        if (entry.key > upper_bound) {
+          break;
+        }
+        results.push_back(entry);
+        added = true;
+      }
 
-      // 检查是否已经超出上限
-      if (!next_results.empty() && next_results.back().key > upper_bound) {
+      // 如果没有添加任何结果，说明已经处理完所有需要的结果
+      if (!added) {
         delete next_leaf;
         break;
       }
 
-      delete current_leaf;
-      current_leaf = next_leaf;
-    }
+      // 检查是否已经超出上限
+      if (!next_results.empty() && next_results.back().key >= upper_bound) {
+        delete next_leaf;
+        break;
+      }
 
-    if (current_leaf != leaf) {
-      delete current_leaf;
+      // 获取下一个叶子节点的下一页ID，然后删除当前叶子节点
+      int32_t temp_next_page_id = next_leaf->GetNextPageId();
+      delete next_leaf;
+      next_page_id = temp_next_page_id;
     }
 
     return results;
@@ -1842,11 +1881,10 @@ bool BPlusTreeIndex::Insert(const IndexEntry &entry,
       // 检查当前节点是否需要分裂
       if (internal->IsFull()) {
         BPlusTreeInternalNode *new_internal = nullptr;
-        std::string split_promoted_key;
-        internal->Split(new_internal, split_promoted_key);
+        internal->Split(new_internal);
 
-        // 设置提升的键
-        promoted_key = split_promoted_key;
+        // 设置提升的键为分裂后的内部节点的第一个键
+        promoted_key = internal->GetKeys().back();
         new_node = new_internal;
       }
     }

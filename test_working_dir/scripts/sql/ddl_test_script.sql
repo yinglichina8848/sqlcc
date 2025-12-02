@@ -1,1 +1,1 @@
-/home/liying/sqlcc/scripts/sql/ddl_test_script.sql
+/home/liying/sqlcc_qoder/scripts/sql/ddl_test_script.sql

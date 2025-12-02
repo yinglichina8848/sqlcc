@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['为什么选择b_20树作为索引核心_20_3a_0',['WHY (为什么选择B+树作为索引核心):',['../namespacesqlcc.html#autotoc_md2',1,'']]]
+  ['商业数据库核心索引技术：b_20树设计思想深度剖析_0',['商业数据库核心索引技术：B+树设计思想深度剖析',['../namespacesqlcc.html#autotoc_md1',1,'']]]
 ];

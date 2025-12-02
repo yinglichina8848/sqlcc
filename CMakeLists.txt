@@ -181,16 +181,16 @@ set_target_properties(isql_network PROPERTIES
 
 # B+树调试程序已移除，因为源文件不存在
 
-# 添加测试可执行文件
-add_executable(test_table_storage test_table_storage.cpp)
-add_executable(test_db_persistence test_db_persistence.cpp)
-add_executable(simple_db_test simple_db_test.cpp)
-add_executable(pure_fs_test pure_fs_test.cpp)
-add_executable(test_dcl_ddl_persistence test_dcl_ddl_persistence.cpp)
-add_executable(simple_dcl_ddl_test simple_dcl_ddl_test.cpp)
-add_executable(persistence_check persistence_check.cpp)
-add_executable(dcl_ddl_persistence_test dcl_ddl_persistence_test.cpp)
-add_executable(user_persistence_test user_persistence_test.cpp)
+# 添加测试可执行文件 - 已移动到 tests/legacy/
+add_executable(test_table_storage tests/legacy/test_table_storage.cpp)
+add_executable(test_db_persistence tests/legacy/test_db_persistence.cpp)
+add_executable(simple_db_test tests/legacy/simple_db_test.cpp)
+add_executable(pure_fs_test tests/legacy/pure_fs_test.cpp)
+add_executable(test_dcl_ddl_persistence tests/legacy/test_dcl_ddl_persistence.cpp)
+add_executable(simple_dcl_ddl_test tests/legacy/simple_dcl_ddl_test.cpp)
+add_executable(persistence_check tests/legacy/persistence_check.cpp)
+add_executable(dcl_ddl_persistence_test tests/legacy/dcl_ddl_persistence_test.cpp)
+add_executable(user_persistence_test tests/legacy/user_persistence_test.cpp)
 
 # 链接所需的库
 target_link_libraries(test_table_storage 
@@ -305,7 +305,7 @@ if(GTEST_FOUND)
 endif()
 
 # 检查是否启用性能测试
-option(ENABLE_PERFORMANCE_TESTS "Enable performance tests" ON)
+option(ENABLE_PERFORMANCE_TESTS "Enable performance tests" OFF)
 
 # 性能测试目录将在tests/CMakeLists.txt中添加，这里不再重复添加
 

@@ -53,10 +53,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/liying/sqlcc
+CMAKE_SOURCE_DIR = /home/liying/sqlcc_qoder
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/liying/sqlcc/test_working_dir/build
+CMAKE_BINARY_DIR = /home/liying/sqlcc_qoder/test_working_dir/build
 
 # Include any dependencies generated for this target.
 include src/CMakeFiles/sqlcc_parser.dir/depend.make
@@ -70,52 +70,82 @@ include src/CMakeFiles/sqlcc_parser.dir/progress.make
 include src/CMakeFiles/sqlcc_parser.dir/flags.make
 
 src/CMakeFiles/sqlcc_parser.dir/sql_parser/ast_node.cpp.o: src/CMakeFiles/sqlcc_parser.dir/flags.make
-src/CMakeFiles/sqlcc_parser.dir/sql_parser/ast_node.cpp.o: /home/liying/sqlcc/src/sql_parser/ast_node.cpp
+src/CMakeFiles/sqlcc_parser.dir/sql_parser/ast_node.cpp.o: /home/liying/sqlcc_qoder/src/sql_parser/ast_node.cpp
 src/CMakeFiles/sqlcc_parser.dir/sql_parser/ast_node.cpp.o: src/CMakeFiles/sqlcc_parser.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/liying/sqlcc/test_working_dir/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object src/CMakeFiles/sqlcc_parser.dir/sql_parser/ast_node.cpp.o"
-	cd /home/liying/sqlcc/test_working_dir/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/sqlcc_parser.dir/sql_parser/ast_node.cpp.o -MF CMakeFiles/sqlcc_parser.dir/sql_parser/ast_node.cpp.o.d -o CMakeFiles/sqlcc_parser.dir/sql_parser/ast_node.cpp.o -c /home/liying/sqlcc/src/sql_parser/ast_node.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/liying/sqlcc_qoder/test_working_dir/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object src/CMakeFiles/sqlcc_parser.dir/sql_parser/ast_node.cpp.o"
+	cd /home/liying/sqlcc_qoder/test_working_dir/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/sqlcc_parser.dir/sql_parser/ast_node.cpp.o -MF CMakeFiles/sqlcc_parser.dir/sql_parser/ast_node.cpp.o.d -o CMakeFiles/sqlcc_parser.dir/sql_parser/ast_node.cpp.o -c /home/liying/sqlcc_qoder/src/sql_parser/ast_node.cpp
 
 src/CMakeFiles/sqlcc_parser.dir/sql_parser/ast_node.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/sqlcc_parser.dir/sql_parser/ast_node.cpp.i"
-	cd /home/liying/sqlcc/test_working_dir/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/liying/sqlcc/src/sql_parser/ast_node.cpp > CMakeFiles/sqlcc_parser.dir/sql_parser/ast_node.cpp.i
+	cd /home/liying/sqlcc_qoder/test_working_dir/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/liying/sqlcc_qoder/src/sql_parser/ast_node.cpp > CMakeFiles/sqlcc_parser.dir/sql_parser/ast_node.cpp.i
 
 src/CMakeFiles/sqlcc_parser.dir/sql_parser/ast_node.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/sqlcc_parser.dir/sql_parser/ast_node.cpp.s"
-	cd /home/liying/sqlcc/test_working_dir/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/liying/sqlcc/src/sql_parser/ast_node.cpp -o CMakeFiles/sqlcc_parser.dir/sql_parser/ast_node.cpp.s
+	cd /home/liying/sqlcc_qoder/test_working_dir/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/liying/sqlcc_qoder/src/sql_parser/ast_node.cpp -o CMakeFiles/sqlcc_parser.dir/sql_parser/ast_node.cpp.s
 
 src/CMakeFiles/sqlcc_parser.dir/sql_parser/ast_nodes.cpp.o: src/CMakeFiles/sqlcc_parser.dir/flags.make
-src/CMakeFiles/sqlcc_parser.dir/sql_parser/ast_nodes.cpp.o: /home/liying/sqlcc/src/sql_parser/ast_nodes.cpp
+src/CMakeFiles/sqlcc_parser.dir/sql_parser/ast_nodes.cpp.o: /home/liying/sqlcc_qoder/src/sql_parser/ast_nodes.cpp
 src/CMakeFiles/sqlcc_parser.dir/sql_parser/ast_nodes.cpp.o: src/CMakeFiles/sqlcc_parser.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/liying/sqlcc/test_working_dir/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object src/CMakeFiles/sqlcc_parser.dir/sql_parser/ast_nodes.cpp.o"
-	cd /home/liying/sqlcc/test_working_dir/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/sqlcc_parser.dir/sql_parser/ast_nodes.cpp.o -MF CMakeFiles/sqlcc_parser.dir/sql_parser/ast_nodes.cpp.o.d -o CMakeFiles/sqlcc_parser.dir/sql_parser/ast_nodes.cpp.o -c /home/liying/sqlcc/src/sql_parser/ast_nodes.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/liying/sqlcc_qoder/test_working_dir/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object src/CMakeFiles/sqlcc_parser.dir/sql_parser/ast_nodes.cpp.o"
+	cd /home/liying/sqlcc_qoder/test_working_dir/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/sqlcc_parser.dir/sql_parser/ast_nodes.cpp.o -MF CMakeFiles/sqlcc_parser.dir/sql_parser/ast_nodes.cpp.o.d -o CMakeFiles/sqlcc_parser.dir/sql_parser/ast_nodes.cpp.o -c /home/liying/sqlcc_qoder/src/sql_parser/ast_nodes.cpp
 
 src/CMakeFiles/sqlcc_parser.dir/sql_parser/ast_nodes.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/sqlcc_parser.dir/sql_parser/ast_nodes.cpp.i"
-	cd /home/liying/sqlcc/test_working_dir/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/liying/sqlcc/src/sql_parser/ast_nodes.cpp > CMakeFiles/sqlcc_parser.dir/sql_parser/ast_nodes.cpp.i
+	cd /home/liying/sqlcc_qoder/test_working_dir/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/liying/sqlcc_qoder/src/sql_parser/ast_nodes.cpp > CMakeFiles/sqlcc_parser.dir/sql_parser/ast_nodes.cpp.i
 
 src/CMakeFiles/sqlcc_parser.dir/sql_parser/ast_nodes.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/sqlcc_parser.dir/sql_parser/ast_nodes.cpp.s"
-	cd /home/liying/sqlcc/test_working_dir/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/liying/sqlcc/src/sql_parser/ast_nodes.cpp -o CMakeFiles/sqlcc_parser.dir/sql_parser/ast_nodes.cpp.s
+	cd /home/liying/sqlcc_qoder/test_working_dir/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/liying/sqlcc_qoder/src/sql_parser/ast_nodes.cpp -o CMakeFiles/sqlcc_parser.dir/sql_parser/ast_nodes.cpp.s
 
 src/CMakeFiles/sqlcc_parser.dir/sql_parser/parser.cpp.o: src/CMakeFiles/sqlcc_parser.dir/flags.make
-src/CMakeFiles/sqlcc_parser.dir/sql_parser/parser.cpp.o: /home/liying/sqlcc/src/sql_parser/parser.cpp
+src/CMakeFiles/sqlcc_parser.dir/sql_parser/parser.cpp.o: /home/liying/sqlcc_qoder/src/sql_parser/parser.cpp
 src/CMakeFiles/sqlcc_parser.dir/sql_parser/parser.cpp.o: src/CMakeFiles/sqlcc_parser.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/liying/sqlcc/test_working_dir/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object src/CMakeFiles/sqlcc_parser.dir/sql_parser/parser.cpp.o"
-	cd /home/liying/sqlcc/test_working_dir/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/sqlcc_parser.dir/sql_parser/parser.cpp.o -MF CMakeFiles/sqlcc_parser.dir/sql_parser/parser.cpp.o.d -o CMakeFiles/sqlcc_parser.dir/sql_parser/parser.cpp.o -c /home/liying/sqlcc/src/sql_parser/parser.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/liying/sqlcc_qoder/test_working_dir/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object src/CMakeFiles/sqlcc_parser.dir/sql_parser/parser.cpp.o"
+	cd /home/liying/sqlcc_qoder/test_working_dir/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/sqlcc_parser.dir/sql_parser/parser.cpp.o -MF CMakeFiles/sqlcc_parser.dir/sql_parser/parser.cpp.o.d -o CMakeFiles/sqlcc_parser.dir/sql_parser/parser.cpp.o -c /home/liying/sqlcc_qoder/src/sql_parser/parser.cpp
 
 src/CMakeFiles/sqlcc_parser.dir/sql_parser/parser.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/sqlcc_parser.dir/sql_parser/parser.cpp.i"
-	cd /home/liying/sqlcc/test_working_dir/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/liying/sqlcc/src/sql_parser/parser.cpp > CMakeFiles/sqlcc_parser.dir/sql_parser/parser.cpp.i
+	cd /home/liying/sqlcc_qoder/test_working_dir/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/liying/sqlcc_qoder/src/sql_parser/parser.cpp > CMakeFiles/sqlcc_parser.dir/sql_parser/parser.cpp.i
 
 src/CMakeFiles/sqlcc_parser.dir/sql_parser/parser.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/sqlcc_parser.dir/sql_parser/parser.cpp.s"
-	cd /home/liying/sqlcc/test_working_dir/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/liying/sqlcc/src/sql_parser/parser.cpp -o CMakeFiles/sqlcc_parser.dir/sql_parser/parser.cpp.s
+	cd /home/liying/sqlcc_qoder/test_working_dir/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/liying/sqlcc_qoder/src/sql_parser/parser.cpp -o CMakeFiles/sqlcc_parser.dir/sql_parser/parser.cpp.s
+
+src/CMakeFiles/sqlcc_parser.dir/sql_parser/lexer.cpp.o: src/CMakeFiles/sqlcc_parser.dir/flags.make
+src/CMakeFiles/sqlcc_parser.dir/sql_parser/lexer.cpp.o: /home/liying/sqlcc_qoder/src/sql_parser/lexer.cpp
+src/CMakeFiles/sqlcc_parser.dir/sql_parser/lexer.cpp.o: src/CMakeFiles/sqlcc_parser.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/liying/sqlcc_qoder/test_working_dir/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object src/CMakeFiles/sqlcc_parser.dir/sql_parser/lexer.cpp.o"
+	cd /home/liying/sqlcc_qoder/test_working_dir/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/sqlcc_parser.dir/sql_parser/lexer.cpp.o -MF CMakeFiles/sqlcc_parser.dir/sql_parser/lexer.cpp.o.d -o CMakeFiles/sqlcc_parser.dir/sql_parser/lexer.cpp.o -c /home/liying/sqlcc_qoder/src/sql_parser/lexer.cpp
+
+src/CMakeFiles/sqlcc_parser.dir/sql_parser/lexer.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/sqlcc_parser.dir/sql_parser/lexer.cpp.i"
+	cd /home/liying/sqlcc_qoder/test_working_dir/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/liying/sqlcc_qoder/src/sql_parser/lexer.cpp > CMakeFiles/sqlcc_parser.dir/sql_parser/lexer.cpp.i
+
+src/CMakeFiles/sqlcc_parser.dir/sql_parser/lexer.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/sqlcc_parser.dir/sql_parser/lexer.cpp.s"
+	cd /home/liying/sqlcc_qoder/test_working_dir/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/liying/sqlcc_qoder/src/sql_parser/lexer.cpp -o CMakeFiles/sqlcc_parser.dir/sql_parser/lexer.cpp.s
+
+src/CMakeFiles/sqlcc_parser.dir/sql_parser/token.cpp.o: src/CMakeFiles/sqlcc_parser.dir/flags.make
+src/CMakeFiles/sqlcc_parser.dir/sql_parser/token.cpp.o: /home/liying/sqlcc_qoder/src/sql_parser/token.cpp
+src/CMakeFiles/sqlcc_parser.dir/sql_parser/token.cpp.o: src/CMakeFiles/sqlcc_parser.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/liying/sqlcc_qoder/test_working_dir/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object src/CMakeFiles/sqlcc_parser.dir/sql_parser/token.cpp.o"
+	cd /home/liying/sqlcc_qoder/test_working_dir/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/sqlcc_parser.dir/sql_parser/token.cpp.o -MF CMakeFiles/sqlcc_parser.dir/sql_parser/token.cpp.o.d -o CMakeFiles/sqlcc_parser.dir/sql_parser/token.cpp.o -c /home/liying/sqlcc_qoder/src/sql_parser/token.cpp
+
+src/CMakeFiles/sqlcc_parser.dir/sql_parser/token.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/sqlcc_parser.dir/sql_parser/token.cpp.i"
+	cd /home/liying/sqlcc_qoder/test_working_dir/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/liying/sqlcc_qoder/src/sql_parser/token.cpp > CMakeFiles/sqlcc_parser.dir/sql_parser/token.cpp.i
+
+src/CMakeFiles/sqlcc_parser.dir/sql_parser/token.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/sqlcc_parser.dir/sql_parser/token.cpp.s"
+	cd /home/liying/sqlcc_qoder/test_working_dir/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/liying/sqlcc_qoder/src/sql_parser/token.cpp -o CMakeFiles/sqlcc_parser.dir/sql_parser/token.cpp.s
 
 # Object files for target sqlcc_parser
 sqlcc_parser_OBJECTS = \
 "CMakeFiles/sqlcc_parser.dir/sql_parser/ast_node.cpp.o" \
 "CMakeFiles/sqlcc_parser.dir/sql_parser/ast_nodes.cpp.o" \
-"CMakeFiles/sqlcc_parser.dir/sql_parser/parser.cpp.o"
+"CMakeFiles/sqlcc_parser.dir/sql_parser/parser.cpp.o" \
+"CMakeFiles/sqlcc_parser.dir/sql_parser/lexer.cpp.o" \
+"CMakeFiles/sqlcc_parser.dir/sql_parser/token.cpp.o"
 
 # External object files for target sqlcc_parser
 sqlcc_parser_EXTERNAL_OBJECTS =
@@ -123,21 +153,23 @@ sqlcc_parser_EXTERNAL_OBJECTS =
 src/libsqlcc_parser.a: src/CMakeFiles/sqlcc_parser.dir/sql_parser/ast_node.cpp.o
 src/libsqlcc_parser.a: src/CMakeFiles/sqlcc_parser.dir/sql_parser/ast_nodes.cpp.o
 src/libsqlcc_parser.a: src/CMakeFiles/sqlcc_parser.dir/sql_parser/parser.cpp.o
+src/libsqlcc_parser.a: src/CMakeFiles/sqlcc_parser.dir/sql_parser/lexer.cpp.o
+src/libsqlcc_parser.a: src/CMakeFiles/sqlcc_parser.dir/sql_parser/token.cpp.o
 src/libsqlcc_parser.a: src/CMakeFiles/sqlcc_parser.dir/build.make
 src/libsqlcc_parser.a: src/CMakeFiles/sqlcc_parser.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/liying/sqlcc/test_working_dir/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX static library libsqlcc_parser.a"
-	cd /home/liying/sqlcc/test_working_dir/build/src && $(CMAKE_COMMAND) -P CMakeFiles/sqlcc_parser.dir/cmake_clean_target.cmake
-	cd /home/liying/sqlcc/test_working_dir/build/src && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/sqlcc_parser.dir/link.txt --verbose=$(VERBOSE)
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/liying/sqlcc_qoder/test_working_dir/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX static library libsqlcc_parser.a"
+	cd /home/liying/sqlcc_qoder/test_working_dir/build/src && $(CMAKE_COMMAND) -P CMakeFiles/sqlcc_parser.dir/cmake_clean_target.cmake
+	cd /home/liying/sqlcc_qoder/test_working_dir/build/src && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/sqlcc_parser.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
 src/CMakeFiles/sqlcc_parser.dir/build: src/libsqlcc_parser.a
 .PHONY : src/CMakeFiles/sqlcc_parser.dir/build
 
 src/CMakeFiles/sqlcc_parser.dir/clean:
-	cd /home/liying/sqlcc/test_working_dir/build/src && $(CMAKE_COMMAND) -P CMakeFiles/sqlcc_parser.dir/cmake_clean.cmake
+	cd /home/liying/sqlcc_qoder/test_working_dir/build/src && $(CMAKE_COMMAND) -P CMakeFiles/sqlcc_parser.dir/cmake_clean.cmake
 .PHONY : src/CMakeFiles/sqlcc_parser.dir/clean
 
 src/CMakeFiles/sqlcc_parser.dir/depend:
-	cd /home/liying/sqlcc/test_working_dir/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/liying/sqlcc /home/liying/sqlcc/src /home/liying/sqlcc/test_working_dir/build /home/liying/sqlcc/test_working_dir/build/src /home/liying/sqlcc/test_working_dir/build/src/CMakeFiles/sqlcc_parser.dir/DependInfo.cmake "--color=$(COLOR)"
+	cd /home/liying/sqlcc_qoder/test_working_dir/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/liying/sqlcc_qoder /home/liying/sqlcc_qoder/src /home/liying/sqlcc_qoder/test_working_dir/build /home/liying/sqlcc_qoder/test_working_dir/build/src /home/liying/sqlcc_qoder/test_working_dir/build/src/CMakeFiles/sqlcc_parser.dir/DependInfo.cmake "--color=$(COLOR)"
 .PHONY : src/CMakeFiles/sqlcc_parser.dir/depend
 

@@ -1,9 +1,11 @@
 #pragma once
 
 #include "buffer_pool.h"
+#include "buffer_pool_sharded.h"
 #include "config_manager.h"
 #include "disk_manager.h"
 #include "page.h"
+#include "table_storage.h"
 #include <memory>
 #include <unordered_map>
 
@@ -152,7 +154,7 @@ public:
    * @brief 获取缓冲池
    * @return 缓冲池指针
    */
-  BufferPool *GetBufferPool() const { return buffer_pool_.get(); }
+  BufferPoolSharded *GetBufferPool() const { return buffer_pool_.get(); }
 
   /**
    * @brief 获取配置管理器
@@ -178,7 +180,7 @@ private:
   // Why: 需要一个组件负责内存中的页面缓存，提高数据库性能
   // What: buffer_pool_是一个智能指针，指向BufferPool对象，负责内存中的页面管理
   // How: 使用std::unique_ptr管理BufferPool对象的生命周期，确保资源正确释放
-  std::unique_ptr<BufferPool> buffer_pool_;
+  std::unique_ptr<BufferPoolSharded> buffer_pool_;
 };
 
 } // namespace sqlcc

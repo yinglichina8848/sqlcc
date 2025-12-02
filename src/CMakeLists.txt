@@ -102,6 +102,7 @@ set(SQL_EXECUTOR_SOURCES
     sql_executor/data_type.cpp
     sql_executor/index_manager.cpp
     sql_executor/user_manager.cpp
+    sql_executor/system_database.cpp
     execution_engine.cpp
 )
 
@@ -119,6 +120,15 @@ target_include_directories(sqlcc_executor PUBLIC
 # 设置编译选项，启用覆盖率测试
 target_compile_options(sqlcc_executor PRIVATE -g -O0 --coverage)
 target_link_options(sqlcc_executor PRIVATE --coverage)
+
+# Link executor with its dependencies to resolve static symbols
+target_link_libraries(sqlcc_executor PUBLIC
+    sqlcc_parser
+    sqlcc_core_lib
+    sqlcc_storage_engine
+    sqlcc_transaction_manager
+    sqlcc_config_manager
+)
 
 # 添加必要的链接依赖
 find_package(Threads REQUIRED)

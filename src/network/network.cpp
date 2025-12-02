@@ -1035,6 +1035,10 @@ void ServerNetworkManager::ProcessEvents() {
 #endif
 }
 
+void ServerNetworkManager::SetSqlExecutor(std::shared_ptr<sqlcc::SqlExecutor> sql_executor) {
+    sql_executor_ = std::move(sql_executor);
+}
+
 void ServerNetworkManager::EnableTLS(bool enabled) {
 #ifdef __linux__
     tls_enabled_ = enabled;

@@ -1,6 +1,6 @@
 src/CMakeFiles/sqlcc_executor.dir/sql_executor/data_type.cpp.o: \
- /home/liying/sqlcc/src/sql_executor/data_type.cpp \
- /usr/include/stdc-predef.h /home/liying/sqlcc/include/data_type.h \
+ /home/liying/sqlcc_qoder/src/sql_executor/data_type.cpp \
+ /usr/include/stdc-predef.h /home/liying/sqlcc_qoder/include/data_type.h \
  /usr/include/c++/13/memory /usr/include/c++/13/bits/memoryfwd.h \
  /usr/include/x86_64-linux-gnu/c++/13/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/13/bits/os_defines.h \

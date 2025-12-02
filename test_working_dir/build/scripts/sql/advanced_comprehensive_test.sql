@@ -1,1 +1,1 @@
-/home/liying/sqlcc/scripts/sql/advanced_comprehensive_test.sql
+/home/liying/sqlcc_qoder/scripts/sql/advanced_comprehensive_test.sql

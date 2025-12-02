@@ -5,5 +5,6 @@ var searchData=
   ['dcl_5ftest_2ecpp_2',['dcl_test.cpp',['../dcl__test_8cpp.html',1,'']]],
   ['dcl_5ftest_5fadvanced_2ecpp_3',['dcl_test_advanced.cpp',['../dcl__test__advanced_8cpp.html',1,'']]],
   ['ddl_5ftest_2ecpp_4',['ddl_test.cpp',['../ddl__test_8cpp.html',1,'']]],
-  ['dml_5ftest_2ecpp_5',['dml_test.cpp',['../dml__test_8cpp.html',1,'']]]
+  ['disk_5fmanager_2ecpp_5',['disk_manager.cpp',['../disk__manager_8cpp.html',1,'']]],
+  ['dml_5ftest_2ecpp_6',['dml_test.cpp',['../dml__test_8cpp.html',1,'']]]
 ];

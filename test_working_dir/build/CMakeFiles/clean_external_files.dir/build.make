@@ -53,10 +53,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/liying/sqlcc
+CMAKE_SOURCE_DIR = /home/liying/sqlcc_qoder
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/liying/sqlcc/test_working_dir/build
+CMAKE_BINARY_DIR = /home/liying/sqlcc_qoder/test_working_dir/build
 
 # Utility rule file for clean_external_files.
 
@@ -67,9 +67,9 @@ include CMakeFiles/clean_external_files.dir/compiler_depend.make
 include CMakeFiles/clean_external_files.dir/progress.make
 
 CMakeFiles/clean_external_files:
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=/home/liying/sqlcc/test_working_dir/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Clean all intermediate files outside build directory"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=/home/liying/sqlcc_qoder/test_working_dir/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Clean all intermediate files outside build directory"
 	/usr/bin/cmake -E echo ===\ 清理build目录外的中间文件\ ===
-	/home/liying/sqlcc/clean_external_files.sh
+	/home/liying/sqlcc_qoder/clean_external_files.sh
 
 clean_external_files: CMakeFiles/clean_external_files
 clean_external_files: CMakeFiles/clean_external_files.dir/build.make
@@ -84,6 +84,6 @@ CMakeFiles/clean_external_files.dir/clean:
 .PHONY : CMakeFiles/clean_external_files.dir/clean
 
 CMakeFiles/clean_external_files.dir/depend:
-	cd /home/liying/sqlcc/test_working_dir/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/liying/sqlcc /home/liying/sqlcc /home/liying/sqlcc/test_working_dir/build /home/liying/sqlcc/test_working_dir/build /home/liying/sqlcc/test_working_dir/build/CMakeFiles/clean_external_files.dir/DependInfo.cmake "--color=$(COLOR)"
+	cd /home/liying/sqlcc_qoder/test_working_dir/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/liying/sqlcc_qoder /home/liying/sqlcc_qoder /home/liying/sqlcc_qoder/test_working_dir/build /home/liying/sqlcc_qoder/test_working_dir/build /home/liying/sqlcc_qoder/test_working_dir/build/CMakeFiles/clean_external_files.dir/DependInfo.cmake "--color=$(COLOR)"
 .PHONY : CMakeFiles/clean_external_files.dir/depend
 

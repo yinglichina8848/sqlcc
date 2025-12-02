@@ -53,10 +53,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/liying/sqlcc
+CMAKE_SOURCE_DIR = /home/liying/sqlcc_qoder
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/liying/sqlcc/test_working_dir/build
+CMAKE_BINARY_DIR = /home/liying/sqlcc_qoder/test_working_dir/build
 
 # Include any dependencies generated for this target.
 include tests/CMakeFiles/sql_network_test.dir/depend.make
@@ -70,18 +70,18 @@ include tests/CMakeFiles/sql_network_test.dir/progress.make
 include tests/CMakeFiles/sql_network_test.dir/flags.make
 
 tests/CMakeFiles/sql_network_test.dir/network/sql_network_test.cpp.o: tests/CMakeFiles/sql_network_test.dir/flags.make
-tests/CMakeFiles/sql_network_test.dir/network/sql_network_test.cpp.o: /home/liying/sqlcc/tests/network/sql_network_test.cpp
+tests/CMakeFiles/sql_network_test.dir/network/sql_network_test.cpp.o: /home/liying/sqlcc_qoder/tests/network/sql_network_test.cpp
 tests/CMakeFiles/sql_network_test.dir/network/sql_network_test.cpp.o: tests/CMakeFiles/sql_network_test.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/liying/sqlcc/test_working_dir/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object tests/CMakeFiles/sql_network_test.dir/network/sql_network_test.cpp.o"
-	cd /home/liying/sqlcc/test_working_dir/build/tests && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT tests/CMakeFiles/sql_network_test.dir/network/sql_network_test.cpp.o -MF CMakeFiles/sql_network_test.dir/network/sql_network_test.cpp.o.d -o CMakeFiles/sql_network_test.dir/network/sql_network_test.cpp.o -c /home/liying/sqlcc/tests/network/sql_network_test.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/liying/sqlcc_qoder/test_working_dir/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object tests/CMakeFiles/sql_network_test.dir/network/sql_network_test.cpp.o"
+	cd /home/liying/sqlcc_qoder/test_working_dir/build/tests && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT tests/CMakeFiles/sql_network_test.dir/network/sql_network_test.cpp.o -MF CMakeFiles/sql_network_test.dir/network/sql_network_test.cpp.o.d -o CMakeFiles/sql_network_test.dir/network/sql_network_test.cpp.o -c /home/liying/sqlcc_qoder/tests/network/sql_network_test.cpp
 
 tests/CMakeFiles/sql_network_test.dir/network/sql_network_test.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/sql_network_test.dir/network/sql_network_test.cpp.i"
-	cd /home/liying/sqlcc/test_working_dir/build/tests && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/liying/sqlcc/tests/network/sql_network_test.cpp > CMakeFiles/sql_network_test.dir/network/sql_network_test.cpp.i
+	cd /home/liying/sqlcc_qoder/test_working_dir/build/tests && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/liying/sqlcc_qoder/tests/network/sql_network_test.cpp > CMakeFiles/sql_network_test.dir/network/sql_network_test.cpp.i
 
 tests/CMakeFiles/sql_network_test.dir/network/sql_network_test.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/sql_network_test.dir/network/sql_network_test.cpp.s"
-	cd /home/liying/sqlcc/test_working_dir/build/tests && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/liying/sqlcc/tests/network/sql_network_test.cpp -o CMakeFiles/sql_network_test.dir/network/sql_network_test.cpp.s
+	cd /home/liying/sqlcc_qoder/test_working_dir/build/tests && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/liying/sqlcc_qoder/tests/network/sql_network_test.cpp -o CMakeFiles/sql_network_test.dir/network/sql_network_test.cpp.s
 
 # Object files for target sql_network_test
 sql_network_test_OBJECTS = \
@@ -92,19 +92,23 @@ sql_network_test_EXTERNAL_OBJECTS =
 
 tests/sql_network_test: tests/CMakeFiles/sql_network_test.dir/network/sql_network_test.cpp.o
 tests/sql_network_test: tests/CMakeFiles/sql_network_test.dir/build.make
+tests/sql_network_test: src/libsqlcc_network.a
+tests/sql_network_test: src/libsqlcc_core_lib.a
+tests/sql_network_test: /usr/lib/x86_64-linux-gnu/libssl.so
+tests/sql_network_test: /usr/lib/x86_64-linux-gnu/libcrypto.so
 tests/sql_network_test: tests/CMakeFiles/sql_network_test.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/liying/sqlcc/test_working_dir/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable sql_network_test"
-	cd /home/liying/sqlcc/test_working_dir/build/tests && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/sql_network_test.dir/link.txt --verbose=$(VERBOSE)
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/liying/sqlcc_qoder/test_working_dir/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable sql_network_test"
+	cd /home/liying/sqlcc_qoder/test_working_dir/build/tests && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/sql_network_test.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
 tests/CMakeFiles/sql_network_test.dir/build: tests/sql_network_test
 .PHONY : tests/CMakeFiles/sql_network_test.dir/build
 
 tests/CMakeFiles/sql_network_test.dir/clean:
-	cd /home/liying/sqlcc/test_working_dir/build/tests && $(CMAKE_COMMAND) -P CMakeFiles/sql_network_test.dir/cmake_clean.cmake
+	cd /home/liying/sqlcc_qoder/test_working_dir/build/tests && $(CMAKE_COMMAND) -P CMakeFiles/sql_network_test.dir/cmake_clean.cmake
 .PHONY : tests/CMakeFiles/sql_network_test.dir/clean
 
 tests/CMakeFiles/sql_network_test.dir/depend:
-	cd /home/liying/sqlcc/test_working_dir/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/liying/sqlcc /home/liying/sqlcc/tests /home/liying/sqlcc/test_working_dir/build /home/liying/sqlcc/test_working_dir/build/tests /home/liying/sqlcc/test_working_dir/build/tests/CMakeFiles/sql_network_test.dir/DependInfo.cmake "--color=$(COLOR)"
+	cd /home/liying/sqlcc_qoder/test_working_dir/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/liying/sqlcc_qoder /home/liying/sqlcc_qoder/tests /home/liying/sqlcc_qoder/test_working_dir/build /home/liying/sqlcc_qoder/test_working_dir/build/tests /home/liying/sqlcc_qoder/test_working_dir/build/tests/CMakeFiles/sql_network_test.dir/DependInfo.cmake "--color=$(COLOR)"
 .PHONY : tests/CMakeFiles/sql_network_test.dir/depend
 

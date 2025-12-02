@@ -1,13 +1,12 @@
 var indexSectionsWithContent =
 {
-  0: "7:abcdeghilmnprstuw为商性树这",
+  0: "7:abcdeghimnprstuw为商性树这",
   1: "b",
   2: "s",
-  3: "abcdeilmnpstuw",
-  4: "cehmrstu",
-  5: "giprs",
-  6: "e",
-  7: "bps"
+  3: "abcdeimnpstuw",
+  4: "cehmrst",
+  5: "gp",
+  6: "bps"
 };
 
 var indexSectionNames =
@@ -18,8 +17,7 @@ var indexSectionNames =
   3: "files",
   4: "functions",
   5: "variables",
-  6: "typedefs",
-  7: "defines"
+  6: "defines"
 };
 
 var indexSectionLabels =
@@ -30,7 +28,6 @@ var indexSectionLabels =
   3: "文件",
   4: "函数",
   5: "变量",
-  6: "类型定义",
-  7: "宏定义"
+  6: "宏定义"
 };
 

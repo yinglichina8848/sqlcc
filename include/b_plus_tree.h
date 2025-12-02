@@ -101,6 +101,8 @@ public:
     void RemoveChild(int32_t child_page_id);
     int32_t FindChildPageId(const std::string& key) const;
     void Split(BPlusTreeInternalNode*& new_node);
+    void Merge(BPlusTreeInternalNode* right_node, const std::string& parent_key);
+    const std::vector<std::string>& GetKeys() const { return keys_; }
 
 private:
     std::vector<std::string> keys_;         // 键值列表
@@ -127,6 +129,8 @@ public:
     void SetNextPageId(int32_t next_page_id) { next_page_id_ = next_page_id; }
     int32_t GetNextPageId() const { return next_page_id_; }
     void Split(BPlusTreeLeafNode*& new_node);
+    void Merge(BPlusTreeLeafNode* right_node);
+    const std::vector<IndexEntry>& GetEntries() const { return entries_; }
 
 private:
     std::vector<IndexEntry> entries_;  // 索引条目列表
@@ -154,6 +158,7 @@ public:
     const std::string& GetTableName() const { return table_name_; }
     const std::string& GetColumnName() const { return column_name_; }
     bool Exists() const; // 检查索引是否存在
+    int32_t GetRootPageId() const { return root_page_id_; }
 
 private:
     sqlcc::StorageEngine* storage_engine_;  // 存储引擎引用
@@ -169,6 +174,12 @@ private:
     BPlusTreeNode* GetNode(int32_t page_id) const;
     BPlusTreeNode* CreateNewNode(bool is_leaf);
     void DeleteNode(int32_t page_id);
+    BPlusTreeNode* LoadNode(int32_t page_id);
+    bool NeedMerge(BPlusTreeNode* node);
+    bool Insert(const IndexEntry& entry, BPlusTreeNode* current_node, std::string& promoted_key, BPlusTreeNode*& new_node);
+    bool Delete(const std::string& key, BPlusTreeNode* current_node);
+    std::vector<IndexEntry> Search(const std::string& key, BPlusTreeNode* current_node) const;
+    std::vector<IndexEntry> SearchRange(const std::string& lower_bound, const std::string& upper_bound, BPlusTreeNode* current_node) const;
 };
 
 /**
