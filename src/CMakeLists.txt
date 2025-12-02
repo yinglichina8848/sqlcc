@@ -22,6 +22,10 @@ set(SQL_PARSER_SOURCES
     sql_parser/parser.cpp
     sql_parser/lexer.cpp
     sql_parser/token.cpp
+    sql_parser/advanced_ast.cpp
+    sql_parser/having_clause_node.cpp
+    sql_parser/parser_set_operations.cpp
+    sql_parser/set_operation_node.cpp
 )
 
 add_library(sqlcc_parser STATIC
@@ -65,6 +69,9 @@ target_include_directories(sqlcc_storage_engine PUBLIC
     ${CMAKE_SOURCE_DIR}/include/core
 )
 
+# 链接storage_engine库与config_manager库
+target_link_libraries(sqlcc_storage_engine PUBLIC sqlcc_config_manager)
+
 # 创建transaction_manager库
 add_library(sqlcc_transaction_manager STATIC
     transaction_manager/transaction_manager.cpp
@@ -107,6 +114,11 @@ set(SQL_EXECUTOR_SOURCES
     unified_query_plan.cpp
     error_handler.cpp
     permission_validator.cpp
+    unified_executor.cpp
+    execution_context.cpp
+    execution/set_operation_executor.cpp
+    execution/join_executor.cpp
+    execution/subquery_executor.cpp
 )
 
 add_library(sqlcc_executor STATIC
