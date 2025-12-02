@@ -1,5 +1,57 @@
 # SqlCC 变更日志
 
+## [1.0.5] - 2025-12-02
+### 新增
+- **DML执行器约束验证完整实现**
+  - 实现checkPrimaryKeyConstraints()方法，通过表扫描验证主键唯一性
+  - 实现checkUniqueKeyConstraints()方法，通过表扫描验证UNIQUE约束
+  - 支持正确处理NULL值（UNIQUE约束允许NULL，符合SQL标准）
+  - 约束验证层次化设计：NOT NULL（第一层）+ PRIMARY KEY（第二层）+ UNIQUE（第三层）
+  - 在executeInsert()和executeUpdate()中自动调用约束验证
+  - validateColumnConstraints()处理NOT NULL约束验证
+
+- **DML执行器索引维护框架**
+  - 完善maintainIndexesOnInsert()支持INSERT时索引维护
+  - 完善maintainIndexesOnUpdate()支持UPDATE时索引同步更新（删除旧值+插入新值）
+  - 完善maintainIndexesOnDelete()支持DELETE时索引清理
+  - 清晰的TODO注释指导完整实现（SystemDatabase::GetIndexesForTable() API集成）
+  - 提供示例代码展示IndexManager的调用方式
+
+- **WHERE条件评估优化**
+  - 实现compareValues()方法集中处理所有比较操作
+  - 支持操作符：=, <>, <, >, <=, >=, LIKE
+  - 自动类型转换（字符串<->数字）
+  - 框架预留IN、BETWEEN等操作符扩展空间
+  - 消除matchesWhereClause()中的代码重复
+
+### 改进
+- **代码质量优化**
+  - 约束验证逻辑分离明确（NOT NULL/PRIMARY KEY/UNIQUE分离）
+  - 索引维护框架结构清晰（INSERT/UPDATE/DELETE分离）
+  - WHERE比较操作集中化便于维护和扩展
+  - 添加详细的实现指导和示例代码注释
+
+- **SQL标准合规性**
+  - PRIMARY KEY约束正确处理（不允许NULL，必须唯一）
+  - UNIQUE约束正确处理（允许NULL，必须唯一）
+  - NULL值在唯一性检查中被正确跳过
+  - 支持列级主键和UNIQUE约束
+
+### 技术细节
+- **约束验证方式**：表全扫描（O(n)复杂度，待索引加速）
+- **性能影响**：INSERT/UPDATE时增加约束检查开销
+- **扩展点**：SystemDatabase API、IndexManager API、AND/OR复合条件
+- **编译状态**：✅ sqlcc_executor编译成功
+
+### 提交历史
+1. 优化WHERE条件评估，添加比较值辅助方法（6d1204b）
+2. 扩展约束验证支持PRIMARY KEY和UNIQUE检查框架（1b4c055）
+3. 实现WHERE条件优化测试框架（8a97950）
+4. 索引维护框架（ed3eadf）
+5. 约束验证基础实现（dcc916e）
+6. 实现PRIMARY KEY和UNIQUE约束的表扫描检查逻辑（1a3fa51）
+7. 完善索引维护框架并添加实现指导（2e69855）
+
 ## [1.0.4] - 2025-12-02
 ### 新增
 - **REVOKE权限撤销功能完整实现**
