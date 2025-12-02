@@ -24,7 +24,24 @@ ExecutionEngine::ExecutionEngine(std::shared_ptr<DatabaseManager> db_manager)
 // ==================== DDLExecutor ====================
 
 DDLExecutor::DDLExecutor(std::shared_ptr<DatabaseManager> db_manager)
-    : ExecutionEngine(db_manager) {
+    : ExecutionEngine(db_manager), system_db_(nullptr), user_manager_(nullptr) {
+}
+
+DDLExecutor::DDLExecutor(std::shared_ptr<DatabaseManager> db_manager,
+                         std::shared_ptr<SystemDatabase> system_db,
+                         std::shared_ptr<UserManager> user_manager)
+    : ExecutionEngine(db_manager), system_db_(system_db), user_manager_(user_manager) {
+}
+
+bool DDLExecutor::checkDDLPermission(const std::string& operation, const std::string& resource) {
+    // 如果没有UserManager，默认允许（向后兼容）
+    if (!user_manager_) {
+        return true;
+    }
+    
+    // TODO: 集成UserManager权限检查
+    // 当前默认允许，待实现权限系统集成
+    return true;
 }
 
 ExecutionResult DDLExecutor::execute(std::unique_ptr<sql_parser::Statement> stmt) {
@@ -64,6 +81,11 @@ ExecutionResult DDLExecutor::executeCreate(sql_parser::CreateStatement* stmt) {
                     return ExecutionResult(false, "No database selected");
                 }
                 
+                // 检查权限
+                if (!checkDDLPermission("CREATE", "TABLE")) {
+                    return ExecutionResult(false, "Permission denied: CREATE TABLE");
+                }
+                
                 // 获取列定义并转换为正确的格式
                 const auto& columns = stmt->getColumns();
                 std::vector<std::pair<std::string, std::string>> table_columns;
@@ -71,8 +93,26 @@ ExecutionResult DDLExecutor::executeCreate(sql_parser::CreateStatement* stmt) {
                     table_columns.emplace_back(col.getName(), col.getType());
                 }
                 
-                // 创建表的逻辑应该在这里实现
+                // 创建表
                 if (db_manager_->CreateTable(table_name, table_columns)) {
+                    // 同步元数据到SystemDatabase
+                    if (system_db_) {
+                        // 获取当前数据库的ID和schema名
+                        // TODO: 获取实际的db_id和owner信息
+                        int64_t db_id = 1;  // 临时使用默认值
+                        std::string schema = "public";  // 临时使用默认schema
+                        std::string owner = "root";  // 临时使用默认owner
+                        
+                        system_db_->CreateTableRecord(db_id, schema, table_name, owner);
+                        // 记录列信息
+                        // TODO: 获取创建的table_id用于列记录
+                        int64_t table_id = 1;  // 临时使用，实际应该从CreateTableRecord返回
+                        int ordinal = 1;
+                        for (const auto& col : columns) {
+                            system_db_->CreateColumnRecord(table_id, col.getName(), col.getType(), 
+                                                          true, "", ordinal++);
+                        }
+                    }
                     return ExecutionResult(true, "Table '" + table_name + "' created successfully in database '" + current_db + "'");
                 } else {
                     return ExecutionResult(false, "Failed to create table '" + table_name + "'");
@@ -109,8 +149,19 @@ ExecutionResult DDLExecutor::executeDrop(sql_parser::DropStatement* stmt) {
                     return ExecutionResult(false, "No database selected");
                 }
                 
-                // 删除表的逻辑应该在这里实现
+                // 检查权限
+                if (!checkDDLPermission("DROP", "TABLE")) {
+                    return ExecutionResult(false, "Permission denied: DROP TABLE");
+                }
+                
+                // 删除表
                 if (db_manager_->DropTable(table_name)) {
+                    // 同步元数据（从系统数据库删除）
+                    if (system_db_) {
+                        // TODO: 获取实际的schema信息
+                        std::string schema = "public";  // 临时使用默认schema
+                        system_db_->DropTableRecord(schema, table_name);
+                    }
                     return ExecutionResult(true, "Table '" + table_name + "' dropped successfully from database '" + current_db + "'");
                 } else {
                     return ExecutionResult(false, "Failed to drop table '" + table_name + "'");
@@ -138,7 +189,23 @@ ExecutionResult DDLExecutor::executeAlter(sql_parser::AlterStatement* stmt) {
 // ==================== DMLExecutor ====================
 
 DMLExecutor::DMLExecutor(std::shared_ptr<DatabaseManager> db_manager)
-    : ExecutionEngine(db_manager) {
+    : ExecutionEngine(db_manager), user_manager_(nullptr) {
+}
+
+DMLExecutor::DMLExecutor(std::shared_ptr<DatabaseManager> db_manager,
+                         std::shared_ptr<UserManager> user_manager)
+    : ExecutionEngine(db_manager), user_manager_(user_manager) {
+}
+
+bool DMLExecutor::checkDMLPermission(const std::string& operation, const std::string& table_name) {
+    // 如果没有UserManager，默认允许（向后兼容）
+    if (!user_manager_) {
+        return true;
+    }
+    
+    // TODO: 集成UserManager权限检查
+    // 当前默认允许，待实现权限系统集成
+    return true;
 }
 
 ExecutionResult DMLExecutor::execute(std::unique_ptr<sql_parser::Statement> stmt) {
@@ -168,10 +235,17 @@ ExecutionResult DMLExecutor::executeInsert(sql_parser::InsertStatement* stmt) {
     // 获取表名
     const std::string& table_name = stmt->getTableName();
     
+    // 检查INSERT权限
+    if (!checkDMLPermission("INSERT", table_name)) {
+        return ExecutionResult(false, "Permission denied: INSERT on table '" + table_name + "'");
+    }
+    
     // 检查表是否存在
     if (!db_manager_->TableExists(table_name)) {
         return ExecutionResult(false, "Table '" + table_name + "' does not exist");
     }
+    
+    // ... 余下正常的INSERT逻辑
     
     // 获取存储引擎
     auto storage_engine = db_manager_->GetStorageEngine();
@@ -244,6 +318,11 @@ ExecutionResult DMLExecutor::executeUpdate(sql_parser::UpdateStatement* stmt) {
     
     // 获取表名
     const std::string& table_name = stmt->getTableName();
+    
+    // 检查UPDATE权限
+    if (!checkDMLPermission("UPDATE", table_name)) {
+        return ExecutionResult(false, "Permission denied: UPDATE on table '" + table_name + "'");
+    }
     
     // 检查表是否存在
     if (!db_manager_->TableExists(table_name)) {
@@ -341,6 +420,11 @@ ExecutionResult DMLExecutor::executeDelete(sql_parser::DeleteStatement* stmt) {
     
     // 获取表名
     const std::string& table_name = stmt->getTableName();
+    
+    // 检查DELETE权限
+    if (!checkDMLPermission("DELETE", table_name)) {
+        return ExecutionResult(false, "Permission denied: DELETE on table '" + table_name + "'");
+    }
     
     // 检查表是否存在
     if (!db_manager_->TableExists(table_name)) {

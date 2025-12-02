@@ -51,6 +51,9 @@ public:
 class DDLExecutor : public ExecutionEngine {
 public:
     DDLExecutor(std::shared_ptr<DatabaseManager> db_manager);
+    DDLExecutor(std::shared_ptr<DatabaseManager> db_manager, 
+                std::shared_ptr<SystemDatabase> system_db,
+                std::shared_ptr<UserManager> user_manager);
 
     ExecutionResult execute(std::unique_ptr<sqlcc::sql_parser::Statement> stmt) override;
 
@@ -60,6 +63,12 @@ private:
     ExecutionResult executeAlter(sqlcc::sql_parser::AlterStatement* stmt);
     ExecutionResult executeCreateIndex(sqlcc::sql_parser::CreateIndexStatement* stmt);
     ExecutionResult executeDropIndex(sqlcc::sql_parser::DropIndexStatement* stmt);
+    
+    // 权限检查
+    bool checkDDLPermission(const std::string& operation, const std::string& resource);
+    
+    std::shared_ptr<SystemDatabase> system_db_;
+    std::shared_ptr<UserManager> user_manager_;
 };
 
 /**
@@ -68,6 +77,8 @@ private:
 class DMLExecutor : public ExecutionEngine {
 public:
     DMLExecutor(std::shared_ptr<DatabaseManager> db_manager);
+    DMLExecutor(std::shared_ptr<DatabaseManager> db_manager,
+                std::shared_ptr<UserManager> user_manager);
 
     ExecutionResult execute(std::unique_ptr<sqlcc::sql_parser::Statement> stmt) override;
     
@@ -78,6 +89,9 @@ private:
     ExecutionResult executeInsert(sqlcc::sql_parser::InsertStatement* stmt);
     ExecutionResult executeUpdate(sqlcc::sql_parser::UpdateStatement* stmt);
     ExecutionResult executeDelete(sqlcc::sql_parser::DeleteStatement* stmt);
+    
+    // 权限检查
+    bool checkDMLPermission(const std::string& operation, const std::string& table_name);
     
     // 辅助方法
     bool matchesWhereClause(const std::vector<std::string>& record,
@@ -118,6 +132,8 @@ private:
     void maintainIndexesOnDelete(const std::vector<std::string>& record,
                                 const std::string& table_name,
                                 int32_t page_id, size_t offset);
+    
+    std::shared_ptr<UserManager> user_manager_;
 };
 
 
