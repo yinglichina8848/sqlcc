@@ -190,11 +190,20 @@ ExecutionResult DMLExecutor::executeInsert(sql_parser::InsertStatement* stmt) {
     
     int rows_inserted = 0;
     
+    // 获取表元数据
+    auto metadata = table_storage.GetTableMetadata(table_name);
+    if (!metadata) {
+        return ExecutionResult(false, "Failed to get table metadata");
+    }
+    
     // 处理每一行数据
     for (const auto& values : value_rows) {
-        // TODO: 在此处添加约束验证
-        // 1. 获取表的约束信息（PRIMARY KEY, UNIQUE, FOREIGN KEY, CHECK, NOT NULL）
-        // 2. 使用ConstraintExecutor验证约束
+        std::vector<std::string> record(values.begin(), values.end());
+        
+        // 验证约束
+        if (!validateColumnConstraints(record, metadata, table_name)) {
+            return ExecutionResult(false, "Constraint validation failed for row");
+        }
         
         // 插入记录
         int32_t page_id;
@@ -291,7 +300,11 @@ ExecutionResult DMLExecutor::executeUpdate(sql_parser::UpdateStatement* stmt) {
                 }
             }
             
-            // TODO: 验证约束
+            // 验证更新后的数据是否符合约束
+            if (!validateColumnConstraints(new_values, metadata, table_name)) {
+                return ExecutionResult(false, "Constraint validation failed for update");
+            }
+            
             // TODO: 更新索引
             
             // 更新记录
@@ -383,7 +396,7 @@ bool DMLExecutor::matchesWhereClause(const std::vector<std::string>& record,
     // 获取列的值
     std::string column_value = getColumnValue(record, where_clause.getColumnName(), metadata);
     std::string condition_value = where_clause.getValue();
-    std::string op = where_clause.getOperator();
+    std::string op = where_clause.getOp();
     
     // 比较操作
     if (op == "=") {
@@ -438,6 +451,31 @@ std::string DMLExecutor::getColumnValue(const std::vector<std::string>& record,
     }
     
     return record[column_index];
+}
+
+bool DMLExecutor::validateColumnConstraints(const std::vector<std::string>& record,
+                                           std::shared_ptr<TableMetadata> metadata,
+                                           const std::string& table_name) {
+    if (!metadata) {
+        return false;
+    }
+    
+    // 验证每一列的约束
+    for (size_t i = 0; i < metadata->columns.size(); i++) {
+        const auto& col = metadata->columns[i];
+        if (i >= record.size()) {
+            break;
+        }
+        
+        const std::string& value = record[i];
+        
+        // 1. 验证NOT NULL约束
+        if (!col.nullable && value.empty()) {
+            return false; // NOT NULL约束违反
+        }
+    }
+    
+    return true; // 所有约束验证通过
 }
 
 // ==================== DCLExecutor ====================

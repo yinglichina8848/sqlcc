@@ -83,6 +83,11 @@ private:
     std::string getColumnValue(const std::vector<std::string>& record,
                               const std::string& column_name,
                               std::shared_ptr<TableMetadata> metadata);
+    
+    // 约束验证方法
+    bool validateColumnConstraints(const std::vector<std::string>& record,
+                                  std::shared_ptr<TableMetadata> metadata,
+                                  const std::string& table_name);
 };
 
 
