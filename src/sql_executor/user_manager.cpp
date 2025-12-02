@@ -36,6 +36,9 @@ UserManager::UserManager(const std::string& data_path) : data_path_(data_path), 
         // 如果加载失败，创建默认超级用户
         CreateDefaultSuperuser();
     }
+    
+    // 初始化权限矩阵
+    InitializePermissionMatrix();
 }
 
 UserManager::~UserManager() {
@@ -125,6 +128,166 @@ std::string UserManager::HashPassword(const std::string& password) const {
     // 简单的哈希实现，实际应用中应使用更强的哈希算法如bcrypt
     std::hash<std::string> hasher;
     return std::to_string(hasher(password));
+}
+
+// 初始化权限矩阵
+void UserManager::InitializePermissionMatrix() {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    // 清空权限矩阵
+    permission_matrix_.clear();
+    user_current_roles_.clear();
+    
+    // 初始化用户当前角色映射
+    for (const auto& user_pair : users_) {
+        const User& user = user_pair.second;
+        user_current_roles_[user.username] = user.current_role;
+    }
+    
+    // 将现有权限数据加载到权限矩阵
+    for (const auto& permission : permissions_) {
+        AddPermissionToMatrix(permission);
+    }
+}
+
+// 添加权限到矩阵
+void UserManager::AddPermissionToMatrix(const Permission& permission) {
+    PermissionKey key;
+    key.grantee = permission.grantee;
+    key.database = permission.database;
+    key.table = permission.table;
+    key.privilege = permission.privilege;
+    
+    PermissionValue value;
+    value.has_permission = true;
+    value.is_role = permission.is_role;
+    
+    permission_matrix_[key] = value;
+}
+
+// 从矩阵移除权限
+void UserManager::RemovePermissionFromMatrix(const Permission& permission) {
+    PermissionKey key;
+    key.grantee = permission.grantee;
+    key.database = permission.database;
+    key.table = permission.table;
+    key.privilege = permission.privilege;
+    
+    permission_matrix_.erase(key);
+}
+
+// 矩阵权限检查
+bool UserManager::CheckPermissionInMatrix(const std::string& username, const std::string& database,
+                                        const std::string& table, const std::string& required_privilege) const {
+    // 查找用户
+    auto user_it = users_.find(username);
+    if (user_it == users_.end()) {
+        return false;
+    }
+    
+    const User& user = user_it->second;
+    
+    // 超级用户拥有所有权限
+    if (user.role == ROLE_SUPERUSER) {
+        return true;
+    }
+    
+    // 检查用户直接权限
+    PermissionKey user_key;
+    user_key.grantee = username;
+    user_key.database = database;
+    user_key.table = table;
+    user_key.privilege = required_privilege;
+    
+    auto user_perm_it = permission_matrix_.find(user_key);
+    if (user_perm_it != permission_matrix_.end() && !user_perm_it->second.is_role) {
+        return true;
+    }
+    
+    // 检查用户ALL权限
+    PermissionKey user_all_key;
+    user_all_key.grantee = username;
+    user_all_key.database = database;
+    user_all_key.table = table;
+    user_all_key.privilege = PRIVILEGE_ALL;
+    
+    auto user_all_it = permission_matrix_.find(user_all_key);
+    if (user_all_it != permission_matrix_.end() && !user_all_it->second.is_role) {
+        return true;
+    }
+    
+    // 检查角色权限
+    auto role_it = user_current_roles_.find(username);
+    if (role_it != user_current_roles_.end()) {
+        const std::string& current_role = role_it->second;
+        
+        PermissionKey role_key;
+        role_key.grantee = current_role;
+        role_key.database = database;
+        role_key.table = table;
+        role_key.privilege = required_privilege;
+        
+        auto role_perm_it = permission_matrix_.find(role_key);
+        if (role_perm_it != permission_matrix_.end() && role_perm_it->second.is_role) {
+            return true;
+        }
+        
+        // 检查角色ALL权限
+        PermissionKey role_all_key;
+        role_all_key.grantee = current_role;
+        role_all_key.database = database;
+        role_all_key.table = table;
+        role_all_key.privilege = PRIVILEGE_ALL;
+        
+        auto role_all_it = permission_matrix_.find(role_all_key);
+        if (role_all_it != permission_matrix_.end() && role_all_it->second.is_role) {
+            return true;
+        }
+    }
+    
+    // 检查通配符权限
+    // 数据库通配符
+    PermissionKey db_wildcard_key;
+    db_wildcard_key.grantee = username;
+    db_wildcard_key.database = "*";
+    db_wildcard_key.table = table;
+    db_wildcard_key.privilege = required_privilege;
+    
+    auto db_wildcard_it = permission_matrix_.find(db_wildcard_key);
+    if (db_wildcard_it != permission_matrix_.end() && !db_wildcard_it->second.is_role) {
+        return true;
+    }
+    
+    // 表通配符
+    PermissionKey table_wildcard_key;
+    table_wildcard_key.grantee = username;
+    table_wildcard_key.database = database;
+    table_wildcard_key.table = "*";
+    table_wildcard_key.privilege = required_privilege;
+    
+    auto table_wildcard_it = permission_matrix_.find(table_wildcard_key);
+    if (table_wildcard_it != permission_matrix_.end() && !table_wildcard_it->second.is_role) {
+        return true;
+    }
+    
+    // 数据库和表通配符
+    PermissionKey db_table_wildcard_key;
+    db_table_wildcard_key.grantee = username;
+    db_table_wildcard_key.database = "*";
+    db_table_wildcard_key.table = "*";
+    db_table_wildcard_key.privilege = required_privilege;
+    
+    auto db_table_wildcard_it = permission_matrix_.find(db_table_wildcard_key);
+    if (db_table_wildcard_it != permission_matrix_.end() && !db_table_wildcard_it->second.is_role) {
+        return true;
+    }
+    
+    return false;
+}
+
+// 更新用户当前角色
+void UserManager::UpdateUserCurrentRole(const std::string& username, const std::string& role_name) {
+    user_current_roles_[username] = role_name;
 }
 
 // 创建用户
@@ -362,6 +525,9 @@ bool UserManager::SetCurrentRole(const std::string& username, const std::string&
     // 更新当前角色
     it->second.current_role = role_name;
     
+    // 同步到权限矩阵
+    UpdateUserCurrentRole(username, role_name);
+    
     // 保存到文件（已持有锁，调用内部版本）
     SaveToFileInternal();
     
@@ -408,6 +574,9 @@ bool UserManager::GrantPrivilege(const std::string& grantee, const std::string& 
     // 添加权限到内存
     permissions_.push_back(permission);
     
+    // 同步到权限矩阵
+    AddPermissionToMatrix(permission);
+    
     // 同步到SystemDatabase
     if (sys_db_ != nullptr) {
         std::string grantee_type = is_role ? "ROLE" : "USER";
@@ -442,11 +611,20 @@ bool UserManager::RevokePrivilege(const std::string& grantee, const std::string&
         return false;
     }
     
-    // 获取被移除的权限信息（用于同步到SystemDatabase）
+    // 获取被移除的权限信息（用于同步到SystemDatabase和权限矩阵）
     bool is_role = it->is_role;
     
     // 从内存中移除权限
     permissions_.erase(it, permissions_.end());
+    
+    // 从权限矩阵移除权限
+    Permission removed_permission;
+    removed_permission.grantee = grantee;
+    removed_permission.database = database;
+    removed_permission.table = table;
+    removed_permission.privilege = privilege;
+    removed_permission.is_role = is_role;
+    RemovePermissionFromMatrix(removed_permission);
     
     // 同步到SystemDatabase
     if (sys_db_ != nullptr) {
@@ -468,43 +646,8 @@ bool UserManager::CheckPermission(const std::string& username, const std::string
                                 const std::string& table, const std::string& required_privilege) {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    // 查找用户
-    auto user_it = users_.find(username);
-    if (user_it == users_.end()) {
-        last_error_ = "User '" + username + "' does not exist";
-        return false;
-    }
-    
-    const User& user = user_it->second;
-    
-    // 超级用户拥有所有权限
-    if (user.role == ROLE_SUPERUSER) {
-        return true;
-    }
-    
-    // 检查用户权限
-    for (const auto& permission : permissions_) {
-        if (permission.grantee == username && !permission.is_role) {
-            if ((permission.database == "*" || permission.database == database) &&
-                (permission.table == "*" || permission.table == table) &&
-                (permission.privilege == PRIVILEGE_ALL || permission.privilege == required_privilege)) {
-                return true;
-            }
-        }
-    }
-    
-    // 检查角色权限
-    for (const auto& permission : permissions_) {
-        if (permission.grantee == user.current_role && permission.is_role) {
-            if ((permission.database == "*" || permission.database == database) &&
-                (permission.table == "*" || permission.table == table) &&
-                (permission.privilege == PRIVILEGE_ALL || permission.privilege == required_privilege)) {
-                return true;
-            }
-        }
-    }
-    
-    return false;
+    // 使用权限矩阵进行权限检查
+    return CheckPermissionInMatrix(username, database, table, required_privilege);
 }
 
 // 列出所有用户
