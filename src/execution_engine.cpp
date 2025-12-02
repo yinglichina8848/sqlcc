@@ -212,16 +212,8 @@ ExecutionResult DMLExecutor::executeInsert(sql_parser::InsertStatement* stmt) {
             return ExecutionResult(false, "Failed to insert record into table '" + table_name + "'");
         }
         
-        // TODO: 更新所有相关的B+树索引
-        // 1. 获取表的所有索引
-        // 2. 为每个索引创建IndexEntry并插入
-        // 示例代码（需要实际实现）:
-        // auto indexes = index_manager_->GetTableIndexes(table_name);
-        // for (auto* index : indexes) {
-        //     std::string key_value = ...; // 从values中提取索引键值
-        //     IndexEntry entry(key_value, page_id, offset);
-        //     index->Insert(entry);
-        // }
+        // 批维护索引
+        maintainIndexesOnInsert(record, table_name, page_id, offset);
         
         rows_inserted++;
     }
@@ -305,7 +297,8 @@ ExecutionResult DMLExecutor::executeUpdate(sql_parser::UpdateStatement* stmt) {
                 return ExecutionResult(false, "Constraint validation failed for update");
             }
             
-            // TODO: 更新索引
+            // 批维护索引
+            maintainIndexesOnUpdate(record, new_values, table_name, page_id, offset);
             
             // 更新记录
             if (table_storage.UpdateRecord(table_name, page_id, offset, new_values)) {
@@ -370,8 +363,8 @@ ExecutionResult DMLExecutor::executeDelete(sql_parser::DeleteStatement* stmt) {
         
         // 检查WHERE条件
         if (!stmt->hasWhereClause() || matchesWhereClause(record, stmt->getWhereClause(), metadata)) {
-            // TODO: 检查外键约束（使用ForeignKeyConstraintExecutor::validateDelete）
-            // TODO: 从所有索引中删除
+            // 批维护索引
+            maintainIndexesOnDelete(record, table_name, page_id, offset);
             
             // 删除记录
             if (table_storage.DeleteRecord(table_name, page_id, offset)) {
@@ -476,6 +469,44 @@ bool DMLExecutor::validateColumnConstraints(const std::vector<std::string>& reco
     }
     
     return true; // 所有约束验证通过
+}
+
+void DMLExecutor::maintainIndexesOnInsert(const std::vector<std::string>& record,
+                                         const std::string& table_name,
+                                         int32_t page_id, size_t offset) {
+    // TODO: 实现索引维护逻辑
+    // 步骤：
+    // 1. 获取表的所有索引
+    // 2. 为每个索引提取对应列的值
+    // 3. 拘新的IndexEntry并插入索引
+    
+    // 当前为空实现，仅显示了结构
+    // 称为其他功能应用此模板
+}
+
+void DMLExecutor::maintainIndexesOnUpdate(const std::vector<std::string>& old_record,
+                                          const std::vector<std::string>& new_record,
+                                          const std::string& table_name,
+                                          int32_t page_id, size_t offset) {
+    // TODO: 实现索引更新逻辑
+    // 步骤：
+    // 1. 获取表的所有索引
+    // 2. 为每个索引：
+    //    a. 删除旧记录的索引条目
+    //    b. 插入新记录的索引条目
+    
+    // 当前为空实现，仅显示了结构
+}
+
+void DMLExecutor::maintainIndexesOnDelete(const std::vector<std::string>& record,
+                                          const std::string& table_name,
+                                          int32_t page_id, size_t offset) {
+    // TODO: 实现索引删除逻辑
+    // 步骤：
+    // 1. 获取表的所有索引
+    // 2. 为每个索引删除对应记录的索引条目
+    
+    // 当前为空实现，仅显示了结构
 }
 
 // ==================== DCLExecutor ====================

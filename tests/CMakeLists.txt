@@ -370,6 +370,25 @@ target_link_libraries(constraint_validation_test
 
 add_test(NAME constraint_validation_test COMMAND constraint_validation_test)
 
+# 索引维护测试
+add_executable(index_maintenance_test unit/index_maintenance_test.cpp)
+
+target_link_libraries(index_maintenance_test
+    PRIVATE
+    gtest
+    gtest_main
+    pthread
+    ${CMAKE_DL_LIBS}
+    sqlcc_core_lib
+    sqlcc_parser
+    sqlcc_config_manager
+    sqlcc_storage_engine
+    sqlcc_transaction_manager
+    sqlcc_executor
+)
+
+add_test(NAME index_maintenance_test COMMAND index_maintenance_test)
+
 # 创建simple_test可执行文件
 add_executable(simple_test unit/simple_test.cpp)
 
