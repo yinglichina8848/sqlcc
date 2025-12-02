@@ -205,6 +205,14 @@ ExecutionResult DMLExecutor::executeInsert(sql_parser::InsertStatement* stmt) {
             return ExecutionResult(false, "Constraint validation failed for row");
         }
         
+        // 验证主键和唯一约束
+        if (!checkPrimaryKeyConstraints(record, metadata, table_name)) {
+            return ExecutionResult(false, "Primary key constraint violation");
+        }
+        if (!checkUniqueKeyConstraints(record, metadata, table_name)) {
+            return ExecutionResult(false, "Unique constraint violation");
+        }
+        
         // 插入记录
         int32_t page_id;
         size_t offset;
@@ -295,6 +303,14 @@ ExecutionResult DMLExecutor::executeUpdate(sql_parser::UpdateStatement* stmt) {
             // 验证更新后的数据是否符合约束
             if (!validateColumnConstraints(new_values, metadata, table_name)) {
                 return ExecutionResult(false, "Constraint validation failed for update");
+            }
+            
+            // 验证主键和唯一约束
+            if (!checkPrimaryKeyConstraints(new_values, metadata, table_name)) {
+                return ExecutionResult(false, "Primary key constraint violation");
+            }
+            if (!checkUniqueKeyConstraints(new_values, metadata, table_name)) {
+                return ExecutionResult(false, "Unique constraint violation");
             }
             
             // 批维护索引
@@ -468,7 +484,86 @@ bool DMLExecutor::validateColumnConstraints(const std::vector<std::string>& reco
         }
     }
     
+    // TODO: 完整的PRIMARY KEY和UNIQUE验证需要扫描表
+    // 当前简化实现，仅验证NOT NULL约束
+    // 完整实现需要：
+    // 1. 获取表的所有PRIMARY KEY列
+    // 2. 对每个PRIMARY KEY列检查是否有重复值
+    // 3. 获取表的所有UNIQUE列
+    // 4. 对每个UNIQUE列检查是否有重复值
+    
     return true; // 所有约束验证通过
+}
+
+bool DMLExecutor::checkUniqueConstraints(const std::vector<std::string>& record,
+                                        std::shared_ptr<TableMetadata> metadata,
+                                        const std::string& table_name) {
+    if (!metadata || !db_manager_) {
+        return true; // 不有元数据或数据库管理器时，跳过验证
+    }
+    
+    auto storage_engine = db_manager_->GetStorageEngine();
+    if (!storage_engine) {
+        return true;
+    }
+    
+    TableStorageManager tsm(storage_engine);
+    
+    // 检查主键和唯一约束的列
+    for (size_t i = 0; i < metadata->columns.size() && i < record.size(); i++) {
+        const auto& col = metadata->columns[i];
+        const std::string& value = record[i];
+        
+        // 跳过空NULL值（NULL不参与唯一性检查）
+        if (value.empty()) {
+            continue;
+        }
+        
+        // 检查主键和唯一约束
+        if ((col.name.find("PRIMARY") != std::string::npos || col.name.find("primary") != std::string::npos) ||
+            (col.name.find("UNIQUE") != std::string::npos || col.name.find("unique") != std::string::npos)) {
+            
+            // TODO: 扫描表中的所有记录检查重复值
+            // 当前为空实现，标记TODO
+            // 完整实现需要使用TableStorageManager扫描表
+        }
+    }
+    
+    return true; // 验证通过
+}
+
+bool DMLExecutor::checkPrimaryKeyConstraints(const std::vector<std::string>& record,
+                                            std::shared_ptr<TableMetadata> metadata,
+                                            const std::string& table_name) {
+    if (!metadata || !db_manager_) {
+        return true;
+    }
+    
+    // 检查是否有列被标记为主键
+    // TODO: 实现主键重复检查逻辑
+    // 步骤：
+    // 1. 找出所有标记为主键的列
+    // 2. 扫描表中的所有记录
+    // 3. 比较主键值是否重复
+    
+    return true;
+}
+
+bool DMLExecutor::checkUniqueKeyConstraints(const std::vector<std::string>& record,
+                                           std::shared_ptr<TableMetadata> metadata,
+                                           const std::string& table_name) {
+    if (!metadata || !db_manager_) {
+        return true;
+    }
+    
+    // 检查是否有列被标记为UNIQUE
+    // TODO: 实现UNIQUE重复检查逻辑
+    // 步骤：
+    // 1. 找出所有标记为UNIQUE的列
+    // 2. 扫描表中的所有记录
+    // 3. 比较唯一值是否重复
+    
+    return true;
 }
 
 void DMLExecutor::maintainIndexesOnInsert(const std::vector<std::string>& record,
