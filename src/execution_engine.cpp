@@ -552,14 +552,48 @@ bool DMLExecutor::checkPrimaryKeyConstraints(const std::vector<std::string>& rec
         return true;
     }
     
-    // 检查是否有列被标记为主键
-    // TODO: 实现主键重复检查逻辑
-    // 步骤：
-    // 1. 找出所有标记为主键的列
-    // 2. 扫描表中的所有记录
-    // 3. 比较主键值是否重复
+    auto storage_engine = db_manager_->GetStorageEngine();
+    if (!storage_engine) {
+        return true;
+    }
     
-    return true;
+    TableStorageManager tsm(storage_engine);
+    
+    // 检查每一列是否是主键
+    for (size_t i = 0; i < metadata->columns.size() && i < record.size(); i++) {
+        const auto& col = metadata->columns[i];
+        const std::string& value = record[i];
+        
+        // 提示：主键不能为NULL
+        if (value.empty()) {
+            // 主键不能为NULL，向上传递需要下NOT NULL约束
+            // 这里仅处理重复性，下NOT NULL由validateColumnConstraints处理
+            continue;
+        }
+        
+        // TODO: 检查是否为主键列
+        // 步骤：
+        // 1. 从表的描述信息中找主键列名算法
+        // 2. 仅对主键列执行重复检查
+        // 3. 扫描表中的所有记录
+        // 4. 比较主键值是否重复
+        
+        // 检查表中是否已经存在相同主键值的记录
+        std::vector<std::pair<int32_t, size_t>> locations = tsm.ScanTable(table_name);
+        for (const auto& loc : locations) {
+            std::vector<std::string> existing_record = tsm.GetRecord(table_name, loc.first, loc.second);
+            if (!existing_record.empty() && i < existing_record.size()) {
+                // 比较主键值
+                if (existing_record[i] == value) {
+                    // 找到符合条件的记录
+                    // TODO: 此処更严格的处理：需要检查是否是同一条记录
+                    return false; // 主键重复
+                }
+            }
+        }
+    }
+    
+    return true; // 主键验证通过
 }
 
 bool DMLExecutor::checkUniqueKeyConstraints(const std::vector<std::string>& record,
@@ -569,14 +603,45 @@ bool DMLExecutor::checkUniqueKeyConstraints(const std::vector<std::string>& reco
         return true;
     }
     
-    // 检查是否有列被标记为UNIQUE
-    // TODO: 实现UNIQUE重复检查逻辑
-    // 步骤：
-    // 1. 找出所有标记为UNIQUE的列
-    // 2. 扫描表中的所有记录
-    // 3. 比较唯一值是否重复
+    auto storage_engine = db_manager_->GetStorageEngine();
+    if (!storage_engine) {
+        return true;
+    }
     
-    return true;
+    TableStorageManager tsm(storage_engine);
+    
+    // 检查每一列是否有UNIQUE约束
+    for (size_t i = 0; i < metadata->columns.size() && i < record.size(); i++) {
+        const auto& col = metadata->columns[i];
+        const std::string& value = record[i];
+        
+        // UNIQUE约束允许NULL（SQL标准）
+        if (value.empty()) {
+            continue; // NULL不参与唯一性检查
+        }
+        
+        // TODO: 检查是否为UNIQUE列
+        // 步骤：
+        // 1. 从表的描述信息中找所有UNIQUE列
+        // 2. 扫描表中的所有记录
+        // 3. 比较UNIQUE值是否重复
+        
+        // 检查表中是否已经存在相同唯一值的记录
+        std::vector<std::pair<int32_t, size_t>> locations = tsm.ScanTable(table_name);
+        for (const auto& loc : locations) {
+            std::vector<std::string> existing_record = tsm.GetRecord(table_name, loc.first, loc.second);
+            if (!existing_record.empty() && i < existing_record.size()) {
+                // 比较唯一值
+                if (existing_record[i] == value) {
+                    // 找到符合条件的记录
+                    // TODO: 此処更严格的处理：需要检查是否是同一条记录
+                    return false; // 唯一约束违反
+                }
+            }
+        }
+    }
+    
+    return true; // UNIQUE验证通过
 }
 
 void DMLExecutor::maintainIndexesOnInsert(const std::vector<std::string>& record,
