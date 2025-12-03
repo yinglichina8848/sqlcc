@@ -272,6 +272,126 @@ core/database_manager.cpp.s:
 	cd /home/liying/sqlcc_qoder/test_working_dir/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_core_lib.dir/build.make src/CMakeFiles/sqlcc_core_lib.dir/core/database_manager.cpp.s
 .PHONY : core/database_manager.cpp.s
 
+error_handler.o: error_handler.cpp.o
+.PHONY : error_handler.o
+
+# target to build an object file
+error_handler.cpp.o:
+	cd /home/liying/sqlcc_qoder/test_working_dir/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_executor.dir/build.make src/CMakeFiles/sqlcc_executor.dir/error_handler.cpp.o
+.PHONY : error_handler.cpp.o
+
+error_handler.i: error_handler.cpp.i
+.PHONY : error_handler.i
+
+# target to preprocess a source file
+error_handler.cpp.i:
+	cd /home/liying/sqlcc_qoder/test_working_dir/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_executor.dir/build.make src/CMakeFiles/sqlcc_executor.dir/error_handler.cpp.i
+.PHONY : error_handler.cpp.i
+
+error_handler.s: error_handler.cpp.s
+.PHONY : error_handler.s
+
+# target to generate assembly for a file
+error_handler.cpp.s:
+	cd /home/liying/sqlcc_qoder/test_working_dir/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_executor.dir/build.make src/CMakeFiles/sqlcc_executor.dir/error_handler.cpp.s
+.PHONY : error_handler.cpp.s
+
+execution/join_executor.o: execution/join_executor.cpp.o
+.PHONY : execution/join_executor.o
+
+# target to build an object file
+execution/join_executor.cpp.o:
+	cd /home/liying/sqlcc_qoder/test_working_dir/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_executor.dir/build.make src/CMakeFiles/sqlcc_executor.dir/execution/join_executor.cpp.o
+.PHONY : execution/join_executor.cpp.o
+
+execution/join_executor.i: execution/join_executor.cpp.i
+.PHONY : execution/join_executor.i
+
+# target to preprocess a source file
+execution/join_executor.cpp.i:
+	cd /home/liying/sqlcc_qoder/test_working_dir/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_executor.dir/build.make src/CMakeFiles/sqlcc_executor.dir/execution/join_executor.cpp.i
+.PHONY : execution/join_executor.cpp.i
+
+execution/join_executor.s: execution/join_executor.cpp.s
+.PHONY : execution/join_executor.s
+
+# target to generate assembly for a file
+execution/join_executor.cpp.s:
+	cd /home/liying/sqlcc_qoder/test_working_dir/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_executor.dir/build.make src/CMakeFiles/sqlcc_executor.dir/execution/join_executor.cpp.s
+.PHONY : execution/join_executor.cpp.s
+
+execution/set_operation_executor.o: execution/set_operation_executor.cpp.o
+.PHONY : execution/set_operation_executor.o
+
+# target to build an object file
+execution/set_operation_executor.cpp.o:
+	cd /home/liying/sqlcc_qoder/test_working_dir/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_executor.dir/build.make src/CMakeFiles/sqlcc_executor.dir/execution/set_operation_executor.cpp.o
+.PHONY : execution/set_operation_executor.cpp.o
+
+execution/set_operation_executor.i: execution/set_operation_executor.cpp.i
+.PHONY : execution/set_operation_executor.i
+
+# target to preprocess a source file
+execution/set_operation_executor.cpp.i:
+	cd /home/liying/sqlcc_qoder/test_working_dir/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_executor.dir/build.make src/CMakeFiles/sqlcc_executor.dir/execution/set_operation_executor.cpp.i
+.PHONY : execution/set_operation_executor.cpp.i
+
+execution/set_operation_executor.s: execution/set_operation_executor.cpp.s
+.PHONY : execution/set_operation_executor.s
+
+# target to generate assembly for a file
+execution/set_operation_executor.cpp.s:
+	cd /home/liying/sqlcc_qoder/test_working_dir/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_executor.dir/build.make src/CMakeFiles/sqlcc_executor.dir/execution/set_operation_executor.cpp.s
+.PHONY : execution/set_operation_executor.cpp.s
+
+execution/subquery_executor.o: execution/subquery_executor.cpp.o
+.PHONY : execution/subquery_executor.o
+
+# target to build an object file
+execution/subquery_executor.cpp.o:
+	cd /home/liying/sqlcc_qoder/test_working_dir/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_executor.dir/build.make src/CMakeFiles/sqlcc_executor.dir/execution/subquery_executor.cpp.o
+.PHONY : execution/subquery_executor.cpp.o
+
+execution/subquery_executor.i: execution/subquery_executor.cpp.i
+.PHONY : execution/subquery_executor.i
+
+# target to preprocess a source file
+execution/subquery_executor.cpp.i:
+	cd /home/liying/sqlcc_qoder/test_working_dir/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_executor.dir/build.make src/CMakeFiles/sqlcc_executor.dir/execution/subquery_executor.cpp.i
+.PHONY : execution/subquery_executor.cpp.i
+
+execution/subquery_executor.s: execution/subquery_executor.cpp.s
+.PHONY : execution/subquery_executor.s
+
+# target to generate assembly for a file
+execution/subquery_executor.cpp.s:
+	cd /home/liying/sqlcc_qoder/test_working_dir/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_executor.dir/build.make src/CMakeFiles/sqlcc_executor.dir/execution/subquery_executor.cpp.s
+.PHONY : execution/subquery_executor.cpp.s
+
+execution_context.o: execution_context.cpp.o
+.PHONY : execution_context.o
+
+# target to build an object file
+execution_context.cpp.o:
+	cd /home/liying/sqlcc_qoder/test_working_dir/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_executor.dir/build.make src/CMakeFiles/sqlcc_executor.dir/execution_context.cpp.o
+.PHONY : execution_context.cpp.o
+
+execution_context.i: execution_context.cpp.i
+.PHONY : execution_context.i
+
+# target to preprocess a source file
+execution_context.cpp.i:
+	cd /home/liying/sqlcc_qoder/test_working_dir/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_executor.dir/build.make src/CMakeFiles/sqlcc_executor.dir/execution_context.cpp.i
+.PHONY : execution_context.cpp.i
+
+execution_context.s: execution_context.cpp.s
+.PHONY : execution_context.s
+
+# target to generate assembly for a file
+execution_context.cpp.s:
+	cd /home/liying/sqlcc_qoder/test_working_dir/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_executor.dir/build.make src/CMakeFiles/sqlcc_executor.dir/execution_context.cpp.s
+.PHONY : execution_context.cpp.s
+
 execution_engine.o: execution_engine.cpp.o
 .PHONY : execution_engine.o
 
@@ -344,6 +464,30 @@ network/network.cpp.s:
 	cd /home/liying/sqlcc_qoder/test_working_dir/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_network.dir/build.make src/CMakeFiles/sqlcc_network.dir/network/network.cpp.s
 .PHONY : network/network.cpp.s
 
+permission_validator.o: permission_validator.cpp.o
+.PHONY : permission_validator.o
+
+# target to build an object file
+permission_validator.cpp.o:
+	cd /home/liying/sqlcc_qoder/test_working_dir/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_executor.dir/build.make src/CMakeFiles/sqlcc_executor.dir/permission_validator.cpp.o
+.PHONY : permission_validator.cpp.o
+
+permission_validator.i: permission_validator.cpp.i
+.PHONY : permission_validator.i
+
+# target to preprocess a source file
+permission_validator.cpp.i:
+	cd /home/liying/sqlcc_qoder/test_working_dir/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_executor.dir/build.make src/CMakeFiles/sqlcc_executor.dir/permission_validator.cpp.i
+.PHONY : permission_validator.cpp.i
+
+permission_validator.s: permission_validator.cpp.s
+.PHONY : permission_validator.s
+
+# target to generate assembly for a file
+permission_validator.cpp.s:
+	cd /home/liying/sqlcc_qoder/test_working_dir/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_executor.dir/build.make src/CMakeFiles/sqlcc_executor.dir/permission_validator.cpp.s
+.PHONY : permission_validator.cpp.s
+
 sql_executor/data_type.o: sql_executor/data_type.cpp.o
 .PHONY : sql_executor/data_type.o
 
@@ -415,6 +559,30 @@ sql_executor/sql_executor.s: sql_executor/sql_executor.cpp.s
 sql_executor/sql_executor.cpp.s:
 	cd /home/liying/sqlcc_qoder/test_working_dir/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_executor.dir/build.make src/CMakeFiles/sqlcc_executor.dir/sql_executor/sql_executor.cpp.s
 .PHONY : sql_executor/sql_executor.cpp.s
+
+sql_executor/system_database.o: sql_executor/system_database.cpp.o
+.PHONY : sql_executor/system_database.o
+
+# target to build an object file
+sql_executor/system_database.cpp.o:
+	cd /home/liying/sqlcc_qoder/test_working_dir/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_executor.dir/build.make src/CMakeFiles/sqlcc_executor.dir/sql_executor/system_database.cpp.o
+.PHONY : sql_executor/system_database.cpp.o
+
+sql_executor/system_database.i: sql_executor/system_database.cpp.i
+.PHONY : sql_executor/system_database.i
+
+# target to preprocess a source file
+sql_executor/system_database.cpp.i:
+	cd /home/liying/sqlcc_qoder/test_working_dir/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_executor.dir/build.make src/CMakeFiles/sqlcc_executor.dir/sql_executor/system_database.cpp.i
+.PHONY : sql_executor/system_database.cpp.i
+
+sql_executor/system_database.s: sql_executor/system_database.cpp.s
+.PHONY : sql_executor/system_database.s
+
+# target to generate assembly for a file
+sql_executor/system_database.cpp.s:
+	cd /home/liying/sqlcc_qoder/test_working_dir/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_executor.dir/build.make src/CMakeFiles/sqlcc_executor.dir/sql_executor/system_database.cpp.s
+.PHONY : sql_executor/system_database.cpp.s
 
 sql_executor/user_manager.o: sql_executor/user_manager.cpp.o
 .PHONY : sql_executor/user_manager.o
@@ -535,6 +703,54 @@ sql_parser/parser.s: sql_parser/parser.cpp.s
 sql_parser/parser.cpp.s:
 	cd /home/liying/sqlcc_qoder/test_working_dir/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_parser.dir/build.make src/CMakeFiles/sqlcc_parser.dir/sql_parser/parser.cpp.s
 .PHONY : sql_parser/parser.cpp.s
+
+sql_parser/parser_set_operations.o: sql_parser/parser_set_operations.cpp.o
+.PHONY : sql_parser/parser_set_operations.o
+
+# target to build an object file
+sql_parser/parser_set_operations.cpp.o:
+	cd /home/liying/sqlcc_qoder/test_working_dir/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_parser.dir/build.make src/CMakeFiles/sqlcc_parser.dir/sql_parser/parser_set_operations.cpp.o
+.PHONY : sql_parser/parser_set_operations.cpp.o
+
+sql_parser/parser_set_operations.i: sql_parser/parser_set_operations.cpp.i
+.PHONY : sql_parser/parser_set_operations.i
+
+# target to preprocess a source file
+sql_parser/parser_set_operations.cpp.i:
+	cd /home/liying/sqlcc_qoder/test_working_dir/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_parser.dir/build.make src/CMakeFiles/sqlcc_parser.dir/sql_parser/parser_set_operations.cpp.i
+.PHONY : sql_parser/parser_set_operations.cpp.i
+
+sql_parser/parser_set_operations.s: sql_parser/parser_set_operations.cpp.s
+.PHONY : sql_parser/parser_set_operations.s
+
+# target to generate assembly for a file
+sql_parser/parser_set_operations.cpp.s:
+	cd /home/liying/sqlcc_qoder/test_working_dir/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_parser.dir/build.make src/CMakeFiles/sqlcc_parser.dir/sql_parser/parser_set_operations.cpp.s
+.PHONY : sql_parser/parser_set_operations.cpp.s
+
+sql_parser/set_operation_node.o: sql_parser/set_operation_node.cpp.o
+.PHONY : sql_parser/set_operation_node.o
+
+# target to build an object file
+sql_parser/set_operation_node.cpp.o:
+	cd /home/liying/sqlcc_qoder/test_working_dir/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_parser.dir/build.make src/CMakeFiles/sqlcc_parser.dir/sql_parser/set_operation_node.cpp.o
+.PHONY : sql_parser/set_operation_node.cpp.o
+
+sql_parser/set_operation_node.i: sql_parser/set_operation_node.cpp.i
+.PHONY : sql_parser/set_operation_node.i
+
+# target to preprocess a source file
+sql_parser/set_operation_node.cpp.i:
+	cd /home/liying/sqlcc_qoder/test_working_dir/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_parser.dir/build.make src/CMakeFiles/sqlcc_parser.dir/sql_parser/set_operation_node.cpp.i
+.PHONY : sql_parser/set_operation_node.cpp.i
+
+sql_parser/set_operation_node.s: sql_parser/set_operation_node.cpp.s
+.PHONY : sql_parser/set_operation_node.s
+
+# target to generate assembly for a file
+sql_parser/set_operation_node.cpp.s:
+	cd /home/liying/sqlcc_qoder/test_working_dir/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_parser.dir/build.make src/CMakeFiles/sqlcc_parser.dir/sql_parser/set_operation_node.cpp.s
+.PHONY : sql_parser/set_operation_node.cpp.s
 
 sql_parser/token.o: sql_parser/token.cpp.o
 .PHONY : sql_parser/token.o
@@ -776,6 +992,54 @@ transaction_manager/wal_manager.cpp.s:
 	cd /home/liying/sqlcc_qoder/test_working_dir/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_transaction_manager.dir/build.make src/CMakeFiles/sqlcc_transaction_manager.dir/transaction_manager/wal_manager.cpp.s
 .PHONY : transaction_manager/wal_manager.cpp.s
 
+unified_executor.o: unified_executor.cpp.o
+.PHONY : unified_executor.o
+
+# target to build an object file
+unified_executor.cpp.o:
+	cd /home/liying/sqlcc_qoder/test_working_dir/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_executor.dir/build.make src/CMakeFiles/sqlcc_executor.dir/unified_executor.cpp.o
+.PHONY : unified_executor.cpp.o
+
+unified_executor.i: unified_executor.cpp.i
+.PHONY : unified_executor.i
+
+# target to preprocess a source file
+unified_executor.cpp.i:
+	cd /home/liying/sqlcc_qoder/test_working_dir/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_executor.dir/build.make src/CMakeFiles/sqlcc_executor.dir/unified_executor.cpp.i
+.PHONY : unified_executor.cpp.i
+
+unified_executor.s: unified_executor.cpp.s
+.PHONY : unified_executor.s
+
+# target to generate assembly for a file
+unified_executor.cpp.s:
+	cd /home/liying/sqlcc_qoder/test_working_dir/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_executor.dir/build.make src/CMakeFiles/sqlcc_executor.dir/unified_executor.cpp.s
+.PHONY : unified_executor.cpp.s
+
+unified_query_plan.o: unified_query_plan.cpp.o
+.PHONY : unified_query_plan.o
+
+# target to build an object file
+unified_query_plan.cpp.o:
+	cd /home/liying/sqlcc_qoder/test_working_dir/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_executor.dir/build.make src/CMakeFiles/sqlcc_executor.dir/unified_query_plan.cpp.o
+.PHONY : unified_query_plan.cpp.o
+
+unified_query_plan.i: unified_query_plan.cpp.i
+.PHONY : unified_query_plan.i
+
+# target to preprocess a source file
+unified_query_plan.cpp.i:
+	cd /home/liying/sqlcc_qoder/test_working_dir/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_executor.dir/build.make src/CMakeFiles/sqlcc_executor.dir/unified_query_plan.cpp.i
+.PHONY : unified_query_plan.cpp.i
+
+unified_query_plan.s: unified_query_plan.cpp.s
+.PHONY : unified_query_plan.s
+
+# target to generate assembly for a file
+unified_query_plan.cpp.s:
+	cd /home/liying/sqlcc_qoder/test_working_dir/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/sqlcc_executor.dir/build.make src/CMakeFiles/sqlcc_executor.dir/unified_query_plan.cpp.s
+.PHONY : unified_query_plan.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -798,6 +1062,21 @@ help:
 	@echo "... core/database_manager.o"
 	@echo "... core/database_manager.i"
 	@echo "... core/database_manager.s"
+	@echo "... error_handler.o"
+	@echo "... error_handler.i"
+	@echo "... error_handler.s"
+	@echo "... execution/join_executor.o"
+	@echo "... execution/join_executor.i"
+	@echo "... execution/join_executor.s"
+	@echo "... execution/set_operation_executor.o"
+	@echo "... execution/set_operation_executor.i"
+	@echo "... execution/set_operation_executor.s"
+	@echo "... execution/subquery_executor.o"
+	@echo "... execution/subquery_executor.i"
+	@echo "... execution/subquery_executor.s"
+	@echo "... execution_context.o"
+	@echo "... execution_context.i"
+	@echo "... execution_context.s"
 	@echo "... execution_engine.o"
 	@echo "... execution_engine.i"
 	@echo "... execution_engine.s"
@@ -807,6 +1086,9 @@ help:
 	@echo "... network/network.o"
 	@echo "... network/network.i"
 	@echo "... network/network.s"
+	@echo "... permission_validator.o"
+	@echo "... permission_validator.i"
+	@echo "... permission_validator.s"
 	@echo "... sql_executor/data_type.o"
 	@echo "... sql_executor/data_type.i"
 	@echo "... sql_executor/data_type.s"
@@ -816,6 +1098,9 @@ help:
 	@echo "... sql_executor/sql_executor.o"
 	@echo "... sql_executor/sql_executor.i"
 	@echo "... sql_executor/sql_executor.s"
+	@echo "... sql_executor/system_database.o"
+	@echo "... sql_executor/system_database.i"
+	@echo "... sql_executor/system_database.s"
 	@echo "... sql_executor/user_manager.o"
 	@echo "... sql_executor/user_manager.i"
 	@echo "... sql_executor/user_manager.s"
@@ -831,6 +1116,12 @@ help:
 	@echo "... sql_parser/parser.o"
 	@echo "... sql_parser/parser.i"
 	@echo "... sql_parser/parser.s"
+	@echo "... sql_parser/parser_set_operations.o"
+	@echo "... sql_parser/parser_set_operations.i"
+	@echo "... sql_parser/parser_set_operations.s"
+	@echo "... sql_parser/set_operation_node.o"
+	@echo "... sql_parser/set_operation_node.i"
+	@echo "... sql_parser/set_operation_node.s"
 	@echo "... sql_parser/token.o"
 	@echo "... sql_parser/token.i"
 	@echo "... sql_parser/token.s"
@@ -861,6 +1152,12 @@ help:
 	@echo "... transaction_manager/wal_manager.o"
 	@echo "... transaction_manager/wal_manager.i"
 	@echo "... transaction_manager/wal_manager.s"
+	@echo "... unified_executor.o"
+	@echo "... unified_executor.i"
+	@echo "... unified_executor.s"
+	@echo "... unified_query_plan.o"
+	@echo "... unified_query_plan.i"
+	@echo "... unified_query_plan.s"
 .PHONY : help
 
 

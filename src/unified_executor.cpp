@@ -1,9 +1,9 @@
-#include "../include/unified_executor.h"
-#include "../include/database_manager.h"
-#include "../include/storage_engine.h"
-#include "../include/system_database.h"
-#include "../include/table_storage.h"
-#include "../include/user_manager.h"
+#include "unified_executor.h"
+#include "database_manager.h"
+#include "storage_engine.h"
+#include "system_database.h"
+#include "table_storage.h"
+#include "user_manager.h"
 #include <algorithm>
 #include <iostream>
 #include <sstream>
@@ -1208,13 +1208,13 @@ UnifiedExecutor::execute(std::unique_ptr<sql_parser::Statement> stmt) {
   last_context_.records_affected = 0;
   last_context_.used_index = false;
   last_context_.execution_plan = "未优化";
-  last_context_.execution_time_ms = 0;
-  last_context_.plan_details = "";
-  last_context_.optimized_plan = "";
-  last_context_.query_optimized = false;
-  last_context_.optimization_rules.clear();
-  last_context_.index_info = "";
-  last_context_.cost_estimate = 0.0;
+  last_context_.execution_time_ms_ = 0;
+  last_context_.plan_details_ = "";
+  last_context_.optimized_plan_ = "";
+  last_context_.query_optimized_ = false;
+  last_context_.optimization_rules_.clear();
+  last_context_.index_info_ = "";
+  last_context_.cost_estimate_ = 0.0;
 
   // 全局权限检查
   if (!checkGlobalPermission(stmt.get(), last_context_)) {
@@ -1243,23 +1243,23 @@ UnifiedExecutor::execute(std::unique_ptr<sql_parser::Statement> stmt) {
       ExecutionPlan plan =
           query_optimizer_->generatePlan(*select_stmt, last_context_);
       last_context_.execution_plan = plan.toString();
-      last_context_.plan_details = plan.description;
-      last_context_.cost_estimate = plan.cost_estimate;
+      last_context_.plan_details_ = plan.description;
+      last_context_.cost_estimate_ = plan.cost_estimate;
 
       // 2. 优化执行计划
       ExecutionPlan optimized_plan =
           query_optimizer_->optimize(plan, last_context_);
-      last_context_.optimized_plan = optimized_plan.toString();
-      last_context_.query_optimized = optimized_plan.is_optimized;
+      last_context_.optimized_plan_ = optimized_plan.toString();
+      last_context_.query_optimized_ = optimized_plan.is_optimized;
 
       // 3. 更新索引使用信息
       if (!optimized_plan.index_name.empty()) {
         last_context_.used_index = true;
-        last_context_.index_info = optimized_plan.index_name;
+        last_context_.index_info_ = optimized_plan.index_name;
       }
 
       // 4. 更新优化规则信息
-      last_context_.optimization_rules =
+      last_context_.optimization_rules_ =
           query_optimizer_->getOptimizationRules();
     }
   }
@@ -1271,7 +1271,7 @@ UnifiedExecutor::execute(std::unique_ptr<sql_parser::Statement> stmt) {
   auto end_time = std::chrono::high_resolution_clock::now();
   auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(
       end_time - start_time);
-  last_context_.execution_time_ms = duration.count();
+  last_context_.execution_time_ms_ = duration.count();
 
   return result;
 }

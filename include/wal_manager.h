@@ -46,6 +46,28 @@ struct Value {
     explicit Value(int64_t v) : type(Type::INT), int_val(v) {}
     explicit Value(double v) : type(Type::DOUBLE), double_val(v) {}
     explicit Value(const std::string& s) : type(Type::STRING), str_val(s) {}
+    
+    // 重载==操作符，用于比较两个Value对象是否相等
+    bool operator==(const Value& other) const {
+        if (type != other.type) {
+            return false;
+        }
+        switch (type) {
+            case Type::INT:
+                return int_val == other.int_val;
+            case Type::DOUBLE:
+                return double_val == other.double_val;
+            case Type::STRING:
+                return str_val == other.str_val;
+            default:
+                return false;
+        }
+    }
+    
+    // 重载!=操作符，用于比较两个Value对象是否不相等
+    bool operator!=(const Value& other) const {
+        return !(*this == other);
+    }
 };
 
 // WAL 日志记录

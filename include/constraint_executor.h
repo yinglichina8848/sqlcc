@@ -76,7 +76,7 @@ public:
    * @param storage_engine 存储引擎引用
    */
   ForeignKeyConstraintExecutor(
-      const sql_parser::ForeignKeyConstraint &constraint,
+      const sql_parser::TableConstraint &constraint,
       StorageEngine &storage_engine);
 
   bool validateInsert(
@@ -147,7 +147,7 @@ public:
    */
   std::string toLower(const std::string &str) const;
 
-  sql_parser::ForeignKeyConstraint constraint_;        // 外键约束定义
+  sql_parser::TableConstraint constraint_;        // 外键约束定义
   StorageEngine &storage_engine_;                      // 存储引擎引用
   std::string current_table_name_;                     // 当前表名
   std::vector<std::string> lower_foreign_key_columns_; // 小写的列名
@@ -235,7 +235,7 @@ public:
    * @param constraint CHECK约束定义
    * @param table_name 表名
    */
-  CheckConstraintExecutor(const sql_parser::CheckConstraint &constraint,
+  CheckConstraintExecutor(const sql_parser::TableConstraint &constraint,
                           const std::string &table_name);
 
   bool validateInsert(
@@ -268,7 +268,7 @@ private:
       const std::vector<sql_parser::ColumnDefinition> &table_schema);
 
   // FIXME: CheckConstraint 不能直接拷贝，使用引用避免拷贝
-  std::reference_wrapper<const sql_parser::CheckConstraint>
+  std::reference_wrapper<const sql_parser::TableConstraint>
       constraint_;         // CHECK约束定义
   std::string table_name_; // 表名
 };
@@ -294,10 +294,10 @@ public:
 
 private:
   /**
-   * @brief 求值二元表达式
+   * @brief 求值表达式
    */
-  static bool evaluateBinaryExpression(
-      const sql_parser::BinaryExpression *expr,
+  static bool evaluateExpression(
+      const sql_parser::Expression *expr,
       const std::vector<std::string> &record,
       const std::vector<sql_parser::ColumnDefinition> &table_schema);
 
@@ -305,7 +305,7 @@ private:
    * @brief 求值标识符（列引用）
    */
   static std::string evaluateIdentifier(
-      const sql_parser::IdentifierExpression *expr,
+      const sql_parser::Expression *expr,
       const std::vector<std::string> &record,
       const std::vector<sql_parser::ColumnDefinition> &table_schema);
 

@@ -27,6 +27,8 @@ class GrantStatement;
 class RevokeStatement;
 class ShowStatement;
 class Expression;
+class SetOperationNode;
+class CompositeSelectStatement;
 
 class NodeVisitor {
 public:
@@ -51,6 +53,10 @@ public:
     
     // 表达式访问方法
     virtual void visit(Expression& node) = 0;
+    
+    // 集合操作访问方法
+    virtual void visit(SetOperationNode& node) = 0;
+    virtual void visit(CompositeSelectStatement& node) = 0;
 };
 
 } // namespace sql_parser

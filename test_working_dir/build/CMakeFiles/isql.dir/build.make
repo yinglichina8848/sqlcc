@@ -95,8 +95,8 @@ bin/isql: CMakeFiles/isql.dir/build.make
 bin/isql: src/libsqlcc_executor.a
 bin/isql: src/libsqlcc_core_lib.a
 bin/isql: src/libsqlcc_parser.a
-bin/isql: src/libsqlcc_config_manager.a
 bin/isql: src/libsqlcc_storage_engine.a
+bin/isql: src/libsqlcc_config_manager.a
 bin/isql: src/libsqlcc_transaction_manager.a
 bin/isql: src/libsqlcc_network.a
 bin/isql: /usr/lib/x86_64-linux-gnu/libssl.so

@@ -1,4 +1,4 @@
-#include "../../include/sql_parser/lexer.h"
+#include "sql_parser/lexer.h"
 #include <cctype>
 #include <stdexcept>
 #include <string>
@@ -179,59 +179,66 @@ Token Lexer::readIdentifier() {
     }
     
     std::string value = input_.substr(start, position_ - start);
+    
+    // 将标识符转换为大写，用于关键字比较
+    std::string upper_value;
+    for (char c : value) {
+        upper_value += std::toupper(c);
+    }
+    
     Token::Type type = Token::IDENTIFIER;
     
-    // 检查关键字
-    if (value == "CREATE") type = Token::KEYWORD_CREATE;
-    else if (value == "SELECT") type = Token::KEYWORD_SELECT;
-    else if (value == "INSERT") type = Token::KEYWORD_INSERT;
-    else if (value == "UPDATE") type = Token::KEYWORD_UPDATE;
-    else if (value == "DELETE") type = Token::KEYWORD_DELETE;
-    else if (value == "DROP") type = Token::KEYWORD_DROP;
-    else if (value == "ALTER") type = Token::KEYWORD_ALTER;
-    else if (value == "USE") type = Token::KEYWORD_USE;
-    else if (value == "DATABASE") type = Token::KEYWORD_DATABASE;
-    else if (value == "TABLE") type = Token::KEYWORD_TABLE;
-    else if (value == "INDEX") type = Token::KEYWORD_INDEX;
-    else if (value == "WHERE") type = Token::KEYWORD_WHERE;
-    else if (value == "JOIN") type = Token::KEYWORD_JOIN;
-    else if (value == "ON") type = Token::KEYWORD_ON;
-    else if (value == "IF") type = Token::KEYWORD_IF;
-    else if (value == "EXISTS") type = Token::KEYWORD_EXISTS;
-    else if (value == "GROUP") type = Token::KEYWORD_GROUP;
-    else if (value == "BY") type = Token::KEYWORD_BY;
-    else if (value == "HAVING") type = Token::KEYWORD_HAVING;
-    else if (value == "ORDER") type = Token::KEYWORD_ORDER;
-    else if (value == "INTO") type = Token::KEYWORD_INTO;
-    else if (value == "VALUES") type = Token::KEYWORD_VALUES;
-    else if (value == "SET") type = Token::KEYWORD_SET;
-    else if (value == "PRIMARY") type = Token::KEYWORD_PRIMARY;
-    else if (value == "KEY") type = Token::KEYWORD_KEY;
-    else if (value == "FOREIGN") type = Token::KEYWORD_FOREIGN;
-    else if (value == "REFERENCES") type = Token::KEYWORD_REFERENCES;
-    else if (value == "CONSTRAINT") type = Token::KEYWORD_CONSTRAINT;
-    else if (value == "NOT") type = Token::KEYWORD_NOT;
-    else if (value == "NULL") type = Token::KEYWORD_NULL;
-    else if (value == "UNIQUE") type = Token::KEYWORD_UNIQUE;
-    else if (value == "CHECK") type = Token::KEYWORD_CHECK;
-    else if (value == "DEFAULT") type = Token::KEYWORD_DEFAULT;
-    else if (value == "AUTO_INCREMENT") type = Token::KEYWORD_AUTO_INCREMENT;
-    else if (value == "EXISTS") type = Token::KEYWORD_EXISTS;
-    else if (value == "USER") type = Token::KEYWORD_USER;
-    else if (value == "GRANT") type = Token::KEYWORD_GRANT;
-    else if (value == "REVOKE") type = Token::KEYWORD_REVOKE;
-    else if (value == "PRIVILEGES") type = Token::KEYWORD_PRIVILEGES;
-    else if (value == "TO") type = Token::KEYWORD_TO;
-    else if (value == "FROM") type = Token::KEYWORD_FROM;
-    else if (value == "WITH") type = Token::KEYWORD_WITH;
-    else if (value == "PASSWORD") type = Token::KEYWORD_PASSWORD;
-    else if (value == "IDENTIFIED") type = Token::KEYWORD_IDENTIFIED;
-    else if (value == "SHOW") type = Token::KEYWORD_SHOW;
-    else if (value == "COLUMNS") type = Token::KEYWORD_COLUMNS;
-    else if (value == "INDEXES") type = Token::KEYWORD_INDEXES;
-    else if (value == "GRANTS") type = Token::KEYWORD_GRANTS;
-    else if (value == "DATABASES") type = Token::KEYWORD_DATABASES;
-    else if (value == "TABLES") type = Token::KEYWORD_TABLES;
+    // 检查关键字（不区分大小写）
+    if (upper_value == "CREATE") type = Token::KEYWORD_CREATE;
+    else if (upper_value == "SELECT") type = Token::KEYWORD_SELECT;
+    else if (upper_value == "INSERT") type = Token::KEYWORD_INSERT;
+    else if (upper_value == "UPDATE") type = Token::KEYWORD_UPDATE;
+    else if (upper_value == "DELETE") type = Token::KEYWORD_DELETE;
+    else if (upper_value == "DROP") type = Token::KEYWORD_DROP;
+    else if (upper_value == "ALTER") type = Token::KEYWORD_ALTER;
+    else if (upper_value == "USE") type = Token::KEYWORD_USE;
+    else if (upper_value == "DATABASE") type = Token::KEYWORD_DATABASE;
+    else if (upper_value == "TABLE") type = Token::KEYWORD_TABLE;
+    else if (upper_value == "INDEX") type = Token::KEYWORD_INDEX;
+    else if (upper_value == "WHERE") type = Token::KEYWORD_WHERE;
+    else if (upper_value == "JOIN") type = Token::KEYWORD_JOIN;
+    else if (upper_value == "ON") type = Token::KEYWORD_ON;
+    else if (upper_value == "IF") type = Token::KEYWORD_IF;
+    else if (upper_value == "EXISTS") type = Token::KEYWORD_EXISTS;
+    else if (upper_value == "GROUP") type = Token::KEYWORD_GROUP;
+    else if (upper_value == "BY") type = Token::KEYWORD_BY;
+    else if (upper_value == "HAVING") type = Token::KEYWORD_HAVING;
+    else if (upper_value == "ORDER") type = Token::KEYWORD_ORDER;
+    else if (upper_value == "INTO") type = Token::KEYWORD_INTO;
+    else if (upper_value == "VALUES") type = Token::KEYWORD_VALUES;
+    else if (upper_value == "SET") type = Token::KEYWORD_SET;
+    else if (upper_value == "PRIMARY") type = Token::KEYWORD_PRIMARY;
+    else if (upper_value == "KEY") type = Token::KEYWORD_KEY;
+    else if (upper_value == "FOREIGN") type = Token::KEYWORD_FOREIGN;
+    else if (upper_value == "REFERENCES") type = Token::KEYWORD_REFERENCES;
+    else if (upper_value == "CONSTRAINT") type = Token::KEYWORD_CONSTRAINT;
+    else if (upper_value == "NOT") type = Token::KEYWORD_NOT;
+    else if (upper_value == "NULL") type = Token::KEYWORD_NULL;
+    else if (upper_value == "UNIQUE") type = Token::KEYWORD_UNIQUE;
+    else if (upper_value == "CHECK") type = Token::KEYWORD_CHECK;
+    else if (upper_value == "DEFAULT") type = Token::KEYWORD_DEFAULT;
+    else if (upper_value == "AUTO_INCREMENT") type = Token::KEYWORD_AUTO_INCREMENT;
+    else if (upper_value == "EXISTS") type = Token::KEYWORD_EXISTS;
+    else if (upper_value == "USER") type = Token::KEYWORD_USER;
+    else if (upper_value == "GRANT") type = Token::KEYWORD_GRANT;
+    else if (upper_value == "REVOKE") type = Token::KEYWORD_REVOKE;
+    else if (upper_value == "PRIVILEGES") type = Token::KEYWORD_PRIVILEGES;
+    else if (upper_value == "TO") type = Token::KEYWORD_TO;
+    else if (upper_value == "FROM") type = Token::KEYWORD_FROM;
+    else if (upper_value == "WITH") type = Token::KEYWORD_WITH;
+    else if (upper_value == "PASSWORD") type = Token::KEYWORD_PASSWORD;
+    else if (upper_value == "IDENTIFIED") type = Token::KEYWORD_IDENTIFIED;
+    else if (upper_value == "SHOW") type = Token::KEYWORD_SHOW;
+    else if (upper_value == "COLUMNS") type = Token::KEYWORD_COLUMNS;
+    else if (upper_value == "INDEXES") type = Token::KEYWORD_INDEXES;
+    else if (upper_value == "GRANTS") type = Token::KEYWORD_GRANTS;
+    else if (upper_value == "DATABASES") type = Token::KEYWORD_DATABASES;
+    else if (upper_value == "TABLES") type = Token::KEYWORD_TABLES;
     
     return Token(type, value, line_, column_);
 }

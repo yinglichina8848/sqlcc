@@ -1,4 +1,4 @@
-#include "../../include/sql_parser/ast_nodes.h"
+#include "sql_parser/ast_nodes.h"
 #include <iostream>
 #include <algorithm>
 #include <cctype>
@@ -93,7 +93,7 @@ const std::vector<TableConstraint>& CreateStatement::getConstraints() const { re
 
 
 SelectStatement::SelectStatement()
-    : Statement(SELECT), selectAll_(false) {
+    : Statement(SELECT), selectAll_(false), joinCondition_(""), limit_(0), offset_(0), hasLimit_(false), hasOffset_(false) {
 }
 
 SelectStatement::~SelectStatement() {
@@ -127,6 +127,20 @@ void SelectStatement::setSelectAll(bool selectAll) {
     selectAll_ = selectAll;
 }
 
+void SelectStatement::setJoinCondition(const std::string& condition) {
+    joinCondition_ = condition;
+}
+
+void SelectStatement::setLimit(int limit) {
+    limit_ = limit;
+    hasLimit_ = true;
+}
+
+void SelectStatement::setOffset(int offset) {
+    offset_ = offset;
+    hasOffset_ = true;
+}
+
 const std::vector<std::string>& SelectStatement::getSelectColumns() const {
     return selectColumns_;
 }
@@ -151,6 +165,18 @@ const std::string& SelectStatement::getOrderDirection() const {
     return orderDirection_;
 }
 
+const std::string& SelectStatement::getJoinCondition() const {
+    return joinCondition_;
+}
+
+int SelectStatement::getLimit() const {
+    return limit_;
+}
+
+int SelectStatement::getOffset() const {
+    return offset_;
+}
+
 bool SelectStatement::isSelectAll() const {
     return selectAll_;
 }
@@ -165,6 +191,18 @@ bool SelectStatement::hasGroupBy() const {
 
 bool SelectStatement::hasOrderBy() const {
     return !orderByColumn_.empty();
+}
+
+bool SelectStatement::hasJoinCondition() const {
+    return !joinCondition_.empty();
+}
+
+bool SelectStatement::hasLimit() const {
+    return hasLimit_;
+}
+
+bool SelectStatement::hasOffset() const {
+    return hasOffset_;
 }
 
 // ==================== InsertStatement ====================

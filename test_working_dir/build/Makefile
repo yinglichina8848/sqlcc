@@ -673,6 +673,71 @@ dml_test/fast:
 .PHONY : dml_test/fast
 
 #=============================================================================
+# Target rules for targets named dml_executor_integration_test
+
+# Build rule for target.
+dml_executor_integration_test: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 dml_executor_integration_test
+.PHONY : dml_executor_integration_test
+
+# fast build rule for target.
+dml_executor_integration_test/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/dml_executor_integration_test.dir/build.make tests/CMakeFiles/dml_executor_integration_test.dir/build
+.PHONY : dml_executor_integration_test/fast
+
+#=============================================================================
+# Target rules for targets named constraint_validation_test
+
+# Build rule for target.
+constraint_validation_test: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 constraint_validation_test
+.PHONY : constraint_validation_test
+
+# fast build rule for target.
+constraint_validation_test/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/constraint_validation_test.dir/build.make tests/CMakeFiles/constraint_validation_test.dir/build
+.PHONY : constraint_validation_test/fast
+
+#=============================================================================
+# Target rules for targets named index_maintenance_test
+
+# Build rule for target.
+index_maintenance_test: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 index_maintenance_test
+.PHONY : index_maintenance_test
+
+# fast build rule for target.
+index_maintenance_test/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/index_maintenance_test.dir/build.make tests/CMakeFiles/index_maintenance_test.dir/build
+.PHONY : index_maintenance_test/fast
+
+#=============================================================================
+# Target rules for targets named where_clause_optimization_test
+
+# Build rule for target.
+where_clause_optimization_test: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 where_clause_optimization_test
+.PHONY : where_clause_optimization_test
+
+# fast build rule for target.
+where_clause_optimization_test/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/where_clause_optimization_test.dir/build.make tests/CMakeFiles/where_clause_optimization_test.dir/build
+.PHONY : where_clause_optimization_test/fast
+
+#=============================================================================
+# Target rules for targets named compare_values_test
+
+# Build rule for target.
+compare_values_test: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 compare_values_test
+.PHONY : compare_values_test
+
+# fast build rule for target.
+compare_values_test/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/compare_values_test.dir/build.make tests/CMakeFiles/compare_values_test.dir/build
+.PHONY : compare_values_test/fast
+
+#=============================================================================
 # Target rules for targets named simple_test
 
 # Build rule for target.
@@ -803,6 +868,19 @@ test_sql_executor/fast:
 .PHONY : test_sql_executor/fast
 
 #=============================================================================
+# Target rules for targets named permission_check_test
+
+# Build rule for target.
+permission_check_test: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 permission_check_test
+.PHONY : permission_check_test
+
+# fast build rule for target.
+permission_check_test/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/permission_check_test.dir/build.make tests/CMakeFiles/permission_check_test.dir/build
+.PHONY : permission_check_test/fast
+
+#=============================================================================
 # Target rules for targets named client_server_integration_test
 
 # Build rule for target.
@@ -879,6 +957,32 @@ parser_verification_test: cmake_check_build_system
 parser_verification_test/fast:
 	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/parser_verification_test.dir/build.make tests/CMakeFiles/parser_verification_test.dir/build
 .PHONY : parser_verification_test/fast
+
+#=============================================================================
+# Target rules for targets named system_database_test
+
+# Build rule for target.
+system_database_test: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 system_database_test
+.PHONY : system_database_test
+
+# fast build rule for target.
+system_database_test/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/system_database_test.dir/build.make tests/CMakeFiles/system_database_test.dir/build
+.PHONY : system_database_test/fast
+
+#=============================================================================
+# Target rules for targets named revoke_persistence_test
+
+# Build rule for target.
+revoke_persistence_test: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 revoke_persistence_test
+.PHONY : revoke_persistence_test
+
+# fast build rule for target.
+revoke_persistence_test/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/revoke_persistence_test.dir/build.make tests/CMakeFiles/revoke_persistence_test.dir/build
+.PHONY : revoke_persistence_test/fast
 
 src/bin/isql_main.o: src/bin/isql_main.cpp.o
 .PHONY : src/bin/isql_main.o
@@ -1218,22 +1322,28 @@ help:
 	@echo "... b_plus_tree_test"
 	@echo "... buffer_pool_test"
 	@echo "... client_server_integration_test"
+	@echo "... compare_values_test"
 	@echo "... comprehensive_test"
+	@echo "... constraint_validation_test"
 	@echo "... dcl_ddl_persistence_test"
 	@echo "... dcl_parser_test"
 	@echo "... dcl_test"
 	@echo "... dcl_test_advanced"
 	@echo "... ddl_test"
 	@echo "... disk_manager_test"
+	@echo "... dml_executor_integration_test"
 	@echo "... dml_test"
+	@echo "... index_maintenance_test"
 	@echo "... isql"
 	@echo "... isql_integration_test"
 	@echo "... isql_network"
 	@echo "... lexer_test"
 	@echo "... network_unit_test"
 	@echo "... parser_verification_test"
+	@echo "... permission_check_test"
 	@echo "... persistence_check"
 	@echo "... pure_fs_test"
+	@echo "... revoke_persistence_test"
 	@echo "... simple_db_test"
 	@echo "... simple_dcl_ddl_test"
 	@echo "... simple_test"
@@ -1252,6 +1362,7 @@ help:
 	@echo "... sqlcc_server"
 	@echo "... sqlcc_storage_engine"
 	@echo "... sqlcc_transaction_manager"
+	@echo "... system_database_test"
 	@echo "... test_db_persistence"
 	@echo "... test_dcl_ddl_persistence"
 	@echo "... test_sql_executor"
@@ -1259,6 +1370,7 @@ help:
 	@echo "... tls_e2e_test"
 	@echo "... transaction_manager_test"
 	@echo "... user_persistence_test"
+	@echo "... where_clause_optimization_test"
 	@echo "... src/bin/isql_main.o"
 	@echo "... src/bin/isql_main.i"
 	@echo "... src/bin/isql_main.s"

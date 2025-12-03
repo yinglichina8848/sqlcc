@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = -DENABLE_JSON
 
-CXX_INCLUDES = -I/home/liying/sqlcc_qoder/include -I/home/liying/sqlcc_qoder/src -I/home/liying/sqlcc_qoder/third_party/spdlog/include -I/home/liying/sqlcc_qoder/include/core -I/home/liying/sqlcc_qoder/include/network -I/home/liying/sqlcc_qoder/include/sql -I/home/liying/sqlcc_qoder/include/utils
+CXX_INCLUDES = -I/home/liying/sqlcc_qoder/include -I/home/liying/sqlcc_qoder/src -I/home/liying/sqlcc_qoder/third_party/spdlog/include -I/home/liying/sqlcc_qoder/include/core -I/home/liying/sqlcc_qoder/include/network -I/home/liying/sqlcc_qoder/include/sql -I/home/liying/sqlcc_qoder/include/sql_parser -I/home/liying/sqlcc_qoder/include/storage -I/home/liying/sqlcc_qoder/include/execution -I/home/liying/sqlcc_qoder/include/utils
 
 CXX_FLAGS =  --coverage -std=gnu++17
 

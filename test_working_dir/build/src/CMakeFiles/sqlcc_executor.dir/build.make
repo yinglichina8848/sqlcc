@@ -125,10 +125,24 @@ src/CMakeFiles/sqlcc_executor.dir/sql_executor/user_manager.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/sqlcc_executor.dir/sql_executor/user_manager.cpp.s"
 	cd /home/liying/sqlcc_qoder/test_working_dir/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/liying/sqlcc_qoder/src/sql_executor/user_manager.cpp -o CMakeFiles/sqlcc_executor.dir/sql_executor/user_manager.cpp.s
 
+src/CMakeFiles/sqlcc_executor.dir/sql_executor/system_database.cpp.o: src/CMakeFiles/sqlcc_executor.dir/flags.make
+src/CMakeFiles/sqlcc_executor.dir/sql_executor/system_database.cpp.o: /home/liying/sqlcc_qoder/src/sql_executor/system_database.cpp
+src/CMakeFiles/sqlcc_executor.dir/sql_executor/system_database.cpp.o: src/CMakeFiles/sqlcc_executor.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/liying/sqlcc_qoder/test_working_dir/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object src/CMakeFiles/sqlcc_executor.dir/sql_executor/system_database.cpp.o"
+	cd /home/liying/sqlcc_qoder/test_working_dir/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/sqlcc_executor.dir/sql_executor/system_database.cpp.o -MF CMakeFiles/sqlcc_executor.dir/sql_executor/system_database.cpp.o.d -o CMakeFiles/sqlcc_executor.dir/sql_executor/system_database.cpp.o -c /home/liying/sqlcc_qoder/src/sql_executor/system_database.cpp
+
+src/CMakeFiles/sqlcc_executor.dir/sql_executor/system_database.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/sqlcc_executor.dir/sql_executor/system_database.cpp.i"
+	cd /home/liying/sqlcc_qoder/test_working_dir/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/liying/sqlcc_qoder/src/sql_executor/system_database.cpp > CMakeFiles/sqlcc_executor.dir/sql_executor/system_database.cpp.i
+
+src/CMakeFiles/sqlcc_executor.dir/sql_executor/system_database.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/sqlcc_executor.dir/sql_executor/system_database.cpp.s"
+	cd /home/liying/sqlcc_qoder/test_working_dir/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/liying/sqlcc_qoder/src/sql_executor/system_database.cpp -o CMakeFiles/sqlcc_executor.dir/sql_executor/system_database.cpp.s
+
 src/CMakeFiles/sqlcc_executor.dir/execution_engine.cpp.o: src/CMakeFiles/sqlcc_executor.dir/flags.make
 src/CMakeFiles/sqlcc_executor.dir/execution_engine.cpp.o: /home/liying/sqlcc_qoder/src/execution_engine.cpp
 src/CMakeFiles/sqlcc_executor.dir/execution_engine.cpp.o: src/CMakeFiles/sqlcc_executor.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/liying/sqlcc_qoder/test_working_dir/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object src/CMakeFiles/sqlcc_executor.dir/execution_engine.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/liying/sqlcc_qoder/test_working_dir/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object src/CMakeFiles/sqlcc_executor.dir/execution_engine.cpp.o"
 	cd /home/liying/sqlcc_qoder/test_working_dir/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/sqlcc_executor.dir/execution_engine.cpp.o -MF CMakeFiles/sqlcc_executor.dir/execution_engine.cpp.o.d -o CMakeFiles/sqlcc_executor.dir/execution_engine.cpp.o -c /home/liying/sqlcc_qoder/src/execution_engine.cpp
 
 src/CMakeFiles/sqlcc_executor.dir/execution_engine.cpp.i: cmake_force
@@ -139,13 +153,134 @@ src/CMakeFiles/sqlcc_executor.dir/execution_engine.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/sqlcc_executor.dir/execution_engine.cpp.s"
 	cd /home/liying/sqlcc_qoder/test_working_dir/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/liying/sqlcc_qoder/src/execution_engine.cpp -o CMakeFiles/sqlcc_executor.dir/execution_engine.cpp.s
 
+src/CMakeFiles/sqlcc_executor.dir/unified_query_plan.cpp.o: src/CMakeFiles/sqlcc_executor.dir/flags.make
+src/CMakeFiles/sqlcc_executor.dir/unified_query_plan.cpp.o: /home/liying/sqlcc_qoder/src/unified_query_plan.cpp
+src/CMakeFiles/sqlcc_executor.dir/unified_query_plan.cpp.o: src/CMakeFiles/sqlcc_executor.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/liying/sqlcc_qoder/test_working_dir/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object src/CMakeFiles/sqlcc_executor.dir/unified_query_plan.cpp.o"
+	cd /home/liying/sqlcc_qoder/test_working_dir/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/sqlcc_executor.dir/unified_query_plan.cpp.o -MF CMakeFiles/sqlcc_executor.dir/unified_query_plan.cpp.o.d -o CMakeFiles/sqlcc_executor.dir/unified_query_plan.cpp.o -c /home/liying/sqlcc_qoder/src/unified_query_plan.cpp
+
+src/CMakeFiles/sqlcc_executor.dir/unified_query_plan.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/sqlcc_executor.dir/unified_query_plan.cpp.i"
+	cd /home/liying/sqlcc_qoder/test_working_dir/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/liying/sqlcc_qoder/src/unified_query_plan.cpp > CMakeFiles/sqlcc_executor.dir/unified_query_plan.cpp.i
+
+src/CMakeFiles/sqlcc_executor.dir/unified_query_plan.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/sqlcc_executor.dir/unified_query_plan.cpp.s"
+	cd /home/liying/sqlcc_qoder/test_working_dir/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/liying/sqlcc_qoder/src/unified_query_plan.cpp -o CMakeFiles/sqlcc_executor.dir/unified_query_plan.cpp.s
+
+src/CMakeFiles/sqlcc_executor.dir/error_handler.cpp.o: src/CMakeFiles/sqlcc_executor.dir/flags.make
+src/CMakeFiles/sqlcc_executor.dir/error_handler.cpp.o: /home/liying/sqlcc_qoder/src/error_handler.cpp
+src/CMakeFiles/sqlcc_executor.dir/error_handler.cpp.o: src/CMakeFiles/sqlcc_executor.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/liying/sqlcc_qoder/test_working_dir/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object src/CMakeFiles/sqlcc_executor.dir/error_handler.cpp.o"
+	cd /home/liying/sqlcc_qoder/test_working_dir/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/sqlcc_executor.dir/error_handler.cpp.o -MF CMakeFiles/sqlcc_executor.dir/error_handler.cpp.o.d -o CMakeFiles/sqlcc_executor.dir/error_handler.cpp.o -c /home/liying/sqlcc_qoder/src/error_handler.cpp
+
+src/CMakeFiles/sqlcc_executor.dir/error_handler.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/sqlcc_executor.dir/error_handler.cpp.i"
+	cd /home/liying/sqlcc_qoder/test_working_dir/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/liying/sqlcc_qoder/src/error_handler.cpp > CMakeFiles/sqlcc_executor.dir/error_handler.cpp.i
+
+src/CMakeFiles/sqlcc_executor.dir/error_handler.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/sqlcc_executor.dir/error_handler.cpp.s"
+	cd /home/liying/sqlcc_qoder/test_working_dir/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/liying/sqlcc_qoder/src/error_handler.cpp -o CMakeFiles/sqlcc_executor.dir/error_handler.cpp.s
+
+src/CMakeFiles/sqlcc_executor.dir/permission_validator.cpp.o: src/CMakeFiles/sqlcc_executor.dir/flags.make
+src/CMakeFiles/sqlcc_executor.dir/permission_validator.cpp.o: /home/liying/sqlcc_qoder/src/permission_validator.cpp
+src/CMakeFiles/sqlcc_executor.dir/permission_validator.cpp.o: src/CMakeFiles/sqlcc_executor.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/liying/sqlcc_qoder/test_working_dir/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object src/CMakeFiles/sqlcc_executor.dir/permission_validator.cpp.o"
+	cd /home/liying/sqlcc_qoder/test_working_dir/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/sqlcc_executor.dir/permission_validator.cpp.o -MF CMakeFiles/sqlcc_executor.dir/permission_validator.cpp.o.d -o CMakeFiles/sqlcc_executor.dir/permission_validator.cpp.o -c /home/liying/sqlcc_qoder/src/permission_validator.cpp
+
+src/CMakeFiles/sqlcc_executor.dir/permission_validator.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/sqlcc_executor.dir/permission_validator.cpp.i"
+	cd /home/liying/sqlcc_qoder/test_working_dir/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/liying/sqlcc_qoder/src/permission_validator.cpp > CMakeFiles/sqlcc_executor.dir/permission_validator.cpp.i
+
+src/CMakeFiles/sqlcc_executor.dir/permission_validator.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/sqlcc_executor.dir/permission_validator.cpp.s"
+	cd /home/liying/sqlcc_qoder/test_working_dir/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/liying/sqlcc_qoder/src/permission_validator.cpp -o CMakeFiles/sqlcc_executor.dir/permission_validator.cpp.s
+
+src/CMakeFiles/sqlcc_executor.dir/unified_executor.cpp.o: src/CMakeFiles/sqlcc_executor.dir/flags.make
+src/CMakeFiles/sqlcc_executor.dir/unified_executor.cpp.o: /home/liying/sqlcc_qoder/src/unified_executor.cpp
+src/CMakeFiles/sqlcc_executor.dir/unified_executor.cpp.o: src/CMakeFiles/sqlcc_executor.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/liying/sqlcc_qoder/test_working_dir/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object src/CMakeFiles/sqlcc_executor.dir/unified_executor.cpp.o"
+	cd /home/liying/sqlcc_qoder/test_working_dir/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/sqlcc_executor.dir/unified_executor.cpp.o -MF CMakeFiles/sqlcc_executor.dir/unified_executor.cpp.o.d -o CMakeFiles/sqlcc_executor.dir/unified_executor.cpp.o -c /home/liying/sqlcc_qoder/src/unified_executor.cpp
+
+src/CMakeFiles/sqlcc_executor.dir/unified_executor.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/sqlcc_executor.dir/unified_executor.cpp.i"
+	cd /home/liying/sqlcc_qoder/test_working_dir/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/liying/sqlcc_qoder/src/unified_executor.cpp > CMakeFiles/sqlcc_executor.dir/unified_executor.cpp.i
+
+src/CMakeFiles/sqlcc_executor.dir/unified_executor.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/sqlcc_executor.dir/unified_executor.cpp.s"
+	cd /home/liying/sqlcc_qoder/test_working_dir/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/liying/sqlcc_qoder/src/unified_executor.cpp -o CMakeFiles/sqlcc_executor.dir/unified_executor.cpp.s
+
+src/CMakeFiles/sqlcc_executor.dir/execution_context.cpp.o: src/CMakeFiles/sqlcc_executor.dir/flags.make
+src/CMakeFiles/sqlcc_executor.dir/execution_context.cpp.o: /home/liying/sqlcc_qoder/src/execution_context.cpp
+src/CMakeFiles/sqlcc_executor.dir/execution_context.cpp.o: src/CMakeFiles/sqlcc_executor.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/liying/sqlcc_qoder/test_working_dir/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object src/CMakeFiles/sqlcc_executor.dir/execution_context.cpp.o"
+	cd /home/liying/sqlcc_qoder/test_working_dir/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/sqlcc_executor.dir/execution_context.cpp.o -MF CMakeFiles/sqlcc_executor.dir/execution_context.cpp.o.d -o CMakeFiles/sqlcc_executor.dir/execution_context.cpp.o -c /home/liying/sqlcc_qoder/src/execution_context.cpp
+
+src/CMakeFiles/sqlcc_executor.dir/execution_context.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/sqlcc_executor.dir/execution_context.cpp.i"
+	cd /home/liying/sqlcc_qoder/test_working_dir/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/liying/sqlcc_qoder/src/execution_context.cpp > CMakeFiles/sqlcc_executor.dir/execution_context.cpp.i
+
+src/CMakeFiles/sqlcc_executor.dir/execution_context.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/sqlcc_executor.dir/execution_context.cpp.s"
+	cd /home/liying/sqlcc_qoder/test_working_dir/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/liying/sqlcc_qoder/src/execution_context.cpp -o CMakeFiles/sqlcc_executor.dir/execution_context.cpp.s
+
+src/CMakeFiles/sqlcc_executor.dir/execution/set_operation_executor.cpp.o: src/CMakeFiles/sqlcc_executor.dir/flags.make
+src/CMakeFiles/sqlcc_executor.dir/execution/set_operation_executor.cpp.o: /home/liying/sqlcc_qoder/src/execution/set_operation_executor.cpp
+src/CMakeFiles/sqlcc_executor.dir/execution/set_operation_executor.cpp.o: src/CMakeFiles/sqlcc_executor.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/liying/sqlcc_qoder/test_working_dir/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object src/CMakeFiles/sqlcc_executor.dir/execution/set_operation_executor.cpp.o"
+	cd /home/liying/sqlcc_qoder/test_working_dir/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/sqlcc_executor.dir/execution/set_operation_executor.cpp.o -MF CMakeFiles/sqlcc_executor.dir/execution/set_operation_executor.cpp.o.d -o CMakeFiles/sqlcc_executor.dir/execution/set_operation_executor.cpp.o -c /home/liying/sqlcc_qoder/src/execution/set_operation_executor.cpp
+
+src/CMakeFiles/sqlcc_executor.dir/execution/set_operation_executor.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/sqlcc_executor.dir/execution/set_operation_executor.cpp.i"
+	cd /home/liying/sqlcc_qoder/test_working_dir/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/liying/sqlcc_qoder/src/execution/set_operation_executor.cpp > CMakeFiles/sqlcc_executor.dir/execution/set_operation_executor.cpp.i
+
+src/CMakeFiles/sqlcc_executor.dir/execution/set_operation_executor.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/sqlcc_executor.dir/execution/set_operation_executor.cpp.s"
+	cd /home/liying/sqlcc_qoder/test_working_dir/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/liying/sqlcc_qoder/src/execution/set_operation_executor.cpp -o CMakeFiles/sqlcc_executor.dir/execution/set_operation_executor.cpp.s
+
+src/CMakeFiles/sqlcc_executor.dir/execution/join_executor.cpp.o: src/CMakeFiles/sqlcc_executor.dir/flags.make
+src/CMakeFiles/sqlcc_executor.dir/execution/join_executor.cpp.o: /home/liying/sqlcc_qoder/src/execution/join_executor.cpp
+src/CMakeFiles/sqlcc_executor.dir/execution/join_executor.cpp.o: src/CMakeFiles/sqlcc_executor.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/liying/sqlcc_qoder/test_working_dir/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object src/CMakeFiles/sqlcc_executor.dir/execution/join_executor.cpp.o"
+	cd /home/liying/sqlcc_qoder/test_working_dir/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/sqlcc_executor.dir/execution/join_executor.cpp.o -MF CMakeFiles/sqlcc_executor.dir/execution/join_executor.cpp.o.d -o CMakeFiles/sqlcc_executor.dir/execution/join_executor.cpp.o -c /home/liying/sqlcc_qoder/src/execution/join_executor.cpp
+
+src/CMakeFiles/sqlcc_executor.dir/execution/join_executor.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/sqlcc_executor.dir/execution/join_executor.cpp.i"
+	cd /home/liying/sqlcc_qoder/test_working_dir/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/liying/sqlcc_qoder/src/execution/join_executor.cpp > CMakeFiles/sqlcc_executor.dir/execution/join_executor.cpp.i
+
+src/CMakeFiles/sqlcc_executor.dir/execution/join_executor.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/sqlcc_executor.dir/execution/join_executor.cpp.s"
+	cd /home/liying/sqlcc_qoder/test_working_dir/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/liying/sqlcc_qoder/src/execution/join_executor.cpp -o CMakeFiles/sqlcc_executor.dir/execution/join_executor.cpp.s
+
+src/CMakeFiles/sqlcc_executor.dir/execution/subquery_executor.cpp.o: src/CMakeFiles/sqlcc_executor.dir/flags.make
+src/CMakeFiles/sqlcc_executor.dir/execution/subquery_executor.cpp.o: /home/liying/sqlcc_qoder/src/execution/subquery_executor.cpp
+src/CMakeFiles/sqlcc_executor.dir/execution/subquery_executor.cpp.o: src/CMakeFiles/sqlcc_executor.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/liying/sqlcc_qoder/test_working_dir/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object src/CMakeFiles/sqlcc_executor.dir/execution/subquery_executor.cpp.o"
+	cd /home/liying/sqlcc_qoder/test_working_dir/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/sqlcc_executor.dir/execution/subquery_executor.cpp.o -MF CMakeFiles/sqlcc_executor.dir/execution/subquery_executor.cpp.o.d -o CMakeFiles/sqlcc_executor.dir/execution/subquery_executor.cpp.o -c /home/liying/sqlcc_qoder/src/execution/subquery_executor.cpp
+
+src/CMakeFiles/sqlcc_executor.dir/execution/subquery_executor.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/sqlcc_executor.dir/execution/subquery_executor.cpp.i"
+	cd /home/liying/sqlcc_qoder/test_working_dir/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/liying/sqlcc_qoder/src/execution/subquery_executor.cpp > CMakeFiles/sqlcc_executor.dir/execution/subquery_executor.cpp.i
+
+src/CMakeFiles/sqlcc_executor.dir/execution/subquery_executor.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/sqlcc_executor.dir/execution/subquery_executor.cpp.s"
+	cd /home/liying/sqlcc_qoder/test_working_dir/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/liying/sqlcc_qoder/src/execution/subquery_executor.cpp -o CMakeFiles/sqlcc_executor.dir/execution/subquery_executor.cpp.s
+
 # Object files for target sqlcc_executor
 sqlcc_executor_OBJECTS = \
 "CMakeFiles/sqlcc_executor.dir/sql_executor/sql_executor.cpp.o" \
 "CMakeFiles/sqlcc_executor.dir/sql_executor/data_type.cpp.o" \
 "CMakeFiles/sqlcc_executor.dir/sql_executor/index_manager.cpp.o" \
 "CMakeFiles/sqlcc_executor.dir/sql_executor/user_manager.cpp.o" \
-"CMakeFiles/sqlcc_executor.dir/execution_engine.cpp.o"
+"CMakeFiles/sqlcc_executor.dir/sql_executor/system_database.cpp.o" \
+"CMakeFiles/sqlcc_executor.dir/execution_engine.cpp.o" \
+"CMakeFiles/sqlcc_executor.dir/unified_query_plan.cpp.o" \
+"CMakeFiles/sqlcc_executor.dir/error_handler.cpp.o" \
+"CMakeFiles/sqlcc_executor.dir/permission_validator.cpp.o" \
+"CMakeFiles/sqlcc_executor.dir/unified_executor.cpp.o" \
+"CMakeFiles/sqlcc_executor.dir/execution_context.cpp.o" \
+"CMakeFiles/sqlcc_executor.dir/execution/set_operation_executor.cpp.o" \
+"CMakeFiles/sqlcc_executor.dir/execution/join_executor.cpp.o" \
+"CMakeFiles/sqlcc_executor.dir/execution/subquery_executor.cpp.o"
 
 # External object files for target sqlcc_executor
 sqlcc_executor_EXTERNAL_OBJECTS =
@@ -154,10 +289,19 @@ src/libsqlcc_executor.a: src/CMakeFiles/sqlcc_executor.dir/sql_executor/sql_exec
 src/libsqlcc_executor.a: src/CMakeFiles/sqlcc_executor.dir/sql_executor/data_type.cpp.o
 src/libsqlcc_executor.a: src/CMakeFiles/sqlcc_executor.dir/sql_executor/index_manager.cpp.o
 src/libsqlcc_executor.a: src/CMakeFiles/sqlcc_executor.dir/sql_executor/user_manager.cpp.o
+src/libsqlcc_executor.a: src/CMakeFiles/sqlcc_executor.dir/sql_executor/system_database.cpp.o
 src/libsqlcc_executor.a: src/CMakeFiles/sqlcc_executor.dir/execution_engine.cpp.o
+src/libsqlcc_executor.a: src/CMakeFiles/sqlcc_executor.dir/unified_query_plan.cpp.o
+src/libsqlcc_executor.a: src/CMakeFiles/sqlcc_executor.dir/error_handler.cpp.o
+src/libsqlcc_executor.a: src/CMakeFiles/sqlcc_executor.dir/permission_validator.cpp.o
+src/libsqlcc_executor.a: src/CMakeFiles/sqlcc_executor.dir/unified_executor.cpp.o
+src/libsqlcc_executor.a: src/CMakeFiles/sqlcc_executor.dir/execution_context.cpp.o
+src/libsqlcc_executor.a: src/CMakeFiles/sqlcc_executor.dir/execution/set_operation_executor.cpp.o
+src/libsqlcc_executor.a: src/CMakeFiles/sqlcc_executor.dir/execution/join_executor.cpp.o
+src/libsqlcc_executor.a: src/CMakeFiles/sqlcc_executor.dir/execution/subquery_executor.cpp.o
 src/libsqlcc_executor.a: src/CMakeFiles/sqlcc_executor.dir/build.make
 src/libsqlcc_executor.a: src/CMakeFiles/sqlcc_executor.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/liying/sqlcc_qoder/test_working_dir/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX static library libsqlcc_executor.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/liying/sqlcc_qoder/test_working_dir/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Linking CXX static library libsqlcc_executor.a"
 	cd /home/liying/sqlcc_qoder/test_working_dir/build/src && $(CMAKE_COMMAND) -P CMakeFiles/sqlcc_executor.dir/cmake_clean_target.cmake
 	cd /home/liying/sqlcc_qoder/test_working_dir/build/src && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/sqlcc_executor.dir/link.txt --verbose=$(VERBOSE)
 

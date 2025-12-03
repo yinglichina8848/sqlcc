@@ -19,8 +19,8 @@
 #include <readline/readline.h>
 #endif
 
-#include "../include/config_manager.h"
-#include "../include/sql_executor.h"
+#include "config_manager.h"
+#include "sql_executor.h"
 #include "exception.h"
 #include "storage_engine.h"
 #include "version.h"

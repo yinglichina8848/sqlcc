@@ -95,8 +95,8 @@ bin/sqlcc: CMakeFiles/sqlcc.dir/build.make
 bin/sqlcc: src/libsqlcc_executor.a
 bin/sqlcc: src/libsqlcc_core_lib.a
 bin/sqlcc: src/libsqlcc_parser.a
-bin/sqlcc: src/libsqlcc_config_manager.a
 bin/sqlcc: src/libsqlcc_storage_engine.a
+bin/sqlcc: src/libsqlcc_config_manager.a
 bin/sqlcc: src/libsqlcc_transaction_manager.a
 bin/sqlcc: src/libsqlcc_network.a
 bin/sqlcc: /usr/lib/x86_64-linux-gnu/libssl.so

@@ -1,0 +1,83 @@
+# CRUD性能测试专用Makefile
+# 提供便捷的命令行接口来运行CRUD性能测试
+
+.PHONY: help crud-test crud-quick crud-full crud-report clean-crud
+
+# 默认目标
+help:
+	@echo "CRUD性能测试命令"
+	@echo "================"
+	@echo "crud-test      - 运行完整的CRUD性能测试（包括构建和测试）"
+	@echo "crud-quick     - 运行快速CRUD测试（1-1万行数据）"
+	@echo "crud-full      - 运行完整CRUD测试套件"
+	@echo "crud-report    - 生成性能测试报告"
+	@echo "clean-crud     - 清理CRUD测试结果"
+	@echo ""
+	@echo "环境要求："
+	@echo "- 1-10万行数据规模下，单操作耗时<5ms (SSD)"
+	@echo "- 400万ops/sec基准性能"
+
+# 完整CRUD性能测试
+crud-test:
+	@echo "开始CRUD性能测试..."
+	@if [ ! -f "run_crud_performance.sh" ]; then \
+		echo "错误：run_crud_performance.sh脚本不存在"; \
+		exit 1; \
+	fi
+	@chmod +x run_crud_performance.sh
+	@./run_crud_performance.sh
+
+# 快速CRUD测试
+crud-quick:
+	@echo "运行快速CRUD性能测试..."
+	@if [ ! -d "build" ]; then \
+		echo "错误：请先运行'make crud-test'或手动构建项目"; \
+		exit 1; \
+	fi
+	@cd build && ./bin/crud_performance_test_main --quick --verbose
+
+# 完整CRUD测试套件
+crud-full:
+	@echo "运行完整CRUD性能测试套件..."
+	@if [ ! -d "build" ]; then \
+		echo "错误：请先运行'make crud-test'或手动构建项目"; \
+		exit 1; \
+	fi
+	@cd build && ./bin/crud_performance_test_main --all --verbose
+
+# 生成性能报告
+crud-report:
+	@echo "生成CRUD性能测试报告..."
+	@if [ ! -d "build/performance_results" ]; then \
+		echo "错误：请先运行性能测试"; \
+		exit 1; \
+	fi
+	@cd build && \
+		echo "=== CRUD性能测试报告 ===" && \
+		echo "生成时间: $$(date)" && \
+		echo "" && \
+		for log in performance_results/crud_*.log; do \
+			if [ -f "$$log" ]; then \
+				echo "测试文件: $$log" && \
+				grep -E "(测试完成|QPS|平均延迟|单操作耗时)" "$$log" | tail -5 && \
+				echo ""; \
+			fi; \
+		done
+
+# 清理测试结果
+clean-crud:
+	@echo "清理CRUD测试结果..."
+	@if [ -d "build/performance_results" ]; then \
+		rm -f build/performance_results/crud_*.log; \
+		echo "已清理CRUD测试日志"; \
+	fi
+	@if [ -f "run_crud_performance.sh" ]; then \
+		echo "保留一键运行脚本: run_crud_performance.sh"; \
+	fi
+
+# 集成到主Makefile的兼容目标
+perf-crud: crud-test
+
+quick-crud: crud-quick
+
+full-crud: crud-full

@@ -13,6 +13,7 @@ add_library(sqlcc_core_lib STATIC
 target_include_directories(sqlcc_core_lib PUBLIC 
     ${CMAKE_SOURCE_DIR}/include
     ${CMAKE_SOURCE_DIR}/include/core
+    ${CMAKE_SOURCE_DIR}/include/storage
 )
 
 # 创建SQL parser库
@@ -22,8 +23,6 @@ set(SQL_PARSER_SOURCES
     sql_parser/parser.cpp
     sql_parser/lexer.cpp
     sql_parser/token.cpp
-    sql_parser/advanced_ast.cpp
-    sql_parser/having_clause_node.cpp
     sql_parser/parser_set_operations.cpp
     sql_parser/set_operation_node.cpp
 )
@@ -67,6 +66,7 @@ add_library(sqlcc_storage_engine STATIC
 target_include_directories(sqlcc_storage_engine PUBLIC 
     ${CMAKE_SOURCE_DIR}/include
     ${CMAKE_SOURCE_DIR}/include/core
+    ${CMAKE_SOURCE_DIR}/include/storage
 )
 
 # 链接storage_engine库与config_manager库

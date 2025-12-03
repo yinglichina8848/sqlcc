@@ -281,6 +281,76 @@ dml_test/fast:
 .PHONY : dml_test/fast
 
 # Convenience name for target.
+tests/CMakeFiles/dml_executor_integration_test.dir/rule:
+	cd /home/liying/sqlcc_qoder/test_working_dir/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/dml_executor_integration_test.dir/rule
+.PHONY : tests/CMakeFiles/dml_executor_integration_test.dir/rule
+
+# Convenience name for target.
+dml_executor_integration_test: tests/CMakeFiles/dml_executor_integration_test.dir/rule
+.PHONY : dml_executor_integration_test
+
+# fast build rule for target.
+dml_executor_integration_test/fast:
+	cd /home/liying/sqlcc_qoder/test_working_dir/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/dml_executor_integration_test.dir/build.make tests/CMakeFiles/dml_executor_integration_test.dir/build
+.PHONY : dml_executor_integration_test/fast
+
+# Convenience name for target.
+tests/CMakeFiles/constraint_validation_test.dir/rule:
+	cd /home/liying/sqlcc_qoder/test_working_dir/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/constraint_validation_test.dir/rule
+.PHONY : tests/CMakeFiles/constraint_validation_test.dir/rule
+
+# Convenience name for target.
+constraint_validation_test: tests/CMakeFiles/constraint_validation_test.dir/rule
+.PHONY : constraint_validation_test
+
+# fast build rule for target.
+constraint_validation_test/fast:
+	cd /home/liying/sqlcc_qoder/test_working_dir/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/constraint_validation_test.dir/build.make tests/CMakeFiles/constraint_validation_test.dir/build
+.PHONY : constraint_validation_test/fast
+
+# Convenience name for target.
+tests/CMakeFiles/index_maintenance_test.dir/rule:
+	cd /home/liying/sqlcc_qoder/test_working_dir/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/index_maintenance_test.dir/rule
+.PHONY : tests/CMakeFiles/index_maintenance_test.dir/rule
+
+# Convenience name for target.
+index_maintenance_test: tests/CMakeFiles/index_maintenance_test.dir/rule
+.PHONY : index_maintenance_test
+
+# fast build rule for target.
+index_maintenance_test/fast:
+	cd /home/liying/sqlcc_qoder/test_working_dir/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/index_maintenance_test.dir/build.make tests/CMakeFiles/index_maintenance_test.dir/build
+.PHONY : index_maintenance_test/fast
+
+# Convenience name for target.
+tests/CMakeFiles/where_clause_optimization_test.dir/rule:
+	cd /home/liying/sqlcc_qoder/test_working_dir/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/where_clause_optimization_test.dir/rule
+.PHONY : tests/CMakeFiles/where_clause_optimization_test.dir/rule
+
+# Convenience name for target.
+where_clause_optimization_test: tests/CMakeFiles/where_clause_optimization_test.dir/rule
+.PHONY : where_clause_optimization_test
+
+# fast build rule for target.
+where_clause_optimization_test/fast:
+	cd /home/liying/sqlcc_qoder/test_working_dir/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/where_clause_optimization_test.dir/build.make tests/CMakeFiles/where_clause_optimization_test.dir/build
+.PHONY : where_clause_optimization_test/fast
+
+# Convenience name for target.
+tests/CMakeFiles/compare_values_test.dir/rule:
+	cd /home/liying/sqlcc_qoder/test_working_dir/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/compare_values_test.dir/rule
+.PHONY : tests/CMakeFiles/compare_values_test.dir/rule
+
+# Convenience name for target.
+compare_values_test: tests/CMakeFiles/compare_values_test.dir/rule
+.PHONY : compare_values_test
+
+# fast build rule for target.
+compare_values_test/fast:
+	cd /home/liying/sqlcc_qoder/test_working_dir/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/compare_values_test.dir/build.make tests/CMakeFiles/compare_values_test.dir/build
+.PHONY : compare_values_test/fast
+
+# Convenience name for target.
 tests/CMakeFiles/simple_test.dir/rule:
 	cd /home/liying/sqlcc_qoder/test_working_dir/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/simple_test.dir/rule
 .PHONY : tests/CMakeFiles/simple_test.dir/rule
@@ -421,6 +491,20 @@ test_sql_executor/fast:
 .PHONY : test_sql_executor/fast
 
 # Convenience name for target.
+tests/CMakeFiles/permission_check_test.dir/rule:
+	cd /home/liying/sqlcc_qoder/test_working_dir/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/permission_check_test.dir/rule
+.PHONY : tests/CMakeFiles/permission_check_test.dir/rule
+
+# Convenience name for target.
+permission_check_test: tests/CMakeFiles/permission_check_test.dir/rule
+.PHONY : permission_check_test
+
+# fast build rule for target.
+permission_check_test/fast:
+	cd /home/liying/sqlcc_qoder/test_working_dir/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/permission_check_test.dir/build.make tests/CMakeFiles/permission_check_test.dir/build
+.PHONY : permission_check_test/fast
+
+# Convenience name for target.
 tests/CMakeFiles/client_server_integration_test.dir/rule:
 	cd /home/liying/sqlcc_qoder/test_working_dir/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/client_server_integration_test.dir/rule
 .PHONY : tests/CMakeFiles/client_server_integration_test.dir/rule
@@ -503,6 +587,34 @@ parser_verification_test: tests/CMakeFiles/parser_verification_test.dir/rule
 parser_verification_test/fast:
 	cd /home/liying/sqlcc_qoder/test_working_dir/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/parser_verification_test.dir/build.make tests/CMakeFiles/parser_verification_test.dir/build
 .PHONY : parser_verification_test/fast
+
+# Convenience name for target.
+tests/CMakeFiles/system_database_test.dir/rule:
+	cd /home/liying/sqlcc_qoder/test_working_dir/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/system_database_test.dir/rule
+.PHONY : tests/CMakeFiles/system_database_test.dir/rule
+
+# Convenience name for target.
+system_database_test: tests/CMakeFiles/system_database_test.dir/rule
+.PHONY : system_database_test
+
+# fast build rule for target.
+system_database_test/fast:
+	cd /home/liying/sqlcc_qoder/test_working_dir/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/system_database_test.dir/build.make tests/CMakeFiles/system_database_test.dir/build
+.PHONY : system_database_test/fast
+
+# Convenience name for target.
+tests/CMakeFiles/revoke_persistence_test.dir/rule:
+	cd /home/liying/sqlcc_qoder/test_working_dir/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/revoke_persistence_test.dir/rule
+.PHONY : tests/CMakeFiles/revoke_persistence_test.dir/rule
+
+# Convenience name for target.
+revoke_persistence_test: tests/CMakeFiles/revoke_persistence_test.dir/rule
+.PHONY : revoke_persistence_test
+
+# fast build rule for target.
+revoke_persistence_test/fast:
+	cd /home/liying/sqlcc_qoder/test_working_dir/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/revoke_persistence_test.dir/build.make tests/CMakeFiles/revoke_persistence_test.dir/build
+.PHONY : revoke_persistence_test/fast
 
 client_server/client_server_integration_test.o: client_server/client_server_integration_test.cpp.o
 .PHONY : client_server/client_server_integration_test.o
@@ -864,6 +976,54 @@ sql_parser/sql_parser_test.cpp.s:
 	cd /home/liying/sqlcc_qoder/test_working_dir/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/sql_parser_test.dir/build.make tests/CMakeFiles/sql_parser_test.dir/sql_parser/sql_parser_test.cpp.s
 .PHONY : sql_parser/sql_parser_test.cpp.s
 
+unit/compare_values_test.o: unit/compare_values_test.cpp.o
+.PHONY : unit/compare_values_test.o
+
+# target to build an object file
+unit/compare_values_test.cpp.o:
+	cd /home/liying/sqlcc_qoder/test_working_dir/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/compare_values_test.dir/build.make tests/CMakeFiles/compare_values_test.dir/unit/compare_values_test.cpp.o
+.PHONY : unit/compare_values_test.cpp.o
+
+unit/compare_values_test.i: unit/compare_values_test.cpp.i
+.PHONY : unit/compare_values_test.i
+
+# target to preprocess a source file
+unit/compare_values_test.cpp.i:
+	cd /home/liying/sqlcc_qoder/test_working_dir/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/compare_values_test.dir/build.make tests/CMakeFiles/compare_values_test.dir/unit/compare_values_test.cpp.i
+.PHONY : unit/compare_values_test.cpp.i
+
+unit/compare_values_test.s: unit/compare_values_test.cpp.s
+.PHONY : unit/compare_values_test.s
+
+# target to generate assembly for a file
+unit/compare_values_test.cpp.s:
+	cd /home/liying/sqlcc_qoder/test_working_dir/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/compare_values_test.dir/build.make tests/CMakeFiles/compare_values_test.dir/unit/compare_values_test.cpp.s
+.PHONY : unit/compare_values_test.cpp.s
+
+unit/constraint_validation_test.o: unit/constraint_validation_test.cpp.o
+.PHONY : unit/constraint_validation_test.o
+
+# target to build an object file
+unit/constraint_validation_test.cpp.o:
+	cd /home/liying/sqlcc_qoder/test_working_dir/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/constraint_validation_test.dir/build.make tests/CMakeFiles/constraint_validation_test.dir/unit/constraint_validation_test.cpp.o
+.PHONY : unit/constraint_validation_test.cpp.o
+
+unit/constraint_validation_test.i: unit/constraint_validation_test.cpp.i
+.PHONY : unit/constraint_validation_test.i
+
+# target to preprocess a source file
+unit/constraint_validation_test.cpp.i:
+	cd /home/liying/sqlcc_qoder/test_working_dir/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/constraint_validation_test.dir/build.make tests/CMakeFiles/constraint_validation_test.dir/unit/constraint_validation_test.cpp.i
+.PHONY : unit/constraint_validation_test.cpp.i
+
+unit/constraint_validation_test.s: unit/constraint_validation_test.cpp.s
+.PHONY : unit/constraint_validation_test.s
+
+# target to generate assembly for a file
+unit/constraint_validation_test.cpp.s:
+	cd /home/liying/sqlcc_qoder/test_working_dir/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/constraint_validation_test.dir/build.make tests/CMakeFiles/constraint_validation_test.dir/unit/constraint_validation_test.cpp.s
+.PHONY : unit/constraint_validation_test.cpp.s
+
 unit/dcl_parser_test.o: unit/dcl_parser_test.cpp.o
 .PHONY : unit/dcl_parser_test.o
 
@@ -960,6 +1120,30 @@ unit/ddl_test.cpp.s:
 	cd /home/liying/sqlcc_qoder/test_working_dir/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/ddl_test.dir/build.make tests/CMakeFiles/ddl_test.dir/unit/ddl_test.cpp.s
 .PHONY : unit/ddl_test.cpp.s
 
+unit/dml_executor_integration_test.o: unit/dml_executor_integration_test.cpp.o
+.PHONY : unit/dml_executor_integration_test.o
+
+# target to build an object file
+unit/dml_executor_integration_test.cpp.o:
+	cd /home/liying/sqlcc_qoder/test_working_dir/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/dml_executor_integration_test.dir/build.make tests/CMakeFiles/dml_executor_integration_test.dir/unit/dml_executor_integration_test.cpp.o
+.PHONY : unit/dml_executor_integration_test.cpp.o
+
+unit/dml_executor_integration_test.i: unit/dml_executor_integration_test.cpp.i
+.PHONY : unit/dml_executor_integration_test.i
+
+# target to preprocess a source file
+unit/dml_executor_integration_test.cpp.i:
+	cd /home/liying/sqlcc_qoder/test_working_dir/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/dml_executor_integration_test.dir/build.make tests/CMakeFiles/dml_executor_integration_test.dir/unit/dml_executor_integration_test.cpp.i
+.PHONY : unit/dml_executor_integration_test.cpp.i
+
+unit/dml_executor_integration_test.s: unit/dml_executor_integration_test.cpp.s
+.PHONY : unit/dml_executor_integration_test.s
+
+# target to generate assembly for a file
+unit/dml_executor_integration_test.cpp.s:
+	cd /home/liying/sqlcc_qoder/test_working_dir/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/dml_executor_integration_test.dir/build.make tests/CMakeFiles/dml_executor_integration_test.dir/unit/dml_executor_integration_test.cpp.s
+.PHONY : unit/dml_executor_integration_test.cpp.s
+
 unit/dml_test.o: unit/dml_test.cpp.o
 .PHONY : unit/dml_test.o
 
@@ -983,6 +1167,30 @@ unit/dml_test.s: unit/dml_test.cpp.s
 unit/dml_test.cpp.s:
 	cd /home/liying/sqlcc_qoder/test_working_dir/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/dml_test.dir/build.make tests/CMakeFiles/dml_test.dir/unit/dml_test.cpp.s
 .PHONY : unit/dml_test.cpp.s
+
+unit/index_maintenance_test.o: unit/index_maintenance_test.cpp.o
+.PHONY : unit/index_maintenance_test.o
+
+# target to build an object file
+unit/index_maintenance_test.cpp.o:
+	cd /home/liying/sqlcc_qoder/test_working_dir/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/index_maintenance_test.dir/build.make tests/CMakeFiles/index_maintenance_test.dir/unit/index_maintenance_test.cpp.o
+.PHONY : unit/index_maintenance_test.cpp.o
+
+unit/index_maintenance_test.i: unit/index_maintenance_test.cpp.i
+.PHONY : unit/index_maintenance_test.i
+
+# target to preprocess a source file
+unit/index_maintenance_test.cpp.i:
+	cd /home/liying/sqlcc_qoder/test_working_dir/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/index_maintenance_test.dir/build.make tests/CMakeFiles/index_maintenance_test.dir/unit/index_maintenance_test.cpp.i
+.PHONY : unit/index_maintenance_test.cpp.i
+
+unit/index_maintenance_test.s: unit/index_maintenance_test.cpp.s
+.PHONY : unit/index_maintenance_test.s
+
+# target to generate assembly for a file
+unit/index_maintenance_test.cpp.s:
+	cd /home/liying/sqlcc_qoder/test_working_dir/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/index_maintenance_test.dir/build.make tests/CMakeFiles/index_maintenance_test.dir/unit/index_maintenance_test.cpp.s
+.PHONY : unit/index_maintenance_test.cpp.s
 
 unit/network/network_unit_test.o: unit/network/network_unit_test.cpp.o
 .PHONY : unit/network/network_unit_test.o
@@ -1031,6 +1239,54 @@ unit/parser_verification_test.s: unit/parser_verification_test.cpp.s
 unit/parser_verification_test.cpp.s:
 	cd /home/liying/sqlcc_qoder/test_working_dir/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/parser_verification_test.dir/build.make tests/CMakeFiles/parser_verification_test.dir/unit/parser_verification_test.cpp.s
 .PHONY : unit/parser_verification_test.cpp.s
+
+unit/permission_check_test.o: unit/permission_check_test.cpp.o
+.PHONY : unit/permission_check_test.o
+
+# target to build an object file
+unit/permission_check_test.cpp.o:
+	cd /home/liying/sqlcc_qoder/test_working_dir/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/permission_check_test.dir/build.make tests/CMakeFiles/permission_check_test.dir/unit/permission_check_test.cpp.o
+.PHONY : unit/permission_check_test.cpp.o
+
+unit/permission_check_test.i: unit/permission_check_test.cpp.i
+.PHONY : unit/permission_check_test.i
+
+# target to preprocess a source file
+unit/permission_check_test.cpp.i:
+	cd /home/liying/sqlcc_qoder/test_working_dir/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/permission_check_test.dir/build.make tests/CMakeFiles/permission_check_test.dir/unit/permission_check_test.cpp.i
+.PHONY : unit/permission_check_test.cpp.i
+
+unit/permission_check_test.s: unit/permission_check_test.cpp.s
+.PHONY : unit/permission_check_test.s
+
+# target to generate assembly for a file
+unit/permission_check_test.cpp.s:
+	cd /home/liying/sqlcc_qoder/test_working_dir/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/permission_check_test.dir/build.make tests/CMakeFiles/permission_check_test.dir/unit/permission_check_test.cpp.s
+.PHONY : unit/permission_check_test.cpp.s
+
+unit/revoke_persistence_test.o: unit/revoke_persistence_test.cpp.o
+.PHONY : unit/revoke_persistence_test.o
+
+# target to build an object file
+unit/revoke_persistence_test.cpp.o:
+	cd /home/liying/sqlcc_qoder/test_working_dir/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/revoke_persistence_test.dir/build.make tests/CMakeFiles/revoke_persistence_test.dir/unit/revoke_persistence_test.cpp.o
+.PHONY : unit/revoke_persistence_test.cpp.o
+
+unit/revoke_persistence_test.i: unit/revoke_persistence_test.cpp.i
+.PHONY : unit/revoke_persistence_test.i
+
+# target to preprocess a source file
+unit/revoke_persistence_test.cpp.i:
+	cd /home/liying/sqlcc_qoder/test_working_dir/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/revoke_persistence_test.dir/build.make tests/CMakeFiles/revoke_persistence_test.dir/unit/revoke_persistence_test.cpp.i
+.PHONY : unit/revoke_persistence_test.cpp.i
+
+unit/revoke_persistence_test.s: unit/revoke_persistence_test.cpp.s
+.PHONY : unit/revoke_persistence_test.s
+
+# target to generate assembly for a file
+unit/revoke_persistence_test.cpp.s:
+	cd /home/liying/sqlcc_qoder/test_working_dir/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/revoke_persistence_test.dir/build.make tests/CMakeFiles/revoke_persistence_test.dir/unit/revoke_persistence_test.cpp.s
+.PHONY : unit/revoke_persistence_test.cpp.s
 
 unit/simple_test.o: unit/simple_test.cpp.o
 .PHONY : unit/simple_test.o
@@ -1128,6 +1384,30 @@ unit/storage_engine/disk_manager_test.cpp.s:
 	cd /home/liying/sqlcc_qoder/test_working_dir/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/disk_manager_test.dir/build.make tests/CMakeFiles/disk_manager_test.dir/unit/storage_engine/disk_manager_test.cpp.s
 .PHONY : unit/storage_engine/disk_manager_test.cpp.s
 
+unit/system_database_test.o: unit/system_database_test.cpp.o
+.PHONY : unit/system_database_test.o
+
+# target to build an object file
+unit/system_database_test.cpp.o:
+	cd /home/liying/sqlcc_qoder/test_working_dir/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/system_database_test.dir/build.make tests/CMakeFiles/system_database_test.dir/unit/system_database_test.cpp.o
+.PHONY : unit/system_database_test.cpp.o
+
+unit/system_database_test.i: unit/system_database_test.cpp.i
+.PHONY : unit/system_database_test.i
+
+# target to preprocess a source file
+unit/system_database_test.cpp.i:
+	cd /home/liying/sqlcc_qoder/test_working_dir/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/system_database_test.dir/build.make tests/CMakeFiles/system_database_test.dir/unit/system_database_test.cpp.i
+.PHONY : unit/system_database_test.cpp.i
+
+unit/system_database_test.s: unit/system_database_test.cpp.s
+.PHONY : unit/system_database_test.s
+
+# target to generate assembly for a file
+unit/system_database_test.cpp.s:
+	cd /home/liying/sqlcc_qoder/test_working_dir/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/system_database_test.dir/build.make tests/CMakeFiles/system_database_test.dir/unit/system_database_test.cpp.s
+.PHONY : unit/system_database_test.cpp.s
+
 unit/transaction_manager_test.o: unit/transaction_manager_test.cpp.o
 .PHONY : unit/transaction_manager_test.o
 
@@ -1152,6 +1432,30 @@ unit/transaction_manager_test.cpp.s:
 	cd /home/liying/sqlcc_qoder/test_working_dir/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/transaction_manager_test.dir/build.make tests/CMakeFiles/transaction_manager_test.dir/unit/transaction_manager_test.cpp.s
 .PHONY : unit/transaction_manager_test.cpp.s
 
+unit/where_clause_optimization_test.o: unit/where_clause_optimization_test.cpp.o
+.PHONY : unit/where_clause_optimization_test.o
+
+# target to build an object file
+unit/where_clause_optimization_test.cpp.o:
+	cd /home/liying/sqlcc_qoder/test_working_dir/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/where_clause_optimization_test.dir/build.make tests/CMakeFiles/where_clause_optimization_test.dir/unit/where_clause_optimization_test.cpp.o
+.PHONY : unit/where_clause_optimization_test.cpp.o
+
+unit/where_clause_optimization_test.i: unit/where_clause_optimization_test.cpp.i
+.PHONY : unit/where_clause_optimization_test.i
+
+# target to preprocess a source file
+unit/where_clause_optimization_test.cpp.i:
+	cd /home/liying/sqlcc_qoder/test_working_dir/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/where_clause_optimization_test.dir/build.make tests/CMakeFiles/where_clause_optimization_test.dir/unit/where_clause_optimization_test.cpp.i
+.PHONY : unit/where_clause_optimization_test.cpp.i
+
+unit/where_clause_optimization_test.s: unit/where_clause_optimization_test.cpp.s
+.PHONY : unit/where_clause_optimization_test.s
+
+# target to generate assembly for a file
+unit/where_clause_optimization_test.cpp.s:
+	cd /home/liying/sqlcc_qoder/test_working_dir/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/where_clause_optimization_test.dir/build.make tests/CMakeFiles/where_clause_optimization_test.dir/unit/where_clause_optimization_test.cpp.s
+.PHONY : unit/where_clause_optimization_test.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -1167,17 +1471,23 @@ help:
 	@echo "... b_plus_tree_test"
 	@echo "... buffer_pool_test"
 	@echo "... client_server_integration_test"
+	@echo "... compare_values_test"
 	@echo "... comprehensive_test"
+	@echo "... constraint_validation_test"
 	@echo "... dcl_parser_test"
 	@echo "... dcl_test"
 	@echo "... dcl_test_advanced"
 	@echo "... ddl_test"
 	@echo "... disk_manager_test"
+	@echo "... dml_executor_integration_test"
 	@echo "... dml_test"
+	@echo "... index_maintenance_test"
 	@echo "... isql_integration_test"
 	@echo "... lexer_test"
 	@echo "... network_unit_test"
 	@echo "... parser_verification_test"
+	@echo "... permission_check_test"
+	@echo "... revoke_persistence_test"
 	@echo "... simple_test"
 	@echo "... sql_executor_comprehensive_test"
 	@echo "... sql_executor_minimal_test"
@@ -1185,9 +1495,11 @@ help:
 	@echo "... sql_executor_unit_test"
 	@echo "... sql_network_test"
 	@echo "... sql_parser_test"
+	@echo "... system_database_test"
 	@echo "... test_sql_executor"
 	@echo "... tls_e2e_test"
 	@echo "... transaction_manager_test"
+	@echo "... where_clause_optimization_test"
 	@echo "... client_server/client_server_integration_test.o"
 	@echo "... client_server/client_server_integration_test.i"
 	@echo "... client_server/client_server_integration_test.s"
@@ -1233,6 +1545,12 @@ help:
 	@echo "... sql_parser/sql_parser_test.o"
 	@echo "... sql_parser/sql_parser_test.i"
 	@echo "... sql_parser/sql_parser_test.s"
+	@echo "... unit/compare_values_test.o"
+	@echo "... unit/compare_values_test.i"
+	@echo "... unit/compare_values_test.s"
+	@echo "... unit/constraint_validation_test.o"
+	@echo "... unit/constraint_validation_test.i"
+	@echo "... unit/constraint_validation_test.s"
 	@echo "... unit/dcl_parser_test.o"
 	@echo "... unit/dcl_parser_test.i"
 	@echo "... unit/dcl_parser_test.s"
@@ -1245,15 +1563,27 @@ help:
 	@echo "... unit/ddl_test.o"
 	@echo "... unit/ddl_test.i"
 	@echo "... unit/ddl_test.s"
+	@echo "... unit/dml_executor_integration_test.o"
+	@echo "... unit/dml_executor_integration_test.i"
+	@echo "... unit/dml_executor_integration_test.s"
 	@echo "... unit/dml_test.o"
 	@echo "... unit/dml_test.i"
 	@echo "... unit/dml_test.s"
+	@echo "... unit/index_maintenance_test.o"
+	@echo "... unit/index_maintenance_test.i"
+	@echo "... unit/index_maintenance_test.s"
 	@echo "... unit/network/network_unit_test.o"
 	@echo "... unit/network/network_unit_test.i"
 	@echo "... unit/network/network_unit_test.s"
 	@echo "... unit/parser_verification_test.o"
 	@echo "... unit/parser_verification_test.i"
 	@echo "... unit/parser_verification_test.s"
+	@echo "... unit/permission_check_test.o"
+	@echo "... unit/permission_check_test.i"
+	@echo "... unit/permission_check_test.s"
+	@echo "... unit/revoke_persistence_test.o"
+	@echo "... unit/revoke_persistence_test.i"
+	@echo "... unit/revoke_persistence_test.s"
 	@echo "... unit/simple_test.o"
 	@echo "... unit/simple_test.i"
 	@echo "... unit/simple_test.s"
@@ -1266,9 +1596,15 @@ help:
 	@echo "... unit/storage_engine/disk_manager_test.o"
 	@echo "... unit/storage_engine/disk_manager_test.i"
 	@echo "... unit/storage_engine/disk_manager_test.s"
+	@echo "... unit/system_database_test.o"
+	@echo "... unit/system_database_test.i"
+	@echo "... unit/system_database_test.s"
 	@echo "... unit/transaction_manager_test.o"
 	@echo "... unit/transaction_manager_test.i"
 	@echo "... unit/transaction_manager_test.s"
+	@echo "... unit/where_clause_optimization_test.o"
+	@echo "... unit/where_clause_optimization_test.i"
+	@echo "... unit/where_clause_optimization_test.s"
 .PHONY : help
 
 
