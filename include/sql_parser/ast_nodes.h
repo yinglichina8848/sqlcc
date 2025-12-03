@@ -175,6 +175,9 @@ public:
     void setOrderByColumn(const std::string& column);
     void setOrderDirection(const std::string& direction);
     void setSelectAll(bool selectAll);
+    void setJoinCondition(const std::string& condition);
+    void setLimit(int limit);
+    void setOffset(int offset);
 
     const std::vector<std::string>& getSelectColumns() const;
     const std::string& getTableName() const;
@@ -182,10 +185,16 @@ public:
     const std::string& getGroupByColumn() const;
     const std::string& getOrderByColumn() const;
     const std::string& getOrderDirection() const;
+    const std::string& getJoinCondition() const;
+    int getLimit() const;
+    int getOffset() const;
     bool isSelectAll() const;
     bool hasWhereClause() const;
     bool hasGroupBy() const;
     bool hasOrderBy() const;
+    bool hasJoinCondition() const;
+    bool hasLimit() const;
+    bool hasOffset() const;
     
     void accept(NodeVisitor &visitor) override {
         visitor.visit(*this);
@@ -198,7 +207,12 @@ private:
     std::string groupByColumn_;
     std::string orderByColumn_;
     std::string orderDirection_;
+    std::string joinCondition_;
+    int limit_;
+    int offset_;
     bool selectAll_;
+    bool hasLimit_;
+    bool hasOffset_;
 };
 
 // ==================== InsertStatement ====================

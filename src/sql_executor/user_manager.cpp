@@ -1,5 +1,5 @@
-#include "../../include/user_manager.h"
-#include "../../include/system_database.h"
+#include "core/user_manager.h"
+#include "system_database.h"
 #include <algorithm>
 #include <cstring>
 #include <iostream>

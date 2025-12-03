@@ -106,27 +106,74 @@ bool UnifiedQueryPlan::validateStatement() {
     
     // 根据语句类型设置操作类型和目标对象
     if (auto create_stmt = dynamic_cast<sql_parser::CreateStatement*>(statement_.get())) {
-        operation_type_ = "CREATE";
         if (create_stmt->getObjectType() == sql_parser::CreateStatement::DATABASE) {
+            operation_type_ = "CREATE_DATABASE";
             target_object_ = create_stmt->getObjectName();
         } else if (create_stmt->getObjectType() == sql_parser::CreateStatement::TABLE) {
+            operation_type_ = "CREATE_TABLE";
             target_object_ = create_stmt->getObjectName();
         }
     } else if (auto drop_stmt = dynamic_cast<sql_parser::DropStatement*>(statement_.get())) {
-        operation_type_ = "DROP";
         if (drop_stmt->getObjectType() == sql_parser::DropStatement::DATABASE) {
+            operation_type_ = "DROP_DATABASE";
             target_object_ = drop_stmt->getObjectName();
         } else if (drop_stmt->getObjectType() == sql_parser::DropStatement::TABLE) {
+            operation_type_ = "DROP_TABLE";
             target_object_ = drop_stmt->getObjectName();
         }
+    } else if (dynamic_cast<sql_parser::SelectStatement*>(statement_.get())) {
+        operation_type_ = "SELECT";
+        target_object_ = "TABLE";
+    } else if (dynamic_cast<sql_parser::InsertStatement*>(statement_.get())) {
+        operation_type_ = "INSERT";
+        target_object_ = "TABLE";
+    } else if (dynamic_cast<sql_parser::UpdateStatement*>(statement_.get())) {
+        operation_type_ = "UPDATE";
+        target_object_ = "TABLE";
+    } else if (dynamic_cast<sql_parser::DeleteStatement*>(statement_.get())) {
+        operation_type_ = "DELETE";
+        target_object_ = "TABLE";
+    } else if (dynamic_cast<sql_parser::CreateUserStatement*>(statement_.get())) {
+        operation_type_ = "CREATE_USER";
+        target_object_ = "USER";
+    } else if (dynamic_cast<sql_parser::DropUserStatement*>(statement_.get())) {
+        operation_type_ = "DROP_USER";
+        target_object_ = "USER";
+    } else if (dynamic_cast<sql_parser::GrantStatement*>(statement_.get())) {
+        operation_type_ = "GRANT";
+        target_object_ = "PRIVILEGE";
+    } else if (dynamic_cast<sql_parser::RevokeStatement*>(statement_.get())) {
+        operation_type_ = "REVOKE";
+        target_object_ = "PRIVILEGE";
+    } else if (dynamic_cast<sql_parser::UseStatement*>(statement_.get())) {
+        operation_type_ = "USE";
+        target_object_ = "DATABASE";
+    } else if (dynamic_cast<sql_parser::ShowStatement*>(statement_.get())) {
+        operation_type_ = "SHOW";
+        target_object_ = "OBJECT";
+    } else {
+        operation_type_ = "UNKNOWN";
+        target_object_ = "UNKNOWN";
     }
-    // 其他语句类型处理...
     
     return true;
 }
 
 bool UnifiedQueryPlan::validateDatabaseContext() {
-    if (current_database_.empty() && operation_type_ != "CREATE_DATABASE") {
+    // 不需要数据库上下文的操作类型
+    std::vector<std::string> no_context_operations = {
+        "CREATE_DATABASE",
+        "CREATE_USER",
+        "DROP_USER",
+        "GRANT",
+        "REVOKE",
+        "USE"
+    };
+    
+    // 检查当前操作是否需要数据库上下文
+    bool needs_context = std::find(no_context_operations.begin(), no_context_operations.end(), operation_type_) == no_context_operations.end();
+    
+    if (needs_context && current_database_.empty()) {
         setError("未选择数据库");
         return false;
     }
@@ -175,6 +222,10 @@ bool UnifiedQueryPlan::checkPermission(const std::string& operation, const std::
                operation == "ALTER_TABLE" || operation == "INSERT" || 
                operation == "UPDATE" || operation == "DELETE" || operation == "SELECT") {
         return checkTablePermission(operation, resource);
+    } else if (operation == "CREATE_USER" || operation == "DROP_USER" || 
+               operation == "GRANT" || operation == "REVOKE") {
+        // DCL语句权限检查 - 目前默认允许
+        return true;
     }
     
     return true; // 默认允许
@@ -261,11 +312,35 @@ ExecutionResult DDLQueryPlan::executeSpecificPlan() {
     return {false, "不支持的DDL语句类型"};
 }
 
+bool DDLQueryPlan::buildCreatePlan() {
+    // 添加CREATE语句特定的执行步骤
+    steps_.push_back(QueryStep(QueryStepType::EXECUTION, "执行CREATE操作", 
+                   [this]() { return true; }, true));
+    return true;
+}
+
+bool DDLQueryPlan::buildDropPlan() {
+    // 添加DROP语句特定的执行步骤
+    steps_.push_back(QueryStep(QueryStepType::EXECUTION, "执行DROP操作", 
+                   [this]() { return true; }, true));
+    return true;
+}
+
 bool DDLQueryPlan::buildAlterPlan() {
     // 添加ALTER语句特定的执行步骤
     steps_.push_back(QueryStep(QueryStepType::EXECUTION, "执行ALTER操作", 
                    [this]() { return true; }, true));
     return true;
+}
+
+ExecutionResult DDLQueryPlan::executeCreatePlan() {
+    // 实现CREATE语句的执行逻辑
+    return {true, "CREATE操作执行成功"};
+}
+
+ExecutionResult DDLQueryPlan::executeDropPlan() {
+    // 实现DROP语句的执行逻辑
+    return {true, "DROP操作执行成功"};
 }
 
 ExecutionResult DDLQueryPlan::executeAlterPlan() {

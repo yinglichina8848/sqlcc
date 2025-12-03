@@ -1,0 +1,590 @@
+include_directories(
+    ${CMAKE_SOURCE_DIR}/include
+    ${CMAKE_SOURCE_DIR}/include/core
+    ${CMAKE_SOURCE_DIR}/include/network
+    ${CMAKE_SOURCE_DIR}/include/sql
+    ${CMAKE_SOURCE_DIR}/include/utils
+)
+
+# Add new structure subdirectories
+add_subdirectory(unit)
+add_subdirectory(integration)
+add_subdirectory(advanced_sql)
+add_subdirectory(performance)
+add_subdirectory(security)
+add_subdirectory(regression)
+add_subdirectory(framework)
+
+# Add performance test directory (controlled by ENABLE_PERFORMANCE_TESTS)
+if(ENABLE_PERFORMANCE_TESTS)
+    add_subdirectory(performance)
+endif()
+
+# Add advanced SQL test directory
+add_subdirectory(advanced_sql)
+
+# === Unit Tests ===
+
+# Parser tests
+add_executable(dcl_parser_test unit/parser/dcl_parser_test.cpp)
+target_link_libraries(dcl_parser_test 
+    sqlcc_parser
+    gtest 
+    gtest_main
+)
+add_test(NAME dcl_parser_test COMMAND dcl_parser_test)
+
+add_executable(parser_verification_test unit/parser/parser_verification_test.cpp)
+target_link_libraries(parser_verification_test 
+    sqlcc_parser
+    sqlcc_core_lib
+)
+add_test(NAME parser_verification_test COMMAND parser_verification_test)
+
+# Executor tests
+add_executable(execution_engine_test unit/executor/execution_engine_test.cpp)
+target_link_libraries(execution_engine_test
+    PRIVATE
+    gtest
+    gtest_main
+    pthread
+    ${CMAKE_DL_LIBS}
+    sqlcc_core_lib
+    sqlcc_parser
+    sqlcc_config_manager
+    sqlcc_storage_engine
+    sqlcc_transaction_manager
+    sqlcc_executor
+)
+add_test(NAME execution_engine_test COMMAND execution_engine_test)
+
+add_executable(join_executor_test unit/executor/join_executor_test.cpp)
+target_link_libraries(join_executor_test 
+    sqlcc_executor
+    sqlcc_core_lib
+    sqlcc_parser
+    sqlcc_config_manager
+    sqlcc_storage_engine
+    sqlcc_transaction_manager
+    gtest 
+    gtest_main
+    pthread
+    ${CMAKE_DL_LIBS}
+)
+add_test(NAME join_executor_test COMMAND join_executor_test)
+
+add_executable(set_operation_test unit/executor/set_operation_test.cpp)
+target_link_libraries(set_operation_test 
+    sqlcc_executor
+    sqlcc_core_lib
+    sqlcc_parser
+    sqlcc_config_manager
+    sqlcc_storage_engine
+    sqlcc_transaction_manager
+    gtest 
+    gtest_main
+    pthread
+    ${CMAKE_DL_LIBS}
+)
+add_test(NAME set_operation_test COMMAND set_operation_test)
+
+add_executable(subquery_executor_test unit/executor/subquery_executor_test.cpp)
+target_link_libraries(subquery_executor_test 
+    sqlcc_executor
+    sqlcc_core_lib
+    sqlcc_parser
+    sqlcc_config_manager
+    sqlcc_storage_engine
+    sqlcc_transaction_manager
+    gtest 
+    gtest_main
+    pthread
+    ${CMAKE_DL_LIBS}
+)
+add_test(NAME subquery_executor_test COMMAND subquery_executor_test)
+
+add_executable(window_function_executor_test unit/executor/window_function_executor_test.cpp)
+target_link_libraries(window_function_executor_test 
+    sqlcc_executor
+    sqlcc_core_lib
+    sqlcc_parser
+    sqlcc_config_manager
+    sqlcc_storage_engine
+    sqlcc_transaction_manager
+    gtest 
+    gtest_main
+    pthread
+    ${CMAKE_DL_LIBS}
+)
+add_test(NAME window_function_executor_test COMMAND window_function_executor_test)
+
+add_executable(system_database_test unit/executor/system_database_test.cpp)
+target_link_libraries(system_database_test 
+    sqlcc_executor
+    sqlcc_core_lib
+    sqlcc_parser
+    sqlcc_config_manager
+    sqlcc_storage_engine
+    sqlcc_transaction_manager
+    gtest 
+    gtest_main
+    pthread
+    ${CMAKE_DL_LIBS}
+)
+add_test(NAME system_database_test COMMAND system_database_test)
+
+add_executable(unified_executor_test unit/executor/unified_executor_test.cpp)
+target_link_libraries(unified_executor_test 
+    sqlcc_executor
+    sqlcc_core_lib
+    sqlcc_parser
+    sqlcc_config_manager
+    sqlcc_storage_engine
+    sqlcc_transaction_manager
+    gtest 
+    gtest_main
+    pthread
+    ${CMAKE_DL_LIBS}
+)
+add_test(NAME unified_executor_test COMMAND unified_executor_test)
+
+add_executable(permission_validation_test unit/executor/permission_validation_test.cpp)
+target_link_libraries(permission_validation_test 
+    sqlcc_executor
+    sqlcc_core_lib
+    sqlcc_parser
+    sqlcc_config_manager
+    sqlcc_storage_engine
+    sqlcc_transaction_manager
+    gtest 
+    gtest_main
+    pthread
+    ${CMAKE_DL_LIBS}
+)
+add_test(NAME permission_validation_test COMMAND permission_validation_test)
+
+add_executable(permission_validator_test unit/executor/permission_validator_test.cpp)
+target_link_libraries(permission_validator_test 
+    sqlcc_executor
+    sqlcc_core_lib
+    sqlcc_parser
+    sqlcc_config_manager
+    sqlcc_storage_engine
+    sqlcc_transaction_manager
+    gtest 
+    gtest_main
+    pthread
+    ${CMAKE_DL_LIBS}
+)
+add_test(NAME permission_validator_test COMMAND permission_validator_test)
+
+# Storage tests
+add_executable(b_plus_tree_test unit/storage/b_plus_tree_test.cpp)
+target_link_libraries(b_plus_tree_test
+    PRIVATE
+    gtest
+    gtest_main
+    pthread
+    ${CMAKE_DL_LIBS}
+    sqlcc_core_lib
+    sqlcc_parser
+    sqlcc_config_manager
+    sqlcc_storage_engine
+    sqlcc_transaction_manager
+    sqlcc_executor
+)
+add_test(NAME b_plus_tree_test COMMAND b_plus_tree_test)
+
+add_executable(buffer_pool_test unit/storage/buffer_pool_test.cpp)
+target_link_libraries(buffer_pool_test
+    PRIVATE
+    gtest
+    gtest_main
+    pthread
+    ${CMAKE_DL_LIBS}
+    sqlcc_core_lib
+    sqlcc_parser
+    sqlcc_config_manager
+    sqlcc_storage_engine
+    sqlcc_transaction_manager
+    sqlcc_executor
+)
+add_test(NAME buffer_pool_test COMMAND buffer_pool_test)
+
+add_executable(disk_manager_test unit/storage/disk_manager_test.cpp)
+target_link_libraries(disk_manager_test
+    PRIVATE
+    gtest
+    gtest_main
+    pthread
+    ${CMAKE_DL_LIBS}
+    sqlcc_core_lib
+    sqlcc_parser
+    sqlcc_config_manager
+    sqlcc_storage_engine
+    sqlcc_transaction_manager
+    sqlcc_executor
+)
+add_test(NAME disk_manager_test COMMAND disk_manager_test)
+
+# Transaction tests
+add_executable(transaction_manager_test unit/transaction/transaction_manager_test.cpp)
+target_link_libraries(transaction_manager_test
+    PRIVATE
+    gtest
+    gtest_main
+    pthread
+    ${CMAKE_DL_LIBS}
+    sqlcc_core_lib
+    sqlcc_parser
+    sqlcc_config_manager
+    sqlcc_storage_engine
+    sqlcc_transaction_manager
+    sqlcc_executor
+)
+add_test(NAME transaction_manager_test COMMAND transaction_manager_test)
+
+# Network tests
+add_executable(network_unit_test unit/network/network_unit_test.cpp)
+target_link_libraries(network_unit_test
+    PRIVATE
+    gtest
+    gtest_main
+    pthread
+    ${CMAKE_DL_LIBS}
+    sqlcc_core_lib
+    sqlcc_parser
+    sqlcc_config_manager
+    sqlcc_storage_engine
+    sqlcc_transaction_manager
+    sqlcc_executor
+    sqlcc_network
+)
+add_test(NAME network_unit_test COMMAND network_unit_test)
+
+# Core tests
+add_executable(ast_nodes_test unit/core/ast_nodes_test.cpp)
+target_link_libraries(ast_nodes_test
+    PRIVATE
+    gtest
+    gtest_main
+    pthread
+    ${CMAKE_DL_LIBS}
+)
+add_test(NAME ast_nodes_test COMMAND ast_nodes_test)
+
+add_executable(compare_values_test unit/core/compare_values_test.cpp)
+target_link_libraries(compare_values_test
+    PRIVATE
+    gtest
+    gtest_main
+    pthread
+    ${CMAKE_DL_LIBS}
+)
+add_test(NAME compare_values_test COMMAND compare_values_test)
+
+add_executable(dcl_test unit/core/dcl_test.cpp)
+target_link_libraries(dcl_test
+    PRIVATE
+    gtest
+    gtest_main
+    pthread
+    ${CMAKE_DL_LIBS}
+    sqlcc_core_lib
+    sqlcc_parser
+    sqlcc_config_manager
+    sqlcc_storage_engine
+    sqlcc_transaction_manager
+    sqlcc_executor
+)
+add_test(NAME dcl_test COMMAND dcl_test)
+
+add_executable(dcl_test_advanced unit/core/dcl_test_advanced.cpp)
+target_link_libraries(dcl_test_advanced
+    PRIVATE
+    gtest
+    gtest_main
+    pthread
+    ${CMAKE_DL_LIBS}
+    sqlcc_core_lib
+    sqlcc_parser
+    sqlcc_config_manager
+    sqlcc_storage_engine
+    sqlcc_transaction_manager
+    sqlcc_executor
+)
+add_test(NAME dcl_test_advanced COMMAND dcl_test_advanced)
+
+add_executable(execution_context_test unit/core/execution_context_test.cpp)
+target_link_libraries(execution_context_test
+    PRIVATE
+    gtest
+    gtest_main
+    pthread
+    ${CMAKE_DL_LIBS}
+    sqlcc_core_lib
+    sqlcc_parser
+    sqlcc_config_manager
+    sqlcc_storage_engine
+    sqlcc_transaction_manager
+    sqlcc_executor
+)
+add_test(NAME execution_context_test COMMAND execution_context_test)
+
+# === Integration Tests ===
+
+add_executable(simple_sql_test integration/basic_sql/simple_sql_test.cpp)
+target_link_libraries(simple_sql_test
+    PRIVATE
+    gtest
+    gtest_main
+    pthread
+    ${CMAKE_DL_LIBS}
+    sqlcc_core_lib
+    sqlcc_parser
+    sqlcc_config_manager
+    sqlcc_storage_engine
+    sqlcc_transaction_manager
+    sqlcc_executor
+)
+add_test(NAME simple_sql_test COMMAND simple_sql_test)
+
+add_executable(comprehensive_test integration/advanced_sql/comprehensive_test.cpp)
+target_link_libraries(comprehensive_test
+    PRIVATE
+    gtest
+    gtest_main
+    pthread
+    ${CMAKE_DL_LIBS}
+    sqlcc_core_lib
+    sqlcc_parser
+    sqlcc_config_manager
+    sqlcc_storage_engine
+    sqlcc_transaction_manager
+    sqlcc_executor
+)
+add_test(NAME comprehensive_test COMMAND comprehensive_test)
+
+add_executable(isql_integration_test integration/advanced_sql/isql_integration_test.cpp)
+target_link_libraries(isql_integration_test
+    PRIVATE
+    gtest
+    gtest_main
+    pthread
+    ${CMAKE_DL_LIBS}
+    sqlcc_core_lib
+    sqlcc_parser
+    sqlcc_config_manager
+    sqlcc_storage_engine
+    sqlcc_transaction_manager
+    sqlcc_executor
+    sqlcc_network
+)
+add_test(NAME isql_integration_test COMMAND isql_integration_test)
+
+add_executable(sql_executor_integration_test integration/advanced_sql/sql_executor_integration_test.cpp)
+target_link_libraries(sql_executor_integration_test
+    PRIVATE
+    gtest
+    gtest_main
+    pthread
+    ${CMAKE_DL_LIBS}
+    sqlcc_core_lib
+    sqlcc_parser
+    sqlcc_config_manager
+    sqlcc_storage_engine
+    sqlcc_transaction_manager
+    sqlcc_executor
+)
+add_test(NAME sql_executor_integration_test COMMAND sql_executor_integration_test)
+
+# === Advanced SQL Tests ===
+
+add_executable(having_clause_test advanced_sql/grouping/having_clause_test.cpp)
+target_link_libraries(having_clause_test 
+    sqlcc_parser
+    sqlcc_core_lib
+    sqlcc_config_manager
+    sqlcc_storage_engine
+    sqlcc_transaction_manager
+    sqlcc_executor
+    gtest 
+    gtest_main
+    pthread
+    ${CMAKE_DL_LIBS}
+)
+add_test(NAME having_clause_test COMMAND having_clause_test)
+
+# === Performance Tests ===
+
+if(ENABLE_PERFORMANCE_TESTS)
+    # CRUD Performance Tests
+    add_executable(crud_performance_test performance/crud/crud_performance_test.cc performance/crud/crud_performance_test_main.cc)
+    target_link_libraries(crud_performance_test
+        PRIVATE
+        gtest
+        gtest_main
+        pthread
+        ${CMAKE_DL_LIBS}
+        sqlcc_core_lib
+        sqlcc_parser
+        sqlcc_config_manager
+        sqlcc_storage_engine
+        sqlcc_transaction_manager
+        sqlcc_executor
+    )
+    add_test(NAME crud_performance_test COMMAND crud_performance_test)
+
+    # Concurrency Performance Tests
+    add_executable(concurrency_performance_test performance/concurrency/concurrency_performance_test.cc)
+    target_link_libraries(concurrency_performance_test
+        PRIVATE
+        gtest
+        gtest_main
+        pthread
+        ${CMAKE_DL_LIBS}
+        sqlcc_core_lib
+        sqlcc_parser
+        sqlcc_config_manager
+        sqlcc_storage_engine
+        sqlcc_transaction_manager
+        sqlcc_executor
+    )
+    add_test(NAME concurrency_performance_test COMMAND concurrency_performance_test)
+endif()
+
+# === Network Tests ===
+
+add_executable(sql_network_test network/sql_network_test.cpp)
+target_link_libraries(sql_network_test
+    PRIVATE
+    gtest
+    gtest_main
+    pthread
+    ${CMAKE_DL_LIBS}
+    sqlcc_network
+    sqlcc_core_lib
+)
+add_test(NAME sql_network_test COMMAND sql_network_test)
+
+add_executable(tls_e2e_test network/tls_e2e_test.cc)
+target_link_libraries(tls_e2e_test
+    PRIVATE
+    gtest
+    gtest_main
+    pthread
+    ${CMAKE_DL_LIBS}
+    sqlcc_network
+    sqlcc_executor
+)
+add_test(NAME tls_e2e_test COMMAND tls_e2e_test)
+
+add_executable(aes_encryption_test network/aes_encryption_test.cc)
+target_link_libraries(aes_encryption_test
+    PRIVATE
+    gtest
+    gtest_main
+    pthread
+    ${CMAKE_DL_LIBS}
+    sqlcc_network
+)
+add_test(NAME aes_encryption_test COMMAND aes_encryption_test)
+
+# === Advanced SQL Tests ===
+
+add_executable(advanced_sql_having_clause_test 
+    advanced_sql/having_clause_test.cpp
+)
+target_link_libraries(advanced_sql_having_clause_test 
+    sqlcc_parser
+    sqlcc_core_lib
+    sqlcc_config_manager
+    sqlcc_storage_engine
+    sqlcc_transaction_manager
+    sqlcc_executor
+    gtest 
+    gtest_main
+    pthread
+    ${CMAKE_DL_LIBS}
+)
+add_test(NAME advanced_sql_having_clause_test 
+         COMMAND advanced_sql_having_clause_test)
+
+# === Legacy Tests (Existing) ===
+
+# These tests are kept for backward compatibility
+add_executable(sql_parser_test sql_parser/sql_parser_test.cpp)
+target_link_libraries(sql_parser_test
+    PRIVATE
+    gtest
+    gtest_main
+    pthread
+    ${CMAKE_DL_LIBS}
+    sqlcc_parser
+    sqlcc_core_lib
+    sqlcc_config_manager
+    sqlcc_storage_engine
+    sqlcc_transaction_manager
+    sqlcc_executor
+)
+add_test(NAME sql_parser_test COMMAND sql_parser_test)
+
+add_executable(lexer_test sql_parser/lexer_test.cpp)
+target_link_libraries(lexer_test
+    PRIVATE
+    gtest
+    gtest_main
+    pthread
+    ${CMAKE_DL_LIBS}
+    sqlcc_parser
+    sqlcc_core_lib
+    sqlcc_config_manager
+    sqlcc_storage_engine
+    sqlcc_transaction_manager
+    sqlcc_executor
+)
+add_test(NAME lexer_test COMMAND lexer_test)
+
+# === Custom Targets ===
+
+# Create a target to run all unit tests
+add_custom_target(run_unit_tests
+    COMMAND ${CMAKE_CTEST_COMMAND} -R "unit_" --output-on-failure
+    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+    COMMENT "Running all unit tests"
+)
+
+# Create a target to run all integration tests
+add_custom_target(run_integration_tests
+    COMMAND ${CMAKE_CTEST_COMMAND} -R "integration_" --output-on-failure
+    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+    COMMENT "Running all integration tests"
+)
+
+# Create a target to run all advanced SQL tests
+add_custom_target(run_advanced_sql_tests
+    COMMAND ${CMAKE_CTEST_COMMAND} -R "advanced_sql_" --output-on-failure
+    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+    COMMENT "Running all advanced SQL tests"
+)
+
+# Create a target to run all performance tests
+add_custom_target(run_performance_tests
+    COMMAND ${CMAKE_CTEST_COMMAND} -R "performance_" --output-on-failure
+    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+    COMMENT "Running all performance tests"
+)
+
+# Create a target to run all security tests
+add_custom_target(run_security_tests
+    COMMAND ${CMAKE_CTEST_COMMAND} -R "security_" --output-on-failure
+    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+    COMMENT "Running all security tests"
+)
+
+# Create a target to run all regression tests
+add_custom_target(run_regression_tests
+    COMMAND ${CMAKE_CTEST_COMMAND} -R "regression_" --output-on-failure
+    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+    COMMENT "Running all regression tests"
+)

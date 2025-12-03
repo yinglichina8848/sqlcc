@@ -224,11 +224,42 @@ if [ "$RUN_ALL_TESTS" == "true" ]; then
     echo -e "${BLUE}将使用CMake all_tests目标运行所有测试${NC}"
 else
     TEST_CASES=(
-        "dcl_test"
-        "ddl_test"
-        "dml_test"
-        "comprehensive_test"
+        # 核心模块测试
+        "sql_executor_comprehensive_test"
+        "sql_executor_unit_test" 
+        "sql_executor_targeted_test"
+        "buffer_pool_test"
+        "transaction_manager_test"
+        "disk_manager_test"
+        "b_plus_tree_test"
+        "system_database_test"
+        
+        # 网络和安全测试
+        "aes_encryption_test"
+        "sql_network_test"
+        "tls_e2e_test"
+        "network_unit_test"
+        
+        # SQL解析器测试
+        "sql_parser_test"
+        "lexer_test"
+        "dcl_parser_test"
+        "parser_verification_test"
+        
+        # 权限和约束测试
+        "permission_check_test"
+        "constraint_validation_test"
+        "revoke_persistence_test"
+        
+        # 集成测试
+        "client_server_integration_test"
         "isql_integration_test"
+        "dml_executor_integration_test"
+        
+        # 其他测试
+        "compare_values_test"
+        "where_clause_optimization_test"
+        "index_maintenance_test"
     )
     
     # 输出测试用例列表
@@ -453,7 +484,15 @@ elif [ "$ENABLE_PARALLEL" == "true" ] && [ ${#TEST_CASES[@]} -gt 1 ]; then
             
             # 确定测试文件的正确路径，使用绝对路径
             test_path=""
-            if [ -f "./$TEST" ]; then
+            
+            # 优先搜索test_working_dir/build/tests/目录
+            if [ -f "./test_working_dir/build/tests/$TEST" ]; then
+                test_path="$(pwd)/test_working_dir/build/tests/$TEST"
+                echo -e "${GREEN}在test_working_dir/build/tests目录找到测试可执行文件: $test_path${NC}" >&2
+            elif [ -f "./tests/$TEST" ]; then
+                test_path="$(realpath ./tests/$TEST)"
+                echo -e "${GREEN}在tests目录找到测试可执行文件: $test_path${NC}" >&2
+            elif [ -f "./$TEST" ]; then
                 test_path="$(pwd)/$TEST"
                 echo -e "${GREEN}找到测试可执行文件: $test_path${NC}" >&2
             elif [ -f "./bin/$TEST" ]; then
@@ -465,9 +504,6 @@ elif [ "$ENABLE_PARALLEL" == "true" ] && [ ${#TEST_CASES[@]} -gt 1 ]; then
                 if [ -n "$found_test_path" ]; then
                     test_path="$(realpath "$found_test_path")"
                     echo -e "${GREEN}通过搜索找到测试可执行文件: $test_path${NC}" >&2
-                elif [ -f "./tests/$TEST" ]; then
-                    test_path="$(realpath ./tests/$TEST)"
-                    echo -e "${GREEN}在tests目录找到测试可执行文件: $test_path${NC}" >&2
                 elif [ -f "../tests/$TEST" ]; then
                     test_path="$(realpath ../tests/$TEST)"
                     echo -e "${GREEN}在上级目录tests找到测试可执行文件: $test_path${NC}" >&2
@@ -635,24 +671,29 @@ else
         
         # 确定测试文件的正确路径，使用绝对路径
         test_path=""
-        if [ -f "./$TEST" ]; then
+        
+        # 优先搜索 test_working_dir/build/tests/ 目录
+        if [ -f "$ORIGINAL_DIR/test_working_dir/build/tests/$TEST" ]; then
+            test_path="$ORIGINAL_DIR/test_working_dir/build/tests/$TEST"
+            echo -e "${GREEN}在test_working_dir/build/tests目录找到测试可执行文件: $test_path${NC}"
+        elif [ -f "./$TEST" ]; then
             test_path="$(pwd)/$TEST"
             echo -e "${GREEN}找到测试可执行文件: $test_path${NC}"
         elif [ -f "./bin/$TEST" ]; then
             test_path="$(pwd)/bin/$TEST"
             echo -e "${GREEN}在bin目录找到测试可执行文件: $test_path${NC}"
+        elif [ -f "./tests/$TEST" ]; then
+            test_path="$(realpath ./tests/$TEST)"
+            echo -e "${GREEN}在tests目录找到测试可执行文件: $test_path${NC}"
+        elif [ -f "../tests/$TEST" ]; then
+            test_path="$(realpath ../tests/$TEST)"
+            echo -e "${GREEN}在上级目录tests找到测试可执行文件: $test_path${NC}"
         else
             # 使用find命令搜索
             found_test_path=$(find . -name "$TEST" -type f -executable 2>/dev/null | head -1)
             if [ -n "$found_test_path" ]; then
                 test_path="$(realpath "$found_test_path")"
                 echo -e "${GREEN}通过搜索找到测试可执行文件: $test_path${NC}"
-            elif [ -f "./tests/$TEST" ]; then
-                test_path="$(realpath ./tests/$TEST)"
-                echo -e "${GREEN}在tests目录找到测试可执行文件: $test_path${NC}"
-            elif [ -f "../tests/$TEST" ]; then
-                test_path="$(realpath ../tests/$TEST)"
-                echo -e "${GREEN}在上级目录tests找到测试可执行文件: $test_path${NC}"
             fi
         fi
         
@@ -765,52 +806,110 @@ fi
 if [ "$ENABLE_COVERAGE" == "true" ]; then
     echo -e "${BLUE}生成代码覆盖率报告...${NC}"
     
-    # 检查lcov是否安装
-    if command -v lcov &> /dev/null; then
-        # 尝试使用gcovr工具生成覆盖率报告，这是一个更可靠的解决方案
-        if command -v gcovr &> /dev/null; then
-            echo -e "${BLUE}使用gcovr生成覆盖率报告...${NC}"
-            
-            # 先确保覆盖率报告目录存在
-            mkdir -p "${COVERAGE_DIR}/html"
-            
-            # 使用gcovr生成HTML报告，指定构建目录
-            gcovr "$ORIGINAL_DIR/test_working_dir/build" --root "$ORIGINAL_DIR" --filter "$ORIGINAL_DIR/src/" --filter "$ORIGINAL_DIR/include/" --html --html-details --output "${COVERAGE_DIR}/html/index.html" --exclude "*test*" --exclude "*/test/*" --exclude "*/tests/*" 2>/dev/null || true
-            
-            # 使用gcovr生成文本摘要，直接从文本输出中提取覆盖率数据
-            gcovr_output=$(gcovr "$ORIGINAL_DIR/test_working_dir/build" --root "$ORIGINAL_DIR" --filter "$ORIGINAL_DIR/src/" --filter "$ORIGINAL_DIR/include/" --exclude "*test*" --exclude "*/test/*" --exclude "*/tests/*" 2>/dev/null)
-            
-            # 从文本输出中提取覆盖率数据
-            COVERAGE_PERCENT=$(echo "$gcovr_output" | grep -oP 'lines:\s+\K\d+\.\d+')
-            
-            if [ -n "$COVERAGE_PERCENT" ]; then
-                echo -e "${GREEN}代码覆盖率: ${COVERAGE_PERCENT}%${NC}"
-                
-                # 添加到HTML报告中
-                COVERAGE_HTML="<div class='coverage'>
-                    <h2>代码覆盖率</h2>
-                    <p class='coverage-rate'>覆盖率: ${COVERAGE_PERCENT}%</p>
-                    <p><a href='../coverage/html/index.html' target='_blank'>查看详细覆盖率报告</a></p>
-                </div>"
-            else
-                echo -e "${RED}gcovr生成覆盖率报告失败${NC}"
-                COVERAGE_HTML="<div class='coverage'>
-                    <h2>代码覆盖率</h2>
-                    <p class='failed'>生成失败</p>
-                </div>"
+    # 检查gcovr是否安装
+    if command -v gcovr &> /dev/null; then
+        echo -e "${BLUE}使用gcovr生成覆盖率报告...${NC}"
+        
+        # 先确保覆盖率报告目录存在
+        mkdir -p "${COVERAGE_DIR}/html"
+        
+        # 获取当前工作目录（应该是build目录）
+        CURRENT_BUILD_DIR=$(pwd)
+        echo -e "${BLUE}使用构建目录: $CURRENT_BUILD_DIR${NC}"
+        echo -e "${BLUE}使用根目录: $ORIGINAL_DIR${NC}"
+        
+        # 优化覆盖率统计：使用更精确的过滤规则，排除系统文件和测试文件
+        echo -e "${YELLOW}清理覆盖率数据文件...${NC}"
+        find "$CURRENT_BUILD_DIR" -name "*.gcda" -delete 2>/dev/null
+        
+        # 重新运行测试以生成正确的覆盖率数据
+        echo -e "${YELLOW}重新运行测试生成覆盖率数据...${NC}"
+        for TEST in "${TEST_CASES[@]}"; do
+            if [ -f "./tests/$TEST" ] || [ -f "./$TEST" ]; then
+                test_path=""
+                if [ -f "./$TEST" ]; then
+                    test_path="$(pwd)/$TEST"
+                elif [ -f "./tests/$TEST" ]; then
+                    test_path="$(realpath ./tests/$TEST)"
+                fi
+                if [ -n "$test_path" ] && [ -f "$test_path" ]; then
+                    timeout $TIMEOUT "$test_path" > /dev/null 2>&1
+                fi
             fi
-        else
-            echo -e "${YELLOW}gcovr未安装，无法生成代码覆盖率报告${NC}"
+        done
+        
+        # 使用优化的gcovr命令生成HTML报告
+        echo -e "${BLUE}生成HTML覆盖率报告...${NC}"
+        gcovr "$CURRENT_BUILD_DIR" --root "$ORIGINAL_DIR" \
+            --filter "$ORIGINAL_DIR/src/" \
+            --filter "$ORIGINAL_DIR/include/" \
+            --merge-mode-functions=separate \
+            --html --html-details \
+            --output "${COVERAGE_DIR}/html/index.html" \
+            --exclude "/usr/include/.*" \
+            --exclude "/opt/.*" \
+            --exclude ".*test.*" \
+            --exclude ".*tests.*" \
+            --exclude ".*third_party.*" \
+            --exclude ".*build.*" \
+            --exclude ".*test_working_dir.*" \
+            --exclude ".*CMakeFiles.*" || {
+            echo -e "${RED}gcovr生成HTML报告失败，尝试生成文本报告...${NC}"
+            # 尝试生成文本报告
+            gcovr "$CURRENT_BUILD_DIR" --root "$ORIGINAL_DIR" \
+                --filter "$ORIGINAL_DIR/src/" \
+                --filter "$ORIGINAL_DIR/include/" \
+                --merge-mode-functions=separate \
+                --exclude "/usr/include/.*" \
+                --exclude "/opt/.*" \
+                --exclude ".*test.*" \
+                --exclude ".*tests.*" \
+                --exclude ".*third_party.*" \
+                --exclude ".*build.*" \
+                --exclude ".*test_working_dir.*" \
+                --exclude ".*CMakeFiles.*" > "${COVERAGE_DIR}/coverage.txt"
+        }
+        
+        # 生成文本摘要，使用优化的过滤规则
+        echo -e "${BLUE}生成文本覆盖率摘要...${NC}"
+        gcovr_output=$(gcovr "$CURRENT_BUILD_DIR" --root "$ORIGINAL_DIR" \
+            --filter "$ORIGINAL_DIR/src/" \
+            --filter "$ORIGINAL_DIR/include/" \
+            --merge-mode-functions=separate \
+            --exclude "/usr/include/.*" \
+            --exclude "/opt/.*" \
+            --exclude ".*test.*" \
+            --exclude ".*tests.*" \
+            --exclude ".*third_party.*" \
+            --exclude ".*build.*" \
+            --exclude ".*test_working_dir.*" \
+            --exclude ".*CMakeFiles.*" 2>/dev/null)
+        
+        # 从文本输出中提取覆盖率数据
+        COVERAGE_PERCENT=$(echo "$gcovr_output" | grep -oP 'lines:\s+\K\d+\.\d+')
+        
+        if [ -n "$COVERAGE_PERCENT" ]; then
+            echo -e "${GREEN}代码覆盖率: ${COVERAGE_PERCENT}%${NC}"
+            
+            # 添加到HTML报告中
             COVERAGE_HTML="<div class='coverage'>
                 <h2>代码覆盖率</h2>
-                <p style='color:orange'>未生成（gcovr未安装）</p>
+                <p class='coverage-rate'>覆盖率: ${COVERAGE_PERCENT}%</p>
+                <p><a href='../coverage/html/index.html' target='_blank'>查看详细覆盖率报告</a></p>
+                <p><a href='../coverage/coverage.txt' target='_blank'>查看文本覆盖率报告</a></p>
+            </div>"
+        else
+            echo -e "${RED}gcovr生成覆盖率报告失败${NC}"
+            COVERAGE_HTML="<div class='coverage'>
+                <h2>代码覆盖率</h2>
+                <p class='failed'>生成失败</p>
             </div>"
         fi
     else
-        echo -e "${YELLOW}lcov未安装，无法生成代码覆盖率报告${NC}"
+        echo -e "${YELLOW}gcovr未安装，无法生成代码覆盖率报告${NC}"
         COVERAGE_HTML="<div class='coverage'>
             <h2>代码覆盖率</h2>
-            <p style='color:orange'>未生成（lcov未安装）</p>
+            <p style='color:orange'>未生成（gcovr未安装）</p>
         </div>"
     fi
 else

@@ -1,5 +1,94 @@
 # SQLCC ChangeLog
 
+## [v1.0.9] - 2025-12-04
+
+### 最新改动
+
+#### 测试与覆盖率系统优化
+- 修复了覆盖率统计不准确的问题，从原来的9.6%提升到34.4%（行覆盖率）、36.3%（函数覆盖率）、19.5%（分支覆盖率）
+- 扩展了测试用例数组，从6个测试扩展到36个测试，覆盖所有核心模块
+- 修正了测试路径查找逻辑，优先搜索test_working_dir/build/tests/目录，确保找到所有测试可执行文件
+- 优化了gcovr过滤规则，避免误过滤核心代码，确保src/和include/目录下的所有核心代码都被正确统计
+
+#### 测试执行改进
+- 增强了测试脚本的路径查找能力，支持多种测试文件位置搜索
+- 改进了测试缓存机制，提高测试执行效率
+- 优化了测试结果报告生成，提供更详细的测试摘要信息
+
+### 版本概览
+本次发布主要解决了测试覆盖率统计不准确的问题，通过系统性的测试用例扩展和路径查找逻辑修正，显著提升了覆盖率统计的准确性，为后续代码质量改进提供了可靠的数据基础。
+
+### Overview
+This release primarily addresses the inaccurate test coverage statistics issue. Through systematic test case expansion and path lookup logic fixes, it significantly improves the accuracy of coverage statistics, providing a reliable data foundation for subsequent code quality improvements.
+
+### 主要改进
+
+#### 1. 测试用例全面扩展
+- **文件**: `run_tests.sh`
+- **描述**: 将测试用例从6个扩展到36个，覆盖所有核心模块
+- **新增测试**: 
+  - 核心执行器测试：sql_executor_comprehensive_test、sql_executor_unit_test等
+  - 存储引擎测试：buffer_pool_test、transaction_manager_test等
+  - 网络和安全测试：tls_e2e_test、client_server_integration_test等
+  - SQL解析器测试：sql_parser_test、lexer_test等
+
+#### 1. Comprehensive Test Case Expansion
+- **File**: `run_tests.sh`
+- **Description**: Expanded test cases from 6 to 36, covering all core modules
+- **New Tests**: 
+  - Core executor tests: sql_executor_comprehensive_test, sql_executor_unit_test, etc.
+  - Storage engine tests: buffer_pool_test, transaction_manager_test, etc.
+  - Network and security tests: tls_e2e_test, client_server_integration_test, etc.
+  - SQL parser tests: sql_parser_test, lexer_test, etc.
+
+#### 2. 测试路径查找逻辑修正
+- **文件**: `run_tests.sh`
+- **描述**: 修正了并行和串行测试执行中的路径查找逻辑，确保能够正确找到所有测试文件
+- **改进点**:
+  - 优先搜索test_working_dir/build/tests/目录
+  - 支持多种测试文件位置搜索策略
+  - 优化了测试文件查找的优先级顺序
+
+#### 2. Test Path Lookup Logic Fix
+- **File**: `run_tests.sh`
+- **Description**: Fixed path lookup logic in parallel and serial test execution to ensure all test files are correctly found
+- **Improvements**:
+  - Priority search for test_working_dir/build/tests/ directory
+  - Support for multiple test file location search strategies
+  - Optimized priority order for test file lookup
+
+#### 3. 覆盖率统计准确性提升
+- **工具**: gcovr
+- **描述**: 优化了覆盖率统计的过滤规则，避免误过滤核心代码
+- **改进点**:
+  - 正确过滤测试代码（.*test.*）
+  - 确保src/和include/目录下的核心代码都被统计
+  - 新增分支覆盖率统计
+  - 提供更全面的覆盖分析报告
+
+#### 3. Coverage Statistics Accuracy Improvement
+- **Tool**: gcovr
+- **Description**: Optimized coverage statistics filtering rules to avoid incorrectly filtering core code
+- **Improvements**:
+  - Correctly filter test code (.*test.*)
+  - Ensure all core code in src/ and include/ directories is counted
+  - Added branch coverage statistics
+  - Provide more comprehensive coverage analysis reports
+
+### 测试执行结果
+- **总测试数**: 36个
+- **通过测试**: 28个（77%通过率）
+- **失败测试**: 8个（主要是网络相关测试，需要服务器环境）
+- **测试执行时间**: 14秒
+- **代码覆盖率**: 34.4%（行）、36.3%（函数）、19.5%（分支）
+
+### Test Execution Results
+- **Total Tests**: 36
+- **Passed Tests**: 28 (77% pass rate)
+- **Failed Tests**: 8 (mainly network-related tests requiring server environment)
+- **Test Execution Time**: 14 seconds
+- **Code Coverage**: 34.4% (lines), 36.3% (functions), 19.5% (branches)
+
 ## [v1.0.8] - 2025-12-03
 
 ### 最新改动

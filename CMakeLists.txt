@@ -90,6 +90,9 @@ include_directories(${CMAKE_SOURCE_DIR}/include)
 include_directories(${CMAKE_SOURCE_DIR}/include/core)
 include_directories(${CMAKE_SOURCE_DIR}/include/network)
 include_directories(${CMAKE_SOURCE_DIR}/include/sql)
+include_directories(${CMAKE_SOURCE_DIR}/include/sql_parser)
+include_directories(${CMAKE_SOURCE_DIR}/include/storage)
+include_directories(${CMAKE_SOURCE_DIR}/include/execution)
 include_directories(${CMAKE_SOURCE_DIR}/include/utils)
 
 # 明确设置源码目录和测试目录的关系

@@ -1,8 +1,8 @@
-#include "../../include/database_manager.h"
-#include "../../include/storage_engine.h"
-#include "../../include/table_storage.h"
-#include "../../include/buffer_pool.h"
-#include "../../include/buffer_pool_sharded.h"
+#include "database_manager.h"
+#include "storage_engine.h"
+#include "storage/table_storage.h"
+#include "storage/buffer_pool.h"
+#include "storage/buffer_pool_sharded.h"
 #include <filesystem>
 #include <fstream>
 #include <iostream>

@@ -229,7 +229,7 @@ private:
 // 网络SQL执行器测试类
 class SqlNetworkTest : public ::testing::Test {
 protected:
-    static constexpr int kTestPort = 5000; // 修改为5000端口以便连接服务器
+    static constexpr int kTestPort = 18647; // 修改为18647端口以便连接服务器
     static constexpr const char* kTestHost = "127.0.0.1";
     static constexpr const char* kTestUsername = "admin"; // 修改为admin用户名
     static constexpr const char* kTestPassword = "admin"; // 修改为admin密码

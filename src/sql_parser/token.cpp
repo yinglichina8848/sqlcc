@@ -1,4 +1,4 @@
-#include "../../include/sql_parser/token.h"
+#include "sql_parser/token.h"
 
 namespace sqlcc {
 namespace sql_parser {
