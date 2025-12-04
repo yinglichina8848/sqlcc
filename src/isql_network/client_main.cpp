@@ -204,6 +204,11 @@ namespace sqlcc::network {
             return false;
         }
 
+        // 检查认证结果标志位：0表示成功，1表示失败
+        if (resp_header->flags != 0) {
+            return false;
+        }
+
         return true;
     }
 }

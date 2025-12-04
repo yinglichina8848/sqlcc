@@ -2,8 +2,7 @@
 #define SQLCC_SQL_PARSER_PARSER_H
 
 #include "ast_nodes.h"
-#include "lexer.h"
-#include "token.h"
+#include "lexer_new.h"
 #include <memory>
 #include <string>
 #include <vector>
@@ -23,7 +22,7 @@ public:
   std::vector<std::unique_ptr<Statement>> parseStatements();
 
 private:
-  Lexer lexer_;
+  LexerNew lexer_;
   Token currentToken_;
 
   // 通用解析方法
