@@ -113,15 +113,14 @@
 
 ---
 
-## 📊 项目当前状态（v1.0.6）
+## 📊 项目当前状态（v1.0.9）
 
 ### 最新版本评估报告
 
-**📋 [v1.0.6 完整评估报告总览](docs/evaluation/v1.0.6/README.md)**
+**📋 [v1.0.9 完整评估报告总览](docs/evaluation/v1.0.9_project_evaluation.md)**
 
 **详细评估文档**：
-- **[项目综合评估报告](docs/evaluation/v1.0.6/v1.0.6_project_evaluation.md)** - 测试结果、代码覆盖率、功能完整性评估
-- **[详细改进计划](docs/evaluation/v1.0.6/v1.0.6_improvement_plan.md)** - 分阶段改进计划
+- **[项目综合评估报告](docs/evaluation/v1.0.9_project_evaluation.md)** - 测试结果、代码覆盖率、功能完整性评估
 - **[代码规模统计报告](docs/evaluation/v1.0.4_code_statistics.md)** - 核心代码20,729行，测试代码11,651行
 
 ### 关键指标
@@ -404,7 +403,7 @@ make full_test
 - 提交所有最终材料
 ----
 
-## 📦 当前版本：v1.0.2
+## 📦 当前版本：v1.0.9
 
 ### 🆕 功能特性
 
