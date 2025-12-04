@@ -847,7 +847,7 @@ open coverage/index.html  # macOS
 # 或在浏览器中打开 coverage/index.html
 ```
 ----
-- **[📄 v1.0.2版本综合报告](reports/1.0.2版本综合报告.md)** - 当前版本详细特性说明和统计信息
+- **[📄 v1.0.9版本综合报告](docs/evaluation/v1.0.9_project_evaluation.md)** - 当前版本详细特性说明和统计信息
 
 ----
 ## 📚 相关资源
@@ -884,7 +884,7 @@ open coverage/index.html  # macOS
 
 ### 📜 **版本管理**
 - **[📝 变更日志](CHANGELOG.md)** - 完整的版本变更历史记录
-- **[📄 v1.0.2版本综合报告](reports/1.0.2版本综合报告.md)** - 当前版本详细特性说明和统计信息
+- **[📄 v1.0.9版本综合报告](docs/evaluation/v1.0.9_project_evaluation.md)** - 当前版本详细特性说明和统计信息
 - **[📊 版本摘要](docs/releases/VERSION_SUMMARY.md)** - 项目全周期发展演进总览
 
 ## 🤝 贡献指南
