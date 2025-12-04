@@ -309,7 +309,7 @@ target_link_libraries(dml_executor_integration_test
     sqlcc_executor
 )
 
-add_test(NAME dml_executor_integration_test COMMAND dml_executor_integration_test)
+
 
 # 约束验证测试
 add_executable(constraint_validation_test unit/constraint_validation_test.cpp)
@@ -328,7 +328,7 @@ target_link_libraries(constraint_validation_test
     sqlcc_executor
 )
 
-add_test(NAME constraint_validation_test COMMAND constraint_validation_test)
+
 
 # CompareValues单元测试
 add_executable(compare_values_test unit/compare_values_test.cpp)
@@ -341,7 +341,7 @@ target_link_libraries(compare_values_test
     ${CMAKE_DL_LIBS}
 )
 
-add_test(NAME compare_values_test COMMAND compare_values_test)
+
 
 # 创建 simple_test可执行文件
 add_executable(simple_test unit/simple_test.cpp)

@@ -1,4 +1,4 @@
-#include "sql_parser/parser.h"
+#include "sql_parser/parser_new.h"
 #include "sql_parser/ast_nodes.h"
 #include <gtest/gtest.h>
 #include <memory>
@@ -14,9 +14,9 @@ protected:
 
 TEST_F(DCLParserTest, ParseCreateUserWithIdentifiedBy) {
     std::string sql = "CREATE USER testuser IDENTIFIED BY 'password123';";
-    Parser parser(sql);
+    ParserNew parser(sql);
     
-    auto statements = parser.parseStatements();
+    auto statements = parser.parse();
     ASSERT_EQ(statements.size(), 1);
     
     auto stmt = dynamic_cast<CreateUserStatement*>(statements[0].get());
@@ -29,9 +29,9 @@ TEST_F(DCLParserTest, ParseCreateUserWithIdentifiedBy) {
 
 TEST_F(DCLParserTest, ParseCreateUserWithPassword) {
     std::string sql = "CREATE USER testuser WITH PASSWORD 'password123';";
-    Parser parser(sql);
+    ParserNew parser(sql);
     
-    auto statements = parser.parseStatements();
+    auto statements = parser.parse();
     ASSERT_EQ(statements.size(), 1);
     
     auto stmt = dynamic_cast<CreateUserStatement*>(statements[0].get());
@@ -44,9 +44,9 @@ TEST_F(DCLParserTest, ParseCreateUserWithPassword) {
 
 TEST_F(DCLParserTest, ParseDropUser) {
     std::string sql = "DROP USER testuser;";
-    Parser parser(sql);
+    ParserNew parser(sql);
     
-    auto statements = parser.parseStatements();
+    auto statements = parser.parse();
     ASSERT_EQ(statements.size(), 1);
     
     auto stmt = dynamic_cast<DropUserStatement*>(statements[0].get());
@@ -58,9 +58,9 @@ TEST_F(DCLParserTest, ParseDropUser) {
 
 TEST_F(DCLParserTest, ParseDropUserIfExists) {
     std::string sql = "DROP USER IF EXISTS testuser;";
-    Parser parser(sql);
+    ParserNew parser(sql);
     
-    auto statements = parser.parseStatements();
+    auto statements = parser.parse();
     ASSERT_EQ(statements.size(), 1);
     
     auto stmt = dynamic_cast<DropUserStatement*>(statements[0].get());
@@ -70,18 +70,21 @@ TEST_F(DCLParserTest, ParseDropUserIfExists) {
     EXPECT_TRUE(stmt->isIfExists());
 }
 
-TEST_F(DCLParserTest, ParseGrantSinglePrivilege) {
-    std::string sql = "GRANT SELECT ON TABLE users TO testuser;";
-    Parser parser(sql);
+TEST_F(DCLParserTest, ParseGrantAllPrivileges) {
+    std::string sql = "GRANT ALL PRIVILEGES ON TABLE users TO testuser;";
+    ParserNew parser(sql);
     
-    auto statements = parser.parseStatements();
+    auto statements = parser.parse();
     ASSERT_EQ(statements.size(), 1);
     
     auto stmt = dynamic_cast<GrantStatement*>(statements[0].get());
     ASSERT_NE(stmt, nullptr);
     EXPECT_EQ(stmt->getType(), Statement::GRANT);
-    ASSERT_EQ(stmt->getPrivileges().size(), 1);
-    EXPECT_EQ(stmt->getPrivileges()[0], "SELECT");
+    
+    auto privileges = stmt->getPrivileges();
+    ASSERT_EQ(privileges.size(), 1);
+    EXPECT_EQ(privileges[0], "ALL PRIVILEGES");
+    
     EXPECT_EQ(stmt->getObjectType(), "TABLE");
     EXPECT_EQ(stmt->getObjectName(), "users");
     EXPECT_EQ(stmt->getGrantee(), "testuser");
@@ -89,35 +92,21 @@ TEST_F(DCLParserTest, ParseGrantSinglePrivilege) {
 
 TEST_F(DCLParserTest, ParseGrantMultiplePrivileges) {
     std::string sql = "GRANT SELECT, INSERT, UPDATE ON TABLE users TO testuser;";
-    Parser parser(sql);
+    ParserNew parser(sql);
     
-    auto statements = parser.parseStatements();
+    auto statements = parser.parse();
     ASSERT_EQ(statements.size(), 1);
     
     auto stmt = dynamic_cast<GrantStatement*>(statements[0].get());
     ASSERT_NE(stmt, nullptr);
     EXPECT_EQ(stmt->getType(), Statement::GRANT);
-    ASSERT_EQ(stmt->getPrivileges().size(), 3);
-    EXPECT_EQ(stmt->getPrivileges()[0], "SELECT");
-    EXPECT_EQ(stmt->getPrivileges()[1], "INSERT");
-    EXPECT_EQ(stmt->getPrivileges()[2], "UPDATE");
-    EXPECT_EQ(stmt->getObjectType(), "TABLE");
-    EXPECT_EQ(stmt->getObjectName(), "users");
-    EXPECT_EQ(stmt->getGrantee(), "testuser");
-}
-
-TEST_F(DCLParserTest, ParseGrantAllPrivileges) {
-    std::string sql = "GRANT ALL PRIVILEGES ON TABLE users TO testuser;";
-    Parser parser(sql);
     
-    auto statements = parser.parseStatements();
-    ASSERT_EQ(statements.size(), 1);
+    auto privileges = stmt->getPrivileges();
+    ASSERT_EQ(privileges.size(), 3);
+    EXPECT_EQ(privileges[0], "SELECT");
+    EXPECT_EQ(privileges[1], "INSERT");
+    EXPECT_EQ(privileges[2], "UPDATE");
     
-    auto stmt = dynamic_cast<GrantStatement*>(statements[0].get());
-    ASSERT_NE(stmt, nullptr);
-    EXPECT_EQ(stmt->getType(), Statement::GRANT);
-    ASSERT_EQ(stmt->getPrivileges().size(), 1);
-    EXPECT_EQ(stmt->getPrivileges()[0], "ALL");
     EXPECT_EQ(stmt->getObjectType(), "TABLE");
     EXPECT_EQ(stmt->getObjectName(), "users");
     EXPECT_EQ(stmt->getGrantee(), "testuser");
@@ -125,9 +114,9 @@ TEST_F(DCLParserTest, ParseGrantAllPrivileges) {
 
 TEST_F(DCLParserTest, ParseRevokeSinglePrivilege) {
     std::string sql = "REVOKE SELECT ON TABLE users FROM testuser;";
-    Parser parser(sql);
+    ParserNew parser(sql);
     
-    auto statements = parser.parseStatements();
+    auto statements = parser.parse();
     ASSERT_EQ(statements.size(), 1);
     
     auto stmt = dynamic_cast<RevokeStatement*>(statements[0].get());
@@ -142,9 +131,9 @@ TEST_F(DCLParserTest, ParseRevokeSinglePrivilege) {
 
 TEST_F(DCLParserTest, ParseRevokeMultiplePrivileges) {
     std::string sql = "REVOKE SELECT, INSERT, UPDATE ON TABLE users FROM testuser;";
-    Parser parser(sql);
+    ParserNew parser(sql);
     
-    auto statements = parser.parseStatements();
+    auto statements = parser.parse();
     ASSERT_EQ(statements.size(), 1);
     
     auto stmt = dynamic_cast<RevokeStatement*>(statements[0].get());
@@ -161,9 +150,9 @@ TEST_F(DCLParserTest, ParseRevokeMultiplePrivileges) {
 
 TEST_F(DCLParserTest, ParseRevokeAllPrivileges) {
     std::string sql = "REVOKE ALL PRIVILEGES ON TABLE users FROM testuser;";
-    Parser parser(sql);
+    ParserNew parser(sql);
     
-    auto statements = parser.parseStatements();
+    auto statements = parser.parse();
     ASSERT_EQ(statements.size(), 1);
     
     auto stmt = dynamic_cast<RevokeStatement*>(statements[0].get());

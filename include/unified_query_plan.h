@@ -249,6 +249,65 @@ private:
 };
 
 /**
+ * @brief 存储过程查询计划
+ */
+class ProcedureQueryPlan : public UnifiedQueryPlan {
+public:
+    ProcedureQueryPlan(std::shared_ptr<DatabaseManager> db_manager,
+                      std::shared_ptr<UserManager> user_manager,
+                      std::shared_ptr<SystemDatabase> system_db);
+    
+protected:
+    bool buildSpecificPlan() override;
+    ExecutionResult executeSpecificPlan() override;
+    
+private:
+    // 存储过程特定方法
+    bool buildCreateProcedurePlan();
+    bool buildCallProcedurePlan();
+    bool buildDropProcedurePlan();
+    
+    ExecutionResult executeCreateProcedurePlan();
+    ExecutionResult executeCallProcedurePlan();
+    ExecutionResult executeDropProcedurePlan();
+    
+    // 存储过程特定上下文
+    std::string procedure_name_;
+    std::vector<sql_parser::ProcedureParameter> parameters_;
+    std::string procedure_body_;
+    std::vector<std::unique_ptr<sql_parser::Expression>> arguments_;
+};
+
+/**
+ * @brief 触发器查询计划
+ */
+class TriggerQueryPlan : public UnifiedQueryPlan {
+public:
+    TriggerQueryPlan(std::shared_ptr<DatabaseManager> db_manager,
+                    std::shared_ptr<UserManager> user_manager,
+                    std::shared_ptr<SystemDatabase> system_db);
+    
+protected:
+    bool buildSpecificPlan() override;
+    ExecutionResult executeSpecificPlan() override;
+    
+private:
+    // 触发器特定方法
+    bool buildCreateTriggerPlan();
+    bool buildDropTriggerPlan();
+    bool buildAlterTriggerPlan();
+    
+    ExecutionResult executeCreateTriggerPlan();
+    ExecutionResult executeDropTriggerPlan();
+    ExecutionResult executeAlterTriggerPlan();
+    
+    // 触发器特定上下文
+    std::string trigger_name_;
+    sql_parser::TriggerDefinition trigger_def_;
+    sql_parser::AlterTriggerStatement::Action alter_action_;
+};
+
+/**
  * @brief 查询计划工厂
  */
 class QueryPlanFactory {

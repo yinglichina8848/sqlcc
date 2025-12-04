@@ -562,6 +562,204 @@ private:
     bool hasFromDb_;           // 是否有FROM子句
 };
 
+// ==================== ProcedureParameter ====================
+
+class ProcedureParameter {
+public:
+    enum Mode {
+        IN,
+        OUT,
+        INOUT
+    };
+
+    ProcedureParameter(const std::string& name, const std::string& type, Mode mode);
+    ~ProcedureParameter();
+
+    const std::string& getName() const;
+    const std::string& getType() const;
+    Mode getMode() const;
+    std::string getModeString() const;
+
+private:
+    std::string name_;
+    std::string type_;
+    Mode mode_;
+};
+
+// ==================== CreateProcedureStatement ====================
+
+class CreateProcedureStatement : public Statement {
+public:
+    CreateProcedureStatement(const std::string& name);
+    ~CreateProcedureStatement();
+
+    void addParameter(const ProcedureParameter& param);
+    const std::vector<ProcedureParameter>& getParameters() const;
+
+    void setBody(const std::string& body);
+    const std::string& getBody() const;
+
+    const std::string& getName() const;
+    
+    void accept(NodeVisitor &visitor) override {
+        visitor.visit(*this);
+    }
+
+private:
+    std::string name_;
+    std::vector<ProcedureParameter> parameters_;
+    std::string body_;
+};
+
+// ==================== CallProcedureStatement ====================
+
+class CallProcedureStatement : public Statement {
+public:
+    CallProcedureStatement(const std::string& name);
+    ~CallProcedureStatement();
+
+    void addArgument(std::unique_ptr<Expression> arg);
+    const std::vector<std::unique_ptr<Expression>>& getArguments() const;
+
+    const std::string& getName() const;
+    
+    void accept(NodeVisitor &visitor) override {
+        visitor.visit(*this);
+    }
+
+private:
+    std::string name_;
+    std::vector<std::unique_ptr<Expression>> arguments_;
+};
+
+// ==================== DropProcedureStatement ====================
+
+class DropProcedureStatement : public Statement {
+public:
+    DropProcedureStatement(const std::string& name);
+    ~DropProcedureStatement();
+
+    const std::string& getName() const;
+    
+    void accept(NodeVisitor &visitor) override {
+        visitor.visit(*this);
+    }
+
+private:
+    std::string name_;
+};
+
+// ==================== TriggerDefinition ====================
+
+class TriggerDefinition {
+public:
+    enum Timing {
+        BEFORE,
+        AFTER,
+        INSTEAD_OF
+    };
+
+    enum Event {
+        INSERT,
+        UPDATE,
+        DELETE
+    };
+
+    enum Level {
+        ROW,
+        STATEMENT
+    };
+
+    TriggerDefinition(const std::string& name, Timing timing, Event event, 
+                     Level level, const std::string& tableName);
+    ~TriggerDefinition();
+
+    const std::string& getName() const;
+    Timing getTiming() const;
+    std::string getTimingString() const;
+    Event getEvent() const;
+    std::string getEventString() const;
+    Level getLevel() const;
+    std::string getLevelString() const;
+    const std::string& getTableName() const;
+
+    void setCondition(const std::string& condition);
+    const std::string& getCondition() const;
+    bool hasCondition() const;
+
+    void setBody(const std::string& body);
+    const std::string& getBody() const;
+
+private:
+    std::string name_;
+    Timing timing_;
+    Event event_;
+    Level level_;
+    std::string tableName_;
+    std::string condition_;
+    std::string body_;
+    bool hasCondition_;
+};
+
+// ==================== CreateTriggerStatement ====================
+
+class CreateTriggerStatement : public Statement {
+public:
+    CreateTriggerStatement(const TriggerDefinition& triggerDef);
+    ~CreateTriggerStatement();
+
+    const TriggerDefinition& getTriggerDefinition() const;
+    
+    void accept(NodeVisitor &visitor) override {
+        visitor.visit(*this);
+    }
+
+private:
+    TriggerDefinition triggerDef_;
+};
+
+// ==================== DropTriggerStatement ====================
+
+class DropTriggerStatement : public Statement {
+public:
+    DropTriggerStatement(const std::string& name);
+    ~DropTriggerStatement();
+
+    const std::string& getName() const;
+    
+    void accept(NodeVisitor &visitor) override {
+        visitor.visit(*this);
+    }
+
+private:
+    std::string name_;
+};
+
+// ==================== AlterTriggerStatement ====================
+
+class AlterTriggerStatement : public Statement {
+public:
+    enum Action {
+        ENABLE,
+        DISABLE
+    };
+
+    AlterTriggerStatement(const std::string& name, Action action);
+    ~AlterTriggerStatement();
+
+    const std::string& getName() const;
+    Action getAction() const;
+    std::string getActionString() const;
+    
+    void accept(NodeVisitor &visitor) override {
+        visitor.visit(*this);
+    }
+
+private:
+    std::string name_;
+    Action action_;
+};
+
 } // namespace sql_parser
 } // namespace sqlcc
 

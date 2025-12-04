@@ -271,7 +271,7 @@ std::string Parser::parseDataType() {
   if (match(Token::LPAREN)) {
     consume();
 
-    if (!match(Token::INTEGER_LITERAL)) {
+    if (!match(Token::NUMBER)) {
       reportError("Expected number in data type size");
       return type;
     }
@@ -316,8 +316,7 @@ void Parser::parseColumnConstraint(ColumnDefinition &columnDef) {
   } else if (match(Token::KEYWORD_DEFAULT)) {
     consume();
     // 简化处理，只处理字符串和数字默认值
-    if (match(Token::STRING_LITERAL) || match(Token::INTEGER_LITERAL) ||
-        match(Token::FLOAT_LITERAL)) {
+    if (match(Token::STRING) || match(Token::NUMBER) || match(Token::NUMBER)) {
       std::string defaultValue = currentToken_.getLexeme();
       consume();
       columnDef.setDefaultValue(defaultValue);
@@ -364,7 +363,7 @@ std::unique_ptr<SelectStatement> Parser::parseSelectStatement() {
 }
 
 void Parser::parseSelectList(SelectStatement &stmt) {
-  if (match(Token::OPERATOR_MULTIPLY)) {
+  if (match(Token::MULTIPLY)) {
     stmt.setSelectAll(true);
     consume();
     return;
@@ -387,7 +386,7 @@ void Parser::parseSelectList(SelectStatement &stmt) {
         columnName += "(";
 
         // 处理函数参数，可能是*或列名或表达式
-        if (match(Token::OPERATOR_MULTIPLY)) {
+        if (match(Token::MULTIPLY)) {
           columnName += "*";
           consume();
         } else if (match(Token::IDENTIFIER)) {
@@ -423,11 +422,10 @@ void Parser::parseSelectList(SelectStatement &stmt) {
           if (match(Token::IDENTIFIER)) {
             columnName += currentToken_.getLexeme();
             consume();
-          } else if (match(Token::INTEGER_LITERAL) ||
-                     match(Token::FLOAT_LITERAL)) {
+          } else if (match(Token::NUMBER) || match(Token::NUMBER)) {
             columnName += currentToken_.getLexeme();
             consume();
-          } else if (match(Token::STRING_LITERAL)) {
+          } else if (match(Token::STRING)) {
             columnName += "'" + currentToken_.getLexeme() + "'";
             consume();
           }
@@ -563,7 +561,7 @@ void Parser::parseJoinCondition(SelectStatement &stmt) {
   std::string column1 = currentToken_.getLexeme();
   consume();
 
-  if (!match(Token::OPERATOR_EQUAL)) {
+  if (!match(Token::EQUAL)) {
     reportError("Expected = in JOIN condition");
     return;
   }
@@ -774,7 +772,7 @@ void Parser::parseLimitOffsetClause(SelectStatement &stmt) {
   }
 
   // 解析LIMIT值
-  if (match(Token::INTEGER_LITERAL)) {
+  if (match(Token::NUMBER)) {
     stmt.setLimit(std::stoi(currentToken_.getLexeme()));
     consume();
   } else {
@@ -787,7 +785,7 @@ void Parser::parseLimitOffsetClause(SelectStatement &stmt) {
     consume();
 
     // 解析OFFSET值
-    if (match(Token::INTEGER_LITERAL)) {
+    if (match(Token::NUMBER)) {
       stmt.setOffset(std::stoi(currentToken_.getLexeme()));
       consume();
     } else {
@@ -850,8 +848,7 @@ void Parser::parseInsertValues(InsertStatement &stmt) {
   consume(Token::LPAREN);
 
   do {
-    if (match(Token::STRING_LITERAL) || match(Token::INTEGER_LITERAL) ||
-        match(Token::FLOAT_LITERAL)) {
+    if (match(Token::STRING) || match(Token::NUMBER) || match(Token::NUMBER)) {
       std::string value = currentToken_.getLexeme();
       stmt.addValue(value);
       consume();
@@ -910,10 +907,9 @@ void Parser::parseUpdateSetClause(UpdateStatement &stmt) {
     std::string columnName = currentToken_.getLexeme();
     consume();
 
-    expect(Token::OPERATOR_EQUAL, "Expected =");
+    expect(Token::EQUAL, "Expected =");
 
-    if (match(Token::STRING_LITERAL) || match(Token::INTEGER_LITERAL) ||
-        match(Token::FLOAT_LITERAL)) {
+    if (match(Token::STRING) || match(Token::NUMBER) || match(Token::NUMBER)) {
       std::string value = currentToken_.getLexeme();
       stmt.addUpdateValue(columnName, value);
       consume();
@@ -944,10 +940,9 @@ void Parser::parseWhereClause(UpdateStatement &stmt) {
   std::string columnName = currentToken_.getLexeme();
   consume();
 
-  if (!match(Token::OPERATOR_EQUAL) && !match(Token::OPERATOR_NOT_EQUAL) &&
-      !match(Token::OPERATOR_LESS_THAN) && !match(Token::OPERATOR_LESS_EQUAL) &&
-      !match(Token::OPERATOR_GREATER_THAN) &&
-      !match(Token::OPERATOR_GREATER_EQUAL)) {
+  if (!match(Token::EQUAL) && !match(Token::NOT_EQUAL) && !match(Token::LESS) &&
+      !match(Token::LESS_EQUAL) && !match(Token::GREATER) &&
+      !match(Token::GREATER_EQUAL)) {
     reportError("Expected comparison operator");
     return;
   }
@@ -955,8 +950,7 @@ void Parser::parseWhereClause(UpdateStatement &stmt) {
   std::string op = currentToken_.getLexeme();
   consume();
 
-  if (!match(Token::STRING_LITERAL) && !match(Token::INTEGER_LITERAL) &&
-      !match(Token::FLOAT_LITERAL)) {
+  if (!match(Token::STRING) && !match(Token::NUMBER) && !match(Token::NUMBER)) {
     reportError("Expected value");
     return;
   }
@@ -1001,10 +995,9 @@ void Parser::parseWhereClause(DeleteStatement &stmt) {
   std::string columnName = currentToken_.getLexeme();
   consume();
 
-  if (!match(Token::OPERATOR_EQUAL) && !match(Token::OPERATOR_NOT_EQUAL) &&
-      !match(Token::OPERATOR_LESS_THAN) && !match(Token::OPERATOR_LESS_EQUAL) &&
-      !match(Token::OPERATOR_GREATER_THAN) &&
-      !match(Token::OPERATOR_GREATER_EQUAL)) {
+  if (!match(Token::EQUAL) && !match(Token::NOT_EQUAL) && !match(Token::LESS) &&
+      !match(Token::LESS_EQUAL) && !match(Token::GREATER) &&
+      !match(Token::GREATER_EQUAL)) {
     reportError("Expected comparison operator");
     return;
   }
@@ -1012,8 +1005,7 @@ void Parser::parseWhereClause(DeleteStatement &stmt) {
   std::string op = currentToken_.getLexeme();
   consume();
 
-  if (!match(Token::STRING_LITERAL) && !match(Token::INTEGER_LITERAL) &&
-      !match(Token::FLOAT_LITERAL)) {
+  if (!match(Token::STRING) && !match(Token::NUMBER) && !match(Token::NUMBER)) {
     reportError("Expected value");
     return;
   }

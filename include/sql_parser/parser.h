@@ -3,6 +3,7 @@
 
 #include "ast_nodes.h"
 #include "lexer_new.h"
+#include "token_new.h"
 #include <memory>
 #include <string>
 #include <vector>

@@ -147,10 +147,10 @@ fi
  # 使用DeleteFile工具代替rm命令，避免权限问题
  # 注意：DeleteFile工具将在脚本执行时由外部调用
  
- # 重新运行CMake配置，使用config/CMakeLists.txt作为配置文件
- echo -e "${BLUE}使用config/CMakeLists.txt重新运行CMake配置...${NC}"
- cmake -S "$ORIGINAL_DIR/config" -B . || {
-     echo -e "${RED}CMake配置失败，请检查config/CMakeLists.txt文件${NC}"
+ # 重新运行CMake配置，使用项目根目录作为源目录
+ echo -e "${BLUE}使用项目根目录重新运行CMake配置...${NC}"
+ cmake -S "$ORIGINAL_DIR" -B . || {
+     echo -e "${RED}CMake配置失败，请检查根目录CMakeLists.txt文件${NC}"
      exit 1
  }
  

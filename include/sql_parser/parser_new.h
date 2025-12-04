@@ -13,7 +13,11 @@ namespace sql_parser {
 
 // Forward declarations for set operations
 class SetOperationNode;
-enum class SetOperationType;
+enum class SetOperationType {
+    UNION,
+    INTERSECT,
+    EXCEPT
+};
 
 class ParserNew {
 public:
@@ -90,6 +94,8 @@ private:
     ColumnDefinition parseColumnDefinition();
     void parseColumnConstraints(ColumnDefinition& column);
     bool parseColumnConstraint(ColumnDefinition& column);
+    bool isColumnConstraint();
+    std::unique_ptr<Expression> parseColumnReferenceOrFunction();
 
     // Table references and JOINs
     std::string parseTableReference();

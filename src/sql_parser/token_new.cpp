@@ -8,25 +8,17 @@ namespace sql_parser {
 Token::Token() : type_(UNKNOWN), lexeme_(""), line_(0), column_(0) {}
 
 // Getters
-Token::Type Token::getType() const {
-    return type_;
-}
+Token::Type Token::getType() const { return type_; }
 
-std::string Token::getLexeme() const {
-    return lexeme_;
-}
+std::string Token::getLexeme() const { return lexeme_; }
 
-size_t Token::getLine() const {
-    return line_;
-}
+size_t Token::getLine() const { return line_; }
 
-size_t Token::getColumn() const {
-    return column_;
-}
+size_t Token::getColumn() const { return column_; }
 
 // Utility function to convert token type to string
 std::string Token::getTypeName(Type type) {
-    static const std::unordered_map<Type, std::string> typeNames = {
+  static const std::unordered_map<Type, std::string> typeNames = {
         {SEMICOLON, "SEMICOLON"},
         {LPAREN, "LPAREN"},
         {RPAREN, "RPAREN"},
@@ -120,6 +112,8 @@ std::string Token::getTypeName(Type type) {
         {KEYWORD_AND, "KEYWORD_AND"},
         {KEYWORD_OR, "KEYWORD_OR"},
         {KEYWORD_IN, "KEYWORD_IN"},
+        {KEYWORD_OUT, "KEYWORD_OUT"},
+        {KEYWORD_INOUT, "KEYWORD_INOUT"},
         {KEYWORD_EXISTS, "KEYWORD_EXISTS"},
         {KEYWORD_BETWEEN, "KEYWORD_BETWEEN"},
         {KEYWORD_LIKE, "KEYWORD_LIKE"},
@@ -141,10 +135,19 @@ std::string Token::getTypeName(Type type) {
         {KEYWORD_FOR, "KEYWORD_FOR"},
         {KEYWORD_DO, "KEYWORD_DO"},
         {KEYWORD_BEGIN, "KEYWORD_BEGIN"},
+        {KEYWORD_DECLARE, "KEYWORD_DECLARE"},
+        {KEYWORD_CALL, "KEYWORD_CALL"},
+        {KEYWORD_BEFORE, "KEYWORD_BEFORE"},
+        {KEYWORD_AFTER, "KEYWORD_AFTER"},
+        {KEYWORD_INSTEAD_OF, "KEYWORD_INSTEAD_OF"},
+        {KEYWORD_EACH, "KEYWORD_EACH"},
+        {KEYWORD_ROW, "KEYWORD_ROW"},
+        {KEYWORD_STATEMENT, "KEYWORD_STATEMENT"},
+        {KEYWORD_NEW, "KEYWORD_NEW"},
+        {KEYWORD_OLD, "KEYWORD_OLD"},
         {KEYWORD_COMMIT, "KEYWORD_COMMIT"},
         {KEYWORD_ROLLBACK, "KEYWORD_ROLLBACK"},
         {KEYWORD_TRANSACTION, "KEYWORD_TRANSACTION"},
-
         {KEYWORD_GRANT, "KEYWORD_GRANT"},
         {KEYWORD_REVOKE, "KEYWORD_REVOKE"},
         {KEYWORD_TO, "KEYWORD_TO"},
@@ -159,7 +162,6 @@ std::string Token::getTypeName(Type type) {
         {KEYWORD_GRANTS, "KEYWORD_GRANTS"},
         {KEYWORD_DATABASES, "KEYWORD_DATABASES"},
         {KEYWORD_TABLES, "KEYWORD_TABLES"},
-
         {KEYWORD_TRUE, "KEYWORD_TRUE"},
         {KEYWORD_FALSE, "KEYWORD_FALSE"},
         
@@ -167,12 +169,12 @@ std::string Token::getTypeName(Type type) {
         {UNKNOWN, "UNKNOWN"},
         {END_OF_INPUT, "END_OF_INPUT"}
     };
-    
-    auto it = typeNames.find(type);
-    if (it != typeNames.end()) {
-        return it->second;
-    }
-    return "UNKNOWN";
+
+  auto it = typeNames.find(type);
+  if (it != typeNames.end()) {
+    return it->second;
+  }
+  return "UNKNOWN";
 }
 
 } // namespace sql_parser

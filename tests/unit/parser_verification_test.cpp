@@ -1,7 +1,7 @@
 #include <iostream>
 #include <memory>
-#include "../../include/sql_parser/parser.h"
-#include "../../include/sql_parser/ast_nodes.h"
+#include "../include/sql_parser/parser_new.h"
+#include "../include/sql_parser/ast_nodes.h"
 
 using namespace sqlcc::sql_parser;
 
@@ -9,8 +9,8 @@ int main() {
     try {
         // 测试 CREATE DATABASE 语句
         std::cout << "Testing CREATE DATABASE statement...\n";
-        Parser parser1("CREATE DATABASE test_db;");
-        auto statements1 = parser1.parseStatements();
+        ParserNew parser1("CREATE DATABASE test_db;");
+        auto statements1 = parser1.parse();
         if (!statements1.empty()) {
             auto createStmt = dynamic_cast<CreateStatement*>(statements1[0].get());
             if (createStmt) {
@@ -22,8 +22,8 @@ int main() {
 
         // 测试 ALTER DATABASE 语句
         std::cout << "\nTesting ALTER DATABASE statement...\n";
-        Parser parser2("ALTER DATABASE test_db;");
-        auto statements2 = parser2.parseStatements();
+        ParserNew parser2("ALTER DATABASE test_db;");
+        auto statements2 = parser2.parse();
         if (!statements2.empty()) {
             auto alterStmt = dynamic_cast<AlterStatement*>(statements2[0].get());
             if (alterStmt) {
@@ -35,8 +35,8 @@ int main() {
 
         // 测试 CREATE TABLE 语句
         std::cout << "\nTesting CREATE TABLE statement...\n";
-        Parser parser3("CREATE TABLE users (id INT PRIMARY KEY, name VARCHAR(255));");
-        auto statements3 = parser3.parseStatements();
+        ParserNew parser3("CREATE TABLE users (id INT PRIMARY KEY, name VARCHAR(255));");
+        auto statements3 = parser3.parse();
         if (!statements3.empty()) {
             auto createStmt = dynamic_cast<CreateStatement*>(statements3[0].get());
             if (createStmt) {
