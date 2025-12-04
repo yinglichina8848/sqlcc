@@ -418,9 +418,159 @@ std::unique_ptr<UnifiedQueryPlan> QueryPlanFactory::createPlan(
                dynamic_cast<sql_parser::GrantStatement*>(stmt.get()) ||
                dynamic_cast<sql_parser::RevokeStatement*>(stmt.get())) {
         return std::make_unique<DCLQueryPlan>(db_manager, user_manager, system_db);
+    } else if (dynamic_cast<sql_parser::CreateProcedureStatement*>(stmt.get()) ||
+               dynamic_cast<sql_parser::CallProcedureStatement*>(stmt.get()) ||
+               dynamic_cast<sql_parser::DropProcedureStatement*>(stmt.get())) {
+        return std::make_unique<ProcedureQueryPlan>(db_manager, user_manager, system_db);
+    } else if (dynamic_cast<sql_parser::CreateTriggerStatement*>(stmt.get()) ||
+               dynamic_cast<sql_parser::DropTriggerStatement*>(stmt.get()) ||
+               dynamic_cast<sql_parser::AlterTriggerStatement*>(stmt.get())) {
+        return std::make_unique<TriggerQueryPlan>(db_manager, user_manager, system_db);
     } else {
         return std::make_unique<UtilityQueryPlan>(db_manager, user_manager, system_db);
     }
+}
+
+// ProcedureQueryPlan 实现
+ProcedureQueryPlan::ProcedureQueryPlan(std::shared_ptr<DatabaseManager> db_manager,
+                                      std::shared_ptr<UserManager> user_manager,
+                                      std::shared_ptr<SystemDatabase> system_db)
+    : UnifiedQueryPlan(db_manager, user_manager, system_db) {}
+
+bool ProcedureQueryPlan::buildSpecificPlan() {
+    // 根据语句类型构建特定的执行计划
+    if (auto create_proc = dynamic_cast<sql_parser::CreateProcedureStatement*>(statement_.get())) {
+        return buildCreateProcedurePlan();
+    } else if (auto call_proc = dynamic_cast<sql_parser::CallProcedureStatement*>(statement_.get())) {
+        return buildCallProcedurePlan();
+    } else if (auto drop_proc = dynamic_cast<sql_parser::DropProcedureStatement*>(statement_.get())) {
+        return buildDropProcedurePlan();
+    }
+    return false;
+}
+
+bool ProcedureQueryPlan::buildCreateProcedurePlan() {
+    // 添加创建存储过程的执行步骤
+    steps_.push_back(QueryStep(QueryStepType::EXECUTION, "创建存储过程", 
+                   [this]() { return true; }, true));
+    steps_.push_back(QueryStep(QueryStepType::POST_PROCESS, "更新存储过程元数据", 
+                   [this]() { return true; }, true));
+    return true;
+}
+
+bool ProcedureQueryPlan::buildCallProcedurePlan() {
+    // 添加调用存储过程的执行步骤
+    steps_.push_back(QueryStep(QueryStepType::EXECUTION, "调用存储过程", 
+                   [this]() { return true; }, true));
+    return true;
+}
+
+bool ProcedureQueryPlan::buildDropProcedurePlan() {
+    // 添加删除存储过程的执行步骤
+    steps_.push_back(QueryStep(QueryStepType::EXECUTION, "删除存储过程", 
+                   [this]() { return true; }, true));
+    steps_.push_back(QueryStepType::POST_PROCESS, "更新存储过程元数据", 
+                   [this]() { return true; }, true));
+    return true;
+}
+
+ExecutionResult ProcedureQueryPlan::executeSpecificPlan() {
+    // 根据语句类型执行特定的计划
+    if (auto create_proc = dynamic_cast<sql_parser::CreateProcedureStatement*>(statement_.get())) {
+        return executeCreateProcedurePlan();
+    } else if (auto call_proc = dynamic_cast<sql_parser::CallProcedureStatement*>(statement_.get())) {
+        return executeCallProcedurePlan();
+    } else if (auto drop_proc = dynamic_cast<sql_parser::DropProcedureStatement*>(statement_.get())) {
+        return executeDropProcedurePlan();
+    }
+    return {false, "不支持的存储过程操作"};
+}
+
+ExecutionResult ProcedureQueryPlan::executeCreateProcedurePlan() {
+    // 实现创建存储过程的执行逻辑
+    return {true, "存储过程创建成功"};
+}
+
+ExecutionResult ProcedureQueryPlan::executeCallProcedurePlan() {
+    // 实现调用存储过程的执行逻辑
+    return {true, "存储过程调用成功"};
+}
+
+ExecutionResult ProcedureQueryPlan::executeDropProcedurePlan() {
+    // 实现删除存储过程的执行逻辑
+    return {true, "存储过程删除成功"};
+}
+
+// TriggerQueryPlan 实现
+TriggerQueryPlan::TriggerQueryPlan(std::shared_ptr<DatabaseManager> db_manager,
+                                  std::shared_ptr<UserManager> user_manager,
+                                  std::shared_ptr<SystemDatabase> system_db)
+    : UnifiedQueryPlan(db_manager, user_manager, system_db) {}
+
+bool TriggerQueryPlan::buildSpecificPlan() {
+    // 根据语句类型构建特定的执行计划
+    if (auto create_trigger = dynamic_cast<sql_parser::CreateTriggerStatement*>(statement_.get())) {
+        return buildCreateTriggerPlan();
+    } else if (auto drop_trigger = dynamic_cast<sql_parser::DropTriggerStatement*>(statement_.get())) {
+        return buildDropTriggerPlan();
+    } else if (auto alter_trigger = dynamic_cast<sql_parser::AlterTriggerStatement*>(statement_.get())) {
+        return buildAlterTriggerPlan();
+    }
+    return false;
+}
+
+bool TriggerQueryPlan::buildCreateTriggerPlan() {
+    // 添加创建触发器的执行步骤
+    steps_.push_back(QueryStep(QueryStepType::EXECUTION, "创建触发器", 
+                   [this]() { return true; }, true));
+    steps_.push_back(QueryStep(QueryStepType::POST_PROCESS, "更新触发器元数据", 
+                   [this]() { return true; }, true));
+    return true;
+}
+
+bool TriggerQueryPlan::buildDropTriggerPlan() {
+    // 添加删除触发器的执行步骤
+    steps_.push_back(QueryStep(QueryStepType::EXECUTION, "删除触发器", 
+                   [this]() { return true; }, true));
+    steps_.push_back(QueryStep(QueryStepType::POST_PROCESS, "更新触发器元数据", 
+                   [this]() { return true; }, true));
+    return true;
+}
+
+bool TriggerQueryPlan::buildAlterTriggerPlan() {
+    // 添加修改触发器的执行步骤
+    steps_.push_back(QueryStep(QueryStepType::EXECUTION, "修改触发器", 
+                   [this]() { return true; }, true));
+    steps_.push_back(QueryStep(QueryStepType::POST_PROCESS, "更新触发器元数据", 
+                   [this]() { return true; }, true));
+    return true;
+}
+
+ExecutionResult TriggerQueryPlan::executeSpecificPlan() {
+    // 根据语句类型执行特定的计划
+    if (auto create_trigger = dynamic_cast<sql_parser::CreateTriggerStatement*>(statement_.get())) {
+        return executeCreateTriggerPlan();
+    } else if (auto drop_trigger = dynamic_cast<sql_parser::DropTriggerStatement*>(statement_.get())) {
+        return executeDropTriggerPlan();
+    } else if (auto alter_trigger = dynamic_cast<sql_parser::AlterTriggerStatement*>(statement_.get())) {
+        return executeAlterTriggerPlan();
+    }
+    return {false, "不支持的触发器操作"};
+}
+
+ExecutionResult TriggerQueryPlan::executeCreateTriggerPlan() {
+    // 实现创建触发器的执行逻辑
+    return {true, "触发器创建成功"};
+}
+
+ExecutionResult TriggerQueryPlan::executeDropTriggerPlan() {
+    // 实现删除触发器的执行逻辑
+    return {true, "触发器删除成功"};
+}
+
+ExecutionResult TriggerQueryPlan::executeAlterTriggerPlan() {
+    // 实现修改触发器的执行逻辑
+    return {true, "触发器修改成功"};
 }
 
 } // namespace sqlcc

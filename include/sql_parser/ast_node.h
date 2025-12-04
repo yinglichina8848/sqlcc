@@ -3,7 +3,7 @@
 
 #include <memory>
 #include <string>
-#include "token.h"
+#include "token_new.h"
 #include "node_visitor.h"
 
 namespace sqlcc {
@@ -50,7 +50,15 @@ public:
         DROP_USER,
         GRANT,
         REVOKE,
-        SHOW
+        SHOW,
+        COMMIT,
+        ROLLBACK,
+        CREATE_PROCEDURE,
+        DROP_PROCEDURE,
+        CALL_PROCEDURE,
+        CREATE_TRIGGER,
+        DROP_TRIGGER,
+        ALTER_TRIGGER
     };
 
     Statement(Type type);

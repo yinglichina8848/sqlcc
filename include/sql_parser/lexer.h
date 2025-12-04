@@ -2,7 +2,7 @@
 #define SQLCC_SQL_PARSER_LEXER_H
 
 #include <string>
-#include "token_new.h"
+#include "token.h"
 
 namespace sqlcc {
 namespace sql_parser {

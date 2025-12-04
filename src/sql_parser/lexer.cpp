@@ -79,15 +79,15 @@ Token Lexer::nextToken() {
       return Token(Token::DOT, ".", line_, column_);
 
     case '*':
-      return Token(Token::OPERATOR_MULTIPLY, "*", line_, column_);
+      return Token(Token::MULTIPLY, "*", line_, column_);
 
     case '=':
-      return Token(Token::OPERATOR_EQUAL, "=", line_, column_);
+      return Token(Token::EQUAL, "=", line_, column_);
 
     case '!':
       if (peek() == '=') {
         advance();
-        return Token(Token::OPERATOR_NOT_EQUAL, "!=", line_, column_);
+        return Token(Token::NOT_EQUAL, "!=", line_, column_);
       } else {
         throw std::runtime_error("Unexpected character: !");
       }
@@ -95,17 +95,17 @@ Token Lexer::nextToken() {
     case '<':
       if (peek() == '=') {
         advance();
-        return Token(Token::OPERATOR_LESS_EQUAL, "<=", line_, column_);
+        return Token(Token::LESS_EQUAL, "<=", line_, column_);
       } else {
-        return Token(Token::OPERATOR_LESS_THAN, "<", line_, column_);
+        return Token(Token::LESS, "<", line_, column_);
       }
 
     case '>':
       if (peek() == '=') {
         advance();
-        return Token(Token::OPERATOR_GREATER_EQUAL, ">=", line_, column_);
+        return Token(Token::GREATER_EQUAL, ">=", line_, column_);
       } else {
-        return Token(Token::OPERATOR_GREATER_THAN, ">", line_, column_);
+        return Token(Token::GREATER, ">", line_, column_);
       }
 
     case '\'':
@@ -119,14 +119,14 @@ Token Lexer::nextToken() {
       if (std::isdigit(peek())) {
         return readNumber();
       } else {
-        return Token(Token::OPERATOR_MINUS, "-", line_, column_);
+        return Token(Token::MINUS, "-", line_, column_);
       }
 
     case '+':
-      return Token(Token::OPERATOR_PLUS, "+", line_, column_);
+      return Token(Token::PLUS, "+", line_, column_);
 
     case '/':
-      return Token(Token::OPERATOR_DIVIDE, "/", line_, column_);
+      return Token(Token::SLASH, "/", line_, column_);
 
     default:
       if (std::isdigit(ch)) {
@@ -156,7 +156,7 @@ Token Lexer::readString() {
 
   advance(); // 跳过结束引号
 
-  return Token(Token::STRING_LITERAL, value, line_, column_);
+  return Token(Token::STRING, value, line_, column_);
 }
 
 Token Lexer::readNumber() {
@@ -167,7 +167,8 @@ Token Lexer::readNumber() {
     if (peek() == '.') {
       if (hasDot) {
         // 多个小数点，错误
-        throw std::runtime_error("Invalid number format: multiple decimal points");
+        throw std::runtime_error(
+            "Invalid number format: multiple decimal points");
       }
       hasDot = true;
     }
@@ -177,9 +178,9 @@ Token Lexer::readNumber() {
   std::string value = input_.substr(start, position_ - start);
 
   if (hasDot) {
-    return Token(Token::FLOAT_LITERAL, value, line_, column_);
+    return Token(Token::NUMBER, value, line_, column_);
   } else {
-    return Token(Token::INTEGER_LITERAL, value, line_, column_);
+    return Token(Token::NUMBER, value, line_, column_);
   }
 }
 

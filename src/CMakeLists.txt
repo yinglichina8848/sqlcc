@@ -19,10 +19,13 @@ target_include_directories(sqlcc_core_lib PUBLIC
 # 创建SQL parser库
 set(SQL_PARSER_SOURCES
     sql_parser/ast_node.cpp
+    sql_parser/ast/ast_node.cpp
+    sql_parser/ast/source_location.cpp
     sql_parser/ast_nodes.cpp
-    sql_parser/parser.cpp
-    sql_parser/lexer.cpp
-    sql_parser/token.cpp
+    sql_parser/parser_new.cpp
+    sql_parser/lexer_new.cpp
+    sql_parser/token_new.cpp
+    sql_parser/errors/error_core.cpp
     sql_parser/parser_set_operations.cpp
     sql_parser/set_operation_node.cpp
 )
