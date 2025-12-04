@@ -1,1 +1,0 @@
-/home/liying/sqlcc_qoder/scripts/sql/ddl_test_script.sql
