@@ -38,7 +38,6 @@ std::string Token::getTypeName(Type type) {
         case PLUS: return "PLUS";
         case SEMICOLON: return "SEMICOLON";
         case SLASH: return "SLASH";
-        case STAR: return "STAR";
         case EQUAL: return "EQUAL";
         case NOT_EQUAL: return "NOT_EQUAL";
         case LESS: return "LESS";
@@ -72,6 +71,7 @@ std::string Token::getTypeName(Type type) {
         case KEYWORD_VAR: return "VAR";
         case KEYWORD_WHILE: return "WHILE";
         case KEYWORD_SELECT: return "SELECT";
+        case KEYWORD_DISTINCT: return "DISTINCT";
         case KEYWORD_INSERT: return "INSERT";
         case KEYWORD_UPDATE: return "UPDATE";
         case KEYWORD_DELETE: return "DELETE";

@@ -1,0 +1,179 @@
+#include "sql_parser/token_new.h"
+#include <unordered_map>
+
+namespace sqlcc {
+namespace sql_parser {
+
+// Default constructor
+Token::Token() : type_(UNKNOWN), lexeme_(""), line_(0), column_(0) {}
+
+// Getters
+Token::Type Token::getType() const {
+    return type_;
+}
+
+std::string Token::getLexeme() const {
+    return lexeme_;
+}
+
+size_t Token::getLine() const {
+    return line_;
+}
+
+size_t Token::getColumn() const {
+    return column_;
+}
+
+// Utility function to convert token type to string
+std::string Token::getTypeName(Type type) {
+    static const std::unordered_map<Type, std::string> typeNames = {
+        {SEMICOLON, "SEMICOLON"},
+        {LPAREN, "LPAREN"},
+        {RPAREN, "RPAREN"},
+        {COMMA, "COMMA"},
+        {DOT, "DOT"},
+        
+        {INTEGER_LITERAL, "INTEGER_LITERAL"},
+        {FLOAT_LITERAL, "FLOAT_LITERAL"},
+        {STRING_LITERAL, "STRING_LITERAL"},
+        {BOOLEAN_LITERAL, "BOOLEAN_LITERAL"},
+        {NULL_LITERAL, "NULL_LITERAL"},
+
+        {IDENTIFIER, "IDENTIFIER"},
+
+        {KEYWORD_USE, "KEYWORD_USE"},
+        {KEYWORD_DATABASE, "KEYWORD_DATABASE"},
+
+        {OPERATOR, "OPERATOR"},
+        {OPERATOR_PLUS, "OPERATOR_PLUS"},
+        {OPERATOR_MINUS, "OPERATOR_MINUS"},
+        {OPERATOR_MULTIPLY, "OPERATOR_MULTIPLY"},
+        {OPERATOR_DIVIDE, "OPERATOR_DIVIDE"},
+        {OPERATOR_EQUAL, "OPERATOR_EQUAL"},
+        {OPERATOR_NOT_EQUAL, "OPERATOR_NOT_EQUAL"},
+        {OPERATOR_LESS_THAN, "OPERATOR_LESS_THAN"},
+        {OPERATOR_LESS_EQUAL, "OPERATOR_LESS_EQUAL"},
+        {OPERATOR_GREATER_THAN, "OPERATOR_GREATER_THAN"},
+        {OPERATOR_GREATER_EQUAL, "OPERATOR_GREATER_EQUAL"},
+        {OPERATOR_AND, "OPERATOR_AND"},
+        {OPERATOR_OR, "OPERATOR_OR"},
+        {OPERATOR_NOT, "OPERATOR_NOT"},
+        {OPERATOR_CONCAT, "OPERATOR_CONCAT"},
+        {OPERATOR_LIKE, "OPERATOR_LIKE"},
+        {OPERATOR_IN, "OPERATOR_IN"},
+        {OPERATOR_IS, "OPERATOR_IS"},
+        {OPERATOR_BETWEEN, "OPERATOR_BETWEEN"},
+        {OPERATOR_EXISTS, "OPERATOR_EXISTS"},
+        
+        {KEYWORD_CREATE, "KEYWORD_CREATE"},
+        {KEYWORD_ALTER, "KEYWORD_ALTER"},
+        {KEYWORD_DROP, "KEYWORD_DROP"},
+        {KEYWORD_TABLE, "KEYWORD_TABLE"},
+        {KEYWORD_INDEX, "KEYWORD_INDEX"},
+        {KEYWORD_VIEW, "KEYWORD_VIEW"},
+        {KEYWORD_TRIGGER, "KEYWORD_TRIGGER"},
+        {KEYWORD_PROCEDURE, "KEYWORD_PROCEDURE"},
+        {KEYWORD_FUNCTION, "KEYWORD_FUNCTION"},
+        
+        {KEYWORD_SELECT, "KEYWORD_SELECT"},
+        {KEYWORD_INSERT, "KEYWORD_INSERT"},
+        {KEYWORD_UPDATE, "KEYWORD_UPDATE"},
+        {KEYWORD_DELETE, "KEYWORD_DELETE"},
+        {KEYWORD_FROM, "KEYWORD_FROM"},
+        {KEYWORD_INTO, "KEYWORD_INTO"},
+        {KEYWORD_VALUES, "KEYWORD_VALUES"},
+        {KEYWORD_SET, "KEYWORD_SET"},
+        
+        {KEYWORD_COUNT, "KEYWORD_COUNT"},
+        {KEYWORD_SUM, "KEYWORD_SUM"},
+        {KEYWORD_AVG, "KEYWORD_AVG"},
+        {KEYWORD_MIN, "KEYWORD_MIN"},
+        {KEYWORD_MAX, "KEYWORD_MAX"},
+        
+        {KEYWORD_WHERE, "KEYWORD_WHERE"},
+        {KEYWORD_GROUP, "KEYWORD_GROUP"},
+        {KEYWORD_BY, "KEYWORD_BY"},
+        {KEYWORD_HAVING, "KEYWORD_HAVING"},
+        {KEYWORD_ORDER, "KEYWORD_ORDER"},
+        {KEYWORD_LIMIT, "KEYWORD_LIMIT"},
+        {KEYWORD_OFFSET, "KEYWORD_OFFSET"},
+        
+        {KEYWORD_JOIN, "KEYWORD_JOIN"},
+        {KEYWORD_INNER, "KEYWORD_INNER"},
+        {KEYWORD_LEFT, "KEYWORD_LEFT"},
+        {KEYWORD_RIGHT, "KEYWORD_RIGHT"},
+        {KEYWORD_FULL, "KEYWORD_FULL"},
+        {KEYWORD_OUTER, "KEYWORD_OUTER"},
+        {KEYWORD_ON, "KEYWORD_ON"},
+        {KEYWORD_USING, "KEYWORD_USING"},
+        
+        {KEYWORD_PRIMARY, "KEYWORD_PRIMARY"},
+        {KEYWORD_KEY, "KEYWORD_KEY"},
+        {KEYWORD_FOREIGN, "KEYWORD_FOREIGN"},
+        {KEYWORD_REFERENCES, "KEYWORD_REFERENCES"},
+        {KEYWORD_NOT, "KEYWORD_NOT"},
+        {KEYWORD_NULL, "KEYWORD_NULL"},
+        {KEYWORD_UNIQUE, "KEYWORD_UNIQUE"},
+        {KEYWORD_CHECK, "KEYWORD_CHECK"},
+        {KEYWORD_DEFAULT, "KEYWORD_DEFAULT"},
+        
+        {KEYWORD_AND, "KEYWORD_AND"},
+        {KEYWORD_OR, "KEYWORD_OR"},
+        {KEYWORD_IN, "KEYWORD_IN"},
+        {KEYWORD_EXISTS, "KEYWORD_EXISTS"},
+        {KEYWORD_BETWEEN, "KEYWORD_BETWEEN"},
+        {KEYWORD_LIKE, "KEYWORD_LIKE"},
+        {KEYWORD_AS, "KEYWORD_AS"},
+        {KEYWORD_DISTINCT, "KEYWORD_DISTINCT"},
+        {KEYWORD_ALL, "KEYWORD_ALL"},
+        {KEYWORD_ANY, "KEYWORD_ANY"},
+        {KEYWORD_SOME, "KEYWORD_SOME"},
+        {KEYWORD_UNION, "KEYWORD_UNION"},
+        {KEYWORD_INTERSECT, "KEYWORD_INTERSECT"},
+        {KEYWORD_EXCEPT, "KEYWORD_EXCEPT"},
+        {KEYWORD_CASE, "KEYWORD_CASE"},
+        {KEYWORD_WHEN, "KEYWORD_WHEN"},
+        {KEYWORD_THEN, "KEYWORD_THEN"},
+        {KEYWORD_ELSE, "KEYWORD_ELSE"},
+        {KEYWORD_END, "KEYWORD_END"},
+        {KEYWORD_IF, "KEYWORD_IF"},
+        {KEYWORD_WHILE, "KEYWORD_WHILE"},
+        {KEYWORD_FOR, "KEYWORD_FOR"},
+        {KEYWORD_DO, "KEYWORD_DO"},
+        {KEYWORD_BEGIN, "KEYWORD_BEGIN"},
+        {KEYWORD_COMMIT, "KEYWORD_COMMIT"},
+        {KEYWORD_ROLLBACK, "KEYWORD_ROLLBACK"},
+        {KEYWORD_TRANSACTION, "KEYWORD_TRANSACTION"},
+
+        {KEYWORD_GRANT, "KEYWORD_GRANT"},
+        {KEYWORD_REVOKE, "KEYWORD_REVOKE"},
+        {KEYWORD_TO, "KEYWORD_TO"},
+        {KEYWORD_WITH, "KEYWORD_WITH"},
+        {KEYWORD_PASSWORD, "KEYWORD_PASSWORD"},
+        {KEYWORD_USER, "KEYWORD_USER"},
+        {KEYWORD_IDENTIFIED, "KEYWORD_IDENTIFIED"},
+        {KEYWORD_PRIVILEGES, "KEYWORD_PRIVILEGES"},
+        {KEYWORD_SHOW, "KEYWORD_SHOW"},
+        {KEYWORD_COLUMNS, "KEYWORD_COLUMNS"},
+        {KEYWORD_INDEXES, "KEYWORD_INDEXES"},
+        {KEYWORD_GRANTS, "KEYWORD_GRANTS"},
+        {KEYWORD_DATABASES, "KEYWORD_DATABASES"},
+        {KEYWORD_TABLES, "KEYWORD_TABLES"},
+
+        {KEYWORD_TRUE, "KEYWORD_TRUE"},
+        {KEYWORD_FALSE, "KEYWORD_FALSE"},
+        
+        {COMMENT, "COMMENT"},
+        {UNKNOWN, "UNKNOWN"},
+        {END_OF_INPUT, "END_OF_INPUT"}
+    };
+    
+    auto it = typeNames.find(type);
+    if (it != typeNames.end()) {
+        return it->second;
+    }
+    return "UNKNOWN";
+}
+
+} // namespace sql_parser
+} // namespace sqlcc

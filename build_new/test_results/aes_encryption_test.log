@@ -1,0 +1,75 @@
+[==========] Running 24 tests from 7 test suites.
+[----------] Global test environment set-up.
+[----------] 2 tests from EncryptionKeyTest
+[ RUN      ] EncryptionKeyTest.GenerateRandomKey
+[       OK ] EncryptionKeyTest.GenerateRandomKey (1 ms)
+[ RUN      ] EncryptionKeyTest.CustomKeyIvSizes
+[       OK ] EncryptionKeyTest.CustomKeyIvSizes (0 ms)
+[----------] 2 tests from EncryptionKeyTest (1 ms total)
+
+[----------] 8 tests from AESEncryptorTest
+[ RUN      ] AESEncryptorTest.BasicEncryption
+[       OK ] AESEncryptorTest.BasicEncryption (0 ms)
+[ RUN      ] AESEncryptorTest.EncryptionDecryption
+[       OK ] AESEncryptorTest.EncryptionDecryption (0 ms)
+[ RUN      ] AESEncryptorTest.MultipleEncryptionsDecryptions
+[       OK ] AESEncryptorTest.MultipleEncryptionsDecryptions (0 ms)
+[ RUN      ] AESEncryptorTest.LargeDataEncryption
+[       OK ] AESEncryptorTest.LargeDataEncryption (0 ms)
+[ RUN      ] AESEncryptorTest.UpdateKey
+[       OK ] AESEncryptorTest.UpdateKey (0 ms)
+[ RUN      ] AESEncryptorTest.DifferentIVDifferentCiphertext
+[       OK ] AESEncryptorTest.DifferentIVDifferentCiphertext (0 ms)
+[ RUN      ] AESEncryptorTest.DecryptWithWrongKeyThrows
+[       OK ] AESEncryptorTest.DecryptWithWrongKeyThrows (0 ms)
+[ RUN      ] AESEncryptorTest.UpdateKeyNullThrows
+[       OK ] AESEncryptorTest.UpdateKeyNullThrows (0 ms)
+[----------] 8 tests from AESEncryptorTest (0 ms total)
+
+[----------] 1 test from SimpleEncryptorTest
+[ RUN      ] SimpleEncryptorTest.XOREncryption
+[       OK ] SimpleEncryptorTest.XOREncryption (0 ms)
+[----------] 1 test from SimpleEncryptorTest (0 ms total)
+
+[----------] 1 test from AESAvailabilityTest
+[ RUN      ] AESAvailabilityTest.CheckAESLibrary
+AES Encryption Available: Yes
+[       OK ] AESAvailabilityTest.CheckAESLibrary (0 ms)
+[----------] 1 test from AESAvailabilityTest (0 ms total)
+
+[----------] 5 tests from HMACTest
+[ RUN      ] HMACTest.ComputeAndVerify
+[       OK ] HMACTest.ComputeAndVerify (0 ms)
+[ RUN      ] HMACTest.TamperDetectionWithAES
+[       OK ] HMACTest.TamperDetectionWithAES (0 ms)
+[ RUN      ] HMACTest.TruncatedMACFails
+[       OK ] HMACTest.TruncatedMACFails (0 ms)
+[ RUN      ] HMACTest.AppendedMacLength
+[       OK ] HMACTest.AppendedMacLength (0 ms)
+[ RUN      ] HMACTest.VerifyWithWrongKeyFails
+[       OK ] HMACTest.VerifyWithWrongKeyFails (0 ms)
+[----------] 5 tests from HMACTest (0 ms total)
+
+[----------] 6 tests from PBKDF2Test
+[ RUN      ] PBKDF2Test.DeriveBasic
+[       OK ] PBKDF2Test.DeriveBasic (5 ms)
+[ RUN      ] PBKDF2Test.DeriveEncryptionKeyAndUseAES
+[       OK ] PBKDF2Test.DeriveEncryptionKeyAndUseAES (9 ms)
+[ RUN      ] PBKDF2Test.IterationsImpact
+[       OK ] PBKDF2Test.IterationsImpact (4 ms)
+[ RUN      ] PBKDF2Test.DeterministicWithSameParams
+[       OK ] PBKDF2Test.DeterministicWithSameParams (6 ms)
+[ RUN      ] PBKDF2Test.InvalidIterationsThrows
+[       OK ] PBKDF2Test.InvalidIterationsThrows (0 ms)
+[ RUN      ] PBKDF2Test.VariableOutputLength
+[       OK ] PBKDF2Test.VariableOutputLength (2 ms)
+[----------] 6 tests from PBKDF2Test (28 ms total)
+
+[----------] 1 test from KeyRotationPolicyTest
+[ RUN      ] KeyRotationPolicyTest.SimpleInterval
+[       OK ] KeyRotationPolicyTest.SimpleInterval (0 ms)
+[----------] 1 test from KeyRotationPolicyTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 24 tests from 7 test suites ran. (31 ms total)
+[  PASSED  ] 24 tests.

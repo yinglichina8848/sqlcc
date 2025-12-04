@@ -1,0 +1,48 @@
+# Makefile for the new SQL lexer
+
+CXX = g++
+CXXFLAGS = -std=c++17 -Wall -Wextra -g
+INCLUDES = -Iinclude
+
+# Source files
+LEXER_SRC = src/sql_parser/lexer_new.cpp
+TOKEN_SRC = src/sql_parser/token_new.cpp
+TEST_SRC = src/sql_parser/test_lexer_new.cpp
+
+# Object files
+LEXER_OBJ = build/lexer_new.o
+TOKEN_OBJ = build/token_new.o
+TEST_OBJ = build/test_lexer_new.o
+
+# Target executable
+TEST_TARGET = build/test_lexer_new
+
+# Create build directory
+$(shell mkdir -p build)
+
+# Default target
+all: $(TEST_TARGET)
+
+# Build the test executable
+$(TEST_TARGET): $(LEXER_OBJ) $(TOKEN_OBJ) $(TEST_OBJ)
+	$(CXX) $(CXXFLAGS) $(INCLUDES) -o $@ $^
+
+# Compile source files
+$(LEXER_OBJ): $(LEXER_SRC)
+	$(CXX) $(CXXFLAGS) $(INCLUDES) -c $< -o $@
+
+$(TOKEN_OBJ): $(TOKEN_SRC)
+	$(CXX) $(CXXFLAGS) $(INCLUDES) -c $< -o $@
+
+$(TEST_OBJ): $(TEST_SRC)
+	$(CXX) $(CXXFLAGS) $(INCLUDES) -c $< -o $@
+
+# Run the test
+test: $(TEST_TARGET)
+	./$(TEST_TARGET)
+
+# Clean build files
+clean:
+	rm -rf build
+
+.PHONY: all test clean

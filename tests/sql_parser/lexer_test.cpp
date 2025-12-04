@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
-#include "sql_parser/lexer.h"
-#include "sql_parser/token.h"
+#include "lexer.h"
+#include "token.h"
 
 using namespace sqlcc::sql_parser;
 
