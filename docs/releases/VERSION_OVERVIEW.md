@@ -81,15 +81,15 @@ SQLCC采用语义化版本号（Semantic Versioning），格式为：MAJOR.MINOR
 
 - [版本摘要](VERSION_SUMMARY.md): 最简略的版本说明
 - [版本详情](VERSION_DETAILS.md): 完整的版本信息，包括核心功能、改进和测试细节
-- [发布流程](RELEASE_PROCESS.md): 自动化发布流程说明
+- [发布流程](release_process.md): 自动化发布流程说明
 
 ## 🔗 **相关链接**
 
-- [项目README](../README.md): 项目概述和使用指南
-- [技术文档索引](../docs/index.md): 完整的技术文档索引
+- [项目README](../../README.md): 项目概述和使用指南
+- [技术文档索引](../guides/DOCUMENTATION_INDEX.md): 完整的技术文档索引
 - [SQLCC主仓库](https://gitee.com/sqlcc/sqlcc): Gitee主仓库
 
 ---
 
-**版本维护**: SQLCC团队
+**版本维护**: SQLCC团队  
 **最后更新**: 2025-12-04
