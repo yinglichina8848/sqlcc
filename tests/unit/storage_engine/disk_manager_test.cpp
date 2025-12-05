@@ -1,5 +1,5 @@
-#include "config_manager.h"
 #include "disk_manager.h"
+#include "utils/config_manager.h"
 #include <fstream>
 #include <gtest/gtest.h>
 
@@ -104,6 +104,140 @@ TEST_F(DiskManagerTest, FileSizeManagement) {
   EXPECT_GE(file_size, num_pages * page_size_);
 }
 
+TEST_F(DiskManagerTest, WriteEmptyData) {
+  // 分配页面
+  int32_t page_id = disk_manager_->AllocatePage();
+  EXPECT_NE(page_id, -1);
+
+  // 创建空数据
+  char empty_data[8192] = {0};
+
+  // 写入空数据
+  disk_manager_->WritePage(page_id, empty_data);
+
+  // 读取页面
+  char read_data[8192] = {0};
+  disk_manager_->ReadPage(page_id, read_data);
+
+  // 验证数据
+  EXPECT_EQ(memcmp(empty_data, read_data, 8192), 0);
+}
+
+TEST_F(DiskManagerTest, WriteAllZeroData) {
+  // 分配页面
+  int32_t page_id = disk_manager_->AllocatePage();
+  EXPECT_NE(page_id, -1);
+
+  // 创建全零数据
+  char zero_data[8192] = {0};
+  for (size_t i = 0; i < 8192; ++i) {
+    zero_data[i] = 0;
+  }
+
+  // 写入全零数据
+  disk_manager_->WritePage(page_id, zero_data);
+
+  // 读取页面
+  char read_data[8192] = {0};
+  disk_manager_->ReadPage(page_id, read_data);
+
+  // 验证数据
+  EXPECT_EQ(memcmp(zero_data, read_data, 8192), 0);
+}
+
+TEST_F(DiskManagerTest, WriteLargeRepeatedData) {
+  // 分配页面
+  int32_t page_id = disk_manager_->AllocatePage();
+  EXPECT_NE(page_id, -1);
+
+  // 创建重复数据
+  char repeated_data[8192] = {0};
+  for (size_t i = 0; i < 8192; ++i) {
+    repeated_data[i] = 'A' + (i % 26);
+  }
+
+  // 写入重复数据
+  disk_manager_->WritePage(page_id, repeated_data);
+
+  // 读取页面
+  char read_data[8192] = {0};
+  disk_manager_->ReadPage(page_id, read_data);
+
+  // 验证数据
+  EXPECT_EQ(memcmp(repeated_data, read_data, 8192), 0);
+}
+
+TEST_F(DiskManagerTest, FrequentReadWriteSamePage) {
+  // 分配页面
+  int32_t page_id = disk_manager_->AllocatePage();
+  EXPECT_NE(page_id, -1);
+
+  // 频繁读写同一页面
+  for (int i = 0; i < 10; ++i) {
+    // 创建测试数据
+    char write_data[8192] = {0};
+    sprintf(write_data, "Iteration %d data", i);
+    for (size_t j = strlen(write_data); j < 8192; ++j) {
+      write_data[j] = 'x' + (i % 26);
+    }
+
+    // 写入页面
+    disk_manager_->WritePage(page_id, write_data);
+
+    // 读取页面
+    char read_data[8192] = {0};
+    disk_manager_->ReadPage(page_id, read_data);
+
+    // 验证数据
+    EXPECT_EQ(memcmp(write_data, read_data, 8192), 0);
+  }
+}
+
+TEST_F(DiskManagerTest, DeallocateAllPages) {
+  // 分配多个页面
+  const int num_pages = 5;
+  std::vector<int32_t> page_ids;
+  for (int i = 0; i < num_pages; ++i) {
+    int32_t page_id = disk_manager_->AllocatePage();
+    page_ids.push_back(page_id);
+  }
+
+  // 释放所有页面
+  for (int32_t page_id : page_ids) {
+    disk_manager_->DeallocatePage(page_id);
+  }
+
+  // 重新分配页面，应该重用之前的页面ID
+  for (int i = 0; i < num_pages; ++i) {
+    int32_t page_id = disk_manager_->AllocatePage();
+    EXPECT_EQ(page_id, page_ids[i]);
+  }
+}
+
+TEST_F(DiskManagerTest, SyncOperation) {
+  // 分配页面并写入数据
+  int32_t page_id = disk_manager_->AllocatePage();
+  char write_data[8192] = "Sync test data";
+  for (size_t i = strlen(write_data); i < 8192; ++i) {
+    write_data[i] = 'y';
+  }
+  disk_manager_->WritePage(page_id, write_data);
+
+  // 同步数据到磁盘
+  disk_manager_->Sync();
+
+  // 重新创建DiskManager实例
+  disk_manager_.reset();
+  disk_manager_ = std::make_unique<DiskManager>("test_db", *config_manager_);
+
+  // 读取页面数据
+  char read_data[8192] = {0};
+  disk_manager_->ReadPage(page_id, read_data);
+
+  // 验证数据持久化
+  EXPECT_EQ(memcmp(write_data, read_data, 8192), 0);
+}
+
 // 使用DISABLED_前缀禁用这个测试，因为文件大小没有被正确更新
 // TEST_F(DiskManagerTest, DISABLED_MetaFileOperations) {
 //   // 分配一些页面并写入数据，这会增加文件大小
@@ -123,7 +257,8 @@ TEST_F(DiskManagerTest, FileSizeManagement) {
 
 //   // 验证状态恢复
 //   int32_t new_page_id = disk_manager_->AllocatePage();
-//   EXPECT_EQ(new_page_id, 3); // 应该从3开始分配，因为文件大小已经是3 * PAGE_SIZE
+//   EXPECT_EQ(new_page_id, 3); // 应该从3开始分配，因为文件大小已经是3 *
+//   PAGE_SIZE
 // }
 
 } // namespace test

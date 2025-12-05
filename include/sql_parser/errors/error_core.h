@@ -1,7 +1,7 @@
 #ifndef SQLCC_SQL_PARSER_ERRORS_ERROR_CORE_H
 #define SQLCC_SQL_PARSER_ERRORS_ERROR_CORE_H
 
-#include "../ast/core/source_location.h"
+#include "sql_parser/ast/core/source_location.h"
 #include <string>
 #include <memory>
 #include <vector>

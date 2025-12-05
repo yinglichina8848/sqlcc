@@ -23,15 +23,21 @@ std::vector<std::unique_ptr<Statement>> ParserNew::parse() {
         continue; // Skip empty statements
       }
 
+      // 记录当前token
+      Token current = currentToken_;
+
       auto stmt = parseStatement();
       if (stmt) {
         statements.push_back(std::move(stmt));
       }
 
-      // Skip semicolon if present
-      if (match(Token::SEMICOLON)) {
+      // 如果解析失败且没有消费任何token，强制前进一个token
+      if (current.getType() == currentToken_.getType()) {
         advance();
       }
+
+      // Skip semicolon if present
+      match(Token::SEMICOLON);
     } catch (const std::runtime_error &e) {
       reportError(e.what());
       synchronize();
@@ -839,15 +845,15 @@ std::unique_ptr<Statement> ParserNew::parseRevokeStatement() {
 }
 
 std::unique_ptr<Statement> ParserNew::parseCommitStatement() {
-    consume(Token::KEYWORD_COMMIT);
-    // Simplified implementation
-    return nullptr;
+  consume(Token::KEYWORD_COMMIT);
+  // Simplified implementation
+  return nullptr;
 }
 
 std::unique_ptr<Statement> ParserNew::parseRollbackStatement() {
-    consume(Token::KEYWORD_ROLLBACK);
-    // Simplified implementation
-    return nullptr;
+  consume(Token::KEYWORD_ROLLBACK);
+  // Simplified implementation
+  return nullptr;
 }
 
 std::string ParserNew::parseTableReference() { return parseIdentifier(); }

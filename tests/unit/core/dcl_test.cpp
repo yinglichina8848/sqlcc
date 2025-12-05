@@ -2,7 +2,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include "../include/sql_executor.h"
+#include "sql_executor.h"
 
 // DCL测试
 

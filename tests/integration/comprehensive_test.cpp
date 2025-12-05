@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 #include <algorithm>
-#include "../include/sql_executor.h"
+#include "sql_executor.h"
 
 // 高级综合SQL测试 - 由于SqlExecutor构造问题，暂时跳过
 

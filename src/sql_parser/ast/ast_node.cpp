@@ -1,4 +1,4 @@
-#include "../../../include/sql_parser/ast/core/ast_node.h"
+#include "sql_parser/ast/core/ast_node.h"
 
 namespace sqlcc {
 namespace sql_parser {

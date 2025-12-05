@@ -1,6 +1,6 @@
-#include "../../include/execution_engine.h"
-#include "../../include/database_manager.h"
-#include "../../include/config_manager.h"
+#include "execution_engine.h"
+#include "database_manager.h"
+#include "config_manager.h"
 #include <gtest/gtest.h>
 #include <memory>
 

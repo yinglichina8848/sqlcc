@@ -1,6 +1,6 @@
-#include "../include/unified_executor.h"
-#include "../include/database_manager.h"
-#include "../include/sql_parser/parser.h"
+#include "unified_executor.h"
+#include "database_manager.h"
+#include "sql_parser/parser.h"
 #include <iostream>
 #include <memory>
 #include <string>

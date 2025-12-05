@@ -9,10 +9,10 @@
 #include <condition_variable>
 #include <random>
 #include <memory>
-#include "../../include/buffer_pool.h"
-#include "../../include/disk_manager.h"
-#include "../../include/config_manager.h"
-#include "../../include/sql_executor.h"
+#include "storage/buffer_pool.h"
+#include "disk_manager.h"
+#include "utils/config_manager.h"
+#include "sql_executor.h"
 
 namespace sqlcc {
 namespace test {

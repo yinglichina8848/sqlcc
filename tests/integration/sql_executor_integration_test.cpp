@@ -1,4 +1,4 @@
-#include "../../include/sql_executor.h"
+#include "sql_executor.h"
 #include <gtest/gtest.h>
 #include <string>
 #include <iostream>
