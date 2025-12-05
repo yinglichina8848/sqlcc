@@ -182,33 +182,6 @@ private:
     std::vector<IndexEntry> SearchRange(const std::string& lower_bound, const std::string& upper_bound, BPlusTreeNode* current_node) const;
 };
 
-/**
- * @brief 索引管理器类
- * 管理所有表的索引，提供索引的创建、删除、查询等功能
- */
-class IndexManager {
-public:
-    IndexManager(sqlcc::StorageEngine* storage_engine, sqlcc::ConfigManager& config_manager);
-    ~IndexManager();
 
-    // 索引管理操作
-    bool CreateIndex(const std::string& index_name, const std::string& table_name, const std::string& column_name, bool is_unique = false);
-    bool DropIndex(const std::string& index_name, const std::string& table_name);
-    bool IndexExists(const std::string& index_name, const std::string& table_name) const;
-    class BPlusTreeIndex* GetIndex(const std::string& index_name, const std::string& table_name);
-
-    // 获取表的所有索引
-    std::vector<class BPlusTreeIndex*> GetTableIndexes(const std::string& table_name) const;
-    
-    // 加载所有索引
-    void LoadAllIndexes();
-
-private:
-    StorageEngine* storage_engine_;  // 存储引擎引用
-    std::unordered_map<std::string, std::unique_ptr<class BPlusTreeIndex>> indexes_; // 索引映射表
-    
-    // 辅助方法
-    std::string GetIndexName(const std::string& table_name, const std::string& column_name) const;
-};
 
 } // namespace sqlcc

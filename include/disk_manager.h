@@ -6,6 +6,7 @@
 #include <string>
 #include <chrono>
 #include <thread>
+#include <vector>
 
 #include "config_manager.h"
 #include "exception.h"

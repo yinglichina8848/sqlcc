@@ -16,6 +16,9 @@ target_include_directories(sqlcc_core_lib PUBLIC
     ${CMAKE_SOURCE_DIR}/include/storage
 )
 
+# 链接core库与executor库以解决IndexManager符号
+target_link_libraries(sqlcc_core_lib PUBLIC sqlcc_executor)
+
 # 创建SQL parser库
 set(SQL_PARSER_SOURCES
     sql_parser/ast_node.cpp

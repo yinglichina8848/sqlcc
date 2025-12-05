@@ -62,6 +62,7 @@ struct TableColumn {
 struct TableMetadata {
     int64_t table_id;                           // 表ID
     std::string table_name;                     // 表名
+    std::string database_name;                  // 数据库名
     std::vector<TableColumn> columns;           // 列信息
     std::unordered_map<std::string, int> column_index_map; // 列名到索引的映射
     size_t record_size;                         // 固定记录大小（对于定长记录）
