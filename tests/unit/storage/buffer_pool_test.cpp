@@ -1,5 +1,5 @@
-#include "buffer_pool.h"
-#include "config_manager.h"
+#include "storage/buffer_pool.h"
+#include "utils/config_manager.h"
 #include "disk_manager.h"
 #include <gtest/gtest.h>
 

@@ -1,6 +1,6 @@
-#include "buffer_pool.h"
-#include "config_manager.h"
 #include "disk_manager.h"
+#include "storage/buffer_pool.h"
+#include "utils/config_manager.h"
 #include <gtest/gtest.h>
 
 namespace sqlcc {
@@ -179,6 +179,113 @@ TEST_F(BufferPoolTest, BasicOperations) {
   Page *page2 = buffer_pool_->FetchPage(page_id);
   EXPECT_NE(page2, nullptr);
   EXPECT_EQ(page2->GetPageId(), page_id);
+  buffer_pool_->UnpinPage(page_id, false);
+}
+
+TEST_F(BufferPoolTest, InvalidPageOperations) {
+  // 测试获取无效页面
+  Page *page = buffer_pool_->FetchPage(-1);
+  EXPECT_EQ(page, nullptr);
+
+  // 测试释放无效页面
+  buffer_pool_->UnpinPage(-1, false); // 应该没有崩溃
+
+  // 测试刷新无效页面
+  buffer_pool_->FlushPage(-1); // 应该没有崩溃
+}
+
+TEST_F(BufferPoolTest, MultipleFetchSamePage) {
+  // 分配页面
+  int32_t page_id = disk_manager_->AllocatePage();
+  EXPECT_NE(page_id, -1);
+
+  // 写入一些数据到页面
+  char data[8192] = {0};
+  sprintf(data, "Initial data");
+  disk_manager_->WritePage(page_id, data);
+
+  // 多次获取同一页面
+  Page *page1 = buffer_pool_->FetchPage(page_id);
+  EXPECT_NE(page1, nullptr);
+
+  Page *page2 = buffer_pool_->FetchPage(page_id);
+  EXPECT_NE(page2, nullptr);
+  EXPECT_EQ(page1, page2); // 应该返回同一指针
+
+  // 修改页面数据
+  strcpy(page1->GetData(), "Modified by page1");
+  EXPECT_STREQ(page2->GetData(), "Modified by page1"); // 两个指针指向同一页面
+
+  // 释放页面两次
+  buffer_pool_->UnpinPage(page_id, true);
+  buffer_pool_->UnpinPage(page_id, false);
+}
+
+TEST_F(BufferPoolTest, PageEviction) {
+  // 创建一个小的缓冲区
+  std::unique_ptr<BufferPool> small_buffer_pool = std::make_unique<BufferPool>(
+      disk_manager_.get(), 3, *config_manager_); // 仅3个页面的缓冲区
+
+  // 分配并获取多个页面，触发页面驱逐
+  std::vector<int32_t> page_ids;
+  for (int i = 0; i < 5; ++i) {
+    int32_t page_id = disk_manager_->AllocatePage();
+    page_ids.push_back(page_id);
+
+    // 写入数据
+    char data[8192] = {0};
+    sprintf(data, "Page %d data", page_id);
+    disk_manager_->WritePage(page_id, data);
+
+    // 获取页面
+    Page *page = small_buffer_pool->FetchPage(page_id);
+    EXPECT_NE(page, nullptr);
+
+    // 修改页面并释放，标记为脏页
+    sprintf(page->GetData(), "Modified page %d", page_id);
+    small_buffer_pool->UnpinPage(page_id, true);
+  }
+
+  // 验证可以再次获取最早的页面（应该已经被驱逐）
+  Page *evicted_page = small_buffer_pool->FetchPage(page_ids[0]);
+  EXPECT_NE(evicted_page, nullptr);
+  small_buffer_pool->UnpinPage(page_ids[0], false);
+}
+
+TEST_F(BufferPoolTest, LargeDataOperations) {
+  // 分配页面
+  int32_t page_id = disk_manager_->AllocatePage();
+  EXPECT_NE(page_id, -1);
+
+  // 写入大量数据到页面
+  char large_data[8192] = {0};
+  for (int i = 0; i < 8191; ++i) {
+    large_data[i] = 'A' + (i % 26);
+  }
+  large_data[8191] = '\0';
+  disk_manager_->WritePage(page_id, large_data);
+
+  // 获取页面并验证数据完整性
+  Page *page = buffer_pool_->FetchPage(page_id);
+  EXPECT_NE(page, nullptr);
+  EXPECT_STREQ(page->GetData(), large_data);
+
+  // 修改大量数据
+  for (int i = 0; i < 8191; ++i) {
+    page->GetData()[i] = 'Z' - (i % 26);
+  }
+  page->GetData()[8191] = '\0';
+
+  // 释放并刷新页面
+  buffer_pool_->UnpinPage(page_id, true);
+  buffer_pool_->FlushPage(page_id);
+
+  // 重新获取并验证修改后的数据
+  Page *page2 = buffer_pool_->FetchPage(page_id);
+  EXPECT_NE(page2, nullptr);
+  for (int i = 0; i < 8191; ++i) {
+    EXPECT_EQ(page2->GetData()[i], 'Z' - (i % 26));
+  }
   buffer_pool_->UnpinPage(page_id, false);
 }
 

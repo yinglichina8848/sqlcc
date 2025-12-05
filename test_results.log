@@ -1,0 +1,179 @@
+=====================================
+SQLCC集成测试脚本
+=====================================
+[1;33m将运行所有测试（单元、集成、客户机-服务器、性能）[0m
+[1;33m代码覆盖率测试已启用[0m
+[0;34m准备构建环境...[0m
+[0;34m创建测试所需的目录结构和符号链接[0m
+[0;32m已链接 dcl_test_script.sql[0m
+[0;32m已链接 ddl_test_script.sql[0m
+[0;32m已链接 advanced_comprehensive_test.sql[0m
+[0;34m验证脚本文件是否可访问:[0m
+total 12
+drwxr-xr-x 2 liying liying 4096 Dec  5 17:26 .
+drwxr-xr-x 3 liying liying 4096 Dec  5 17:23 ..
+lrwxrwxrwx 1 liying liying   62 Dec  5 17:26 advanced_comprehensive_test.sql -> /home/liying/sqlcc/scripts/sql/advanced_comprehensive_test.sql
+lrwxrwxrwx 1 liying liying   50 Dec  5 17:26 dcl_test_script.sql -> /home/liying/sqlcc/scripts/sql/dcl_test_script.sql
+lrwxrwxrwx 1 liying liying   50 Dec  5 17:26 ddl_test_script.sql -> /home/liying/sqlcc/scripts/sql/ddl_test_script.sql
+total 12
+drwxr-xr-x 2 liying liying 4096 Dec  5 17:26 .
+drwxr-xr-x 3 liying liying 4096 Dec  5 17:23 ..
+lrwxrwxrwx 1 liying liying   62 Dec  5 17:26 advanced_comprehensive_test.sql -> /home/liying/sqlcc/scripts/sql/advanced_comprehensive_test.sql
+lrwxrwxrwx 1 liying liying   50 Dec  5 17:26 dcl_test_script.sql -> /home/liying/sqlcc/scripts/sql/dcl_test_script.sql
+lrwxrwxrwx 1 liying liying   50 Dec  5 17:26 ddl_test_script.sql -> /home/liying/sqlcc/scripts/sql/ddl_test_script.sql
+-- DCL（数据控制语言）测试脚本
+-- 包含GRANT、REVOKE、用户管理和角色管理语句的测试用例
+-- DCL（数据控制语言）测试脚本
+-- 包含GRANT、REVOKE、用户管理和角色管理语句的测试用例
+[0;34m验证SQL脚本文件是否可访问[0m
+total 12
+drwxr-xr-x 2 liying liying 4096 Dec  5 17:26 .
+drwxr-xr-x 3 liying liying 4096 Dec  5 17:23 ..
+lrwxrwxrwx 1 liying liying   62 Dec  5 17:26 advanced_comprehensive_test.sql -> /home/liying/sqlcc/scripts/sql/advanced_comprehensive_test.sql
+lrwxrwxrwx 1 liying liying   50 Dec  5 17:26 dcl_test_script.sql -> /home/liying/sqlcc/scripts/sql/dcl_test_script.sql
+lrwxrwxrwx 1 liying liying   50 Dec  5 17:26 ddl_test_script.sql -> /home/liying/sqlcc/scripts/sql/ddl_test_script.sql
+[0;34m测试缓存目录: /home/liying/sqlcc/build_test/test_cache[0m
+[0;34m清理旧的覆盖率文件...[0m
+[0;34m检查CMake配置...[0m
+[0;34m清理现有的CMake文件...[0m
+[0;34m使用项目根目录重新运行CMake配置...[0m
+CMake Warning at config/CMakeLists.txt:12 (find_package):
+  By not providing "FindReadline.cmake" in CMAKE_MODULE_PATH this project has
+  asked CMake to find a package configuration file provided by "Readline",
+  but CMake did not find one.
+
+  Could not find a package configuration file provided by "Readline" with any
+  of the following names:
+
+    ReadlineConfig.cmake
+    readline-config.cmake
+
+  Add the installation prefix of "Readline" to CMAKE_PREFIX_PATH or set
+  "Readline_DIR" to a directory containing one of the above files.  If
+  "Readline" provides a separate development package or SDK, be sure it has
+  been installed.
+Call Stack (most recent call first):
+  CMakeLists.txt:12 (include)
+
+
+-- spdlog not found, using bundled version
+-- JSON support enabled
+-- 启用覆盖率测试支持
+-- Found gcovr: /usr/bin/gcovr
+CMake Warning at config/CMakeLists.txt:85 (message):
+  Readline library not found, using basic command line input
+Call Stack (most recent call first):
+  CMakeLists.txt:12 (include)
+
+
+-- Found Google Test: 
+-- Found Google Test
+-- Found gcovr: /usr/bin/gcovr
+-- Configuring done (2.2s)
+-- Generating done (0.0s)
+-- Build files have been written to: /home/liying/sqlcc/build_test
+[0;32mCMake配置成功！[0m
+[0;34m开始编译测试...[0m
+[1;33m编译目录: /home/liying/sqlcc/build_test[0m
+[0;34m编译所有测试...[0m
+[  2%] Built target sqlcc_transaction_manager
+[  4%] Built target sqlcc_core_lib
+[  5%] Building CXX object src/CMakeFiles/sqlcc_parser.dir/sql_parser/ast_node.cpp.o
+[  6%] Built target sqlcc_config_manager
+[  6%] Building CXX object src/CMakeFiles/sqlcc_parser.dir/sql_parser/ast_nodes.cpp.o
+[  7%] Built target pure_fs_test
+[  8%] Building CXX object src/CMakeFiles/sqlcc_network.dir/network/network.cpp.o
+[ 10%] Built target persistence_check
+[ 12%] Built target compare_values_test
+[ 13%] Building CXX object src/CMakeFiles/sqlcc_parser.dir/sql_parser/parser_new.cpp.o
+[ 14%] Building CXX object src/CMakeFiles/sqlcc_parser.dir/sql_parser/lexer_new.cpp.o
+/home/liying/sqlcc/src/sql_parser/ast_nodes.cpp: In member function ‘const std::string& sqlcc::sql_parser::CreateIndexStatement::getColumnName() const’:
+/home/liying/sqlcc/src/sql_parser/ast_nodes.cpp:376:29: warning: returning reference to temporary [-Wreturn-local-addr]
+  376 |     return columns_.empty() ? "" : columns_[0];
+[ 15%] Building CXX object src/CMakeFiles/sqlcc_storage_engine.dir/storage_engine/disk_manager.cpp.o
+[ 16%] Building CXX object src/CMakeFiles/sqlcc_parser.dir/sql_parser/token_new.cpp.o
+[ 17%] Building CXX object src/CMakeFiles/sqlcc_storage_engine.dir/storage_engine/buffer_pool.cpp.o
+[ 17%] Building CXX object src/CMakeFiles/sqlcc_parser.dir/sql_parser/errors/error_core.cpp.o
+[ 18%] Building CXX object src/CMakeFiles/sqlcc_parser.dir/sql_parser/parser_set_operations.cpp.o
+[ 18%] Linking CXX static library libsqlcc_network.a
+[ 19%] Built target sqlcc_network
+[ 20%] Building CXX object src/CMakeFiles/sqlcc_parser.dir/sql_parser/set_operation_node.cpp.o
+[ 20%] Building CXX object src/CMakeFiles/sqlcc_storage_engine.dir/storage_engine/buffer_pool_sharded.cpp.o
+[ 21%] Building CXX object CMakeFiles/isql_network.dir/src/isql_network/client_main.cpp.o
+/home/liying/sqlcc/src/isql_network/client_main.cpp:19: warning: "SQLCC_VERSION" redefined
+   19 | #define SQLCC_VERSION "0.6.2"
+      | 
+In file included from /home/liying/sqlcc/src/isql_network/client_main.cpp:15:
+/home/liying/sqlcc/include/utils/version.h:16: note: this is the location of the previous definition
+   16 | #define SQLCC_VERSION "1.1.1"
+      | 
+[ 23%] Linking CXX static library libsqlcc_parser.a
+[ 25%] Built target sqlcc_parser
+[ 26%] Building CXX object src/CMakeFiles/sqlcc_storage_engine.dir/storage_engine/storage_engine.cpp.o
+[ 27%] Building CXX object tests/CMakeFiles/sql_network_test.dir/network/sql_network_test.cpp.o
+[ 27%] Building CXX object tests/CMakeFiles/aes_encryption_test.dir/network/aes_encryption_test.cc.o
+[ 27%] Linking CXX executable bin/isql_network
+[ 28%] Building CXX object src/CMakeFiles/sqlcc_storage_engine.dir/storage_engine/b_plus_tree.cpp.o
+[ 28%] Built target isql_network
+[ 28%] Building CXX object tests/CMakeFiles/dcl_parser_test.dir/unit/dcl_parser_test.cpp.o
+[ 29%] Building CXX object src/CMakeFiles/sqlcc_storage_engine.dir/storage_engine/table_storage.cpp.o
+[ 30%] Linking CXX executable sql_network_test
+[ 31%] Linking CXX executable dcl_parser_test
+[ 31%] Built target sql_network_test
+[ 31%] Building CXX object src/CMakeFiles/sqlcc_storage_engine.dir/storage_engine/page.cpp.o
+[ 31%] Built target dcl_parser_test
+[ 32%] Building CXX object tests/CMakeFiles/parser_verification_test.dir/unit/parser_verification_test.cpp.o
+[ 34%] Linking CXX executable aes_encryption_test
+[ 34%] Built target aes_encryption_test
+[ 35%] Linking CXX executable parser_verification_test
+[ 35%] Built target parser_verification_test
+[ 36%] Linking CXX static library libsqlcc_storage_engine.a
+[ 36%] Built target sqlcc_storage_engine
+[ 37%] Building CXX object src/CMakeFiles/sqlcc_executor.dir/sql_executor/sql_executor.cpp.o
+[ 38%] Building CXX object src/CMakeFiles/sqlcc_executor.dir/sql_executor/index_manager.cpp.o
+[ 39%] Building CXX object src/CMakeFiles/sqlcc_executor.dir/sql_executor/user_manager.cpp.o
+[ 39%] Building CXX object src/CMakeFiles/sqlcc_executor.dir/sql_executor/data_type.cpp.o
+[ 40%] Building CXX object src/CMakeFiles/sqlcc_executor.dir/sql_executor/system_database.cpp.o
+[ 40%] Building CXX object src/CMakeFiles/sqlcc_executor.dir/execution_engine.cpp.o
+[ 41%] Building CXX object src/CMakeFiles/sqlcc_executor.dir/unified_query_plan.cpp.o
+[ 42%] Building CXX object src/CMakeFiles/sqlcc_executor.dir/error_handler.cpp.o
+[ 43%] Building CXX object src/CMakeFiles/sqlcc_executor.dir/permission_validator.cpp.o
+[ 43%] Building CXX object src/CMakeFiles/sqlcc_executor.dir/unified_executor.cpp.o
+[ 45%] Building CXX object src/CMakeFiles/sqlcc_executor.dir/execution_context.cpp.o
+/home/liying/sqlcc/src/unified_query_plan.cpp: In member function ‘bool sqlcc::ProcedureQueryPlan::buildDropProcedurePlan()’:
+/home/liying/sqlcc/src/unified_query_plan.cpp:472:21: error: no matching function for call to ‘std::vector<sqlcc::QueryStep>::push_back(sqlcc::QueryStepType, const char [28], sqlcc::ProcedureQueryPlan::buildDropProcedurePlan()::<lambda()>, bool)’
+  472 |     steps_.push_back(QueryStepType::POST_PROCESS, "更新存储过程元数据",
+      |     ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  473 |                    [this]() { return true; }, true));
+      |                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /usr/include/c++/13/vector:66,
+                 from /home/liying/sqlcc/include/sql_parser/node_visitor.h:8,
+                 from /home/liying/sqlcc/include/sql_parser/ast_node.h:7,
+                 from /home/liying/sqlcc/include/sql_parser/ast_nodes.h:4,
+                 from /home/liying/sqlcc/include/unified_query_plan.h:4,
+                 from /home/liying/sqlcc/src/unified_query_plan.cpp:1:
+/usr/include/c++/13/bits/stl_vector.h:1281:7: note: candidate: ‘void std::vector<_Tp, _Alloc>::push_back(const value_type&) [with _Tp = sqlcc::QueryStep; _Alloc = std::allocator<sqlcc::QueryStep>; value_type = sqlcc::QueryStep]’
+ 1281 |       push_back(const value_type& __x)
+      |       ^~~~~~~~~
+/usr/include/c++/13/bits/stl_vector.h:1281:7: note:   candidate expects 1 argument, 4 provided
+/usr/include/c++/13/bits/stl_vector.h:1298:7: note: candidate: ‘void std::vector<_Tp, _Alloc>::push_back(value_type&&) [with _Tp = sqlcc::QueryStep; _Alloc = std::allocator<sqlcc::QueryStep>; value_type = sqlcc::QueryStep]’
+ 1298 |       push_back(value_type&& __x)
+      |       ^~~~~~~~~
+/usr/include/c++/13/bits/stl_vector.h:1298:7: note:   candidate expects 1 argument, 4 provided
+/home/liying/sqlcc/src/unified_query_plan.cpp: In constructor ‘sqlcc::TriggerQueryPlan::TriggerQueryPlan(std::shared_ptr<sqlcc::DatabaseManager>, std::shared_ptr<sqlcc::UserManager>, std::shared_ptr<sqlcc::SystemDatabase>)’:
+/home/liying/sqlcc/src/unified_query_plan.cpp:508:59: error: no matching function for call to ‘sqlcc::sql_parser::TriggerDefinition::TriggerDefinition()’
+  508 |     : UnifiedQueryPlan(db_manager, user_manager, system_db) {}
+      |                                                           ^
+/home/liying/sqlcc/include/sql_parser/ast_nodes.h:673:5: note: candidate: ‘sqlcc::sql_parser::TriggerDefinition::TriggerDefinition(const std::string&, Timing, Event, Level, const std::string&)’
+  673 |     TriggerDefinition(const std::string& name, Timing timing, Event event,
+      |     ^~~~~~~~~~~~~~~~~
+/home/liying/sqlcc/include/sql_parser/ast_nodes.h:673:5: note:   candidate expects 5 arguments, 0 provided
+/home/liying/sqlcc/include/sql_parser/ast_nodes.h:654:7: note: candidate: ‘sqlcc::sql_parser::TriggerDefinition::TriggerDefinition(const sqlcc::sql_parser::TriggerDefinition&)’
+  654 | class TriggerDefinition {
+      |       ^~~~~~~~~~~~~~~~~
+/home/liying/sqlcc/include/sql_parser/ast_nodes.h:654:7: note:   candidate expects 1 argument, 0 provided
+make[2]: *** [src/CMakeFiles/sqlcc_executor.dir/build.make:160: src/CMakeFiles/sqlcc_executor.dir/unified_query_plan.cpp.o] Error 1
+make[2]: *** Waiting for unfinished jobs....
+make[1]: *** [CMakeFiles/Makefile2:1060: src/CMakeFiles/sqlcc_executor.dir/all] Error 2
+make: *** [Makefile:101: all] Error 2
+[0;31m编译失败，请检查错误信息[0m

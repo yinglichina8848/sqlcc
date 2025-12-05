@@ -28,6 +28,9 @@ set(SQL_PARSER_SOURCES
     sql_parser/errors/error_core.cpp
     sql_parser/parser_set_operations.cpp
     sql_parser/set_operation_node.cpp
+    sql_parser/parser.cpp
+    sql_parser/lexer.cpp
+    sql_parser/token.cpp
 )
 
 add_library(sqlcc_parser STATIC

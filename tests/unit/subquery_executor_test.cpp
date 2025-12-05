@@ -1,9 +1,9 @@
-#include "../include/database_manager.h"
-#include "../include/execution/subquery_executor.h" // 注意：需要确认实际的头文件路径
-#include "../include/sql_parser/parser.h"
-#include "../include/system_database.h"
-#include "../include/unified_executor.h"
-#include "../include/user_manager.h"
+#include "database_manager.h"
+#include "execution/subquery_executor.h" // 注意：需要确认实际的头文件路径
+#include "sql_parser/parser.h"
+#include "system_database.h"
+#include "unified_executor.h"
+#include "user_manager.h"
 #include <gtest/gtest.h>
 #include <memory>
 

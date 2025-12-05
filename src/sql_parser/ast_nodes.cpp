@@ -584,5 +584,227 @@ bool ShowStatement::hasFromDatabase() const {
     return hasFromDb_;
 }
 
+// ==================== ProcedureParameter ====================
+
+ProcedureParameter::ProcedureParameter(const std::string& name, const std::string& type, Mode mode)
+    : name_(name), type_(type), mode_(mode) {
+}
+
+ProcedureParameter::~ProcedureParameter() {
+}
+
+const std::string& ProcedureParameter::getName() const {
+    return name_;
+}
+
+const std::string& ProcedureParameter::getType() const {
+    return type_;
+}
+
+ProcedureParameter::Mode ProcedureParameter::getMode() const {
+    return mode_;
+}
+
+std::string ProcedureParameter::getModeString() const {
+    switch (mode_) {
+        case IN: return "IN";
+        case OUT: return "OUT";
+        case INOUT: return "INOUT";
+        default: return "UNKNOWN";
+    }
+}
+
+// ==================== CreateProcedureStatement ====================
+
+CreateProcedureStatement::CreateProcedureStatement(const std::string& name)
+    : Statement(CREATE_PROCEDURE), name_(name) {
+}
+
+CreateProcedureStatement::~CreateProcedureStatement() {
+}
+
+void CreateProcedureStatement::addParameter(const ProcedureParameter& param) {
+    parameters_.push_back(param);
+}
+
+const std::vector<ProcedureParameter>& CreateProcedureStatement::getParameters() const {
+    return parameters_;
+}
+
+void CreateProcedureStatement::setBody(const std::string& body) {
+    body_ = body;
+}
+
+const std::string& CreateProcedureStatement::getBody() const {
+    return body_;
+}
+
+const std::string& CreateProcedureStatement::getName() const {
+    return name_;
+}
+
+// ==================== CallProcedureStatement ====================
+
+CallProcedureStatement::CallProcedureStatement(const std::string& name)
+    : Statement(CALL_PROCEDURE), name_(name) {
+}
+
+CallProcedureStatement::~CallProcedureStatement() {
+}
+
+void CallProcedureStatement::addArgument(std::unique_ptr<Expression> arg) {
+    arguments_.push_back(std::move(arg));
+}
+
+const std::vector<std::unique_ptr<Expression>>& CallProcedureStatement::getArguments() const {
+    return arguments_;
+}
+
+const std::string& CallProcedureStatement::getName() const {
+    return name_;
+}
+
+// ==================== DropProcedureStatement ====================
+
+DropProcedureStatement::DropProcedureStatement(const std::string& name)
+    : Statement(DROP_PROCEDURE), name_(name) {
+}
+
+DropProcedureStatement::~DropProcedureStatement() {
+}
+
+const std::string& DropProcedureStatement::getName() const {
+    return name_;
+}
+
+// ==================== TriggerDefinition ====================
+
+TriggerDefinition::TriggerDefinition(const std::string& name, Timing timing, Event event, 
+                                     Level level, const std::string& tableName)
+    : name_(name), timing_(timing), event_(event), level_(level), 
+      tableName_(tableName), hasCondition_(false) {
+}
+
+TriggerDefinition::~TriggerDefinition() {
+}
+
+const std::string& TriggerDefinition::getName() const {
+    return name_;
+}
+
+TriggerDefinition::Timing TriggerDefinition::getTiming() const {
+    return timing_;
+}
+
+std::string TriggerDefinition::getTimingString() const {
+    switch (timing_) {
+        case BEFORE: return "BEFORE";
+        case AFTER: return "AFTER";
+        case INSTEAD_OF: return "INSTEAD OF";
+        default: return "UNKNOWN";
+    }
+}
+
+TriggerDefinition::Event TriggerDefinition::getEvent() const {
+    return event_;
+}
+
+std::string TriggerDefinition::getEventString() const {
+    switch (event_) {
+        case INSERT: return "INSERT";
+        case UPDATE: return "UPDATE";
+        case DELETE: return "DELETE";
+        default: return "UNKNOWN";
+    }
+}
+
+TriggerDefinition::Level TriggerDefinition::getLevel() const {
+    return level_;
+}
+
+std::string TriggerDefinition::getLevelString() const {
+    switch (level_) {
+        case ROW: return "ROW";
+        case STATEMENT: return "STATEMENT";
+        default: return "UNKNOWN";
+    }
+}
+
+const std::string& TriggerDefinition::getTableName() const {
+    return tableName_;
+}
+
+void TriggerDefinition::setCondition(const std::string& condition) {
+    condition_ = condition;
+    hasCondition_ = true;
+}
+
+const std::string& TriggerDefinition::getCondition() const {
+    return condition_;
+}
+
+bool TriggerDefinition::hasCondition() const {
+    return hasCondition_;
+}
+
+void TriggerDefinition::setBody(const std::string& body) {
+    body_ = body;
+}
+
+const std::string& TriggerDefinition::getBody() const {
+    return body_;
+}
+
+// ==================== CreateTriggerStatement ====================
+
+CreateTriggerStatement::CreateTriggerStatement(const TriggerDefinition& triggerDef)
+    : Statement(CREATE_TRIGGER), triggerDef_(triggerDef) {
+}
+
+CreateTriggerStatement::~CreateTriggerStatement() {
+}
+
+const TriggerDefinition& CreateTriggerStatement::getTriggerDefinition() const {
+    return triggerDef_;
+}
+
+// ==================== DropTriggerStatement ====================
+
+DropTriggerStatement::DropTriggerStatement(const std::string& name)
+    : Statement(DROP_TRIGGER), name_(name) {
+}
+
+DropTriggerStatement::~DropTriggerStatement() {
+}
+
+const std::string& DropTriggerStatement::getName() const {
+    return name_;
+}
+
+// ==================== AlterTriggerStatement ====================
+
+AlterTriggerStatement::AlterTriggerStatement(const std::string& name, Action action)
+    : Statement(ALTER_TRIGGER), name_(name), action_(action) {
+}
+
+AlterTriggerStatement::~AlterTriggerStatement() {
+}
+
+const std::string& AlterTriggerStatement::getName() const {
+    return name_;
+}
+
+AlterTriggerStatement::Action AlterTriggerStatement::getAction() const {
+    return action_;
+}
+
+std::string AlterTriggerStatement::getActionString() const {
+    switch (action_) {
+        case ENABLE: return "ENABLE";
+        case DISABLE: return "DISABLE";
+        default: return "UNKNOWN";
+    }
+}
+
 } // namespace sql_parser
 } // namespace sqlcc

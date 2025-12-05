@@ -1,7 +1,7 @@
 #include <iostream>
 #include <memory>
-#include "../../include/sql_parser/parser.h"
-#include "../../include/sql_parser/ast_nodes.h"
+#include "sql_parser/parser.h"
+#include "sql_parser/ast_nodes.h"
 
 using namespace sqlcc::sql_parser;
 

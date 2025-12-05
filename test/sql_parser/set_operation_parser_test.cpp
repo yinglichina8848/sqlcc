@@ -1,6 +1,6 @@
-#include "../../include/sql_parser/parser.h"
-#include "../../include/sql_parser/set_operation_node.h"
-#include "../../include/sql_parser/ast_nodes.h"
+#include "sql_parser/parser.h"
+#include "sql_parser/set_operation_node.h"
+#include "sql_parser/ast_nodes.h"
 #include <gtest/gtest.h>
 #include <memory>
 #include <string>

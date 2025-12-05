@@ -1,5 +1,5 @@
-#include "b_plus_tree.h"
-#include "config_manager.h"
+#include "storage/b_plus_tree.h"
+#include "utils/config_manager.h"
 #include "storage_engine.h"
 #include <gtest/gtest.h>
 

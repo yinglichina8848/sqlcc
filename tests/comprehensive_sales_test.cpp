@@ -1,4 +1,4 @@
-#include "../include/sql_executor.h"
+#include "sql_executor.h"
 #include <fstream>
 #include <iostream>
 #include <string>

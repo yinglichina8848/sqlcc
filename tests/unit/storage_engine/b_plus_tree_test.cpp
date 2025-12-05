@@ -1,5 +1,5 @@
-#include "b_plus_tree.h"
-#include "config_manager.h"
+#include "storage/b_plus_tree.h"
+#include "utils/config_manager.h"
 #include "storage_engine.h"
 #include <gtest/gtest.h>
 
@@ -165,6 +165,80 @@ TEST_F(BPlusTreeTest, LargeKeyInsertion) {
   std::vector<IndexEntry> results = b_plus_tree_index_->Search("1000000");
   EXPECT_EQ(results.size(), 1);
   EXPECT_EQ(results[0].key, "1000000");
+}
+
+TEST_F(BPlusTreeTest, EmptyTreeOperations) {
+  // 测试空树的搜索
+  std::vector<IndexEntry> results = b_plus_tree_index_->Search("any_key");
+  EXPECT_EQ(results.size(), 0);
+
+  // 测试空树的范围查询
+  results = b_plus_tree_index_->SearchRange("a", "z");
+  EXPECT_EQ(results.size(), 0);
+
+  // 测试空树的删除
+  EXPECT_TRUE(b_plus_tree_index_->Delete("any_key"));
+}
+
+TEST_F(BPlusTreeTest, SingleNodeOperations) {
+  // 插入一个键
+  IndexEntry entry("key1", 1, 0);
+  EXPECT_TRUE(b_plus_tree_index_->Insert(entry));
+
+  // 验证搜索结果
+  std::vector<IndexEntry> results = b_plus_tree_index_->Search("key1");
+  EXPECT_EQ(results.size(), 1);
+  EXPECT_EQ(results[0].key, "key1");
+
+  // 删除该键
+  EXPECT_TRUE(b_plus_tree_index_->Delete("key1"));
+
+  // 验证键已删除
+  results = b_plus_tree_index_->Search("key1");
+  EXPECT_EQ(results.size(), 0);
+}
+
+TEST_F(BPlusTreeTest, MultipleRangeQueries) {
+  // 插入多个键
+  for (int i = 0; i < 100; ++i) {
+    std::string key = "key" + std::to_string(i);
+    IndexEntry entry(key, i, 0);
+    EXPECT_TRUE(b_plus_tree_index_->Insert(entry));
+  }
+
+  // 测试多个范围查询
+  std::vector<IndexEntry> results = b_plus_tree_index_->SearchRange("key10", "key20");
+  EXPECT_EQ(results.size(), 11); // key10到key20共11个键
+
+  results = b_plus_tree_index_->SearchRange("key50", "key99");
+  EXPECT_EQ(results.size(), 50); // key50到key99共50个键
+
+  results = b_plus_tree_index_->SearchRange("key0", "key9");
+  EXPECT_EQ(results.size(), 10); // key0到key9共10个键
+}
+
+TEST_F(BPlusTreeTest, EdgeKeyRangeQueries) {
+  // 插入键
+  for (int i = 0; i < 5; ++i) {
+    std::string key = "key" + std::to_string(i);
+    IndexEntry entry(key, i, 0);
+    EXPECT_TRUE(b_plus_tree_index_->Insert(entry));
+  }
+
+  // 测试范围边界等于最小键
+  std::vector<IndexEntry> results = b_plus_tree_index_->SearchRange("key0", "key2");
+  EXPECT_EQ(results.size(), 3); // key0, key1, key2
+
+  // 测试范围边界等于最大键
+  results = b_plus_tree_index_->SearchRange("key3", "key4");
+  EXPECT_EQ(results.size(), 2); // key3, key4
+
+  // 测试超出范围的查询
+  results = b_plus_tree_index_->SearchRange("key10", "key20");
+  EXPECT_EQ(results.size(), 0);
+
+  results = b_plus_tree_index_->SearchRange("a", "key0");
+  EXPECT_EQ(results.size(), 1); // 只包含key0
 }
 
 } // namespace test
