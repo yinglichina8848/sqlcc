@@ -45,7 +45,7 @@
 
 ### Clone the project
 ```bash
-git clone https://gitee.com/yourusername/sqlcc.git
+git clone https://gitee.com/yinglichina/sqlcc.git
 cd sqlcc
 ```
 

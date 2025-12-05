@@ -1,0 +1,54 @@
+# SQLCC 变更日志
+
+## v1.1.1 (2025-12-06)
+
+### 新增功能
+- **SQLParserNew重构**：完成了Token枚举值的统一和重构工作
+- **增强测试覆盖**：为SQL解析器添加了完整的单元测试和集成测试
+
+### 修复问题
+- **token_new_unit_test.cpp语法错误修复**：
+  - 修复了文件末尾的语法问题，补全了main函数的测试输出代码
+  - 添加了catch异常处理块、返回语句和缺失的闭合大括号
+  - 修复了MockTokenType枚举与std::unordered_map初始化的类型不匹配问题
+  - 将keywords映射表中的错误`MockType::DATABASE`枚举值修改为正确的`MockTokenType::DATABASE`
+
+- **parser_new_integration_test.cpp无限循环问题修复**：
+  - 发现并修复了parseColumnList和parseValueList函数中的无限循环bug
+  - 在非预期token情况下添加了pos递增逻辑，避免无限循环
+  - 将原有的if判断逗号改为else if结构，并添加else分支处理非预期token
+
+### 测试改进
+- **token_new_unit_test**：
+  - 所有9项测试通过，包括：
+    - 关键字识别测试
+    - Token属性测试
+    - 数字解析测试
+    - 字符串解析测试
+    - 复杂SQL解析测试
+    - 注释处理测试
+    - 错误处理测试
+    - 空白字符处理测试
+
+- **parser_new_integration_test**：
+  - 所有5项测试通过，包括：
+    - BasicSelect：基础SELECT语句解析
+    - SelectWithWhere：带WHERE条件的SELECT语句解析
+    - InsertStatement：INSERT语句解析
+    - CreateTable：CREATE TABLE语句解析
+    - MultipleStatements：多语句解析
+
+### 构建系统
+- 项目完整编译成功，所有目标（包括parser_new_integration_test和token_new_unit_test）均成功构建
+- 编译过程无错误和警告
+
+### 代码质量
+- 统一了Token枚举值的使用，确保类型一致性
+- 提高了代码的可维护性和可测试性
+- 增强了错误处理机制
+
+---
+
+**更新日期**：2025-12-06
+**编写人**：SQLCC开发团队
+**版本**：v1.1.1

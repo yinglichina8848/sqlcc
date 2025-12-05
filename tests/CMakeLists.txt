@@ -309,6 +309,23 @@ target_link_libraries(dml_executor_integration_test
     sqlcc_executor
 )
 
+# 索引系统集成测试
+add_executable(index_system_integration_test unit/index_system_integration_test.cpp)
+
+target_link_libraries(index_system_integration_test
+    PRIVATE
+    gtest
+    gtest_main
+    pthread
+    ${CMAKE_DL_LIBS}
+    sqlcc_core_lib
+    sqlcc_parser
+    sqlcc_config_manager
+    sqlcc_storage_engine
+    sqlcc_transaction_manager
+    sqlcc_executor
+)
+
 
 
 # 约束验证测试
@@ -464,6 +481,7 @@ add_test(NAME comprehensive_test COMMAND comprehensive_test)
 add_test(NAME dcl_test COMMAND dcl_test)
 add_test(NAME ddl_test COMMAND ddl_test)
 add_test(NAME dml_executor_integration_test COMMAND dml_executor_integration_test)
+add_test(NAME index_system_integration_test COMMAND index_system_integration_test)
 add_test(NAME simple_test COMMAND simple_test)
 add_test(NAME transaction_manager_test COMMAND transaction_manager_test)
 add_test(NAME sql_executor_comprehensive_test COMMAND sql_executor_comprehensive_test)

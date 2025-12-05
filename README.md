@@ -247,7 +247,7 @@ Vibe Coding是一种以AI辅助为核心的编程方式，强调开发者与AI�
 
 ### 克隆项目
 ```bash
-git clone https://gitee.com/yourusername/sqlcc.git
+git clone https://gitee.com/yinglichina/sqlcc.git
 cd sqlcc
 ```
 
@@ -279,4 +279,4 @@ make coverage
 
 **版本维护**: SQLCC团队  
 **最后更新**: 2025-12-04  
-**项目地址**: https://gitee.com/sqlcc/sqlcc
+**项目地址**: https://gitee.com/yinglichina/sqlcc

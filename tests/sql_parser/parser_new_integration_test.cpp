@@ -626,9 +626,11 @@ private:
         list->addChild(std::make_unique<MockASTNode>(
             ASTNodeType::COLUMN_DEFINITION, tokens[pos].lexeme));
         pos++;
-      }
-      if (pos < tokens.size() && tokens[pos].type == TokenType::COMMA) {
+      } else if (pos < tokens.size() && tokens[pos].type == TokenType::COMMA) {
         pos++; // Skip comma
+      } else {
+        // Skip unexpected tokens to avoid infinite loop
+        pos++;
       }
     }
 
@@ -651,9 +653,11 @@ private:
         list->addChild(std::make_unique<MockASTNode>(ASTNodeType::EXPRESSION,
                                                      tokens[pos].lexeme));
         pos++;
-      }
-      if (pos < tokens.size() && tokens[pos].type == TokenType::COMMA) {
+      } else if (pos < tokens.size() && tokens[pos].type == TokenType::COMMA) {
         pos++; // Skip comma
+      } else {
+        // Skip unexpected tokens to avoid infinite loop
+        pos++;
       }
     }
 

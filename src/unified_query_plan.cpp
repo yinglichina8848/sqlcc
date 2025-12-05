@@ -376,13 +376,218 @@ DMLQueryPlan::DMLQueryPlan(std::shared_ptr<DatabaseManager> db_manager,
     : UnifiedQueryPlan(db_manager, user_manager, system_db) {}
 
 bool DMLQueryPlan::buildSpecificPlan() {
-  // TODO: 实现DML特定计划构建
-  return true;
+  // 根据语句类型构建特定的执行计划
+  if (auto select_stmt =
+          dynamic_cast<sql_parser::SelectStatement *>(statement_.get())) {
+    return buildSelectPlan();
+  } else if (auto insert_stmt = dynamic_cast<sql_parser::InsertStatement *>(
+                 statement_.get())) {
+    return buildInsertPlan();
+  } else if (auto update_stmt = dynamic_cast<sql_parser::UpdateStatement *>(
+                 statement_.get())) {
+    return buildUpdatePlan();
+  } else if (auto delete_stmt = dynamic_cast<sql_parser::DeleteStatement *>(
+                 statement_.get())) {
+    return buildDeletePlan();
+  }
+
+  setError("不支持的DML语句类型");
+  return false;
 }
 
 ExecutionResult DMLQueryPlan::executeSpecificPlan() {
-  // TODO: 实现DML特定计划执行
-  return {true, "DML执行成功"};
+  // 根据语句类型执行特定的计划
+  if (auto select_stmt =
+          dynamic_cast<sql_parser::SelectStatement *>(statement_.get())) {
+    return executeSelectPlan();
+  } else if (auto insert_stmt = dynamic_cast<sql_parser::InsertStatement *>(
+                 statement_.get())) {
+    return executeInsertPlan();
+  } else if (auto update_stmt = dynamic_cast<sql_parser::UpdateStatement *>(
+                 statement_.get())) {
+    return executeUpdatePlan();
+  } else if (auto delete_stmt = dynamic_cast<sql_parser::DeleteStatement *>(
+                 statement_.get())) {
+    return executeDeletePlan();
+  }
+
+  return {false, "不支持的DML语句类型"};
+}
+
+bool DMLQueryPlan::buildSelectPlan() {
+  auto select_stmt =
+      dynamic_cast<sql_parser::SelectStatement *>(statement_.get());
+  if (!select_stmt) {
+    setError("构建SELECT计划失败：语句类型不匹配");
+    return false;
+  }
+
+  table_name_ = select_stmt->getTableName();
+  // 创建新的WhereClause对象并包装为shared_ptr
+  const auto &where_clause_ref = select_stmt->getWhereClause();
+  where_clause_ = std::make_shared<sql_parser::WhereClause>(
+      where_clause_ref.getColumnName(), where_clause_ref.getOp(),
+      where_clause_ref.getValue());
+
+  // 添加SELECT语句特定的执行步骤
+  steps_.push_back(QueryStep(
+      QueryStepType::EXECUTION, "执行SELECT查询", [this]() { return true; },
+      true));
+
+  return true;
+}
+
+bool DMLQueryPlan::buildInsertPlan() {
+  auto insert_stmt =
+      dynamic_cast<sql_parser::InsertStatement *>(statement_.get());
+  if (!insert_stmt) {
+    setError("构建INSERT计划失败：语句类型不匹配");
+    return false;
+  }
+
+  table_name_ = insert_stmt->getTableName();
+  values_ = insert_stmt->getValues();
+
+  // 添加INSERT语句特定的执行步骤
+  steps_.push_back(QueryStep(
+      QueryStepType::EXECUTION, "执行INSERT操作", [this]() { return true; },
+      true));
+
+  return true;
+}
+
+bool DMLQueryPlan::buildUpdatePlan() {
+  auto update_stmt =
+      dynamic_cast<sql_parser::UpdateStatement *>(statement_.get());
+  if (!update_stmt) {
+    setError("构建UPDATE计划失败：语句类型不匹配");
+    return false;
+  }
+
+  table_name_ = update_stmt->getTableName();
+  // 创建新的WhereClause对象并包装为shared_ptr
+  const auto &where_clause_ref = update_stmt->getWhereClause();
+  where_clause_ = std::make_shared<sql_parser::WhereClause>(
+      where_clause_ref.getColumnName(), where_clause_ref.getOp(),
+      where_clause_ref.getValue());
+
+  // 添加UPDATE语句特定的执行步骤
+  steps_.push_back(QueryStep(
+      QueryStepType::EXECUTION, "执行UPDATE操作", [this]() { return true; },
+      true));
+
+  return true;
+}
+
+bool DMLQueryPlan::buildDeletePlan() {
+  auto delete_stmt =
+      dynamic_cast<sql_parser::DeleteStatement *>(statement_.get());
+  if (!delete_stmt) {
+    setError("构建DELETE计划失败：语句类型不匹配");
+    return false;
+  }
+
+  table_name_ = delete_stmt->getTableName();
+  // 创建新的WhereClause对象并包装为shared_ptr
+  const auto &where_clause_ref = delete_stmt->getWhereClause();
+  where_clause_ = std::make_shared<sql_parser::WhereClause>(
+      where_clause_ref.getColumnName(), where_clause_ref.getOp(),
+      where_clause_ref.getValue());
+
+  // 添加DELETE语句特定的执行步骤
+  steps_.push_back(QueryStep(
+      QueryStepType::EXECUTION, "执行DELETE操作", [this]() { return true; },
+      true));
+
+  return true;
+}
+
+ExecutionResult DMLQueryPlan::executeSelectPlan() {
+  // 创建DML执行器并执行SELECT查询
+  DMLExecutor executor(db_manager_);
+
+  auto select_stmt =
+      dynamic_cast<sql_parser::SelectStatement *>(statement_.get());
+  if (!select_stmt) {
+    return {false, "执行SELECT计划失败：语句类型不匹配"};
+  }
+
+  // 执行SELECT查询，集成索引优化
+  auto select_stmt_ptr =
+      std::unique_ptr<sql_parser::SelectStatement>(select_stmt);
+  statement_.release(); // 释放原指针所有权
+  ExecutionResult result = executor.execute(std::move(select_stmt_ptr));
+  if (result.success) {
+    return {true, "SELECT查询执行成功"};
+  } else {
+    return {false, "SELECT查询执行失败"};
+  }
+}
+
+ExecutionResult DMLQueryPlan::executeInsertPlan() {
+  // 创建DML执行器并执行INSERT操作
+  DMLExecutor executor(db_manager_);
+
+  auto insert_stmt =
+      dynamic_cast<sql_parser::InsertStatement *>(statement_.get());
+  if (!insert_stmt) {
+    return {false, "执行INSERT计划失败：语句类型不匹配"};
+  }
+
+  // 执行INSERT操作，集成索引维护
+  auto insert_stmt_ptr =
+      std::unique_ptr<sql_parser::InsertStatement>(insert_stmt);
+  statement_.release(); // 释放原指针所有权
+  ExecutionResult result = executor.execute(std::move(insert_stmt_ptr));
+  if (result.success) {
+    return {true, "INSERT操作执行成功"};
+  } else {
+    return {false, "INSERT操作执行失败"};
+  }
+}
+
+ExecutionResult DMLQueryPlan::executeUpdatePlan() {
+  // 创建DML执行器并执行UPDATE操作
+  DMLExecutor executor(db_manager_);
+
+  auto update_stmt =
+      dynamic_cast<sql_parser::UpdateStatement *>(statement_.get());
+  if (!update_stmt) {
+    return {false, "执行UPDATE计划失败：语句类型不匹配"};
+  }
+
+  // 执行UPDATE操作，集成索引维护
+  auto update_stmt_ptr =
+      std::unique_ptr<sql_parser::UpdateStatement>(update_stmt);
+  statement_.release(); // 释放原指针所有权
+  ExecutionResult result = executor.execute(std::move(update_stmt_ptr));
+  if (result.success) {
+    return {true, "UPDATE操作执行成功"};
+  } else {
+    return {false, "UPDATE操作执行失败"};
+  }
+}
+
+ExecutionResult DMLQueryPlan::executeDeletePlan() {
+  // 创建DML执行器并执行DELETE操作
+  DMLExecutor executor(db_manager_);
+
+  auto delete_stmt =
+      dynamic_cast<sql_parser::DeleteStatement *>(statement_.get());
+  if (!delete_stmt) {
+    return {false, "执行DELETE计划失败：语句类型不匹配"};
+  }
+
+  // 执行DELETE操作，集成索引维护
+  auto delete_stmt_ptr =
+      std::unique_ptr<sql_parser::DeleteStatement>(delete_stmt);
+  statement_.release(); // 释放原指针所有权
+  ExecutionResult result = executor.execute(std::move(delete_stmt_ptr));
+  if (result.success) {
+    return {true, "DELETE操作执行成功"};
+  } else {
+    return {false, "DELETE操作执行失败"};
+  }
 }
 
 // DCLQueryPlan 实现
