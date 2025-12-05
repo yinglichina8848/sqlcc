@@ -176,9 +176,9 @@ SQLCC是一个AI驱动的微型数据库系统，专为数据库原理教学设�
 
 ### 🔗 最新版本
 
-- **[📄 SQLCC v1.0.9 完整评估报告](docs/evaluation/v1.0.9_project_evaluation.md)** - 当前版本详细特性说明和统计信息
-- **[📄 v1.0.9 ReleaseNote](docs/releases/RELEASE_NOTES_v1.0.9.md)** - 详细的版本发布说明
-- **[📄 v1.0.9 ChangeLog](docs/releases/CHANGELOG_v1.0.9.md)** - 详细的版本变更记录
+- **[📄 SQLCC v1.1.1 完整评估报告](docs/evaluation/v1.1.1_project_evaluation.md)** - 当前版本详细特性说明和统计信息
+- **[📄 v1.1.1 ReleaseNote](docs/releases/RELEASE_NOTES_v1.1.1.md)** - 详细的版本发布说明
+- **[📄 v1.1.1 ChangeLog](docs/releases/CHANGELOG_v1.1.1.md)** - 详细的版本变更记录
 
 ---
 ## 🤖 AI辅助软件工程发展
@@ -278,5 +278,5 @@ make coverage
 ---
 
 **版本维护**: SQLCC团队  
-**最后更新**: 2025-12-04  
+**最后更新**: 2025-12-06  
 **项目地址**: https://gitee.com/yinglichina/sqlcc
