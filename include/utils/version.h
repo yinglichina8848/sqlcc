@@ -13,7 +13,7 @@
 #pragma once
 
 // SqlCC版本定义
-#define SQLCC_VERSION "1.0.1"
+#define SQLCC_VERSION "1.1.1"
 
 // 版本变更历史
 // v0.1.0 - 基础框架搭建
