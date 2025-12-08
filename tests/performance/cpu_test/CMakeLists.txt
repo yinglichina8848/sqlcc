@@ -16,8 +16,8 @@ find_package(Threads REQUIRED)
 # 源文件
 set(SOURCES
     cpu_intensive_test_runner.cc
-    cpu_intensive_performance_test.cc
-    ../performance_test_base.cc
+    ../basic/cpu_intensive_performance_test.cc
+    ../basic/performance_test_base.cc
 )
 
 # 创建可执行文件

@@ -31,9 +31,6 @@ set(SQL_PARSER_SOURCES
     sql_parser/errors/error_core.cpp
     sql_parser/parser_set_operations.cpp
     sql_parser/set_operation_node.cpp
-    sql_parser/parser.cpp
-    sql_parser/lexer.cpp
-    sql_parser/token.cpp
 )
 
 add_library(sqlcc_parser STATIC
@@ -60,12 +57,15 @@ target_include_directories(sqlcc_config_manager PUBLIC
 # 创建storage_engine库
 set(SQLCC_STORAGE_ENGINE_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/storage_engine/disk_manager.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/storage_engine/buffer_pool.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/storage_engine/buffer_pool_new.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/storage_engine/buffer_pool_sharded.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/storage_engine/storage_engine.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/storage_engine/b_plus_tree.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/storage_engine/table_storage.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/storage_engine/page.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/storage_engine/replace_strategy.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/storage_engine/concurrency_control.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/storage_engine/performance_monitor.cpp
 )
 add_library(sqlcc_storage_engine STATIC
     ${SQLCC_STORAGE_ENGINE_SOURCES}

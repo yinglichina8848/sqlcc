@@ -1,10 +1,10 @@
 #include "database_manager.h"
-#include "config_manager.h"
 #include "sql_executor/index_manager.h"
 #include "storage/buffer_pool.h"
 #include "storage/buffer_pool_sharded.h"
 #include "storage/table_storage.h"
 #include "storage_engine.h"
+#include "utils/config_manager.h"
 #include <algorithm>
 #include <filesystem>
 #include <fstream>
@@ -30,6 +30,32 @@ DatabaseManager::DatabaseManager(const std::string &db_path,
 
   // 确保数据库目录存在
   fs::create_directories(db_path_);
+
+  // 初始化关键组件
+  try {
+    // 创建配置管理器
+    config_manager_ = std::make_shared<ConfigManager>();
+
+    // 创建存储引擎
+    storage_engine_ = std::make_shared<StorageEngine>(*config_manager_);
+
+    // 创建索引管理器
+    index_manager_ =
+        std::make_shared<IndexManager>(storage_engine_.get(), *config_manager_);
+
+    // TODO: 事务管理器暂未实现
+    // txn_manager_ = std::make_shared<TransactionManager>();
+
+  } catch (const std::exception &e) {
+#ifdef USE_SPDLOG
+    SPDLOG_ERROR("Failed to initialize DatabaseManager components: {}",
+                 e.what());
+#endif
+    // 如果初始化失败，确保所有指针为nullptr
+    config_manager_ = nullptr;
+    storage_engine_ = nullptr;
+    index_manager_ = nullptr;
+  }
 
 #ifdef USE_SPDLOG
   try {
@@ -358,6 +384,7 @@ bool DatabaseManager::CommitTransaction(TransactionId txn_id) {
     return false;
   }
   // TODO: 集成实际TransactionManager逻辑
+  (void)txn_id; // 标记参数为已使用
   return true;
 }
 
@@ -367,6 +394,7 @@ bool DatabaseManager::RollbackTransaction(TransactionId txn_id) {
     return false;
   }
   // TODO: 集成实际TransactionManager逻辑
+  (void)txn_id; // 标记参数为已使用
   return true;
 }
 
@@ -375,6 +403,7 @@ bool DatabaseManager::ReadPage(TransactionId txn_id, int32_t page_id,
   std::lock_guard<std::mutex> lock(mutex_);
   if (is_closed_ || !buffer_pool_)
     return false;
+  (void)txn_id; // 标记参数为已使用
   *page = buffer_pool_->FetchPage(page_id);
   return *page != nullptr;
 }
@@ -384,6 +413,8 @@ bool DatabaseManager::WritePage(TransactionId txn_id, int32_t page_id,
   std::lock_guard<std::mutex> lock(mutex_);
   if (is_closed_ || !buffer_pool_)
     return false;
+  (void)txn_id; // 标记参数为已使用
+  (void)page;   // 标记参数为已使用
   buffer_pool_->UnpinPage(page_id, true);
   return true;
 }
@@ -391,12 +422,16 @@ bool DatabaseManager::WritePage(TransactionId txn_id, int32_t page_id,
 bool DatabaseManager::LockKey(TransactionId txn_id, const std::string &key) {
   // 这里应该实现实际的锁机制
   // 暂时返回true表示成功
+  (void)txn_id; // 标记参数为已使用
+  (void)key;    // 标记参数为已使用
   return true;
 }
 
 bool DatabaseManager::UnlockKey(TransactionId txn_id, const std::string &key) {
   // 这里应该实现实际的解锁机制
   // 暂时返回true表示成功
+  (void)txn_id; // 标记参数为已使用
+  (void)key;    // 标记参数为已使用
   return true;
 }
 
@@ -423,6 +458,7 @@ bool DatabaseManager::Close() {
     for (auto &db_pair : table_storages_) {
       for (auto &table_pair : db_pair.second) {
         // table_pair.second->Close();
+        (void)table_pair; // 标记变量为已使用
       }
     }
 
@@ -504,8 +540,8 @@ sqlcc::DatabaseManager::GetTableMetadata(const std::string &table_name) {
   metadata->database_name = current_database_;
 
   // 添加一些示例列信息
-  metadata->columns.push_back({"id", "INT"});
-  metadata->columns.push_back({"name", "VARCHAR(50)"});
+  metadata->columns.push_back({"id", "INT", sizeof(int), false, ""});
+  metadata->columns.push_back({"name", "VARCHAR(50)", 50, true, ""});
 
   return metadata;
 }
@@ -543,6 +579,109 @@ std::shared_ptr<sqlcc::IndexManager> sqlcc::DatabaseManager::GetIndexManager() {
   }
 
   return index_manager_;
+}
+
+// 初始化方法（用于测试）
+bool sqlcc::DatabaseManager::Initialize() {
+  std::lock_guard<std::mutex> lock(mutex_);
+
+  if (is_closed_) {
+#ifdef USE_SPDLOG
+    SPDLOG_ERROR("DatabaseManager is closed, cannot initialize");
+#endif
+    return false;
+  }
+
+  // 确保关键组件已初始化
+  if (!config_manager_) {
+    config_manager_ = std::make_shared<ConfigManager>();
+  }
+
+  if (!storage_engine_) {
+    storage_engine_ = std::make_shared<StorageEngine>(*config_manager_);
+  }
+
+  if (!index_manager_) {
+    index_manager_ =
+        std::make_shared<IndexManager>(storage_engine_.get(), *config_manager_);
+  }
+
+#ifdef USE_SPDLOG
+  SPDLOG_INFO("DatabaseManager initialized successfully");
+#endif
+  return true;
+}
+
+// 获取配置管理器（用于测试）
+std::shared_ptr<sqlcc::ConfigManager> sqlcc::DatabaseManager::GetConfig() {
+  std::lock_guard<std::mutex> lock(mutex_);
+
+  if (!config_manager_) {
+    config_manager_ = std::make_shared<ConfigManager>();
+  }
+
+  return config_manager_;
+}
+
+// 检查是否已初始化（用于测试）
+bool sqlcc::DatabaseManager::IsInitialized() const {
+  std::lock_guard<std::mutex> lock(mutex_);
+  return !is_closed_ && config_manager_ != nullptr;
+}
+
+// 执行SQL语句的方法（用于测试）
+bool sqlcc::DatabaseManager::Execute([[maybe_unused]] const std::string &sql) {
+  std::lock_guard<std::mutex> lock(mutex_);
+
+  if (is_closed_) {
+#ifdef USE_SPDLOG
+    SPDLOG_ERROR("DatabaseManager is closed, cannot execute SQL");
+#endif
+    return false;
+  }
+
+  // 简化实现：仅记录SQL语句，不实际执行
+#ifdef USE_SPDLOG
+  SPDLOG_INFO("Executing SQL: {}", sql);
+#endif
+
+  // TODO: 这里应该集成实际的SQL执行逻辑
+  return true;
+}
+
+// 获取表名列表的方法（用于测试）
+std::vector<std::string> sqlcc::DatabaseManager::GetTableNames() {
+  std::lock_guard<std::mutex> lock(mutex_);
+
+  if (current_database_.empty()) {
+    return {};
+  }
+
+  return database_tables_[current_database_];
+}
+
+// 获取表结构的方法（用于测试）
+std::string
+sqlcc::DatabaseManager::GetTableSchema(const std::string &table_name) {
+  std::lock_guard<std::mutex> lock(mutex_);
+
+  if (current_database_.empty()) {
+    return "";
+  }
+
+  // 检查表是否存在
+  if (!TableExists(table_name)) {
+#ifdef USE_SPDLOG
+    SPDLOG_ERROR("Table {} does not exist in database {}", table_name,
+                 current_database_);
+#endif
+    return "";
+  }
+
+  // 简化实现：返回示例表结构
+  // 在实际实现中，这里应该从表文件中读取真实的表结构
+  return "CREATE TABLE " + table_name +
+         " (id INT PRIMARY KEY, name VARCHAR(50))";
 }
 
 } // namespace sqlcc

@@ -1,0 +1,12 @@
+# 网络组件Bazel构建配置
+
+package(default_visibility = ["//visibility:public"])
+
+cc_library(
+    name = "sqlcc_network",
+    srcs = glob(["*.cpp"]),
+    hdrs = ["//include:network_headers"],
+    includes = ["../../include"],
+    copts = ["-std=c++17"],
+    linkopts = ["-lssl", "-lcrypto"],
+)

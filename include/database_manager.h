@@ -94,6 +94,20 @@ public:
   // 获取索引管理器（用于索引优化）
   std::shared_ptr<IndexManager> GetIndexManager();
 
+  // 初始化和配置管理方法（用于测试）
+  bool Initialize();
+  std::shared_ptr<ConfigManager> GetConfig();
+  bool IsInitialized() const;
+
+  // 执行SQL语句的方法（用于测试）
+  bool Execute(const std::string &sql);
+
+  // 获取表名列表的方法（用于测试）
+  std::vector<std::string> GetTableNames();
+
+  // 获取表结构的方法（用于测试）
+  std::string GetTableSchema(const std::string &table_name);
+
 private:
   std::shared_ptr<ConfigManager> config_manager_;   // 配置管理器
   std::shared_ptr<StorageEngine> storage_engine_;   // 存储引擎

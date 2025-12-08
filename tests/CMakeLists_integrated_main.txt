@@ -1,0 +1,199 @@
+# SQLCC v1.1.1 集成测试框架主CMake文件
+# 基于实际测试文件分布的智能配置
+
+cmake_minimum_required(VERSION 3.10)
+project(SQLCC_Integrated_Tests)
+
+# 设置C++标准
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# 启用测试
+enable_testing()
+
+# 包含目录
+include_directories(
+    ${CMAKE_SOURCE_DIR}/include
+    ${CMAKE_SOURCE_DIR}/include/core
+    ${CMAKE_SOURCE_DIR}/include/network
+    ${CMAKE_SOURCE_DIR}/include/sql
+    ${CMAKE_SOURCE_DIR}/include/utils
+)
+
+# 查找必要的包
+find_package(GTest REQUIRED)
+find_package(Threads REQUIRED)
+
+# 添加gtest宏
+include_directories(${GTEST_INCLUDE_DIRS})
+
+# 加载自动生成的测试配置
+# 注意：这里我们手动包含关键测试以避免构建时间过长
+
+# ===== HIGH 优先级核心测试 =====
+
+# DCL测试 - 数据控制语言
+set(DCL_TEST_SOURCES
+    tests/test_revoke_persistence.cpp
+    tests/test_grant_revoke.cpp
+    tests/unit/basic/comprehensive_dcl_test.cpp
+    tests/unit/basic/dcl_test.cpp
+    tests/unit/basic/dcl_test_advanced.cpp
+    tests/unit/basic/test_show_grants.cpp
+    tests/unit/basic/permission_check_test.cpp
+)
+
+foreach(TEST_SOURCE ${DCL_TEST_SOURCES})
+    if(EXISTS ${CMAKE_SOURCE_DIR}/${TEST_SOURCE})
+        get_filename_component(TEST_NAME ${TEST_SOURCE} NAME_WE)
+        add_executable(${TEST_NAME} ${TEST_SOURCE})
+        target_link_libraries(${TEST_NAME}
+            PRIVATE
+            ${GTEST_LIBRARIES}
+            GTest::Main
+            Threads::Threads
+            dl
+            sqlcc_core_lib
+            sqlcc_parser
+            sqlcc_config_manager
+            sqlcc_storage_engine
+            sqlcc_transaction_manager
+            sqlcc_executor
+        )
+        add_test(NAME ${TEST_NAME} COMMAND ${TEST_NAME})
+        set_tests_properties(${TEST_NAME} PROPERTIES TIMEOUT 600)
+    endif()
+endforeach()
+
+# Parser测试 - SQL解析器
+set(PARSER_TEST_SOURCES
+    tests/unit/parser/test_all_statements.cpp
+    tests/unit/parser/test_lexer.cpp
+    tests/unit/parser/test_fix.cpp
+    tests/unit/parser/test_all_statements.cpp
+    tests/sql_parser/expression_test.cpp
+    tests/sql_parser/ast_core_test.cpp
+    tests/sql_parser/ast_visitor_test.cpp
+    tests/sql_parser/statement_node_test.cpp
+)
+
+foreach(TEST_SOURCE ${PARSER_TEST_SOURCES})
+    if(EXISTS ${CMAKE_SOURCE_DIR}/${TEST_SOURCE})
+        get_filename_component(TEST_NAME ${TEST_SOURCE} NAME_WE)
+        add_executable(${TEST_NAME} ${TEST_SOURCE})
+        target_link_libraries(${TEST_NAME}
+            PRIVATE
+            ${GTEST_LIBRARIES}
+            GTest::Main
+            Threads::Threads
+            dl
+            sqlcc_core_lib
+            sqlcc_parser
+            sqlcc_config_manager
+        )
+        add_test(NAME ${TEST_NAME} COMMAND ${TEST_NAME})
+        set_tests_properties(${TEST_NAME} PROPERTIES TIMEOUT 480)
+    endif()
+endforeach()
+
+# Executor测试 - SQL执行器
+set(EXECUTOR_TEST_SOURCES
+    tests/sql_executor/record_test.cpp
+    tests/integration/advanced_sql/sql_executor_integration_test.cpp
+)
+
+foreach(TEST_SOURCE ${EXECUTOR_TEST_SOURCES})
+    if(EXISTS ${CMAKE_SOURCE_DIR}/${TEST_SOURCE})
+        get_filename_component(TEST_NAME ${TEST_SOURCE} NAME_WE)
+        add_executable(${TEST_NAME} ${TEST_SOURCE})
+        target_link_libraries(${TEST_NAME}
+            PRIVATE
+            ${GTEST_LIBRARIES}
+            GTest::Main
+            Threads::Threads
+            dl
+            sqlcc_core_lib
+            sqlcc_parser
+            sqlcc_executor
+            sqlcc_storage_engine
+        )
+        add_test(NAME ${TEST_NAME} COMMAND ${TEST_NAME})
+        set_tests_properties(${TEST_NAME} PROPERTIES TIMEOUT 540)
+    endif()
+endforeach()
+
+# Integration测试 - 集成测试
+set(INTEGRATION_TEST_SOURCES
+    tests/integration/advanced_sql/comprehensive_test.cpp
+    tests/integration/advanced_sql/isql_integration_test.cpp
+    tests/integration/basic_sql/simple_sql_test.cpp
+)
+
+foreach(TEST_SOURCE ${INTEGRATION_TEST_SOURCES})
+    if(EXISTS ${CMAKE_SOURCE_DIR}/${TEST_SOURCE})
+        get_filename_component(TEST_NAME ${TEST_SOURCE} NAME_WE)
+        add_executable(${TEST_NAME} ${TEST_SOURCE})
+        target_link_libraries(${TEST_NAME}
+            PRIVATE
+            ${GTEST_LIBRARIES}
+            GTest::Main
+            Threads::Threads
+            dl
+            sqlcc_core_lib
+            sqlcc_parser
+            sqlcc_config_manager
+            sqlcc_storage_engine
+            sqlcc_transaction_manager
+            sqlcc_executor
+        )
+        add_test(NAME ${TEST_NAME} COMMAND ${TEST_NAME})
+        set_tests_properties(${TEST_NAME} PROPERTIES TIMEOUT 900)
+    endif()
+endforeach()
+
+# Basic测试 - 基础功能
+set(BASIC_TEST_SOURCES
+    tests/unit/basic/ddl_test.cpp
+    tests/unit/basic/dml_test.cpp
+    tests/unit/basic/database_manager_test.cpp
+    tests/unit/basic/execution_engine_test.cpp
+    tests/unit/basic/simple_test.cpp
+)
+
+foreach(TEST_SOURCE ${BASIC_TEST_SOURCES})
+    if(EXISTS ${CMAKE_SOURCE_DIR}/${TEST_SOURCE})
+        get_filename_component(TEST_NAME ${TEST_SOURCE} NAME_WE)
+        add_executable(${TEST_NAME} ${TEST_SOURCE})
+        target_link_libraries(${TEST_NAME}
+            PRIVATE
+            ${GTEST_LIBRARIES}
+            GTest::Main
+            Threads::Threads
+            dl
+            sqlcc_core_lib
+            sqlcc_parser
+            sqlcc_config_manager
+            sqlcc_storage_engine
+        )
+        add_test(NAME ${TEST_NAME} COMMAND ${TEST_NAME})
+        set_tests_properties(${TEST_NAME} PROPERTIES TIMEOUT 300)
+    endif()
+endforeach()
+
+# 测试套件定义
+add_test(NAME core_suite COMMAND ${CMAKE_CTEST_COMMAND} -R "(test_revoke_persistence|test_grant_revoke|comprehensive_dcl_test|dcl_test|test_all_statements|test_lexer)")
+add_test(NAME quick_suite COMMAND ${CMAKE_CTEST_COMMAND} -R "(comprehensive_dcl_test|dcl_test|test_all_statements)" --output-on-failure)
+add_test(NAME integration_suite COMMAND ${CMAKE_CTEST_COMMAND} -R "(comprehensive_test|isql_integration_test|sql_executor_integration_test)")
+
+# 启用并行测试
+set_property(TEST core_suite quick_suite integration_suite PROPERTY PARALLEL TRUE)
+
+# 输出配置信息
+message(STATUS "SQLCC v1.1.1 集成测试框架配置完成")
+message(STATUS "发现的测试文件数量可以通过以下方式验证：")
+message(STATUS "  find tests/ -name '*.cpp' -type f | wc -l")
+message(STATUS "")
+message(STATUS "可用的测试套件：")
+message(STATUS "  core_suite - 核心DCL和Parser测试")
+message(STATUS "  quick_suite - 快速DCL和Parser测试")
+message(STATUS("  integration_suite - 集成测试")

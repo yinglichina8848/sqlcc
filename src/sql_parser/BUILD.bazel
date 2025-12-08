@@ -1,0 +1,16 @@
+# SQL解析器组件Bazel构建配置
+
+package(default_visibility = ["//visibility:public"])
+
+cc_library(
+    name = "sqlcc_parser",
+    srcs = glob([
+        "*.cpp",
+        "ast/*.cpp",
+        "errors/*.cpp",
+    ]),
+    hdrs = ["//include:sql_parser_headers"],
+    includes = ["../../include"],
+    copts = ["-std=c++17"],
+    deps = ["//src/core:sqlcc_core_lib"],
+)

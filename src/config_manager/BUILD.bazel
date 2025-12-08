@@ -1,0 +1,16 @@
+"""Bazel构建配置 for SQLCC config_manager组件"""
+
+load("@rules_cc//cc:defs.bzl", "cc_library")
+
+# 配置管理器库
+cc_library(
+    name = "sqlcc_config_manager",
+    srcs = ["config_manager.cpp"],
+    hdrs = ["//include:config_manager_headers"],
+    includes = ["../../include"],
+    deps = [
+        "@com_google_absl//absl/strings",
+        "@com_google_absl//absl/container:flat_hash_map",
+    ],
+    visibility = ["//visibility:public"],
+)

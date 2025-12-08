@@ -17,7 +17,7 @@ find_package(Threads REQUIRED)
 set(SOURCES
     memory_stress_test_main.cc
     memory_stress_test.cc
-    ../performance_test_base.cc
+    ../basic/performance_test_base.cc
 )
 
 # 创建可执行文件

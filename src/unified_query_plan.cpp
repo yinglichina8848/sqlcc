@@ -354,8 +354,34 @@ bool DDLQueryPlan::buildAlterPlan() {
 }
 
 ExecutionResult DDLQueryPlan::executeCreatePlan() {
-  // 实现CREATE语句的执行逻辑
-  return {true, "CREATE操作执行成功"};
+  // 获取CreateStatement对象
+  auto create_stmt =
+      dynamic_cast<sql_parser::CreateStatement *>(statement_.get());
+  if (!create_stmt) {
+    return {false, "执行CREATE计划失败：语句类型不匹配"};
+  }
+
+  // 检查对象类型
+  if (create_stmt->getObjectType() != sql_parser::CreateStatement::TABLE) {
+    return {false, "目前只支持CREATE TABLE语句"};
+  }
+
+  // 获取表名和列定义
+  std::string table_name = create_stmt->getObjectName();
+  const auto &columns = create_stmt->getColumns();
+
+  // 将ColumnDefinition转换为pair<string, string>格式
+  std::vector<std::pair<std::string, std::string>> column_pairs;
+  for (const auto &column : columns) {
+    column_pairs.emplace_back(column.getName(), column.getType());
+  }
+
+  // 调用DatabaseManager的CreateTable方法
+  if (db_manager_->CreateTable(table_name, column_pairs)) {
+    return {true, "表 '" + table_name + "' 创建成功"};
+  } else {
+    return {false, "表 '" + table_name + "' 创建失败"};
+  }
 }
 
 ExecutionResult DDLQueryPlan::executeDropPlan() {

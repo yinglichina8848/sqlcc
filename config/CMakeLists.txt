@@ -373,7 +373,7 @@ add_custom_target(performance
 
 # 创建完整的测试套件目标（按分类运行所有测试）
 # 重命名以避免冲突
-add_custom_target(run_all_tests
+add_custom_target(config_run_all_tests
     COMMAND echo "=== 运行单元测试 ==="
     COMMAND ${CMAKE_COMMAND} --build ${CMAKE_BINARY_DIR} --target test
     COMMAND echo "=== 运行性能测试 ==="

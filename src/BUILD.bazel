@@ -1,0 +1,198 @@
+# SQLCC核心组件Bazel构建配置
+
+package(default_visibility = ["//visibility:public"])
+
+# 核心库聚合（链接所有子库）
+cc_library(
+    name = "sqlcc_core",
+    deps = [
+        "//src/core:sqlcc_core_lib",
+        "//src/sql_parser:sqlcc_parser",
+        "//src/config_manager:sqlcc_config_manager",
+        "//src/storage_engine:sqlcc_storage_engine",
+        "//src/transaction_manager:sqlcc_transaction_manager",
+        "//src/network:sqlcc_network",
+        "//src/sql_executor:sqlcc_executor",
+    ],
+)
+
+# 可执行文件
+cc_binary(
+    name = "sqlcc_server",
+    srcs = glob([
+        "sqlcc_server/*.cpp",
+    ]),
+    deps = [":sqlcc_core"],
+)
+
+cc_binary(
+    name = "isql_client",
+    srcs = ["bin/isql_main.cpp"],
+    deps = [":sqlcc_core"],
+)
+
+# 测试目标 - 根据实际文件结构调整
+
+# 组件测试 - 根据实际的测试目录结构配置
+
+# 核心组件测试
+cc_test(
+    name = "core_component_tests",
+    size = "medium",
+    srcs = glob(["tests/components/core/*.cpp"]),
+    deps = [
+        ":sqlcc_core",
+        "@com_google_googletest//:gtest_main",
+    ],
+)
+
+# 执行器组件测试
+cc_test(
+    name = "executor_component_tests",
+    size = "large",
+    srcs = glob(["tests/components/executor/*.cpp"]),
+    deps = [
+        "//src/sql_executor:sqlcc_executor",
+        "@com_google_googletest//:gtest_main",
+    ],
+)
+
+# 解析器组件测试
+cc_test(
+    name = "parser_component_tests",
+    size = "medium",
+    srcs = glob(["tests/components/parser/*.cpp"]),
+    deps = [
+        "//src/sql_parser:sqlcc_parser",
+        "@com_google_googletest//:gtest_main",
+    ],
+)
+
+# 网络组件测试
+cc_test(
+    name = "network_component_tests",
+    size = "medium",
+    srcs = glob(["tests/components/network/*.cpp"]),
+    deps = [
+        "//src/network:sqlcc_network",
+        "@com_google_googletest//:gtest_main",
+    ],
+)
+
+# 安全组件测试
+cc_test(
+    name = "security_component_tests",
+    size = "medium",
+    srcs = glob(["tests/components/security/*.cpp"]),
+    deps = [
+        ":sqlcc_core",
+        "@com_google_googletest//:gtest_main",
+    ],
+)
+
+# 存储组件测试
+cc_test(
+    name = "storage_component_tests",
+    size = "medium",
+    srcs = glob(["tests/components/storage/*.cpp"]),
+    deps = [
+        "//src/storage_engine:sqlcc_storage_engine",
+        "@com_google_googletest//:gtest_main",
+    ],
+)
+
+# 事务组件测试
+cc_test(
+    name = "transaction_component_tests",
+    size = "medium",
+    srcs = glob(["tests/components/transaction/*.cpp"]),
+    deps = [
+        "//src/transaction_manager:sqlcc_transaction_manager",
+        "@com_google_googletest//:gtest_main",
+    ],
+)
+
+# 单元测试 - 基础测试
+cc_test(
+    name = "basic_unit_tests",
+    size = "small",
+    srcs = glob(["tests/unit/basic/*.cpp"]),
+    deps = [
+        ":sqlcc_core",
+        "@com_google_googletest//:gtest_main",
+    ],
+)
+
+# 单元测试 - 解析器测试
+cc_test(
+    name = "parser_unit_tests",
+    size = "medium",
+    srcs = glob(["tests/unit/parser/*.cpp"]),
+    deps = [
+        "//src/sql_parser:sqlcc_parser",
+        "@com_google_googletest//:gtest_main",
+    ],
+)
+
+# 集成测试
+cc_test(
+    name = "integration_tests",
+    size = "large",
+    srcs = glob(["tests/integration/*.cpp"]),
+    deps = [
+        ":sqlcc_core",
+        "@com_google_googletest//:gtest_main",
+    ],
+)
+
+# 性能测试
+cc_test(
+    name = "performance_tests",
+    size = "enormous",
+    timeout = "long",
+    srcs = glob(["tests/performance/*.cpp"]),
+    deps = [
+        ":sqlcc_core",
+        "@com_google_googletest//:gtest_main",
+    ],
+)
+
+# 测试套件定义
+test_suite(
+    name = "all_tests",
+    tests = [
+        ":basic_unit_tests",
+        ":parser_unit_tests",
+        ":core_component_tests",
+        ":executor_component_tests",
+        ":parser_component_tests",
+        ":network_component_tests",
+        ":security_component_tests",
+        ":storage_component_tests",
+        ":transaction_component_tests",
+        ":integration_tests",
+        ":performance_tests",
+    ],
+)
+
+test_suite(
+    name = "quick_tests",
+    tests = [
+        ":basic_unit_tests",
+        ":parser_unit_tests",
+        ":core_component_tests",
+    ],
+)
+
+test_suite(
+    name = "component_tests",
+    tests = [
+        ":core_component_tests",
+        ":executor_component_tests",
+        ":parser_component_tests",
+        ":network_component_tests",
+        ":security_component_tests",
+        ":storage_component_tests",
+        ":transaction_component_tests",
+    ],
+)

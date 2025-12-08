@@ -17,6 +17,21 @@ struct View {
   std::string owner;
   std::string created_at;
   bool is_updatable;
+  
+  // 默认构造函数
+  View() = default;
+  
+  // 拷贝构造函数
+  View(const View&) = default;
+  
+  // 移动构造函数
+  View(View&&) = default;
+  
+  // 拷贝赋值运算符
+  View& operator=(const View&) = default;
+  
+  // 移动赋值运算符
+  View& operator=(View&&) = default;
 };
 
 // 视图管理器类

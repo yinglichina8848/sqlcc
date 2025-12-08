@@ -151,7 +151,6 @@ ViewManager::GetViewDefinition(const std::string &view_name,
     return view_it->second.definition;
   }
 
-  last_error_ = "View not found: " + full_view_name;
   return "";
 }
 

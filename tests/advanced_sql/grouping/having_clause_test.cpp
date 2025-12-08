@@ -1,5 +1,5 @@
 #include "database_manager.h"
-#include "sql_parser/parser.h"
+#include "sql_parser/parser_new.h"
 #include "system_database.h"
 #include "unified_executor.h"
 #include "user_manager.h"
@@ -27,14 +27,14 @@ protected:
 
     // 创建测试数据库
     Parser create_db_parser("CREATE DATABASE test_db;");
-    auto create_db_stmts = create_db_parser.parseStatements();
+    auto create_db_stmts = create_db_parser.parse();
     if (!create_db_stmts.empty()) {
       unified_executor_->execute(std::move(create_db_stmts[0]));
     }
 
     // 使用测试数据库
     Parser use_db_parser("USE test_db;");
-    auto use_db_stmts = use_db_parser.parseStatements();
+    auto use_db_stmts = use_db_parser.parse();
     if (!use_db_stmts.empty()) {
       unified_executor_->execute(std::move(use_db_stmts[0]));
     }
@@ -43,7 +43,7 @@ protected:
     Parser create_table_parser(
         "CREATE TABLE test_table (id INTEGER PRIMARY KEY, name VARCHAR(50), "
         "age INTEGER, salary INTEGER, department VARCHAR(50));");
-    auto create_table_stmts = create_table_parser.parseStatements();
+    auto create_table_stmts = create_table_parser.parse();
     if (!create_table_stmts.empty()) {
       unified_executor_->execute(std::move(create_table_stmts[0]));
     }
@@ -54,7 +54,7 @@ protected:
         "'Alice', 25, 50000, 'HR'), (2, 'Bob', 30, 60000, 'IT'), (3, "
         "'Charlie', 35, 70000, 'IT'), (4, 'David', 40, 80000, 'Finance'), (5, "
         "'Eve', 45, 90000, 'Finance');");
-    auto insert_stmts = insert_parser.parseStatements();
+    auto insert_stmts = insert_parser.parse();
     if (!insert_stmts.empty()) {
       unified_executor_->execute(std::move(insert_stmts[0]));
     }
@@ -82,7 +82,7 @@ TEST_F(HavingClauseTest, BasicHavingClauseTest) {
   // 测试基本的HAVING子句功能
   Parser select_parser("SELECT department, COUNT(*) as employee_count FROM "
                        "test_table GROUP BY department HAVING COUNT(*) > 1;");
-  auto select_stmts = select_parser.parseStatements();
+  auto select_stmts = select_parser.parse();
   ASSERT_FALSE(select_stmts.empty());
 
   // 执行查询
@@ -100,7 +100,7 @@ TEST_F(HavingClauseTest, HavingWithGroupByTest) {
   Parser select_parser(
       "SELECT department, AVG(salary) as avg_salary FROM test_table GROUP BY "
       "department HAVING AVG(salary) > 60000;");
-  auto select_stmts = select_parser.parseStatements();
+  auto select_stmts = select_parser.parse();
   ASSERT_FALSE(select_stmts.empty());
 
   // 执行查询
@@ -117,7 +117,7 @@ TEST_F(HavingClauseTest, HavingWithWhereTest) {
   Parser select_parser(
       "SELECT department, COUNT(*) as employee_count FROM test_table WHERE age "
       "> 30 GROUP BY department HAVING COUNT(*) > 1;");
-  auto select_stmts = select_parser.parseStatements();
+  auto select_stmts = select_parser.parse();
   ASSERT_FALSE(select_stmts.empty());
 
   // 执行查询
@@ -136,7 +136,7 @@ TEST_F(HavingClauseTest, HavingWithAggregateFunctionsTest) {
   Parser sum_parser(
       "SELECT department, SUM(salary) as total_salary FROM test_table GROUP BY "
       "department HAVING SUM(salary) > 100000;");
-  auto sum_stmts = sum_parser.parseStatements();
+  auto sum_stmts = sum_parser.parse();
   ASSERT_FALSE(sum_stmts.empty());
   ExecutionResult sum_result =
       unified_executor_->execute(std::move(sum_stmts[0]));
@@ -146,7 +146,7 @@ TEST_F(HavingClauseTest, HavingWithAggregateFunctionsTest) {
   Parser min_parser(
       "SELECT department, MIN(salary) as min_salary FROM test_table GROUP BY "
       "department HAVING MIN(salary) > 50000;");
-  auto min_stmts = min_parser.parseStatements();
+  auto min_stmts = min_parser.parse();
   ASSERT_FALSE(min_stmts.empty());
   ExecutionResult min_result =
       unified_executor_->execute(std::move(min_stmts[0]));
@@ -156,7 +156,7 @@ TEST_F(HavingClauseTest, HavingWithAggregateFunctionsTest) {
   Parser max_parser(
       "SELECT department, MAX(salary) as max_salary FROM test_table GROUP BY "
       "department HAVING MAX(salary) < 100000;");
-  auto max_stmts = max_parser.parseStatements();
+  auto max_stmts = max_parser.parse();
   ASSERT_FALSE(max_stmts.empty());
   ExecutionResult max_result =
       unified_executor_->execute(std::move(max_stmts[0]));
@@ -170,7 +170,7 @@ TEST_F(HavingClauseTest, ComplexHavingConditionTest) {
       "SELECT department, AVG(salary) as avg_salary, COUNT(*) as "
       "employee_count FROM test_table GROUP BY department HAVING AVG(salary) > "
       "60000 AND COUNT(*) > 1;");
-  auto complex_stmts = complex_parser.parseStatements();
+  auto complex_stmts = complex_parser.parse();
   ASSERT_FALSE(complex_stmts.empty());
 
   // 执行查询

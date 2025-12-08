@@ -20,9 +20,9 @@ find_package(GTest REQUIRED)
 # 源文件
 set(SOURCES
     concurrency_test_runner.cc
-    concurrency_performance_test.cc
+    ../basic/concurrency_performance_test.cc
     sharded_buffer_pool_concurrent_test.cc
-    ../performance_test_base.cc
+    ../basic/performance_test_base.cc
 )
 
 # 创建可执行文件

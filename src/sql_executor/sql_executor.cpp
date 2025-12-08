@@ -1,11 +1,11 @@
 #include "sql_executor.h"
 #include "core/permission_validator.h"
+#include "core/system_database.h"
+#include "core/user_manager.h"
 #include "database_manager.h"
 #include "execution_engine.h"
 #include "sql_parser/ast_nodes.h"
 #include "sql_parser/parser_new.h"
-#include "system_database.h"
-#include "user_manager.h"
 #include <fstream>
 #include <iostream>
 #include <memory>
@@ -130,18 +130,25 @@ bool SqlExecutor::InitializeSystemDatabase() {
 std::unique_ptr<sql_parser::Statement>
 SqlExecutor::ParseSQL(const std::string &sql) {
   try {
+    std::cout << "[SQL EXECUTOR DEBUG] 开始解析SQL: " << sql << std::endl;
+    std::cout << "[SQL EXECUTOR DEBUG] 准备创建ParserNew对象" << std::endl;
     sql_parser::ParserNew parser(sql);
+    std::cout << "[SQL EXECUTOR DEBUG] ParserNew构造函数完成" << std::endl;
     auto statements = parser.parse();
 
     if (statements.empty()) {
       SetError("Empty statement");
+      std::cout << "[SQL EXECUTOR DEBUG] 解析结果为空" << std::endl;
       return nullptr;
     }
 
     // 处理第一条语句（简单起见）
+    std::cout << "[SQL EXECUTOR DEBUG] 成功解析语句，语句数量: "
+              << statements.size() << std::endl;
     return std::move(statements[0]);
   } catch (const std::exception &e) {
     SetError("SQL解析异常: " + std::string(e.what()));
+    std::cout << "[SQL EXECUTOR DEBUG] 解析异常: " << e.what() << std::endl;
     return nullptr;
   }
 }

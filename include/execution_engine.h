@@ -1,14 +1,14 @@
 #ifndef SQLCC_EXECUTION_ENGINE_H
 #define SQLCC_EXECUTION_ENGINE_H
 
-#include "b_plus_tree.h"
-#include "execution_context.h" // 包含ExecutionContext定义
-#include "execution_result.h"  // 包含完整的ExecutionResult定义
+#include "core/execution_context.h" // 包含ExecutionContext定义
+#include "core/execution_result.h"  // 包含完整的ExecutionResult定义
+#include "core/system_database.h"
+#include "core/user_manager.h"
 #include "sql_parser/ast_nodes.h"
+#include "storage/b_plus_tree.h"
+#include "storage/table_storage.h"
 #include "storage_engine.h"
-#include "system_database.h"
-#include "table_storage.h"
-#include "user_manager.h"
 #include <memory>
 #include <string>
 #include <unordered_map>

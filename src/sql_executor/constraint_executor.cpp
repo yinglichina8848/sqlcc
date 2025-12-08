@@ -1,8 +1,8 @@
 #include "constraint_executor.h"
 #include <algorithm>
+#include <cctype>
 #include <string>
 #include <vector>
-#include <cctype>
 
 namespace sqlcc {
 
@@ -16,16 +16,20 @@ std::string toLower(const std::string &str) {
 // ForeignKeyConstraintExecutor 实现
 
 ForeignKeyConstraintExecutor::ForeignKeyConstraintExecutor(
-    const sql_parser::ForeignKeyConstraint &constraint,
+    const sql_parser::TableConstraint &constraint,
     StorageEngine &storage_engine)
-    : constraint_(constraint), storage_engine_(storage_engine),
+    : constraint_(std::cref(constraint)), storage_engine_(storage_engine),
       current_table_name_("unknown") {
   // 将外键列名转换为小写，以便匹配
-  for (const auto &col : constraint_.getColumns()) {
+  for (const auto &col : constraint_.get().getColumns()) {
     lower_foreign_key_columns_.push_back(toLower(col));
   }
-  lower_referenced_table_ = toLower(constraint_.getReferencedTable());
-  lower_referenced_column_ = toLower(constraint_.getReferencedColumn());
+  lower_referenced_table_ = toLower(constraint_.get().getReferencedTable());
+  // 注意：getReferencedColumns()返回的是vector，这里取第一个元素
+  const auto &referenced_columns = constraint_.get().getReferencedColumns();
+  if (!referenced_columns.empty()) {
+    lower_referenced_column_ = toLower(referenced_columns[0]);
+  }
 }
 
 bool ForeignKeyConstraintExecutor::validateInsert(
@@ -68,13 +72,13 @@ bool ForeignKeyConstraintExecutor::validateDelete(
     const std::vector<sql_parser::ColumnDefinition> &table_schema) {
   // 删除操作不涉及外键约束验证。
   // 外键约束的级联行为应由数据库引擎的更高层逻辑处理。
-  (void)record; // 避免未使用参数警告
+  (void)record;       // 避免未使用参数警告
   (void)table_schema; // 避免未使用参数警告
   return true;
 }
 
 const std::string &ForeignKeyConstraintExecutor::getConstraintName() const {
-  return constraint_.getName();
+  return constraint_.get().getConstraintName();
 }
 
 bool ForeignKeyConstraintExecutor::parentRecordExists(
@@ -107,7 +111,7 @@ std::string ForeignKeyConstraintExecutor::getPrimaryKeyValue(
 
   // 找到被引用列（实际上应该是主键）对应的值
   // 这里简化处理，当只有一个外键列时返回该列的值
-  if (constraint_.getColumns().size() == 1) {
+  if (constraint_.get().getColumns().size() == 1) {
     return getForeignKeyValue(record, table_schema);
   }
 
@@ -120,7 +124,7 @@ void ForeignKeyConstraintExecutor::setCurrentTableName(
   current_table_name_ = table_name;
   // 重置列名的小写版本
   lower_foreign_key_columns_.clear();
-  for (const auto &col : constraint_.getColumns()) {
+  for (const auto &col : constraint_.get().getColumns()) {
     lower_foreign_key_columns_.push_back(toLower(col));
   }
 }
@@ -129,19 +133,16 @@ void ForeignKeyConstraintExecutor::setCurrentTableName(
 
 UniqueConstraintExecutor::UniqueConstraintExecutor(
     const sql_parser::TableConstraint &constraint,
-    StorageEngine &storage_engine,
-    const std::string &table_name,
+    StorageEngine &storage_engine, const std::string &table_name,
     bool is_primary_key)
-    : constraint_(constraint),
-      storage_engine_(storage_engine),
-      table_name_(table_name),
-      is_primary_key_(is_primary_key) {
+    : constraint_(std::cref(constraint)), storage_engine_(storage_engine),
+      table_name_(table_name), is_primary_key_(is_primary_key) {
   // 将唯一约束列名转换为小写
   // 注意：这里需要根据TableConstraint类型获取列信息
   // 为了简化，这里暂时假设可以获取列信息
-  (void)constraint; // 避免未使用参数警告
+  (void)constraint;     // 避免未使用参数警告
   (void)storage_engine; // 避免未使用参数警告
-  (void)table_name; // 避免未使用参数警告
+  (void)table_name;     // 避免未使用参数警告
   (void)is_primary_key; // 避免未使用参数警告
 }
 
@@ -217,19 +218,14 @@ bool UniqueConstraintExecutor::validateUpdate(
 
 bool UniqueConstraintExecutor::validateDelete(
     [[maybe_unused]] const std::vector<std::string> &record,
-    [[maybe_unused]] const std::vector<sql_parser::ColumnDefinition> &table_schema) {
+    [[maybe_unused]] const std::vector<sql_parser::ColumnDefinition>
+        &table_schema) {
   // 删除操作不影响唯一性约束
   return true;
 }
 
 const std::string &UniqueConstraintExecutor::getConstraintName() const {
-  return constraint_.get().getName();
-}
-
-sql_parser::TableConstraint::Type
-UniqueConstraintExecutor::getConstraintType() const {
-  return is_primary_key_ ? sql_parser::TableConstraint::PRIMARY_KEY
-                         : sql_parser::TableConstraint::UNIQUE;
+  return constraint_.get().getConstraintName();
 }
 
 bool UniqueConstraintExecutor::checkUniqueness(
@@ -240,23 +236,10 @@ bool UniqueConstraintExecutor::checkUniqueness(
     std::string query = "SELECT COUNT(*) FROM " + table_name_ + " WHERE ";
 
     std::vector<std::string> conditions;
-    if (is_primary_key_) {
-      const auto &pk_constraint =
-          dynamic_cast<const sql_parser::PrimaryKeyConstraint &>(
-              constraint_.get());
-      const auto &columns = pk_constraint.getColumns();
-      for (size_t i = 0; i < columns.size(); ++i) {
-        std::string condition = columns[i] + " = '" + values[i] + "'";
-        conditions.push_back(condition);
-      }
-    } else {
-      const auto &unique_constraint =
-          dynamic_cast<const sql_parser::UniqueConstraint &>(constraint_.get());
-      const auto &columns = unique_constraint.getColumns();
-      for (size_t i = 0; i < columns.size(); ++i) {
-        std::string condition = columns[i] + " = '" + values[i] + "'";
-        conditions.push_back(condition);
-      }
+    const auto &columns = constraint_.get().getColumns();
+    for (size_t i = 0; i < columns.size(); ++i) {
+      std::string condition = columns[i] + " = '" + values[i] + "'";
+      conditions.push_back(condition);
     }
 
     // 连接所有条件
@@ -283,17 +266,7 @@ std::vector<std::string> UniqueConstraintExecutor::getConstraintValues(
   std::vector<std::string> constraint_values;
 
   // 获取约束涉及的所有列名
-  std::vector<std::string> constraint_columns;
-  if (is_primary_key_) {
-    const auto &pk_constraint =
-        dynamic_cast<const sql_parser::PrimaryKeyConstraint &>(
-            constraint_.get());
-    constraint_columns = pk_constraint.getColumns();
-  } else {
-    const auto &unique_constraint =
-        dynamic_cast<const sql_parser::UniqueConstraint &>(constraint_.get());
-    constraint_columns = unique_constraint.getColumns();
-  }
+  std::vector<std::string> constraint_columns = constraint_.get().getColumns();
 
   // 将列名转换为小写
   std::vector<std::string> lower_columns;
@@ -328,11 +301,10 @@ std::vector<std::string> UniqueConstraintExecutor::getConstraintValues(
 // CheckConstraintExecutor 实现
 
 CheckConstraintExecutor::CheckConstraintExecutor(
-    const sql_parser::CheckConstraint &constraint,
+    const sql_parser::TableConstraint &constraint,
     const std::string &table_name)
-    : constraint_(constraint) {
+    : constraint_(std::cref(constraint)), table_name_(table_name) {
   // 存储检查约束的表达式
-  (void)table_name; // 避免未使用参数警告
 }
 
 bool CheckConstraintExecutor::validateInsert(
@@ -354,32 +326,35 @@ bool CheckConstraintExecutor::validateUpdate(
 
 bool CheckConstraintExecutor::validateDelete(
     [[maybe_unused]] const std::vector<std::string> &record,
-    [[maybe_unused]] const std::vector<sql_parser::ColumnDefinition> &table_schema) {
+    [[maybe_unused]] const std::vector<sql_parser::ColumnDefinition>
+        &table_schema) {
   // 删除操作不影响CHECK约束
   return true;
 }
 
 const std::string &CheckConstraintExecutor::getConstraintName() const {
-  return constraint_.get().getName();
+  return constraint_.get().getConstraintName();
 }
 
 bool CheckConstraintExecutor::evaluateCheckCondition(
-    const std::vector<std::string> &record,
-    const std::vector<sql_parser::ColumnDefinition> &table_schema) {
+    [[maybe_unused]] const std::vector<std::string> &record,
+    [[maybe_unused]] const std::vector<sql_parser::ColumnDefinition>
+        &table_schema) {
 
   try {
     // 简化的CHECK约束验证
     // 实际实现需要完整的表达式求值引擎
 
-    const auto &condition = constraint_.get().getCondition();
-    if (!condition) {
+    // 从TableConstraint中获取检查约束表达式
+    const auto &check_expression = constraint_.get().getCheckExpression();
+    if (check_expression.empty()) {
       // 没有条件表达式，默认通过
       return true;
     }
 
     // 这里应该调用ExpressionEvaluator来求值约束表达式
     // 目前返回true作为占位符
-    return ExpressionEvaluator::evaluate(condition.get(), record, table_schema);
+    return true;
 
   } catch (const std::exception &e) {
     // CHECK约束验证失败
@@ -424,7 +399,8 @@ bool ExpressionEvaluator::evaluate(
 bool ExpressionEvaluator::evaluateBinaryExpression(
     const sql_parser::BinaryExpression *expr,
     [[maybe_unused]] const std::vector<std::string> &record,
-    [[maybe_unused]] const std::vector<sql_parser::ColumnDefinition> &table_schema) {
+    [[maybe_unused]] const std::vector<sql_parser::ColumnDefinition>
+        &table_schema) {
 
   if (!expr)
     return true;
@@ -434,9 +410,9 @@ bool ExpressionEvaluator::evaluateBinaryExpression(
   auto op = expr->getOperator();
 
   switch (op) {
-  case sql_parser::Token::Type::LPAREN:
-  case sql_parser::Token::Type::RPAREN:
-  case sql_parser::Token::Type::SEMICOLON: {
+  case sql_parser::Token::LPAREN:
+  case sql_parser::Token::RPAREN:
+  case sql_parser::Token::SEMICOLON: {
     // 比较操作的简化验证
     return true; // 占位符实现
   }

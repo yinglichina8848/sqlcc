@@ -426,7 +426,13 @@ bool ExecutionStrategy::checkPrimaryKeyConstraints(
     const std::vector<std::string> &record,
     std::shared_ptr<TableMetadata> metadata, const std::string &table_name) {
 
-  // 简化的主键检查实现
+  if (!metadata || record.empty()) {
+    return false;
+  }
+
+  // 简化实现：目前没有主键约束信息
+  // 在实际实现中，应该检查表的主键约束
+  // 这里返回true表示通过检查
   return true;
 }
 
@@ -434,7 +440,13 @@ bool ExecutionStrategy::checkUniqueKeyConstraints(
     const std::vector<std::string> &record,
     std::shared_ptr<TableMetadata> metadata, const std::string &table_name) {
 
-  // 简化的唯一约束检查实现
+  if (!metadata || record.empty()) {
+    return false;
+  }
+
+  // 简化实现：目前没有唯一键约束信息
+  // 在实际实现中，应该检查表的唯一键约束
+  // 这里返回true表示通过检查
   return true;
 }
 
@@ -607,16 +619,24 @@ DMLExecutionStrategy::execute(std::unique_ptr<sql_parser::Statement> stmt,
 
   if (auto insert_stmt =
           dynamic_cast<sql_parser::InsertStatement *>(stmt.get())) {
-    return executeInsert(insert_stmt, context);
+    if (insert_stmt) {
+      return executeInsert(insert_stmt, context);
+    }
   } else if (auto update_stmt =
                  dynamic_cast<sql_parser::UpdateStatement *>(stmt.get())) {
-    return executeUpdate(update_stmt, context);
+    if (update_stmt) {
+      return executeUpdate(update_stmt, context);
+    }
   } else if (auto delete_stmt =
                  dynamic_cast<sql_parser::DeleteStatement *>(stmt.get())) {
-    return executeDelete(delete_stmt, context);
+    if (delete_stmt) {
+      return executeDelete(delete_stmt, context);
+    }
   } else if (auto select_stmt =
                  dynamic_cast<sql_parser::SelectStatement *>(stmt.get())) {
-    return executeSelect(select_stmt, context);
+    if (select_stmt) {
+      return executeSelect(select_stmt, context);
+    }
   }
 
   return {false, "Unsupported DML statement type"};
@@ -634,20 +654,33 @@ bool DMLExecutionStrategy::checkPermission(const sql_parser::Statement *stmt,
 
   if (auto insert_stmt =
           dynamic_cast<const sql_parser::InsertStatement *>(stmt)) {
-    operation = UserManager::PRIVILEGE_INSERT;
-    table_name = insert_stmt->getTableName();
+    if (insert_stmt) {
+      operation = UserManager::PRIVILEGE_INSERT;
+      table_name = insert_stmt->getTableName();
+    }
   } else if (auto update_stmt =
                  dynamic_cast<const sql_parser::UpdateStatement *>(stmt)) {
-    operation = UserManager::PRIVILEGE_UPDATE;
-    table_name = update_stmt->getTableName();
+    if (update_stmt) {
+      operation = UserManager::PRIVILEGE_UPDATE;
+      table_name = update_stmt->getTableName();
+    }
   } else if (auto delete_stmt =
                  dynamic_cast<const sql_parser::DeleteStatement *>(stmt)) {
-    operation = UserManager::PRIVILEGE_DELETE;
-    table_name = delete_stmt->getTableName();
+    if (delete_stmt) {
+      operation = UserManager::PRIVILEGE_DELETE;
+      table_name = delete_stmt->getTableName();
+    }
   } else if (auto select_stmt =
                  dynamic_cast<const sql_parser::SelectStatement *>(stmt)) {
-    operation = UserManager::PRIVILEGE_SELECT;
-    table_name = select_stmt->getTableName();
+    if (select_stmt) {
+      operation = UserManager::PRIVILEGE_SELECT;
+      table_name = select_stmt->getTableName();
+    }
+  }
+
+  // 如果无法确定操作类型或表名，默认拒绝权限
+  if (operation.empty() || table_name.empty()) {
+    return false;
   }
 
   return context.user_manager->CheckPermission(
@@ -665,16 +698,24 @@ bool DMLExecutionStrategy::validate(const sql_parser::Statement *stmt,
   std::string table_name;
   if (auto insert_stmt =
           dynamic_cast<const sql_parser::InsertStatement *>(stmt)) {
-    table_name = insert_stmt->getTableName();
+    if (insert_stmt) {
+      table_name = insert_stmt->getTableName();
+    }
   } else if (auto update_stmt =
                  dynamic_cast<const sql_parser::UpdateStatement *>(stmt)) {
-    table_name = update_stmt->getTableName();
+    if (update_stmt) {
+      table_name = update_stmt->getTableName();
+    }
   } else if (auto delete_stmt =
                  dynamic_cast<const sql_parser::DeleteStatement *>(stmt)) {
-    table_name = delete_stmt->getTableName();
+    if (delete_stmt) {
+      table_name = delete_stmt->getTableName();
+    }
   } else if (auto select_stmt =
                  dynamic_cast<const sql_parser::SelectStatement *>(stmt)) {
-    table_name = select_stmt->getTableName();
+    if (select_stmt) {
+      table_name = select_stmt->getTableName();
+    }
   }
 
   if (!table_name.empty() && !validateTableExists(table_name, context)) {
@@ -702,8 +743,65 @@ DMLExecutionStrategy::executeInsert(sql_parser::InsertStatement *stmt,
     return {false, "Failed to get table metadata"};
   }
 
+  // 验证列数与值数匹配
+  if (!values.empty() && !values[0].empty()) {
+    size_t expected_columns = values[0].size();
+    for (const auto &value_row : values) {
+      if (value_row.size() != expected_columns) {
+        return {false, "Column count mismatch in INSERT values"};
+      }
+    }
+  }
+
   for (const auto &value_row : values) {
-    std::vector<std::string> record(value_row.begin(), value_row.end());
+    std::vector<std::string> record;
+
+    // 处理字符串值边界和转义
+    for (const auto &value : value_row) {
+      std::string processed_value = value;
+
+      // 移除字符串值周围的多余引号（如果存在）
+      if (processed_value.size() >= 2 && processed_value.front() == '\'' &&
+          processed_value.back() == '\'') {
+        processed_value = processed_value.substr(1, processed_value.size() - 2);
+      }
+
+      // 处理转义字符
+      std::string escaped_value;
+      for (size_t i = 0; i < processed_value.size(); i++) {
+        if (processed_value[i] == '\\' && i + 1 < processed_value.size()) {
+          // 处理转义字符
+          switch (processed_value[i + 1]) {
+          case 'n':
+            escaped_value += '\n';
+            break;
+          case 't':
+            escaped_value += '\t';
+            break;
+          case 'r':
+            escaped_value += '\r';
+            break;
+          case '\\':
+            escaped_value += '\\';
+            break;
+          case '\'':
+            escaped_value += '\'';
+            break;
+          case '\"':
+            escaped_value += '\"';
+            break;
+          default:
+            escaped_value += processed_value[i];
+            break;
+          }
+          i++; // 跳过下一个字符
+        } else {
+          escaped_value += processed_value[i];
+        }
+      }
+
+      record.push_back(escaped_value);
+    }
 
     // 约束验证
     if (!validateColumnConstraints(record, metadata, stmt->getTableName()) ||
@@ -714,7 +812,7 @@ DMLExecutionStrategy::executeInsert(sql_parser::InsertStatement *stmt,
 
     int32_t page_id;
     size_t offset;
-    if (!table_storage.InsertRecord(stmt->getTableName(), value_row, page_id,
+    if (!table_storage.InsertRecord(stmt->getTableName(), record, page_id,
                                     offset)) {
       return {false, "Failed to insert record"};
     }
@@ -870,9 +968,47 @@ ExecutionResult
 DMLExecutionStrategy::executeSelect(sql_parser::SelectStatement *stmt,
                                     ExecutionContext &context) {
 
-  // SELECT语句的简化实现
-  context.records_affected = 0;
-  return {true, "SELECT executed successfully"};
+  auto storage_engine = context.db_manager->GetStorageEngine();
+  if (!storage_engine) {
+    return {false, "Storage engine not available"};
+  }
+
+  TableStorageManager table_storage(storage_engine);
+  auto metadata = table_storage.GetTableMetadata(stmt->getTableName());
+  if (!metadata) {
+    return {false, "Failed to get table metadata"};
+  }
+
+  // 索引优化查询
+  std::vector<std::pair<int32_t, size_t>> locations;
+  if (stmt->hasWhereClause()) {
+    locations = optimizeQueryWithIndex(
+        stmt->getTableName(), stmt->getWhereClause(), storage_engine,
+        context.used_index, context.execution_plan);
+  } else {
+    locations = table_storage.ScanTable(stmt->getTableName());
+    context.execution_plan = "全表扫描";
+  }
+
+  int rows_selected = 0;
+
+  // 处理SELECT结果
+  for (const auto &location : locations) {
+    std::vector<std::string> record = table_storage.GetRecord(
+        stmt->getTableName(), location.first, location.second);
+    if (record.empty())
+      continue;
+
+    // WHERE条件检查
+    if (!stmt->hasWhereClause() ||
+        matchesWhereClause(record, stmt->getWhereClause(), metadata)) {
+      rows_selected++;
+    }
+  }
+
+  context.records_affected = rows_selected;
+  return {true, "SELECT executed successfully, " +
+                    std::to_string(rows_selected) + " row(s) selected"};
 }
 
 // 索引优化查询实现
@@ -1194,6 +1330,14 @@ void UnifiedExecutor::initializeOptimizer() {
 
 ExecutionResult
 UnifiedExecutor::execute(std::unique_ptr<sql_parser::Statement> stmt) {
+  // 使用默认的执行上下文
+  return execute(std::move(stmt),
+                 std::make_shared<ExecutionContext>(last_context_));
+}
+
+ExecutionResult
+UnifiedExecutor::execute(std::unique_ptr<sql_parser::Statement> stmt,
+                         std::shared_ptr<ExecutionContext> context) {
   if (!stmt) {
     return {false, "Statement is null"};
   }
@@ -1205,16 +1349,16 @@ UnifiedExecutor::execute(std::unique_ptr<sql_parser::Statement> stmt) {
   }
 
   // 更新执行上下文
-  last_context_.records_affected = 0;
-  last_context_.used_index = false;
-  last_context_.execution_plan = "未优化";
-  last_context_.execution_time_ms_ = 0;
-  last_context_.plan_details_ = "";
-  last_context_.optimized_plan_ = "";
-  last_context_.query_optimized_ = false;
-  last_context_.optimization_rules_.clear();
-  last_context_.index_info_ = "";
-  last_context_.cost_estimate_ = 0.0;
+  context->records_affected = 0;
+  context->used_index = false;
+  context->execution_plan = "未优化";
+  context->execution_time_ms_ = 0;
+  context->plan_details_ = "";
+  context->optimized_plan_ = "";
+  context->query_optimized_ = false;
+  context->optimization_rules_.clear();
+  context->index_info_ = "";
+  context->cost_estimate_ = 0.0;
 
   // 全局权限检查
   if (!checkGlobalPermission(stmt.get(), last_context_)) {

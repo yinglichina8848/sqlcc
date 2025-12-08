@@ -27,9 +27,9 @@
  * @date 2025-11-18
  */
 
-#include "buffer_pool_new.h"
+#include "storage/buffer_pool_new.h"
 #include "exception.h"
-#include "logger.h"
+#include "utils/logger.h"
 #include <algorithm>
 
 namespace sqlcc {
@@ -268,6 +268,74 @@ bool BufferPool::FlushPage(int32_t page_id) {
   return success;
 }
 
+// Flush all dirty pages to disk
+bool BufferPool::FlushAllPages() {
+  std::unique_lock<std::timed_mutex> lock(latch_, std::defer_lock);
+  if (!lock.try_lock_for(std::chrono::milliseconds(lock_timeout_ms_))) {
+    SQLCC_LOG_WARN("Failed to acquire buffer pool lock for flushing all pages");
+    return false;
+  }
+
+  // Collect dirty page IDs and page data while holding the lock
+  std::vector<int32_t> dirty_page_ids;
+  std::unordered_map<int32_t, std::vector<char>> page_data_cache;
+
+  for (const auto &pair : dirty_pages_) {
+    if (pair.second) {
+      dirty_page_ids.push_back(pair.first);
+      auto page_it = page_table_.find(pair.first);
+      if (page_it != page_table_.end() && page_it->second) {
+        // Cache page data to avoid holding lock during disk I/O
+        const char *data = page_it->second->GetData();
+        page_data_cache[pair.first] = std::vector<char>(data, data + PAGE_SIZE);
+      }
+    }
+  }
+
+  if (dirty_page_ids.empty()) {
+    SQLCC_LOG_DEBUG("No dirty pages to flush");
+    return true;
+  }
+
+  SQLCC_LOG_INFO("Flushing " + std::to_string(dirty_page_ids.size()) +
+                 " dirty pages");
+
+  // Release lock for disk I/O operations - now we have cached all necessary
+  // data
+  lock.unlock();
+
+  // Flush all dirty pages using cached data
+  bool all_success = true;
+  for (int32_t page_id : dirty_page_ids) {
+    auto data_it = page_data_cache.find(page_id);
+    if (data_it != page_data_cache.end()) {
+      bool success = disk_manager_->WritePage(page_id, data_it->second.data());
+      if (success) {
+        // Reacquire lock briefly to update dirty status
+        std::unique_lock<std::timed_mutex> temp_lock(latch_, std::defer_lock);
+        if (temp_lock.try_lock_for(std::chrono::milliseconds(1000))) {
+          dirty_pages_[page_id] = false;
+          temp_lock.unlock();
+        } else {
+          SQLCC_LOG_WARN("Failed to update dirty status for page " +
+                         std::to_string(page_id));
+        }
+      } else {
+        SQLCC_LOG_ERROR("Failed to flush page " + std::to_string(page_id));
+        all_success = false;
+      }
+    } else {
+      SQLCC_LOG_WARN("Page data not cached for page " +
+                     std::to_string(page_id));
+      all_success = false;
+    }
+  }
+
+  SQLCC_LOG_INFO("Flush all pages completed with " +
+                 std::string(all_success ? "success" : "errors"));
+  return all_success;
+}
+
 // Delete a page
 bool BufferPool::DeletePage(int32_t page_id) {
   std::unique_lock<std::timed_mutex> lock(latch_, std::defer_lock);
@@ -295,11 +363,11 @@ bool BufferPool::DeletePage(int32_t page_id) {
   auto dirty_it = dirty_pages_.find(page_id);
   if (dirty_it != dirty_pages_.end() && dirty_it->second) {
     Page *page = it->second;
-    lock.unlock();
+    latch_.unlock();
 
     bool flush_success = disk_manager_->WritePage(page_id, page->GetData());
 
-    if (!lock.try_lock_for(std::chrono::milliseconds(lock_timeout_ms_))) {
+    if (!latch_.try_lock_for(std::chrono::milliseconds(lock_timeout_ms_))) {
       SQLCC_LOG_ERROR(
           "Failed to reacquire lock after flushing dirty page for deletion");
       return false;
@@ -411,12 +479,100 @@ int32_t BufferPool::FindVictimPage() {
 
 // Replace a page with a new one
 bool BufferPool::ReplacePage(int32_t victim_page_id, int32_t new_page_id) {
-  // 避免未使用参数警告
-  (void)victim_page_id;
-  (void)new_page_id;
+  // Find the victim page
+  auto victim_it = page_table_.find(victim_page_id);
+  if (victim_it == page_table_.end()) {
+    SQLCC_LOG_ERROR("Victim page " + std::to_string(victim_page_id) +
+                    " not found in buffer pool");
+    return false;
+  }
 
-  // TODO: 实现页面替换逻辑
-  return false;
+  // Check if victim page is still referenced
+  auto ref_it = page_refs_.find(victim_page_id);
+  if (ref_it != page_refs_.end() && ref_it->second > 0) {
+    SQLCC_LOG_ERROR("Cannot replace page " + std::to_string(victim_page_id) +
+                    " - still referenced");
+    return false;
+  }
+
+  Page *victim_page = victim_it->second;
+
+  // Flush victim page if dirty
+  auto dirty_it = dirty_pages_.find(victim_page_id);
+  if (dirty_it != dirty_pages_.end() && dirty_it->second) {
+    // Release lock for disk I/O
+    latch_.unlock();
+
+    bool flush_success =
+        disk_manager_->WritePage(victim_page_id, victim_page->GetData());
+
+    if (!latch_.try_lock_for(std::chrono::milliseconds(lock_timeout_ms_))) {
+      SQLCC_LOG_ERROR("Failed to reacquire lock after flushing victim page");
+      return false;
+    }
+
+    if (!flush_success) {
+      SQLCC_LOG_ERROR("Failed to flush dirty victim page " +
+                      std::to_string(victim_page_id));
+      return false;
+    }
+  }
+
+  // Remove victim page from all data structures
+  page_table_.erase(victim_it);
+  page_refs_.erase(victim_page_id);
+  dirty_pages_.erase(victim_page_id);
+
+  auto lru_it = lru_map_.find(victim_page_id);
+  if (lru_it != lru_map_.end()) {
+    lru_list_.erase(lru_it->second);
+    lru_map_.erase(lru_it);
+  }
+
+  // Delete the victim page
+  delete victim_page;
+  metrics_.evictions++;
+
+  SQLCC_LOG_DEBUG("Page " + std::to_string(victim_page_id) +
+                  " evicted from buffer pool");
+
+  // If new_page_id is valid (not -1), we need to load the new page
+  if (new_page_id != -1) {
+    // Create new page and load from disk
+    Page *new_page = new Page(new_page_id);
+
+    // Release lock for disk I/O
+    latch_.unlock();
+
+    bool read_success =
+        disk_manager_->ReadPage(new_page_id, new_page->GetData());
+
+    if (!latch_.try_lock_for(std::chrono::milliseconds(lock_timeout_ms_))) {
+      SQLCC_LOG_ERROR("Failed to reacquire lock after loading new page");
+      delete new_page;
+      return false;
+    }
+
+    if (!read_success) {
+      SQLCC_LOG_ERROR("Failed to read new page " + std::to_string(new_page_id) +
+                      " from disk");
+      delete new_page;
+      return false;
+    }
+
+    // Add new page to buffer pool
+    page_table_[new_page_id] = new_page;
+    page_refs_[new_page_id] = 1;
+    dirty_pages_[new_page_id] = false;
+
+    lru_list_.push_front(new_page_id);
+    lru_map_[new_page_id] = lru_list_.begin();
+
+    SQLCC_LOG_DEBUG("Page " + std::to_string(new_page_id) +
+                    " loaded into buffer pool");
+  }
+
+  return true;
 }
 
 // Update LRU position (move to front)

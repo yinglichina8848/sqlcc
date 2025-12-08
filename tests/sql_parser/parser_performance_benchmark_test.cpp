@@ -7,6 +7,7 @@
 #include <iostream>
 #include <numeric>
 #include <algorithm>
+#include <cmath>
 
 namespace sqlcc {
 namespace sql_parser {
