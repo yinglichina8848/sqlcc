@@ -1,0 +1,43 @@
+"""Bazel构建配置 for SQLCC sql_executor组件"""
+
+load("@rules_cc//cc:defs.bzl", "cc_library")
+
+# SQL执行器库
+cc_library(
+    name = "sqlcc_executor",
+    srcs = glob(["*.cpp"]),
+    hdrs = glob(["*.h"]),
+    deps = [
+        "//src/core:sqlcc_core_lib",
+        "//src/config_manager:sqlcc_config_manager",
+        "//src/storage_engine:sqlcc_storage_engine",
+        "@com_google_absl//absl/strings",
+        "@com_google_absl//absl/container:flat_hash_map",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+# 索引管理器库（如果需要单独使用）
+cc_library(
+    name = "sqlcc_index_manager",
+    srcs = ["index_manager.cpp"],
+    hdrs = ["//include:sql_executor_headers"],
+    deps = [
+        "//src/storage_engine:sqlcc_storage_engine",
+        "//src/config_manager:sqlcc_config_manager",
+        "@com_google_absl//absl/strings",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+# 用户管理器库（如果需要单独使用）
+cc_library(
+    name = "sqlcc_user_manager",
+    srcs = ["user_manager.cpp"],
+    hdrs = ["//include:sql_executor_headers"],
+    deps = [
+        "//src/core:sqlcc_core_lib",
+        "@com_google_absl//absl/strings",
+    ],
+    visibility = ["//visibility:public"],
+)

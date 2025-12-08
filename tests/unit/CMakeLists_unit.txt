@@ -1,0 +1,39 @@
+# 单元测试框架配置
+cmake_minimum_required(VERSION 3.10)
+project(SQLCC_Unit_Tests)
+
+# 包含目录
+include_directories(${CMAKE_SOURCE_DIR}/src)
+include_directories(${CMAKE_SOURCE_DIR}/src/parser)
+include_directories(${CMAKE_SOURCE_DIR}/src/executor)
+
+# 单元测试源文件
+file(GLOB UNIT_TEST_FILES 
+    "basic/*test*.cpp"
+    "advanced/*test*.cpp"
+    "core/*test*.cpp"
+    "parser/*test*.cpp"
+    "executor/*test*.cpp"
+    "storage/*test*.cpp"
+    "transaction/*test*.cpp"
+    "network/*test*.cpp"
+    "security/*test*.cpp"
+)
+
+# 创建单元测试可执行文件
+add_executable(unit_tests ${UNIT_TEST_FILES})
+target_link_libraries(unit_tests 
+    ${CMAKE_SOURCE_DIR}/libsqlcc.a
+    pthread
+    gtest
+    gtest_main
+)
+
+# 设置测试属性
+set_target_properties(unit_tests PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/tests/unit"
+)
+
+# 添加测试
+enable_testing()
+add_test(NAME unit_test_basic COMMAND unit_tests)

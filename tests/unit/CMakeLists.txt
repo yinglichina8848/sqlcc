@@ -16,3 +16,13 @@ add_subdirectory(transaction)
 add_subdirectory(config)
 add_subdirectory(core)
 add_subdirectory(network)
+
+# Google Test Basic Test
+add_executable(test_gtest test_gtest.cpp)
+target_link_libraries(test_gtest
+    PRIVATE
+    gtest
+    gtest_main
+    pthread
+    ${CMAKE_DL_LIBS}
+)

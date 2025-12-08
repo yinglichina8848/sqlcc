@@ -25,7 +25,7 @@
  */
 
 #include "wal_manager.h"
-#include "logger.h"
+#include "utils/logger.h"
 #include <cstring>
 #include <filesystem>
 #include <fstream>

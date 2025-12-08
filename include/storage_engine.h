@@ -1,11 +1,11 @@
 #pragma once
 
-#include "buffer_pool.h"
-#include "buffer_pool_sharded.h"
-#include "config_manager.h"
 #include "disk_manager.h"
 #include "page.h"
-#include "table_storage.h"
+#include "storage/buffer_pool.h"
+#include "storage/buffer_pool_sharded.h"
+#include "storage/table_storage.h"
+#include "utils/config_manager.h"
 #include <memory>
 #include <unordered_map>
 

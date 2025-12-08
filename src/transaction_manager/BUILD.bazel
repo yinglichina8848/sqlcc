@@ -1,0 +1,11 @@
+# 事务管理器组件Bazel构建配置
+
+package(default_visibility = ["//visibility:public"])
+
+cc_library(
+    name = "sqlcc_transaction_manager",
+    srcs = glob(["*.cpp"]),
+    hdrs = ["//include:root_headers"],
+    includes = ["../../include"],
+    copts = ["-std=c++17"],
+)

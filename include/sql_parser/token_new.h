@@ -15,6 +15,7 @@ public:
     LPAREN,    // (
     RPAREN,    // )
     COMMA,     // ,
+    COLON,     // :
     DOT,       // .
 
     // Literals
@@ -47,6 +48,13 @@ public:
     OPERATOR_AND,
     OPERATOR_OR,
     OPERATOR_NOT,
+    OPERATOR_BITWISE_AND,
+    OPERATOR_BITWISE_OR,
+    OPERATOR_BITWISE_NOT,
+    OPERATOR_BITWISE_XOR,
+    OPERATOR_TERNARY,
+    OPERATOR_AT,
+    OPERATOR_DOLLAR,
     OPERATOR_CONCAT,
     OPERATOR_LIKE,
     OPERATOR_IN,

@@ -1,0 +1,49 @@
+"""Bazel构建配置 for SQLCC core组件测试"""
+
+load("@rules_cc//cc:defs.bzl", "cc_test")
+
+cc_test(
+    name = "constraint_validation_test",
+    srcs = ["constraint_validation_test.cpp"],
+    deps = [
+        "//src/core:core",
+        "@gtest//:gtest_main",
+    ],
+)
+
+cc_test(
+    name = "simple_test",
+    srcs = ["simple_test.cpp"],
+    deps = [
+        "//src/core:core",
+        "@gtest//:gtest_main",
+    ],
+)
+
+cc_test(
+    name = "system_database_test",
+    srcs = ["system_database_test.cpp"],
+    deps = [
+        "//src/core:core",
+        "@gtest//:gtest_main",
+    ],
+)
+
+cc_test(
+    name = "test_gtest",
+    srcs = ["test_gtest.cpp"],
+    deps = [
+        "//src/core:core",
+        "@gtest//:gtest_main",
+    ],
+)
+
+test_suite(
+    name = "core_component_tests",
+    tests = [
+        ":constraint_validation_test",
+        ":simple_test",
+        ":system_database_test",
+        ":test_gtest",
+    ],
+)

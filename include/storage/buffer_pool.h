@@ -17,7 +17,7 @@
 
 #include "disk_manager.h"
 #include "page.h"
-#include "config_manager.h"
+#include "utils/config_manager.h"
 #include "exception.h"
 
 /**

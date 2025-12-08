@@ -25,10 +25,10 @@
  * - 组合模式：BPlusTreeIndex组合多个BPlusTreeNode实现完整的B+树
  * - 策略模式：不同类型的节点实现不同的插入、删除和查询策略
  */
-#include "b_plus_tree.h"
-#include "logger.h"
+#include "storage/b_plus_tree.h"
 #include "page.h"
 #include "storage_engine.h"
+#include "utils/logger.h"
 #include <cstring>
 #include <memory>
 
@@ -485,6 +485,7 @@ BPlusTreeInternalNode::Search(const std::string &key) const {
   // 内部节点搜索：找到对应的子节点，让子节点继续搜索
   // 注意：内部节点的Search方法在BPlusTreeIndex中被递归调用，这里不需要自己实现完整逻辑
   // 直接返回空向量，因为实际搜索逻辑在BPlusTreeIndex::Search中实现
+  (void)key; // 标记参数为已使用
   return std::vector<IndexEntry>();
 }
 
@@ -512,6 +513,8 @@ BPlusTreeInternalNode::SearchRange(const std::string &lower_bound,
   // 内部节点范围搜索：找到对应的子节点，让子节点继续搜索
   // 注意：内部节点的SearchRange方法在BPlusTreeIndex中被递归调用，这里不需要自己实现完整逻辑
   // 直接返回空向量，因为实际搜索逻辑在BPlusTreeIndex::SearchRange中实现
+  (void)lower_bound; // 标记参数为已使用
+  (void)upper_bound; // 标记参数为已使用
   return std::vector<IndexEntry>();
 }
 
@@ -1012,7 +1015,8 @@ BPlusTreeLeafNode::SearchRange(const std::string &lower_bound,
 
   // 收集范围内的所有条目
   for (auto it = start_it; it != entries_.end(); ++it) {
-    if (it->key > upper_bound)
+    // 使用字典序比较，当键大于upper_bound时停止
+    if (it->key.compare(upper_bound) > 0)
       break;
     results.push_back(*it);
   }
@@ -1735,7 +1739,7 @@ BPlusTreeIndex::SearchRange(const std::string &lower_bound,
         leaf->SearchRange(lower_bound, upper_bound);
 
     // 检查当前叶子节点的结果是否已经包含了所有需要的结果
-    if (!results.empty() && results.back().key >= upper_bound) {
+    if (!results.empty() && results.back().key.compare(upper_bound) >= 0) {
       return results;
     }
 
@@ -1767,7 +1771,7 @@ BPlusTreeIndex::SearchRange(const std::string &lower_bound,
       // 检查下一个叶子节点的第一个键是否已经超过上限
       // 如果超过上限，直接返回结果
       if (!next_leaf->GetEntries().empty() &&
-          next_leaf->GetEntries().front().key > upper_bound) {
+          next_leaf->GetEntries().front().key.compare(upper_bound) > 0) {
         delete next_leaf;
         break;
       }

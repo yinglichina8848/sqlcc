@@ -1,0 +1,517 @@
+# SQLCC现代化测试框架配置
+# 采用声明式配置，类似Maven + JaCoCo的设计理念
+
+# 项目基本信息
+project:
+  name: "sqlcc"
+  version: "1.1.1"
+  description: "SQLCC Database Engine Test Framework"
+  
+  # 构建系统配置
+  build_system: "bazel"
+  language: "c++"
+  cpp_standard: "17"
+  
+  # 测试框架
+  test_framework: "gtest"
+  benchmark_framework: "google_benchmark"
+  coverage_tool: "gcovr"
+
+# 测试组件定义（类似Maven的模块）
+components:
+  # 核心组件
+  core:
+    name: "core"
+    description: "核心存储引擎组件"
+    source_dir: "src/core"
+    test_dir: "tests/unit/core"
+    
+    # 依赖关系（类似Maven的dependencies）
+    dependencies:
+      - "utils"
+      - "common"
+    
+    # 测试配置
+    tests:
+      unit:
+        enabled: true
+        patterns:
+          - "*_test.cpp"
+        timeout_seconds: 300
+        
+      integration:
+        enabled: true
+        patterns:
+          - "*_integration_test.cpp"
+        timeout_seconds: 600
+        
+      performance:
+        enabled: true
+        patterns:
+          - "*_performance_test.cpp"
+        timeout_seconds: 1800
+    
+    # 覆盖率要求
+    coverage:
+      enabled: true
+      thresholds:
+        line: 85
+        branch: 75
+        function: 80
+    
+    # 资源限制
+    resources:
+      memory_mb: 512
+      cpu_cores: 2
+
+  # 工具类组件
+  utils:
+    name: "utils"
+    description: "工具类组件"
+    source_dir: "src/utils"
+    test_dir: "tests/unit/utils"
+    
+    dependencies:
+      - "common"
+    
+    tests:
+      unit:
+        enabled: true
+        patterns:
+          - "*_test.cpp"
+        timeout_seconds: 120
+    
+    coverage:
+      enabled: true
+      thresholds:
+        line: 90
+        branch: 80
+        function: 85
+
+  # SQL解析器组件
+  sql_parser:
+    name: "sql_parser"
+    description: "SQL解析器组件"
+    source_dir: "src/sql_parser"
+    test_dir: "tests/unit/sql_parser"
+    
+    dependencies:
+      - "utils"
+      - "common"
+    
+    tests:
+      unit:
+        enabled: true
+        patterns:
+          - "*_test.cpp"
+        timeout_seconds: 240
+      
+      integration:
+        enabled: true
+        patterns:
+          - "*_integration_test.cpp"
+        timeout_seconds: 480
+    
+    coverage:
+      enabled: true
+      thresholds:
+        line: 80
+        branch: 70
+        function: 75
+
+  # 存储引擎组件
+  storage_engine:
+    name: "storage_engine"
+    description: "存储引擎组件"
+    source_dir: "src/storage_engine"
+    test_dir: "tests/unit/storage_engine"
+    
+    dependencies:
+      - "core"
+      - "utils"
+      - "common"
+    
+    tests:
+      unit:
+        enabled: true
+        patterns:
+          - "*_test.cpp"
+        timeout_seconds: 600
+      
+      performance:
+        enabled: true
+        patterns:
+          - "*_performance_test.cpp"
+        timeout_seconds: 3600
+    
+    coverage:
+      enabled: true
+      thresholds:
+        line: 75
+        branch: 65
+        function: 70
+
+# 测试套件定义（类似Maven的profiles）
+test_suites:
+  # 快速测试套件
+  quick:
+    description: "快速测试套件，仅运行关键测试"
+    components:
+      - "core"
+      - "utils"
+    
+    test_types:
+      unit: true
+      integration: false
+      performance: false
+    
+    timeout_multiplier: 0.5
+    parallel_execution: true
+    
+    # 覆盖率要求较低
+    coverage_thresholds:
+      line: 0
+      branch: 0
+      function: 0
+
+  # 完整测试套件
+  full:
+    description: "完整测试套件，运行所有测试"
+    components: "all"  # 所有组件
+    
+    test_types:
+      unit: true
+      integration: true
+      performance: true
+    
+    timeout_multiplier: 1.0
+    parallel_execution: true
+    
+    # 完整的覆盖率要求
+    coverage_thresholds:
+      line: 80
+      branch: 70
+      function: 75
+
+  # CI测试套件
+  ci:
+    description: "持续集成测试套件"
+    components: "all"
+    
+    test_types:
+      unit: true
+      integration: true
+      performance: false
+    
+    timeout_multiplier: 0.8
+    parallel_execution: true
+    
+    # CI特定的覆盖率要求
+    coverage_thresholds:
+      line: 75
+      branch: 65
+      function: 70
+
+  # 性能测试套件
+  performance:
+    description: "性能测试套件"
+    components:
+      - "core"
+      - "storage_engine"
+    
+    test_types:
+      unit: false
+      integration: false
+      performance: true
+    
+    timeout_multiplier: 2.0
+    parallel_execution: false  # 性能测试通常串行执行
+    
+    # 性能测试不要求覆盖率
+    coverage_thresholds:
+      line: 0
+      branch: 0
+      function: 0
+
+# 测试执行配置
+execution:
+  # 并行执行配置
+  parallel:
+    enabled: true
+    max_workers: 4
+    
+    # 组件间并行（不同组件可以并行测试）
+    inter_component: true
+    
+    # 组件内并行（同一组件内的测试可以并行）
+    intra_component: true
+  
+  # 重试机制
+  retry:
+    enabled: true
+    max_attempts: 3
+    
+    # 重试条件
+    conditions:
+      - "timeout"
+      - "flaky_test"
+      - "resource_exhaustion"
+  
+  # 超时配置
+  timeout:
+    default_seconds: 300
+    
+    # 不同类型测试的超时乘数
+    multipliers:
+      unit: 1.0
+      integration: 2.0
+      performance: 6.0
+  
+  # 资源限制
+  resources:
+    memory_limit_mb: 4096
+    cpu_limit_cores: 8
+    
+    # 每个测试进程的资源限制
+    per_test:
+      memory_mb: 512
+      cpu_cores: 2
+
+# 覆盖率配置（类似JaCoCo）
+coverage:
+  # 工具配置
+  tool: "gcovr"
+  
+  # 报告配置
+  reports:
+    html:
+      enabled: true
+      output: "coverage_report.html"
+      detail_level: "detailed"
+    
+    xml:
+      enabled: true
+      output: "coverage.xml"
+      
+    sonarqube:
+      enabled: true
+      output: "sonarqube.xml"
+    
+    text:
+      enabled: true
+      output: "coverage.txt"
+  
+  # 排除规则
+  excludes:
+    - "tests/.*"
+    - "third_party/.*"
+    - ".*_test\.cpp"
+    - ".*_mock\.cpp"
+    - ".*_stub\.cpp"
+  
+  # 质量门限
+  quality_gates:
+    # 总体质量门限
+    overall:
+      line: 80
+      branch: 70
+      function: 75
+    
+    # 新增代码质量门限
+    new_code:
+      line: 90
+      branch: 80
+      function: 85
+
+# 报告和输出配置
+reporting:
+  # 测试报告
+  test_reports:
+    junit:
+      enabled: true
+      output: "test_report.xml"
+    
+    html:
+      enabled: true
+      output: "test_report.html"
+    
+    json:
+      enabled: true
+      output: "test_report.json"
+  
+  # 性能报告
+  performance_reports:
+    csv:
+      enabled: true
+      output: "performance_report.csv"
+    
+    json:
+      enabled: true
+      output: "performance_report.json"
+    
+    charts:
+      enabled: true
+      output: "performance_charts/"
+  
+  # 日志配置
+  logging:
+    level: "INFO"  # DEBUG, INFO, WARNING, ERROR
+    
+    # 日志输出
+    outputs:
+      - type: "console"
+        format: "colored"
+      
+      - type: "file"
+        path: "test_logs/test.log"
+        format: "json"
+    
+    # 日志轮转
+    rotation:
+      enabled: true
+      max_size_mb: 100
+      backup_count: 5
+
+# 环境配置
+environment:
+  # 构建环境
+  build:
+    compiler: "gcc"
+    compiler_version: "9+"
+    
+    # 编译选项
+    flags:
+      common: ["-Wall", "-Wextra", "-Werror"]
+      debug: ["-g", "-O0"]
+      release: ["-O2", "-DNDEBUG"]
+      coverage: ["--coverage", "-O0", "-g"]
+  
+  # 运行时环境
+  runtime:
+    # 数据库配置
+    database:
+      temp_dir: "/tmp/sqlcc_tests"
+      max_connections: 10
+      
+    # 网络配置
+    network:
+      test_port_range: [10000, 11000]
+      
+    # 文件系统
+    filesystem:
+      test_data_dir: "test_data/"
+      cleanup_after_tests: true
+
+# 插件和扩展
+plugins:
+  # 静态分析插件
+  static_analysis:
+    cppcheck:
+      enabled: true
+      checks: ["all"]
+      
+    clang_tidy:
+      enabled: true
+      checks: ["modernize-*"]
+  
+  # 安全扫描插件
+  security:
+    enabled: true
+    tools:
+      - "bandit"  # Python代码安全扫描
+      - "semgrep" # 通用安全扫描
+  
+  # 代码质量插件
+  quality:
+    sonarqube:
+      enabled: true
+      server_url: "${SONARQUBE_URL}"
+      
+    codeclimate:
+      enabled: false
+
+# 迁移配置（用于从旧框架迁移）
+migration:
+  # 迁移阶段
+  phase: "planning"  # planning, execution, validation, completion
+  
+  # 并行运行配置
+  parallel_execution:
+    enabled: true
+    
+    # 新旧框架结果比较
+    result_comparison:
+      enabled: true
+      tolerance: 0.01  # 1%的差异容忍度
+  
+  # 回滚配置
+  rollback:
+    enabled: true
+    backup_dir: "backup/tests"
+
+# 监控和指标
+monitoring:
+  # 测试执行指标
+  metrics:
+    enabled: true
+    
+    # 收集的指标
+    collect:
+      - "test_duration"
+      - "memory_usage"
+      - "cpu_usage"
+      - "test_success_rate"
+      - "coverage_trend"
+  
+  # 告警配置
+  alerts:
+    enabled: true
+    
+    conditions:
+      - "test_failure_rate > 0.1"  # 失败率超过10%
+      - "coverage_drop > 0.05"     # 覆盖率下降超过5%
+      - "performance_regression > 0.1"  # 性能回归超过10%
+
+# 版本控制集成
+version_control:
+  git:
+    enabled: true
+    
+    # 分支保护规则
+    branch_protection:
+      main:
+        required_tests: ["quick", "ci"]
+        required_coverage: 75
+        
+      develop:
+        required_tests: ["quick"]
+        required_coverage: 70
+    
+    # 提交前检查
+    pre_commit:
+      enabled: true
+      tests: ["quick"]
+
+# 持续集成配置
+ci:
+  # CI系统集成
+  systems:
+    github_actions:
+      enabled: true
+      
+    gitlab_ci:
+      enabled: false
+      
+    jenkins:
+      enabled: false
+  
+  # 流水线配置
+  pipelines:
+    pr:
+      tests: ["quick", "ci"]
+      
+    nightly:
+      tests: ["full", "performance"]
+      
+    release:
+      tests: ["full", "performance", "security"]

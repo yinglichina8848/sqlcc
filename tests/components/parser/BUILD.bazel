@@ -1,0 +1,179 @@
+"""Bazel构建配置 for SQLCC parser组件测试"""
+
+load("@rules_cc//cc:defs.bzl", "cc_test")
+
+cc_test(
+    name = "ast_nodes_test",
+    srcs = ["ast_nodes_test.cpp"],
+    deps = [
+        "//src/sql_parser:sql_parser",
+        "@gtest//:gtest_main",
+    ],
+)
+
+cc_test(
+    name = "compare_values_test",
+    srcs = ["compare_values_test.cpp"],
+    deps = [
+        "//src/sql_parser:sql_parser",
+        "@gtest//:gtest_main",
+    ],
+)
+
+cc_test(
+    name = "comprehensive_dcl_test",
+    srcs = ["comprehensive_dcl_test.cpp"],
+    deps = [
+        "//src/sql_parser:sql_parser",
+        "@gtest//:gtest_main",
+    ],
+)
+
+cc_test(
+    name = "dcl_parser_test",
+    srcs = ["dcl_parser_test.cpp"],
+    deps = [
+        "//src/sql_parser:sql_parser",
+        "@gtest//:gtest_main",
+    ],
+)
+
+cc_test(
+    name = "dcl_test",
+    srcs = ["dcl_test.cpp"],
+    deps = [
+        "//src/sql_parser:sql_parser",
+        "@gtest//:gtest_main",
+    ],
+)
+
+cc_test(
+    name = "dcl_test_advanced",
+    srcs = ["dcl_test_advanced.cpp"],
+    deps = [
+        "//src/sql_parser:sql_parser",
+        "@gtest//:gtest_main",
+    ],
+)
+
+cc_test(
+    name = "ddl_test",
+    srcs = ["ddl_test.cpp"],
+    deps = [
+        "//src/sql_parser:sql_parser",
+        "@gtest//:gtest_main",
+    ],
+)
+
+cc_test(
+    name = "dml_test",
+    srcs = ["dml_test.cpp"],
+    deps = [
+        "//src/sql_parser:sql_parser",
+        "@gtest//:gtest_main",
+    ],
+)
+
+cc_test(
+    name = "final_dcl_test",
+    srcs = ["final_dcl_test.cpp"],
+    deps = [
+        "//src/sql_parser:sql_parser",
+        "@gtest//:gtest_main",
+    ],
+)
+
+cc_test(
+    name = "parser_verification_test",
+    srcs = ["parser_verification_test.cpp"],
+    deps = [
+        "//src/sql_parser:sql_parser",
+        "@gtest//:gtest_main",
+    ],
+)
+
+cc_test(
+    name = "test_colon_parsing",
+    srcs = ["test_colon_parsing.cpp"],
+    deps = [
+        "//src/sql_parser:sql_parser",
+        "@gtest//:gtest_main",
+    ],
+)
+
+cc_test(
+    name = "test_colon_simple",
+    srcs = ["test_colon_simple.cpp"],
+    deps = [
+        "//src/sql_parser:sql_parser",
+        "@gtest//:gtest_main",
+    ],
+)
+
+cc_test(
+    name = "test_create_table",
+    srcs = ["test_create_table.cpp"],
+    deps = [
+        "//src/sql_parser:sql_parser",
+        "@gtest//:gtest_main",
+    ],
+)
+
+cc_test(
+    name = "test_percent_operator",
+    srcs = ["test_percent_operator.cpp"],
+    deps = [
+        "//src/sql_parser:sql_parser",
+        "@gtest//:gtest_main",
+    ],
+)
+
+cc_test(
+    name = "test_percent_simple",
+    srcs = ["test_percent_simple.cpp"],
+    deps = [
+        "//src/sql_parser:sql_parser",
+        "@gtest//:gtest_main",
+    ],
+)
+
+cc_test(
+    name = "test_show_grants",
+    srcs = ["test_show_grants.cpp"],
+    deps = [
+        "//src/sql_parser:sql_parser",
+        "@gtest//:gtest_main",
+    ],
+)
+
+cc_test(
+    name = "test_simple_create",
+    srcs = ["test_simple_create.cpp"],
+    deps = [
+        "//src/sql_parser:sql_parser",
+        "@gtest//:gtest_main",
+    ],
+)
+
+test_suite(
+    name = "parser_component_tests",
+    tests = [
+        ":ast_nodes_test",
+        ":compare_values_test",
+        ":comprehensive_dcl_test",
+        ":dcl_parser_test",
+        ":dcl_test",
+        ":dcl_test_advanced",
+        ":ddl_test",
+        ":dml_test",
+        ":final_dcl_test",
+        ":parser_verification_test",
+        ":test_colon_parsing",
+        ":test_colon_simple",
+        ":test_create_table",
+        ":test_percent_operator",
+        ":test_percent_simple",
+        ":test_show_grants",
+        ":test_simple_create",
+    ],
+)

@@ -1,0 +1,45 @@
+# 头文件库定义
+
+package(default_visibility = ["//visibility:public"])
+
+# 核心头文件库
+filegroup(
+    name = "core_headers",
+    srcs = glob(["core/*.h"]),
+)
+
+# SQL解析器头文件库
+filegroup(
+    name = "sql_parser_headers",
+    srcs = glob(["sql_parser/*.h"]),
+)
+
+# 网络头文件库
+filegroup(
+    name = "network_headers",
+    srcs = glob(["network/*.h"]),
+)
+
+# 存储引擎头文件库
+filegroup(
+    name = "storage_engine_headers",
+    srcs = glob(["storage/*.h"]),
+)
+
+# SQL执行器头文件库
+filegroup(
+    name = "sql_executor_headers",
+    srcs = glob(["sql_executor/*.h"]),
+)
+
+# 配置管理器头文件库
+filegroup(
+    name = "config_manager_headers",
+    srcs = glob(["utils/config_manager.h"]),
+)
+
+# 根目录头文件库（包含不在子目录中的头文件）
+filegroup(
+    name = "root_headers",
+    srcs = glob(["*.h"]),
+)

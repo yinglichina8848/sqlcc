@@ -1,0 +1,45 @@
+"""Bazel构建配置 for SQLCC storage_engine组件"""
+
+load("@rules_cc//cc:defs.bzl", "cc_library")
+
+# 存储引擎库
+cc_library(
+    name = "sqlcc_storage_engine",
+    srcs = glob(["*.cpp"]),
+    hdrs = ["//include:storage_engine_headers"],
+    includes = ["../../include"],
+    deps = [
+        "//src/config_manager:sqlcc_config_manager",
+        "@com_google_absl//absl/strings",
+        "@com_google_absl//absl/container:flat_hash_map",
+        "@com_google_absl//absl/random",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+# B+树库（如果需要单独使用）
+cc_library(
+    name = "sqlcc_b_plus_tree",
+    srcs = ["b_plus_tree.cpp"],
+    hdrs = ["//include:storage_engine_headers"],
+    includes = ["../../include"],
+    deps = [
+        "//src/config_manager:sqlcc_config_manager",
+        "@com_google_absl//absl/strings",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+# 缓冲池库（如果需要单独使用）
+cc_library(
+    name = "sqlcc_buffer_pool",
+    srcs = ["buffer_pool.cpp", "buffer_pool_sharded.cpp"],
+    hdrs = ["//include:storage_engine_headers"],
+    includes = ["../../include"],
+    deps = [
+        "//src/config_manager:sqlcc_config_manager",
+        "@com_google_absl//absl/strings",
+        "@com_google_absl//absl/container:flat_hash_map",
+    ],
+    visibility = ["//visibility:public"],
+)

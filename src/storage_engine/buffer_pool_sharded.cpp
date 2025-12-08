@@ -1,6 +1,6 @@
-#include "buffer_pool_sharded.h"
+#include "storage/buffer_pool_sharded.h"
 #include "exception.h"
-#include "logger.h"
+#include "utils/logger.h"
 
 namespace sqlcc {
 
@@ -42,6 +42,7 @@ BufferPoolSharded::~BufferPoolSharded() {
 Page *BufferPoolSharded::FetchPage(int32_t page_id, bool exclusive) {
   size_t shard_idx = GetShardIndex(page_id);
   Shard &shard = *shards_[shard_idx];
+  (void)exclusive; // 标记参数为已使用
 
   std::lock_guard<std::mutex> lock(shard.mutex);
 
@@ -50,15 +51,15 @@ Page *BufferPoolSharded::FetchPage(int32_t page_id, bool exclusive) {
   if (it != shard.page_table.end()) {
     // 页面已在缓冲池中
     std::shared_ptr<PageWrapper> page_wrapper = it->second;
-    
+
     // 更新引用计数
     page_wrapper->ref_count++;
-    
+
     // 如果页面在LRU列表中，则将其移到头部
     if (page_wrapper->is_in_lru) {
       MoveToHead(shard, page_id);
     }
-    
+
     stats_.total_hits++;
     return page_wrapper->page;
   }
@@ -70,7 +71,8 @@ Page *BufferPoolSharded::FetchPage(int32_t page_id, bool exclusive) {
   if (shard.current_size >= shard.max_size) {
     int32_t replaced_page_id = ReplacePage(shard);
     if (replaced_page_id == -1) {
-      SQLCC_LOG_ERROR("Failed to replace page for page_id: " + std::to_string(page_id));
+      SQLCC_LOG_ERROR("Failed to replace page for page_id: " +
+                      std::to_string(page_id));
       return nullptr;
     }
   }
@@ -143,6 +145,7 @@ void BufferPoolSharded::FlushAllPages() {
     for (const auto &pair : shard.page_table) {
       int32_t page_id = pair.first;
       std::shared_ptr<PageWrapper> page_wrapper = pair.second;
+      (void)page_id; // 标记变量为已使用
 
       if (page_wrapper->is_dirty) {
         
@@ -275,13 +278,13 @@ int32_t BufferPoolSharded::ReplacePage(Shard &shard) {
           shard.page_table.erase(page_it);
           shard.current_size--;
           stats_.total_evictions++;
-                  
+
           // 从已分配页面集合中移除
           {
             std::lock_guard<std::mutex> alloc_lock(allocated_pages_mutex_);
             allocated_pages_.erase(page_id);
           }
-                  
+
           return page_id;
         }
       }
@@ -316,7 +319,7 @@ void BufferPoolSharded::RemoveFromLRU(Shard &shard, int32_t page_id) {
 
 size_t BufferPoolSharded::GetCurrentPageCount() const {
   size_t total_count = 0;
-  for (const auto& shard : shards_) {
+  for (const auto &shard : shards_) {
     total_count += shard->current_size;
   }
   return total_count;

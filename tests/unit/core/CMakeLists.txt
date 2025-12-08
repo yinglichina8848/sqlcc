@@ -70,3 +70,13 @@ target_link_libraries(execution_context_test
     sqlcc_transaction_manager
     sqlcc_executor
 )
+
+# Simple Google Test
+add_executable(simple_test simple_test.cpp)
+target_link_libraries(simple_test
+    PRIVATE
+    gtest
+    gtest_main
+    pthread
+    ${CMAKE_DL_LIBS}
+)

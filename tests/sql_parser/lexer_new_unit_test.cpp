@@ -194,9 +194,9 @@ TEST_F(LexerNewUnitTest, SpecialCharacters) {
   EXPECT_EQ(tokens[6].getType(), Token::Type::RPAREN);
   EXPECT_EQ(tokens[7].getType(), Token::Type::KEYWORD_VALUES);
   EXPECT_EQ(tokens[8].getType(), Token::Type::LPAREN);
-  EXPECT_EQ(tokens[9].getType(), Token::Type::UNKNOWN);
+  EXPECT_EQ(tokens[9].getType(), Token::Type::OPERATOR_TERNARY);
   EXPECT_EQ(tokens[10].getType(), Token::Type::COMMA);
-  EXPECT_EQ(tokens[11].getType(), Token::Type::UNKNOWN);
+  EXPECT_EQ(tokens[11].getType(), Token::Type::OPERATOR_TERNARY);
   EXPECT_EQ(tokens[12].getType(), Token::Type::RPAREN);
 }
 
@@ -237,11 +237,12 @@ TEST_F(LexerNewUnitTest, ErrorHandling) {
       break;
   }
 
-  // 应该跳过无效字符但继续解析
+  // 应该正确处理特殊字符
   ASSERT_GE(tokens.size(), 4);
   EXPECT_EQ(tokens[0].getType(), Token::Type::KEYWORD_SELECT);
-  EXPECT_EQ(tokens[1].getType(), Token::Type::KEYWORD_FROM);
+  EXPECT_EQ(tokens[1].getType(), Token::Type::OPERATOR_AT);
   EXPECT_EQ(tokens[2].getType(), Token::Type::IDENTIFIER);
+  EXPECT_EQ(tokens[3].getType(), Token::Type::KEYWORD_FROM);
 }
 
 // 测试空白字符处理

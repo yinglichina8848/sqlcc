@@ -1,0 +1,49 @@
+"""Bazel构建配置 for SQLCC security组件测试"""
+
+load("@rules_cc//cc:defs.bzl", "cc_test")
+
+cc_test(
+    name = "permission_check_test",
+    srcs = ["permission_check_test.cpp"],
+    deps = [
+        "//src/security:security",
+        "@gtest//:gtest_main",
+    ],
+)
+
+cc_test(
+    name = "permission_validation_test",
+    srcs = ["permission_validation_test.cpp"],
+    deps = [
+        "//src/security:security",
+        "@gtest//:gtest_main",
+    ],
+)
+
+cc_test(
+    name = "permission_validator_test",
+    srcs = ["permission_validator_test.cpp"],
+    deps = [
+        "//src/security:security",
+        "@gtest//:gtest_main",
+    ],
+)
+
+cc_test(
+    name = "revoke_persistence_test",
+    srcs = ["revoke_persistence_test.cpp"],
+    deps = [
+        "//src/security:security",
+        "@gtest//:gtest_main",
+    ],
+)
+
+test_suite(
+    name = "security_component_tests",
+    tests = [
+        ":permission_check_test",
+        ":permission_validation_test",
+        ":permission_validator_test",
+        ":revoke_persistence_test",
+    ],
+)

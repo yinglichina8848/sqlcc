@@ -1,0 +1,32 @@
+# SQLCC v1.1.1 集成测试框架自动生成
+# 生成时间: 2025-12-08 04:52:22
+# 基于实际测试文件分布的智能配置
+
+# 基本包含目录
+include_directories(
+    ${CMAKE_SOURCE_DIR}/include
+    ${CMAKE_SOURCE_DIR}/include/core
+    ${CMAKE_SOURCE_DIR}/include/network
+    ${CMAKE_SOURCE_DIR}/include/sql
+    ${CMAKE_SOURCE_DIR}/include/utils
+)
+
+# ===== HIGH 优先级测试 =====
+
+# ===== MEDIUM 优先级测试 =====
+
+# ===== LOW 优先级测试 =====
+
+# ===== 测试套件定义 =====
+
+# 核心功能测试套件
+add_test(NAME core_suite COMMAND ${CMAKE_CTEST_COMMAND} -R "(dcl|parser|executor|transaction|storage)_test")
+
+# 快速测试套件
+add_test(NAME quick_suite COMMAND ${CMAKE_CTEST_COMMAND} -R "(dcl|parser)_test" --output-on-failure)
+
+# 完整测试套件
+add_test(NAME full_suite COMMAND ${CMAKE_CTEST_COMMAND} --output-on-failure)
+
+# 启用并行测试
+set_property(TEST core_suite quick_suite full_suite PROPERTY PARALLEL TRUE)

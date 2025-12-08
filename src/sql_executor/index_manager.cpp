@@ -1,6 +1,6 @@
 #include "sql_executor/index_manager.h"
-#include "config_manager.h"
 #include "storage/b_plus_tree.h"
+#include "utils/config_manager.h"
 #include "utils/logger.h"
 
 namespace sqlcc {
@@ -117,8 +117,17 @@ IndexManager::GetIndexedColumns(const std::string &table_name) const {
 
 void IndexManager::LoadAllIndexes() {
   SQLCC_LOG_INFO("Loading all indexes from storage");
-  // 实现从存储加载所有索引的功能
-  // 目前只是一个基本实现
+
+  // 基本实现：从存储加载索引元数据
+  // 目前暂时只记录日志，不实际加载索引
+  // 这可以防止系统在初始化时卡住
+
+  // 在实际实现中，这里应该：
+  // 1. 从系统表或元数据文件中读取索引定义
+  // 2. 为每个索引创建对应的BPlusTreeIndex对象
+  // 3. 将索引对象添加到索引映射表中
+
+  SQLCC_LOG_INFO("Index loading completed (basic implementation)");
 }
 
 } // namespace sqlcc

@@ -18,19 +18,19 @@ add_subdirectory(stability_test)
 
 # Add performance tests
 set(PERFORMANCE_TESTS
-    performance_test.cc
-    buffer_pool_performance_test.cc
-    disk_io_performance_test.cc
-    index_performance_test.cc
+    basic/performance_test.cc
+    basic/buffer_pool_performance_test.cc
+    basic/disk_io_performance_test.cc
+    basic/index_performance_test.cc
     mixed_workload_test.cc
     million_insert_test.cc
-    cpu_test/cpu_intensive_performance_test.cc
-    concurrency_test/concurrency_performance_test.cc
+    basic/cpu_intensive_performance_test.cc
+    basic/concurrency_performance_test.cc
     large_scale_index_constraint_test.cc
     index_constraint_benchmark.cc
-    batch_prefetch_performance_test.cc
-    network_performance_test.cc  # 添加网络性能测试
-    performance_test_base.cc
+    basic/batch_prefetch_performance_test.cc
+    basic/network_performance_test.cc  # 添加网络性能测试
+    basic/performance_test_base.cc
 )
 
 # 创建性能测试可执行文件

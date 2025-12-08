@@ -134,3 +134,32 @@ target_link_libraries(permission_validator_test
     pthread
     ${CMAKE_DL_LIBS}
 )
+
+# Database Manager CREATE TABLE Tests
+add_executable(test_create_table test_create_table.cpp)
+target_link_libraries(test_create_table 
+    sqlcc_executor
+    sqlcc_core_lib
+    sqlcc_parser
+    sqlcc_config_manager
+    sqlcc_storage_engine
+    sqlcc_transaction_manager
+    gtest 
+    gtest_main
+    pthread
+    ${CMAKE_DL_LIBS}
+)
+
+add_executable(test_simple_create test_simple_create.cpp)
+target_link_libraries(test_simple_create 
+    sqlcc_executor
+    sqlcc_core_lib
+    sqlcc_parser
+    sqlcc_config_manager
+    sqlcc_storage_engine
+    sqlcc_transaction_manager
+    gtest 
+    gtest_main
+    pthread
+    ${CMAKE_DL_LIBS}
+)

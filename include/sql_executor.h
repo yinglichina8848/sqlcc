@@ -1,12 +1,12 @@
 #ifndef SQLCC_SQL_EXECUTOR_H
 #define SQLCC_SQL_EXECUTOR_H
 
+#include "core/permission_validator.h"
+#include "core/system_database.h"
+#include "core/user_manager.h"
 #include "database_manager.h"
-#include "permission_validator.h"
-#include "sql_parser/parser.h"
-#include "system_database.h"
+#include "sql_parser/parser_new.h"
 #include "unified_query_plan.h"
-#include "user_manager.h"
 #include <memory>
 #include <string>
 

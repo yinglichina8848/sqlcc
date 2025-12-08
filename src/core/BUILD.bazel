@@ -1,0 +1,50 @@
+"""Bazel构建配置 for SQLCC core组件"""
+
+load("@rules_cc//cc:defs.bzl", "cc_library")
+
+# 核心库定义
+cc_library(
+    name = "sqlcc_core_lib",
+    srcs = [
+        "config_manager.cpp",
+        "database_manager.cpp",
+    ],
+    hdrs = ["//include:core_headers"],
+    includes = ["../../include"],
+    deps = [
+        "//src/config_manager:sqlcc_config_manager",
+        "//src/storage_engine:sqlcc_storage_engine",
+        "@com_google_absl//absl/strings",
+        "@com_google_absl//absl/container:flat_hash_map",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+# 配置管理器库（如果需要单独使用）
+cc_library(
+    name = "sqlcc_config_manager",
+    srcs = ["config_manager.cpp"],
+    hdrs = ["//include:config_manager_headers"],
+    includes = ["../../include"],
+    deps = [
+        "@com_google_absl//absl/strings",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+# 数据库管理器库（如果需要单独使用）
+cc_library(
+    name = "sqlcc_database_manager",
+    srcs = ["database_manager.cpp"],
+    hdrs = ["//include:core_headers"],
+    includes = ["../../include"],
+    deps = [
+        ":sqlcc_config_manager",
+        "//src/config_manager:sqlcc_config_manager",
+        "//src/sql_executor:sqlcc_executor",
+        "//src/storage_engine:sqlcc_storage_engine",
+        "@com_google_absl//absl/strings",
+        "@com_google_absl//absl/container:flat_hash_map",
+    ],
+    visibility = ["//visibility:public"],
+)

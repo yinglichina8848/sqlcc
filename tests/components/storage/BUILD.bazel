@@ -1,0 +1,59 @@
+"""Bazel构建配置 for SQLCC storage组件测试"""
+
+load("@rules_cc//cc:defs.bzl", "cc_test")
+
+cc_test(
+    name = "b_plus_tree_test",
+    srcs = ["b_plus_tree_test.cpp"],
+    deps = [
+        "//src/storage_engine:storage_engine",
+        "@gtest//:gtest_main",
+    ],
+)
+
+cc_test(
+    name = "buffer_pool_test",
+    srcs = ["buffer_pool_test.cpp"],
+    deps = [
+        "//src/storage_engine:storage_engine",
+        "@gtest//:gtest_main",
+    ],
+)
+
+cc_test(
+    name = "disk_manager_test",
+    srcs = ["disk_manager_test.cpp"],
+    deps = [
+        "//src/storage_engine:storage_engine",
+        "@gtest//:gtest_main",
+    ],
+)
+
+cc_test(
+    name = "index_maintenance_test",
+    srcs = ["index_maintenance_test.cpp"],
+    deps = [
+        "//src/storage_engine:storage_engine",
+        "@gtest//:gtest_main",
+    ],
+)
+
+cc_test(
+    name = "index_system_integration_test",
+    srcs = ["index_system_integration_test.cpp"],
+    deps = [
+        "//src/storage_engine:storage_engine",
+        "@gtest//:gtest_main",
+    ],
+)
+
+test_suite(
+    name = "storage_component_tests",
+    tests = [
+        ":b_plus_tree_test",
+        ":buffer_pool_test",
+        ":disk_manager_test",
+        ":index_maintenance_test",
+        ":index_system_integration_test",
+    ],
+)

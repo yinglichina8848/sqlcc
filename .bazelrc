@@ -1,0 +1,69 @@
+# SQLCC Bazel配置文件
+# 项目级别的Bazel配置选项
+
+# 通用构建选项
+build --cxxopt=-std=c++17
+build --copt=-Wall
+build --copt=-Wextra
+build --copt=-Wno-error=maybe-uninitialized
+build --copt=-O2
+
+# 调试模式配置
+build:debug --compilation_mode=dbg
+build:debug --copt=-g
+build:debug --copt=-O0
+
+# 发布模式配置
+build:release --compilation_mode=opt
+build:release --copt=-O3
+build:release --copt=-DNDEBUG
+
+# 测试配置
+test --test_output=all
+test --test_timeout=300
+test --test_strategy=exclusive
+
+# 覆盖率配置
+coverage --combined_report=lcov
+coverage --coverage_report_generator=@bazel_tools//tools/test/CoverageOutputGenerator/java/com/google/devtools/coverageoutputgenerator:Main
+
+# 远程缓存配置（如果使用）
+# build --remote_cache=http://cache.example.com:8080
+
+# 本地磁盘缓存
+build --disk_cache=/tmp/bazel-disk-cache
+
+# 并行构建配置
+build --jobs=8
+
+# 内存配置
+build --local_ram_resources=8000
+
+# 沙盒配置
+build --spawn_strategy=standalone
+test --spawn_strategy=standalone
+
+# 平台配置
+build --host_platform=@local_config_platform//:host
+build --platforms=@local_config_platform//:host
+
+# 工具链配置
+build --incompatible_enable_cc_toolchain_resolution
+
+# 特定于SQLCC的配置
+build --define=sqlcc_version=1.1.1
+build --define=sqlcc_build_type=bazel
+
+# 测试标签过滤
+test --test_tag_filters=-manual,-slow
+
+# 构建事件配置
+build --build_event_json_file=/tmp/bazel-build-events.json
+
+# 输出配置
+build --show_timestamps
+build --verbose_failures
+
+# 实验性功能
+# build --experimental_allow_incremental_repository_updates  # 此选项在Bazel 6.4.0中已移除
+# build --experimental_repository_cache_hardlinks           # 此选项在Bazel 6.4.0中已移除

@@ -1,0 +1,19 @@
+"""Bazel构建配置 for SQLCC transaction组件测试"""
+
+load("@rules_cc//cc:defs.bzl", "cc_test")
+
+cc_test(
+    name = "transaction_manager_test",
+    srcs = ["transaction_manager_test.cpp"],
+    deps = [
+        "//src/transaction:transaction",
+        "@gtest//:gtest_main",
+    ],
+)
+
+test_suite(
+    name = "transaction_component_tests",
+    tests = [
+        ":transaction_manager_test",
+    ],
+)

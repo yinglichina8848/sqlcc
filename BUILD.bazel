@@ -1,0 +1,112 @@
+# SQLCC Bazel根构建文件
+# 定义项目级别的构建目标和配置
+
+package(default_visibility = ["//visibility:public"])
+
+# 定义C++编译选项
+config_setting(
+    name = "debug",
+    values = {"compilation_mode": "dbg"},
+)
+
+config_setting(
+    name = "release",
+    values = {"compilation_mode": "opt"},
+)
+
+# 定义测试套件
+test_suite(
+    name = "all_tests",
+    tests = [
+        "//src:core_tests",
+        "//src:parser_tests",
+        "//src:storage_tests",
+        "//src:executor_tests",
+    ],
+)
+
+# 快速测试套件
+test_suite(
+    name = "quick_tests",
+    tests = [
+        "//src:core_unit_tests",
+        "//src:parser_unit_tests",
+    ],
+)
+
+# 核心测试套件
+test_suite(
+    name = "core_tests",
+    tests = [
+        "//src:core_unit_tests",
+        "//src:config_manager_tests",
+    ],
+)
+
+# 集成测试套件
+test_suite(
+    name = "integration_tests",
+    tests = [
+        "//src:executor_tests",
+        "//src:storage_integration_tests",
+    ],
+)
+
+# 性能测试套件
+test_suite(
+    name = "performance_tests",
+    tests = [
+        "//src:storage_performance_tests",
+        "//src:network_performance_tests",
+    ],
+)
+
+# 定义构建目标别名
+alias(
+    name = "build_all",
+    actual = "//src:sqlcc_core",
+)
+
+alias(
+    name = "test_all",
+    actual = ":all_tests",
+)
+
+alias(
+    name = "test_core",
+    actual = ":core_tests",
+)
+
+alias(
+    name = "test_quick",
+    actual = ":quick_tests",
+)
+
+alias(
+    name = "test_integration",
+    actual = ":integration_tests",
+)
+
+alias(
+    name = "test_performance",
+    actual = ":performance_tests",
+)
+
+# 构建工具脚本
+sh_binary(
+    name = "run_tests",
+    srcs = ["scripts/run_tests.sh"],
+)
+
+sh_binary(
+    name = "coverage_report",
+    srcs = ["scripts/coverage_report.sh"],
+)
+
+# 文档生成目标
+genrule(
+    name = "generate_docs",
+    srcs = glob(["docs/**/*.md"]),
+    outs = ["docs/generated/index.html"],
+    cmd = "echo 'Documentation generation placeholder' > $@",
+)

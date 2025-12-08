@@ -2,8 +2,8 @@
 #define SQLCC_UNIFIED_QUERY_PLAN_H
 
 #include "sql_parser/ast_nodes.h"
-#include "user_manager.h"
-#include "system_database.h"
+#include "core/user_manager.h"
+#include "core/system_database.h"
 #include "database_manager.h"
 #include "error_handler.h"
 #include "execution_engine.h"

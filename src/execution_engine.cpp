@@ -116,26 +116,28 @@ DMLExecutor::DMLExecutor(std::shared_ptr<DatabaseManager> db_manager,
 
 ExecutionResult
 DMLExecutor::execute(std::unique_ptr<sqlcc::sql_parser::Statement> stmt) {
-  // 直接执行语句，不调用基类方法
-  if (auto select_stmt =
-          dynamic_cast<sql_parser::SelectStatement *>(stmt.get())) {
-    // 简化实现：直接返回成功
-    return ExecutionResult(true, "SELECT executed successfully");
-  } else if (auto insert_stmt =
-                 dynamic_cast<sql_parser::InsertStatement *>(stmt.get())) {
-    // 简化实现：直接返回成功
-    return ExecutionResult(true, "INSERT executed successfully");
-  } else if (auto update_stmt =
-                 dynamic_cast<sql_parser::UpdateStatement *>(stmt.get())) {
-    // 简化实现：直接返回成功
-    return ExecutionResult(true, "UPDATE executed successfully");
-  } else if (auto delete_stmt =
-                 dynamic_cast<sql_parser::DeleteStatement *>(stmt.get())) {
-    // 简化实现：直接返回成功
-    return ExecutionResult(true, "DELETE executed successfully");
+  // 使用DMLExecutionStrategy来实际执行DML语句
+  DMLExecutionStrategy dml_strategy;
+
+  // 创建执行上下文
+  ExecutionContext context;
+  context.db_manager = db_manager_;
+  context.user_manager = execution_context_->get_user_manager();
+  context.current_database = execution_context_->get_current_database();
+  context.current_user = execution_context_->get_current_user();
+
+  // 验证语句
+  if (!dml_strategy.validate(stmt.get(), context)) {
+    return ExecutionResult(false, "Statement validation failed");
   }
 
-  return ExecutionResult(false, "Unsupported DML statement type");
+  // 检查权限
+  if (!dml_strategy.checkPermission(stmt.get(), context)) {
+    return ExecutionResult(false, "Permission denied");
+  }
+
+  // 执行语句
+  return dml_strategy.execute(std::move(stmt), context);
 }
 
 bool DMLExecutor::compareValues(const std::string &left,

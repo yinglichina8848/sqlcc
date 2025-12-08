@@ -1,10 +1,10 @@
 #ifndef SQLCC_SQL_PARSER_AST_NODE_H
 #define SQLCC_SQL_PARSER_AST_NODE_H
 
+#include "node_visitor.h"
+#include "token_new.h"
 #include <memory>
 #include <string>
-#include "token_new.h"
-#include "node_visitor.h"
 
 namespace sqlcc {
 namespace sql_parser {
@@ -14,8 +14,8 @@ namespace sql_parser {
  */
 class Node {
 public:
-    virtual ~Node() = default;
-    virtual void accept(NodeVisitor &visitor) = 0;
+  virtual ~Node() = default;
+  virtual void accept(NodeVisitor &visitor) = 0;
 };
 
 /**
@@ -23,11 +23,46 @@ public:
  */
 class Expression : public Node {
 public:
-    Expression();
-    virtual ~Expression();
-    
-    virtual std::string getTypeName() const;
-    virtual void accept(NodeVisitor &visitor) = 0;
+  enum Type {
+    IDENTIFIER,
+    STRING_LITERAL,
+    NUMERIC_LITERAL,
+    BINARY,
+    UNARY,
+    FUNCTION,
+    EXISTS,
+    IN
+  };
+
+  Expression();
+  virtual ~Expression();
+
+  virtual std::string getTypeName() const;
+  virtual void accept(NodeVisitor &visitor) = 0;
+  virtual Type getType() const = 0;
+};
+
+/**
+ * 二元表达式节点
+ */
+class BinaryExpression : public Expression {
+public:
+  BinaryExpression(std::unique_ptr<Expression> left,
+                   std::unique_ptr<Expression> right, Token::Type op);
+  virtual ~BinaryExpression();
+
+  virtual std::string getTypeName() const override;
+  virtual void accept(NodeVisitor &visitor) override;
+  virtual Type getType() const override { return BINARY; }
+
+  const Expression *getLeft() const;
+  const Expression *getRight() const;
+  Token::Type getOperator() const;
+
+private:
+  std::unique_ptr<Expression> left_;
+  std::unique_ptr<Expression> right_;
+  Token::Type op_;
 };
 
 /**
@@ -35,45 +70,78 @@ public:
  */
 class Statement : public Node {
 public:
-    enum Type {
-        CREATE,
-        SELECT,
-        INSERT,
-        UPDATE,
-        DELETE,
-        DROP,
-        ALTER,
-        USE,
-        CREATE_INDEX,
-        DROP_INDEX,
-        CREATE_USER,
-        DROP_USER,
-        GRANT,
-        REVOKE,
-        SHOW,
-        COMMIT,
-        ROLLBACK,
-        CREATE_PROCEDURE,
-        DROP_PROCEDURE,
-        CALL_PROCEDURE,
-        CREATE_TRIGGER,
-        DROP_TRIGGER,
-        ALTER_TRIGGER
-    };
+  enum Type {
+    CREATE,
+    SELECT,
+    INSERT,
+    UPDATE,
+    DELETE,
+    DROP,
+    ALTER,
+    USE,
+    CREATE_INDEX,
+    DROP_INDEX,
+    CREATE_USER,
+    DROP_USER,
+    GRANT,
+    REVOKE,
+    SHOW,
+    COMMIT,
+    ROLLBACK,
+    CREATE_PROCEDURE,
+    DROP_PROCEDURE,
+    CALL_PROCEDURE,
+    CREATE_TRIGGER,
+    DROP_TRIGGER,
+    ALTER_TRIGGER
+  };
 
-    Statement(Type type);
-    virtual ~Statement();
+  Statement(Type type);
+  virtual ~Statement();
 
-    Type getType() const;
-    std::string getTypeName() const;
-    virtual void accept(NodeVisitor &visitor) = 0;
+  Type getType() const;
+  std::string getTypeName() const;
+  virtual void accept(NodeVisitor &visitor) = 0;
 
 private:
-    Type type_;
+  Type type_;
 };
 
-
 } // namespace sql_parser
+
+// BinaryExpression 实现
+inline sqlcc::sql_parser::BinaryExpression::BinaryExpression(
+    std::unique_ptr<sqlcc::sql_parser::Expression> left,
+    std::unique_ptr<sqlcc::sql_parser::Expression> right,
+    sqlcc::sql_parser::Token::Type op)
+    : left_(std::move(left)), right_(std::move(right)), op_(op) {}
+
+inline sqlcc::sql_parser::BinaryExpression::~BinaryExpression() = default;
+
+inline std::string sqlcc::sql_parser::BinaryExpression::getTypeName() const {
+  return "BinaryExpression";
+}
+
+inline void sqlcc::sql_parser::BinaryExpression::accept(
+    sqlcc::sql_parser::NodeVisitor &visitor) {
+  visitor.visit(*this);
+}
+
+inline const sqlcc::sql_parser::Expression *
+sqlcc::sql_parser::BinaryExpression::getLeft() const {
+  return left_.get();
+}
+
+inline const sqlcc::sql_parser::Expression *
+sqlcc::sql_parser::BinaryExpression::getRight() const {
+  return right_.get();
+}
+
+inline sqlcc::sql_parser::Token::Type
+sqlcc::sql_parser::BinaryExpression::getOperator() const {
+  return op_;
+}
+
 } // namespace sqlcc
 
 #endif // SQLCC_SQL_PARSER_AST_NODE_H

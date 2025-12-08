@@ -12,7 +12,7 @@
 
 #include "disk_manager.h"
 #include "page.h"
-#include "config_manager.h"
+#include "utils/config_manager.h"
 #include "exception.h"
 
 namespace sqlcc {
@@ -52,6 +52,7 @@ public:
     bool UnpinPage(int32_t page_id, bool is_dirty);
     Page* NewPage(int32_t* page_id);
     bool FlushPage(int32_t page_id);
+    bool FlushAllPages();
     bool DeletePage(int32_t page_id);
 
     // Dynamic buffer pool resizing

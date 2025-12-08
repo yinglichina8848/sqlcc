@@ -147,7 +147,43 @@ Token Lexer::readString() {
   char quote = input_[position_ - 1]; // 记住开始的引号类型
 
   while (!isAtEnd() && peek() != quote) {
-    value += advance();
+    // 处理转义字符
+    if (peek() == '\\') {
+      advance(); // 跳过转义字符
+      if (isAtEnd()) {
+        throw std::runtime_error("Unterminated escape sequence");
+      }
+
+      // 处理转义序列
+      char escaped = advance();
+      switch (escaped) {
+      case 'n':
+        value += '\n';
+        break;
+      case 't':
+        value += '\t';
+        break;
+      case 'r':
+        value += '\r';
+        break;
+      case '\\':
+        value += '\\';
+        break;
+      case '\'':
+        value += '\'';
+        break;
+      case '\"':
+        value += '\"';
+        break;
+      default:
+        // 对于未知转义序列，保持原样
+        value += '\\';
+        value += escaped;
+        break;
+      }
+    } else {
+      value += advance();
+    }
   }
 
   if (isAtEnd()) {
@@ -222,8 +258,8 @@ Token Lexer::readIdentifier() {
     type = Token::KEYWORD_USE;
   else if (upper_value == "DATABASE")
     type = Token::KEYWORD_DATABASE;
-  // 注意：TABLE是关键字，但小写的"table"应该被视为标识符
-  else if (upper_value == "TABLE" && value == "TABLE")
+  // TABLE是关键字，不区分大小写
+  else if (upper_value == "TABLE")
     type = Token::KEYWORD_TABLE;
   else if (upper_value == "INDEX")
     type = Token::KEYWORD_INDEX;
