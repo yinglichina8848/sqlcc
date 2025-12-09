@@ -12,20 +12,8 @@ namespace fs = std::filesystem;
 
 namespace sqlcc {
 
-// 用户角色定义
-const std::string UserManager::ROLE_SUPERUSER = "SUPERUSER";
-const std::string UserManager::ROLE_ADMIN = "ADMIN";
-const std::string UserManager::ROLE_USER = "USER";
-
-// 权限定义
-const std::string UserManager::PRIVILEGE_CREATE = "CREATE";
-const std::string UserManager::PRIVILEGE_SELECT = "SELECT";
-const std::string UserManager::PRIVILEGE_INSERT = "INSERT";
-const std::string UserManager::PRIVILEGE_UPDATE = "UPDATE";
-const std::string UserManager::PRIVILEGE_DELETE = "DELETE";
-const std::string UserManager::PRIVILEGE_DROP = "DROP";
-const std::string UserManager::PRIVILEGE_ALTER = "ALTER";
-const std::string UserManager::PRIVILEGE_ALL = "ALL";
+// Role and privilege constants are defined inline in the header (C++17 inline variables)
+// to avoid ODR violations when multiple shared objects are linked into the test binary.
 
 UserManager::UserManager(const std::string& data_path) : data_path_(data_path), sys_db_(nullptr) {
     // 确保数据目录存在

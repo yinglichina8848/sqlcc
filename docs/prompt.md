@@ -16,3 +16,9 @@
 不要使用 #include “../../../include/xxx.h” ，而是使用 #include “include/xxx.h” 的方式，保持代码的简洁和可维护性。用 -I 参数指定include目录，这样，就可以使用 #include “xxx.h” 的方式引用头文件了。
 继续，所有的头文件不在源码目录下，在 项目主目录的 include 目录下，记住这个原则进行查找和修改
 不要自行创建头文件，核心代码和头文件都是存在的，只是重新整理了目录结构，进行了移动，认真查找，
+
+全面评估当前版本的功能和缺陷，编写版本评估报告和改进计划，保存在 docs/evaluation 下，参照其他版本的模式。
+
+according to the v1.1.2版本评估报告和改进计划，create the TODO list and working diary for v1.1.2, save to docs/项目进展
+
+根据进展，更新 docs/项目进展/v1.1.1*  文档中的工作日记(working diary)和 TODO List，然后继续下一步，重点验证核心功能的完整性和真实性。

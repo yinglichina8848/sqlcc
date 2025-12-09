@@ -5,10 +5,21 @@ load("@rules_cc//cc:defs.bzl", "cc_library")
 # SQL执行器库
 cc_library(
     name = "sqlcc_executor",
-    srcs = glob(["*.cpp"]),
+    srcs = [
+        "constraint_executor.cpp",
+        "data_type.cpp",
+        "index_manager.cpp",
+        "schema_manager.cpp",
+        "sql_executor.cpp",
+        "system_database.cpp",
+        "unified_query_plan.cpp",
+        "user_manager.cpp",
+        "view_manager.cpp",
+    ],
     hdrs = glob(["*.h"]),
     deps = [
         "//src/core:sqlcc_core_lib",
+        "//src/core:sqlcc_permission_validator",
         "//src/config_manager:sqlcc_config_manager",
         "//src/storage_engine:sqlcc_storage_engine",
         "@com_google_absl//absl/strings",
@@ -37,6 +48,20 @@ cc_library(
     hdrs = ["//include:sql_executor_headers"],
     deps = [
         "//src/core:sqlcc_core_lib",
+        "@com_google_absl//absl/strings",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+# 系统数据库库（如果需要单独使用）
+cc_library(
+    name = "sqlcc_system_database",
+    srcs = ["system_database.cpp"],
+    hdrs = ["//include:sql_executor_headers"],
+    deps = [
+        "//src/core:sqlcc_core_lib",
+        "//src/config_manager:sqlcc_config_manager",
+        "//src/storage_engine:sqlcc_storage_engine",
         "@com_google_absl//absl/strings",
     ],
     visibility = ["//visibility:public"],

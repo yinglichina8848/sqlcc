@@ -7,6 +7,10 @@ namespace sql_parser {
 // Default constructor
 Token::Token() : type_(UNKNOWN), lexeme_(""), line_(0), column_(0) {}
 
+// Parameterized constructor with int parameters (for compatibility)
+Token::Token(Type type, const std::string &lexeme, int line, int column)
+    : type_(type), lexeme_(lexeme), line_(line), column_(column) {}
+
 // Getters
 Token::Type Token::getType() const { return type_; }
 

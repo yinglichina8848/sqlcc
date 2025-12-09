@@ -73,19 +73,19 @@ using UserRoleMap = std::unordered_map<std::string, std::string>;
 class UserManager {
 public:
   // 角色常量定义
-  static const std::string ROLE_SUPERUSER;
-  static const std::string ROLE_ADMIN;
-  static const std::string ROLE_USER;
+  static inline const std::string ROLE_SUPERUSER = "SUPERUSER";
+  static inline const std::string ROLE_ADMIN = "ADMIN";
+  static inline const std::string ROLE_USER = "USER";
 
   // 权限常量定义
-  static const std::string PRIVILEGE_CREATE;
-  static const std::string PRIVILEGE_SELECT;
-  static const std::string PRIVILEGE_INSERT;
-  static const std::string PRIVILEGE_UPDATE;
-  static const std::string PRIVILEGE_DELETE;
-  static const std::string PRIVILEGE_DROP;
-  static const std::string PRIVILEGE_ALTER;
-  static const std::string PRIVILEGE_ALL;
+  static inline const std::string PRIVILEGE_CREATE = "CREATE";
+  static inline const std::string PRIVILEGE_SELECT = "SELECT";
+  static inline const std::string PRIVILEGE_INSERT = "INSERT";
+  static inline const std::string PRIVILEGE_UPDATE = "UPDATE";
+  static inline const std::string PRIVILEGE_DELETE = "DELETE";
+  static inline const std::string PRIVILEGE_DROP = "DROP";
+  static inline const std::string PRIVILEGE_ALTER = "ALTER";
+  static inline const std::string PRIVILEGE_ALL = "ALL";
 
   UserManager(const std::string &data_path = "./data");
   ~UserManager();
