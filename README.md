@@ -280,3 +280,6 @@ make coverage
 **版本维护**: SQLCC团队  
 **最后更新**: 2025-12-06  
 **项目地址**: https://gitee.com/yinglichina/sqlcc
+
+推荐使用 Qoder 使用 AI-IDE 类似系统的开发：
+https://qoder.com/referral?referral_code=wHDGRB7MAxIKcsOHSer05mrBTGznYO2L
