@@ -5,7 +5,18 @@ load("@rules_cc//cc:defs.bzl", "cc_library")
 # 存储引擎库
 cc_library(
     name = "sqlcc_storage_engine",
-    srcs = glob(["*.cpp"]),
+    srcs = [
+        "b_plus_tree.cpp",
+        "buffer_pool.cpp",
+        "buffer_pool_sharded.cpp",
+        "concurrency_control.cpp",
+        "disk_manager.cpp",
+        "page.cpp",
+        "performance_monitor.cpp",
+        "replace_strategy.cpp",
+        "storage_engine.cpp",
+        "table_storage.cpp",
+    ],
     hdrs = ["//include:storage_engine_headers"],
     includes = ["../../include"],
     deps = [

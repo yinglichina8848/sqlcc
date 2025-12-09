@@ -67,3 +67,42 @@ build --verbose_failures
 # 实验性功能
 # build --experimental_allow_incremental_repository_updates  # 此选项在Bazel 6.4.0中已移除
 # build --experimental_repository_cache_hardlinks           # 此选项在Bazel 6.4.0中已移除
+
+# -----------------------------
+# Sanitizer 配置（供本地调试/CI 使用）
+# 说明：ASan、TSan 与 UBSan 不能全部同时启用；请分别以 --config=asan/tsan/ubsan 使用。
+# 示例：
+#   bazel build --config=asan //...        # 构建启用 AddressSanitizer
+#   bazel test --config=asan //...         # 运行测试时启用 ASan
+#   bazel test --config=tsan //...         # 运行测试时启用 ThreadSanitizer
+# -----------------------------
+
+# AddressSanitizer（检测内存错误、LeakSanitizer）
+build:asan --compilation_mode=dbg
+build:asan --cxxopt=-g
+build:asan --cxxopt=-O1
+build:asan --cxxopt=-fsanitize=address,undefined
+build:asan --linkopt=-fsanitize=address,undefined
+build:asan --linkopt=-Wl,-z,relro
+test:asan --test_output=errors
+
+# ThreadSanitizer（检测数据竞争）
+build:tsan --compilation_mode=dbg
+build:tsan --cxxopt=-g
+build:tsan --cxxopt=-O1
+build:tsan --cxxopt=-fsanitize=thread
+build:tsan --linkopt=-fsanitize=thread
+test:tsan --test_output=errors
+
+# UndefinedBehaviorSanitizer
+build:ubsan --compilation_mode=dbg
+build:ubsan --cxxopt=-g
+build:ubsan --cxxopt=-O1
+build:ubsan --cxxopt=-fsanitize=undefined
+build:ubsan --linkopt=-fsanitize=undefined
+test:ubsan --test_output=errors
+
+# 额外建议：对于 ASan/TSan 测试，建议在 CI 中为测试添加适当的环境变量，例如
+#   ASAN_OPTIONS=detect_leaks=1:abort_on_error=1
+#   UBSAN_OPTIONS=print_stacktrace=1
+# 在执行 bazel test 时可以通过 --test_env=ASAN_OPTIONS=... 来传递。

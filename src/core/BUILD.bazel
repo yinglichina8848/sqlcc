@@ -14,6 +14,7 @@ cc_library(
     deps = [
         "//src/config_manager:sqlcc_config_manager",
         "//src/storage_engine:sqlcc_storage_engine",
+        "//src/sql_executor:sqlcc_index_manager",
         "@com_google_absl//absl/strings",
         "@com_google_absl//absl/container:flat_hash_map",
     ],
@@ -45,6 +46,36 @@ cc_library(
         "//src/storage_engine:sqlcc_storage_engine",
         "@com_google_absl//absl/strings",
         "@com_google_absl//absl/container:flat_hash_map",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+# 错误处理器库
+cc_library(
+    name = "error_handler",
+    srcs = ["error_handler.cpp"],
+    hdrs = ["//include:core_headers"],
+    includes = ["../../include"],
+    deps = [
+        "@com_google_absl//absl/strings",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+# 权限验证器库（如果需要单独使用）
+cc_library(
+    name = "sqlcc_permission_validator",
+    srcs = ["permission_validator.cpp"],
+    hdrs = ["//include:core_headers"],
+    includes = ["../../include"],
+    deps = [
+        ":sqlcc_core_lib",
+        "//src/sql_executor:sqlcc_user_manager",
+        "//src/config_manager:sqlcc_config_manager",
+        "//src/sql_parser:sqlcc_parser",
+        "//src/sql_executor:sqlcc_system_database",
+        ":error_handler",  # 添加ErrorHandler依赖
+        "@com_google_absl//absl/strings",
     ],
     visibility = ["//visibility:public"],
 )

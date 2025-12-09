@@ -4,11 +4,15 @@ package(default_visibility = ["//visibility:public"])
 
 cc_library(
     name = "sqlcc_parser",
-    srcs = glob([
-        "*.cpp",
-        "ast/*.cpp",
-        "errors/*.cpp",
-    ]),
+    srcs = [
+        "ast_node.cpp",
+        "ast_nodes.cpp",
+        "lexer.cpp",
+        "lexer_new.cpp",
+        "parser_new.cpp",
+        "set_operation_node.cpp",
+        "token_new.cpp",
+    ],
     hdrs = ["//include:sql_parser_headers"],
     includes = ["../../include"],
     copts = ["-std=c++17"],

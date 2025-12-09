@@ -1,7 +1,35 @@
+load("@rules_cc//cc:defs.bzl", "cc_test")
+
 # 基础单元测试套件
 package(default_visibility = ["//visibility:public"])
 
+cc_test(
+    name = "execution_context_test",
+    srcs = ["execution_context_test.cpp"],
+    deps = [
+        "//src/core:sqlcc_core_lib",
+        "@com_google_googletest//:gtest_main",
+    ],
+)
+
+cc_test(
+    name = "permission_validator_test",
+    srcs = ["permission_validator_test.cpp"],
+    deps = [
+        "//src/core:sqlcc_permission_validator",
+        "//src/core:sqlcc_core_lib",
+        "//src/sql_parser:sqlcc_parser",
+        "//src/sql_executor:sqlcc_executor",
+        "//src/storage_engine:sqlcc_storage_engine",
+        "//src:unified_executor",
+        "@com_google_googletest//:gtest_main",
+    ],
+)
+
 test_suite(
     name = "basic_unit_tests",
-    tests = ["//src:basic_unit_tests"],
+    tests = [
+        ":execution_context_test",
+        ":permission_validator_test",
+    ],
 )

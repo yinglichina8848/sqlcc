@@ -1,9 +1,9 @@
 #include "database_manager.h"
 #include "permission_validator.h"
 #include "sql_parser/parser_new.h"
-#include "system_database.h"
-#include "unified_executor.h"
-#include "user_manager.h"
+#include "core/system_database.h"
+#include "core/unified_executor.h"
+#include "core/user_manager.h"
 #include <gtest/gtest.h>
 #include <memory>
 

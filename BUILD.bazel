@@ -1,112 +1,143 @@
-# SQLCC Bazel根构建文件
-# 定义项目级别的构建目标和配置
+# 根目录BUILD.bazel文件 - 定义整个项目的构建规则
 
 package(default_visibility = ["//visibility:public"])
 
-# 定义C++编译选项
-config_setting(
-    name = "debug",
-    values = {"compilation_mode": "dbg"},
-)
+load("@rules_cc//cc:defs.bzl", "cc_binary", "cc_library", "cc_test")
 
-config_setting(
-    name = "release",
-    values = {"compilation_mode": "opt"},
-)
+# ==================== 库定义 ====================
 
-# 定义测试套件
-test_suite(
-    name = "all_tests",
-    tests = [
-        "//src:core_tests",
-        "//src:parser_tests",
-        "//src:storage_tests",
-        "//src:executor_tests",
+# 执行上下文库
+cc_library(
+    name = "execution_context",
+    srcs = ["//src:execution_context.cpp"],
+    hdrs = ["//include:execution_context.h"],
+    includes = ["include", "include/core"],
+    deps = [
+        "//src/core:sqlcc_core_lib",
+        "@com_google_absl//absl/strings",
     ],
 )
 
-# 快速测试套件
-test_suite(
-    name = "quick_tests",
-    tests = [
-        "//src:core_unit_tests",
-        "//src:parser_unit_tests",
+# 执行引擎库
+cc_library(
+    name = "execution_engine",
+    srcs = ["//src:execution_engine.cpp"],
+    hdrs = ["//include:execution_engine.h"],
+    includes = ["include", "include/core", "include/storage"],
+    deps = [
+        "//src/core:sqlcc_core_lib",
+        "//src/sql_executor:sqlcc_executor",
+        "//src/sql_parser:sqlcc_parser",
+        "@com_google_absl//absl/strings",
     ],
 )
 
-# 核心测试套件
+# 统一执行器库
+cc_library(
+    name = "unified_executor",
+    srcs = ["//src:unified_executor.cpp"],
+    hdrs = ["//include:unified_executor.h"],
+    includes = ["include", "include/core", "include/storage"],
+    deps = [
+        "//src/core:sqlcc_core_lib",
+        "//src/sql_executor:sqlcc_executor",
+        "//src/sql_parser:sqlcc_parser",
+        "@com_google_absl//absl/strings",
+    ],
+)
+
+# ==================== 测试定义 ====================
+
+# 核心组件测试套件
+cc_test(
+    name = "core_component_tests",
+    size = "medium",
+    srcs = [],
+    deps = [
+        ":sqlcc_core",
+        "@com_google_googletest//:gtest_main",
+    ],
+)
+
+# ==================== 可执行文件定义 ====================
+
+# 调试解析器
+cc_binary(
+    name = "debug_parser",
+    srcs = ["debug_parser.cpp"],
+    deps = [
+        "//src/sql_parser:sqlcc_parser",
+    ],
+)
+
+# ==================== 测试套件 ====================
+
+# 核心组件测试套件
 test_suite(
     name = "core_tests",
     tests = [
-        "//src:core_unit_tests",
-        "//src:config_manager_tests",
+        "//src:core_component_tests",
     ],
 )
 
-# 集成测试套件
+# 解析器组件测试套件
 test_suite(
-    name = "integration_tests",
+    name = "parser_tests",
     tests = [
-        "//src:executor_tests",
-        "//src:storage_integration_tests",
+        "//tests/components/parser:parser_component_tests",
     ],
 )
 
-# 性能测试套件
+# 执行器组件测试套件
 test_suite(
-    name = "performance_tests",
+    name = "executor_tests",
     tests = [
-        "//src:storage_performance_tests",
-        "//src:network_performance_tests",
+        "//tests/components/executor:executor_component_tests",
     ],
 )
 
-# 定义构建目标别名
-alias(
-    name = "build_all",
-    actual = "//src:sqlcc_core",
+# 存储组件测试套件
+test_suite(
+    name = "storage_tests",
+    tests = [
+        "//tests/components/storage:storage_component_tests",
+    ],
 )
 
-alias(
-    name = "test_all",
-    actual = ":all_tests",
+# 网络组件测试套件
+test_suite(
+    name = "network_tests",
+    tests = [
+        "//tests/components/network:network_component_tests",
+    ],
 )
 
-alias(
-    name = "test_core",
-    actual = ":core_tests",
+# 安全组件测试套件
+test_suite(
+    name = "security_tests",
+    tests = [
+        "//tests/components/security:security_component_tests",
+    ],
 )
 
-alias(
-    name = "test_quick",
-    actual = ":quick_tests",
+# 事务组件测试套件
+test_suite(
+    name = "transaction_tests",
+    tests = [
+        "//tests/components/transaction:transaction_component_tests",
+    ],
 )
 
-alias(
-    name = "test_integration",
-    actual = ":integration_tests",
-)
-
-alias(
-    name = "test_performance",
-    actual = ":performance_tests",
-)
-
-# 构建工具脚本
-sh_binary(
-    name = "run_tests",
-    srcs = ["scripts/run_tests.sh"],
-)
-
-sh_binary(
-    name = "coverage_report",
-    srcs = ["scripts/coverage_report.sh"],
-)
-
-# 文档生成目标
-genrule(
-    name = "generate_docs",
-    srcs = glob(["docs/**/*.md"]),
-    outs = ["docs/generated/index.html"],
-    cmd = "echo 'Documentation generation placeholder' > $@",
+# 所有测试套件
+test_suite(
+    name = "all_tests",
+    tests = [
+        ":core_tests",
+        ":parser_tests",
+        ":executor_tests",
+        ":storage_tests",
+        ":network_tests",
+        ":security_tests",
+        ":transaction_tests",
+    ],
 )

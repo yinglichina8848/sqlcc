@@ -81,3 +81,14 @@ http_archive(
 load("@rules_foreign_cc//foreign_cc:repositories.bzl", "rules_foreign_cc_dependencies")
 
 rules_foreign_cc_dependencies()
+
+# 为Google Test创建别名
+bind(
+    name = "gtest",
+    actual = "@com_google_googletest//:gtest",
+)
+
+bind(
+    name = "gtest_main",
+    actual = "@com_google_googletest//:gtest_main",
+)

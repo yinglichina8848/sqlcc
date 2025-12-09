@@ -199,6 +199,7 @@ public:
   Token(Type type, const std::string &lexeme = "", size_t line = 0,
         size_t column = 0)
       : type_(type), lexeme_(lexeme), line_(line), column_(column) {}
+  Token(Type type, const std::string &lexeme, int line, int column);
   ~Token() = default;
 
   // Getters

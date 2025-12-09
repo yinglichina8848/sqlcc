@@ -7,6 +7,11 @@ cc_library(
     srcs = glob(["*.cpp"]),
     hdrs = ["//include:network_headers"],
     includes = ["../../include"],
+    deps = [
+        "//src/sql_parser:sqlcc_parser",
+        "//src/sql_executor:sqlcc_executor",
+        "//src/core:sqlcc_core_lib",
+    ],
     copts = ["-std=c++17"],
     linkopts = ["-lssl", "-lcrypto"],
 )
