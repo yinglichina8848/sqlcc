@@ -14,7 +14,28 @@ cc_library(
         "token_new.cpp",
     ],
     hdrs = ["//include:sql_parser_headers"],
-    includes = ["../../include"],
+    includes = ["../include"],
     copts = ["-std=c++17"],
     deps = ["//src/core:sqlcc_core_lib"],
+)
+
+# 轻量级解析器库，用于测试和调试，不依赖core库
+cc_library(
+    name = "sqlcc_parser_light",
+    srcs = [
+        "ast_node.cpp",
+        "ast_nodes.cpp",
+        "lexer.cpp",
+        "lexer_new.cpp",
+        "parser_new.cpp",
+        "set_operation_node.cpp",
+        "token_new.cpp",
+    ],
+    hdrs = ["//include:sql_parser_headers"],
+    includes = ["../include"],
+    copts = ["-std=c++17"],
+    deps = [
+        "@com_google_absl//absl/strings",
+        "@com_google_absl//absl/container:flat_hash_map",
+    ],
 )

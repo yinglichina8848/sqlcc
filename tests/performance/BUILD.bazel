@@ -1,9 +1,44 @@
 """Bazel构建配置 for SQLCC性能测试"""
 
+# 性能测试基类
+cc_library(
+    name = "performance_test_base",
+    srcs = ["basic/performance_test_base.cc"],
+    hdrs = ["performance_test_base.h"],
+    visibility = ["//visibility:public"],
+)
+
+# CRUD性能测试头文件
+cc_library(
+    name = "crud_performance_test_lib",
+    hdrs = ["crud/crud_performance_test.h"],
+    deps = [
+        ":performance_test_base",
+        "//src:sqlcc_core",
+        "//src/core:sqlcc_core_lib",
+        "//src/sql_executor:sqlcc_executor",
+    ],
+    visibility = ["//visibility:public"],
+)
+
 # 性能测试套件
+cc_test(
+    name = "real_crud_performance_test",
+    srcs = ["crud/real_crud_performance_test.cpp", "crud/main.cpp"],
+    deps = [
+        "//src:sqlcc_core",
+        "//src/core:sqlcc_core_lib",
+        "//src/sql_executor:sqlcc_executor",
+        "//src/storage_engine:sqlcc_storage_engine",
+        ":performance_test_base",
+        ":crud_performance_test_lib",
+        "@com_google_googletest//:gtest_main",
+    ],
+)
+
 test_suite(
     name = "performance_tests",
     tests = [
-        # 这里可以添加具体的性能测试
+        ":real_crud_performance_test",
     ],
 )

@@ -14,7 +14,6 @@ cc_library(
     deps = [
         "//src/config_manager:sqlcc_config_manager",
         "//src/storage_engine:sqlcc_storage_engine",
-        "//src/sql_executor:sqlcc_index_manager",
         "@com_google_absl//absl/strings",
         "@com_google_absl//absl/container:flat_hash_map",
     ],
@@ -42,7 +41,6 @@ cc_library(
     deps = [
         ":sqlcc_config_manager",
         "//src/config_manager:sqlcc_config_manager",
-        "//src/sql_executor:sqlcc_executor",
         "//src/storage_engine:sqlcc_storage_engine",
         "@com_google_absl//absl/strings",
         "@com_google_absl//absl/container:flat_hash_map",
@@ -70,10 +68,8 @@ cc_library(
     includes = ["../../include"],
     deps = [
         ":sqlcc_core_lib",
-        "//src/sql_executor:sqlcc_user_manager",
         "//src/config_manager:sqlcc_config_manager",
         "//src/sql_parser:sqlcc_parser",
-        "//src/sql_executor:sqlcc_system_database",
         ":error_handler",  # 添加ErrorHandler依赖
         "@com_google_absl//absl/strings",
     ],

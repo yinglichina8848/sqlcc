@@ -1,7 +1,8 @@
 #ifndef CRUD_PERFORMANCE_TEST_H
 #define CRUD_PERFORMANCE_TEST_H
 
-#include "performance_test_base.h"
+#include "../performance_test_base.h"
+#include "sql_executor.h"
 #include <atomic>
 #include <chrono>
 #include <functional>

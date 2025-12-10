@@ -278,17 +278,6 @@ bool RuleBasedOptimizer::isRuleEnabled(const std::string &rule_name) const {
 
 // ==================== ExecutionStrategy 基类实现 ====================
 
-bool ExecutionStrategy::checkPermission(const sql_parser::Statement *stmt,
-                                        const ExecutionContext &context) {
-  // 默认实现：使用默认权限检查
-  return defaultPermissionCheck(context);
-}
-
-bool ExecutionStrategy::validate(const sql_parser::Statement *stmt,
-                                 const ExecutionContext &context) {
-  // 默认实现：验证数据库上下文
-  return validateDatabaseContext(context);
-}
 
 bool ExecutionStrategy::validateDatabaseContext(
     const ExecutionContext &context) {

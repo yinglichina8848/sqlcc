@@ -78,6 +78,12 @@ cc_test(
     name = "subquery_executor_test",
     srcs = ["subquery_executor_test.cpp"],
     deps = [
+        "//src/execution:sqlcc_execution_engine",
+        "//src/core:sqlcc_core_lib",
+        "//src/sql_executor:sqlcc_executor",
+        "//src:execution_context",
+        "//src:execution_engine",
+        "//src:unified_executor",
         "//src:sqlcc_core",
         "@com_google_googletest//:gtest_main",
     ],
@@ -86,6 +92,7 @@ cc_test(
 cc_test(
     name = "unified_executor_test",
     srcs = ["unified_executor_test.cpp"],
+    includes = ["../../../include", "../../../include/core", "../../../include/utils"],
     deps = [
         "//src:sqlcc_core",
         "@com_google_googletest//:gtest_main",

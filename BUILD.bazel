@@ -10,7 +10,7 @@ load("@rules_cc//cc:defs.bzl", "cc_binary", "cc_library", "cc_test")
 cc_library(
     name = "execution_context",
     srcs = ["//src:execution_context.cpp"],
-    hdrs = ["//include:execution_context.h"],
+    hdrs = ["//include:core/execution_context.h"],
     includes = ["include", "include/core"],
     deps = [
         "//src/core:sqlcc_core_lib",
@@ -36,7 +36,7 @@ cc_library(
 cc_library(
     name = "unified_executor",
     srcs = ["//src:unified_executor.cpp"],
-    hdrs = ["//include:unified_executor.h"],
+    hdrs = ["//include:unified_query_plan.h"],
     includes = ["include", "include/core", "include/storage"],
     deps = [
         "//src/core:sqlcc_core_lib",
@@ -54,24 +54,24 @@ cc_test(
     size = "medium",
     srcs = [],
     deps = [
-        ":sqlcc_core",
+        "//src:sqlcc_core",
         "@com_google_googletest//:gtest_main",
     ],
 )
 
 # ==================== 可执行文件定义 ====================
 
-# 调试解析器
 cc_binary(
-    name = "debug_parser",
-    srcs = ["debug_parser.cpp"],
+    name = "test_drop_use_commands",
+    srcs = ["test_drop_use_commands.cpp"],
     deps = [
         "//src/sql_parser:sqlcc_parser",
+        "//src:unified_executor",
+        "//src/core:sqlcc_core_lib",
     ],
 )
 
 # ==================== 测试套件 ====================
-
 # 核心组件测试套件
 test_suite(
     name = "core_tests",
@@ -128,6 +128,14 @@ test_suite(
     ],
 )
 
+# 调试组件测试套件
+test_suite(
+    name = "debug_tests",
+    tests = [
+        "//tests/components/debug:debug_tests",
+    ],
+)
+
 # 所有测试套件
 test_suite(
     name = "all_tests",
@@ -139,5 +147,6 @@ test_suite(
         ":network_tests",
         ":security_tests",
         ":transaction_tests",
+        ":debug_tests",
     ],
 )

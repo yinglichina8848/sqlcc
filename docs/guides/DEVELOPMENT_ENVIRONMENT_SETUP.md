@@ -162,7 +162,7 @@ cmake .. -DCMAKE_BUILD_TYPE=Coverage
 
 ```bash
 # 编译项目 (使用多核编译)
-make -j$(nproc)
+bazel build //...
 
 # 验证编译结果
 ls -la bin/  # 可执行程序
@@ -173,7 +173,7 @@ ls -la lib/  # 库文件 (如果有)
 
 ```bash
 # 运行单元测试
-make test  # 或 ./bin/sqlcc_test
+bazel test //...  # 或 ./bin/sqlcc_test
 
 # 检查测试输出
 # 应该看到所有测试通过的信息
@@ -200,7 +200,7 @@ xdg-open docs/doxygen/html/index.html
 
 ```bash
 # 运行覆盖率测试
-make coverage
+bazel coverage //...
 
 # 查看生成的报告
 ls -la coverage/
@@ -224,9 +224,9 @@ xdg-open coverage/index.html
 
 ```bash
 # SQLCC项目开发别名
-alias sqlcc-build='cd ~/sqlcc/build && cmake .. && make -j$(nproc)'
-alias sqlcc-test='cd ~/sqlcc/build && make test'
-alias sqlcc-coverage='cd ~/sqlcc/build && make coverage && xdg-open coverage/index.html'
+alias sqlcc-build='cd ~/sqlcc/build && cmake .. && bazel build //...'
+alias sqlcc-test='cd ~/sqlcc/build && bazel test //...'
+alias sqlcc-coverage='cd ~/sqlcc/build && bazel coverage //... && xdg-open coverage/index.html'
 alias sqlcc-docs='cd ~/sqlcc/build && make docs && xdg-open docs/doxygen/html/index.html'
 alias sqlcc-run='cd ~/sqlcc/build && ./bin/isql'
 ```
@@ -326,7 +326,7 @@ else
 fi
 
 # 检查测试
-if make test >/dev/null 2>&1; then
+if bazel test //... >/dev/null 2>&1; then
     echo "✅ 单元测试通过"
 else
     echo "❌ 单元测试失败"

@@ -43,6 +43,8 @@ cc_test(
     srcs = ["dcl_test.cpp"],
     deps = [
         "//src/sql_parser:sqlcc_parser",
+        "//src/sql_executor:sqlcc_executor",
+        "//src:execution_engine",
         "@com_google_googletest//:gtest_main",
     ],
 )
@@ -52,6 +54,8 @@ cc_test(
     srcs = ["dcl_test_advanced.cpp"],
     deps = [
         "//src/sql_parser:sqlcc_parser",
+        "//src/sql_executor:sqlcc_executor",
+        "//src:execution_engine",
         "@com_google_googletest//:gtest_main",
     ],
 )
@@ -61,6 +65,8 @@ cc_test(
     srcs = ["ddl_test.cpp"],
     deps = [
         "//src/sql_parser:sqlcc_parser",
+        "//src/sql_executor:sqlcc_executor",
+        "//src:execution_engine",
         "@com_google_googletest//:gtest_main",
     ],
 )
@@ -68,8 +74,12 @@ cc_test(
 cc_test(
     name = "dml_test",
     srcs = ["dml_test.cpp"],
+    includes = ["../../../include"],
     deps = [
         "//src/sql_parser:sqlcc_parser",
+        "//src:execution_engine",
+        "//src:unified_executor",
+        "//src/sql_executor:sqlcc_executor",
         "@com_google_googletest//:gtest_main",
     ],
 )

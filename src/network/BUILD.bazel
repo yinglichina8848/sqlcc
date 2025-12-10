@@ -4,14 +4,18 @@ package(default_visibility = ["//visibility:public"])
 
 cc_library(
     name = "sqlcc_network",
-    srcs = glob(["*.cpp"]),
+    srcs = [
+        "encryption.cpp",
+        "mysql_protocol.cpp",
+        "network.cpp",
+        "network_server.cpp",
+    ],
     hdrs = ["//include:network_headers"],
     includes = ["../../include"],
     deps = [
-        "//src/sql_parser:sqlcc_parser",
-        "//src/sql_executor:sqlcc_executor",
         "//src/core:sqlcc_core_lib",
+        "@com_google_absl//absl/strings",
     ],
-    copts = ["-std=c++17"],
+    visibility = ["//visibility:public"],
     linkopts = ["-lssl", "-lcrypto"],
 )

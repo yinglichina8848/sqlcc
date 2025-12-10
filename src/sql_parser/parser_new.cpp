@@ -206,10 +206,10 @@ std::unique_ptr<Statement> ParserNew::parseStatement() {
     std::cout << "[PARSER DEBUG] 检测到CREATE，调用parseDDLStatement()"
               << std::endl;
     return parseDDLStatement();
-  } else if (check(Token::KEYWORD_INSERT)) {
+  } else if (match(Token::KEYWORD_INSERT)) {
     std::cout << "[PARSER DEBUG] 检测到INSERT，调用parseInsertStatement()"
               << std::endl;
-    return parseInsertStatement();
+    return parseInsertStatement();  
   } else if (check(Token::KEYWORD_UPDATE)) {
     std::cout << "[PARSER DEBUG] 检测到UPDATE，调用parseDMLStatement()"
               << std::endl;
@@ -226,6 +226,10 @@ std::unique_ptr<Statement> ParserNew::parseStatement() {
     std::cout << "[PARSER DEBUG] 检测到ALTER，调用parseDDLStatement()"
               << std::endl;
     return parseDDLStatement();
+  } else if (check(Token::KEYWORD_USE)) {
+    std::cout << "[PARSER DEBUG] 检测到USE，调用parseUseStatement()"
+              << std::endl;
+    return parseUseStatement();
   } else if (check(Token::KEYWORD_GRANT)) {
     std::cout << "[PARSER DEBUG] 检测到GRANT，调用parseDCLStatement()"
               << std::endl;
@@ -274,9 +278,8 @@ std::unique_ptr<Statement> ParserNew::parseDDLStatement() {
       return nullptr;
     }
   } else if (match(Token::KEYWORD_DROP)) {
-    // TODO: Implement DROP statement parsing
-    reportError("DROP statements not yet implemented");
-    return nullptr;
+    // Implement DROP statement parsing
+    return parseDropStatement();
   } else if (match(Token::KEYWORD_ALTER)) {
     // TODO: Implement ALTER statement parsing
     reportError("ALTER statements not yet implemented");
@@ -732,10 +735,7 @@ std::unique_ptr<InsertStatement> ParserNew::parseInsertStatement() {
   std::cout << "[PARSER DEBUG] parseInsertStatement() 开始" << std::endl;
 
   try {
-    consume(Token::KEYWORD_INSERT);
-    std::cout << "[PARSER DEBUG] parseInsertStatement() - 已消费INSERT关键字"
-              << std::endl;
-
+    // 注意：INSERT关键字已经在parseStatement()中被消费，这里不再消费
     consume(Token::KEYWORD_INTO);
     std::cout << "[PARSER DEBUG] parseInsertStatement() - 已消费INTO关键字"
               << std::endl;
@@ -786,6 +786,9 @@ std::unique_ptr<InsertStatement> ParserNew::parseInsertStatement() {
     std::cout << "[PARSER DEBUG] parseInsertStatement() 完成，解析了"
               << stmt->getValues().size() << "行值" << std::endl;
 
+    // 消费可选的分号
+    match(Token::SEMICOLON);
+    
     return stmt;
   } catch (const std::exception &e) {
     std::cout << "[PARSER DEBUG] parseInsertStatement() 异常: " << e.what()
@@ -793,9 +796,7 @@ std::unique_ptr<InsertStatement> ParserNew::parseInsertStatement() {
     reportError(e.what());
     return nullptr;
   }
-}
-
-std::unique_ptr<UpdateStatement> ParserNew::parseUpdateStatement() {
+}std::unique_ptr<UpdateStatement> ParserNew::parseUpdateStatement() {
   // 注意：UPDATE关键字已经在parseDMLStatement()中被消费，这里不再消费
   std::string tableName = parseIdentifier();
   auto stmt = std::make_unique<UpdateStatement>(tableName);
@@ -1332,15 +1333,17 @@ void ParserNew::parseInsertValues(InsertStatement &stmt) {
                 << valueStr << std::endl;
       stmt.addValue(valueStr);
 
-      // 跳过逗号
+      // 处理逗号或右括号
       if (match(Token::COMMA)) {
         std::cout << "[PARSER DEBUG] parseInsertValues() - 跳过逗号"
                   << std::endl;
+        // 继续循环处理下一个值
         continue;
       } else if (check(Token::RPAREN)) {
         std::cout
             << "[PARSER DEBUG] parseInsertValues() - 遇到右括号，结束值解析"
             << std::endl;
+        // 退出循环
         break;
       } else {
         std::cout << "[PARSER DEBUG] parseInsertValues() - 遇到意外token: "
@@ -1502,6 +1505,53 @@ std::unique_ptr<Expression> ParserNew::parseCaseExpression() {
 
 std::unique_ptr<Expression> ParserNew::parseWhereCondition() {
   return parseExpression();
+}
+
+// Add the parseDropStatement method implementation
+std::unique_ptr<DropStatement> ParserNew::parseDropStatement() {
+  // Handle IF EXISTS
+  bool ifExists = false;
+  if (match(Token::KEYWORD_IF)) {
+    consume(Token::KEYWORD_EXISTS);
+    ifExists = true;
+  }
+
+  // Check what type of object to drop
+  if (match(Token::KEYWORD_DATABASE)) {
+    std::string dbName = parseIdentifier();
+    auto stmt = std::make_unique<DropStatement>(DropStatement::DATABASE, dbName);
+    stmt->setIfExists(ifExists);
+    return stmt;
+  } else if (match(Token::KEYWORD_TABLE)) {
+    std::string tableName = parseIdentifier();
+    auto stmt = std::make_unique<DropStatement>(DropStatement::TABLE, tableName);
+    stmt->setIfExists(ifExists);
+    return stmt;
+  } else if (match(Token::KEYWORD_INDEX)) {
+    // For INDEX, we need to handle it differently since DropIndexStatement is not a DropStatement
+    consume(Token::KEYWORD_INDEX);
+    std::string indexName = parseIdentifier();
+    // We'll create a special DropStatement for INDEX for now
+    // In a more complete implementation, we might want to handle this differently
+    auto stmt = std::make_unique<DropStatement>(DropStatement::INDEX, indexName);
+    stmt->setIfExists(ifExists);
+    return stmt;
+  } else {
+    reportError("Unknown DROP statement type");
+    return nullptr;
+  }
+}
+
+// Add the parseUseStatement method implementation
+std::unique_ptr<UseStatement> ParserNew::parseUseStatement() {
+  // Consume USE keyword
+  consume(Token::KEYWORD_USE);
+  
+  // Parse database name
+  std::string dbName = parseIdentifier();
+  
+  // Create and return UseStatement
+  return std::make_unique<UseStatement>(dbName);
 }
 
 } // namespace sql_parser

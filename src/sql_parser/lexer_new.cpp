@@ -293,9 +293,11 @@ void LexerNew::setupTransitionTable() {
 
   // 为OPERATOR状态添加转换表
   transitions_[LexerState::OPERATOR] = std::unordered_map<char, LexerState>();
-  // 运算符通常是单字符的，所以任何后续字符都应该结束当前token
-  // 这里我们不为任何字符设置转换，这样遇到任何字符都会结束运算符token
-
+  // 添加对多字符操作符的支持
+  transitions_[LexerState::OPERATOR]['!'] = LexerState::OPERATOR;
+  transitions_[LexerState::OPERATOR]['<'] = LexerState::OPERATOR;
+  transitions_[LexerState::OPERATOR]['>'] = LexerState::OPERATOR;
+  transitions_[LexerState::OPERATOR]['='] = LexerState::OPERATOR;
   // 为注释相关状态添加空的转换表
   transitions_[LexerState::COMMENT_LINE] =
       std::unordered_map<char, LexerState>();
@@ -407,6 +409,7 @@ Token LexerNew::nextToken() {
       // 特殊处理：标点符号应该是单字符的token
       if (current_state_ == LexerState::PUNCTUATION) {
         std::cout << "[LEXER DEBUG] 标点符号状态，立即结束token" << std::endl;
+        final_state = current_state_; // 更新final_state
         break;
       }
 
@@ -422,8 +425,14 @@ Token LexerNew::nextToken() {
       // 检查是否到达输入末尾
       if (isAtEnd()) {
         std::cout << "[LEXER DEBUG] 到达输入末尾，结束token" << std::endl;
+        final_state = current_state_; // 更新final_state
         break;
       }
+    }
+
+    // 更新final_state为current_state
+    if (final_state == LexerState::START && current_state_ != LexerState::START) {
+      final_state = current_state_;
     }
 
     // Create token based on final state
@@ -585,6 +594,12 @@ Token LexerNew::createKeywordToken(const std::string &keyword, int line,
 
   std::cout << "[DEBUG] createKeywordToken called with: '" << keyword << "'"
             << std::endl;
+  std::cout << "[DEBUG] keyword length: " << keyword.length() << std::endl;
+  std::cout << "[DEBUG] keyword bytes: ";
+  for (size_t i = 0; i < keyword.length(); ++i) {
+    std::cout << static_cast<int>(keyword[i]) << " ";
+  }
+  std::cout << std::endl;
 
   // Initialize on first use
   if (keywordMap.empty()) {
@@ -656,6 +671,12 @@ Token LexerNew::createKeywordToken(const std::string &keyword, int line,
     keywordMap["avg"] = Token::KEYWORD_AVG;
     keywordMap["min"] = Token::KEYWORD_MIN;
     keywordMap["max"] = Token::KEYWORD_MAX;
+    
+    // Debug: Print all mappings
+    std::cout << "[DEBUG] All keyword mappings:" << std::endl;
+    for (const auto& pair : keywordMap) {
+      std::cout << "  '" << pair.first << "' -> " << static_cast<int>(pair.second) << std::endl;
+    }
   }
 
   auto it = keywordMap.find(keyword);
@@ -681,7 +702,6 @@ Token LexerNew::createKeywordToken(const std::string &keyword, int line,
             << "' not found, returning IDENTIFIER" << std::endl;
   return Token(Token::IDENTIFIER, keyword, line, column);
 }
-
 Token LexerNew::createNumberToken(const std::string &lexeme, int line,
                                   int column) {
   // Check if it's a float (contains a decimal point or exponent)
@@ -716,10 +736,11 @@ Token LexerNew::createOperatorToken(const std::string &lexeme, int line,
     return Token(Token::OPERATOR_GREATER_THAN, lexeme, line, column);
   } else if (lexeme == ">=") {
     return Token(Token::OPERATOR_GREATER_EQUAL, lexeme, line, column);
+  } else if (lexeme == "%") {
+    return Token(Token::OPERATOR_MODULO, lexeme, line, column);
   }
 
-  return Token(Token::UNKNOWN, lexeme, line, column);
-}
+  return Token(Token::UNKNOWN, lexeme, line, column);}
 
 Token LexerNew::createPunctuationToken(const std::string &lexeme, int line,
                                        int column) {

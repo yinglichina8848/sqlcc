@@ -246,6 +246,9 @@ private:
     
     ExecutionResult executeUsePlan();
     ExecutionResult executeShowPlan();
+    
+    // USE语句特定上下文
+    std::string target_database_;
 };
 
 /**

@@ -121,25 +121,25 @@ void TestErrorHandling() {
     std::cout << "\n测试1: 无效SQL语法" << std::endl;
     std::string result = executor.Execute("INVALID SQL STATEMENT");
     std::cout << "结果: " << result << std::endl;
-    assert(result.find("ERROR") != std::string::npos);
+    assert(result.find("错误：") != std::string::npos || result.find("Error:") != std::string::npos);
     
     // 2. 测试无效的GRANT语法
     std::cout << "\n测试2: 无效的GRANT语法" << std::endl;
     result = executor.Execute("GRANT WITHOUT TABLE OR USER");
     std::cout << "结果: " << result << std::endl;
-    assert(result.find("ERROR") != std::string::npos);
+    assert(result.find("错误：") != std::string::npos || result.find("Error:") != std::string::npos);
     
     // 3. 测试无效的REVOKE语法
     std::cout << "\n测试3: 无效的REVOKE语法" << std::endl;
     result = executor.Execute("REVOKE WITHOUT TABLE OR USER");
     std::cout << "结果: " << result << std::endl;
-    assert(result.find("ERROR") != std::string::npos);
+    assert(result.find("错误：") != std::string::npos || result.find("Error:") != std::string::npos);
     
     // 4. 测试不存在的文件
     std::cout << "\n测试4: 执行不存在的文件" << std::endl;
     result = executor.ExecuteFile("non_existent_file.sql");
     std::cout << "结果: " << result << std::endl;
-    assert(result.find("ERROR") != std::string::npos);
+    assert(result.find("错误：") != std::string::npos || result.find("Error:") != std::string::npos);
     
     std::cout << "\n=== 错误处理功能测试通过 ===" << std::endl;
 }

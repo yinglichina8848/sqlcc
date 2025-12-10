@@ -38,6 +38,11 @@ test_suite(
     tests = ["//tests/components/transaction:transaction_component_tests"],
 )
 
+test_suite(
+    name = "debug_component_tests",
+    tests = ["//tests/components/debug:debug_tests"],
+)
+
 # 集成测试套件
 test_suite(
     name = "integration_tests",
@@ -61,6 +66,7 @@ test_suite(
         ":security_component_tests",
         ":storage_component_tests",
         ":transaction_component_tests",
+        ":debug_component_tests",
         ":integration_tests",
         ":performance_tests",
     ],
