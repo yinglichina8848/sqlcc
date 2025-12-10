@@ -106,18 +106,16 @@ public:
 private:
     // 页面对象包装类
     struct PageWrapper {
-        Page* page;                          // 页面对象指针
+        std::unique_ptr<Page> page;           // 页面对象智能指针
         int ref_count;                       // 引用计数
         bool is_dirty;                       // 脏页标记
         std::list<int32_t>::iterator lru_iter; // LRU链表迭代器
         bool is_in_lru;                      // 是否在LRU链表中
 
-        PageWrapper(Page* page_ptr = nullptr)
-            : page(page_ptr), ref_count(0), is_dirty(false), is_in_lru(false) {}
+        PageWrapper(std::unique_ptr<Page> page_ptr = nullptr)
+            : page(std::move(page_ptr)), ref_count(0), is_dirty(false), is_in_lru(false) {}
 
-        ~PageWrapper() {
-            delete page;
-        }
+        // 不再需要显式析构函数，unique_ptr会自动管理内存
     };
 
     // 单个Shard的实现

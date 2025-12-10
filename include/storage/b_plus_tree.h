@@ -52,7 +52,7 @@ struct IndexEntry {
  */
 class BPlusTreeNode {
 public:
-    BPlusTreeNode(StorageEngine* storage_engine, int32_t page_id, bool is_leaf);
+    BPlusTreeNode(std::shared_ptr<StorageEngine> storage_engine, int32_t page_id, bool is_leaf);
     virtual ~BPlusTreeNode();
 
     // 序列化和反序列化节点到页面
@@ -73,11 +73,11 @@ public:
     void SetParentPageId(int32_t parent_id) { parent_page_id_ = parent_id; }
 
 protected:
-    StorageEngine* storage_engine_; // 存储引擎引用
+    std::shared_ptr<StorageEngine> storage_engine_; // 存储引擎引用 - 使用智能指针
     int32_t page_id_;              // 节点所在页面ID
     int32_t parent_page_id_;       // 父节点页面ID
     bool is_leaf_;                 // 是否为叶子节点
-    Page* page_;                   // 节点对应的页面
+    std::shared_ptr<Page> page_;   // 节点对应的页面 - 使用智能指针
 };
 
 /**
@@ -85,7 +85,7 @@ protected:
  */
 class BPlusTreeInternalNode : public BPlusTreeNode {
 public:
-    BPlusTreeInternalNode(StorageEngine* storage_engine, int32_t page_id);
+    BPlusTreeInternalNode(std::shared_ptr<StorageEngine> storage_engine, int32_t page_id);
     ~BPlusTreeInternalNode() override;
 
     void SerializeToPage() override;
@@ -100,8 +100,8 @@ public:
     void InsertChild(int32_t child_page_id, const std::string& key);
     void RemoveChild(int32_t child_page_id);
     int32_t FindChildPageId(const std::string& key) const;
-    void Split(BPlusTreeInternalNode*& new_node);
-    void Merge(BPlusTreeInternalNode* right_node, const std::string& parent_key);
+    void Split(std::unique_ptr<BPlusTreeInternalNode>& new_node);
+    void Merge(std::unique_ptr<BPlusTreeInternalNode> right_node, const std::string& parent_key);
     const std::vector<std::string>& GetKeys() const { return keys_; }
 
 private:
@@ -114,7 +114,7 @@ private:
  */
 class BPlusTreeLeafNode : public BPlusTreeNode {
 public:
-    BPlusTreeLeafNode(StorageEngine* storage_engine, int32_t page_id);
+    BPlusTreeLeafNode(std::shared_ptr<StorageEngine> storage_engine, int32_t page_id);
     ~BPlusTreeLeafNode() override;
 
     void SerializeToPage() override;
@@ -128,8 +128,8 @@ public:
     // 叶子节点特有操作
     void SetNextPageId(int32_t next_page_id) { next_page_id_ = next_page_id; }
     int32_t GetNextPageId() const { return next_page_id_; }
-    void Split(BPlusTreeLeafNode*& new_node);
-    void Merge(BPlusTreeLeafNode* right_node);
+    void Split(std::unique_ptr<BPlusTreeLeafNode>& new_node);
+    void Merge(std::unique_ptr<BPlusTreeLeafNode> right_node);
     const std::vector<IndexEntry>& GetEntries() const { return entries_; }
 
 private:
@@ -143,7 +143,7 @@ private:
  */
 class BPlusTreeIndex {
 public:
-    BPlusTreeIndex(StorageEngine* storage_engine, const std::string& table_name, const std::string& column_name);
+    BPlusTreeIndex(std::shared_ptr<StorageEngine> storage_engine, const std::string& table_name, const std::string& column_name);
     ~BPlusTreeIndex();
 
     // 索引基本操作
@@ -161,7 +161,7 @@ public:
     int32_t GetRootPageId() const { return root_page_id_; }
 
 private:
-    sqlcc::StorageEngine* storage_engine_;  // 存储引擎引用
+    std::shared_ptr<StorageEngine> storage_engine_;  // 存储引擎引用 - 使用智能指针
     std::string table_name_;         // 表名
     std::string column_name_;        // 列名
     std::string index_name_;         // 索引名
@@ -171,15 +171,15 @@ private:
     // 辅助方法
     void LoadMetadata();
     void SaveMetadata();
-    BPlusTreeNode* GetNode(int32_t page_id) const;
-    BPlusTreeNode* CreateNewNode(bool is_leaf);
+    std::unique_ptr<BPlusTreeNode> GetNode(int32_t page_id) const;
+    std::unique_ptr<BPlusTreeNode> CreateNewNode(bool is_leaf);
     void DeleteNode(int32_t page_id);
-    BPlusTreeNode* LoadNode(int32_t page_id);
-    bool NeedMerge(BPlusTreeNode* node);
-    bool Insert(const IndexEntry& entry, BPlusTreeNode* current_node, std::string& promoted_key, BPlusTreeNode*& new_node);
-    bool Delete(const std::string& key, BPlusTreeNode* current_node);
-    std::vector<IndexEntry> Search(const std::string& key, BPlusTreeNode* current_node) const;
-    std::vector<IndexEntry> SearchRange(const std::string& lower_bound, const std::string& upper_bound, BPlusTreeNode* current_node) const;
+    std::unique_ptr<BPlusTreeNode> LoadNode(int32_t page_id);
+    bool NeedMerge(const std::unique_ptr<BPlusTreeNode>& node);
+    bool Insert(const IndexEntry& entry, const std::unique_ptr<BPlusTreeNode>& current_node, std::string& promoted_key, std::unique_ptr<BPlusTreeNode>& new_node);
+    bool Delete(const std::string& key, const std::unique_ptr<BPlusTreeNode>& current_node);
+    std::vector<IndexEntry> Search(const std::string& key, const std::unique_ptr<BPlusTreeNode>& current_node) const;
+    std::vector<IndexEntry> SearchRange(const std::string& lower_bound, const std::string& upper_bound, const std::unique_ptr<BPlusTreeNode>& current_node) const;
 };
 
 

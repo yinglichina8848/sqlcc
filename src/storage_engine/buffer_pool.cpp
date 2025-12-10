@@ -101,7 +101,7 @@ Page *BufferPool::FetchPage(int32_t page_id) {
     // 减少日志记录以提高性能
     // SQLCC_LOG_DEBUG("Page ID " + std::to_string(page_id) + " found in buffer
     // pool");
-    return it->second;
+    return it->second.get(); // 返回裸指针以保持API兼容性
   }
 
   // 页面不在缓冲池中，需要从磁盘读取
@@ -166,7 +166,7 @@ Page *BufferPool::FetchPage(int32_t page_id) {
   // How: 使用页面ID作为键，使用std::move转移页面对象的所有权
   // 将页面添加到缓冲池
   Page *page_ptr = page.release(); // 释放所有权，获取原始指针
-  page_table_[page_id] = page_ptr;
+  page_table_[page_id] = std::shared_ptr<Page>(page_ptr); // 包装为智能指针
   page_refs_[page_id] = 1;
 
   // 初始化脏页标记
@@ -187,6 +187,35 @@ Page *BufferPool::FetchPage(int32_t page_id) {
                   " loaded into buffer pool");
 
   return page_ptr;
+}
+
+// 获取页面智能指针版本实现
+std::shared_ptr<Page> BufferPool::FetchPageShared(int32_t page_id) {
+  // 调用裸指针版本，然后包装为智能指针
+  Page* page_ptr = FetchPage(page_id);
+  if (page_ptr) {
+    // 返回已存在的智能指针包装（假设页面已经在page_table_中）
+    // 由于page_table_现在存储std::shared_ptr<Page>，我们直接返回它
+    auto it = page_table_.find(page_id);
+    if (it != page_table_.end()) {
+      return it->second;
+    }
+  }
+  return nullptr;
+}
+
+// 创建新页面智能指针版本实现
+std::shared_ptr<Page> BufferPool::NewPageShared(int32_t* page_id) {
+  // 调用裸指针版本，然后包装为智能指针
+  Page* page_ptr = NewPage(page_id);
+  if (page_ptr && page_id && *page_id >= 0) {
+    // 返回已存在的智能指针包装（假设页面已经在page_table_中）
+    auto it = page_table_.find(*page_id);
+    if (it != page_table_.end()) {
+      return it->second;
+    }
+  }
+  return nullptr;
 }
 
 // 刷新页面到磁盘实现
@@ -254,7 +283,7 @@ bool BufferPool::FlushPage(int32_t page_id) {
   // What: 先在锁内准备数据，然后解锁调用DiskManager，再重新加锁继续操作
   // How: 与ReplacePage方法采用相同的锁释放策略，避免BufferPool
   // latch_和DiskManager io_mutex_之间的循环等待
-  Page *page = page_it->second;
+  Page *page = page_it->second.get();
   void *page_data = page->GetData();
   int32_t current_page_id = page_id;
 
@@ -346,7 +375,7 @@ bool BufferPool::DeletePage(int32_t page_id) {
   if (dirty_it != dirty_pages_.end() && dirty_it->second) {
     // 页面是脏的，需要先刷新到磁盘
     // 使用与FlushPage相同的锁释放策略，但不递归调用FlushPage
-    Page *page = page_it->second;
+    Page *page = page_it->second.get();
     void *page_data = page->GetData();
     int32_t current_page_id = page_id;
 
@@ -382,7 +411,7 @@ bool BufferPool::DeletePage(int32_t page_id) {
   // Why: 需要从页面表中删除页面，以释放页面占用的内存
   // What: 从page_table_哈希表中删除页面ID
   // How: 使用std::unordered_map的erase方法删除
-  Page *page = page_it->second;
+  Page *page = page_it->second.get();
   page_table_.erase(page_it);
 
   // 从引用计数表中移除
@@ -566,7 +595,7 @@ int32_t BufferPool::ReplacePage() {
       }
 
       // 获取页面数据和ID用于后续处理
-      Page *page = page_it->second;
+      Page *page = page_it->second.get();
       void *page_data = page->GetData();
       int32_t current_page_id = page_id;
 
@@ -808,7 +837,7 @@ Page *BufferPool::NewPage(int32_t *page_id) {
   // What: 将页面对象添加到page_table_哈希表中
   // How: 使用页面ID作为键，使用std::move转移页面对象的所有权
   Page *page_ptr = page.release(); // 释放所有权，获取原始指针
-  page_table_[*page_id] = page_ptr;
+  page_table_[*page_id] = std::shared_ptr<Page>(page_ptr); // 包装为智能指针
   page_refs_[*page_id] = 1; // 新页面默认引用计数为1
 
   // 初始化脏页标记
@@ -864,7 +893,7 @@ BufferPool::BatchFetchPages(const std::vector<int32_t> &page_ids) {
     auto page_it = page_table_.find(page_id);
     if (page_it != page_table_.end()) {
       // 页面已在缓冲池中
-      Page *page = page_it->second;
+      Page *page = page_it->second.get();
       page_refs_[page_id]++;
       MoveToHead(page_id);
       result.push_back(page);
@@ -937,7 +966,7 @@ BufferPool::BatchFetchPages(const std::vector<int32_t> &page_ids) {
 
     // 将页面添加到缓冲池
     Page *page_ptr = new_pages[i].release(); // 释放所有权，获取原始指针
-    page_table_[page_id] = page_ptr;
+    page_table_[page_id] = std::shared_ptr<Page>(page_ptr); // 包装为智能指针
     page_refs_[page_id] = 1;
 
     // 初始化脏页标记
@@ -992,7 +1021,7 @@ void BufferPool::FlushAllPages() {
   std::vector<std::pair<int32_t, Page *>> dirty_pages_to_flush;
   for (const auto &pair : page_table_) {
     int32_t page_id = pair.first;
-    Page *page = pair.second;
+    Page *page = pair.second.get();
 
     // 检查页面是否为脏页
     auto dirty_it = dirty_pages_.find(page_id);
@@ -1258,7 +1287,7 @@ bool BufferPool::PrefetchPage(int32_t page_id) {
   }
 
   // 将页面添加到缓冲池
-  page_table_[page_id] = page;
+  page_table_[page_id] = std::shared_ptr<Page>(page); // 包装为智能指针
   lru_list_.push_front(page_id);
   lru_map_[page_id] = lru_list_.begin();
 

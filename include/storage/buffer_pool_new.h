@@ -81,12 +81,12 @@ private:
     void UpdateLRU(int32_t page_id);
 
     // Member variables
-    DiskManager* disk_manager_;
+    std::shared_ptr<DiskManager> disk_manager_;
     ConfigManager& config_manager_;
     size_t pool_size_;
 
-    // Data structures - simplified design
-    std::unordered_map<int32_t, Page*> page_table_;           // page_id -> Page*
+    // Data structures - simplified design with smart pointers
+    std::unordered_map<int32_t, std::shared_ptr<Page>> page_table_;           // page_id -> Page*
     std::unordered_map<int32_t, int> page_refs_;              // Reference counts
     std::unordered_map<int32_t, bool> dirty_pages_;           // Dirty page tracking
 

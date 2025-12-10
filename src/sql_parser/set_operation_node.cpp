@@ -1,5 +1,5 @@
-#include "sql_parser/set_operation_node.h"
-#include "sql_parser/ast_nodes.h"
+#include "../../include/sql_parser/set_operation_node.h"
+#include "../../include/sql_parser/ast_nodes.h"
 #include <string>
 
 namespace sqlcc {

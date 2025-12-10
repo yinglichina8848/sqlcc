@@ -1,5 +1,5 @@
-#include "sql_parser/parser_new.h"
-#include "sql_parser/set_operation_node.h"
+#include "../../include/sql_parser/parser_new.h"
+#include "../../include/sql_parser/set_operation_node.h"
 #include <memory>
 #include <stdexcept>
 

@@ -16,6 +16,13 @@
   - 支持IF EXISTS子句
   - 创建了完整的测试程序验证所有新增功能
 
+- **网络模块RAII包装器重构**
+  - 创建SSL RAII包装器(SSLContext和SSLSocket类)，封装SSL_CTX*和SSL*指针
+  - 更新ClientConnection、ConnectionHandler和ServerNetworkManager类使用RAII包装器
+  - 为FileDescriptor类添加accept、create_socket和create_epoll静态方法
+  - 实现网络模块资源自动管理，防止SSL和文件描述符泄漏
+  - 提升网络模块异常安全性，确保资源在异常情况下正确释放
+
 ### 优化
 - **性能测试结果分析**
   - 小规模测试(1000 records)：INSERT吞吐量318.47 ops/sec，平均延迟3.14ms
@@ -24,6 +31,12 @@
   - 中等规模测试(10000 records)：SELECT点查询吞吐量787.40 ops/sec，平均延迟1.27ms
   - 读取操作性能优秀，平均延迟低于1.5ms
   - 写入操作有待优化，INSERT操作平均延迟约为3.5ms
+
+- **网络模块资源管理优化**
+  - 消除网络模块中的所有手动资源管理代码
+  - 减少约50行手动资源管理代码
+  - 提升代码可维护性和可读性
+  - 增强系统稳定性，防止资源泄漏
 
 ## [v1.1.2] - 2025-12-10
 

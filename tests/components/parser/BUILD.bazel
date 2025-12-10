@@ -165,6 +165,27 @@ cc_test(
     ],
 )
 
+# 新增的ALTER TABLE解析测试
+cc_test(
+    name = "alter_table_parser_test",
+    srcs = ["alter_table_parser_test.cpp"],
+    deps = [
+        "//src/sql_parser:sqlcc_parser",
+        "@com_google_googletest//:gtest_main",
+    ],
+)
+
+# 新增的简单ALTER TABLE测试
+cc_test(
+    name = "simple_alter_test",
+    srcs = ["simple_alter_test.cpp"],
+    deps = [
+        "//src/sql_parser:sqlcc_parser_light",  # 使用轻量级解析器
+        "@com_google_googletest//:gtest_main",
+    ],
+)
+
+# 更新测试套件以包含所有测试
 test_suite(
     name = "parser_component_tests",
     tests = [
@@ -185,5 +206,7 @@ test_suite(
         ":test_percent_simple",
         ":test_show_grants",
         ":test_simple_create",
+        ":alter_table_parser_test",  # 添加新的测试
+        ":simple_alter_test",  # 添加简单测试
     ],
 )

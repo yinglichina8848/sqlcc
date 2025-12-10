@@ -61,6 +61,7 @@ private:
   std::unique_ptr<CreateStatement> parseCreateTableStatement();
   std::unique_ptr<CreateIndexStatement> parseCreateIndexStatement();
   std::unique_ptr<DropStatement> parseDropStatement();
+  std::unique_ptr<Statement> parseAlterStatement();
   
   // Utility statements
   std::unique_ptr<UseStatement> parseUseStatement();

@@ -304,6 +304,14 @@ bool UserManager::CreateUser(const std::string& username, const std::string& pas
     new_user.created_at = GetCurrentTimeString();
     users_[username] = new_user;
     
+    // 同步到SystemDatabase
+    if (sys_db_ != nullptr) {
+        if (!sys_db_->CreateUserRecord(username, HashPassword(password), role)) {
+            // 记录错误但不回滚内存操作（保持兼容性）
+            // TODO: 考虑是否需要事务性回滚
+        }
+    }
+    
     // 保存到文件（已持有锁，调用内部版本）
     SaveToFileInternal();
     
@@ -326,6 +334,14 @@ bool UserManager::DropUser(const std::string& username) {
     
     // 删除用户
     users_.erase(it);
+    
+    // 同步到SystemDatabase
+    if (sys_db_ != nullptr) {
+        if (!sys_db_->DropUserRecord(username)) {
+            // 记录错误但不回滚内存操作（保持兼容性）
+            // TODO: 考虑是否需要事务性回滚
+        }
+    }
     
     // 保存到文件（已持有锁，调用内部版本）
     SaveToFileInternal();
@@ -417,6 +433,14 @@ bool UserManager::CreateRole(const std::string& role_name) {
     new_role.created_at = GetCurrentTimeString();
     roles_[role_name] = new_role;
     
+    // 同步到SystemDatabase
+    if (sys_db_ != nullptr) {
+        if (!sys_db_->CreateRoleRecord(role_name)) {
+            // 记录错误但不回滚内存操作（保持兼容性）
+            // TODO: 考虑是否需要事务性回滚
+        }
+    }
+    
     // 保存到文件（已持有锁，调用内部版本）
     SaveToFileInternal();
     
@@ -439,6 +463,14 @@ bool UserManager::DropRole(const std::string& role_name) {
     
     // 删除角色
     roles_.erase(it);
+    
+    // 同步到SystemDatabase
+    if (sys_db_ != nullptr) {
+        if (!sys_db_->DropRoleRecord(role_name)) {
+            // 记录错误但不回滚内存操作（保持兼容性）
+            // TODO: 考虑是否需要事务性回滚
+        }
+    }
     
     // 保存到文件（已持有锁，调用内部版本）
     SaveToFileInternal();

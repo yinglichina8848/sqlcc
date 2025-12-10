@@ -141,6 +141,7 @@ public:
     // Why: 需要创建缓冲池实例，设置缓冲池大小和关联的磁盘管理器
     // What: 构造函数接收磁盘管理器指针、缓冲池大小和配置管理器引用，初始化缓冲池状态
     // How: 设置成员变量，初始化页面表和LRU列表，创建互斥锁，条件注册配置回调
+    // API兼容性: 保持原有构造函数签名，但内部使用智能指针
     explicit BufferPool(DiskManager* disk_manager, size_t pool_size, ConfigManager& config_manager);
     
     // 删除拷贝构造函数和赋值运算符，防止意外拷贝
@@ -157,7 +158,14 @@ public:
     // Why: 数据库操作需要访问页面数据，需要从磁盘加载到内存
     // What: FetchPage方法根据页面ID获取页面对象，如果页面不在内存中则从磁盘加载
     // How: 首先在页面表中查找页面，如果找到则更新LRU列表并返回；如果未找到则从磁盘加载
+    // API兼容性: 提供裸指针版本以保持现有代码兼容
     Page* FetchPage(int32_t page_id);
+
+    // 获取页面智能指针版本（推荐使用）
+    // Why: 提供内存安全的智能指针接口
+    // What: FetchPageShared返回std::shared_ptr<Page>，自动管理页面生命周期
+    // How: 调用内部实现，返回智能指针包装的页面
+    std::shared_ptr<Page> FetchPageShared(int32_t page_id);
 
     // 批量获取页面，优化多个页面的加载性能
     // Why: 某些操作需要同时访问多个页面，批量加载可以提高性能
@@ -169,7 +177,14 @@ public:
     // Why: 数据库需要新的存储空间来存储数据，例如插入新记录或创建索引
     // What: NewPage方法在缓冲池中分配一个新的页面
     // How: 从空闲页面列表中获取页面，或者替换一个现有页面，初始化页面数据
+    // API兼容性: 提供裸指针版本以保持现有代码兼容
     Page* NewPage(int32_t* page_id);
+
+    // 创建新页面智能指针版本（推荐使用）
+    // Why: 提供内存安全的智能指针接口
+    // What: NewPageShared返回std::shared_ptr<Page>，自动管理页面生命周期
+    // How: 调用内部实现，返回智能指针包装的新页面
+    std::shared_ptr<Page> NewPageShared(int32_t* page_id);
 
     // 取消固定页面，减少页面的固定计数
     // Why: 当页面使用完毕后，需要通知缓冲池该页面可以被替换
@@ -304,11 +319,12 @@ private:
     // How: 通过发送消息到队列的方式触发异步调整，不直接获取锁
     void AdjustBufferPoolSizeNoLock(size_t new_pool_size);
 
-    // 磁盘管理器指针，负责磁盘I/O操作
+    // 磁盘管理器智能指针，负责磁盘I/O操作
     // Why: 缓冲池需要与磁盘管理器交互，进行页面的读写操作
     // What: disk_manager_指向DiskManager对象，提供磁盘I/O接口
     // How: 通过构造函数初始化，在需要读写页面时调用相应方法
-    DiskManager* disk_manager_;
+    // RAII: 使用智能指针确保自动生命周期管理
+    std::shared_ptr<DiskManager> disk_manager_;
 
     // 配置管理器引用，用于获取配置参数
     // Why: 缓冲池需要从配置管理器获取配置参数，如预取策略等
@@ -324,9 +340,10 @@ private:
 
     // 页面表，存储页面ID到页面对象的映射
     // Why: 需要快速查找页面，避免遍历整个缓冲池
-    // What: page_table_是哈希表，键为页面ID，值为页面对象指针
+    // What: page_table_是哈希表，键为页面ID，值为页面智能指针
     // How: 使用unordered_map实现，提供O(1)的平均查找时间
-    std::unordered_map<int32_t, Page*> page_table_;
+    // RAII: 使用智能指针确保页面对象的自动生命周期管理
+    std::unordered_map<int32_t, std::shared_ptr<Page>> page_table_;
 
     // LRU列表，存储页面的访问顺序
     // Why: 需要根据页面的访问时间选择替换页面

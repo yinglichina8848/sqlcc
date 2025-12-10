@@ -1,4 +1,4 @@
-#include "sql_parser/lexer.h"
+#include "../../include/sql_parser/lexer.h"
 #include <cctype>
 #include <stdexcept>
 #include <string>

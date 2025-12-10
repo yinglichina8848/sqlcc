@@ -510,12 +510,12 @@ bool DDLExecutionStrategy::validate(const sql_parser::Statement *stmt,
 }
 
 ExecutionResult
-DDLExecutionStrategy::executeCreate(sql_parser::CreateStatement *stmt,
+DDLExecutionStrategy::executeCreate(const sql_parser::CreateStatement &stmt,
                                     ExecutionContext &context) {
 
-  switch (stmt->getObjectType()) {
+  switch (stmt.getObjectType()) {
   case sql_parser::CreateStatement::DATABASE: {
-    std::string db_name = stmt->getObjectName();
+    std::string db_name = stmt.getObjectName();
     if (context.db_manager->CreateDatabase(db_name)) {
       context.records_affected = 1;
       return {true, "Database '" + db_name + "' created successfully"};
@@ -525,8 +525,8 @@ DDLExecutionStrategy::executeCreate(sql_parser::CreateStatement *stmt,
   }
 
   case sql_parser::CreateStatement::TABLE: {
-    std::string table_name = stmt->getObjectName();
-    const auto &columns = stmt->getColumns();
+    std::string table_name = stmt.getObjectName();
+    const auto &columns = stmt.getColumns();
     std::vector<std::pair<std::string, std::string>> table_columns;
 
     for (const auto &col : columns) {
@@ -547,41 +547,137 @@ DDLExecutionStrategy::executeCreate(sql_parser::CreateStatement *stmt,
 }
 
 ExecutionResult
-DDLExecutionStrategy::executeDrop(sql_parser::DropStatement *stmt,
-                                  ExecutionContext &context) {
-
-  switch (stmt->getObjectType()) {
-  case sql_parser::DropStatement::DATABASE: {
-    std::string db_name = stmt->getObjectName();
-    if (context.db_manager->DropDatabase(db_name)) {
-      context.records_affected = 1;
-      return {true, "Database '" + db_name + "' dropped successfully"};
-    } else {
-      return {false, "Failed to drop database '" + db_name + "'"};
-    }
-  }
-
-  case sql_parser::DropStatement::TABLE: {
-    std::string table_name = stmt->getObjectName();
-    if (context.db_manager->DropTable(table_name)) {
-      context.records_affected = 1;
-      return {true, "Table '" + table_name + "' dropped successfully"};
-    } else {
-      return {false, "Failed to drop table '" + table_name + "'"};
-    }
-  }
-
+DDLExecutionStrategy::executeDrop(const sql_parser::DropStatement& stmt,
+                                  ExecutionContext& context) {
+  // 根据删除对象的类型进行分发
+  switch (stmt.getObjectType()) {
+  case sql_parser::DropStatement::DATABASE:
+    return executeDropDatabase(stmt, context);
+  case sql_parser::DropStatement::TABLE:
+    return executeDropTable(stmt, context);
+  case sql_parser::DropStatement::INDEX:
+    return executeDropIndex(stmt, context);
   default:
-    return {false, "Unsupported DROP object type"};
+    return {false, "Unsupported DROP statement type"};
   }
 }
 
 ExecutionResult
-DDLExecutionStrategy::executeAlter(sql_parser::AlterStatement *stmt,
+DDLExecutionStrategy::executeAlter(const sql_parser::AlterStatement &stmt,
                                    ExecutionContext &context) {
+  
+  // 检查目标是否为表
+  if (stmt->getTarget() != sql_parser::AlterStatement::TABLE) {
+    return {false, "ALTER operation only supports TABLE target"};
+  }
 
-  // ALTER语句的简化实现
-  return {true, "ALTER operation completed"};
+  std::string table_name = stmt->getTableName();
+  
+  // 获取系统数据库管理器
+  auto system_db = context.system_database;
+  if (!system_db) {
+    return {false, "System database not available"};
+  }
+
+  // 获取表记录
+  auto table_record = system_db->GetTableRecord("public", table_name);
+  if (table_record.table_id <= 0) {
+    return {false, "Table '" + table_name + "' not found"};
+  }
+
+  // 根据不同的ALTER操作执行相应的处理
+  switch (stmt->getAction()) {
+    case sql_parser::AlterStatement::ADD_COLUMN: {
+      auto column_def = stmt->getColumnDefinition();
+      
+      // 获取表的列信息
+      auto columns = system_db->GetTableColumns(table_record.table_id);
+      
+      // 添加列到物理表
+      std::vector<std::pair<std::string, std::string>> new_column;
+      new_column.emplace_back(column_def.getName(), column_def.getType());
+      
+      if (!context.db_manager->AddColumn(table_name, new_column)) {
+        return {false, "Failed to add column to physical table"};
+      }
+      
+      // 注册列元数据
+      if (!system_db->CreateColumnRecord(
+          table_record.table_id, 
+          column_def.getName(), 
+          column_def.getType(),
+          true,  // nullable by default
+          "",    // no default value
+          columns.size() + 1)) {  // next ordinal position
+        return {false, "Failed to register column metadata: " + system_db->GetLastError()};
+      }
+      
+      context.records_affected = 1;
+      return {true, "Column '" + column_def.getName() + "' added successfully"};
+    }
+    
+    case sql_parser::AlterStatement::DROP_COLUMN: {
+      std::string column_name = stmt->getColumnName();
+      
+      // 从物理表中删除列
+      if (!context.db_manager->DropColumn(table_name, column_name)) {
+        return {false, "Failed to drop column from physical table"};
+      }
+      
+      // 删除列元数据
+      if (!system_db->DropColumnRecord(table_record.table_id, column_name)) {
+        return {false, "Failed to remove column metadata: " + system_db->GetLastError()};
+      }
+      
+      context.records_affected = 1;
+      return {true, "Column '" + column_name + "' dropped successfully"};
+    }
+    
+    case sql_parser::AlterStatement::MODIFY_COLUMN: {
+      auto column_def = stmt->getColumnDefinition();
+      
+      // 修改物理表中的列
+      std::vector<std::pair<std::string, std::string>> modified_column;
+      modified_column.emplace_back(column_def.getName(), column_def.getType());
+      
+      if (!context.db_manager->ModifyColumn(table_name, modified_column)) {
+        return {false, "Failed to modify column in physical table"};
+      }
+      
+      // 更新列元数据
+      if (!system_db->UpdateColumnRecord(
+          table_record.table_id, 
+          column_def.getName(), 
+          column_def.getType(),
+          true,  // nullable by default
+          "")) {  // no default value
+        return {false, "Failed to update column metadata: " + system_db->GetLastError()};
+      }
+      
+      context.records_affected = 1;
+      return {true, "Column '" + column_def.getName() + "' modified successfully"};
+    }
+    
+    case sql_parser::AlterStatement::RENAME_TABLE: {
+      std::string new_table_name = stmt->getNewTableName();
+      
+      // 重命名物理表
+      if (!context.db_manager->RenameTable(table_name, new_table_name)) {
+        return {false, "Failed to rename physical table"};
+      }
+      
+      // 更新表元数据
+      if (!system_db->RenameTableRecord("public", table_name, new_table_name)) {
+        return {false, "Failed to update table metadata: " + system_db->GetLastError()};
+      }
+      
+      context.records_affected = 1;
+      return {true, "Table '" + table_name + "' renamed to '" + new_table_name + "' successfully"};
+    }
+    
+    default:
+      return {false, "Unsupported ALTER action"};
+  }
 }
 
 ExecutionResult
@@ -606,6 +702,7 @@ ExecutionResult
 DMLExecutionStrategy::execute(std::unique_ptr<sql_parser::Statement> stmt,
                               ExecutionContext &context) {
 
+  // 根据具体的语句类型执行
   if (auto insert_stmt =
           dynamic_cast<sql_parser::InsertStatement *>(stmt.get())) {
     if (insert_stmt) {
@@ -631,8 +728,8 @@ DMLExecutionStrategy::execute(std::unique_ptr<sql_parser::Statement> stmt,
   return {false, "Unsupported DML statement type"};
 }
 
-bool DMLExecutionStrategy::checkPermission(const sql_parser::Statement *stmt,
-                                           const ExecutionContext &context) {
+bool DMLExecutionStrategy::checkPermission(const sql_parser::Statement &stmt,
+                                          const ExecutionContext &context) {
 
   if (!context.user_manager) {
     return true; // 默认允许
@@ -642,25 +739,25 @@ bool DMLExecutionStrategy::checkPermission(const sql_parser::Statement *stmt,
   std::string table_name;
 
   if (auto insert_stmt =
-          dynamic_cast<const sql_parser::InsertStatement *>(stmt)) {
+          dynamic_cast<const sql_parser::InsertStatement *>(&stmt)) {
     if (insert_stmt) {
       operation = UserManager::PRIVILEGE_INSERT;
       table_name = insert_stmt->getTableName();
     }
   } else if (auto update_stmt =
-                 dynamic_cast<const sql_parser::UpdateStatement *>(stmt)) {
+                 dynamic_cast<const sql_parser::UpdateStatement *>(&stmt)) {
     if (update_stmt) {
       operation = UserManager::PRIVILEGE_UPDATE;
       table_name = update_stmt->getTableName();
     }
   } else if (auto delete_stmt =
-                 dynamic_cast<const sql_parser::DeleteStatement *>(stmt)) {
+                 dynamic_cast<const sql_parser::DeleteStatement *>(&stmt)) {
     if (delete_stmt) {
       operation = UserManager::PRIVILEGE_DELETE;
       table_name = delete_stmt->getTableName();
     }
   } else if (auto select_stmt =
-                 dynamic_cast<const sql_parser::SelectStatement *>(stmt)) {
+                 dynamic_cast<const sql_parser::SelectStatement *>(&stmt)) {
     if (select_stmt) {
       operation = UserManager::PRIVILEGE_SELECT;
       table_name = select_stmt->getTableName();
@@ -676,8 +773,8 @@ bool DMLExecutionStrategy::checkPermission(const sql_parser::Statement *stmt,
       context.current_user, context.current_database, table_name, operation);
 }
 
-bool DMLExecutionStrategy::validate(const sql_parser::Statement *stmt,
-                                    const ExecutionContext &context) {
+bool DMLExecutionStrategy::validate(const sql_parser::Statement &stmt,
+                                   const ExecutionContext &context) {
   // 检查数据库上下文
   if (!validateDatabaseContext(context)) {
     return false;
@@ -686,22 +783,22 @@ bool DMLExecutionStrategy::validate(const sql_parser::Statement *stmt,
   // 检查表是否存在
   std::string table_name;
   if (auto insert_stmt =
-          dynamic_cast<const sql_parser::InsertStatement *>(stmt)) {
+          dynamic_cast<const sql_parser::InsertStatement *>(&stmt)) {
     if (insert_stmt) {
       table_name = insert_stmt->getTableName();
     }
   } else if (auto update_stmt =
-                 dynamic_cast<const sql_parser::UpdateStatement *>(stmt)) {
+                 dynamic_cast<const sql_parser::UpdateStatement *>(&stmt)) {
     if (update_stmt) {
       table_name = update_stmt->getTableName();
     }
   } else if (auto delete_stmt =
-                 dynamic_cast<const sql_parser::DeleteStatement *>(stmt)) {
+                 dynamic_cast<const sql_parser::DeleteStatement *>(&stmt)) {
     if (delete_stmt) {
       table_name = delete_stmt->getTableName();
     }
   } else if (auto select_stmt =
-                 dynamic_cast<const sql_parser::SelectStatement *>(stmt)) {
+                 dynamic_cast<const sql_parser::SelectStatement *>(&stmt)) {
     if (select_stmt) {
       table_name = select_stmt->getTableName();
     }
@@ -715,8 +812,8 @@ bool DMLExecutionStrategy::validate(const sql_parser::Statement *stmt,
 }
 
 ExecutionResult
-DMLExecutionStrategy::executeInsert(sql_parser::InsertStatement *stmt,
-                                    ExecutionContext &context) {
+DMLExecutionStrategy::executeInsert(const sql_parser::InsertStatement &stmt,
+                                     ExecutionContext &context) {
 
   auto storage_engine = context.db_manager->GetStorageEngine();
   if (!storage_engine) {
@@ -724,10 +821,10 @@ DMLExecutionStrategy::executeInsert(sql_parser::InsertStatement *stmt,
   }
 
   TableStorageManager table_storage(storage_engine);
-  const auto &values = stmt->getValues();
+  const auto &values = stmt.getValues();
   int rows_inserted = 0;
 
-  auto metadata = table_storage.GetTableMetadata(stmt->getTableName());
+  auto metadata = table_storage.GetTableMetadata(stmt.getTableName());
   if (!metadata) {
     return {false, "Failed to get table metadata"};
   }
@@ -793,21 +890,21 @@ DMLExecutionStrategy::executeInsert(sql_parser::InsertStatement *stmt,
     }
 
     // 约束验证
-    if (!validateColumnConstraints(record, metadata, stmt->getTableName()) ||
-        !checkPrimaryKeyConstraints(record, metadata, stmt->getTableName()) ||
-        !checkUniqueKeyConstraints(record, metadata, stmt->getTableName())) {
+    if (!validateColumnConstraints(record, metadata, stmt.getTableName()) ||
+        !checkPrimaryKeyConstraints(record, metadata, stmt.getTableName()) ||
+        !checkUniqueKeyConstraints(record, metadata, stmt.getTableName())) {
       return {false, "Constraint validation failed"};
     }
 
     int32_t page_id;
     size_t offset;
-    if (!table_storage.InsertRecord(stmt->getTableName(), record, page_id,
+    if (!table_storage.InsertRecord(stmt.getTableName(), record, page_id,
                                     offset)) {
       return {false, "Failed to insert record"};
     }
 
     // 索引维护
-    maintainIndexesOnInsert(record, stmt->getTableName(), page_id, offset,
+    maintainIndexesOnInsert(record, stmt.getTableName(), page_id, offset,
                             context);
     rows_inserted++;
   }
@@ -818,186 +915,175 @@ DMLExecutionStrategy::executeInsert(sql_parser::InsertStatement *stmt,
 }
 
 ExecutionResult
-DMLExecutionStrategy::executeUpdate(sql_parser::UpdateStatement *stmt,
-                                    ExecutionContext &context) {
-
+DMLExecutionStrategy::executeUpdate(
+    const sql_parser::UpdateStatement& stmt, ExecutionContext& context) {
+  // 获取表名
+  std::string table_name = stmt.getTableName();
+  
+  // 验证表是否存在
+  if (!validateTableExists(table_name, context)) {
+    return {false, "Table '" + table_name + "' does not exist"};
+  }
+  
+  // 获取表元数据
+  auto table_metadata = context.db_manager->GetTableMetadata(table_name);
+  if (!table_metadata) {
+    return {false, "Failed to get table metadata for '" + table_name + "'"};
+  }
+  
+  // 获取存储引擎
   auto storage_engine = context.db_manager->GetStorageEngine();
   if (!storage_engine) {
     return {false, "Storage engine not available"};
   }
-
-  TableStorageManager table_storage(storage_engine);
-  auto metadata = table_storage.GetTableMetadata(stmt->getTableName());
-  if (!metadata) {
-    return {false, "Failed to get table metadata"};
+  
+  // 检查权限
+  if (!checkPermission(stmt, context)) {
+    return {false, "Permission denied"};
   }
-
-  // 索引优化查询
-  std::vector<std::pair<int32_t, size_t>> locations;
-  if (stmt->hasWhereClause()) {
-    locations = optimizeQueryWithIndex(
-        stmt->getTableName(), stmt->getWhereClause(), storage_engine,
-        context.used_index, context.execution_plan);
-  } else {
-    locations = table_storage.ScanTable(stmt->getTableName());
-    context.execution_plan = "全表扫描";
+  
+  // 验证更新语句
+  if (!validate(stmt, context)) {
+    return {false, "Invalid update statement"};
   }
-
-  const auto &update_values = stmt->getUpdateValues();
-  int rows_updated = 0;
-
-  for (const auto &location : locations) {
-    std::vector<std::string> record = table_storage.GetRecord(
-        stmt->getTableName(), location.first, location.second);
-    if (record.empty())
-      continue;
-
-    // WHERE条件检查
-    if (!stmt->hasWhereClause() ||
-        matchesWhereClause(record, stmt->getWhereClause(), metadata)) {
-      std::vector<std::string> new_record = record;
-
-      // 应用更新
-      for (const auto &update_pair : update_values) {
-        const std::string &column_name = update_pair.first;
-        const std::string &new_value = update_pair.second;
-
-        auto col_it = metadata->column_index_map.find(column_name);
-        if (col_it != metadata->column_index_map.end()) {
-          int col_index = col_it->second;
-          if (col_index >= 0 &&
-              col_index < static_cast<int>(new_record.size())) {
-            new_record[col_index] = new_value;
-          }
-        }
-      }
-
-      // 约束验证
-      if (!validateColumnConstraints(new_record, metadata,
-                                     stmt->getTableName()) ||
-          !checkPrimaryKeyConstraints(new_record, metadata,
-                                      stmt->getTableName()) ||
-          !checkUniqueKeyConstraints(new_record, metadata,
-                                     stmt->getTableName())) {
-        return {false, "Constraint validation failed for update"};
-      }
-
-      // 索引维护
-      maintainIndexesOnUpdate(record, new_record, stmt->getTableName(),
-                              location.first, location.second, context);
-
-      // 更新记录
-      if (table_storage.UpdateRecord(stmt->getTableName(), location.first,
-                                     location.second, new_record)) {
-        rows_updated++;
-      }
+  
+  // 执行更新操作
+  try {
+    // 获取更新条件
+    const auto& where_clause = stmt.getWhereClause();
+    
+    // 获取更新列和值
+    const auto& updates = stmt.getUpdates();
+    
+    // 构建更新数据
+    std::vector<std::pair<std::string, std::string>> update_data;
+    for (const auto& update : updates) {
+      update_data.emplace_back(update.first, update.second.toString());
     }
+    
+    // 执行更新
+    if (!storage_engine->UpdateRows(table_name, update_data, where_clause)) {
+      return {false, "Failed to update rows in table '" + table_name + "'"};
+    }
+    
+    // 获取受影响的行数
+    context.records_affected = storage_engine->GetAffectedRows();
+    
+    return {true, "Successfully updated " + std::to_string(context.records_affected) + " rows in table '" + table_name + "'"};
+  } catch (const std::exception& e) {
+    return {false, "Error updating table '" + table_name + "': " + e.what()};
   }
-
-  context.records_affected = rows_updated;
-  return {true, "UPDATE executed successfully, " +
-                    std::to_string(rows_updated) + " row(s) updated"};
 }
 
 ExecutionResult
-DMLExecutionStrategy::executeDelete(sql_parser::DeleteStatement *stmt,
-                                    ExecutionContext &context) {
-
+DMLExecutionStrategy::executeDelete(
+    const sql_parser::DeleteStatement& stmt, ExecutionContext& context) {
+  // 获取表名
+  std::string table_name = stmt.getTableName();
+  
+  // 验证表是否存在
+  if (!validateTableExists(table_name, context)) {
+    return {false, "Table '" + table_name + "' does not exist"};
+  }
+  
+  // 获取表元数据
+  auto table_metadata = context.db_manager->GetTableMetadata(table_name);
+  if (!table_metadata) {
+    return {false, "Failed to get table metadata for '" + table_name + "'"};
+  }
+  
+  // 获取存储引擎
   auto storage_engine = context.db_manager->GetStorageEngine();
   if (!storage_engine) {
     return {false, "Storage engine not available"};
   }
-
-  TableStorageManager table_storage(storage_engine);
-  auto metadata = table_storage.GetTableMetadata(stmt->getTableName());
-  if (!metadata) {
-    return {false, "Failed to get table metadata"};
+  
+  // 检查权限
+  if (!checkPermission(stmt, context)) {
+    return {false, "Permission denied"};
   }
-
-  // 索引优化查询
-  std::vector<std::pair<int32_t, size_t>> locations;
-  if (stmt->hasWhereClause()) {
-    locations = optimizeQueryWithIndex(
-        stmt->getTableName(), stmt->getWhereClause(), storage_engine,
-        context.used_index, context.execution_plan);
-  } else {
-    locations = table_storage.ScanTable(stmt->getTableName());
-    context.execution_plan = "全表扫描";
+  
+  // 验证删除语句
+  if (!validate(stmt, context)) {
+    return {false, "Invalid delete statement"};
   }
-
-  int rows_deleted = 0;
-
-  for (const auto &location : locations) {
-    std::vector<std::string> record = table_storage.GetRecord(
-        stmt->getTableName(), location.first, location.second);
-    if (record.empty())
-      continue;
-
-    // WHERE条件检查
-    if (!stmt->hasWhereClause() ||
-        matchesWhereClause(record, stmt->getWhereClause(), metadata)) {
-      // 索引维护
-      maintainIndexesOnDelete(record, stmt->getTableName(), location.first,
-                              location.second, context);
-
-      // 删除记录
-      if (table_storage.DeleteRecord(stmt->getTableName(), location.first,
-                                     location.second)) {
-        rows_deleted++;
-      }
+  
+  // 执行删除操作
+  try {
+    // 获取删除条件
+    const auto& where_clause = stmt.getWhereClause();
+    
+    // 执行删除
+    if (!storage_engine->DeleteRows(table_name, where_clause)) {
+      return {false, "Failed to delete rows from table '" + table_name + "'"};
     }
+    
+    // 获取受影响的行数
+    context.records_affected = storage_engine->GetAffectedRows();
+    
+    return {true, "Successfully deleted " + std::to_string(context.records_affected) + " rows from table '" + table_name + "'"};
+  } catch (const std::exception& e) {
+    return {false, "Error deleting from table '" + table_name + "': " + e.what()};
   }
-
-  context.records_affected = rows_deleted;
-  return {true, "DELETE executed successfully, " +
-                    std::to_string(rows_deleted) + " row(s) deleted"};
 }
 
 ExecutionResult
-DMLExecutionStrategy::executeSelect(sql_parser::SelectStatement *stmt,
-                                    ExecutionContext &context) {
-
+DMLExecutionStrategy::executeSelect(
+    const sql_parser::SelectStatement& stmt, ExecutionContext& context) {
+  // 获取表名
+  std::string table_name = stmt.getTableName();
+  
+  // 验证表是否存在
+  if (!validateTableExists(table_name, context)) {
+    return {false, "Table '" + table_name + "' does not exist"};
+  }
+  
+  // 获取表元数据
+  auto table_metadata = context.db_manager->GetTableMetadata(table_name);
+  if (!table_metadata) {
+    return {false, "Failed to get table metadata for '" + table_name + "'"};
+  }
+  
+  // 获取存储引擎
   auto storage_engine = context.db_manager->GetStorageEngine();
   if (!storage_engine) {
     return {false, "Storage engine not available"};
   }
-
-  TableStorageManager table_storage(storage_engine);
-  auto metadata = table_storage.GetTableMetadata(stmt->getTableName());
-  if (!metadata) {
-    return {false, "Failed to get table metadata"};
+  
+  // 检查权限
+  if (!checkPermission(stmt, context)) {
+    return {false, "Permission denied"};
   }
-
-  // 索引优化查询
-  std::vector<std::pair<int32_t, size_t>> locations;
-  if (stmt->hasWhereClause()) {
-    locations = optimizeQueryWithIndex(
-        stmt->getTableName(), stmt->getWhereClause(), storage_engine,
-        context.used_index, context.execution_plan);
-  } else {
-    locations = table_storage.ScanTable(stmt->getTableName());
-    context.execution_plan = "全表扫描";
+  
+  // 验证查询语句
+  if (!validate(stmt, context)) {
+    return {false, "Invalid select statement"};
   }
-
-  int rows_selected = 0;
-
-  // 处理SELECT结果
-  for (const auto &location : locations) {
-    std::vector<std::string> record = table_storage.GetRecord(
-        stmt->getTableName(), location.first, location.second);
-    if (record.empty())
-      continue;
-
-    // WHERE条件检查
-    if (!stmt->hasWhereClause() ||
-        matchesWhereClause(record, stmt->getWhereClause(), metadata)) {
-      rows_selected++;
+  
+  // 执行查询操作
+  try {
+    // 获取查询条件
+    const auto& where_clause = stmt.getWhereClause();
+    
+    // 获取查询列
+    const auto& columns = stmt.getColumns();
+    
+    // 执行查询
+    auto result_set = storage_engine->SelectRows(table_name, columns, where_clause);
+    if (!result_set) {
+      return {false, "Failed to query table '" + table_name + "'"};
     }
+    
+    // 获取受影响的行数
+    context.records_affected = result_set->GetRowCount();
+    
+    // 设置查询结果
+    context.query_result = result_set;
+    
+    return {true, "Successfully queried " + std::to_string(context.records_affected) + " rows from table '" + table_name + "'"};
+  } catch (const std::exception& e) {
+    return {false, "Error querying table '" + table_name + "': " + e.what()};
   }
-
-  context.records_affected = rows_selected;
-  return {true, "SELECT executed successfully, " +
-                    std::to_string(rows_selected) + " row(s) selected"};
 }
 
 // 索引优化查询实现
@@ -1070,79 +1156,169 @@ DCLExecutionStrategy::execute(std::unique_ptr<sql_parser::Statement> stmt,
   return {false, "Unsupported DCL statement type"};
 }
 
-bool DCLExecutionStrategy::checkPermission(const sql_parser::Statement *stmt,
-                                           const ExecutionContext &context) {
+bool DCLExecutionStrategy::checkPermission(const sql_parser::Statement &stmt,
+                                          const ExecutionContext &context) {
   // DCL语句使用基类的默认权限检查（管理员权限）
   return ExecutionStrategy::defaultPermissionCheck(context);
 }
 
-bool DCLExecutionStrategy::validate(const sql_parser::Statement *stmt,
-                                    const ExecutionContext &context) {
+bool DCLExecutionStrategy::validate(const sql_parser::Statement &stmt,
+                                   const ExecutionContext &context) {
   // DCL语句不需要验证数据库上下文，直接返回true
   return true;
 }
 
 ExecutionResult
-DCLExecutionStrategy::executeCreateUser(sql_parser::CreateUserStatement *stmt,
-                                        ExecutionContext &context) {
-
+DCLExecutionStrategy::executeCreateUser(
+    const sql_parser::CreateUserStatement& stmt, ExecutionContext& context) {
+  // 获取用户名和密码
+  std::string username = stmt.getUsername();
+  std::string password = stmt.getPassword();
+  
+  // 验证用户管理器是否可用
   if (!context.user_manager) {
     return {false, "User manager not available"};
   }
-
-  std::string username = stmt->getUsername();
-  std::string password = stmt->getPassword();
-
-  if (context.user_manager->CreateUser(username, password)) {
-    context.records_affected = 1;
-    return {true, "User '" + username + "' created successfully"};
-  } else {
-    return {false, "Failed to create user '" + username + "'"};
+  
+  // 检查权限
+  if (!checkPermission(stmt, context)) {
+    return {false, "Permission denied"};
+  }
+  
+  // 验证创建用户语句
+  if (!validate(stmt, context)) {
+    return {false, "Invalid create user statement"};
+  }
+  
+  // 执行创建用户操作
+  try {
+    if (context.user_manager->CreateUser(username, password)) {
+      context.records_affected = 1;
+      return {true, "User '" + username + "' created successfully"};
+    } else {
+      return {false, "Failed to create user '" + username + "'"};
+    }
+  } catch (const std::exception& e) {
+    return {false, "Error creating user '" + username + "': " + e.what()};
   }
 }
 
 ExecutionResult
-DCLExecutionStrategy::executeDropUser(sql_parser::DropUserStatement *stmt,
-                                      ExecutionContext &context) {
-
+DCLExecutionStrategy::executeDropUser(
+    const sql_parser::DropUserStatement& stmt, ExecutionContext& context) {
+  // 获取用户名
+  std::string username = stmt.getUsername();
+  
+  // 验证用户管理器是否可用
   if (!context.user_manager) {
     return {false, "User manager not available"};
   }
-
-  std::string username = stmt->getUsername();
-
-  if (context.user_manager->DropUser(username)) {
-    context.records_affected = 1;
-    return {true, "User '" + username + "' dropped successfully"};
-  } else {
-    return {false, "Failed to drop user '" + username + "'"};
+  
+  // 检查权限
+  if (!checkPermission(stmt, context)) {
+    return {false, "Permission denied"};
+  }
+  
+  // 验证删除用户语句
+  if (!validate(stmt, context)) {
+    return {false, "Invalid drop user statement"};
+  }
+  
+  // 执行删除用户操作
+  try {
+    if (context.user_manager->DropUser(username)) {
+      context.records_affected = 1;
+      return {true, "User '" + username + "' dropped successfully"};
+    } else {
+      return {false, "Failed to drop user '" + username + "'"};
+    }
+  } catch (const std::exception& e) {
+    return {false, "Error dropping user '" + username + "': " + e.what()};
   }
 }
 
 ExecutionResult
-DCLExecutionStrategy::executeGrant(sql_parser::GrantStatement *stmt,
-                                   ExecutionContext &context) {
-
+DCLExecutionStrategy::executeGrant(
+    const sql_parser::GrantStatement& stmt, ExecutionContext& context) {
+  // 获取用户名和权限
+  std::string username = stmt.getGrantee();
+  std::vector<std::string> privileges = stmt.getPrivileges();
+  std::string object = stmt.getObjectName();
+  
+  // 处理权限列表，如果为空则使用ALL PRIVILEGES
+  std::string permission = "ALL PRIVILEGES";
+  if (!privileges.empty()) {
+    permission = privileges[0];  // 暂时只处理第一个权限
+  }
+  
+  // 验证用户管理器是否可用
   if (!context.user_manager) {
     return {false, "User manager not available"};
   }
-
-  // GRANT的简化实现
-  context.records_affected = 1;
-  return {true, "Privileges granted successfully"};
+  
+  // 检查权限
+  if (!checkPermission(stmt, context)) {
+    return {false, "Permission denied"};
+  }
+  
+  // 验证授权语句
+  if (!validate(stmt, context)) {
+    return {false, "Invalid grant statement"};
+  }
+  
+  // 执行授权操作
+  try {
+    if (context.user_manager->GrantPrivilege(username, "*", object, permission)) {
+      context.records_affected = 1;
+      return {true, "Permission '" + permission + "' granted to user '" + username + "' on '*.'" + object + "'"};
+    } else {
+      return {false, "Failed to grant permission '" + permission + "' to user '" + username + "' on '*.'" + object + "'"};
+    }
+  } catch (const std::exception& e) {
+    return {false, "Error granting permission: " + e.what()};
+  }
 }
 
 ExecutionResult
-DCLExecutionStrategy::executeRevoke(sql_parser::RevokeStatement *stmt,
-                                    ExecutionContext &context) {
-
+DCLExecutionStrategy::executeRevoke(
+    const sql_parser::RevokeStatement& stmt, ExecutionContext& context) {
+  // 获取用户名和权限
+  std::string username = stmt.getGrantee();
+  std::vector<std::string> privileges = stmt.getPrivileges();
+  std::string object = stmt.getObjectName();
+  
+  // 处理权限列表，如果为空则使用ALL PRIVILEGES
+  std::string permission = "ALL PRIVILEGES";
+  if (!privileges.empty()) {
+    permission = privileges[0];  // 暂时只处理第一个权限
+  }
+  
+  // 验证用户管理器是否可用
   if (!context.user_manager) {
     return {false, "User manager not available"};
   }
-
-  // REVOKE的简化实现
-  context.records_affected = 1;
-  return {true, "Privileges revoked successfully"};
+  
+  // 检查权限
+  if (!checkPermission(stmt, context)) {
+    return {false, "Permission denied"};
+  }
+  
+  // 验证撤销权限语句
+  if (!validate(stmt, context)) {
+    return {false, "Invalid revoke statement"};
+  }
+  
+  // 执行撤销权限操作
+  try {
+    if (context.user_manager->RevokePrivilege(username, "*", object, permission)) {
+      context.records_affected = 1;
+      return {true, "Permission '" + permission + "' revoked from user '" + username + "' on '*.'" + object + "'"};
+    } else {
+      return {false, "Failed to revoke permission '" + permission + "' from user '" + username + "' on '*.'" + object + "'"};
+    }
+  } catch (const std::exception& e) {
+    return {false, "Error revoking permission: " + e.what()};
+  }
 }
 
 // ==================== UtilityExecutionStrategy ====================
@@ -1162,14 +1338,14 @@ UtilityExecutionStrategy::execute(std::unique_ptr<sql_parser::Statement> stmt,
 }
 
 bool UtilityExecutionStrategy::checkPermission(
-    const sql_parser::Statement *stmt, const ExecutionContext &context) {
+    const sql_parser::Statement &stmt, const ExecutionContext &context) {
 
   // 工具语句通常不需要特殊权限
   return true;
 }
 
-bool UtilityExecutionStrategy::validate(const sql_parser::Statement *stmt,
-                                        const ExecutionContext &context) {
+bool UtilityExecutionStrategy::validate(const sql_parser::Statement &stmt,
+                                      const ExecutionContext &context) {
 
   return true; // 工具语句的验证相对简单
 }
@@ -1189,22 +1365,70 @@ UtilityExecutionStrategy::executeUse(sql_parser::UseStatement *stmt,
 }
 
 ExecutionResult
-UtilityExecutionStrategy::executeShow(sql_parser::ShowStatement *stmt,
-                                      ExecutionContext &context) {
-
-  switch (stmt->getShowType()) {
-  case sql_parser::ShowStatement::DATABASES: {
-    auto databases = context.db_manager->ListDatabases();
-    return {true, formatDatabases(databases)};
+UtilityExecutionStrategy::executeShow(
+    const sql_parser::ShowStatement& stmt, ExecutionContext& context) {
+  // 获取SHOW的对象类型
+  std::string object_type = stmt.getObjectType();
+  std::string object_name = stmt.getObjectName();
+  
+  // 验证数据库管理器是否可用
+  if (!context.db_manager) {
+    return {false, "Database manager not available"};
   }
-
-  case sql_parser::ShowStatement::TABLES: {
-    auto tables = context.db_manager->ListTables();
-    return {true, formatTables(tables)};
+  
+  // 检查权限
+  if (!checkPermission(stmt, context)) {
+    return {false, "Permission denied"};
   }
-
-  default:
-    return {false, "Unsupported SHOW command"};
+  
+  // 验证SHOW语句
+  if (!validate(stmt, context)) {
+    return {false, "Invalid show statement"};
+  }
+  
+  // 执行SHOW操作
+  try {
+    if (object_type == "DATABASES") {
+      // 显示所有数据库
+      auto databases = context.db_manager->ListDatabases();
+      std::string result = "Databases:\n";
+      for (const auto& db : databases) {
+        result += "- " + db + "\n";
+      }
+      return {true, result};
+    } else if (object_type == "TABLES") {
+      // 显示当前数据库中的所有表
+      if (context.current_database.empty()) {
+        return {false, "No database selected"};
+      }
+      
+      auto tables = context.db_manager->ListTables(context.current_database);
+      std::string result = "Tables in database '" + context.current_database + "':\n";
+      for (const auto& table : tables) {
+        result += "- " + table + "\n";
+      }
+      return {true, result};
+    } else if (object_type == "INDEXES") {
+      // 显示表的索引
+      if (context.current_database.empty()) {
+        return {false, "No database selected"};
+      }
+      
+      if (object_name.empty()) {
+        return {false, "Table name not specified"};
+      }
+      
+      auto indexes = context.db_manager->ListIndexes(context.current_database, object_name);
+      std::string result = "Indexes for table '" + object_name + "':\n";
+      for (const auto& index : indexes) {
+        result += "- " + index + "\n";
+      }
+      return {true, result};
+    } else {
+      return {false, "Unsupported SHOW object type: " + object_type};
+    }
+  } catch (const std::exception& e) {
+    return {false, "Error executing SHOW: " + e.what()};
   }
 }
 
@@ -1360,8 +1584,8 @@ UnifiedExecutor::execute(std::unique_ptr<sql_parser::Statement> stmt,
   }
 
   // 策略特定的权限检查和验证
-  if (!strategy->checkPermission(stmt.get(), last_context_) ||
-      !strategy->validate(stmt.get(), last_context_)) {
+  if (!strategy->checkPermission(*stmt, last_context_) ||
+      !strategy->validate(*stmt, last_context_)) {
     return {false, "Statement validation failed"};
   }
 
@@ -1466,8 +1690,59 @@ bool UnifiedExecutor::checkGlobalPermission(const sql_parser::Statement *stmt,
   return true;
 }
 
-bool UnifiedExecutor::validateGlobalContext(const sql_parser::Statement *stmt,
-                                            ExecutionContext &context) {
+bool UnifiedExecutor::checkGlobalPermission(const sql_parser::Statement& stmt,
+                                            ExecutionContext& context) {
+  // 全局权限检查逻辑
+  // 1. 检查系统级权限
+  if (!context.user_manager) {
+    return true; // 没有用户管理器时，默认允许所有操作
+  }
+
+  // 2. 检查管理员权限
+  if (context.current_user == "admin") {
+    return true; // 管理员拥有所有权限
+  }
+
+  // 3. 特殊语句类型的权限检查
+  switch (stmt.getType()) {
+  case sql_parser::Statement::CREATE: {
+    auto create_stmt = dynamic_cast<const sql_parser::CreateStatement*>(&stmt);
+    if (create_stmt &&
+        (create_stmt->getObjectType() ==
+             sql_parser::CreateStatement::DATABASE ||
+         create_stmt->getObjectType() == sql_parser::CreateStatement::INDEX)) {
+      // 创建数据库和索引需要管理员权限
+      return false;
+    }
+    break;
+  }
+  case sql_parser::Statement::DROP: {
+    auto drop_stmt = dynamic_cast<const sql_parser::DropStatement*>(&stmt);
+    if (drop_stmt &&
+        (drop_stmt->getObjectType() == sql_parser::DropStatement::DATABASE ||
+         drop_stmt->getObjectType() == sql_parser::DropStatement::INDEX)) {
+      // 删除数据库和索引需要管理员权限
+      return false;
+    }
+    break;
+  }
+  case sql_parser::Statement::CREATE_USER:
+  case sql_parser::Statement::DROP_USER:
+  case sql_parser::Statement::GRANT:
+  case sql_parser::Statement::REVOKE:
+    // 这些语句需要管理员权限
+    return false;
+  default:
+    // 其他语句由策略级权限检查处理
+    return true;
+  }
+
+  // 默认允许
+  return true;
+}
+
+bool UnifiedExecutor::validateGlobalContext(const sql_parser::Statement& stmt,
+                                            ExecutionContext& context) {
   // 全局上下文验证
 
   // 1. 检查数据库管理器是否可用
@@ -1476,9 +1751,9 @@ bool UnifiedExecutor::validateGlobalContext(const sql_parser::Statement *stmt,
   }
 
   // 2. 根据语句类型进行不同的上下文验证
-  switch (stmt->getType()) {
+  switch (stmt.getType()) {
   case sql_parser::Statement::CREATE: {
-    auto create_stmt = dynamic_cast<const sql_parser::CreateStatement *>(stmt);
+    auto create_stmt = dynamic_cast<const sql_parser::CreateStatement*>(&stmt);
     if (create_stmt &&
         create_stmt->getObjectType() != sql_parser::CreateStatement::DATABASE) {
       // 除了创建数据库外，其他CREATE语句需要有效的数据库上下文
@@ -1490,7 +1765,7 @@ bool UnifiedExecutor::validateGlobalContext(const sql_parser::Statement *stmt,
   }
   case sql_parser::Statement::ALTER:
   case sql_parser::Statement::DROP: {
-    auto drop_stmt = dynamic_cast<const sql_parser::DropStatement *>(stmt);
+    auto drop_stmt = dynamic_cast<const sql_parser::DropStatement*>(&stmt);
     if (!drop_stmt ||
         drop_stmt->getObjectType() != sql_parser::DropStatement::DATABASE) {
       // 除了删除数据库外，其他DROP语句需要有效的数据库上下文

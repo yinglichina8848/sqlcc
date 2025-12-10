@@ -18,6 +18,7 @@ public:
         IDENTIFIER, STRING, NUMBER,
         
         // 关键字
+        KEYWORD_ADD, KEYWORD_MODIFY, KEYWORD_RENAME, KEYWORD_COLUMN, KEYWORD_CHANGE,
         KEYWORD_AND, KEYWORD_BREAK, KEYWORD_CLASS, KEYWORD_CONTINUE, KEYWORD_DEF, 
         KEYWORD_DEL, KEYWORD_DO, KEYWORD_ELSE, KEYWORD_FALSE, KEYWORD_FOR, 
         KEYWORD_FROM, KEYWORD_IF, KEYWORD_IN, KEYWORD_IS, KEYWORD_NULL, 
@@ -46,6 +47,14 @@ public:
     
     Token(Type type, const std::string& lexeme, int line, int column);
     ~Token() = default;
+
+    // 显式声明拷贝构造函数和拷贝赋值操作符
+    Token(const Token& other);
+    Token& operator=(const Token& other);
+    
+    // 显式声明移动构造函数和移动赋值操作符
+    Token(Token&& other) noexcept;
+    Token& operator=(Token&& other) noexcept;
 
     Type getType() const;
     const std::string& getLexeme() const;

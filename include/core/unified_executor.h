@@ -33,11 +33,11 @@ public:
 
   /**
    * 检查执行权限
-   * @param stmt 要执行的语句
+   * @param stmt 要执行的语句引用（智能指针所有权保持在调用方）
    * @param context 执行上下文
    * @return 是否有权限执行
    */
-  virtual bool checkPermission(const sql_parser::Statement *stmt,
+  virtual bool checkPermission(const sql_parser::Statement& stmt,
                                const ExecutionContext &context) {
     // 默认实现
     return true;
@@ -45,11 +45,11 @@ public:
 
   /**
    * 验证语句和上下文
-   * @param stmt 要执行的语句
+   * @param stmt 要执行的语句引用（智能指针所有权保持在调用方）
    * @param context 执行上下文
    * @return 验证结果
    */
-  virtual bool validate(const sql_parser::Statement *stmt,
+  virtual bool validate(const sql_parser::Statement& stmt,
                         const ExecutionContext &context) {
     // 默认实现
     return true;
@@ -126,36 +126,36 @@ protected:
                                size_t offset, ExecutionContext &context);
 
   // 权限检查辅助方法
-  bool checkCreatePermission(const sql_parser::CreateStatement *stmt,
-                             const ExecutionContext &context);
-  bool checkSelectPermission(const sql_parser::SelectStatement *stmt,
-                             const ExecutionContext &context);
-  bool checkInsertPermission(const sql_parser::InsertStatement *stmt,
-                             const ExecutionContext &context);
-  bool checkUpdatePermission(const sql_parser::UpdateStatement *stmt,
-                             const ExecutionContext &context);
-  bool checkDeletePermission(const sql_parser::DeleteStatement *stmt,
-                             const ExecutionContext &context);
-  bool checkDropPermission(const sql_parser::DropStatement *stmt,
-                           const ExecutionContext &context);
-  bool checkAlterPermission(const sql_parser::AlterStatement *stmt,
-                            const ExecutionContext &context);
-  bool checkUsePermission(const sql_parser::UseStatement *stmt,
-                          const ExecutionContext &context);
-  bool checkCreateIndexPermission(const sql_parser::CreateIndexStatement *stmt,
-                                  const ExecutionContext &context);
-  bool checkDropIndexPermission(const sql_parser::DropIndexStatement *stmt,
-                                const ExecutionContext &context);
-  bool checkCreateUserPermission(const sql_parser::CreateUserStatement *stmt,
-                                 const ExecutionContext &context);
-  bool checkDropUserPermission(const sql_parser::DropUserStatement *stmt,
-                               const ExecutionContext &context);
-  bool checkGrantPermission(const sql_parser::GrantStatement *stmt,
-                            const ExecutionContext &context);
-  bool checkRevokePermission(const sql_parser::RevokeStatement *stmt,
-                             const ExecutionContext &context);
-  bool checkShowPermission(const sql_parser::ShowStatement *stmt,
-                           const ExecutionContext &context);
+  bool checkCreatePermission(const sql_parser::CreateStatement& stmt,
+                             const ExecutionContext& context);
+  bool checkSelectPermission(const sql_parser::SelectStatement& stmt,
+                             const ExecutionContext& context);
+  bool checkInsertPermission(const sql_parser::InsertStatement& stmt,
+                             const ExecutionContext& context);
+  bool checkUpdatePermission(const sql_parser::UpdateStatement& stmt,
+                             const ExecutionContext& context);
+  bool checkDeletePermission(const sql_parser::DeleteStatement& stmt,
+                             const ExecutionContext& context);
+  bool checkDropPermission(const sql_parser::DropStatement& stmt,
+                           const ExecutionContext& context);
+  bool checkAlterPermission(const sql_parser::AlterStatement& stmt,
+                            const ExecutionContext& context);
+  bool checkUsePermission(const sql_parser::UseStatement& stmt,
+                          const ExecutionContext& context);
+  bool checkCreateIndexPermission(const sql_parser::CreateIndexStatement& stmt,
+                                  const ExecutionContext& context);
+  bool checkDropIndexPermission(const sql_parser::DropIndexStatement& stmt,
+                                const ExecutionContext& context);
+  bool checkCreateUserPermission(const sql_parser::CreateUserStatement& stmt,
+                                 const ExecutionContext& context);
+  bool checkDropUserPermission(const sql_parser::DropUserStatement& stmt,
+                               const ExecutionContext& context);
+  bool checkGrantPermission(const sql_parser::GrantStatement& stmt,
+                            const ExecutionContext& context);
+  bool checkRevokePermission(const sql_parser::RevokeStatement& stmt,
+                             const ExecutionContext& context);
+  bool checkShowPermission(const sql_parser::ShowStatement& stmt,
+                           const ExecutionContext& context);
 };
 
 /**
@@ -166,26 +166,26 @@ public:
   ExecutionResult execute(std::unique_ptr<sql_parser::Statement> stmt,
                           ExecutionContext &context) override;
 
-  bool checkPermission(const sql_parser::Statement *stmt,
+  bool checkPermission(const sql_parser::Statement& stmt,
                        const ExecutionContext &context) override;
 
-  bool validate(const sql_parser::Statement *stmt,
+  bool validate(const sql_parser::Statement& stmt,
                 const ExecutionContext &context) override;
 
 private:
-  ExecutionResult executeCreate(sql_parser::CreateStatement *stmt,
+  ExecutionResult executeCreate(const sql_parser::CreateStatement& stmt,
                                 ExecutionContext &context);
 
-  ExecutionResult executeDrop(sql_parser::DropStatement *stmt,
+  ExecutionResult executeDrop(const sql_parser::DropStatement& stmt,
                               ExecutionContext &context);
 
-  ExecutionResult executeAlter(sql_parser::AlterStatement *stmt,
+  ExecutionResult executeAlter(const sql_parser::AlterStatement& stmt,
                                ExecutionContext &context);
 
-  ExecutionResult executeCreateIndex(sql_parser::CreateIndexStatement *stmt,
+  ExecutionResult executeCreateIndex(const sql_parser::CreateIndexStatement& stmt,
                                      ExecutionContext &context);
 
-  ExecutionResult executeDropIndex(sql_parser::DropIndexStatement *stmt,
+  ExecutionResult executeDropIndex(const sql_parser::DropIndexStatement& stmt,
                                    ExecutionContext &context);
 };
 
@@ -197,10 +197,10 @@ public:
   ExecutionResult execute(std::unique_ptr<sql_parser::Statement> stmt,
                           ExecutionContext &context) override;
 
-  bool checkPermission(const sql_parser::Statement *stmt,
+  bool checkPermission(const sql_parser::Statement& stmt,
                        const ExecutionContext &context) override;
 
-  bool validate(const sql_parser::Statement *stmt,
+  bool validate(const sql_parser::Statement& stmt,
                 const ExecutionContext &context) override;
 
   // 索引优化查询方法
@@ -211,16 +211,16 @@ public:
                          bool &used_index, std::string &index_info);
 
 private:
-  ExecutionResult executeInsert(sql_parser::InsertStatement *stmt,
+  ExecutionResult executeInsert(const sql_parser::InsertStatement& stmt,
                                 ExecutionContext &context);
 
-  ExecutionResult executeUpdate(sql_parser::UpdateStatement *stmt,
+  ExecutionResult executeUpdate(const sql_parser::UpdateStatement& stmt,
                                 ExecutionContext &context);
 
-  ExecutionResult executeDelete(sql_parser::DeleteStatement *stmt,
+  ExecutionResult executeDelete(const sql_parser::DeleteStatement& stmt,
                                 ExecutionContext &context);
 
-  ExecutionResult executeSelect(sql_parser::SelectStatement *stmt,
+  ExecutionResult executeSelect(const sql_parser::SelectStatement& stmt,
                                 ExecutionContext &context);
 };
 
@@ -232,23 +232,23 @@ public:
   ExecutionResult execute(std::unique_ptr<sql_parser::Statement> stmt,
                           ExecutionContext &context) override;
 
-  bool checkPermission(const sql_parser::Statement *stmt,
+  bool checkPermission(const sql_parser::Statement& stmt,
                        const ExecutionContext &context) override;
 
-  bool validate(const sql_parser::Statement *stmt,
+  bool validate(const sql_parser::Statement& stmt,
                 const ExecutionContext &context) override;
 
 private:
-  ExecutionResult executeCreateUser(sql_parser::CreateUserStatement *stmt,
+  ExecutionResult executeCreateUser(const sql_parser::CreateUserStatement& stmt,
                                     ExecutionContext &context);
 
-  ExecutionResult executeDropUser(sql_parser::DropUserStatement *stmt,
+  ExecutionResult executeDropUser(const sql_parser::DropUserStatement& stmt,
                                   ExecutionContext &context);
 
-  ExecutionResult executeGrant(sql_parser::GrantStatement *stmt,
+  ExecutionResult executeGrant(const sql_parser::GrantStatement& stmt,
                                ExecutionContext &context);
 
-  ExecutionResult executeRevoke(sql_parser::RevokeStatement *stmt,
+  ExecutionResult executeRevoke(const sql_parser::RevokeStatement& stmt,
                                 ExecutionContext &context);
 };
 
@@ -260,17 +260,17 @@ public:
   ExecutionResult execute(std::unique_ptr<sql_parser::Statement> stmt,
                           ExecutionContext &context) override;
 
-  bool checkPermission(const sql_parser::Statement *stmt,
+  bool checkPermission(const sql_parser::Statement& stmt,
                        const ExecutionContext &context) override;
 
-  bool validate(const sql_parser::Statement *stmt,
+  bool validate(const sql_parser::Statement& stmt,
                 const ExecutionContext &context) override;
 
 private:
-  ExecutionResult executeUse(sql_parser::UseStatement *stmt,
+  ExecutionResult executeUse(const sql_parser::UseStatement& stmt,
                              ExecutionContext &context);
 
-  ExecutionResult executeShow(sql_parser::ShowStatement *stmt,
+  ExecutionResult executeShow(const sql_parser::ShowStatement& stmt,
                               ExecutionContext &context);
 
   std::string formatDatabases(const std::vector<std::string> &databases);
@@ -456,12 +456,12 @@ private:
   ExecutionStrategy *getStrategy(sql_parser::Statement::Type type);
 
   // 权限检查统一入口
-  bool checkGlobalPermission(const sql_parser::Statement *stmt,
-                             ExecutionContext &context);
+  bool checkGlobalPermission(const sql_parser::Statement& stmt,
+                             ExecutionContext& context);
 
   // 上下文验证统一入口
-  bool validateGlobalContext(const sql_parser::Statement *stmt,
-                             ExecutionContext &context);
+  bool validateGlobalContext(const sql_parser::Statement& stmt,
+                             ExecutionContext& context);
 };
 
 /**

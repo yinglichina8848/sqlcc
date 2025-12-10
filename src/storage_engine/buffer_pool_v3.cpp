@@ -17,9 +17,9 @@ BufferPool::BufferPool(std::shared_ptr<DiskManager> disk_manager,
   replace_strategy_ = ReplaceStrategyFactory::CreateStrategy(
       strategy_type, config_manager_, pool_size_);
 
-  // 初始化并发控制组件
-  lock_manager_ = new HierarchicalLockManager(config_manager_);
-  prefetcher_ = new Prefetcher(config_manager_, *disk_manager_);
+  // 初始化并发控制组件 - 使用智能指针确保自动内存管理
+  lock_manager_ = std::make_unique<HierarchicalLockManager>(config_manager_);
+  prefetcher_ = std::make_unique<Prefetcher>(config_manager_, *disk_manager_);
 
   // 初始化统计信息
   stats_ = BufferPoolStats{};
@@ -46,14 +46,13 @@ BufferPool::~BufferPool() {
   // 刷新所有脏页
   FlushAllPages();
 
-  // 清理页面表
+  // 清理页面表 - 智能指针会自动释放内存
   {
     std::unique_lock<std::shared_mutex> lock(page_table_mutex_);
     page_table_.clear();
   }
 
-  delete lock_manager_;
-  delete prefetcher_;
+  // 智能指针自动释放lock_manager_和prefetcher_
 }
 
 std::shared_ptr<BufferPage> BufferPool::FetchPage(int32_t page_id,

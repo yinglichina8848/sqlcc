@@ -1,4 +1,4 @@
-#include "sql_parser/ast_nodes.h"
+#include "../../include/sql_parser/ast_nodes.h"
 #include <algorithm>
 #include <cctype>
 #include <iostream>
@@ -333,19 +333,45 @@ DropStatement::ObjectType DropStatement::getObjectType() const {
 const std::string &DropStatement::getObjectName() const { return objectName_; }
 bool DropStatement::isIfExists() const { return ifExists_; }
 
-AlterStatement::AlterStatement(ObjectType objectType,
-                               const std::string &objectName)
-    : Statement(ALTER), objectType_(objectType), objectName_(objectName) {}
+// ==================== AlterStatement ====================
+
+AlterStatement::AlterStatement(Target target)
+    : Statement(ALTER), target_(target), action_(ADD_COLUMN), 
+      columnDef_("temp", "temp") {}  // 提供默认的ColumnDefinition构造参数
 
 AlterStatement::~AlterStatement() {}
 
-AlterStatement::AlterStatement(ObjectType objectType)
-    : Statement(ALTER), objectType_(objectType), objectName_("") {}
+// Getters
+AlterStatement::Target AlterStatement::getTarget() const { return target_; }
 
-AlterStatement::ObjectType AlterStatement::getObjectType() const {
-  return objectType_;
-}
-const std::string &AlterStatement::getObjectName() const { return objectName_; }
+AlterStatement::Action AlterStatement::getAction() const { return action_; }
+
+const std::string& AlterStatement::getDatabaseName() const { return databaseName_; }
+
+const std::string& AlterStatement::getTableName() const { return tableName_; }
+
+const std::string& AlterStatement::getColumnName() const { return columnName_; }
+
+const ColumnDefinition& AlterStatement::getColumnDefinition() const { return columnDef_; }
+
+const std::string& AlterStatement::getIndexName() const { return indexName_; }
+
+const std::string& AlterStatement::getNewTableName() const { return newTableName_; }
+
+// Setters
+void AlterStatement::setDatabaseName(const std::string& name) { databaseName_ = name; }
+
+void AlterStatement::setTableName(const std::string& name) { tableName_ = name; }
+
+void AlterStatement::setAction(Action action) { action_ = action; }
+
+void AlterStatement::setColumnName(const std::string& name) { columnName_ = name; }
+
+void AlterStatement::setColumnDefinition(ColumnDefinition&& columnDef) { columnDef_ = std::move(columnDef); }
+
+void AlterStatement::setIndexName(const std::string& name) { indexName_ = name; }
+
+void AlterStatement::setNewTableName(const std::string& newName) { newTableName_ = newName; }
 
 UseStatement::UseStatement(const std::string &databaseName)
     : Statement(USE), databaseName_(databaseName) {}

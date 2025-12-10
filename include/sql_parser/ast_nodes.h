@@ -323,24 +323,51 @@ private:
 
 class AlterStatement : public Statement {
 public:
-  enum ObjectType { DATABASE, TABLE };
+  enum Target { DATABASE, TABLE };
+  
+  enum Action {
+    ADD_COLUMN,
+    DROP_COLUMN,
+    MODIFY_COLUMN,
+    RENAME_TABLE,
+    ADD_INDEX,
+    DROP_INDEX
+  };
 
-  AlterStatement(ObjectType objectType, const std::string &objectName);
-  AlterStatement(ObjectType objectType); // 兼容旧用法：后续通过setter设置名称
+  AlterStatement(Target target);
   ~AlterStatement();
 
-  ObjectType getObjectType() const;
-  const std::string &getObjectName() const;
-  // 兼容旧测试API的setter
-  void setObjectName(const std::string &name) { objectName_ = name; }
-  void setDatabaseName(const std::string &name) { objectName_ = name; }
-  void setTableName(const std::string &name) { objectName_ = name; }
-
+  Type getType() const { return ALTER; }
   void accept(NodeVisitor &visitor) override { visitor.visit(*this); }
 
+  // Getters
+  Target getTarget() const;
+  Action getAction() const;
+  const std::string& getDatabaseName() const;
+  const std::string& getTableName() const;
+  const std::string& getColumnName() const;
+  const ColumnDefinition& getColumnDefinition() const;
+  const std::string& getIndexName() const;
+  const std::string& getNewTableName() const;
+
+  // Setters
+  void setDatabaseName(const std::string& name);
+  void setTableName(const std::string& name);
+  void setAction(Action action);
+  void setColumnName(const std::string& name);
+  void setColumnDefinition(ColumnDefinition&& columnDef);
+  void setIndexName(const std::string& name);
+  void setNewTableName(const std::string& newName);
+
 private:
-  ObjectType objectType_;
-  std::string objectName_;
+  Target target_;
+  Action action_;
+  std::string databaseName_;
+  std::string tableName_;
+  std::string columnName_;
+  ColumnDefinition columnDef_;
+  std::string indexName_;
+  std::string newTableName_;
 };
 
 // ==================== UseStatement ====================

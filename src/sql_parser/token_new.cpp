@@ -1,4 +1,4 @@
-#include "sql_parser/token_new.h"
+#include "../../include/sql_parser/token_new.h"
 #include <unordered_map>
 
 namespace sqlcc {
@@ -10,6 +10,46 @@ Token::Token() : type_(UNKNOWN), lexeme_(""), line_(0), column_(0) {}
 // Parameterized constructor with int parameters (for compatibility)
 Token::Token(Type type, const std::string &lexeme, int line, int column)
     : type_(type), lexeme_(lexeme), line_(line), column_(column) {}
+
+// Copy constructor
+Token::Token(const Token& other)
+    : type_(other.type_), lexeme_(other.lexeme_), line_(other.line_), column_(other.column_) {}
+
+// Assignment operator
+Token& Token::operator=(const Token& other) {
+    if (this != &other) {
+        type_ = other.type_;
+        lexeme_ = other.lexeme_;
+        line_ = other.line_;
+        column_ = other.column_;
+    }
+    return *this;
+}
+
+// Move constructor
+Token::Token(Token&& other) noexcept
+    : type_(other.type_), lexeme_(std::move(other.lexeme_)), line_(other.line_), column_(other.column_) {
+    // Reset the moved-from object to a valid state
+    other.type_ = UNKNOWN;
+    other.line_ = 0;
+    other.column_ = 0;
+}
+
+// Move assignment operator
+Token& Token::operator=(Token&& other) noexcept {
+    if (this != &other) {
+        type_ = other.type_;
+        lexeme_ = std::move(other.lexeme_);
+        line_ = other.line_;
+        column_ = other.column_;
+        
+        // Reset the moved-from object to a valid state
+        other.type_ = UNKNOWN;
+        other.line_ = 0;
+        other.column_ = 0;
+    }
+    return *this;
+}
 
 // Getters
 Token::Type Token::getType() const { return type_; }
@@ -78,6 +118,11 @@ std::string Token::getTypeName(Type type) {
       {KEYWORD_TRIGGER, "KEYWORD_TRIGGER"},
       {KEYWORD_PROCEDURE, "KEYWORD_PROCEDURE"},
       {KEYWORD_FUNCTION, "KEYWORD_FUNCTION"},
+      {KEYWORD_ADD, "KEYWORD_ADD"},
+      {KEYWORD_COLUMN, "KEYWORD_COLUMN"},
+      {KEYWORD_MODIFY, "KEYWORD_MODIFY"},
+      {KEYWORD_RENAME, "KEYWORD_RENAME"},
+      {KEYWORD_CONSTRAINT, "KEYWORD_CONSTRAINT"},
 
       {KEYWORD_SELECT, "KEYWORD_SELECT"},
       {KEYWORD_INSERT, "KEYWORD_INSERT"},

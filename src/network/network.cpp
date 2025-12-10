@@ -106,7 +106,7 @@ bool SessionManager::CheckPermission(int session_id, const std::string& database
 
 // ClientConnection实现
 ClientConnection::ClientConnection(const std::string& host, int port)
-    : host_(host), port_(port), connected_(false), socket_fd_(-1) {}
+    : host_(host), port_(port), connected_(false) {}
 
 ClientConnection::~ClientConnection() {
     Disconnect();
@@ -130,8 +130,8 @@ bool ClientConnection::ConfigureTLSClient(const std::string& ca_cert_path) {
 bool ClientConnection::Connect() {
 #ifdef __linux__
     // 创建socket
-    socket_fd_ = socket(AF_INET, SOCK_STREAM, 0);
-    if (socket_fd_ < 0) {
+    socket_fd_ = sqlcc::utils::FileDescriptor::create_socket(AF_INET, SOCK_STREAM, 0);
+    if (!socket_fd_.is_valid()) {
         return false;
     }
 
@@ -145,17 +145,15 @@ bool ClientConnection::Connect() {
     if (inet_pton(AF_INET, host_.c_str(), &server_addr.sin_addr) <= 0) {
         struct hostent* he = gethostbyname(host_.c_str());
         if (he == nullptr) {
-            close(socket_fd_);
-            socket_fd_ = -1;
+            socket_fd_.reset();
             return false;
         }
         std::memcpy(&server_addr.sin_addr, he->h_addr_list[0], he->h_length);
     }
 
     // 连接到服务器
-    if (connect(socket_fd_, (struct sockaddr*)&server_addr, sizeof(server_addr)) < 0) {
-        close(socket_fd_);
-        socket_fd_ = -1;
+    if (connect(socket_fd_.get(), (struct sockaddr*)&server_addr, sizeof(server_addr)) < 0) {
+        socket_fd_.reset();
         return false;
     }
 
@@ -166,21 +164,21 @@ bool ClientConnection::Connect() {
         SSL_library_init();
         SSL_load_error_strings();
         const SSL_METHOD* method = TLS_client_method();
-        ssl_ctx_ = SSL_CTX_new(method);
-        if (!ssl_ctx_) {
+        ssl_ctx_ = sqlcc::utils::SSLContext::create(method);
+        if (!ssl_ctx_.is_valid()) {
             Disconnect();
             return false;
         }
         if (!ca_cert_path_.empty()) {
-            if (SSL_CTX_load_verify_locations(ssl_ctx_, ca_cert_path_.c_str(), nullptr) != 1) {
+            if (SSL_CTX_load_verify_locations(ssl_ctx_.get(), ca_cert_path_.c_str(), nullptr) != 1) {
                 Disconnect();
                 return false;
             }
-            SSL_CTX_set_verify(ssl_ctx_, SSL_VERIFY_PEER, nullptr);
+            SSL_CTX_set_verify(ssl_ctx_.get(), SSL_VERIFY_PEER, nullptr);
         }
-        ssl_ = SSL_new(ssl_ctx_);
-        SSL_set_fd(ssl_, socket_fd_);
-        if (SSL_connect(ssl_) <= 0) {
+        ssl_ = sqlcc::utils::SSLSocket::create(ssl_ctx_.get());
+        SSL_set_fd(ssl_.get(), socket_fd_.get());
+        if (SSL_connect(ssl_.get()) <= 0) {
             Disconnect();
             return false;
         }
@@ -191,18 +189,15 @@ bool ClientConnection::Connect() {
 
 void ClientConnection::Disconnect() {
 #ifdef __linux__
-    if (connected_ && socket_fd_ >= 0) {
-        if (tls_enabled_ && ssl_) {
-            SSL_shutdown(ssl_);
-            SSL_free(ssl_);
-            ssl_ = nullptr;
+    if (connected_ && socket_fd_.is_valid()) {
+        if (tls_enabled_ && ssl_.is_valid()) {
+            ssl_.shutdown();
+            ssl_.reset();
         }
-        if (tls_enabled_ && ssl_ctx_) {
-            SSL_CTX_free(ssl_ctx_);
-            ssl_ctx_ = nullptr;
+        if (tls_enabled_ && ssl_ctx_.is_valid()) {
+            ssl_ctx_.reset();
         }
-        close(socket_fd_);
-        socket_fd_ = -1;
+        socket_fd_.reset();
         connected_ = false;
     }
 #endif
@@ -214,13 +209,13 @@ bool ClientConnection::IsConnected() const {
 
 bool ClientConnection::SendData(const std::vector<char>& data) {
 #ifdef __linux__
-    if (!connected_ || socket_fd_ < 0) {
+    if (!connected_ || !socket_fd_.is_valid()) {
         return false;
     }
-    if (tls_enabled_ && ssl_) {
+    if (tls_enabled_ && ssl_.is_valid()) {
         size_t total_sent = 0;
         while (total_sent < data.size()) {
-            int sent = SSL_write(ssl_, data.data() + total_sent, static_cast<int>(data.size() - total_sent));
+            int sent = SSL_write(ssl_.get(), data.data() + total_sent, static_cast<int>(data.size() - total_sent));
             if (sent <= 0) {
                 return false;
             }
@@ -230,7 +225,7 @@ bool ClientConnection::SendData(const std::vector<char>& data) {
     }
     size_t total_sent = 0;
     while (total_sent < data.size()) {
-        ssize_t sent = send(socket_fd_, data.data() + total_sent, data.size() - total_sent, 0);
+        ssize_t sent = send(socket_fd_.get(), data.data() + total_sent, data.size() - total_sent, 0);
         if (sent < 0) {
             if (errno == EAGAIN || errno == EWOULDBLOCK) {
                 std::this_thread::sleep_for(std::chrono::milliseconds(1));
@@ -247,20 +242,20 @@ bool ClientConnection::SendData(const std::vector<char>& data) {
 std::vector<char> ClientConnection::ReceiveData() {
 #ifdef __linux__
     std::vector<char> buffer(4096);
-    if (tls_enabled_ && ssl_) {
+    if (tls_enabled_ && ssl_.is_valid()) {
         // 设置超时，避免无限阻塞
         struct timeval tv;
         tv.tv_sec = 5;
         tv.tv_usec = 0;
-        setsockopt(socket_fd_, SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(tv));
-        int bytes = SSL_read(ssl_, buffer.data(), static_cast<int>(buffer.size()));
+        setsockopt(socket_fd_.get(), SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(tv));
+        int bytes = SSL_read(ssl_.get(), buffer.data(), static_cast<int>(buffer.size()));
         if (bytes <= 0) {
             return std::vector<char>();
         }
         buffer.resize(bytes);
         return buffer;
     }
-    ssize_t received = recv(socket_fd_, buffer.data(), buffer.size(), 0);
+    ssize_t received = recv(socket_fd_.get(), buffer.data(), buffer.size(), 0);
     
     if (received < 0) {
         if (errno == EAGAIN || errno == EWOULDBLOCK) {
@@ -497,33 +492,39 @@ std::vector<char> ClientNetworkManager::DecryptMessage(const std::vector<char>& 
 
 
 // ConnectionHandler实现
-ConnectionHandler::ConnectionHandler(int fd, std::shared_ptr<SessionManager> session_manager, std::shared_ptr<sqlcc::SqlExecutor> sql_executor)
-    : fd_(fd), session_manager_(std::move(session_manager)), sql_executor_(std::move(sql_executor)), 
+ConnectionHandler::ConnectionHandler(sqlcc::utils::FileDescriptor&& fd, std::shared_ptr<SessionManager> session_manager, std::shared_ptr<sqlcc::SqlExecutor> sql_executor)
+    : fd_(std::move(fd)), session_manager_(std::move(session_manager)), sql_executor_(std::move(sql_executor)),
       session_(nullptr), closed_(false)
 #ifdef __linux__
-      , ssl_(nullptr), tls_enabled_(false)
+      , tls_enabled_(false)
 #endif
 {
 #ifdef __linux__
     // 设置为非阻塞模式
-    int flags = fcntl(fd_, F_GETFL, 0);
-    fcntl(fd_, F_SETFL, flags | O_NONBLOCK);
+    int flags = fcntl(fd_.get(), F_GETFL, 0);
+    fcntl(fd_.get(), F_SETFL, flags | O_NONBLOCK);
 #endif
 }
 
-ConnectionHandler::~ConnectionHandler() {
-#ifdef __linux__
-    if (ssl_) { SSL_free(ssl_); ssl_ = nullptr; }
-#endif
-}
+ConnectionHandler::~ConnectionHandler() = default;
 
 void ConnectionHandler::SetTLS(struct ssl_st* ssl, bool enabled) {
-    ssl_ = ssl;
-    tls_enabled_ = enabled;
+#ifdef __linux__
+    if (enabled && ssl) {
+        ssl_.reset(ssl);
+        tls_enabled_ = enabled;
+    } else {
+        ssl_.reset();
+        tls_enabled_ = false;
+    }
+#else
+    (void)ssl;
+    (void)enabled;
+#endif
 }
 
 int ConnectionHandler::GetFd() const {
-    return fd_;
+    return fd_.get();
 }
 
 bool ConnectionHandler::IsClosed() const {
@@ -549,10 +550,10 @@ void ConnectionHandler::HandleRead() {
     // 读取数据并处理
     std::vector<char> buffer(4096);
     ssize_t bytes_read = 0;
-    if (tls_enabled_ && ssl_) {
-        bytes_read = SSL_read(ssl_, buffer.data(), static_cast<int>(buffer.size()));
+    if (tls_enabled_ && ssl_.is_valid()) {
+        bytes_read = SSL_read(ssl_.get(), buffer.data(), static_cast<int>(buffer.size()));
     } else {
-        bytes_read = recv(fd_, buffer.data(), buffer.size(), 0);
+        bytes_read = recv(fd_.get(), buffer.data(), buffer.size(), 0);
     }
     
     if (bytes_read > 0) {
@@ -577,10 +578,10 @@ void ConnectionHandler::HandleWrite() {
     while (!write_queue_.empty()) {
         const std::vector<char>& data = write_queue_.front();
         ssize_t bytes_sent = 0;
-        if (tls_enabled_ && ssl_) {
-            bytes_sent = SSL_write(ssl_, data.data(), static_cast<int>(data.size()));
+        if (tls_enabled_ && ssl_.is_valid()) {
+            bytes_sent = SSL_write(ssl_.get(), data.data(), static_cast<int>(data.size()));
         } else {
-            bytes_sent = send(fd_, data.data(), data.size(), 0);
+            bytes_sent = send(fd_.get(), data.data(), data.size(), 0);
         }
         
         if (bytes_sent > 0) {
@@ -640,7 +641,7 @@ void ConnectionHandler::Close() {
     if (!closed_) {
         closed_ = true;
 #ifdef __linux__
-        close(fd_);
+        fd_.reset();
 #endif
     }
 }
@@ -924,7 +925,7 @@ MessageProcessor::MessageProcessor(std::shared_ptr<SessionManager> session_manag
 
 // ServerNetworkManager实现
 ServerNetworkManager::ServerNetworkManager(int port, int max_connections)
-    : port_(port), max_connections_(max_connections), listen_fd_(-1), epoll_fd_(-1), running_(false),
+    : port_(port), max_connections_(max_connections), running_(false),
       session_manager_(std::make_shared<SessionManager>()) {}
 
 ServerNetworkManager::~ServerNetworkManager() {
@@ -934,14 +935,14 @@ ServerNetworkManager::~ServerNetworkManager() {
 bool ServerNetworkManager::Start() {
 #ifdef __linux__
     // 创建监听socket
-    listen_fd_ = socket(AF_INET, SOCK_STREAM | SOCK_NONBLOCK, 0);
-    if (listen_fd_ < 0) {
+    listen_fd_ = sqlcc::utils::FileDescriptor::create_socket(AF_INET, SOCK_STREAM | SOCK_NONBLOCK, 0);
+    if (!listen_fd_.valid()) {
         return false;
     }
 
     // 设置socket选项
     int opt = 1;
-    setsockopt(listen_fd_, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));
+    setsockopt(listen_fd_.get(), SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));
 
     // 绑定地址
     struct sockaddr_in addr;
@@ -950,24 +951,21 @@ bool ServerNetworkManager::Start() {
     addr.sin_addr.s_addr = INADDR_ANY;
     addr.sin_port = htons(port_);
 
-    if (bind(listen_fd_, (struct sockaddr*)&addr, sizeof(addr)) < 0) {
-        close(listen_fd_);
-        listen_fd_ = -1;
+    if (bind(listen_fd_.get(), (struct sockaddr*)&addr, sizeof(addr)) < 0) {
+        listen_fd_.reset();
         return false;
     }
 
     // 开始监听
-    if (listen(listen_fd_, SOMAXCONN) < 0) {
-        close(listen_fd_);
-        listen_fd_ = -1;
+    if (listen(listen_fd_.get(), SOMAXCONN) < 0) {
+        listen_fd_.reset();
         return false;
     }
 
     // 创建epoll实例
-    epoll_fd_ = epoll_create1(0);
-    if (epoll_fd_ < 0) {
-        close(listen_fd_);
-        listen_fd_ = -1;
+    epoll_fd_ = sqlcc::utils::FileDescriptor::create_epoll(0);
+    if (!epoll_fd_.valid()) {
+        listen_fd_.reset();
         return false;
     }
 
@@ -975,11 +973,9 @@ bool ServerNetworkManager::Start() {
     struct epoll_event ev;
     ev.events = EPOLLIN;
     ev.data.ptr = nullptr;
-    if (epoll_ctl(epoll_fd_, EPOLL_CTL_ADD, listen_fd_, &ev) < 0) {
-        close(epoll_fd_);
-        close(listen_fd_);
-        epoll_fd_ = -1;
-        listen_fd_ = -1;
+    if (epoll_ctl(epoll_fd_.get(), EPOLL_CTL_ADD, listen_fd_.get(), &ev) < 0) {
+        epoll_fd_.reset();
+        listen_fd_.reset();
         return false;
     }
 
@@ -994,26 +990,19 @@ void ServerNetworkManager::Stop() {
     running_ = false;
     
 #ifdef __linux__
-    if (epoll_fd_ >= 0) {
-        close(epoll_fd_);
-        epoll_fd_ = -1;
-    }
-    
-    if (listen_fd_ >= 0) {
-        close(listen_fd_);
-        listen_fd_ = -1;
-    }
+    epoll_fd_.reset();
+    listen_fd_.reset();
 #endif
 }
 
 void ServerNetworkManager::ProcessEvents() {
 #ifdef __linux__
-    if (!running_ || epoll_fd_ < 0) {
+    if (!running_ || !epoll_fd_.is_valid()) {
         return;
     }
 
     struct epoll_event events[64];
-    int nfds = epoll_wait(epoll_fd_, events, 64, 0);
+    int nfds = epoll_wait(epoll_fd_.get(), events, 64, 0);
     
     for (int i = 0; i < nfds; i++) {
         if (events[i].data.ptr == nullptr) {
@@ -1026,9 +1015,10 @@ void ServerNetworkManager::ProcessEvents() {
             
             if (handler->IsClosed()) {
                 // 从epoll中移除并删除连接处理器
-                epoll_ctl(epoll_fd_, EPOLL_CTL_DEL, handler->GetFd(), nullptr);
-                connections_.erase(handler->GetFd());
-                delete handler;
+                int fd = handler->GetFd();
+                epoll_ctl(epoll_fd_.get(), EPOLL_CTL_DEL, fd, nullptr);
+                // 从智能指针容器中移除并自动释放资源
+                connections_.erase(fd);
             }
         }
     }
@@ -1054,14 +1044,14 @@ bool ServerNetworkManager::ConfigureTLSServer(const std::string& cert_path,
     SSL_library_init();
     SSL_load_error_strings();
     const SSL_METHOD* method = TLS_server_method();
-    ssl_ctx_ = SSL_CTX_new(method);
-    if (!ssl_ctx_) return false;
-    if (SSL_CTX_use_certificate_file(ssl_ctx_, cert_path.c_str(), SSL_FILETYPE_PEM) != 1) return false;
-    if (SSL_CTX_use_PrivateKey_file(ssl_ctx_, key_path.c_str(), SSL_FILETYPE_PEM) != 1) return false;
+    ssl_ctx_ = sqlcc::utils::SSLContext::create(method);
+    if (!ssl_ctx_.is_valid()) return false;
+    if (SSL_CTX_use_certificate_file(ssl_ctx_.get(), cert_path.c_str(), SSL_FILETYPE_PEM) != 1) return false;
+    if (SSL_CTX_use_PrivateKey_file(ssl_ctx_.get(), key_path.c_str(), SSL_FILETYPE_PEM) != 1) return false;
     // 服务端不强制校验客户端证书，避免握手失败
     if (!ca_cert_path.empty()) {
         // 可选地加载CA以支持链验证，但不设置SSL_VERIFY_PEER
-        SSL_CTX_load_verify_locations(ssl_ctx_, ca_cert_path.c_str(), nullptr);
+        SSL_CTX_load_verify_locations(ssl_ctx_.get(), ca_cert_path.c_str(), nullptr);
     }
     return true;
 #else
@@ -1074,50 +1064,45 @@ void ServerNetworkManager::AcceptConnection() {
     struct sockaddr_in client_addr;
     socklen_t client_len = sizeof(client_addr);
     
-    int client_fd = accept4(listen_fd_, (struct sockaddr*)&client_addr, &client_len, SOCK_NONBLOCK);
-    if (client_fd < 0) {
+    // 使用FileDescriptor的accept静态方法创建RAII文件描述符
+    auto client_fd = sqlcc::utils::FileDescriptor::accept(listen_fd_.get(), 
+                                                         (struct sockaddr*)&client_addr, 
+                                                         &client_len, SOCK_NONBLOCK);
+    if (!client_fd.is_valid()) {
         return;
     }
 
     // 创建连接处理器，传入SQL执行器
-    ConnectionHandler* handler = new ConnectionHandler(client_fd, session_manager_, sql_executor_);
+    auto handler = std::make_unique<ConnectionHandler>(std::move(client_fd), session_manager_, sql_executor_);
+    int fd = handler->GetFd(); // 获取文件描述符值用于epoll
 
     // 若启用TLS，在该连接上进行握手
-    if (tls_enabled_ && ssl_ctx_) {
-        SSL* ssl = SSL_new(ssl_ctx_);
-        SSL_set_fd(ssl, client_fd);
-        int flags = fcntl(client_fd, F_GETFL, 0);
-        fcntl(client_fd, F_SETFL, flags & ~O_NONBLOCK);
-        int ret = SSL_accept(ssl);
-        fcntl(client_fd, F_SETFL, flags | O_NONBLOCK);
-        if (ret <= 0) {
-            SSL_free(ssl);
-            delete handler;
-            close(client_fd);
+    if (tls_enabled_ && ssl_ctx_.is_valid()) {
+        auto ssl = sqlcc::utils::SSLSocket::create(ssl_ctx_.get());
+        if (!ssl.is_valid()) {
             return;
         }
-        handler->SetTLS(ssl, true);
+        SSL_set_fd(ssl.get(), fd);
+        int flags = fcntl(fd, F_GETFL, 0);
+        fcntl(fd, F_SETFL, flags & ~O_NONBLOCK);
+        int ret = SSL_accept(ssl.get());
+        fcntl(fd, F_SETFL, flags | O_NONBLOCK);
+        if (ret <= 0) {
+            return;
+        }
+        handler->SetTLS(ssl.release(), true);
     }
     
     // 添加到epoll（水平触发以简化处理）
     struct epoll_event ev;
     ev.events = EPOLLIN; // 水平触发
-    ev.data.ptr = handler;
-    if (epoll_ctl(epoll_fd_, EPOLL_CTL_ADD, client_fd, &ev) < 0) {
-        if (tls_enabled_ && handler) {
-#ifdef __linux__
-            if (handler) {
-                // 释放SSL
-            }
-#endif
-        }
-        delete handler;
-        close(client_fd);
+    ev.data.ptr = handler.get();
+    if (epoll_ctl(epoll_fd_.get(), EPOLL_CTL_ADD, fd, &ev) < 0) {
         return;
     }
 
-    // 添加到连接映射
-    connections_[client_fd] = handler;
+    // 添加到连接映射，使用智能指针管理ConnectionHandler对象
+    connections_[fd] = std::move(handler);
 #endif
 }
 

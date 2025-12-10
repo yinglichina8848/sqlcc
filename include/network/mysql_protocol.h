@@ -2,6 +2,7 @@
 #include <cstdint>
 #include <string>
 #include "utils/version.h"
+#include "utils/file_descriptor.h"
 
 /**
  * MySQL协议核心常量定义
@@ -36,7 +37,7 @@ struct HandshakeV10 {
  */
 class MySQLProtocolHandler {
 public:
-    explicit MySQLProtocolHandler(int client_fd);
+    explicit MySQLProtocolHandler(sqlcc::utils::FileDescriptor client_fd);
     
     // 发送握手包
     void send_handshake();
@@ -45,6 +46,6 @@ public:
     bool handle_client_response();
 
 private:
-    int client_fd_;
+    sqlcc::utils::FileDescriptor client_fd_;
     HandshakeV10 handshake_;
 };
