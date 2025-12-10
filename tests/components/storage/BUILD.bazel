@@ -43,6 +43,11 @@ cc_test(
     srcs = ["index_system_integration_test.cpp"],
     deps = [
         "//src/storage_engine:sqlcc_storage_engine",
+        "//src:execution_engine",
+        "//src/sql_executor:sqlcc_executor",
+        "//src/core:sqlcc_core_lib",
+        "//src:unified_executor",
+        "//src/sql_parser:sqlcc_parser",
         "@com_google_googletest//:gtest_main",
     ],
 )

@@ -1,0 +1,483 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - _coverage_report.dat - include/storage/buffer_pool.h</title>
+  <link rel="stylesheet" type="text/css" href="../../gcov.css">
+</head>
+
+<body>
+
+          <table width="100%" border=0 cellspacing=0 cellpadding=0>
+            <tr><td class="title">LCOV - code coverage report</td></tr>
+            <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+
+            <tr>
+              <td width="100%">
+                <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="10%" class="headerValue"><a href="../../index.html" title="Click to go to top-level">top level</a> - <a href="index.html" title="Click to go to directory include/storage">include/storage</a> - buffer_pool.h</td>
+            <td width="5%"></td>
+            <td width="5%"></td>
+            <td width="5%" class="headerCovTableHead">Coverage</td>
+            <td width="5%" class="headerCovTableHead" title="Covered + Uncovered code">Total</td>
+            <td width="5%" class="headerCovTableHead" title="Exercised code only">Hit</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">_coverage_report.dat</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntryLo">0.0&nbsp;%</td>
+            <td class="headerCovTableEntry">1</td>
+            <td class="headerCovTableEntry">0</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test Date:</td>
+            <td class="headerValue">2025-12-11 00:35:31</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntryHi">-</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">0</td>
+          </tr>
+                  <tr><td><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+                </table>
+              </td>
+            </tr>
+
+            <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+          </table>
+
+          <table cellpadding=0 cellspacing=0 border=0>
+            <tr>
+              <td><br></td>
+            </tr>
+            <tr>
+              <td>
+<pre class="sourceHeading">            Line data    Source code</pre>
+<pre class="source">
+<span id="L1"><span class="lineNum">       1</span>              : #pragma once</span>
+<span id="L2"><span class="lineNum">       2</span>              : </span>
+<span id="L3"><span class="lineNum">       3</span>              : #include &quot;page.h&quot;</span>
+<span id="L4"><span class="lineNum">       4</span>              : #include &quot;disk_manager.h&quot;</span>
+<span id="L5"><span class="lineNum">       5</span>              : #include &lt;unordered_map&gt;</span>
+<span id="L6"><span class="lineNum">       6</span>              : #include &lt;unordered_set&gt;</span>
+<span id="L7"><span class="lineNum">       7</span>              : #include &lt;algorithm&gt;</span>
+<span id="L8"><span class="lineNum">       8</span>              : #include &lt;deque&gt;</span>
+<span id="L9"><span class="lineNum">       9</span>              : #include &lt;list&gt;</span>
+<span id="L10"><span class="lineNum">      10</span>              : #include &lt;memory&gt;</span>
+<span id="L11"><span class="lineNum">      11</span>              : #include &lt;mutex&gt;</span>
+<span id="L12"><span class="lineNum">      12</span>              : #include &lt;string&gt;</span>
+<span id="L13"><span class="lineNum">      13</span>              : #include &lt;unordered_map&gt;</span>
+<span id="L14"><span class="lineNum">      14</span>              : #include &lt;vector&gt;</span>
+<span id="L15"><span class="lineNum">      15</span>              : #include &lt;chrono&gt;</span>
+<span id="L16"><span class="lineNum">      16</span>              : #include &lt;thread&gt;</span>
+<span id="L17"><span class="lineNum">      17</span>              : </span>
+<span id="L18"><span class="lineNum">      18</span>              : #include &quot;disk_manager.h&quot;</span>
+<span id="L19"><span class="lineNum">      19</span>              : #include &quot;page.h&quot;</span>
+<span id="L20"><span class="lineNum">      20</span>              : #include &quot;utils/config_manager.h&quot;</span>
+<span id="L21"><span class="lineNum">      21</span>              : #include &quot;exception.h&quot;</span>
+<span id="L22"><span class="lineNum">      22</span>              : </span>
+<span id="L23"><span class="lineNum">      23</span>              : /**</span>
+<span id="L24"><span class="lineNum">      24</span>              :  * =================================================================================================</span>
+<span id="L25"><span class="lineNum">      25</span>              :  * 商业数据库核心技术：缓冲池(Buffer Pool)设计思想深度剖析</span>
+<span id="L26"><span class="lineNum">      26</span>              :  * =================================================================================================</span>
+<span id="L27"><span class="lineNum">      27</span>              :  *</span>
+<span id="L28"><span class="lineNum">      28</span>              :  * WHY (为什么缓冲池是数据库的核心创新):</span>
+<span id="L29"><span class="lineNum">      29</span>              :  * --------------------------------------------------------------------------------------</span>
+<span id="L30"><span class="lineNum">      30</span>              :  *   商用数据库面临的核心挑战：</span>
+<span id="L31"><span class="lineNum">      31</span>              :  *   1. 内存-磁盘性能差距(DRAM vs HDD：10^6倍差距)</span>
+<span id="L32"><span class="lineNum">      32</span>              :  *   2. I/O密集型工作负载(OLTP/OLAP混合场景)</span>
+<span id="L33"><span class="lineNum">      33</span>              :  *   3. 高并发访问控制(成千上万并发连接)</span>
+<span id="L34"><span class="lineNum">      34</span>              :  *   4. 可预测性性能要求(高SLA承诺)</span>
+<span id="L35"><span class="lineNum">      35</span>              :  *</span>
+<span id="L36"><span class="lineNum">      36</span>              :  *   缓冲池的设计哲学：</span>
+<span id="L37"><span class="lineNum">      37</span>              :  *   - 内存即缓存：将随机磁盘访问转换为内存访问</span>
+<span id="L38"><span class="lineNum">      38</span>              :  *   - 智能预取：预测性加载减少等待时间</span>
+<span id="L39"><span class="lineNum">      39</span>              :  *   - 自适应策略：动态调整适应工作负载变化</span>
+<span id="L40"><span class="lineNum">      40</span>              :  *   - 故障容错：WAL+Checkpoint保证数据一致性</span>
+<span id="L41"><span class="lineNum">      41</span>              :  *</span>
+<span id="L42"><span class="lineNum">      42</span>              :  * WHAT (缓冲池如何重新定义数据库性能):</span>
+<span id="L43"><span class="lineNum">      43</span>              :  * --------------------------------------------------------------------------------------</span>
+<span id="L44"><span class="lineNum">      44</span>              :  *   核心机制：</span>
+<span id="L45"><span class="lineNum">      45</span>              :  *   1. 页面缓存：将磁盘页面映射到内存缓冲区</span>
+<span id="L46"><span class="lineNum">      46</span>              :  *   2. LRU替换：最近最少使用算法选择淘汰页面</span>
+<span id="L47"><span class="lineNum">      47</span>              :  *   3. 脏页管理：延迟写入+批量刷新优化I/O</span>
+<span id="L48"><span class="lineNum">      48</span>              :  *   4. 并发保护：细粒度锁+读写分离设计</span>
+<span id="L49"><span class="lineNum">      49</span>              :  *</span>
+<span id="L50"><span class="lineNum">      50</span>              :  *   商业价值实现：</span>
+<span id="L51"><span class="lineNum">      51</span>              :  *   - 查询加速：内存命中率&gt;99%的常态化要求</span>
+<span id="L52"><span class="lineNum">      52</span>              :  *   - 吞吐量提升：每秒数万TPS的并发处理能力</span>
+<span id="L53"><span class="lineNum">      53</span>              :  *   - 延迟控制：毫秒级响应确保用户体验</span>
+<span id="L54"><span class="lineNum">      54</span>              :  *   - 资源优化：有限内存发挥最大价值</span>
+<span id="L55"><span class="lineNum">      55</span>              :  *</span>
+<span id="L56"><span class="lineNum">      56</span>              :  * HOW (缓冲池在商业数据库中的科技创新):</span>
+<span id="L57"><span class="lineNum">      57</span>              :  * --------------------------------------------------------------------------------------</span>
+<span id="L58"><span class="lineNum">      58</span>              :  *   1. 多层缓冲架构：</span>
+<span id="L59"><span class="lineNum">      59</span>              :  *      - L1缓存：热点页面常驻内存</span>
+<span id="L60"><span class="lineNum">      60</span>              :  *      - L2扩展：SSD缓存补充DRAM</span>
+<span id="L61"><span class="lineNum">      61</span>              :  *      - 预取机制：智能预测未来访问</span>
+<span id="L62"><span class="lineNum">      62</span>              :  *      - 压缩存储：T储更多数据页面</span>
+<span id="L63"><span class="lineNum">      63</span>              :  *</span>
+<span id="L64"><span class="lineNum">      64</span>              :  *   2. 预取策略优化：</span>
+<span id="L65"><span class="lineNum">      65</span>              :  *      - 空间局部性：连续页面批量预取</span>
+<span id="L66"><span class="lineNum">      66</span>              :  *      - 时间局部性：热点页面优先缓存</span>
+<span id="L67"><span class="lineNum">      67</span>              :  *      - 用户行为预测：基于访问模式的预取</span>
+<span id="L68"><span class="lineNum">      68</span>              :  *      - 自适应调整：实时学习工作负载特征</span>
+<span id="L69"><span class="lineNum">      69</span>              :  *</span>
+<span id="L70"><span class="lineNum">      70</span>              :  *   3. 并发控制创新：</span>
+<span id="L71"><span class="lineNum">      71</span>              :  *      - 分页锁机制：页面粒度的读写锁</span>
+<span id="L72"><span class="lineNum">      72</span>              :  *      - 乐观并发：版本戳控制并发冲突</span>
+<span id="L73"><span class="lineNum">      73</span>              :  *      - 无锁预取：异步预取避免阻塞</span>
+<span id="L74"><span class="lineNum">      74</span>              :  *      - 锁升级策略：动态平衡粒度与性能</span>
+<span id="L75"><span class="lineNum">      75</span>              :  *</span>
+<span id="L76"><span class="lineNum">      76</span>              :  *   4. 资源管理策略：</span>
+<span id="L77"><span class="lineNum">      77</span>              :  *      - 动态调整：根据负载实时调整缓存大小</span>
+<span id="L78"><span class="lineNum">      78</span>              :  *      - 多租户隔离：不同应用间的资源分配</span>
+<span id="L79"><span class="lineNum">      79</span>              :  *      - QoS保证：确保高优先级查询的性能</span>
+<span id="L80"><span class="lineNum">      80</span>              :  *      - 故障恢复：快速故障转移保证可用性</span>
+<span id="L81"><span class="lineNum">      81</span>              :  *</span>
+<span id="L82"><span class="lineNum">      82</span>              :  * WHY 缓冲池是数据库性能的决定性因素：</span>
+<span id="L83"><span class="lineNum">      83</span>              :  * --------------------------------------------------------------------------------------</span>
+<span id="L84"><span class="lineNum">      84</span>              :  *   1. I/O性能决定论：</span>
+<span id="L85"><span class="lineNum">      85</span>              :  *      - 随便访问磁盘：5-10ms延迟随机I/O</span>
+<span id="L86"><span class="lineNum">      86</span>              :  *      - 缓存池命中：纳秒级内存访问</span>
+<span id="L87"><span class="lineNum">      87</span>              :  *      - 吞吐量差距：高达10^5倍的性能提升</span>
+<span id="L88"><span class="lineNum">      88</span>              :  *</span>
+<span id="L89"><span class="lineNum">      89</span>              :  *   2. 可扩展性保障：</span>
+<span id="L90"><span class="lineNum">      90</span>              :  *      - 分层存储：DRAM+SSD+HDD异构架构</span>
+<span id="L91"><span class="lineNum">      91</span>              :  *      - 智能路由：热点数据优先内存存储</span>
+<span id="L92"><span class="lineNum">      92</span>              :  *      - 自适应伸缩：自动化容量调整</span>
+<span id="L93"><span class="lineNum">      93</span>              :  *      - 云原生支持：Elastic扩容能力</span>
+<span id="L94"><span class="lineNum">      94</span>              :  *</span>
+<span id="L95"><span class="lineNum">      95</span>              :  *   3. 并发处理极限：</span>
+<span id="L96"><span class="lineNum">      96</span>              :  *      - 无锁预取：前台查询不阻塞预取</span>
+<span id="L97"><span class="lineNum">      97</span>              :  *      - 批处理优化：批量I/O减少系统调用开销</span>
+<span id="L98"><span class="lineNum">      98</span>              :  *      - 异步刷新：后台写入不影响前端响应</span>
+<span id="L99"><span class="lineNum">      99</span>              :  *      - 读写分离：分离读写操作提高并发度</span>
+<span id="L100"><span class="lineNum">     100</span>              :  *</span>
+<span id="L101"><span class="lineNum">     101</span>              :  *   4. 稳定性核心：</span>
+<span id="L102"><span class="lineNum">     102</span>              :  *      - Checkpoint机制：定期持久化一致状态</span>
+<span id="L103"><span class="lineNum">     103</span>              :  *      - 脏页延迟：减少同步写入的阻塞时间</span>
+<span id="L104"><span class="lineNum">     104</span>              :  *      - Buffer分配控制：防止大查询占用过多缓存</span>
+<span id="L105"><span class="lineNum">     105</span>              :  *      - 死锁检测：自动检测并解决死锁问题</span>
+<span id="L106"><span class="lineNum">     106</span>              :  *</span>
+<span id="L107"><span class="lineNum">     107</span>              :  * =================================================================================================</span>
+<span id="L108"><span class="lineNum">     108</span>              :  * 缓冲池性能指标的商业级要求</span>
+<span id="L109"><span class="lineNum">     109</span>              :  * =================================================================================================</span>
+<span id="L110"><span class="lineNum">     110</span>              :  *   1. 命中率目标：</span>
+<span id="L111"><span class="lineNum">     111</span>              :  *      - OLTP场景：&gt;99.5%的命中率</span>
+<span id="L112"><span class="lineNum">     112</span>              :  *      - OLAP场景：根据数据热点特点优化</span>
+<span id="L113"><span class="lineNum">     113</span>              :  *      - 实时监控：秒级监控命中率波动</span>
+<span id="L114"><span class="lineNum">     114</span>              :  *      - 告警机制：低命中率实时告警</span>
+<span id="L115"><span class="lineNum">     115</span>              :  *</span>
+<span id="L116"><span class="lineNum">     116</span>              :  *   2. 延迟控制：</span>
+<span id="L117"><span class="lineNum">     117</span>              :  *      - p95延迟：&lt;10ms (数据在缓存中)</span>
+<span id="L118"><span class="lineNum">     118</span>              :  *      - p99延迟：&lt;50ms (允许极少数磁盘访问)</span>
+<span id="L119"><span class="lineNum">     119</span>              :  *      - 预取优化：预测性预取减少冷启动时间</span>
+<span id="L120"><span class="lineNum">     120</span>              :  *</span>
+<span id="L121"><span class="lineNum">     121</span>              :  *   3. 吞吐量目标：</span>
+<span id="L122"><span class="lineNum">     122</span>              :  *      - 内存优化：数万TPS的稳定吞吐</span>
+<span id="L123"><span class="lineNum">     123</span>              :  *      - I/O优化：磁盘访问时的瓶颈优化</span>
+<span id="L124"><span class="lineNum">     124</span>              :  *      - 批量处理：减少上下文切换开销</span>
+<span id="L125"><span class="lineNum">     125</span>              :  *</span>
+<span id="L126"><span class="lineNum">     126</span>              :  *   4. 资源效率：</span>
+<span id="L127"><span class="lineNum">     127</span>              :  *      - 内存利用：最大化有限内存的价值</span>
+<span id="L128"><span class="lineNum">     128</span>              :  *      - I/O带宽：平衡读写操作的资源分配</span>
+<span id="L129"><span class="lineNum">     129</span>              :  *      - CPU开销：最小化缓冲池的管理开销</span>
+<span id="L130"><span class="lineNum">     130</span>              :  * =================================================================================================</span>
+<span id="L131"><span class="lineNum">     131</span>              :  */</span>
+<span id="L132"><span class="lineNum">     132</span>              : namespace sqlcc {</span>
+<span id="L133"><span class="lineNum">     133</span>              : </span>
+<span id="L134"><span class="lineNum">     134</span>              : // 缓冲池类，负责管理内存中的页面缓存</span>
+<span id="L135"><span class="lineNum">     135</span>              : // Why: 数据库系统需要高效的内存管理机制，缓冲池作为内存和磁盘之间的桥梁，减少磁盘I/O操作</span>
+<span id="L136"><span class="lineNum">     136</span>              : // What: BufferPool类实现了基于LRU算法的页面缓存系统，管理页面的加载、替换和写入</span>
+<span id="L137"><span class="lineNum">     137</span>              : // How: 使用哈希表快速查找页面，双向链表实现LRU算法，通过引用计数和脏页标记管理页面生命周期</span>
+<span id="L138"><span class="lineNum">     138</span>              : class BufferPool {</span>
+<span id="L139"><span class="lineNum">     139</span>              : public:</span>
+<span id="L140"><span class="lineNum">     140</span>              :     // 构造函数，初始化缓冲池</span>
+<span id="L141"><span class="lineNum">     141</span>              :     // Why: 需要创建缓冲池实例，设置缓冲池大小和关联的磁盘管理器</span>
+<span id="L142"><span class="lineNum">     142</span>              :     // What: 构造函数接收磁盘管理器指针、缓冲池大小和配置管理器引用，初始化缓冲池状态</span>
+<span id="L143"><span class="lineNum">     143</span>              :     // How: 设置成员变量，初始化页面表和LRU列表，创建互斥锁，条件注册配置回调</span>
+<span id="L144"><span class="lineNum">     144</span>              :     explicit BufferPool(DiskManager* disk_manager, size_t pool_size, ConfigManager&amp; config_manager);</span>
+<span id="L145"><span class="lineNum">     145</span>              :     </span>
+<span id="L146"><span class="lineNum">     146</span>              :     // 删除拷贝构造函数和赋值运算符，防止意外拷贝</span>
+<span id="L147"><span class="lineNum">     147</span>              :     BufferPool(const BufferPool&amp;) = delete;</span>
+<span id="L148"><span class="lineNum">     148</span>              :     BufferPool&amp; operator=(const BufferPool&amp;) = delete;</span>
+<span id="L149"><span class="lineNum">     149</span>              : </span>
+<span id="L150"><span class="lineNum">     150</span>              :     // 析构函数，清理资源</span>
+<span id="L151"><span class="lineNum">     151</span>              :     // Why: 需要释放缓冲池占用的资源，确保所有脏页被写入磁盘</span>
+<span id="L152"><span class="lineNum">     152</span>              :     // What: 析构函数负责刷新所有脏页到磁盘，释放页面资源</span>
+<span id="L153"><span class="lineNum">     153</span>              :     // How: 调用FlushAllPages方法确保数据持久化，释放所有页面对象</span>
+<span id="L154"><span class="lineNum">     154</span>              :     ~BufferPool();</span>
+<span id="L155"><span class="lineNum">     155</span>              : </span>
+<span id="L156"><span class="lineNum">     156</span>              :     // 获取页面，如果页面不在缓冲池中则从磁盘加载</span>
+<span id="L157"><span class="lineNum">     157</span>              :     // Why: 数据库操作需要访问页面数据，需要从磁盘加载到内存</span>
+<span id="L158"><span class="lineNum">     158</span>              :     // What: FetchPage方法根据页面ID获取页面对象，如果页面不在内存中则从磁盘加载</span>
+<span id="L159"><span class="lineNum">     159</span>              :     // How: 首先在页面表中查找页面，如果找到则更新LRU列表并返回；如果未找到则从磁盘加载</span>
+<span id="L160"><span class="lineNum">     160</span>              :     Page* FetchPage(int32_t page_id);</span>
+<span id="L161"><span class="lineNum">     161</span>              : </span>
+<span id="L162"><span class="lineNum">     162</span>              :     // 批量获取页面，优化多个页面的加载性能</span>
+<span id="L163"><span class="lineNum">     163</span>              :     // Why: 某些操作需要同时访问多个页面，批量加载可以提高性能</span>
+<span id="L164"><span class="lineNum">     164</span>              :     // What: BatchFetchPages方法根据页面ID列表获取多个页面对象</span>
+<span id="L165"><span class="lineNum">     165</span>              :     // How: 对每个页面调用FetchPage方法，或者实现更高效的批量加载策略</span>
+<span id="L166"><span class="lineNum">     166</span>              :     std::vector&lt;Page*&gt; BatchFetchPages(const std::vector&lt;int32_t&gt;&amp; page_ids);</span>
+<span id="L167"><span class="lineNum">     167</span>              : </span>
+<span id="L168"><span class="lineNum">     168</span>              :     // 创建新页面</span>
+<span id="L169"><span class="lineNum">     169</span>              :     // Why: 数据库需要新的存储空间来存储数据，例如插入新记录或创建索引</span>
+<span id="L170"><span class="lineNum">     170</span>              :     // What: NewPage方法在缓冲池中分配一个新的页面</span>
+<span id="L171"><span class="lineNum">     171</span>              :     // How: 从空闲页面列表中获取页面，或者替换一个现有页面，初始化页面数据</span>
+<span id="L172"><span class="lineNum">     172</span>              :     Page* NewPage(int32_t* page_id);</span>
+<span id="L173"><span class="lineNum">     173</span>              : </span>
+<span id="L174"><span class="lineNum">     174</span>              :     // 取消固定页面，减少页面的固定计数</span>
+<span id="L175"><span class="lineNum">     175</span>              :     // Why: 当页面使用完毕后，需要通知缓冲池该页面可以被替换</span>
+<span id="L176"><span class="lineNum">     176</span>              :     // What: UnpinPage方法减少页面的固定计数，如果页面被修改则标记为脏页</span>
+<span id="L177"><span class="lineNum">     177</span>              :     // How: 减少页面的引用计数，如果引用计数为0且页面被修改，则标记为脏页</span>
+<span id="L178"><span class="lineNum">     178</span>              :     bool UnpinPage(int32_t page_id, bool is_dirty);</span>
+<span id="L179"><span class="lineNum">     179</span>              : </span>
+<span id="L180"><span class="lineNum">     180</span>              :     // 刷新页面到磁盘</span>
+<span id="L181"><span class="lineNum">     181</span>              :     // Why: 需要将修改后的页面数据持久化到磁盘，保证数据的持久性和一致性</span>
+<span id="L182"><span class="lineNum">     182</span>              :     // What: FlushPage方法将指定页面的数据写入磁盘文件</span>
+<span id="L183"><span class="lineNum">     183</span>              :     // How: 调用磁盘管理器的WritePage方法，将页面数据写入磁盘</span>
+<span id="L184"><span class="lineNum">     184</span>              :     bool FlushPage(int32_t page_id);</span>
+<span id="L185"><span class="lineNum">     185</span>              : </span>
+<span id="L186"><span class="lineNum">     186</span>              :     // 刷新所有页面到磁盘</span>
+<span id="L187"><span class="lineNum">     187</span>              :     // Why: 在系统关闭或检查点时，需要将所有修改过的页面写入磁盘，保证数据持久性</span>
+<span id="L188"><span class="lineNum">     188</span>              :     // What: FlushAllPages方法将缓冲池中所有脏页写入磁盘</span>
+<span id="L189"><span class="lineNum">     189</span>              :     // How: 遍历所有页面，对脏页调用FlushPage方法</span>
+<span id="L190"><span class="lineNum">     190</span>              :     void FlushAllPages();</span>
+<span id="L191"><span class="lineNum">     191</span>              : </span>
+<span id="L192"><span class="lineNum">     192</span>              :     // 删除页面</span>
+<span id="L193"><span class="lineNum">     193</span>              :     // Why: 当数据不再需要时，需要释放页面空间，例如删除记录或索引</span>
+<span id="L194"><span class="lineNum">     194</span>              :     // What: DeletePage方法从缓冲池中删除指定页面</span>
+<span id="L195"><span class="lineNum">     195</span>              :     // How: 从页面表中移除页面，释放页面对象</span>
+<span id="L196"><span class="lineNum">     196</span>              :     bool DeletePage(int32_t page_id);</span>
+<span id="L197"><span class="lineNum">     197</span>              : </span>
+<span id="L198"><span class="lineNum">     198</span>              :     // 预取页面到缓冲池</span>
+<span id="L199"><span class="lineNum">     199</span>              :     // Why: 预取可以提前加载可能需要的页面，减少未来的磁盘I/O延迟</span>
+<span id="L200"><span class="lineNum">     200</span>              :     // What: PrefetchPage方法将指定页面预加载到缓冲池</span>
+<span id="L201"><span class="lineNum">     201</span>              :     // How: 类似FetchPage，但不增加页面的固定计数</span>
+<span id="L202"><span class="lineNum">     202</span>              :     bool PrefetchPage(int32_t page_id);</span>
+<span id="L203"><span class="lineNum">     203</span>              : </span>
+<span id="L204"><span class="lineNum">     204</span>              :     // 批量预取页面到缓冲池</span>
+<span id="L205"><span class="lineNum">     205</span>              :     // Why: 批量预取可以一次性加载多个页面，提高预取效率</span>
+<span id="L206"><span class="lineNum">     206</span>              :     // What: BatchPrefetchPages方法将多个页面预加载到缓冲池</span>
+<span id="L207"><span class="lineNum">     207</span>              :     // How: 对每个页面调用PrefetchPage方法，或者实现更高效的批量预取策略</span>
+<span id="L208"><span class="lineNum">     208</span>              :     bool BatchPrefetchPages(const std::vector&lt;int32_t&gt;&amp; page_ids);</span>
+<span id="L209"><span class="lineNum">     209</span>              : </span>
+<span id="L210"><span class="lineNum">     210</span>              :     // 获取缓冲池使用统计信息</span>
+<span id="L211"><span class="lineNum">     211</span>              :     // Why: 监控缓冲池的使用情况有助于性能调优和问题诊断</span>
+<span id="L212"><span class="lineNum">     212</span>              :     // What: GetStats方法返回缓冲池的统计信息，如命中率等</span>
+<span id="L213"><span class="lineNum">     213</span>              :     // How: 收集并返回各种统计指标</span>
+<span id="L214"><span class="lineNum">     214</span>              :     std::unordered_map&lt;std::string, double&gt; GetStats() const;</span>
+<span id="L215"><span class="lineNum">     215</span>              : </span>
+<span id="L216"><span class="lineNum">     216</span>              :     // 获取缓冲池大小</span>
+<span id="L217"><span class="lineNum">     217</span>              :     // Why: 需要了解缓冲池的容量信息，用于监控和调试</span>
+<span id="L218"><span class="lineNum">     218</span>              :     // What: GetPoolSize方法返回缓冲池的页面容量</span>
+<span id="L219"><span class="lineNum">     219</span>              :     // How: 直接返回pool_size_成员变量</span>
+<span id="L220"><span class="lineNum">     220</span>              :     size_t GetPoolSize() const;</span>
+<span id="L221"><span class="lineNum">     221</span>              : </span>
+<span id="L222"><span class="lineNum">     222</span>              :     // 获取已使用页面数</span>
+<span id="L223"><span class="lineNum">     223</span>              :     // Why: 需要了解缓冲池的使用情况，用于监控和调试</span>
+<span id="L224"><span class="lineNum">     224</span>              :     // What: GetUsedPages方法返回当前已使用的页面数量</span>
+<span id="L225"><span class="lineNum">     225</span>              :     // How: 返回页面表的大小</span>
+<span id="L226"><span class="lineNum">     226</span>              :     size_t GetUsedPages() const;</span>
+<span id="L227"><span class="lineNum">     227</span>              : </span>
+<span id="L228"><span class="lineNum">     228</span>              :     // 检查页面是否在缓冲池中</span>
+<span id="L229"><span class="lineNum">     229</span>              :     // Why: 需要快速判断页面是否已加载到内存中，避免不必要的磁盘I/O</span>
+<span id="L230"><span class="lineNum">     230</span>              :     // What: IsPageInBuffer方法检查指定页面ID是否存在于缓冲池中</span>
+<span id="L231"><span class="lineNum">     231</span>              :     // How: 检查页面表是否包含该页面ID</span>
+<span id="L232"><span class="lineNum">     232</span>              :     bool IsPageInBuffer(int32_t page_id) const;</span>
+<span id="L233"><span class="lineNum">     233</span>              : </span>
+<span id="L234"><span class="lineNum">     234</span>              :     // 设置是否模拟刷新失败（仅用于测试）</span>
+<span id="L235"><span class="lineNum">     235</span>              :     // Why: 需要测试缓冲池在磁盘写入失败时的错误处理逻辑</span>
+<span id="L236"><span class="lineNum">     236</span>              :     // What: SetSimulateFlushFailure方法设置是否模拟刷新失败</span>
+<span id="L237"><span class="lineNum">     237</span>              :     // How: 设置simulate_flush_failure_成员变量，影响FlushPage方法的行为</span>
+<span id="L238"><span class="lineNum">     238</span>              :     void SetSimulateFlushFailure(bool simulate) { simulate_flush_failure_ = simulate; }</span>
+<span id="L239"><span class="lineNum">     239</span>              :     </span>
+<span id="L240"><span class="lineNum">     240</span>              :     // 设置是否启用配置回调（仅用于测试）</span>
+<span id="L241"><span class="lineNum">     241</span>              :     // Why: 需要在测试中禁用配置回调，避免异步线程导致死锁或死循环</span>
+<span id="L242"><span class="lineNum">     242</span>              :     // What: SetEnableConfigCallback方法控制是否启用配置变更回调</span>
+<span id="L243"><span class="lineNum">     243</span>              :     // How: 设置enable_config_callback_成员变量，影响构造函数的回调注册行为// 注意：配置回调功能已禁用，此方法保留以保持接口兼容性</span>
+<span id="L244"><span class="lineNum">     244</span>              :     void SetEnableConfigCallback(bool /*enable*/) {}</span>
+<span id="L245"><span class="lineNum">     245</span>              : </span>
+<span id="L246"><span class="lineNum">     246</span>              : private:</span>
+<span id="L247"><span class="lineNum">     247</span>              :     // 查找可替换的页面</span>
+<span id="L248"><span class="lineNum">     248</span>              :     // Why: 当缓冲池满时，需要选择一个页面进行替换</span>
+<span id="L249"><span class="lineNum">     249</span>              :     // What: FindVictimPage方法根据LRU算法找到可替换的页面</span>
+<span id="L250"><span class="lineNum">     250</span>              :     // How: 从LRU列表的尾部开始查找，找到引用计数为0的页面</span>
+<span id="L251"><span class="lineNum">     251</span>              :     int32_t FindVictimPage();</span>
+<span id="L252"><span class="lineNum">     252</span>              : </span>
+<span id="L253"><span class="lineNum">     253</span>              :     // 替换页面</span>
+<span id="L254"><span class="lineNum">     254</span>              :     // Why: 当需要加载新页面但缓冲池已满时，需要替换一个现有页面</span>
+<span id="L255"><span class="lineNum">     255</span>              :     // What: ReplacePage方法替换指定页面，将旧页面写回磁盘（如果脏）</span>
+<span id="L256"><span class="lineNum">     256</span>              :     // How: 将旧页面写回磁盘，更新页面数据，重新插入LRU列表</span>
+<span id="L257"><span class="lineNum">     257</span>              :     bool ReplacePage(int32_t victim_page_id, int32_t new_page_id);</span>
+<span id="L258"><span class="lineNum">     258</span>              : </span>
+<span id="L259"><span class="lineNum">     259</span>              :     // 更新LRU列表</span>
+<span id="L260"><span class="lineNum">     260</span>              :     // Why: LRU算法需要维护页面的访问顺序</span>
+<span id="L261"><span class="lineNum">     261</span>              :     // What: UpdateLRUList方法将页面移动到LRU列表的头部</span>
+<span id="L262"><span class="lineNum">     262</span>              :     // How: 从LRU列表中移除页面，然后插入到头部</span>
+<span id="L263"><span class="lineNum">     263</span>              :     void UpdateLRUList(int32_t page_id);</span>
+<span id="L264"><span class="lineNum">     264</span>              : </span>
+<span id="L265"><span class="lineNum">     265</span>              :     // 移动页面到LRU链表头部</span>
+<span id="L266"><span class="lineNum">     266</span>              :     // Why: 当页面被访问时，需要将其移动到LRU链表头部，表示最近被访问</span>
+<span id="L267"><span class="lineNum">     267</span>              :     // What: MoveToHead方法将指定页面移动到LRU链表头部，更新LRU映射</span>
+<span id="L268"><span class="lineNum">     268</span>              :     // How: 从LRU链表中删除页面，然后将其添加到头部，并更新LRU映射中的迭代器</span>
+<span id="L269"><span class="lineNum">     269</span>              :     void MoveToHead(int32_t page_id);</span>
+<span id="L270"><span class="lineNum">     270</span>              : </span>
+<span id="L271"><span class="lineNum">     271</span>              :     // 从LRU列表中移除页面</span>
+<span id="L272"><span class="lineNum">     272</span>              :     // Why: 当页面被替换或删除时，需要从LRU列表中移除</span>
+<span id="L273"><span class="lineNum">     273</span>              :     // What: RemoveFromLRUList方法从LRU列表中移除指定页面</span>
+<span id="L274"><span class="lineNum">     274</span>              :     // How: 在LRU列表中查找页面并移除</span>
+<span id="L275"><span class="lineNum">     275</span>              :     void RemoveFromLRUList(int32_t page_id);</span>
+<span id="L276"><span class="lineNum">     276</span>              : </span>
+<span id="L277"><span class="lineNum">     277</span>              :     // 替换页面（无锁版本）</span>
+<span id="L278"><span class="lineNum">     278</span>              :     // Why: 需要在已有锁的情况下替换页面，避免死锁</span>
+<span id="L279"><span class="lineNum">     279</span>              :     // What: ReplacePageInternal方法在持锁状态下替换页面</span>
+<span id="L280"><span class="lineNum">     280</span>              :     // How: 直接操作LRU列表和页面表，不重新获取锁</span>
+<span id="L281"><span class="lineNum">     281</span>              :     int32_t ReplacePageInternal();</span>
+<span id="L282"><span class="lineNum">     282</span>              : </span>
+<span id="L283"><span class="lineNum">     283</span>              :     // 替换页面</span>
+<span id="L284"><span class="lineNum">     284</span>              :     // Why: 当缓冲池已满且需要加载新页面时，必须选择一个现有页面进行替换</span>
+<span id="L285"><span class="lineNum">     285</span>              :     // What: ReplacePage方法使用LRU算法选择一个引用计数为0的页面进行替换</span>
+<span id="L286"><span class="lineNum">     286</span>              :     // How: 从LRU链表尾部开始查找，找到第一个引用计数为0的页面</span>
+<span id="L287"><span class="lineNum">     287</span>              :     int32_t ReplacePage();</span>
+<span id="L288"><span class="lineNum">     288</span>              : </span>
+<span id="L289"><span class="lineNum">     289</span>              :     // 配置变更回调处理</span>
+<span id="L290"><span class="lineNum">     290</span>              :     // Why: 需要响应配置变更，动态调整缓冲池行为</span>
+<span id="L291"><span class="lineNum">     291</span>              :     // What: OnConfigChange方法处理配置变更事件</span>
+<span id="L292"><span class="lineNum">     292</span>              :     // How: 根据变更的配置项调整相应的缓冲池参数</span>
+<span id="L293"><span class="lineNum">     293</span>              :     void OnConfigChange(const std::string&amp; key, const ConfigValue&amp; value);</span>
+<span id="L294"><span class="lineNum">     294</span>              : </span>
+<span id="L295"><span class="lineNum">     295</span>              :     // 调整缓冲池大小</span>
+<span id="L296"><span class="lineNum">     296</span>              :     // Why: 需要动态调整缓冲池的大小以适应不同的负载需求</span>
+<span id="L297"><span class="lineNum">     297</span>              :     // What: AdjustBufferPoolSize方法调整缓冲池大小</span>
+<span id="L298"><span class="lineNum">     298</span>              :     // How: 在持锁状态下移除多余的页面或标记容量变更</span>
+<span id="L299"><span class="lineNum">     299</span>              :     void AdjustBufferPoolSize(size_t new_pool_size);</span>
+<span id="L300"><span class="lineNum">     300</span>              : </span>
+<span id="L301"><span class="lineNum">     301</span>              :     // 安全调整缓冲池大小（无锁版本）</span>
+<span id="L302"><span class="lineNum">     302</span>              :     // Why: 需要在不需要获取锁的情况下调整缓冲池大小</span>
+<span id="L303"><span class="lineNum">     303</span>              :     // What: AdjustBufferPoolSizeNoLock方法调整缓冲池大小</span>
+<span id="L304"><span class="lineNum">     304</span>              :     // How: 通过发送消息到队列的方式触发异步调整，不直接获取锁</span>
+<span id="L305"><span class="lineNum">     305</span>              :     void AdjustBufferPoolSizeNoLock(size_t new_pool_size);</span>
+<span id="L306"><span class="lineNum">     306</span>              : </span>
+<span id="L307"><span class="lineNum">     307</span>              :     // 磁盘管理器指针，负责磁盘I/O操作</span>
+<span id="L308"><span class="lineNum">     308</span>              :     // Why: 缓冲池需要与磁盘管理器交互，进行页面的读写操作</span>
+<span id="L309"><span class="lineNum">     309</span>              :     // What: disk_manager_指向DiskManager对象，提供磁盘I/O接口</span>
+<span id="L310"><span class="lineNum">     310</span>              :     // How: 通过构造函数初始化，在需要读写页面时调用相应方法</span>
+<span id="L311"><span class="lineNum">     311</span>              :     DiskManager* disk_manager_;</span>
+<span id="L312"><span class="lineNum">     312</span>              : </span>
+<span id="L313"><span class="lineNum">     313</span>              :     // 配置管理器引用，用于获取配置参数</span>
+<span id="L314"><span class="lineNum">     314</span>              :     // Why: 缓冲池需要从配置管理器获取配置参数，如预取策略等</span>
+<span id="L315"><span class="lineNum">     315</span>              :     // What: config_manager_引用ConfigManager对象，提供配置访问接口</span>
+<span id="L316"><span class="lineNum">     316</span>              :     // How: 通过构造函数初始化，在需要获取配置时调用相应方法</span>
+<span id="L317"><span class="lineNum">     317</span>              :     ConfigManager&amp; config_manager_;</span>
+<span id="L318"><span class="lineNum">     318</span>              : </span>
+<span id="L319"><span class="lineNum">     319</span>              :     // 缓冲池大小，表示可以缓存的页面数量</span>
+<span id="L320"><span class="lineNum">     320</span>              :     // Why: 需要限制缓冲池的容量，避免内存溢出</span>
+<span id="L321"><span class="lineNum">     321</span>              :     // What: pool_size_表示缓冲池可以容纳的最大页面数</span>
+<span id="L322"><span class="lineNum">     322</span>              :     // How: 通过构造函数初始化，在创建新页面时检查是否超出容量</span>
+<span id="L323"><span class="lineNum">     323</span>              :     size_t pool_size_;</span>
+<span id="L324"><span class="lineNum">     324</span>              : </span>
+<span id="L325"><span class="lineNum">     325</span>              :     // 页面表，存储页面ID到页面对象的映射</span>
+<span id="L326"><span class="lineNum">     326</span>              :     // Why: 需要快速查找页面，避免遍历整个缓冲池</span>
+<span id="L327"><span class="lineNum">     327</span>              :     // What: page_table_是哈希表，键为页面ID，值为页面对象指针</span>
+<span id="L328"><span class="lineNum">     328</span>              :     // How: 使用unordered_map实现，提供O(1)的平均查找时间</span>
+<span id="L329"><span class="lineNum">     329</span>              :     std::unordered_map&lt;int32_t, Page*&gt; page_table_;</span>
+<span id="L330"><span class="lineNum">     330</span>              : </span>
+<span id="L331"><span class="lineNum">     331</span>              :     // LRU列表，存储页面的访问顺序</span>
+<span id="L332"><span class="lineNum">     332</span>              :     // Why: 需要根据页面的访问时间选择替换页面</span>
+<span id="L333"><span class="lineNum">     333</span>              :     // What: lru_list_是双向链表，存储页面ID，最近访问的页面在头部</span>
+<span id="L334"><span class="lineNum">     334</span>              :     // How: 使用list实现，每次访问页面时将其移动到头部</span>
+<span id="L335"><span class="lineNum">     335</span>              :     std::list&lt;int32_t&gt; lru_list_;</span>
+<span id="L336"><span class="lineNum">     336</span>              : </span>
+<span id="L337"><span class="lineNum">     337</span>              :     // LRU列表迭代器映射，快速定位页面在LRU列表中的位置</span>
+<span id="L338"><span class="lineNum">     338</span>              :     // Why: 需要快速找到页面在LRU列表中的位置，避免遍历整个列表</span>
+<span id="L339"><span class="lineNum">     339</span>              :     // What: lru_map_是哈希表，键为页面ID，值为页面在LRU列表中的迭代器</span>
+<span id="L340"><span class="lineNum">     340</span>              :     // How: 使用unordered_map实现，提供O(1)的平均查找时间</span>
+<span id="L341"><span class="lineNum">     341</span>              :     std::unordered_map&lt;int32_t, std::list&lt;int32_t&gt;::iterator&gt; lru_map_;</span>
+<span id="L342"><span class="lineNum">     342</span>              : </span>
+<span id="L343"><span class="lineNum">     343</span>              :     // 互斥锁，保护缓冲池的并发访问</span>
+<span id="L344"><span class="lineNum">     344</span>              :     // Why: 缓冲池可能被多个线程同时访问，需要同步机制保证数据一致性</span>
+<span id="L345"><span class="lineNum">     345</span>              :     // What: latch_是定时互斥锁，保护所有共享数据的访问，并支持超时机制避免死锁</span>
+<span id="L346"><span class="lineNum">     346</span>              :     // How: 在访问共享数据前加锁，访问完成后解锁</span>
+<span id="L347"><span class="lineNum">     347</span>              :     mutable std::timed_mutex latch_;</span>
+<span id="L348"><span class="lineNum">     348</span>              : </span>
+<span id="L349"><span class="lineNum">     349</span>              :     // 统计信息，记录缓冲池的使用情况</span>
+<span id="L350"><span class="lineNum">     350</span>              :     // Why: 监控缓冲池的使用情况有助于性能调优和问题诊断</span>
+<span id="L351"><span class="lineNum">     351</span>              :     // What: stats_记录各种统计指标，如访问次数、命中次数等</span>
+<span id="L352"><span class="lineNum">     352</span>              :     // How: 在相应操作时更新统计信息</span>
+<span id="L353"><span class="lineNum">     353</span> <span class="tlaUNC">           0 :     struct Stats {</span></span>
+<span id="L354"><span class="lineNum">     354</span>              :         size_t total_accesses = 0;     // 总访问次数</span>
+<span id="L355"><span class="lineNum">     355</span>              :         size_t total_hits = 0;          // 命中次数</span>
+<span id="L356"><span class="lineNum">     356</span>              :         size_t total_misses = 0;        // 未命中次数</span>
+<span id="L357"><span class="lineNum">     357</span>              :         size_t total_evictions = 0;     // 替换次数</span>
+<span id="L358"><span class="lineNum">     358</span>              :         size_t total_prefetches = 0;    // 预取次数</span>
+<span id="L359"><span class="lineNum">     359</span>              :         size_t prefetch_hits = 0;       // 预取命中次数</span>
+<span id="L360"><span class="lineNum">     360</span>              :     } stats_;</span>
+<span id="L361"><span class="lineNum">     361</span>              : </span>
+<span id="L362"><span class="lineNum">     362</span>              :     // 页面引用计数表，存储页面ID到引用计数的映射</span>
+<span id="L363"><span class="lineNum">     363</span>              :     // Why: 需要跟踪每个页面被多少个操作引用，防止正在使用的页面被替换</span>
+<span id="L364"><span class="lineNum">     364</span>              :     // What: page_refs_是哈希表，键为页面ID，值为引用计数</span>
+<span id="L365"><span class="lineNum">     365</span>              :     // How: 使用unordered_map实现，提供O(1)的平均查找时间</span>
+<span id="L366"><span class="lineNum">     366</span>              :     std::unordered_map&lt;int32_t, int&gt; page_refs_;</span>
+<span id="L367"><span class="lineNum">     367</span>              : </span>
+<span id="L368"><span class="lineNum">     368</span>              :     // 脏页标记表，存储页面ID到脏页标记的映射</span>
+<span id="L369"><span class="lineNum">     369</span>              :     // Why: 需要跟踪哪些页面被修改过，以便在替换时写回磁盘</span>
+<span id="L370"><span class="lineNum">     370</span>              :     // What: dirty_pages_是哈希表，键为页面ID，值为布尔值，表示是否为脏页</span>
+<span id="L371"><span class="lineNum">     371</span>              :     // How: 使用unordered_map实现，提供O(1)的平均查找时间</span>
+<span id="L372"><span class="lineNum">     372</span>              :     std::unordered_map&lt;int32_t, bool&gt; dirty_pages_;</span>
+<span id="L373"><span class="lineNum">     373</span>              : </span>
+<span id="L374"><span class="lineNum">     374</span>              :     // 预取队列，存储待预取的页面ID</span>
+<span id="L375"><span class="lineNum">     375</span>              :     // Why: 需要维护一个预取队列，用于异步预取可能需要的页面</span>
+<span id="L376"><span class="lineNum">     376</span>              :     // What: prefetch_queue_是双端队列，存储待预取的页面ID</span>
+<span id="L377"><span class="lineNum">     377</span>              :     // How: 使用deque实现，支持在队头和队尾的高效插入和删除</span>
+<span id="L378"><span class="lineNum">     378</span>              :     std::deque&lt;int32_t&gt; prefetch_queue_;</span>
+<span id="L379"><span class="lineNum">     379</span>              : </span>
+<span id="L380"><span class="lineNum">     380</span>              :     // 页面访问统计，用于预测性预取</span>
+<span id="L381"><span class="lineNum">     381</span>              :     // Why: 需要跟踪页面的访问模式，以便进行智能预取</span>
+<span id="L382"><span class="lineNum">     382</span>              :     // What: access_stats_是哈希表，键为页面ID，值为访问次数</span>
+<span id="L383"><span class="lineNum">     383</span>              :     // How: 使用unordered_map实现，提供O(1)的平均查找时间</span>
+<span id="L384"><span class="lineNum">     384</span>              :     std::unordered_map&lt;int32_t, int&gt; access_stats_;</span>
+<span id="L385"><span class="lineNum">     385</span>              : </span>
+<span id="L386"><span class="lineNum">     386</span>              :     // 批量操作缓冲区，用于批量读写操作</span>
+<span id="L387"><span class="lineNum">     387</span>              :     // Why: 批量操作可以提高I/O性能，需要预分配缓冲区空间</span>
+<span id="L388"><span class="lineNum">     388</span>              :     // What: batch_buffer_是向量，存储批量操作的数据缓冲区</span>
+<span id="L389"><span class="lineNum">     389</span>              :     // How: 使用vector实现，在构造函数中预分配空间</span>
+<span id="L390"><span class="lineNum">     390</span>              :     std::vector&lt;char*&gt; batch_buffer_;</span>
+<span id="L391"><span class="lineNum">     391</span>              : </span>
+<span id="L392"><span class="lineNum">     392</span>              :     // 模拟刷新失败标志，用于测试</span>
+<span id="L393"><span class="lineNum">     393</span>              :     // Why: 需要测试缓冲池在磁盘写入失败时的错误处理逻辑</span>
+<span id="L394"><span class="lineNum">     394</span>              :     // What: simulate_flush_failure_是布尔值，控制是否模拟刷新失败</span>
+<span id="L395"><span class="lineNum">     395</span>              :     // How: 当设置为true时，FlushPage方法会模拟写入失败</span>
+<span id="L396"><span class="lineNum">     396</span>              :     bool simulate_flush_failure_;</span>
+<span id="L397"><span class="lineNum">     397</span>              :     </span>
+<span id="L398"><span class="lineNum">     398</span>              :     // 锁超时时间（毫秒）</span>
+<span id="L399"><span class="lineNum">     399</span>              :     // Why: 需要限制锁获取的等待时间，避免死锁导致的长时间阻塞</span>
+<span id="L400"><span class="lineNum">     400</span>              :     // What: 不同类型操作的锁超时时间</span>
+<span id="L401"><span class="lineNum">     401</span>              :     // How: 从配置管理器获取或使用默认值，在获取锁时使用try_lock_for方法</span>
+<span id="L402"><span class="lineNum">     402</span>              :     size_t read_lock_timeout_ms_;    // 读取操作的锁超时时间</span>
+<span id="L403"><span class="lineNum">     403</span>              :     size_t write_lock_timeout_ms_;   // 写入和修改操作的锁超时时间</span>
+<span id="L404"><span class="lineNum">     404</span>              :     size_t lock_timeout_ms_;         // 默认锁超时时间（用于其他操作）</span>
+<span id="L405"><span class="lineNum">     405</span>              : };</span>
+<span id="L406"><span class="lineNum">     406</span>              : </span>
+<span id="L407"><span class="lineNum">     407</span>              : }  // namespace sqlcc</span>
+        </pre>
+              </td>
+            </tr>
+          </table>
+          <br>
+
+          <table width="100%" border=0 cellspacing=0 cellpadding=0>
+            <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+            <tr><td class="versionInfo">Generated by: <a href="https://github.com//linux-test-project/lcov" target="_parent">LCOV version 2.0-1</a></td></tr>
+          </table>
+          <br>
+
+</body>
+</html>

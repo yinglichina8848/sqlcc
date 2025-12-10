@@ -1,0 +1,21 @@
+# 执行引擎组件Bazel构建配置
+
+package(default_visibility = ["//visibility:public"])
+
+cc_library(
+    name = "sqlcc_execution_engine",
+    srcs = [
+        "join_executor.cpp",
+        "set_operation_executor.cpp",
+        "subquery_executor.cpp",
+    ],
+    hdrs = ["//include:execution_headers"],
+    includes = ["../../include"],
+    deps = [
+        "//src/core:sqlcc_core_lib",
+        "//src/sql_executor:sqlcc_executor",
+        "//src/sql_parser:sqlcc_parser",
+        "@com_google_absl//absl/strings",
+    ],
+    visibility = ["//visibility:public"],
+)

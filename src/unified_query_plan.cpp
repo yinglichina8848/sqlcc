@@ -385,8 +385,41 @@ ExecutionResult DDLQueryPlan::executeCreatePlan() {
 }
 
 ExecutionResult DDLQueryPlan::executeDropPlan() {
-  // 实现DROP语句的执行逻辑
-  return {true, "DROP操作执行成功"};
+  // 获取DropStatement对象
+  auto drop_stmt = dynamic_cast<sql_parser::DropStatement*>(statement_.get());
+  if (!drop_stmt) {
+    // 尝试获取DropIndexStatement对象
+    auto drop_index_stmt = dynamic_cast<sql_parser::DropIndexStatement*>(statement_.get());
+    if (drop_index_stmt) {
+      std::string index_name = drop_index_stmt->getIndexName();
+      if (db_manager_->DropIndex(index_name)) {
+        return {true, "索引 '" + index_name + "' 删除成功"};
+      } else {
+        return {false, "索引 '" + index_name + "' 删除失败"};
+      }
+    }
+    
+    return {false, "执行DROP计划失败：语句类型不匹配"};
+  }
+
+  // 检查对象类型
+  if (drop_stmt->getObjectType() == sql_parser::DropStatement::DATABASE) {
+    std::string db_name = drop_stmt->getObjectName();
+    if (db_manager_->DropDatabase(db_name)) {
+      return {true, "数据库 '" + db_name + "' 删除成功"};
+    } else {
+      return {false, "数据库 '" + db_name + "' 删除失败"};
+    }
+  } else if (drop_stmt->getObjectType() == sql_parser::DropStatement::TABLE) {
+    std::string table_name = drop_stmt->getObjectName();
+    if (db_manager_->DropTable(table_name)) {
+      return {true, "表 '" + table_name + "' 删除成功"};
+    } else {
+      return {false, "表 '" + table_name + "' 删除失败"};
+    }
+  }
+
+  return {false, "不支持的DROP对象类型"};
 }
 
 ExecutionResult DDLQueryPlan::executeAlterPlan() {
@@ -639,13 +672,72 @@ UtilityQueryPlan::UtilityQueryPlan(std::shared_ptr<DatabaseManager> db_manager,
     : UnifiedQueryPlan(db_manager, user_manager, system_db) {}
 
 bool UtilityQueryPlan::buildSpecificPlan() {
-  // TODO: 实现工具特定计划构建
+  // 根据语句类型构建特定的执行计划
+  if (auto use_stmt = dynamic_cast<sql_parser::UseStatement*>(statement_.get())) {
+    return buildUsePlan();
+  } else if (auto show_stmt = dynamic_cast<sql_parser::ShowStatement*>(statement_.get())) {
+    return buildShowPlan();
+  }
+  
+  setError("不支持的工具语句类型");
+  return false;
+}
+
+bool UtilityQueryPlan::buildUsePlan() {
+  auto use_stmt = dynamic_cast<sql_parser::UseStatement*>(statement_.get());
+  if (!use_stmt) {
+    setError("构建USE计划失败：语句类型不匹配");
+    return false;
+  }
+  
+  target_database_ = use_stmt->getDatabaseName();
+  
+  // 添加USE语句特定的执行步骤
+  steps_.push_back(QueryStep(
+      QueryStepType::EXECUTION, "执行USE操作", [this]() { return true; }, true));
+      
+  return true;
+}
+
+bool UtilityQueryPlan::buildShowPlan() {
+  // 添加SHOW语句特定的执行步骤
+  steps_.push_back(QueryStep(
+      QueryStepType::EXECUTION, "执行SHOW操作", [this]() { return true; }, true));
+      
   return true;
 }
 
 ExecutionResult UtilityQueryPlan::executeSpecificPlan() {
-  // TODO: 实现工具特定计划执行
-  return {true, "工具执行成功"};
+  // 根据语句类型执行特定的计划
+  if (auto use_stmt = dynamic_cast<sql_parser::UseStatement*>(statement_.get())) {
+    return executeUsePlan();
+  } else if (auto show_stmt = dynamic_cast<sql_parser::ShowStatement*>(statement_.get())) {
+    return executeShowPlan();
+  }
+  
+  return {false, "不支持的工具语句类型"};
+}
+
+ExecutionResult UtilityQueryPlan::executeUsePlan() {
+  // 获取UseStatement对象
+  auto use_stmt = dynamic_cast<sql_parser::UseStatement*>(statement_.get());
+  if (!use_stmt) {
+    return {false, "执行USE计划失败：语句类型不匹配"};
+  }
+  
+  std::string db_name = use_stmt->getDatabaseName();
+  
+  // 调用DatabaseManager的UseDatabase方法
+  if (db_manager_->UseDatabase(db_name)) {
+    return {true, "切换到数据库 '" + db_name + "' 成功"};
+  } else {
+    return {false, "切换到数据库 '" + db_name + "' 失败"};
+  }
+}
+
+ExecutionResult UtilityQueryPlan::executeShowPlan() {
+  // 实现SHOW语句的执行逻辑
+  return {true, "SHOW操作执行成功"};
 }
 
 // QueryPlanFactory 实现

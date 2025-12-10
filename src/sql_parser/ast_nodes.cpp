@@ -111,7 +111,7 @@ const std::vector<TableConstraint> &CreateStatement::getConstraints() const {
 }
 
 SelectStatement::SelectStatement()
-    : Statement(SELECT), joinCondition_(""), limit_(0), offset_(0),
+    : Statement(SELECT), joinCondition_(""), limit_(-1), offset_(0),
       selectAll_(false), hasLimit_(false), hasOffset_(false) {}
 
 SelectStatement::~SelectStatement() {}

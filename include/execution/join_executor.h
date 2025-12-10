@@ -1,12 +1,12 @@
 #ifndef SQLCC_JOIN_EXECUTOR_H
 #define SQLCC_JOIN_EXECUTOR_H
 
-#include "execution_result.h"
-#include "sql_parser/ast_nodes.h"
+#include "core/execution_result.h"
 #include <chrono>
 #include <memory>
 #include <optional>
 #include <string>
+#include <vector>
 
 namespace sqlcc {
 

@@ -60,10 +60,10 @@ private:
   std::unique_ptr<CreateStatement> parseCreateDatabaseStatement();
   std::unique_ptr<CreateStatement> parseCreateTableStatement();
   std::unique_ptr<CreateIndexStatement> parseCreateIndexStatement();
-  std::unique_ptr<DropStatement> parseDropDatabaseStatement();
-  std::unique_ptr<DropStatement> parseDropTableStatement();
-  std::unique_ptr<DropIndexStatement> parseDropIndexStatement();
-  std::unique_ptr<AlterStatement> parseAlterTableStatement();
+  std::unique_ptr<DropStatement> parseDropStatement();
+  
+  // Utility statements
+  std::unique_ptr<UseStatement> parseUseStatement();
 
   // DML statements
   std::unique_ptr<SelectStatement> parseSelectStatement();

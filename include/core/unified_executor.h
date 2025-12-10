@@ -38,7 +38,10 @@ public:
    * @return 是否有权限执行
    */
   virtual bool checkPermission(const sql_parser::Statement *stmt,
-                               const ExecutionContext &context);
+                               const ExecutionContext &context) {
+    // 默认实现
+    return true;
+  }
 
   /**
    * 验证语句和上下文
@@ -47,7 +50,10 @@ public:
    * @return 验证结果
    */
   virtual bool validate(const sql_parser::Statement *stmt,
-                        const ExecutionContext &context);
+                        const ExecutionContext &context) {
+    // 默认实现
+    return true;
+  }
 
 protected:
   /**

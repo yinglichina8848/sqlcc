@@ -1,7 +1,7 @@
 #ifndef SQLCC_SET_OPERATION_EXECUTOR_H
 #define SQLCC_SET_OPERATION_EXECUTOR_H
 
-#include "execution_result.h"
+#include "core/execution_result.h"
 #include "sql_parser/set_operation_node.h"
 #include <chrono>
 #include <memory>
