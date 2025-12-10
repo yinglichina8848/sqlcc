@@ -1,222 +1,72 @@
-"""Debug component tests BUILD configuration"""
-
-load("@rules_cc//cc:defs.bzl", "cc_test")
+# 调试测试BUILD.bazel文件
 
 package(default_visibility = ["//visibility:public"])
 
-# Debug component tests
-cc_test(
-    name = "check_insert_token_value_test",
-    srcs = ["check_insert_token_value.cpp"],
-    includes = ["../../../include"],
+load("@rules_cc//cc:defs.bzl", "cc_binary", "cc_test")
+
+# 调试可执行文件
+cc_binary(
+    name = "test_drop_use_commands",
+    srcs = ["test_drop_use_commands.cpp"],
     deps = [
-        "//src/sql_parser:sqlcc_parser_light",
-        "@com_google_googletest//:gtest_main",
+        "//src/sql_parser:sqlcc_parser",
+        "//src:unified_executor",
+        "//src/core:sqlcc_core_lib",
     ],
 )
 
-cc_test(
-    name = "check_token_enum_test",
-    srcs = ["check_token_enum.cpp"],
-    includes = ["../../../include"],
+cc_binary(
+    name = "test_performance_real",
+    srcs = ["test_performance_real.cpp"],
     deps = [
-        "//src/sql_parser:sqlcc_parser_light",
-        "@com_google_googletest//:gtest_main",
+        "//src/sql_parser:sqlcc_parser",
+        "//src:unified_executor",
+        "//src/core:sqlcc_core_lib",
+        "//src/network:sqlcc_network",
     ],
 )
 
-cc_test(
-    name = "check_token_new_enum_values_test",
-    srcs = ["check_token_new_enum_values.cpp"],
-    includes = ["../../../include"],
+cc_binary(
+    name = "test_infinite_loop",
+    srcs = ["test_infinite_loop.cpp"],
     deps = [
-        "//src/sql_parser:sqlcc_parser_light",
-        "@com_google_googletest//:gtest_main",
+        "//src/sql_parser:sqlcc_parser",
     ],
 )
 
-cc_test(
-    name = "check_token_value_test",
-    srcs = ["check_token_value.cpp"],
-    includes = ["../../../include"],
+cc_binary(
+    name = "test_percent_simple",
+    srcs = ["test_percent_simple.cpp"],
     deps = [
-        "//src/sql_parser:sqlcc_parser_light",
-        "@com_google_googletest//:gtest_main",
+        "//src/sql_parser:sqlcc_parser",
     ],
 )
 
-cc_test(
-    name = "debug_create_keyword_token_test",
-    srcs = ["debug_create_keyword_token.cpp"],
-    includes = ["../../../include"],
+cc_binary(
+    name = "test_insert_parsing",
+    srcs = ["test_insert_parsing.cpp"],
     deps = [
-        "//src/sql_parser:sqlcc_parser_light",
-        "@com_google_googletest//:gtest_main",
+        "//src/sql_parser:sqlcc_parser",
     ],
 )
 
-cc_test(
-    name = "debug_drop_permission_test",
-    srcs = ["debug_drop_permission.cpp"],
-    includes = ["../../../include"],
+cc_binary(
+    name = "test_simple_insert",
+    srcs = ["test_simple_insert.cpp"],
     deps = [
-        "//src/sql_parser:sqlcc_parser_light",
-        "@com_google_googletest//:gtest_main",
+        "//src/sql_parser:sqlcc_parser",
     ],
 )
 
-cc_test(
-    name = "debug_full_parse_test",
-    srcs = ["debug_full_parse.cpp"],
-    includes = ["../../../include"],
-    deps = [
-        "//src/sql_parser:sqlcc_parser_light",
-        "@com_google_googletest//:gtest_main",
-    ],
-)
-
-cc_test(
-    name = "debug_insert_detailed_test",
-    srcs = ["debug_insert_detailed.cpp"],
-    includes = ["../../../include"],
-    deps = [
-        "//src/sql_parser:sqlcc_parser_light",
-        "@com_google_googletest//:gtest_main",
-    ],
-)
-
-cc_test(
-    name = "debug_insert_only_test",
-    srcs = ["debug_insert_only.cpp"],
-    includes = ["../../../include"],
-    deps = [
-        "//src/sql_parser:sqlcc_parser_light",
-        "@com_google_googletest//:gtest_main",
-    ],
-)
-
-cc_test(
-    name = "debug_keyword_map_test",
-    srcs = ["debug_keyword_map.cpp"],
-    includes = ["../../../include"],
-    deps = [
-        "//src/sql_parser:sqlcc_parser_light",
-        "@com_google_googletest//:gtest_main",
-    ],
-)
-
-cc_test(
-    name = "debug_keyword_map_detailed_test",
-    srcs = ["debug_keyword_map_detailed.cpp"],
-    includes = ["../../../include"],
-    deps = [
-        "//src/sql_parser:sqlcc_parser_light",
-        "@com_google_googletest//:gtest_main",
-    ],
-)
-
-cc_test(
-    name = "debug_keyword_mapping_test",
-    srcs = ["debug_keyword_mapping.cpp"],
-    includes = ["../../../include"],
-    deps = [
-        "//src/sql_parser:sqlcc_parser_light",
-        "@com_google_googletest//:gtest_main",
-    ],
-)
-
-cc_test(
-    name = "debug_lexer_process_test",
-    srcs = ["debug_lexer_process.cpp"],
-    includes = ["../../../include"],
-    deps = [
-        "//src/sql_parser:sqlcc_parser_light",
-        "@com_google_googletest//:gtest_main",
-    ],
-)
-
-cc_test(
-    name = "debug_parser_test",
-    srcs = ["debug_parser.cpp"],
-    includes = ["../../../include"],
-    deps = [
-        "//src/sql_parser:sqlcc_parser_light",
-        "@com_google_googletest//:gtest_main",
-    ],
-)
-
-cc_test(
-    name = "debug_token_values_test",
-    srcs = ["debug_token_values.cpp"],
-    includes = ["../../../include"],
-    deps = [
-        "//src/sql_parser:sqlcc_parser_light",
-        "@com_google_googletest//:gtest_main",
-    ],
-)
-
-cc_test(
-    name = "fix_keyword_mapping_test",
-    srcs = ["fix_keyword_mapping.cpp"],
-    includes = ["../../../include"],
-    deps = [
-        "//src/sql_parser:sqlcc_parser_light",
-        "@com_google_googletest//:gtest_main",
-    ],
-)
-
-cc_test(
-    name = "print_all_token_new_enum_values_test",
-    srcs = ["print_all_token_new_enum_values.cpp"],
-    includes = ["../../../include"],
-    deps = [
-        "//src/sql_parser:sqlcc_parser_light",
-        "@com_google_googletest//:gtest_main",
-    ],
-)
-
-cc_test(
-    name = "print_token_enum_values_test",
-    srcs = ["print_token_enum_values.cpp"],
-    includes = ["../../../include"],
-    deps = [
-        "//src/sql_parser:sqlcc_parser_light",
-        "@com_google_googletest//:gtest_main",
-    ],
-)
-
-cc_test(
-    name = "test_create_keyword_token_test",
-    srcs = ["test_create_keyword_token.cpp"],
-    includes = ["../../../include"],
-    deps = [
-        "//src/sql_parser:sqlcc_parser_light",
-        "@com_google_googletest//:gtest_main",
-    ],
-)
-
-# Test suite for all debug component tests
+# 调试测试套件
 test_suite(
     name = "debug_tests",
     tests = [
-        ":check_insert_token_value_test",
-        ":check_token_enum_test",
-        ":check_token_new_enum_values_test",
-        ":check_token_value_test",
-        ":debug_create_keyword_token_test",
-        ":debug_drop_permission_test",
-        ":debug_full_parse_test",
-        ":debug_insert_detailed_test",
-        ":debug_insert_only_test",
-        ":debug_keyword_map_test",
-        ":debug_keyword_map_detailed_test",
-        ":debug_keyword_mapping_test",
-        ":debug_lexer_process_test",
-        ":debug_parser_test",
-        ":debug_token_values_test",
-        ":fix_keyword_mapping_test",
-        ":print_all_token_new_enum_values_test",
-        ":print_token_enum_values_test",
-        ":test_create_keyword_token_test",
+        ":test_drop_use_commands",
+        ":test_performance_real",
+        ":test_infinite_loop",
+        ":test_percent_simple",
+        ":test_insert_parsing",
+        ":test_simple_insert",
     ],
 )
