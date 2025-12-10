@@ -61,7 +61,7 @@ Page *BufferPoolSharded::FetchPage(int32_t page_id, bool exclusive) {
     }
 
     stats_.total_hits++;
-    return page_wrapper->page;
+    return page_wrapper->page.get();
   }
 
   // 页面不在缓冲池中，需要从磁盘加载
@@ -88,9 +88,8 @@ Page *BufferPoolSharded::FetchPage(int32_t page_id, bool exclusive) {
   // 创建新页面
   auto page = std::make_unique<Page>(page_id);
   memcpy(page->GetData(), page_data, PAGE_SIZE);
-  Page *page_ptr = page.release();
 
-  auto page_wrapper = std::make_shared<PageWrapper>(page_ptr);
+  auto page_wrapper = std::make_shared<PageWrapper>(std::move(page));
   page_wrapper->ref_count = 1;
   page_wrapper->is_dirty = false;
 
@@ -108,7 +107,7 @@ Page *BufferPoolSharded::FetchPage(int32_t page_id, bool exclusive) {
   }
 
   stats_.total_accesses++;
-  return page_ptr;
+  return page_wrapper->page.get();
 }
 
 bool BufferPoolSharded::FlushPage(int32_t page_id) {
@@ -199,9 +198,8 @@ Page *BufferPoolSharded::NewPage(int32_t *page_id) {
 
   // 创建新页面
   auto page = std::make_unique<Page>(new_page_id);
-  Page *page_ptr = page.release();
 
-  auto page_wrapper = std::make_shared<PageWrapper>(page_ptr);
+  auto page_wrapper = std::make_shared<PageWrapper>(std::move(page));
   page_wrapper->ref_count = 1;
   page_wrapper->is_dirty = false;
 
@@ -219,7 +217,7 @@ Page *BufferPoolSharded::NewPage(int32_t *page_id) {
   }
 
   *page_id = new_page_id;
-  return page_ptr;
+  return page_wrapper->page.get();
 }
 
 bool BufferPoolSharded::DeletePage(int32_t page_id) {

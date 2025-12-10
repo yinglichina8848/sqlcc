@@ -35,6 +35,8 @@ class AlterTriggerStatement;
 class Expression;
 class SetOperationNode;
 class CompositeSelectStatement;
+class WindowFunctionNode;
+class WindowSpecificationNode;
 
 class NodeVisitor {
 public:
@@ -69,6 +71,10 @@ public:
   // 集合操作访问方法
   virtual void visit(SetOperationNode &node) = 0;
   virtual void visit(CompositeSelectStatement &node) = 0;
+  
+  // 窗口函数访问方法
+  virtual void visit(WindowFunctionNode &node) = 0;
+  virtual void visit(WindowSpecificationNode &node) = 0;
 };
 
 } // namespace sql_parser

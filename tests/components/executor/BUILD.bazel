@@ -117,6 +117,28 @@ cc_test(
     ],
 )
 
+# 新增的ALTER TABLE执行器测试
+cc_test(
+    name = "alter_table_executor_test",
+    srcs = ["alter_table_executor_test.cpp"],
+    includes = ["../../../include", "../../../include/core", "../../../include/utils"],
+    deps = [
+        "//src:sqlcc_core",
+        "@com_google_googletest//:gtest_main",
+    ],
+)
+
+# 新增的元数据一致性检查测试
+cc_test(
+    name = "metadata_consistency_test",
+    srcs = ["metadata_consistency_test.cpp"],
+    includes = ["../../../include", "../../../include/core", "../../../include/utils"],
+    deps = [
+        "//src:sqlcc_core",
+        "@com_google_googletest//:gtest_main",
+    ],
+)
+
 test_suite(
     name = "executor_component_tests",
     tests = [
@@ -132,5 +154,7 @@ test_suite(
         ":unified_executor_test",
         ":where_clause_optimization_test",
         ":window_function_executor_test",
+        ":alter_table_executor_test",  # 添加新的测试
+        ":metadata_consistency_test",   # 添加新的测试
     ],
 )

@@ -1,4 +1,4 @@
-#include "sql_parser/lexer_new.h"
+#include "../../include/sql_parser/lexer_new.h"
 #include <algorithm>
 #include <cctype>
 #include <iostream>
@@ -52,7 +52,7 @@ bool isWhitespace(char c) {
 const std::unordered_set<std::string> &getSQLKeywords() {
   static std::unordered_set<std::string> keywords = {
       // DDL Keywords
-      "create", "alter", "drop", "truncate", "rename", "comment",
+      "create", "alter", "drop", "truncate", "rename", "comment", "add", "column", "modify", "constraint",
 
       // DML Keywords
       "select", "insert", "update", "delete", "merge",
@@ -557,7 +557,7 @@ Token LexerNew::createIdentifierToken(const std::string &lexeme, int line,
   // Check if it's a keyword that we support
   static std::unordered_set<std::string> supportedKeywords = {
       // DDL Keywords
-      "create", "alter", "drop", "table", "index", "database",
+      "create", "alter", "drop", "table", "index", "database", "add", "column", "modify", "rename", "constraint",
 
       // DML Keywords
       "select", "insert", "update", "delete", "from", "into", "values", "set",
@@ -612,6 +612,11 @@ Token LexerNew::createKeywordToken(const std::string &keyword, int line,
     keywordMap["table"] = Token::KEYWORD_TABLE;
     keywordMap["index"] = Token::KEYWORD_INDEX;
     keywordMap["database"] = Token::KEYWORD_DATABASE;
+    keywordMap["add"] = Token::KEYWORD_ADD;
+    keywordMap["column"] = Token::KEYWORD_COLUMN;
+    keywordMap["modify"] = Token::KEYWORD_MODIFY;
+    keywordMap["rename"] = Token::KEYWORD_RENAME;
+    keywordMap["constraint"] = Token::KEYWORD_CONSTRAINT;
 
     // DML Keywords
     keywordMap["select"] = Token::KEYWORD_SELECT;
@@ -684,6 +689,10 @@ Token LexerNew::createKeywordToken(const std::string &keyword, int line,
     std::cout << "[DEBUG] Found keyword '" << keyword
               << "', returning type: " << static_cast<int>(it->second)
               << std::endl;
+    std::cout << "[DEBUG] Creating Token with type: " << static_cast<int>(it->second) 
+              << ", keyword: '" << keyword << "'" << std::endl;
+    // 直接返回临时对象，避免命名对象
+    std::cout << "[DEBUG] About to return temporary token" << std::endl;
     return Token(it->second, keyword, line, column);
   }
 
@@ -695,11 +704,15 @@ Token LexerNew::createKeywordToken(const std::string &keyword, int line,
         << "[DEBUG] Keyword '" << keyword
         << "' in getSQLKeywords but not in keywordMap, returning IDENTIFIER"
         << std::endl;
+    // 直接返回临时对象，避免命名对象
+    std::cout << "[DEBUG] About to return temporary token (IDENTIFIER)" << std::endl;
     return Token(Token::IDENTIFIER, keyword, line, column);
   }
 
   std::cout << "[DEBUG] Keyword '" << keyword
             << "' not found, returning IDENTIFIER" << std::endl;
+  // 直接返回临时对象，避免命名对象
+  std::cout << "[DEBUG] About to return temporary token (default)" << std::endl;
   return Token(Token::IDENTIFIER, keyword, line, column);
 }
 Token LexerNew::createNumberToken(const std::string &lexeme, int line,

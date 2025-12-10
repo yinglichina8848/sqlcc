@@ -38,6 +38,14 @@ filegroup(
     srcs = glob(["utils/config_manager.h"]),
 )
 
+# 工具类库
+cc_library(
+    name = "utils_lib",
+    hdrs = ["utils/file_descriptor.h"],
+    includes = ["."],
+    visibility = ["//visibility:public"],
+)
+
 # Execution头文件库
 filegroup(
     name = "execution_headers",

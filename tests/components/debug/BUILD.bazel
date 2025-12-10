@@ -1,10 +1,65 @@
-# 调试测试BUILD.bazel文件
+# 测试组件调试目录Bazel构建配置
 
 package(default_visibility = ["//visibility:public"])
 
-load("@rules_cc//cc:defs.bzl", "cc_binary", "cc_test")
+load("@rules_cc//cc:defs.bzl", "cc_binary", "cc_library", "cc_test")
 
-# 调试可执行文件
+# ==================== 调试工具和测试程序 ====================
+
+cc_binary(
+    name = "debug_keyword_map",
+    srcs = ["debug_keyword_map.cpp"],
+    deps = [
+        "//src/sql_parser:sqlcc_parser",
+        "@com_google_absl//absl/strings",
+    ],
+)
+
+cc_binary(
+    name = "debug_keyword_map_detailed",
+    srcs = ["debug_keyword_map_detailed.cpp"],
+    deps = [
+        "//src/sql_parser:sqlcc_parser_light",
+        "@com_google_absl//absl/strings",
+    ],
+)
+
+cc_binary(
+    name = "fix_keyword_mapping",
+    srcs = ["fix_keyword_mapping.cpp"],
+    deps = [
+        "//src/sql_parser:sqlcc_parser_light",
+        "@com_google_absl//absl/strings",
+    ],
+)
+
+cc_binary(
+    name = "simple_alter_test",
+    srcs = ["simple_alter_test.cpp"],
+    deps = [
+        "//src/sql_parser:sqlcc_parser",
+        "@com_google_absl//absl/strings",
+    ],
+)
+
+cc_binary(
+    name = "token_test",
+    srcs = ["token_test.cpp"],
+    deps = [
+        "//src/sql_parser:sqlcc_parser",
+        "@com_google_absl//absl/strings",
+    ],
+)
+
+cc_binary(
+    name = "test_create_keyword_token",
+    srcs = ["test_create_keyword_token.cpp"],
+    deps = [
+        "//src/sql_parser:sqlcc_parser_light",
+        "@com_google_absl//absl/strings",
+    ],
+)
+
 cc_binary(
     name = "test_drop_use_commands",
     srcs = ["test_drop_use_commands.cpp"],
@@ -96,6 +151,95 @@ cc_binary(
     includes = ["../../../include"],
 )
 
+cc_binary(
+    name = "test_metadata_improvement",
+    srcs = ["test_metadata_improvement.cpp"],
+    deps = [
+        "//src/core:sqlcc_core_lib",
+        "//src/sql_executor:sqlcc_executor",
+        "//src/sql_parser:sqlcc_parser_light",
+    ],
+    includes = ["../../../include"],
+)
+
+cc_binary(
+    name = "test_alter_compilation",
+    srcs = ["test_alter_compilation.cpp"],
+    deps = [
+        "//src/sql_parser:sqlcc_parser",
+        "//src:unified_executor",
+        "//src/core:sqlcc_core_lib",
+    ],
+)
+
+cc_binary(
+    name = "debug_alter_test",
+    srcs = ["debug_alter_test.cpp"],
+    deps = [
+        "//src/sql_parser:sqlcc_parser",
+    ],
+)
+
+cc_binary(
+    name = "detailed_debug_test",
+    srcs = ["detailed_debug_test.cpp"],
+    deps = [
+        "//src/sql_parser:sqlcc_parser",
+    ],
+)
+
+cc_binary(
+    name = "simple_token_debug",
+    srcs = ["simple_token_debug.cpp"],
+    deps = [
+        "//src/sql_parser:sqlcc_parser",
+    ],
+)
+
+cc_binary(
+    name = "minimal_token_test",
+    srcs = ["minimal_token_test.cpp"],
+    deps = [
+        "//src/sql_parser:sqlcc_parser",
+    ],
+)
+
+cc_binary(
+    name = "minimal_lexer_test",
+    srcs = ["minimal_lexer_test.cpp"],
+    deps = [
+        "//src/sql_parser:sqlcc_parser",
+    ],
+)
+
+cc_binary(
+    name = "super_minimal_test",
+    srcs = ["super_minimal_test.cpp"],
+    deps = [
+        "//src/sql_parser:sqlcc_parser",
+    ],
+)
+
+# ==================== 单元测试 ====================
+
+cc_test(
+    name = "test_parser_basic",
+    srcs = ["test_parser_basic.cpp"],
+    deps = [
+        "//src/sql_parser:sqlcc_parser",
+        "@com_google_googletest//:gtest_main",
+    ],
+)
+
+cc_test(
+    name = "test_keyword",
+    srcs = ["test_keyword.cpp"],
+    deps = [
+        "//src/sql_parser:sqlcc_parser_light",
+        "@com_google_googletest//:gtest_main",
+    ],
+)
+
 # 内存安全测试
 cc_test(
     name = "memory_safety_test",
@@ -129,6 +273,18 @@ cc_test(
     includes = ["../../../include"],
 )
 
+# 缓冲池智能指针重构测试
+cc_test(
+    name = "buffer_pool_smart_pointer_test",
+    srcs = ["buffer_pool_smart_pointer_test.cpp"],
+    deps = [
+        "//src/storage_engine:sqlcc_storage_engine",
+        "//src/core:sqlcc_core_lib",
+        "@com_google_googletest//:gtest_main",
+    ],
+    includes = ["../../../include"],
+)
+
 # 调试测试套件
 test_suite(
     name = "debug_tests",
@@ -143,6 +299,11 @@ test_suite(
         ":test_window_function_executor",
         ":test_window_function_integration",
         ":test_window_function_complete",
+        ":test_metadata_improvement",
+        ":test_alter_compilation",
+        ":simple_alter_test",
         ":memory_safety_test",
+        ":buffer_pool_smart_pointer_test",
+        ":file_descriptor_test",
     ],
 )

@@ -30,8 +30,7 @@ bool IndexManager::CreateIndex(const std::string &index_name,
   }
 
   // 创建新的B+树索引
-  auto index = std::make_unique<BPlusTreeIndex>(storage_engine_, table_name,
-                                                column_name);
+  auto index = std::make_unique<BPlusTreeIndex>(std::shared_ptr<StorageEngine>(storage_engine_), table_name, column_name);
   if (!index->Create()) {
     SQLCC_LOG_ERROR("Failed to create index: " + index_name);
     return false;

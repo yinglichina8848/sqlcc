@@ -31,10 +31,11 @@
 #include "exception.h"
 #include "utils/logger.h"
 #include <algorithm>
+#include <memory>
 
 namespace sqlcc {
 
-// Constructor - simplified initialization
+// Constructor - simplified initialization with smart pointers
 BufferPool::BufferPool(DiskManager *disk_manager, size_t pool_size,
                        ConfigManager &config_manager)
     : disk_manager_(disk_manager), config_manager_(config_manager),
@@ -52,7 +53,7 @@ BufferPool::~BufferPool() {
   // Flush all dirty pages before cleanup
   for (const auto &pair : page_table_) {
     int32_t page_id = pair.first;
-    Page *page = pair.second;
+    auto page = pair.second;
 
     auto dirty_it = dirty_pages_.find(page_id);
     if (dirty_it != dirty_pages_.end() && dirty_it->second) {
@@ -61,8 +62,6 @@ BufferPool::~BufferPool() {
       disk_manager_->WritePage(page_id, page->GetData());
       lock.lock();
     }
-
-    delete page;
   }
 
   page_table_.clear();
@@ -91,7 +90,7 @@ Page *BufferPool::FetchPage(int32_t page_id) {
     metrics_.cache_hits++;
     page_refs_[page_id]++;
     UpdateLRU(page_id);
-    return it->second;
+    return it->second.get();
   }
 
   // Page not in buffer, need to load from disk
@@ -113,7 +112,7 @@ Page *BufferPool::FetchPage(int32_t page_id) {
   }
 
   // Create new page and load from disk
-  Page *page = new Page(page_id);
+  auto page = std::make_shared<Page>(page_id);
 
   // Release lock for disk I/O to prevent deadlocks
   lock.unlock();
@@ -123,7 +122,6 @@ Page *BufferPool::FetchPage(int32_t page_id) {
   // Reacquire lock
   if (!lock.try_lock_for(std::chrono::milliseconds(lock_timeout_ms_))) {
     SQLCC_LOG_WARN("Failed to reacquire buffer pool lock after disk read");
-    delete page;
     return nullptr;
   }
 
@@ -133,13 +131,11 @@ Page *BufferPool::FetchPage(int32_t page_id) {
     if (check_it != page_table_.end()) {
       page_refs_[page_id]++;
       UpdateLRU(page_id);
-      delete page;
-      return check_it->second;
+      return check_it->second.get();
     }
 
     SQLCC_LOG_ERROR("Failed to read page " + std::to_string(page_id) +
                     " from disk");
-    delete page;
     return nullptr;
   }
 
@@ -153,7 +149,7 @@ Page *BufferPool::FetchPage(int32_t page_id) {
 
   SQLCC_LOG_DEBUG("Page " + std::to_string(page_id) +
                   " loaded into buffer pool");
-  return page;
+  return page.get();
 }
 
 // Unpin a page - simplified reference counting
@@ -210,7 +206,7 @@ Page *BufferPool::NewPage(int32_t *page_id) {
     return nullptr;
   }
 
-  Page *page = new Page(*page_id);
+  auto page = std::make_shared<Page>(*page_id);
 
   // Initialize page data
   memset(page->GetData(), 0, PAGE_SIZE);
@@ -223,7 +219,7 @@ Page *BufferPool::NewPage(int32_t *page_id) {
   lru_map_[*page_id] = lru_list_.begin();
 
   SQLCC_LOG_DEBUG("New page " + std::to_string(*page_id) + " created");
-  return page;
+  return page.get();
 }
 
 // Flush a page to disk
@@ -362,7 +358,7 @@ bool BufferPool::DeletePage(int32_t page_id) {
   // Flush if dirty
   auto dirty_it = dirty_pages_.find(page_id);
   if (dirty_it != dirty_pages_.end() && dirty_it->second) {
-    Page *page = it->second;
+    auto page = it->second;
     latch_.unlock();
 
     bool flush_success = disk_manager_->WritePage(page_id, page->GetData());
@@ -380,13 +376,10 @@ bool BufferPool::DeletePage(int32_t page_id) {
     }
   }
 
-  // Remove from all data structures
-  Page *page = it->second;
-  delete page;
-
-  page_table_.erase(it);
-  page_refs_.erase(page_id);
-  dirty_pages_.erase(page_id);
+  // Remove victim page from buffer pool
+  page_table_.erase(victim_it);
+  page_refs_.erase(victim_page_id);
+  dirty_pages_.erase(victim_page_id);
 
   auto lru_it = lru_map_.find(page_id);
   if (lru_it != lru_map_.end()) {
@@ -503,8 +496,7 @@ bool BufferPool::ReplacePage(int32_t victim_page_id, int32_t new_page_id) {
     // Release lock for disk I/O
     latch_.unlock();
 
-    bool flush_success =
-        disk_manager_->WritePage(victim_page_id, victim_page->GetData());
+    bool flush_success = disk_manager_->WritePage(victim_page_id, victim_page->GetData());
 
     if (!latch_.try_lock_for(std::chrono::milliseconds(lock_timeout_ms_))) {
       SQLCC_LOG_ERROR("Failed to reacquire lock after flushing victim page");
@@ -512,13 +504,12 @@ bool BufferPool::ReplacePage(int32_t victim_page_id, int32_t new_page_id) {
     }
 
     if (!flush_success) {
-      SQLCC_LOG_ERROR("Failed to flush dirty victim page " +
-                      std::to_string(victim_page_id));
+      SQLCC_LOG_ERROR("Failed to flush victim page " + std::to_string(victim_page_id));
       return false;
     }
   }
 
-  // Remove victim page from all data structures
+  // Remove victim page from buffer pool
   page_table_.erase(victim_it);
   page_refs_.erase(victim_page_id);
   dirty_pages_.erase(victim_page_id);
@@ -530,7 +521,6 @@ bool BufferPool::ReplacePage(int32_t victim_page_id, int32_t new_page_id) {
   }
 
   // Delete the victim page
-  delete victim_page;
   metrics_.evictions++;
 
   SQLCC_LOG_DEBUG("Page " + std::to_string(victim_page_id) +
@@ -539,7 +529,7 @@ bool BufferPool::ReplacePage(int32_t victim_page_id, int32_t new_page_id) {
   // If new_page_id is valid (not -1), we need to load the new page
   if (new_page_id != -1) {
     // Create new page and load from disk
-    Page *new_page = new Page(new_page_id);
+    auto new_page = std::make_shared<Page>(new_page_id);
 
     // Release lock for disk I/O
     latch_.unlock();
@@ -549,14 +539,12 @@ bool BufferPool::ReplacePage(int32_t victim_page_id, int32_t new_page_id) {
 
     if (!latch_.try_lock_for(std::chrono::milliseconds(lock_timeout_ms_))) {
       SQLCC_LOG_ERROR("Failed to reacquire lock after loading new page");
-      delete new_page;
       return false;
     }
 
     if (!read_success) {
       SQLCC_LOG_ERROR("Failed to read new page " + std::to_string(new_page_id) +
                       " from disk");
-      delete new_page;
       return false;
     }
 

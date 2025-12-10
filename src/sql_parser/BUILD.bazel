@@ -2,6 +2,8 @@
 
 package(default_visibility = ["//visibility:public"])
 
+load("@rules_cc//cc:defs.bzl", "cc_library")
+
 cc_library(
     name = "sqlcc_parser",
     srcs = [
@@ -10,11 +12,14 @@ cc_library(
         "lexer.cpp",
         "lexer_new.cpp",
         "parser_new.cpp",
+        # 移除parser_set_operations.cpp以避免重复定义
         "set_operation_node.cpp",
-        "token_new.cpp",
+        "token.cpp",
+        # 移除token_new.cpp以避免重复定义
+        "window_function_node.cpp",
     ],
     hdrs = ["//include:sql_parser_headers"],
-    includes = ["../include"],
+    includes = ["../../include"],
     copts = ["-std=c++17"],
     deps = ["//src/core:sqlcc_core_lib"],
 )
@@ -29,10 +34,12 @@ cc_library(
         "lexer_new.cpp",
         "parser_new.cpp",
         "set_operation_node.cpp",
-        "token_new.cpp",
+        "token.cpp",
+        # 移除token_new.cpp以避免重复定义
+        "window_function_node.cpp",
     ],
     hdrs = ["//include:sql_parser_headers"],
-    includes = ["../include"],
+    includes = ["../../include"],
     copts = ["-std=c++17"],
     deps = [
         "@com_google_absl//absl/strings",

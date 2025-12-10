@@ -334,7 +334,8 @@ bool SystemDatabase::CreateSysPrivilegesTable() {
         {"db_name", "VARCHAR(255)"},
         {"table_name", "VARCHAR(255)"},
         {"privilege", "VARCHAR(50) NOT NULL"}, // SELECT, INSERT, etc.
-        {"grantor", "VARCHAR(255) NOT NULL"}
+        {"grantor", "VARCHAR(255) NOT NULL"},
+        {"granted_at", "TIMESTAMP NOT NULL"}
     };
 
     if (!db_manager_->CreateTable(SYS_TABLE_PRIVILEGES, columns)) {
@@ -1055,6 +1056,63 @@ std::vector<SysColumn> SystemDatabase::GetTableColumns(int64_t table_id) {
     return std::vector<SysColumn>();
 }
 
+bool SystemDatabase::UpdateColumnRecord(int64_t table_id, const std::string& column_name, const std::string& new_data_type,
+                                       bool new_is_nullable, const std::string& new_default_value) {
+    try {
+        std::stringstream ss;
+        ss << "UPDATE " << SYS_TABLE_COLUMNS
+           << " SET data_type = '" << new_data_type << "', "
+           << "is_nullable = " << (new_is_nullable ? "1" : "0") << ", "
+           << "default_value = '" << new_default_value << "' "
+           << "WHERE table_id = " << table_id
+           << " AND column_name = '" << column_name << "'";
+        
+        std::string prev_db = db_manager_->GetCurrentDatabase();
+        if (!db_manager_->UseDatabase(SYSTEM_DB_NAME)) {
+            SetError("Failed to switch to system database");
+            return false;
+        }
+        
+        bool result = ExecuteSQL(ss.str());
+        
+        if (!prev_db.empty()) {
+            db_manager_->UseDatabase(prev_db);
+        }
+        
+        return result;
+    } catch (const std::exception& e) {
+        SetError(std::string("UpdateColumnRecord failed: ") + e.what());
+        return false;
+    }
+}
+
+bool SystemDatabase::RenameColumnRecord(int64_t table_id, const std::string& old_column_name, const std::string& new_column_name) {
+    try {
+        std::stringstream ss;
+        ss << "UPDATE " << SYS_TABLE_COLUMNS
+           << " SET column_name = '" << new_column_name << "' "
+           << "WHERE table_id = " << table_id
+           << " AND column_name = '" << old_column_name << "'";
+        
+        std::string prev_db = db_manager_->GetCurrentDatabase();
+        if (!db_manager_->UseDatabase(SYSTEM_DB_NAME)) {
+            SetError("Failed to switch to system database");
+            return false;
+        }
+        
+        bool result = ExecuteSQL(ss.str());
+        
+        if (!prev_db.empty()) {
+            db_manager_->UseDatabase(prev_db);
+        }
+        
+        return result;
+    } catch (const std::exception& e) {
+        SetError(std::string("RenameColumnRecord failed: ") + e.what());
+        return false;
+    }
+}
+
 // 索引元数据操作实现
 bool SystemDatabase::CreateIndexRecord(int64_t table_id, const std::string& index_name, const std::string& column_name,
                                       bool is_unique, const std::string& index_type) {
@@ -1122,6 +1180,33 @@ std::vector<SysIndex> SystemDatabase::GetTableIndexes(int64_t table_id) {
     // TODO: 需要实现SELECT查询并解析结果
     // 这需要QueryExecutor支持返回结构化数据
     return std::vector<SysIndex>();
+}
+
+bool SystemDatabase::RenameIndexRecord(int64_t table_id, const std::string& old_index_name, const std::string& new_index_name) {
+    try {
+        std::stringstream ss;
+        ss << "UPDATE " << SYS_TABLE_INDEXES
+           << " SET index_name = '" << new_index_name << "' "
+           << "WHERE table_id = " << table_id
+           << " AND index_name = '" << old_index_name << "'";
+        
+        std::string prev_db = db_manager_->GetCurrentDatabase();
+        if (!db_manager_->UseDatabase(SYSTEM_DB_NAME)) {
+            SetError("Failed to switch to system database");
+            return false;
+        }
+        
+        bool result = ExecuteSQL(ss.str());
+        
+        if (!prev_db.empty()) {
+            db_manager_->UseDatabase(prev_db);
+        }
+        
+        return result;
+    } catch (const std::exception& e) {
+        SetError(std::string("RenameIndexRecord failed: ") + e.what());
+        return false;
+    }
 }
 
 // 约束元数据操作实现
@@ -1195,6 +1280,60 @@ std::vector<SysConstraint> SystemDatabase::GetTableConstraints(int64_t table_id)
     // TODO: 需要实现SELECT查询并解析结果
     // 这需要QueryExecutor支持返回结构化数据
     return std::vector<SysConstraint>();
+}
+
+bool SystemDatabase::RenameConstraintRecord(int64_t table_id, const std::string& old_constraint_name, const std::string& new_constraint_name) {
+    try {
+        std::stringstream ss;
+        ss << "UPDATE " << SYS_TABLE_CONSTRAINTS
+           << " SET constraint_name = '" << new_constraint_name << "' "
+           << "WHERE table_id = " << table_id
+           << " AND constraint_name = '" << old_constraint_name << "'";
+        
+        std::string prev_db = db_manager_->GetCurrentDatabase();
+        if (!db_manager_->UseDatabase(SYSTEM_DB_NAME)) {
+            SetError("Failed to switch to system database");
+            return false;
+        }
+        
+        bool result = ExecuteSQL(ss.str());
+        
+        if (!prev_db.empty()) {
+            db_manager_->UseDatabase(prev_db);
+        }
+        
+        return result;
+    } catch (const std::exception& e) {
+        SetError(std::string("RenameConstraintRecord failed: ") + e.what());
+        return false;
+    }
+}
+
+bool SystemDatabase::RenameTableRecord(const std::string& schema_name, const std::string& old_table_name, const std::string& new_table_name) {
+    try {
+        std::stringstream ss;
+        ss << "UPDATE " << SYS_TABLE_TABLES
+           << " SET table_name = '" << new_table_name << "' "
+           << "WHERE schema_name = '" << schema_name << "' "
+           << "AND table_name = '" << old_table_name << "'";
+        
+        std::string prev_db = db_manager_->GetCurrentDatabase();
+        if (!db_manager_->UseDatabase(SYSTEM_DB_NAME)) {
+            SetError("Failed to switch to system database");
+            return false;
+        }
+        
+        bool result = ExecuteSQL(ss.str());
+        
+        if (!prev_db.empty()) {
+            db_manager_->UseDatabase(prev_db);
+        }
+        
+        return result;
+    } catch (const std::exception& e) {
+        SetError(std::string("RenameTableRecord failed: ") + e.what());
+        return false;
+    }
 }
 
 // 视图元数据操作实现
@@ -1412,6 +1551,163 @@ std::vector<SysClusterNode> SystemDatabase::GetClusterNodes() {
 std::vector<SysDistributedTransaction> SystemDatabase::GetActiveDistributedTransactions() {
     // TODO: 实现活跃分布式事务查询
     return std::vector<SysDistributedTransaction>();
+}
+
+// 元数据一致性检查实现
+bool SystemDatabase::CheckDatabaseConsistency() {
+    try {
+        // 检查sys_databases表是否存在且结构正确
+        std::stringstream ss;
+        ss << "SELECT COUNT(*) FROM " << SYS_TABLE_DATABASES;
+        
+        std::string prev_db = db_manager_->GetCurrentDatabase();
+        if (!db_manager_->UseDatabase(SYSTEM_DB_NAME)) {
+            SetError("Failed to switch to system database");
+            return false;
+        }
+        
+        bool result = ExecuteSQL(ss.str());
+        
+        if (!prev_db.empty()) {
+            db_manager_->UseDatabase(prev_db);
+        }
+        
+        return result;
+    } catch (const std::exception& e) {
+        SetError(std::string("CheckDatabaseConsistency failed: ") + e.what());
+        return false;
+    }
+}
+
+bool SystemDatabase::CheckTableConsistency(const std::string& schema_name, const std::string& table_name) {
+    try {
+        // 检查指定的表在sys_tables中是否存在
+        std::stringstream ss;
+        ss << "SELECT table_id FROM " << SYS_TABLE_TABLES
+           << " WHERE schema_name = '" << schema_name << "'"
+           << " AND table_name = '" << table_name << "'";
+        
+        std::string prev_db = db_manager_->GetCurrentDatabase();
+        if (!db_manager_->UseDatabase(SYSTEM_DB_NAME)) {
+            SetError("Failed to switch to system database");
+            return false;
+        }
+        
+        bool result = ExecuteSQL(ss.str());
+        
+        if (!prev_db.empty()) {
+            db_manager_->UseDatabase(prev_db);
+        }
+        
+        return result;
+    } catch (const std::exception& e) {
+        SetError(std::string("CheckTableConsistency failed: ") + e.what());
+        return false;
+    }
+}
+
+bool SystemDatabase::CheckColumnConsistency(int64_t table_id) {
+    try {
+        // 检查指定表的列在sys_columns中是否存在且结构正确
+        std::stringstream ss;
+        ss << "SELECT COUNT(*) FROM " << SYS_TABLE_COLUMNS
+           << " WHERE table_id = " << table_id;
+        
+        std::string prev_db = db_manager_->GetCurrentDatabase();
+        if (!db_manager_->UseDatabase(SYSTEM_DB_NAME)) {
+            SetError("Failed to switch to system database");
+            return false;
+        }
+        
+        bool result = ExecuteSQL(ss.str());
+        
+        if (!prev_db.empty()) {
+            db_manager_->UseDatabase(prev_db);
+        }
+        
+        return result;
+    } catch (const std::exception& e) {
+        SetError(std::string("CheckColumnConsistency failed: ") + e.what());
+        return false;
+    }
+}
+
+bool SystemDatabase::CheckIndexConsistency(int64_t table_id) {
+    try {
+        // 检查指定表的索引在sys_indexes中是否存在且结构正确
+        std::stringstream ss;
+        ss << "SELECT COUNT(*) FROM " << SYS_TABLE_INDEXES
+           << " WHERE table_id = " << table_id;
+        
+        std::string prev_db = db_manager_->GetCurrentDatabase();
+        if (!db_manager_->UseDatabase(SYSTEM_DB_NAME)) {
+            SetError("Failed to switch to system database");
+            return false;
+        }
+        
+        bool result = ExecuteSQL(ss.str());
+        
+        if (!prev_db.empty()) {
+            db_manager_->UseDatabase(prev_db);
+        }
+        
+        return result;
+    } catch (const std::exception& e) {
+        SetError(std::string("CheckIndexConsistency failed: ") + e.what());
+        return false;
+    }
+}
+
+bool SystemDatabase::CheckConstraintConsistency(int64_t table_id) {
+    try {
+        // 检查指定表的约束在sys_constraints中是否存在且结构正确
+        std::stringstream ss;
+        ss << "SELECT COUNT(*) FROM " << SYS_TABLE_CONSTRAINTS
+           << " WHERE table_id = " << table_id;
+        
+        std::string prev_db = db_manager_->GetCurrentDatabase();
+        if (!db_manager_->UseDatabase(SYSTEM_DB_NAME)) {
+            SetError("Failed to switch to system database");
+            return false;
+        }
+        
+        bool result = ExecuteSQL(ss.str());
+        
+        if (!prev_db.empty()) {
+            db_manager_->UseDatabase(prev_db);
+        }
+        
+        return result;
+    } catch (const std::exception& e) {
+        SetError(std::string("CheckConstraintConsistency failed: ") + e.what());
+        return false;
+    }
+}
+
+bool SystemDatabase::CheckPrivilegeConsistency(const std::string& grantee_name) {
+    try {
+        // 检查指定用户的权限在sys_privileges中是否存在且结构正确
+        std::stringstream ss;
+        ss << "SELECT COUNT(*) FROM " << SYS_TABLE_PRIVILEGES
+           << " WHERE grantee_name = '" << grantee_name << "'";
+        
+        std::string prev_db = db_manager_->GetCurrentDatabase();
+        if (!db_manager_->UseDatabase(SYSTEM_DB_NAME)) {
+            SetError("Failed to switch to system database");
+            return false;
+        }
+        
+        bool result = ExecuteSQL(ss.str());
+        
+        if (!prev_db.empty()) {
+            db_manager_->UseDatabase(prev_db);
+        }
+        
+        return result;
+    } catch (const std::exception& e) {
+        SetError(std::string("CheckPrivilegeConsistency failed: ") + e.what());
+        return false;
+    }
 }
 
 } // namespace sqlcc

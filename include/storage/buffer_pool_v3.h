@@ -201,10 +201,9 @@ private:
   // 替换策略
   std::unique_ptr<AbstractReplaceStrategy> replace_strategy_;
 
-  // 并发控制
-  // 注意：HierarchicalLockManager和Prefetcher类尚未实现，暂时使用原始指针
-  HierarchicalLockManager *lock_manager_;
-  Prefetcher *prefetcher_;
+  // 并发控制 - 使用智能指针确保自动内存管理
+  std::unique_ptr<HierarchicalLockManager> lock_manager_;
+  std::unique_ptr<Prefetcher> prefetcher_;
 
   // 统计信息
   mutable std::mutex stats_mutex_;

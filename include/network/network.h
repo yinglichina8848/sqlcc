@@ -17,6 +17,8 @@
 
 #include "sql_executor.h"
 #include "network/encryption.h"
+#include "utils/file_descriptor.h"
+#include "utils/ssl_wrapper.h"
 #ifdef __linux__
 #include <openssl/ssl.h>
 #endif
@@ -121,12 +123,12 @@ private:
     std::string host_;
     int port_;
     bool connected_;
-    int socket_fd_;
+    sqlcc::utils::FileDescriptor socket_fd_;
 #ifdef __linux__
     bool tls_enabled_ = false;
     std::string ca_cert_path_;
-    struct ssl_ctx_st* ssl_ctx_ = nullptr; // SSL_CTX*
-    struct ssl_st* ssl_ = nullptr;         // SSL*
+    sqlcc::utils::SSLContext ssl_ctx_; // SSL_CTX RAII包装器
+    sqlcc::utils::SSLSocket ssl_;      // SSL RAII包装器
 #endif
 };
 
@@ -170,7 +172,7 @@ private:
 // 连接处理器
 class ConnectionHandler {
 public:
-    ConnectionHandler(int fd, std::shared_ptr<SessionManager> session_manager, std::shared_ptr<sqlcc::SqlExecutor> sql_executor);
+    ConnectionHandler(sqlcc::utils::FileDescriptor&& fd, std::shared_ptr<SessionManager> session_manager, std::shared_ptr<sqlcc::SqlExecutor> sql_executor);
     ~ConnectionHandler();
     
     int GetFd() const;
@@ -198,7 +200,7 @@ private:
     std::vector<char> EncryptMessage(const std::vector<char>& message);
     std::vector<char> DecryptMessage(const std::vector<char>& message);
     
-    int fd_;
+    sqlcc::utils::FileDescriptor fd_;  // RAII文件描述符管理
     std::shared_ptr<SessionManager> session_manager_;
     std::shared_ptr<sqlcc::SqlExecutor> sql_executor_;
     std::shared_ptr<Session> session_;
@@ -206,7 +208,7 @@ private:
     std::queue<std::vector<char>> write_queue_;
     std::mutex write_mutex_;
 #ifdef __linux__
-    struct ssl_st* ssl_ = nullptr;
+    sqlcc::utils::SSLSocket ssl_;      // SSL RAII包装器
     bool tls_enabled_ = false;
 #endif
 };
@@ -253,15 +255,15 @@ private:
     
     int port_;
     int max_connections_;
-    int listen_fd_;
-    int epoll_fd_;
+    sqlcc::utils::FileDescriptor listen_fd_;
+    sqlcc::utils::FileDescriptor epoll_fd_;
     bool running_;
     std::shared_ptr<SessionManager> session_manager_;
     std::shared_ptr<sqlcc::SqlExecutor> sql_executor_;
-    std::unordered_map<int, ConnectionHandler*> connections_;
+    std::unordered_map<int, std::unique_ptr<ConnectionHandler>> connections_;
 #ifdef __linux__
     bool tls_enabled_ = false;
-    struct ssl_ctx_st* ssl_ctx_ = nullptr; // SSL_CTX*
+    sqlcc::utils::SSLContext ssl_ctx_; // SSL_CTX RAII包装器
 #endif
 };
 

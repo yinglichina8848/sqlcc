@@ -1,4 +1,4 @@
-#include "sql_parser/ast_node.h"
+#include "../../include/sql_parser/ast_node.h"
 #include <string>
 
 namespace sqlcc {

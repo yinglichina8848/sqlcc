@@ -8,15 +8,14 @@ namespace sql_parser {
 
 class Token {
 public:
-  // Token types
   enum Type {
     // Punctuation
-    SEMICOLON, // ;
-    LPAREN,    // (
-    RPAREN,    // )
-    COMMA,     // ,
-    COLON,     // :
-    DOT,       // .
+    SEMICOLON,
+    COLON,
+    LPAREN,
+    RPAREN,
+    COMMA,
+    DOT,
 
     // Literals
     INTEGER_LITERAL,
@@ -28,23 +27,19 @@ public:
     // Identifiers
     IDENTIFIER,
 
-    // Database Keywords
-    KEYWORD_USE,
-    KEYWORD_DATABASE,
-
     // Operators
     OPERATOR,
     OPERATOR_PLUS,
     OPERATOR_MINUS,
     OPERATOR_MULTIPLY,
     OPERATOR_DIVIDE,
-    OPERATOR_MODULO,
     OPERATOR_EQUAL,
     OPERATOR_NOT_EQUAL,
     OPERATOR_LESS_THAN,
     OPERATOR_LESS_EQUAL,
     OPERATOR_GREATER_THAN,
     OPERATOR_GREATER_EQUAL,
+    OPERATOR_MODULO,
     OPERATOR_AND,
     OPERATOR_OR,
     OPERATOR_NOT,
@@ -72,6 +67,12 @@ public:
     KEYWORD_TRIGGER,
     KEYWORD_PROCEDURE,
     KEYWORD_FUNCTION,
+    KEYWORD_ADD,
+    KEYWORD_COLUMN,
+    KEYWORD_MODIFY,
+    KEYWORD_RENAME,
+    KEYWORD_USE,
+    KEYWORD_DATABASE,
 
     // DML Keywords
     KEYWORD_SELECT,
@@ -196,12 +197,17 @@ public:
 
   // Constructor
   Token();
-  Token(Type type, const std::string &lexeme = "", size_t line = 0,
-        size_t column = 0)
-      : type_(type), lexeme_(lexeme), line_(line), column_(column) {}
   Token(Type type, const std::string &lexeme, int line, int column);
+  
+  // Copy constructor and assignment operator
+  Token(const Token& other);
+  Token& operator=(const Token& other);
+  
+  // Move constructor and assignment operator
+  Token(Token&& other) noexcept;
+  Token& operator=(Token&& other) noexcept;
+  
   ~Token() = default;
-
   // Getters
   Type getType() const;
   std::string getLexeme() const;

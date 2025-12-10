@@ -1,4 +1,4 @@
-#include "sql_parser/token.h"
+#include "../../include/sql_parser/token.h"
 
 namespace sqlcc {
 namespace sql_parser {
@@ -8,6 +8,47 @@ Token::Token() : type_(END_OF_INPUT), lexeme_(""), line_(0), column_(0) {
 
 Token::Token(Type type, const std::string& lexeme, int line, int column)
     : type_(type), lexeme_(lexeme), line_(line), column_(column) {
+}
+
+// 拷贝构造函数
+Token::Token(const Token& other)
+    : type_(other.type_), lexeme_(other.lexeme_), line_(other.line_), column_(other.column_) {
+}
+
+// 拷贝赋值操作符
+Token& Token::operator=(const Token& other) {
+    if (this != &other) {
+        type_ = other.type_;
+        lexeme_ = other.lexeme_;
+        line_ = other.line_;
+        column_ = other.column_;
+    }
+    return *this;
+}
+
+// 移动构造函数
+Token::Token(Token&& other) noexcept
+    : type_(other.type_), lexeme_(std::move(other.lexeme_)), line_(other.line_), column_(other.column_) {
+    // 将源对象置为有效但未指定的状态
+    other.type_ = END_OF_INPUT;
+    other.line_ = 0;
+    other.column_ = 0;
+}
+
+// 移动赋值操作符
+Token& Token::operator=(Token&& other) noexcept {
+    if (this != &other) {
+        type_ = other.type_;
+        lexeme_ = std::move(other.lexeme_);
+        line_ = other.line_;
+        column_ = other.column_;
+        
+        // 将源对象置为有效但未指定的状态
+        other.type_ = END_OF_INPUT;
+        other.line_ = 0;
+        other.column_ = 0;
+    }
+    return *this;
 }
 
 Token::Type Token::getType() const {

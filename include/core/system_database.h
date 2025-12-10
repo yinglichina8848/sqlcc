@@ -320,12 +320,16 @@ public:
     bool CreateColumnRecord(int64_t table_id, const std::string& column_name, const std::string& data_type,
                            bool is_nullable, const std::string& default_value, int ordinal_position);
     bool DropColumnRecord(int64_t table_id, const std::string& column_name);
+    bool UpdateColumnRecord(int64_t table_id, const std::string& column_name, const std::string& new_data_type,
+                           bool new_is_nullable, const std::string& new_default_value);
+    bool RenameColumnRecord(int64_t table_id, const std::string& old_column_name, const std::string& new_column_name);
     std::vector<SysColumn> GetTableColumns(int64_t table_id);
 
     // 索引元数据操作
     bool CreateIndexRecord(int64_t table_id, const std::string& index_name, const std::string& column_name,
                           bool is_unique, const std::string& index_type);
     bool DropIndexRecord(int64_t table_id, const std::string& index_name);
+    bool RenameIndexRecord(int64_t table_id, const std::string& old_index_name, const std::string& new_index_name);
     std::vector<SysIndex> GetTableIndexes(int64_t table_id);
 
     // 约束元数据操作
@@ -333,7 +337,11 @@ public:
                                const std::string& column_name, const std::string& check_expression = "",
                                const std::string& referenced_table = "", const std::string& referenced_column = "");
     bool DropConstraintRecord(int64_t table_id, const std::string& constraint_name);
+    bool RenameConstraintRecord(int64_t table_id, const std::string& old_constraint_name, const std::string& new_constraint_name);
     std::vector<SysConstraint> GetTableConstraints(int64_t table_id);
+
+    // 表元数据操作
+    bool RenameTableRecord(const std::string& schema_name, const std::string& old_table_name, const std::string& new_table_name);
 
     // 视图元数据操作
     bool CreateViewRecord(int64_t db_id, const std::string& schema_name, const std::string& view_name,
@@ -389,7 +397,15 @@ public:
     // 工具方法
     std::string GetCurrentTimeString() const;
     int64_t GenerateId(const std::string& table_name);
-
+    
+    // 元数据一致性检查
+    bool CheckDatabaseConsistency();
+    bool CheckTableConsistency(const std::string& schema_name, const std::string& table_name);
+    bool CheckColumnConsistency(int64_t table_id);
+    bool CheckIndexConsistency(int64_t table_id);
+    bool CheckConstraintConsistency(int64_t table_id);
+    bool CheckPrivilegeConsistency(const std::string& grantee_name);
+    
     /**
      * 获取最后一次错误信息
      * @return 错误信息

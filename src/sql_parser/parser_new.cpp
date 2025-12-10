@@ -1,5 +1,5 @@
-#include "sql_parser/parser_new.h"
-#include "sql_parser/set_operation_node.h"
+#include "../../include/sql_parser/parser_new.h"
+#include "../../include/sql_parser/set_operation_node.h"
 #include <algorithm>
 #include <cctype>
 #include <iostream>
@@ -259,31 +259,24 @@ std::unique_ptr<Statement> ParserNew::parseStatement() {
 }
 
 std::unique_ptr<Statement> ParserNew::parseDDLStatement() {
-  if (currentToken_.getType() == Token::KEYWORD_CREATE) {
-    advance(); // Consume CREATE
-
-    if (match(Token::KEYWORD_DATABASE)) {
+  if (match(Token::KEYWORD_CREATE)) {
+    // CREATE DATABASE 或 CREATE TABLE 或 CREATE INDEX
+    if (check(Token::KEYWORD_DATABASE)) {
       return parseCreateDatabaseStatement();
-    } else if (match(Token::KEYWORD_TABLE)) {
+    } else if (check(Token::KEYWORD_TABLE)) {
       return parseCreateTableStatement();
-    } else if (match(Token::KEYWORD_INDEX)) {
+    } else if (check(Token::KEYWORD_INDEX) || check(Token::KEYWORD_UNIQUE)) {
       return parseCreateIndexStatement();
-    } else if (match(Token::KEYWORD_USER)) {
-      // CREATE USER is handled by DCL parser
-      std::cout << "[PARSER DEBUG] 检测到CREATE USER，转交给DCL解析器"
-                << std::endl;
-      return parseCreateUserStatement();
     } else {
-      reportError("Unknown CREATE statement type");
+      reportError("Expected DATABASE, TABLE, or INDEX after CREATE");
       return nullptr;
     }
   } else if (match(Token::KEYWORD_DROP)) {
     // Implement DROP statement parsing
     return parseDropStatement();
   } else if (match(Token::KEYWORD_ALTER)) {
-    // TODO: Implement ALTER statement parsing
-    reportError("ALTER statements not yet implemented");
-    return nullptr;
+    // Implement ALTER statement parsing
+    return parseAlterStatement();
   } else {
     reportError("Unknown DDL statement type");
     return nullptr;
@@ -1540,6 +1533,71 @@ std::unique_ptr<DropStatement> ParserNew::parseDropStatement() {
     reportError("Unknown DROP statement type");
     return nullptr;
   }
+}
+
+std::unique_ptr<Statement> ParserNew::parseAlterStatement() {
+  // ALTER TABLE ...
+  consume(Token::KEYWORD_TABLE);
+  
+  std::string tableName = parseIdentifier();
+  
+  auto stmt = std::make_unique<AlterStatement>(AlterStatement::TABLE);
+  stmt->setTableName(tableName);
+  
+  // 解析ALTER操作类型
+  if (match(Token::KEYWORD_ADD)) {
+    if (match(Token::KEYWORD_COLUMN)) {
+      // ALTER TABLE table_name ADD COLUMN column_def
+      auto columnDef = parseColumnDefinition();
+      stmt->setAction(AlterStatement::ADD_COLUMN);
+      stmt->setColumnDefinition(std::move(columnDef));
+    } else {
+      // ALTER TABLE table_name ADD constraint
+      // TODO: 实现约束添加解析
+      reportError("ADD constraint not yet implemented");
+      return nullptr;
+    }
+  } else if (match(Token::KEYWORD_DROP)) {
+    if (match(Token::KEYWORD_COLUMN)) {
+      // ALTER TABLE table_name DROP COLUMN column_name
+      std::string columnName = parseIdentifier();
+      stmt->setAction(AlterStatement::DROP_COLUMN);
+      stmt->setColumnName(columnName);
+    } else if (match(Token::KEYWORD_CONSTRAINT)) {
+      // ALTER TABLE table_name DROP CONSTRAINT constraint_name
+      std::string constraintName = parseIdentifier();
+      stmt->setAction(AlterStatement::Action::DROP_INDEX);  // Using DROP_INDEX as placeholder
+      stmt->setIndexName(constraintName);
+    } else {
+      reportError("Expected COLUMN or CONSTRAINT after DROP");
+      return nullptr;
+    }
+  } else if (match(Token::KEYWORD_MODIFY)) {
+    if (match(Token::KEYWORD_COLUMN)) {
+      // ALTER TABLE table_name MODIFY COLUMN column_def
+      auto columnDef = parseColumnDefinition();
+      stmt->setAction(AlterStatement::MODIFY_COLUMN);
+      stmt->setColumnDefinition(std::move(columnDef));
+    } else {
+      reportError("Expected COLUMN after MODIFY");
+      return nullptr;
+    }
+  } else if (match(Token::KEYWORD_RENAME)) {
+    if (match(Token::KEYWORD_TO)) {
+      // ALTER TABLE table_name RENAME TO new_table_name
+      std::string newTableName = parseIdentifier();
+      stmt->setAction(AlterStatement::RENAME_TABLE);
+      stmt->setNewTableName(newTableName);
+    } else {
+      reportError("Expected TO after RENAME");
+      return nullptr;
+    }
+  } else {
+    reportError("Unknown ALTER action");
+    return nullptr;
+  }
+  
+  return stmt;
 }
 
 // Add the parseUseStatement method implementation

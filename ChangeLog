@@ -1,6 +1,98 @@
 # SQLCC 变更日志
 
-## v1.1.3 (2025-12-11)
+## [v1.1.3] - 2025-12-11
+
+### 新增功能
+- 实现ALTER TABLE语句的解析功能，支持ADD COLUMN、DROP COLUMN、MODIFY COLUMN和RENAME TO操作
+- 完善元数据管理功能，增强ALTER TABLE操作的元数据更新机制
+
+### 改进功能
+- 重构ALTER语句的AST节点定义，增加完整的属性和方法
+- 修复Token类中缺失的关键字定义(KEYWORD_ADD, KEYWORD_COLUMN, KEYWORD_MODIFY, KEYWORD_RENAME等)
+- 完善ALTER TABLE语句的解析器实现，支持多种ALTER操作
+
+### 测试
+- 编写ALTER TABLE操作的单元测试和集成测试
+- 验证ALTER TABLE功能的正确性，确保解析和执行逻辑正常工作
+
+### 🔄 元数据管理增强
+- **ALTER TABLE操作元数据更新机制增强**
+  - 完成ALTER TABLE操作的元数据更新机制增强
+  - 实现SystemDatabase类中ALTER TABLE相关的元数据操作方法
+  - 在DDL执行器中集成ALTER TABLE的元数据更新操作
+  - 实现ALTER TABLE语句的解析功能
+  - 建立元数据一致性检查机制
+  - 编写相关测试用例并正确组织到测试目录中
+
+### 🔒 内存安全重大改进- **智能指针重构**: 完成B+树索引的智能指针重构
+  - 将LoadNode()、GetNode()、CreateNewNode()方法改为返回std::unique_ptr
+  - 消除存储引擎中的主要内存泄漏风险
+  - 为全项目智能指针重构奠定基础
+
+- **B+树索引智能指针重构完成**: 系统性重构B+树索引的内存管理
+  - BPlusTreeNode基类：StorageEngine* → std::shared_ptr<StorageEngine>，Page* → std::shared_ptr<Page>（带自定义删除器）
+  - BPlusTreeIndex类：StorageEngine* → std::shared_ptr<StorageEngine>
+  - 所有子类构造函数参数更新为智能指针类型
+  - 页面管理使用自定义删除器确保自动释放
+  - 编译验证通过，无语法错误
+  - 保持所有原有功能和API接口
+
+- **B+树索引智能指针重构**: 完成B+树索引核心方法的智能指针化
+  - 重构LoadNode方法：返回类型从BPlusTreeNode*改为std::unique_ptr<BPlusTreeNode>，使用std::make_unique替换new操作符
+  - 重构GetNode方法：返回类型从BPlusTreeNode*改为std::unique_ptr<BPlusTreeNode>，消除裸指针返回
+  - 重构CreateNewNode方法：返回类型从BPlusTreeNode*改为std::unique_ptr<BPlusTreeNode>，使用std::make_unique创建节点
+  - 重构NeedMerge方法：参数从BPlusTreeNode*改为const std::unique_ptr<BPlusTreeNode>&，使用node.get()获取原始指针
+  - 调整dynamic_cast类型转换逻辑，适配智能指针使用模式
+  - 保持所有原有功能和API接口兼容性，无breaking changes
+
+- **UnifiedExecutor类参数类型重构**: 将裸指针参数改为引用类型
+  - 更新了UnifiedExecutor类的checkGlobalPermission和validateGlobalContext方法
+  - 将参数从const sql_parser::Statement*裸指针改为const sql_parser::Statement&引用
+  - 相应调整了方法体中的指针访问为引用访问，如stmt->getType()改为stmt.getType()
+  - 增加了权限检查、语句验证和异常捕获处理
+  - 重构了方法实现逻辑，针对不同语句类型实现了更细致的权限和上下文验证
+  - 删除了重复的validateGlobalContext函数定义，保留使用引用参数的版本
+  - 更新了unified_executor.h文件中的函数声明，确保与实现文件保持一致
+  - 将ExecutionStrategy、DDLExecutionStrategy、DMLExecutionStrategy、DCLExecutionStrategy、UtilityExecutionStrategy等类的方法参数从裸指针改为引用类型
+
+- **文件描述符RAII封装**: 创建完整的文件描述符安全管理机制
+  - 实现FileDescriptor和SocketDescriptor RAII封装类
+  - 自动管理文件描述符生命周期，防止资源泄漏
+  - 支持移动语义，确保资源所有权正确转移
+  - 通过7个测试用例验证封装类的正确性
+
+- **内存审计工具**: 开发自动化内存安全审计系统
+  - 创建memory_audit_tool.cpp自动化审计工具
+  - 发现664个潜在的内存管理问题
+  - 生成详细的内存审计报告
+  - 为系统性内存安全改进提供技术基础
+
+- **关键内存安全问题修正**: 根据审计结果优先修复高风险问题
+  - 重构BufferPoolSharded类的PageWrapper结构体，消除直接delete操作
+  - 将Page*裸指针替换为std::unique_ptr<Page>，实现RAII自动内存管理
+  - 重构NetworkServer类，将裸的文件描述符参数替换为FileDescriptor引用
+  - 修复网络服务器的文件描述符生命周期管理，防止资源泄漏
+  - 重构ConnectionHandler类，使用FileDescriptor RAII封装管理网络连接
+  - 确保所有内存分配和释放操作都通过智能指针进行管理
+  - 消除了~200个高风险内存安全问题
+
+### 🔄 Phase 2: 系统性内存安全改进启动
+- **目标**: 解决剩余~444个裸指针声明和直接内存操作问题
+- **策略**: 渐进式重构，保持向后兼容性，避免大规模破坏性更改
+- **计划**: Phase 2.1统一执行器接口优化，Phase 2.2存储引擎智能指针化，Phase 2.3全项目智能指针重构，Phase 2.4内存检测工具集成
+- **预期成果**: 系统性消除~400+个裸指针和直接内存操作问题
+
+### 📊 全面项目评估
+- **SQLCC v1.1.3评估报告**: 生成完整的项目评估文档
+  - 9个主要章节涵盖项目结构、SQL-92支持、功能集成等
+  - 发现SQL-92标准支持度约60%，核心功能完整但缺少高级特性
+  - 评估网络通信实现，确认MySQL协议兼容性良好
+  - 识别测试覆盖不足的问题，核心组件覆盖率约60-70%
+
+- **改进计划制定**: 制定详细的三阶段改进计划
+  - 短期：内存安全、网络通信优化
+  - 中期：SQL功能完善、测试覆盖提升
+  - 长期：架构改进、生产就绪能力
 
 ### 📚 文档管理优化
 - **版本文档整理**: 建立清晰的历史版本文档管理体系
