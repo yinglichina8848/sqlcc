@@ -58,6 +58,77 @@ cc_binary(
     ],
 )
 
+cc_binary(
+    name = "test_window_function",
+    srcs = ["test_window_function.cpp"],
+    deps = [
+        "//src/sql_parser:sqlcc_parser_light",
+    ],
+    includes = ["../../../include"],
+)
+
+cc_binary(
+    name = "test_window_function_executor",
+    srcs = ["test_window_function_executor.cpp"],
+    deps = [
+        "//src/sql_executor:sqlcc_executor",
+        "//src/sql_parser:sqlcc_parser_light",
+    ],
+    includes = ["../../../include"],
+)
+
+cc_binary(
+    name = "test_window_function_integration",
+    srcs = ["test_window_function_integration.cpp"],
+    deps = [
+        "//src/sql_parser:sqlcc_parser_light",
+    ],
+    includes = ["../../../include"],
+)
+
+cc_binary(
+    name = "test_window_function_complete",
+    srcs = ["test_window_function_complete.cpp"],
+    deps = [
+        "//src/sql_executor:sqlcc_executor",
+        "//src/sql_parser:sqlcc_parser_light",
+    ],
+    includes = ["../../../include"],
+)
+
+# 内存安全测试
+cc_test(
+    name = "memory_safety_test",
+    srcs = ["memory_safety_test.cpp"],
+    deps = [
+        "//src/storage_engine:sqlcc_storage_engine",
+        "//src/core:sqlcc_core_lib",
+        "@com_google_googletest//:gtest_main",
+    ],
+    includes = ["../../../include"],
+)
+
+# 内存审计工具
+cc_test(
+    name = "memory_audit_tool",
+    srcs = ["memory_audit_tool.cpp"],
+    deps = [
+        "@com_google_googletest//:gtest_main",
+    ],
+    includes = ["../../../include"],
+)
+
+# 文件描述符封装测试
+cc_test(
+    name = "file_descriptor_test",
+    srcs = ["file_descriptor_test.cpp"],
+    deps = [
+        "//include:utils_lib",
+        "@com_google_googletest//:gtest_main",
+    ],
+    includes = ["../../../include"],
+)
+
 # 调试测试套件
 test_suite(
     name = "debug_tests",
@@ -68,5 +139,10 @@ test_suite(
         ":test_percent_simple",
         ":test_insert_parsing",
         ":test_simple_insert",
+        ":test_window_function",
+        ":test_window_function_executor",
+        ":test_window_function_integration",
+        ":test_window_function_complete",
+        ":memory_safety_test",
     ],
 )
