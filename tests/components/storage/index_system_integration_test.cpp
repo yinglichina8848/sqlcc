@@ -1,9 +1,11 @@
-#include "database_manager.h"
-#include "execution_engine.h"
-#include "sql_parser/parser_new.h"
-#include "unified_query_plan.h"
-#include <filesystem>
 #include <gtest/gtest.h>
+#include <filesystem>
+#include "database_manager.h"
+#include "storage/table_storage.h"
+#include "execution_engine.h"
+#include "unified_query_plan.h"
+#include "sql_parser/parser_new.h"
+#include "storage/index_manager.h"
 
 namespace fs = std::filesystem;
 

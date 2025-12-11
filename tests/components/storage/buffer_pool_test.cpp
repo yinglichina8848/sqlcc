@@ -42,7 +42,7 @@ TEST_F(BufferPoolTest, FetchPage) {
   disk_manager_->WritePage(page_id, data);
 
   // 获取页面
-  Page *page = buffer_pool_->FetchPage(page_id);
+  std::shared_ptr<Page> page = buffer_pool_->FetchPageShared(page_id);
   EXPECT_NE(page, nullptr);
   EXPECT_EQ(page->GetPageId(), page_id);
 
@@ -61,7 +61,7 @@ TEST_F(BufferPoolTest, UnpinPage) {
   disk_manager_->WritePage(page_id, data);
 
   // 获取并释放页面
-  Page *page = buffer_pool_->FetchPage(page_id);
+  std::shared_ptr<Page> page = buffer_pool_->FetchPageShared(page_id);
   EXPECT_NE(page, nullptr);
   buffer_pool_->UnpinPage(page_id, false);
   buffer_pool_->UnpinPage(page_id, false); // 再次释放，应该没有问题
@@ -81,7 +81,7 @@ TEST_F(BufferPoolTest, FlushPage) {
   disk_manager_->WritePage(page_id, data);
 
   // 获取页面并修改
-  Page *page = buffer_pool_->FetchPage(page_id);
+  std::shared_ptr<Page> page = buffer_pool_->FetchPageShared(page_id);
   EXPECT_NE(page, nullptr);
   strcpy(page->GetData(), "Modified data");
   buffer_pool_->UnpinPage(page_id, true); // 标记为脏页
@@ -90,7 +90,7 @@ TEST_F(BufferPoolTest, FlushPage) {
   buffer_pool_->FlushPage(page_id);
 
   // 重新获取页面，验证数据已持久化
-  Page *page2 = buffer_pool_->FetchPage(page_id);
+  std::shared_ptr<Page> page2 = buffer_pool_->FetchPageShared(page_id);
   EXPECT_NE(page2, nullptr);
   EXPECT_STREQ(page2->GetData(), "Modified data");
   buffer_pool_->UnpinPage(page_id, false);
@@ -111,7 +111,7 @@ TEST_F(BufferPoolTest, LRUReplacement) {
     sprintf(data, "Initial data %d", i);
     disk_manager_->WritePage(page_id, data);
 
-    Page *page = buffer_pool_->FetchPage(page_id);
+    std::shared_ptr<Page> page = buffer_pool_->FetchPageShared(page_id);
     EXPECT_NE(page, nullptr);
     sprintf(page->GetData(), "Page %d", i);
     buffer_pool_->UnpinPage(page_id, true);
@@ -120,7 +120,7 @@ TEST_F(BufferPoolTest, LRUReplacement) {
   // 验证前2个页面已经被替换出缓冲区
   for (int i = 0; i < 2; ++i) {
     // 这些页面应该不在缓冲区中，需要从磁盘重新加载
-    Page *page = buffer_pool_->FetchPage(page_ids[i]);
+    std::shared_ptr<Page> page = buffer_pool_->FetchPageShared(page_ids[i]);
     EXPECT_NE(page, nullptr);
     buffer_pool_->UnpinPage(page_ids[i], false);
   }
@@ -140,7 +140,7 @@ TEST_F(BufferPoolTest, FlushAllPages) {
     sprintf(data, "Initial data %d", i);
     disk_manager_->WritePage(page_id, data);
 
-    Page *page = buffer_pool_->FetchPage(page_id);
+    std::shared_ptr<Page> page = buffer_pool_->FetchPageShared(page_id);
     EXPECT_NE(page, nullptr);
     sprintf(page->GetData(), "Page %d", i);
     buffer_pool_->UnpinPage(page_id, true); // 标记为脏页
@@ -151,7 +151,7 @@ TEST_F(BufferPoolTest, FlushAllPages) {
 
   // 验证页面可以重新获取，间接验证刷新成功
   for (int32_t page_id : page_ids) {
-    Page *page = buffer_pool_->FetchPage(page_id);
+    std::shared_ptr<Page> page = buffer_pool_->FetchPageShared(page_id);
     EXPECT_NE(page, nullptr);
     buffer_pool_->UnpinPage(page_id, false);
   }
@@ -168,7 +168,7 @@ TEST_F(BufferPoolTest, BasicOperations) {
   disk_manager_->WritePage(page_id, data);
 
   // 获取页面
-  Page *page = buffer_pool_->FetchPage(page_id);
+  std::shared_ptr<Page> page = buffer_pool_->FetchPageShared(page_id);
   EXPECT_NE(page, nullptr);
   EXPECT_EQ(page->GetPageId(), page_id);
 
@@ -176,7 +176,7 @@ TEST_F(BufferPoolTest, BasicOperations) {
   buffer_pool_->UnpinPage(page_id, false);
 
   // 再次获取页面
-  Page *page2 = buffer_pool_->FetchPage(page_id);
+  std::shared_ptr<Page> page2 = buffer_pool_->FetchPageShared(page_id);
   EXPECT_NE(page2, nullptr);
   EXPECT_EQ(page2->GetPageId(), page_id);
   buffer_pool_->UnpinPage(page_id, false);

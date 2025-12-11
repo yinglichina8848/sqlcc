@@ -9,7 +9,6 @@
 #include <vector>
 
 #include "page.h"
-#include "sql_executor/index_manager.h"
 #include "storage/table_storage.h"
 #include "transaction_manager.h"
 
@@ -24,6 +23,7 @@ class StorageEngine;
 class BufferPoolSharded;
 class TransactionManager;
 class TableStorage;
+class IndexManager;  // 前向声明IndexManager
 
 /**
  * 数据库管理器

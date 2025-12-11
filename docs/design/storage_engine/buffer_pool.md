@@ -16,7 +16,7 @@ public:
     BufferPool& operator=(const BufferPool&) = delete;
     
     Page* FetchPage(int32_t page_id);
-    std::vector<Page*> BatchFetchPages(const std::vector<int32_t>& page_ids);
+    std::vector<std::shared_ptr<Page>> BatchFetchPages(const std::vector<int32_t>& page_ids);
     Page* NewPage(int32_t* page_id);
     bool UnpinPage(int32_t page_id, bool is_dirty);
     bool FlushPage(int32_t page_id);
@@ -99,7 +99,7 @@ private:
 2. 如果找到则更新LRU列表并返回
 3. 如果未找到则从磁盘加载
 
-### std::vector<Page*> BatchFetchPages(const std::vector<int32_t>& page_ids)
+### std::vector<std::shared_ptr<Page>> BatchFetchPages(const std::vector<int32_t>& page_ids)
 
 批量获取页面，优化多个页面的加载性能：
 

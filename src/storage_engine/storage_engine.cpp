@@ -1,4 +1,5 @@
 #include "storage_engine.h"
+#include "storage/index_manager.h"
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -8,18 +9,10 @@ namespace fs = std::filesystem;
 
 namespace sqlcc {
 
-StorageEngine::StorageEngine(ConfigManager &config_manager)
-    : config_manager_(config_manager) {
-    // 初始化磁盘管理器和缓冲池
-    std::string db_file = config_manager_.GetString("database.file", "./data/sqlcc.db");
-    
-    // 确保数据库目录存在
-    fs::path db_path(db_file);
-    if (db_path.has_parent_path() && !fs::exists(db_path.parent_path())) {
-        fs::create_directories(db_path.parent_path());
-    }
-    
+StorageEngine::StorageEngine(ConfigManager& config_manager, const std::string& db_path) 
+    : config_manager_(config_manager), db_path_(db_path) {
     // 创建磁盘管理器
+    std::string db_file = db_path_ + "/sqlcc.db";
     disk_manager_ = std::make_unique<DiskManager>(db_file, config_manager_);
     
     // 获取缓冲池配置
@@ -27,7 +20,11 @@ StorageEngine::StorageEngine(ConfigManager &config_manager)
     size_t shard_count = config_manager_.GetInt("buffer.shard.count", 16);
     
     // 创建缓冲池
-    buffer_pool_ = std::make_unique<BufferPoolSharded>(disk_manager_.get(), config_manager_, buffer_pool_size, shard_count);
+    buffer_pool_ = std::make_unique<BufferPoolSharded>(std::move(disk_manager_), config_manager_, buffer_pool_size, shard_count);
+    
+    // 注意：不能在这里创建索引管理器，因为shared_from_this()只能在对象完全构造后使用
+    // 索引管理器的创建将延迟到首次访问时
+    index_manager_ = nullptr;
 }
 
 StorageEngine::~StorageEngine() {
@@ -37,29 +34,37 @@ StorageEngine::~StorageEngine() {
     }
 }
 
-Page *StorageEngine::NewPage(int32_t *page_id) {
+// 添加一个方法来初始化索引管理器
+void StorageEngine::InitializeIndexManager() {
+    if (!index_manager_) {
+        index_manager_ = std::make_unique<IndexManager>(shared_from_this(), config_manager_);
+    }
+}
+
+std::unique_ptr<Page> StorageEngine::NewPage(int32_t *page_id) {
     // 创建新页面的实现
     if (!buffer_pool_) {
         return nullptr;
     }
     
     int32_t new_page_id;
-    Page* page = buffer_pool_->NewPage(&new_page_id);
+    auto page_ptr = buffer_pool_->NewPage(&new_page_id);
     
     if (page_id != nullptr) {
         *page_id = new_page_id;
     }
     
-    return page;
+    return page_ptr;
 }
 
-Page *StorageEngine::FetchPage(int32_t page_id) {
+Page* StorageEngine::FetchPage(int32_t page_id) {
     // 获取页面的实现
     if (!buffer_pool_) {
         return nullptr;
     }
     
-    return buffer_pool_->FetchPage(page_id);
+    std::unique_ptr<Page> page = buffer_pool_->FetchPage(page_id);
+    return page.release();
 }
 
 bool StorageEngine::UnpinPage(int32_t page_id, bool is_dirty) {

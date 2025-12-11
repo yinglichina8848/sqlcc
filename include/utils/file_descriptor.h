@@ -1,73 +1,54 @@
-/**
- * @file file_descriptor.h
- * @brief 文件描述符RAII封装类
- * @details 提供安全的文件描述符管理，防止资源泄漏
- * @author AI助手
- * @date 2025-12-11
- */
-
 #pragma once
 
 #include <unistd.h>
 #include <fcntl.h>
-#include <cerrno>
-#include <system_error>
-#include <utility>
-
-// For socket operations
-#ifdef __linux__
 #include <sys/socket.h>
-#include <netinet/in.h>
 #include <sys/epoll.h>
-#endif
+#include <memory>
+#include <stdexcept>
 
 namespace sqlcc {
-namespace utils {
 
 /**
  * @class FileDescriptor
- * @brief 文件描述符RAII封装类
- * @details 使用RAII模式管理文件描述符，确保自动关闭和资源安全
+ * @brief RAII wrapper for file descriptors with automatic cleanup
+ * @details Provides exception-safe management of file descriptors using RAII pattern
  */
 class FileDescriptor {
 public:
     /**
-     * @brief 默认构造函数
-     * @details 创建一个无效的文件描述符
+     * @brief Default constructor
+     * @details Creates an invalid file descriptor (-1)
      */
     FileDescriptor() noexcept : fd_(-1) {}
 
     /**
-     * @brief 构造函数
-     * @param fd 文件描述符
-     * @details 接管传入的文件描述符的管理权
+     * @brief Constructor with file descriptor
+     * @param fd The file descriptor to manage
      */
     explicit FileDescriptor(int fd) noexcept : fd_(fd) {}
 
     /**
-     * @brief 析构函数
-     * @details 自动关闭文件描述符
+     * @brief Destructor
+     * @details Automatically closes the file descriptor if valid
      */
     ~FileDescriptor() noexcept {
         close();
     }
 
-    // 禁止拷贝
+    // Disable copy operations
     FileDescriptor(const FileDescriptor&) = delete;
     FileDescriptor& operator=(const FileDescriptor&) = delete;
 
     /**
-     * @brief 移动构造函数
-     * @param other 要移动的文件描述符对象
+     * @brief Move constructor
      */
     FileDescriptor(FileDescriptor&& other) noexcept : fd_(other.fd_) {
         other.fd_ = -1;
     }
 
     /**
-     * @brief 移动赋值操作符
-     * @param other 要移动的文件描述符对象
-     * @return 引用自身
+     * @brief Move assignment operator
      */
     FileDescriptor& operator=(FileDescriptor&& other) noexcept {
         if (this != &other) {
@@ -79,26 +60,31 @@ public:
     }
 
     /**
-     * @brief 获取文件描述符
-     * @return 文件描述符值
+     * @brief Get the underlying file descriptor
+     * @return The file descriptor value
      */
-    int get() const noexcept { return fd_; }
+    int get() const noexcept {
+        return fd_;
+    }
 
     /**
-     * @brief 检查文件描述符是否有效
-     * @return 是否有效
+     * @brief Check if the file descriptor is valid
+     * @return true if valid, false otherwise
      */
-    bool valid() const noexcept { return fd_ >= 0; }
+    bool valid() const noexcept {
+        return fd_ >= 0;
+    }
 
     /**
-     * @brief 显式转换为int
-     * @return 文件描述符值
+     * @brief Explicit conversion to int
      */
-    explicit operator int() const noexcept { return fd_; }
+    explicit operator int() const noexcept {
+        return fd_;
+    }
 
     /**
-     * @brief 释放文件描述符
-     * @details 关闭文件描述符并将内部状态设为无效
+     * @brief Reset the file descriptor
+     * @param fd New file descriptor value (-1 to close current)
      */
     void reset(int fd = -1) noexcept {
         close();
@@ -106,9 +92,8 @@ public:
     }
 
     /**
-     * @brief 释放所有权
-     * @return 文件描述符值
-     * @details 返回文件描述符并放弃管理权，调用者负责关闭
+     * @brief Release ownership of the file descriptor
+     * @return The file descriptor (caller takes ownership)
      */
     int release() noexcept {
         int temp = fd_;
@@ -116,49 +101,8 @@ public:
         return temp;
     }
 
-#ifdef __linux__
     /**
-     * @brief 接受连接
-     * @param sockfd 监听套接字文件描述符
-     * @param addr 客户端地址结构
-     * @param addrlen 地址结构长度
-     * @param flags 标志位
-     * @return FileDescriptor对象
-     * @details 封装accept4系统调用，返回RAII管理的文件描述符
-     */
-    static FileDescriptor accept(int sockfd, struct sockaddr* addr, socklen_t* addrlen, int flags = 0) {
-        int fd = ::accept4(sockfd, addr, addrlen, flags);
-        return FileDescriptor(fd);
-    }
-
-    /**
-     * @brief 创建套接字
-     * @param domain 协议族
-     * @param type 套接字类型
-     * @param protocol 协议
-     * @return FileDescriptor对象
-     * @details 封装socket系统调用，返回RAII管理的文件描述符
-     */
-    static FileDescriptor create_socket(int domain, int type, int protocol) {
-        int fd = ::socket(domain, type, protocol);
-        return FileDescriptor(fd);
-    }
-
-    /**
-     * @brief 创建epoll实例
-     * @param flags 标志位
-     * @return FileDescriptor对象
-     * @details 封装epoll_create1系统调用，返回RAII管理的文件描述符
-     */
-    static FileDescriptor create_epoll(int flags = 0) {
-        int fd = ::epoll_create1(flags);
-        return FileDescriptor(fd);
-    }
-#endif
-
-private:
-    /**
-     * @brief 关闭文件描述符
+     * @brief Close the file descriptor if valid
      */
     void close() noexcept {
         if (fd_ >= 0) {
@@ -167,36 +111,69 @@ private:
         }
     }
 
-    int fd_;  ///< 文件描述符
-};
-
-/**
- * @class SocketDescriptor
- * @brief 套接字描述符RAII封装类
- * @details 专门用于套接字的文件描述符管理
- */
-class SocketDescriptor : public FileDescriptor {
-public:
-    using FileDescriptor::FileDescriptor;
-
     /**
-     * @brief 创建TCP套接字
-     * @return SocketDescriptor对象
+     * @brief Create a socket file descriptor
+     * @param domain Socket domain (e.g., AF_INET)
+     * @param type Socket type (e.g., SOCK_STREAM)
+     * @param protocol Protocol (usually 0)
+     * @return FileDescriptor instance
      */
-    static SocketDescriptor create_tcp() {
-        int fd = ::socket(AF_INET, SOCK_STREAM, 0);
-        return SocketDescriptor(fd);
+    static FileDescriptor create_socket(int domain, int type, int protocol) {
+        int fd = ::socket(domain, type, protocol);
+        if (fd < 0) {
+            throw std::runtime_error("Failed to create socket");
+        }
+        return FileDescriptor(fd);
     }
 
     /**
-     * @brief 创建UDP套接字
-     * @return SocketDescriptor对象
+     * @brief Create a TCP socket
+     * @return FileDescriptor instance for TCP socket
      */
-    static SocketDescriptor create_udp() {
-        int fd = ::socket(AF_INET, SOCK_DGRAM, 0);
-        return SocketDescriptor(fd);
+    static FileDescriptor create_tcp_socket() {
+        return create_socket(AF_INET, SOCK_STREAM, 0);
     }
+
+    /**
+     * @brief Create a UDP socket
+     * @return FileDescriptor instance for UDP socket
+     */
+    static FileDescriptor create_udp_socket() {
+        return create_socket(AF_INET, SOCK_DGRAM, 0);
+    }
+
+    /**
+     * @brief Create an epoll file descriptor
+     * @param flags Epoll flags
+     * @return FileDescriptor instance for epoll
+     */
+    static FileDescriptor create_epoll(int flags = 0) {
+        int fd = ::epoll_create1(flags);
+        if (fd < 0) {
+            throw std::runtime_error("Failed to create epoll");
+        }
+        return FileDescriptor(fd);
+    }
+
+    /**
+     * @brief Accept a connection on a listening socket
+     * @param sockfd Listening socket file descriptor
+     * @param addr Client address structure (can be nullptr)
+     * @param addrlen Address length (can be nullptr)
+     * @param flags Additional flags
+     * @return FileDescriptor instance for the accepted connection
+     */
+    static FileDescriptor accept(int sockfd, struct sockaddr* addr = nullptr,
+                                socklen_t* addrlen = nullptr, int flags = 0) {
+        int fd = ::accept4(sockfd, addr, addrlen, flags);
+        if (fd < 0) {
+            throw std::runtime_error("Failed to accept connection");
+        }
+        return FileDescriptor(fd);
+    }
+
+private:
+    int fd_;  ///< File descriptor value
 };
 
-} // namespace utils
 } // namespace sqlcc

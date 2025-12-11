@@ -3,23 +3,30 @@
 #include "config_manager.h"
 #include <iostream>
 #include <vector>
+#include <memory>
+#include <filesystem>
 
 using namespace sqlcc;
+namespace fs = std::filesystem;
 
 int main() {
+    // 创建测试目录
+    std::string test_dir = "/tmp/sqlcc_table_test";
+    fs::remove_all(test_dir);
+    fs::create_directories(test_dir);
+
     try {
-        // 创建配置管理器
-        ConfigManager config_manager;
-        config_manager.SetValue("database.file", "./data/test.db");
-        config_manager.SetValue("buffer.pool.size", 64);
-        config_manager.SetValue("buffer.shard.count", 16);
-        
-        // 创建存储引擎
-        StorageEngine storage_engine(config_manager);
-        
-        // 创建表存储管理器
-        auto table_storage = std::make_shared<TableStorageManager>(
-            std::shared_ptr<StorageEngine>(&storage_engine, [](StorageEngine*) {}));
+        // 创建配置管理器（使用智能指针）
+        auto config_manager = std::make_shared<ConfigManager>();
+        config_manager->SetValue("database.file", test_dir + "/test.db");
+        config_manager->SetValue("buffer.pool.size", 64);
+        config_manager->SetValue("buffer.shard.count", 16);
+
+        // 创建存储引擎（使用智能指针）
+        auto storage_engine = std::make_shared<StorageEngine>(*config_manager, test_dir);
+
+        // 创建表存储管理器（使用智能指针）
+        auto table_storage = std::make_shared<TableStorageManager>(storage_engine);
         
         // 定义表列
         std::vector<TableColumn> columns = {

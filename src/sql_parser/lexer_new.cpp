@@ -588,9 +588,83 @@ Token LexerNew::createIdentifierToken(const std::string &lexeme, int line,
   return Token(Token::IDENTIFIER, lexeme, line, column);
 }
 
+// 类级静态变量确保线程安全
+static const std::unordered_map<std::string, sqlcc::sql_parser::Token::Type> keywordMap = {
+    // DDL Keywords
+    {"create", sqlcc::sql_parser::Token::KEYWORD_CREATE},
+    {"alter", sqlcc::sql_parser::Token::KEYWORD_ALTER},
+    {"drop", sqlcc::sql_parser::Token::KEYWORD_DROP},
+    {"table", sqlcc::sql_parser::Token::KEYWORD_TABLE},
+    {"index", sqlcc::sql_parser::Token::KEYWORD_INDEX},
+    {"database", sqlcc::sql_parser::Token::KEYWORD_DATABASE},
+    {"add", sqlcc::sql_parser::Token::KEYWORD_ADD},
+    {"column", sqlcc::sql_parser::Token::KEYWORD_COLUMN},
+    {"modify", sqlcc::sql_parser::Token::KEYWORD_MODIFY},
+    {"rename", sqlcc::sql_parser::Token::KEYWORD_RENAME},
+    {"constraint", sqlcc::sql_parser::Token::KEYWORD_CONSTRAINT},
+    
+    // DML Keywords
+    {"select", sqlcc::sql_parser::Token::KEYWORD_SELECT},
+    {"insert", sqlcc::sql_parser::Token::KEYWORD_INSERT},
+    {"update", sqlcc::sql_parser::Token::KEYWORD_UPDATE},
+    {"delete", sqlcc::sql_parser::Token::KEYWORD_DELETE},
+    {"from", sqlcc::sql_parser::Token::KEYWORD_FROM},
+    {"into", sqlcc::sql_parser::Token::KEYWORD_INTO},
+    {"values", sqlcc::sql_parser::Token::KEYWORD_VALUES},
+    {"set", sqlcc::sql_parser::Token::KEYWORD_SET},
+    
+    // Query Keywords
+    {"where", sqlcc::sql_parser::Token::KEYWORD_WHERE},
+    {"group", sqlcc::sql_parser::Token::KEYWORD_GROUP},
+    {"by", sqlcc::sql_parser::Token::KEYWORD_BY},
+    {"having", sqlcc::sql_parser::Token::KEYWORD_HAVING},
+    {"order", sqlcc::sql_parser::Token::KEYWORD_ORDER},
+    {"limit", sqlcc::sql_parser::Token::KEYWORD_LIMIT},
+    {"offset", sqlcc::sql_parser::Token::KEYWORD_OFFSET},
+    {"distinct", sqlcc::sql_parser::Token::KEYWORD_DISTINCT},
+    
+    // Join Keywords
+    {"join", sqlcc::sql_parser::Token::KEYWORD_JOIN},
+    {"on", sqlcc::sql_parser::Token::KEYWORD_ON},
+    {"outer", sqlcc::sql_parser::Token::KEYWORD_OUTER},
+    
+    // Constraint Keywords
+    {"primary", sqlcc::sql_parser::Token::KEYWORD_PRIMARY},
+    {"key", sqlcc::sql_parser::Token::KEYWORD_KEY},
+    {"foreign", sqlcc::sql_parser::Token::KEYWORD_FOREIGN},
+    {"references", sqlcc::sql_parser::Token::KEYWORD_REFERENCES},
+    {"unique", sqlcc::sql_parser::Token::KEYWORD_UNIQUE},
+    {"not", sqlcc::sql_parser::Token::KEYWORD_NOT},
+    {"null", sqlcc::sql_parser::Token::KEYWORD_NULL},
+    {"default", sqlcc::sql_parser::Token::KEYWORD_DEFAULT},
+    {"auto_increment", sqlcc::sql_parser::Token::KEYWORD_AUTO_INCREMENT},
+    
+    // Permission Keywords
+    {"grant", sqlcc::sql_parser::Token::KEYWORD_GRANT},
+    {"revoke", sqlcc::sql_parser::Token::KEYWORD_REVOKE},
+    {"to", sqlcc::sql_parser::Token::KEYWORD_TO},
+    {"user", sqlcc::sql_parser::Token::KEYWORD_USER},
+    {"with", sqlcc::sql_parser::Token::KEYWORD_WITH},
+    {"password", sqlcc::sql_parser::Token::KEYWORD_PASSWORD},
+    {"identified", sqlcc::sql_parser::Token::KEYWORD_IDENTIFIED},
+    {"show", sqlcc::sql_parser::Token::KEYWORD_SHOW},
+    
+    // Logical Operators
+    {"and", sqlcc::sql_parser::Token::KEYWORD_AND},
+    {"or", sqlcc::sql_parser::Token::KEYWORD_OR},
+    {"in", sqlcc::sql_parser::Token::KEYWORD_IN},
+    {"exists", sqlcc::sql_parser::Token::KEYWORD_EXISTS},
+    
+    // Aggregate Functions
+    {"count", sqlcc::sql_parser::Token::KEYWORD_COUNT},
+    {"sum", sqlcc::sql_parser::Token::KEYWORD_SUM},
+    {"avg", sqlcc::sql_parser::Token::KEYWORD_AVG},
+    {"min", sqlcc::sql_parser::Token::KEYWORD_MIN},
+    {"max", sqlcc::sql_parser::Token::KEYWORD_MAX}
+  };
+
 Token LexerNew::createKeywordToken(const std::string &keyword, int line,
                                    int column) {
-  static std::unordered_map<std::string, Token::Type> keywordMap;
 
   std::cout << "[DEBUG] createKeywordToken called with: '" << keyword << "'"
             << std::endl;
@@ -601,89 +675,6 @@ Token LexerNew::createKeywordToken(const std::string &keyword, int line,
   }
   std::cout << std::endl;
 
-  // Initialize on first use
-  if (keywordMap.empty()) {
-    std::cout << "[DEBUG] Initializing keywordMap" << std::endl;
-
-    // DDL Keywords
-    keywordMap["create"] = Token::KEYWORD_CREATE;
-    keywordMap["alter"] = Token::KEYWORD_ALTER;
-    keywordMap["drop"] = Token::KEYWORD_DROP;
-    keywordMap["table"] = Token::KEYWORD_TABLE;
-    keywordMap["index"] = Token::KEYWORD_INDEX;
-    keywordMap["database"] = Token::KEYWORD_DATABASE;
-    keywordMap["add"] = Token::KEYWORD_ADD;
-    keywordMap["column"] = Token::KEYWORD_COLUMN;
-    keywordMap["modify"] = Token::KEYWORD_MODIFY;
-    keywordMap["rename"] = Token::KEYWORD_RENAME;
-    keywordMap["constraint"] = Token::KEYWORD_CONSTRAINT;
-
-    // DML Keywords
-    keywordMap["select"] = Token::KEYWORD_SELECT;
-    keywordMap["insert"] = Token::KEYWORD_INSERT;
-    keywordMap["update"] = Token::KEYWORD_UPDATE;
-    keywordMap["delete"] = Token::KEYWORD_DELETE;
-    keywordMap["from"] = Token::KEYWORD_FROM;
-    keywordMap["into"] = Token::KEYWORD_INTO;
-    keywordMap["values"] = Token::KEYWORD_VALUES;
-    keywordMap["set"] = Token::KEYWORD_SET;
-
-    // Query Keywords
-    keywordMap["where"] = Token::KEYWORD_WHERE;
-    keywordMap["group"] = Token::KEYWORD_GROUP;
-    keywordMap["by"] = Token::KEYWORD_BY;
-    keywordMap["having"] = Token::KEYWORD_HAVING;
-    keywordMap["order"] = Token::KEYWORD_ORDER;
-    keywordMap["limit"] = Token::KEYWORD_LIMIT;
-    keywordMap["offset"] = Token::KEYWORD_OFFSET;
-    keywordMap["distinct"] = Token::KEYWORD_DISTINCT;
-
-    // Join Keywords
-    keywordMap["join"] = Token::KEYWORD_JOIN;
-    keywordMap["on"] = Token::KEYWORD_ON;
-    keywordMap["outer"] = Token::KEYWORD_OUTER;
-
-    // Constraint Keywords
-    keywordMap["primary"] = Token::KEYWORD_PRIMARY;
-    keywordMap["key"] = Token::KEYWORD_KEY;
-    keywordMap["foreign"] = Token::KEYWORD_FOREIGN;
-    keywordMap["references"] = Token::KEYWORD_REFERENCES;
-    keywordMap["unique"] = Token::KEYWORD_UNIQUE;
-    keywordMap["not"] = Token::KEYWORD_NOT;
-    keywordMap["null"] = Token::KEYWORD_NULL;
-    keywordMap["default"] = Token::KEYWORD_DEFAULT;
-    keywordMap["auto_increment"] = Token::KEYWORD_AUTO_INCREMENT;
-
-    // Permission Keywords
-    keywordMap["grant"] = Token::KEYWORD_GRANT;
-    keywordMap["revoke"] = Token::KEYWORD_REVOKE;
-    keywordMap["to"] = Token::KEYWORD_TO;
-    keywordMap["user"] = Token::KEYWORD_USER;
-    keywordMap["with"] = Token::KEYWORD_WITH;
-    keywordMap["password"] = Token::KEYWORD_PASSWORD;
-    keywordMap["identified"] = Token::KEYWORD_IDENTIFIED;
-    keywordMap["show"] = Token::KEYWORD_SHOW;
-
-    // Logical Operators
-    keywordMap["and"] = Token::KEYWORD_AND;
-    keywordMap["or"] = Token::KEYWORD_OR;
-    keywordMap["in"] = Token::KEYWORD_IN;
-    keywordMap["exists"] = Token::KEYWORD_EXISTS;
-
-    // Aggregate Functions
-    keywordMap["count"] = Token::KEYWORD_COUNT;
-    keywordMap["sum"] = Token::KEYWORD_SUM;
-    keywordMap["avg"] = Token::KEYWORD_AVG;
-    keywordMap["min"] = Token::KEYWORD_MIN;
-    keywordMap["max"] = Token::KEYWORD_MAX;
-    
-    // Debug: Print all mappings
-    std::cout << "[DEBUG] All keyword mappings:" << std::endl;
-    for (const auto& pair : keywordMap) {
-      std::cout << "  '" << pair.first << "' -> " << static_cast<int>(pair.second) << std::endl;
-    }
-  }
-
   auto it = keywordMap.find(keyword);
   if (it != keywordMap.end()) {
     std::cout << "[DEBUG] Found keyword '" << keyword
@@ -691,7 +682,6 @@ Token LexerNew::createKeywordToken(const std::string &keyword, int line,
               << std::endl;
     std::cout << "[DEBUG] Creating Token with type: " << static_cast<int>(it->second) 
               << ", keyword: '" << keyword << "'" << std::endl;
-    // 直接返回临时对象，避免命名对象
     std::cout << "[DEBUG] About to return temporary token" << std::endl;
     return Token(it->second, keyword, line, column);
   }
@@ -704,17 +694,16 @@ Token LexerNew::createKeywordToken(const std::string &keyword, int line,
         << "[DEBUG] Keyword '" << keyword
         << "' in getSQLKeywords but not in keywordMap, returning IDENTIFIER"
         << std::endl;
-    // 直接返回临时对象，避免命名对象
     std::cout << "[DEBUG] About to return temporary token (IDENTIFIER)" << std::endl;
     return Token(Token::IDENTIFIER, keyword, line, column);
   }
 
   std::cout << "[DEBUG] Keyword '" << keyword
             << "' not found, returning IDENTIFIER" << std::endl;
-  // 直接返回临时对象，避免命名对象
   std::cout << "[DEBUG] About to return temporary token (default)" << std::endl;
   return Token(Token::IDENTIFIER, keyword, line, column);
 }
+
 Token LexerNew::createNumberToken(const std::string &lexeme, int line,
                                   int column) {
   // Check if it's a float (contains a decimal point or exponent)
@@ -753,7 +742,8 @@ Token LexerNew::createOperatorToken(const std::string &lexeme, int line,
     return Token(Token::OPERATOR_MODULO, lexeme, line, column);
   }
 
-  return Token(Token::UNKNOWN, lexeme, line, column);}
+  return Token(Token::UNKNOWN, lexeme, line, column);
+}
 
 Token LexerNew::createPunctuationToken(const std::string &lexeme, int line,
                                        int column) {

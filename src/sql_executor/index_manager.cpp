@@ -1,11 +1,12 @@
 #include "sql_executor/index_manager.h"
 #include "storage/b_plus_tree.h"
+#include "storage_engine.h"
 #include "utils/config_manager.h"
 #include "utils/logger.h"
 
 namespace sqlcc {
 
-IndexManager::IndexManager(StorageEngine *storage_engine, ConfigManager &)
+IndexManager::IndexManager(std::shared_ptr<StorageEngine> storage_engine, ConfigManager &)
     : storage_engine_(storage_engine) {
   SQLCC_LOG_INFO("Initializing IndexManager");
   LoadAllIndexes();
@@ -29,8 +30,8 @@ bool IndexManager::CreateIndex(const std::string &index_name,
     return false;
   }
 
-  // 创建新的B+树索引
-  auto index = std::make_unique<BPlusTreeIndex>(std::shared_ptr<StorageEngine>(storage_engine_, [](StorageEngine*){}), table_name, column_name);
+  // 创建新的B+树索引 - 使用智能指针
+  auto index = std::make_unique<BPlusTreeIndex>(storage_engine_, table_name, column_name);
   if (!index->Create()) {
     SQLCC_LOG_ERROR("Failed to create index: " + index_name);
     return false;
@@ -46,38 +47,27 @@ bool IndexManager::DropIndex(const std::string &index_name,
                              const std::string &table_name) {
   SQLCC_LOG_INFO("Dropping index: " + index_name + " on table: " + table_name);
 
-  // 查找索引
-  auto it = indexes_.find(index_name);
-  if (it == indexes_.end() || it->second->GetTableName() != table_name) {
-    SQLCC_LOG_WARN("Index not found: " + index_name);
+  // 检查索引是否存在
+  if (!IndexExists(index_name, table_name)) {
+    SQLCC_LOG_WARN("Index does not exist: " + index_name);
     return false;
   }
 
-  // 删除索引
-  if (!it->second->Drop()) {
-    SQLCC_LOG_ERROR("Failed to drop index: " + index_name);
-    return false;
-  }
-
-  // 从映射表中移除索引
-  indexes_.erase(it);
+  // 从索引映射表中移除索引
+  indexes_.erase(index_name);
   SQLCC_LOG_INFO("Index dropped successfully: " + index_name);
   return true;
 }
 
 bool IndexManager::IndexExists(const std::string &index_name,
                                const std::string &table_name) const {
-  auto it = indexes_.find(index_name);
-  if (it != indexes_.end()) {
-    return it->second->GetTableName() == table_name;
-  }
-  return false;
+  return indexes_.find(index_name) != indexes_.end();
 }
 
 BPlusTreeIndex *IndexManager::GetIndex(const std::string &index_name,
                                        const std::string &table_name) {
   auto it = indexes_.find(index_name);
-  if (it != indexes_.end() && it->second->GetTableName() == table_name) {
+  if (it != indexes_.end()) {
     return it->second.get();
   }
   return nullptr;

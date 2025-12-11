@@ -16,10 +16,24 @@ cc_test(
 )
 
 cc_test(
+    name = "manual_test_system_database",
+    srcs = ["manual_test_system_database.cpp"],
+    includes = ["../../../include", "../../../include/core"],
+    deps = [
+        "//src/core:sqlcc_core_lib",
+        "//src/sql_executor:sqlcc_executor",
+        "//src:execution_engine",
+        "//src:unified_executor",
+        "@com_google_googletest//:gtest_main",
+    ],
+)
+
+cc_test(
     name = "simple_test",
     srcs = ["simple_test.cpp"],
     includes = ["../../../include", "../../../include/core"],
     deps = [
+        "//src/core:sqlcc_core_lib",
         "//src/sql_executor:sqlcc_executor",
         "//src:execution_engine",
         "//src:unified_executor",
@@ -56,5 +70,6 @@ test_suite(
         ":simple_test",
         ":system_database_test",
         ":test_gtest",
+        ":manual_test_system_database",
     ],
 )

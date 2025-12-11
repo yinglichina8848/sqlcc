@@ -1,9 +1,22 @@
 """Bazel构建配置 for SQLCC集成测试"""
 
 # 集成测试套件
+cc_test(
+    name = "comprehensive_sales_test",
+    srcs = ["comprehensive_sales_test.cpp"],
+    deps = [
+        "//src/sql_executor:sqlcc_executor",
+        "@com_google_googletest//:gtest_main",
+    ],
+    includes = [
+        "../include",
+    ],
+)
+
 test_suite(
     name = "integration_tests",
     tests = [
+        ":comprehensive_sales_test",
         # 这里可以添加具体的集成测试
     ],
 )

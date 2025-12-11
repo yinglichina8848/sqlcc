@@ -7,6 +7,7 @@
 #include "system_database.h"
 #include "database_manager.h"
 #include "user_manager.h"
+#include "sql_executor.h"
 
 using namespace sqlcc;
 namespace fs = std::filesystem;

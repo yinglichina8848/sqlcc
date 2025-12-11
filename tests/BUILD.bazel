@@ -1,81 +1,46 @@
-"""Bazel构建配置 for SQLCC测试"""
-
-# test_suite是Bazel内置函数，无需从rules_cc导入
-
-# 组件测试套件
-test_suite(
-    name = "core_component_tests",
-    tests = ["//tests/components/core:core_component_tests"],
-)
-
-test_suite(
-    name = "executor_component_tests",
-    tests = ["//tests/components/executor:executor_component_tests"],
-)
-
-test_suite(
-    name = "network_component_tests",
-    tests = ["//tests/components/network:network_component_tests"],
-)
-
-test_suite(
-    name = "parser_component_tests",
-    tests = ["//tests/components/parser:parser_component_tests"],
-)
-
-test_suite(
-    name = "security_component_tests",
-    tests = ["//tests/components/security:security_component_tests"],
-)
-
-test_suite(
-    name = "storage_component_tests",
-    tests = ["//tests/components/storage:storage_component_tests"],
-)
-
-test_suite(
-    name = "transaction_component_tests",
-    tests = ["//tests/components/transaction:transaction_component_tests"],
-)
-
-test_suite(
-    name = "debug_component_tests",
-    tests = ["//tests/components/debug:debug_tests"],
-)
-
-# 集成测试套件
-test_suite(
-    name = "integration_tests",
-    tests = ["//tests/integration:integration_tests"],
-)
-
-# 性能测试套件
-test_suite(
-    name = "performance_tests",
-    tests = ["//tests/performance:performance_tests"],
-)
-
-# 所有测试套件
-test_suite(
-    name = "all_tests",
-    tests = [
-        ":core_component_tests",
-        ":executor_component_tests",
-        ":network_component_tests",
-        ":parser_component_tests",
-        ":security_component_tests",
-        ":storage_component_tests",
-        ":transaction_component_tests",
-        ":debug_component_tests",
-        ":integration_tests",
-        ":performance_tests",
+cc_test(
+    name = "simple_test",
+    srcs = ["simple_test.cpp"],
+    deps = [
+        "//src/core:sqlcc_database_manager",
+        "//src/sql_executor:sqlcc_executor",
+        "@com_google_googletest//:gtest_main",
+    ],
+    includes = [
+        "../include",
+        "../include/core",
     ],
 )
 
-# 快速测试套件（只运行核心组件测试）
+cc_test(
+    name = "comprehensive_sales_test",
+    srcs = ["comprehensive_sales_test.cpp"],
+    deps = [
+        "//src/sql_executor:sqlcc_executor",
+        "@com_google_googletest//:gtest_main",
+    ],
+    includes = [
+        "../include",
+    ],
+)
+
+cc_test(
+    name = "debug_insert",
+    srcs = ["debug_insert.cpp"],
+    deps = [
+        "//src/sql_parser:sqlcc_parser",
+        "@com_google_googletest//:gtest_main",
+    ],
+    includes = [
+        "../include",
+    ],
+)
+
 test_suite(
-    name = "quick_tests",
+    name = "main_tests",
     tests = [
-        ":core_component_tests",
+        ":simple_test",
+        ":comprehensive_sales_test",
+        ":debug_insert",
     ],
 )

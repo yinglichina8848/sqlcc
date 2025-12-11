@@ -73,12 +73,12 @@ public:
   execute(std::unique_ptr<sqlcc::sql_parser::Statement> stmt) override;
 
 private:
-  ExecutionResult executeCreate(sqlcc::sql_parser::CreateStatement *stmt);
-  ExecutionResult executeDrop(sqlcc::sql_parser::DropStatement *stmt);
-  ExecutionResult executeAlter(sqlcc::sql_parser::AlterStatement *stmt);
+  ExecutionResult executeCreate(std::unique_ptr<sqlcc::sql_parser::CreateStatement> stmt);
+  ExecutionResult executeDrop(std::unique_ptr<sqlcc::sql_parser::DropStatement> stmt);
+  ExecutionResult executeAlter(std::unique_ptr<sqlcc::sql_parser::AlterStatement> stmt);
   ExecutionResult
-  executeCreateIndex(sqlcc::sql_parser::CreateIndexStatement *stmt);
-  ExecutionResult executeDropIndex(sqlcc::sql_parser::DropIndexStatement *stmt);
+  executeCreateIndex(std::unique_ptr<sqlcc::sql_parser::CreateIndexStatement> stmt);
+  ExecutionResult executeDropIndex(std::unique_ptr<sqlcc::sql_parser::DropIndexStatement> stmt);
 
   // 权限检查
   bool checkDDLPermission(const std::string &operation,
@@ -113,9 +113,9 @@ public:
                          std::string &index_info);
 
 private:
-  ExecutionResult executeInsert(sqlcc::sql_parser::InsertStatement *stmt);
-  ExecutionResult executeUpdate(sqlcc::sql_parser::UpdateStatement *stmt);
-  ExecutionResult executeDelete(sqlcc::sql_parser::DeleteStatement *stmt);
+  ExecutionResult executeInsert(std::unique_ptr<sqlcc::sql_parser::InsertStatement> stmt);
+  ExecutionResult executeUpdate(std::unique_ptr<sqlcc::sql_parser::UpdateStatement> stmt);
+  ExecutionResult executeDelete(std::unique_ptr<sqlcc::sql_parser::DeleteStatement> stmt);
 
   // 权限检查
   bool checkDMLPermission(const std::string &operation,
@@ -175,10 +175,10 @@ public:
   ExecutionResult execute(std::unique_ptr<sql_parser::Statement> stmt) override;
 
 private:
-  ExecutionResult executeCreateUser(sql_parser::CreateUserStatement *stmt);
-  ExecutionResult executeDropUser(sql_parser::DropUserStatement *stmt);
-  ExecutionResult executeGrant(sql_parser::GrantStatement *stmt);
-  ExecutionResult executeRevoke(sql_parser::RevokeStatement *stmt);
+  ExecutionResult executeCreateUser(std::unique_ptr<sql_parser::CreateUserStatement> stmt);
+  ExecutionResult executeDropUser(std::unique_ptr<sql_parser::DropUserStatement> stmt);
+  ExecutionResult executeGrant(std::unique_ptr<sql_parser::GrantStatement> stmt);
+  ExecutionResult executeRevoke(std::unique_ptr<sql_parser::RevokeStatement> stmt);
 
   std::shared_ptr<UserManager> user_manager_;
 };
@@ -195,7 +195,7 @@ public:
   ExecutionResult execute(std::unique_ptr<sql_parser::Statement> stmt) override;
 
 private:
-  ExecutionResult executeShow(sql_parser::ShowStatement *stmt);
+  ExecutionResult executeShow(std::unique_ptr<sql_parser::ShowStatement> stmt);
   std::string formatDatabases(const std::vector<std::string> &databases);
   std::string formatTables(const std::vector<std::string> &tables);
 

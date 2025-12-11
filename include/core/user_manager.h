@@ -2,6 +2,7 @@
 #define USER_MANAGER_H
 
 #include <chrono>
+#include <memory>
 #include <mutex>
 #include <string>
 #include <unordered_map>
@@ -91,8 +92,10 @@ public:
   ~UserManager();
 
   // 设置SystemDatabase引用（用于权限同步）
-  void SetSystemDatabase(SystemDatabase *sys_db);
-
+  void SetSystemDatabase(std::shared_ptr<SystemDatabase> sys_db);
+  
+  // 获取SystemDatabase引用
+  std::shared_ptr<SystemDatabase> GetSystemDatabase() const { return sys_db_; }
   // 用户管理方法
   bool CreateUser(const std::string &username, const std::string &password,
                   const std::string &role = "USER");
@@ -165,7 +168,7 @@ private:
   std::vector<Permission> permissions_;         // 权限列表（兼容性保留）
   mutable std::string last_error_;              // 最后错误信息
   std::string data_path_;                       // 数据存储路径
-  SystemDatabase *sys_db_;   // SystemDatabase引用（用于权限同步）
+  std::shared_ptr<SystemDatabase> sys_db_;   // SystemDatabase引用（用于权限同步）
   mutable std::mutex mutex_; // 线程安全互斥锁
 
   // 权限矩阵相关成员变量

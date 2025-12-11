@@ -480,13 +480,13 @@ public:
   executeComplexQuery(std::unique_ptr<sql_parser::Statement> stmt);
 
   // JOIN查询支持
-  ExecutionResult executeJoinQuery(sql_parser::SelectStatement *stmt);
+  ExecutionResult executeJoinQuery(const sql_parser::SelectStatement& stmt);
 
   // 子查询支持
-  ExecutionResult executeSubquery(sql_parser::SelectStatement *stmt);
+  ExecutionResult executeSubquery(const sql_parser::SelectStatement& stmt);
 
   // 窗口函数支持
-  ExecutionResult executeWindowFunction(sql_parser::SelectStatement *stmt);
+  ExecutionResult executeWindowFunction(const sql_parser::SelectStatement& stmt);
 
 private:
   // 查询优化器接口

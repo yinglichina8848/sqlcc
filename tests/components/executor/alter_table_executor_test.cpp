@@ -7,7 +7,7 @@
 #include "core/system_database.h"
 #include "sql_parser/parser_new.h"
 #include "sql_parser/lexer_new.h"
-#include "core/database_manager.h"
+#include "database_manager.h"
 
 using namespace sqlcc;
 

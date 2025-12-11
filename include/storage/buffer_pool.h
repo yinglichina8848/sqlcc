@@ -139,10 +139,10 @@ class BufferPool {
 public:
     // 构造函数，初始化缓冲池
     // Why: 需要创建缓冲池实例，设置缓冲池大小和关联的磁盘管理器
-    // What: 构造函数接收磁盘管理器指针、缓冲池大小和配置管理器引用，初始化缓冲池状态
+    // What: 构造函数接收磁盘管理器智能指针、缓冲池大小和配置管理器引用，初始化缓冲池状态
     // How: 设置成员变量，初始化页面表和LRU列表，创建互斥锁，条件注册配置回调
-    // API兼容性: 保持原有构造函数签名，但内部使用智能指针
-    explicit BufferPool(DiskManager* disk_manager, size_t pool_size, ConfigManager& config_manager);
+    // API兼容性: 使用智能指针确保内存安全
+    explicit BufferPool(std::shared_ptr<DiskManager> disk_manager, size_t pool_size, ConfigManager& config_manager);
     
     // 删除拷贝构造函数和赋值运算符，防止意外拷贝
     BufferPool(const BufferPool&) = delete;
@@ -158,32 +158,35 @@ public:
     // Why: 数据库操作需要访问页面数据，需要从磁盘加载到内存
     // What: FetchPage方法根据页面ID获取页面对象，如果页面不在内存中则从磁盘加载
     // How: 首先在页面表中查找页面，如果找到则更新LRU列表并返回；如果未找到则从磁盘加载
-    // API兼容性: 提供裸指针版本以保持现有代码兼容
-    Page* FetchPage(int32_t page_id);
+    // API兼容性: 使用智能指针确保内存安全，避免多次销毁
+    std::shared_ptr<Page> FetchPage(int32_t page_id);
 
-    // 获取页面智能指针版本（推荐使用）
-    // Why: 提供内存安全的智能指针接口
+    // 获取页面智能指针版本（已弃用，请直接使用FetchPage）
+    // Why: 保持向后兼容性
     // What: FetchPageShared返回std::shared_ptr<Page>，自动管理页面生命周期
     // How: 调用内部实现，返回智能指针包装的页面
+    [[deprecated("Use FetchPage instead")]]
     std::shared_ptr<Page> FetchPageShared(int32_t page_id);
 
     // 批量获取页面，优化多个页面的加载性能
     // Why: 某些操作需要同时访问多个页面，批量加载可以提高性能
     // What: BatchFetchPages方法根据页面ID列表获取多个页面对象
     // How: 对每个页面调用FetchPage方法，或者实现更高效的批量加载策略
-    std::vector<Page*> BatchFetchPages(const std::vector<int32_t>& page_ids);
+    // 内存安全: 使用智能指针确保内存安全，避免裸指针问题
+    std::vector<std::shared_ptr<Page>> BatchFetchPages(const std::vector<int32_t>& page_ids);
 
     // 创建新页面
     // Why: 数据库需要新的存储空间来存储数据，例如插入新记录或创建索引
     // What: NewPage方法在缓冲池中分配一个新的页面
     // How: 从空闲页面列表中获取页面，或者替换一个现有页面，初始化页面数据
-    // API兼容性: 提供裸指针版本以保持现有代码兼容
-    Page* NewPage(int32_t* page_id);
+    // API兼容性: 使用智能指针确保内存安全，避免多次销毁
+    std::shared_ptr<Page> NewPage(int32_t* page_id);
 
-    // 创建新页面智能指针版本（推荐使用）
-    // Why: 提供内存安全的智能指针接口
+    // 创建新页面智能指针版本（已弃用，请直接使用NewPage）
+    // Why: 保持向后兼容性
     // What: NewPageShared返回std::shared_ptr<Page>，自动管理页面生命周期
     // How: 调用内部实现，返回智能指针包装的新页面
+    [[deprecated("Use NewPage instead")]]
     std::shared_ptr<Page> NewPageShared(int32_t* page_id);
 
     // 取消固定页面，减少页面的固定计数
@@ -411,6 +414,12 @@ private:
     // What: simulate_flush_failure_是布尔值，控制是否模拟刷新失败
     // How: 当设置为true时，FlushPage方法会模拟写入失败
     bool simulate_flush_failure_;
+    
+    // 下一个页面ID，用于分配新的页面ID
+    // Why: 需要为新创建的页面分配唯一的ID
+    // What: next_page_id_是一个递增的整数，每次创建新页面时递增
+    // How: 在构造函数中初始化，在NewPage方法中使用并递增
+    int32_t next_page_id_;
     
     // 锁超时时间（毫秒）
     // Why: 需要限制锁获取的等待时间，避免死锁导致的长时间阻塞

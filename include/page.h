@@ -2,6 +2,7 @@
 
 #include <cstdint>
 #include <cstring>
+#include <span> // C++20 span支持
 
 namespace sqlcc {
 
@@ -75,8 +76,9 @@ public:
      * Why: 需要访问页面中的实际数据，以便进行读写操作
      * What: GetData方法返回指向页面数据缓冲区的指针
      * How: 直接返回data_数组的指针，使用inline关键字提高性能
+     * @deprecated 建议使用GetDataSpan()进行安全访问
      */
-    inline char* GetData() { return data_; }
+    [[deprecated("Use GetDataSpan() for safe access")]] inline char* GetData() { return data_; }
 
     /**
      * @brief 获取页面数据指针(const版本)
@@ -85,8 +87,34 @@ public:
      * Why: 在const上下文中需要访问页面数据，但不允许修改
      * What: GetData方法(const版本)返回指向页面数据缓冲区的const指针
      * How: 直接返回data_数组的const指针，使用inline关键字提高性能
+     * @deprecated 建议使用GetDataSpan()进行安全访问
      */
-    inline const char* GetData() const { return data_; }
+    [[deprecated("Use GetDataSpan() for safe access")]] inline const char* GetData() const { return data_; }
+
+    /**
+     * @brief 获取页面数据的安全span视图
+     * @return std::span<char> 页面数据的安全视图
+     * 
+     * Why: 提供类型安全和边界检查的数据访问方式，避免裸指针操作
+     * What: GetDataSpan方法返回一个std::span，包含整个页面的数据
+     * How: 使用std::span包装data_数组，提供安全的内存访问
+     */
+    #ifdef __cpp_lib_span
+    inline std::span<char> GetDataSpan() { return std::span<char>(data_, PAGE_SIZE); }
+    inline std::span<const char> GetDataSpan() const { return std::span<const char>(data_, PAGE_SIZE); }
+    #else
+    // C++17兼容实现
+    struct PageDataView {
+        char* data;
+        size_t size;
+        char* begin() { return data; }
+        char* end() { return data + size; }
+        const char* begin() const { return data; }
+        const char* end() const { return data + size; }
+    };
+    inline PageDataView GetDataSpan() { return PageDataView{data_, PAGE_SIZE}; }
+    inline const PageDataView GetDataSpan() const { return PageDataView{const_cast<char*>(data_), PAGE_SIZE}; }
+    #endif
 
     /**
      * @brief 将数据写入页面
@@ -97,8 +125,9 @@ public:
      * Why: 需要将外部数据写入到页面的特定位置，例如存储记录或元数据
      * What: WriteData方法将指定大小的数据从源缓冲区复制到页面的指定偏移量处
      * How: 使用memcpy函数进行内存复制，检查边界条件确保不会越界写入
+     * @deprecated 建议使用WriteDataSpan()进行安全写入
      */
-    void WriteData(size_t offset, const char* data, size_t size);
+    [[deprecated("Use WriteDataSpan() for safe write operations")]] void WriteData(size_t offset, const char* data, size_t size);
 
     /**
      * @brief 从页面读取数据
@@ -109,8 +138,32 @@ public:
      * Why: 需要从页面的特定位置读取数据，例如读取记录或元数据
      * What: ReadData方法从页面的指定偏移量处读取指定大小的数据到目标缓冲区
      * How: 使用memcpy函数进行内存复制，检查边界条件确保不会越界读取
+     * @deprecated 建议使用ReadDataToSpan()进行安全读取
      */
-    void ReadData(size_t offset, char* data, size_t size) const;
+    [[deprecated("Use ReadDataToSpan() for safe read operations")]] void ReadData(size_t offset, char* data, size_t size) const;
+
+    /**
+     * @brief 使用span安全地写入数据到页面
+     * @param offset 写入偏移量
+     * @param data_span 要写入的数据span
+     * 
+     * Why: 提供类型安全和边界检查的数据写入方式
+     * What: WriteDataSpan方法将span中的数据写入页面的指定偏移量处
+     * How: 检查边界条件，使用memcpy进行安全的数据复制
+     */
+    void WriteDataSpan(size_t offset, const char* data, size_t size);
+
+    /**
+     * @brief 使用span安全地从页面读取数据
+     * @param offset 读取偏移量
+     * @param output_data 用于接收数据的缓冲区
+     * @param size 要读取的数据大小
+     *
+     * Why: 提供类型安全和边界检查的数据读取方式
+     * What: ReadDataToSpan方法从页面的指定偏移量处读取数据到目标缓冲区
+     * How: 检查边界条件，使用memcpy进行安全的数据复制
+     */
+    void ReadDataToSpan(size_t offset, void* output_data, size_t size) const;
 
 private:
     // 页面ID

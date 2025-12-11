@@ -185,6 +185,28 @@ cc_test(
     ],
 )
 
+# 新增的SET OPERATION解析测试
+cc_test(
+    name = "set_operation_parser_test",
+    srcs = ["set_operation_parser_test.cpp"],
+    deps = [
+        "//src/sql_parser:sqlcc_parser",
+        "@com_google_googletest//:gtest_main",
+    ],
+)
+
+cc_test(
+    name = "test_show_commands",
+    srcs = ["test_show_commands.cpp"],
+    deps = [
+        "//src/sql_parser:sqlcc_parser",
+        "//src/sql_executor:sqlcc_executor",
+        "//src:execution_engine",
+        "//src:unified_executor",
+        "@com_google_googletest//:gtest_main",
+    ],
+)
+
 # 更新测试套件以包含所有测试
 test_suite(
     name = "parser_component_tests",
@@ -208,5 +230,7 @@ test_suite(
         ":test_simple_create",
         ":alter_table_parser_test",  # 添加新的测试
         ":simple_alter_test",  # 添加简单测试
+        ":set_operation_parser_test",  # 添加SET OPERATION测试
+        ":test_show_commands",  # 添加SHOW命令测试
     ],
 )

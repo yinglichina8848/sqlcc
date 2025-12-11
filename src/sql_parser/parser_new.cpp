@@ -576,13 +576,11 @@ std::unique_ptr<RevokeStatement> ParserNew::parseRevokeStatement() {
 
 std::unique_ptr<Statement> ParserNew::parseTCLStatement() {
   if (match(Token::KEYWORD_COMMIT)) {
-    // Simplified COMMIT implementation
-    // Create a dummy statement for now
-    return nullptr;
+    std::cout << "[PARSER DEBUG] parseTCLStatement() - 解析COMMIT语句" << std::endl;
+    return std::make_unique<CommitStatement>();
   } else if (match(Token::KEYWORD_ROLLBACK)) {
-    // Simplified ROLLBACK implementation
-    // Create a dummy statement for now
-    return nullptr;
+    std::cout << "[PARSER DEBUG] parseTCLStatement() - 解析ROLLBACK语句" << std::endl;
+    return std::make_unique<RollbackStatement>();
   } else {
     reportError("Unknown TCL statement");
     return nullptr;
@@ -714,8 +712,8 @@ std::unique_ptr<SelectStatement> ParserNew::parseSelectStatement() {
   // Parse WHERE clause
   if (match(Token::KEYWORD_WHERE)) {
     auto whereExpr = parseExpression();
-    // Convert expression to WhereClause (simplified)
-    stmt->setWhereClause(WhereClause("", "=", ""));
+    // Store the complete WHERE expression
+    stmt->setWhereExpression(std::move(whereExpr));
   }
 
   // Parse GROUP BY, HAVING, ORDER BY, LIMIT/OFFSET clauses
@@ -1111,19 +1109,20 @@ std::unique_ptr<Expression> ParserNew::parsePrimaryExpression() {
     // Could be column reference, function call, or keyword
     return parseColumnReferenceOrFunction();
   } else if (check(Token::STRING_LITERAL)) {
-    // Skip string literal for now
-    parseStringLiteral();
-    return nullptr;
+    std::string value = parseStringLiteral();
+    return std::make_unique<StringLiteralExpression>(value);
   } else if (check(Token::INTEGER_LITERAL) || check(Token::FLOAT_LITERAL)) {
-    // Skip numeric literal for now
-    parseNumericLiteral();
-    return nullptr;
+    double value = parseNumericLiteral();
+    return std::make_unique<NumericLiteralExpression>(value);
   } else if (match(Token::KEYWORD_NULL)) {
     // Create null literal
-    return nullptr;
-  } else if (match(Token::KEYWORD_TRUE) || match(Token::KEYWORD_FALSE)) {
+    return std::make_unique<NullLiteralExpression>();
+  } else if (match(Token::KEYWORD_TRUE)) {
     // Create boolean literal
-    return nullptr;
+    return std::make_unique<BooleanLiteralExpression>(true);
+  } else if (match(Token::KEYWORD_FALSE)) {
+    // Create boolean literal
+    return std::make_unique<BooleanLiteralExpression>(false);
   } else {
     reportError("Expected primary expression");
     return nullptr;
@@ -1140,11 +1139,11 @@ std::unique_ptr<Expression> ParserNew::parseColumnReferenceOrFunction() {
   } else if (match(Token::DOT)) {
     // Column reference with table prefix
     std::string columnName = parseIdentifier();
-    // Create column reference
-    return nullptr;
+    // For now, create a simple identifier expression for the column
+    return std::make_unique<IdentifierExpression>(columnName);
   } else {
     // Simple column reference
-    return nullptr;
+    return std::make_unique<IdentifierExpression>(identifier);
   }
 }
 

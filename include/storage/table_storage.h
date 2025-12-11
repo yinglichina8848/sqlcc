@@ -96,7 +96,7 @@ public:
     bool CreateIndex(const std::string& table_name, const std::string& column_name);
     bool DropIndex(const std::string& table_name, const std::string& column_name);
     bool IndexExists(const std::string& table_name, const std::string& column_name) const;
-    std::shared_ptr<class BPlusTreeIndex> GetIndex(const std::string& table_name, const std::string& column_name);
+    class BPlusTreeIndex* GetIndex(const std::string& table_name, const std::string& column_name);
 
 private:
     std::shared_ptr<StorageEngine> storage_engine_;  // 存储引擎

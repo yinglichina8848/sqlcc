@@ -46,6 +46,30 @@ cc_test(
     ],
 )
 
+cc_test(
+    name = "test_grant_revoke",
+    srcs = ["test_grant_revoke.cpp"],
+    includes = ["../../../include", "../../../include/core"],
+    deps = [
+        "//src:unified_executor",
+        "//src/core:sqlcc_permission_validator",
+        "@com_google_googletest//:gtest_main",
+    ],
+)
+
+cc_test(
+    name = "test_revoke_persistence",
+    srcs = ["test_revoke_persistence.cpp"],
+    includes = ["../../../include", "../../../include/core"],
+    deps = [
+        "//src:unified_executor",
+        "//src/core:sqlcc_permission_validator",
+        "//src/core:sqlcc_core_lib",
+        "//src/sql_executor:sqlcc_executor",
+        "@com_google_googletest//:gtest_main",
+    ],
+)
+
 test_suite(
     name = "security_component_tests",
     tests = [
@@ -53,5 +77,7 @@ test_suite(
         ":permission_validation_test",
         ":permission_validator_test",
         ":revoke_persistence_test",
+        ":test_grant_revoke",
+        ":test_revoke_persistence",
     ],
 )

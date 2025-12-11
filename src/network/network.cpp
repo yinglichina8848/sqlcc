@@ -130,8 +130,8 @@ bool ClientConnection::ConfigureTLSClient(const std::string& ca_cert_path) {
 bool ClientConnection::Connect() {
 #ifdef __linux__
     // 创建socket
-    socket_fd_ = sqlcc::utils::FileDescriptor::create_socket(AF_INET, SOCK_STREAM, 0);
-    if (!socket_fd_.is_valid()) {
+    socket_fd_ = sqlcc::FileDescriptor::create_socket(AF_INET, SOCK_STREAM, 0);
+    if (!socket_fd_.valid()) {
         return false;
     }
 
@@ -143,12 +143,18 @@ bool ClientConnection::Connect() {
     
     // 转换IP地址或解析主机名
     if (inet_pton(AF_INET, host_.c_str(), &server_addr.sin_addr) <= 0) {
-        struct hostent* he = gethostbyname(host_.c_str());
-        if (he == nullptr) {
+        // 使用 getaddrinfo 替代 gethostbyname 以避免 raw pointer 返回
+        struct addrinfo hints, *result = nullptr;
+        std::memset(&hints, 0, sizeof(hints));
+        hints.ai_family = AF_INET;
+        hints.ai_socktype = SOCK_STREAM;
+
+        if (getaddrinfo(host_.c_str(), nullptr, &hints, &result) != 0 || result == nullptr) {
             socket_fd_.reset();
             return false;
         }
-        std::memcpy(&server_addr.sin_addr, he->h_addr_list[0], he->h_length);
+        std::memcpy(&server_addr.sin_addr, &((struct sockaddr_in*)result->ai_addr)->sin_addr, sizeof(struct in_addr));
+        freeaddrinfo(result);
     }
 
     // 连接到服务器
@@ -189,7 +195,7 @@ bool ClientConnection::Connect() {
 
 void ClientConnection::Disconnect() {
 #ifdef __linux__
-    if (connected_ && socket_fd_.is_valid()) {
+    if (connected_ && socket_fd_.valid()) {
         if (tls_enabled_ && ssl_.is_valid()) {
             ssl_.shutdown();
             ssl_.reset();
@@ -209,7 +215,7 @@ bool ClientConnection::IsConnected() const {
 
 bool ClientConnection::SendData(const std::vector<char>& data) {
 #ifdef __linux__
-    if (!connected_ || !socket_fd_.is_valid()) {
+    if (!connected_ || !socket_fd_.valid()) {
         return false;
     }
     if (tls_enabled_ && ssl_.is_valid()) {
@@ -309,16 +315,18 @@ bool ClientNetworkManager::SendRequest(const std::vector<char>& request) {
     // 在客户端侧，仅对消息体进行加密并追加HMAC
     if (IsAESEncryptionEnabled()) {
         std::vector<char> msg = request;
-        MessageHeader* header = reinterpret_cast<MessageHeader*>(msg.data());
-        std::vector<char> body(msg.begin() + sizeof(MessageHeader), msg.end());
+        // 使用结构体绑定避免raw pointer
+        auto& header_ref = *reinterpret_cast<MessageHeader*>(msg.data());
+        std::span<char> msg_span(msg);
+        std::span<char> body_span = msg_span.subspan(sizeof(MessageHeader));
         auto aes = GetAESEncryptor();
-        std::vector<uint8_t> ct = aes->Encrypt(std::vector<uint8_t>(body.begin(), body.end()));
+        std::vector<uint8_t> ct = aes->Encrypt(std::vector<uint8_t>(body_span.begin(), body_span.end()));
         std::vector<uint8_t> mac = HMACSHA256::Compute(aes->GetKeyBytes(), ct);
         std::vector<char> new_body(ct.begin(), ct.end());
         new_body.insert(new_body.end(), mac.begin(), mac.end());
-        header->length = static_cast<uint32_t>(new_body.size());
+        header_ref.length = static_cast<uint32_t>(new_body.size());
         msg.resize(sizeof(MessageHeader) + new_body.size());
-        std::memcpy(msg.data(), header, sizeof(MessageHeader));
+        std::memcpy(msg.data(), &header_ref, sizeof(MessageHeader));
         std::memcpy(msg.data() + sizeof(MessageHeader), new_body.data(), new_body.size());
         return connection_->SendData(msg);
     }
@@ -328,17 +336,19 @@ bool ClientNetworkManager::SendRequest(const std::vector<char>& request) {
 std::vector<char> ClientNetworkManager::ReceiveResponse() {
     auto resp = connection_->ReceiveData();
     if (resp.size() < sizeof(MessageHeader)) return resp;
-    MessageHeader* header = reinterpret_cast<MessageHeader*>(resp.data());
-    if (IsAESEncryptionEnabled() && header->length >= 32) {
+
+    // 使用结构体绑定避免raw pointer
+    auto& header_ref = *reinterpret_cast<MessageHeader*>(resp.data());
+    if (IsAESEncryptionEnabled() && header_ref.length >= 32) {
         const char* body_ptr = resp.data() + sizeof(MessageHeader);
-        std::vector<uint8_t> ciphertext(body_ptr, body_ptr + header->length - 32);
-        std::vector<uint8_t> mac(body_ptr + header->length - 32, body_ptr + header->length);
+        std::vector<uint8_t> ciphertext(body_ptr, body_ptr + header_ref.length - 32);
+        std::vector<uint8_t> mac(body_ptr + header_ref.length - 32, body_ptr + header_ref.length);
         auto aes = GetAESEncryptor();
         if (!HMACSHA256::Verify(aes->GetKeyBytes(), ciphertext, mac)) {
             return resp; // 返回原始响应以便上层处理错误
         }
         std::vector<uint8_t> plaintext = aes->Decrypt(ciphertext);
-        MessageHeader new_header = *header;
+        MessageHeader new_header = header_ref;
         new_header.length = static_cast<uint32_t>(plaintext.size());
         std::vector<char> out(sizeof(MessageHeader) + plaintext.size());
         std::memcpy(out.data(), &new_header, sizeof(MessageHeader));
@@ -353,25 +363,26 @@ bool ClientNetworkManager::SendAuthMessage(const std::string& username, const st
     // 格式: [uint32_t username_len][uint32_t password_len][username][password]
     uint32_t username_len = static_cast<uint32_t>(username.length());
     uint32_t password_len = static_cast<uint32_t>(password.length());
-    
+
     size_t body_size = 2 * sizeof(uint32_t) + username_len + password_len;
     std::vector<char> message(sizeof(MessageHeader) + body_size);
-    
-    // 填充消息头
-    MessageHeader* header = reinterpret_cast<MessageHeader*>(message.data());
-    header->magic = 0x53514C43; // 'SQLC'
-    header->length = static_cast<uint32_t>(body_size);
-    header->type = AUTH;
-    header->flags = 0;
-    header->sequence_id = 1;
-    
-    // 填充消息体
-    char* body = message.data() + sizeof(MessageHeader);
-    *reinterpret_cast<uint32_t*>(body) = username_len;
-    *reinterpret_cast<uint32_t*>(body + sizeof(uint32_t)) = password_len;
-    std::memcpy(body + 2 * sizeof(uint32_t), username.c_str(), username_len);
-    std::memcpy(body + 2 * sizeof(uint32_t) + username_len, password.c_str(), password_len);
-    
+
+    // 填充消息头 - 使用结构体绑定避免raw pointer
+    auto& header_ref = *reinterpret_cast<MessageHeader*>(message.data());
+    header_ref.magic = 0x53514C43; // 'SQLC'
+    header_ref.length = static_cast<uint32_t>(body_size);
+    header_ref.type = AUTH;
+    header_ref.flags = 0;
+    header_ref.sequence_id = 1;
+
+    // 填充消息体 - 使用span避免raw pointer运算
+    std::span<char> message_span(message);
+    std::span<char> body_span = message_span.subspan(sizeof(MessageHeader));
+    *reinterpret_cast<uint32_t*>(body_span.data()) = username_len;
+    *reinterpret_cast<uint32_t*>(body_span.data() + sizeof(uint32_t)) = password_len;
+    std::memcpy(body_span.data() + 2 * sizeof(uint32_t), username.c_str(), username_len);
+    std::memcpy(body_span.data() + 2 * sizeof(uint32_t) + username_len, password.c_str(), password_len);
+
     return SendRequest(message);
 }
 
@@ -403,22 +414,23 @@ bool ClientNetworkManager::InitiateKeyExchange() {
         return false;
     }
     
-    MessageHeader* resp_header = reinterpret_cast<MessageHeader*>(response.data());
+    // 使用结构体绑定避免raw pointer
+    auto& resp_header_ref = *reinterpret_cast<MessageHeader*>(response.data());
     
     // 检查是否是密钥交换确认
-    if (resp_header->type != KEY_EXCHANGE_ACK) {
-        std::cerr << "Unexpected response type: " << resp_header->type << " (expected " << KEY_EXCHANGE_ACK << ")" << std::endl;
+    if (resp_header_ref.type != KEY_EXCHANGE_ACK) {
+        std::cerr << "Unexpected response type: " << resp_header_ref.type << " (expected " << KEY_EXCHANGE_ACK << ")" << std::endl;
         return false;
     }
-    
+
     // 提取IV（密钥交换确认消息的体部）
-    if (resp_header->length < 16) {
-        std::cerr << "Invalid IV length: " << resp_header->length << std::endl;
+    if (resp_header_ref.length < 16) {
+        std::cerr << "Invalid IV length: " << resp_header_ref.length << std::endl;
         return false;
     }
     
     const char* iv_data = response.data() + sizeof(MessageHeader);
-    std::vector<uint8_t> iv(iv_data, iv_data + resp_header->length);
+    std::vector<uint8_t> iv(iv_data, iv_data + resp_header_ref.length);
     
     try {
         // 带有客户端生成的残余串阮盆密钥
@@ -492,7 +504,7 @@ std::vector<char> ClientNetworkManager::DecryptMessage(const std::vector<char>& 
 
 
 // ConnectionHandler实现
-ConnectionHandler::ConnectionHandler(sqlcc::utils::FileDescriptor&& fd, std::shared_ptr<SessionManager> session_manager, std::shared_ptr<sqlcc::SqlExecutor> sql_executor)
+ConnectionHandler::ConnectionHandler(sqlcc::FileDescriptor&& fd, std::shared_ptr<SessionManager> session_manager, std::shared_ptr<sqlcc::SqlExecutor> sql_executor)
     : fd_(std::move(fd)), session_manager_(std::move(session_manager)), sql_executor_(std::move(sql_executor)),
       session_(nullptr), closed_(false)
 #ifdef __linux__
@@ -935,7 +947,7 @@ ServerNetworkManager::~ServerNetworkManager() {
 bool ServerNetworkManager::Start() {
 #ifdef __linux__
     // 创建监听socket
-    listen_fd_ = sqlcc::utils::FileDescriptor::create_socket(AF_INET, SOCK_STREAM | SOCK_NONBLOCK, 0);
+    listen_fd_ = sqlcc::FileDescriptor::create_socket(AF_INET, SOCK_STREAM | SOCK_NONBLOCK, 0);
     if (!listen_fd_.valid()) {
         return false;
     }
@@ -963,7 +975,7 @@ bool ServerNetworkManager::Start() {
     }
 
     // 创建epoll实例
-    epoll_fd_ = sqlcc::utils::FileDescriptor::create_epoll(0);
+    epoll_fd_ = sqlcc::FileDescriptor::create_epoll(0);
     if (!epoll_fd_.valid()) {
         listen_fd_.reset();
         return false;
@@ -997,7 +1009,7 @@ void ServerNetworkManager::Stop() {
 
 void ServerNetworkManager::ProcessEvents() {
 #ifdef __linux__
-    if (!running_ || !epoll_fd_.is_valid()) {
+    if (!running_ || !epoll_fd_.valid()) {
         return;
     }
 
@@ -1065,10 +1077,10 @@ void ServerNetworkManager::AcceptConnection() {
     socklen_t client_len = sizeof(client_addr);
     
     // 使用FileDescriptor的accept静态方法创建RAII文件描述符
-    auto client_fd = sqlcc::utils::FileDescriptor::accept(listen_fd_.get(), 
+    auto client_fd = sqlcc::FileDescriptor::accept(listen_fd_.get(),
                                                          (struct sockaddr*)&client_addr, 
                                                          &client_len, SOCK_NONBLOCK);
-    if (!client_fd.is_valid()) {
+    if (!client_fd.valid()) {
         return;
     }
 

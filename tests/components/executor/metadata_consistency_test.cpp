@@ -4,7 +4,7 @@
 #include <iostream>
 
 #include "core/system_database.h"
-#include "core/database_manager.h"
+#include "database_manager.h"
 
 using namespace sqlcc;
 

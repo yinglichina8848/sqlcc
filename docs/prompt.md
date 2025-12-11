@@ -37,3 +37,6 @@ according to the v1.1.2版本评估报告和改进计划，create the TODO list 
 把 docs/项目进展 目录下和 v1.1.1 版本有关的文档，整理到 docs/项目进展/v1.1.1 中，以此类推，整理历史版本的有关文档。
 
 工作日记和 TODO这些文档都已经存在，更新就可以了，AI 开发规范文档中有说明，docs/development/ai_development_principles.md​，变更记录到当前版本的 工作日记和 ChangeLog以及 Release Note，更新TODO，都在 docs/项目进展/v1.1.3 目录下，ChangeLog 在主目录，Release Note 在 docs/releases ​
+
+因为改成了智能指针，所以在 buffer_pool 的返回值部分，有问题，请重新设计，经过智能化指针改造后的 缓冲池的正确逻辑，目前的函数，存在返回错误值的问题，以防止指针被多次销毁。
+请设计出正确的逻辑，再进行改进。

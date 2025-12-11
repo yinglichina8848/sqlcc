@@ -170,6 +170,7 @@ public:
   void setTableName(const std::string &table);
   void addFromTable(const std::string &table);
   void setWhereClause(const WhereClause &where);
+  void setWhereExpression(std::unique_ptr<Expression> expr);
   void setGroupByColumn(const std::string &column);
   bool isDistinct() const { return false; } // 默认非distinct
   void setOrderByColumn(const std::string &column);
@@ -186,6 +187,7 @@ public:
   const std::vector<std::string> &getFromTables() const { return fromTables_; }
   const std::string &getTableName() const;
   const WhereClause &getWhereClause() const;
+  const Expression *getWhereExpression() const;
   const std::string &getGroupByColumn() const;
   const std::string &getOrderByColumn() const;
   const std::string &getOrderDirection() const;
@@ -194,6 +196,7 @@ public:
   int getOffset() const;
   bool isSelectAll() const;
   bool hasWhereClause() const;
+  bool hasWhereExpression() const;
   bool hasGroupBy() const;
   bool hasOrderBy() const;
   bool hasJoinCondition() const;
@@ -207,6 +210,7 @@ private:
   std::vector<std::string> fromTables_;
   std::string tableName_;
   WhereClause whereClause_{"", "", ""}; // 初始化空的WhereClause
+  std::unique_ptr<Expression> whereExpression_; // 完整的WHERE表达式
   std::string groupByColumn_;
   std::string orderByColumn_;
   std::string orderDirection_;
@@ -565,6 +569,98 @@ private:
   std::string targetObject_; // 目标对象（表名、用户名）
   std::string fromDatabase_; // FROM子句指定的数据库
   bool hasFromDb_;           // 是否有FROM子句
+};
+
+// ==================== Expression Classes ====================
+
+class IdentifierExpression : public Expression {
+public:
+  IdentifierExpression(const std::string &name);
+  ~IdentifierExpression();
+
+  const std::string &getName() const;
+  virtual std::string getTypeName() const override;
+  virtual void accept(NodeVisitor &visitor) override;
+  virtual Type getType() const override { return IDENTIFIER; }
+
+private:
+  std::string name_;
+};
+
+class StringLiteralExpression : public Expression {
+public:
+  StringLiteralExpression(const std::string &value);
+  ~StringLiteralExpression();
+
+  const std::string &getValue() const;
+  virtual std::string getTypeName() const override;
+  virtual void accept(NodeVisitor &visitor) override;
+  virtual Type getType() const override { return STRING_LITERAL; }
+
+private:
+  std::string value_;
+};
+
+class NumericLiteralExpression : public Expression {
+public:
+  NumericLiteralExpression(double value);
+  ~NumericLiteralExpression();
+
+  double getValue() const;
+  virtual std::string getTypeName() const override;
+  virtual void accept(NodeVisitor &visitor) override;
+  virtual Type getType() const override { return NUMERIC_LITERAL; }
+
+private:
+  double value_;
+};
+
+class BooleanLiteralExpression : public Expression {
+public:
+  BooleanLiteralExpression(bool value);
+  ~BooleanLiteralExpression();
+
+  bool getValue() const;
+  virtual std::string getTypeName() const override;
+  virtual void accept(NodeVisitor &visitor) override;
+  virtual Type getType() const override { return BOOLEAN_LITERAL; }
+
+private:
+  bool value_;
+};
+
+class NullLiteralExpression : public Expression {
+public:
+  NullLiteralExpression();
+  ~NullLiteralExpression();
+
+  virtual std::string getTypeName() const override;
+  virtual void accept(NodeVisitor &visitor) override;
+  virtual Type getType() const override { return NULL_LITERAL; }
+};
+
+// ==================== CommitStatement ====================
+
+class CommitStatement : public Statement {
+public:
+  CommitStatement();
+  ~CommitStatement();
+
+  void accept(NodeVisitor &visitor) override { visitor.visit(*this); }
+
+private:
+};
+
+// ==================== RollbackStatement ====================
+
+class RollbackStatement : public Statement {
+public:
+  RollbackStatement();
+  ~RollbackStatement();
+
+  void accept(NodeVisitor &visitor) override { visitor.visit(*this); }
+
+private:
 };
 
 // ==================== ProcedureParameter ====================

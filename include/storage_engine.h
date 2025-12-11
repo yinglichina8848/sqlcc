@@ -9,6 +9,11 @@
 #include <memory>
 #include <unordered_map>
 
+// 前向声明
+namespace sqlcc {
+class IndexManager;
+}
+
 namespace sqlcc {
 
 /**
@@ -28,19 +33,19 @@ namespace sqlcc {
  * storage_engine.DeletePage(page->GetPageId());
  * @endcode
  */
-class StorageEngine {
+class StorageEngine : public std::enable_shared_from_this<StorageEngine> {
 public:
   /**
    * @brief 构造函数
    * @param config_manager 配置管理器引用
+   * @param db_path 数据库路径，默认为"./data"
    *
    * Why: 需要初始化存储引擎，从配置管理器获取参数创建磁盘管理器和缓冲池实例
    * What: 构造函数接收配置管理器引用，从中获取配置参数初始化存储引擎的各个组件
    * How:
    * 从配置管理器获取数据库文件路径和缓冲池大小，创建DiskManager和BufferPool对象
    */
-  explicit StorageEngine(ConfigManager &config_manager);
-
+  explicit StorageEngine(ConfigManager &config_manager, const std::string& db_path = "./data");
   /**
    * @brief 析构函数
    *
@@ -69,15 +74,24 @@ public:
   StorageEngine &operator=(const StorageEngine &) = delete;
 
   /**
+   * @brief 初始化索引管理器
+   *
+   * Why: 索引管理器需要在对象完全构造后才能创建
+   * What: 延迟初始化索引管理器，避免在构造函数中调用shared_from_this()
+   * How: 在首次访问索引管理器时调用此方法
+   */
+  void InitializeIndexManager();
+
+  /**
    * @brief 创建新页面
    * @param page_id 输出参数，用于返回分配的页面ID，可选参数默认为nullptr
-   * @return 页面指针，如果失败返回nullptr
+   * @return 页面智能指针，如果失败返回nullptr
    *
    * Why: 数据库需要新的存储空间来存储数据，例如插入新记录或创建索引
-   * What: NewPage方法在数据库中分配一个新的页面，返回指向该页面的指针
+   * What: NewPage方法在数据库中分配一个新的页面，返回指向该页面的智能指针
    * How: 通过磁盘管理器分配新的页面ID，通过缓冲池创建页面对象，将页面标记为脏页
    */
-  Page *NewPage(int32_t *page_id = nullptr);
+  std::unique_ptr<Page> NewPage(int32_t *page_id = nullptr);
 
   /**
    * @brief 获取页面
@@ -88,7 +102,7 @@ public:
    * What: FetchPage方法根据页面ID获取页面对象，如果页面不在内存中则从磁盘加载
    * How: 通过缓冲池获取页面，如果页面不在内存中则通过磁盘管理器从磁盘加载
    */
-  Page *FetchPage(int32_t page_id);
+  Page* FetchPage(int32_t page_id);
 
   /**
    * @brief 取消固定页面
@@ -162,6 +176,15 @@ public:
    */
   ConfigManager &GetConfigManager() const { return config_manager_; }
 
+  /**
+   * @brief 获取索引管理器
+   * @return 索引管理器指针
+   */
+  IndexManager *GetIndexManager() const { 
+    const_cast<StorageEngine*>(this)->InitializeIndexManager();
+    return index_manager_.get(); 
+  }
+
 private:
   /// 配置管理器引用
   // Why: 需要访问配置参数来初始化和调整存储引擎的行为
@@ -176,11 +199,23 @@ private:
   // How: 使用std::unique_ptr管理DiskManager对象的生命周期，确保资源正确释放
   std::unique_ptr<DiskManager> disk_manager_;
 
+  /// 数据库路径
+  // Why: 需要保存数据库文件的路径，用于创建磁盘管理器
+  // What: db_path_保存数据库文件的路径字符串
+  // How: 在构造函数中初始化，用于创建DiskManager对象
+  std::string db_path_;
+
   /// 缓冲池管理器
   // Why: 需要一个组件负责内存中的页面缓存，提高数据库性能
   // What: buffer_pool_是一个智能指针，指向BufferPool对象，负责内存中的页面管理
   // How: 使用std::unique_ptr管理BufferPool对象的生命周期，确保资源正确释放
   std::unique_ptr<BufferPoolSharded> buffer_pool_;
+
+  /// 索引管理器
+  // Why: 需要一个组件负责索引的管理，提高查询性能
+  // What: index_manager_是一个智能指针，指向IndexManager对象，负责索引的创建、删除和查询
+  // How: 使用std::unique_ptr管理IndexManager对象的生命周期，确保资源正确释放
+  std::unique_ptr<IndexManager> index_manager_;
 };
 
 } // namespace sqlcc

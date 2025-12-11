@@ -1,9 +1,9 @@
-#include "core/system_database.h"
-
-#include <chrono>
+#include "core/system_database.h"  // 使用正确的路径
+#include "sql_executor.h"
+#include <sstream>
+#include <iostream>
 #include <ctime>
 #include <iomanip>
-#include <sstream>
 
 namespace sqlcc {
 
@@ -545,18 +545,45 @@ bool SystemDatabase::InitializeDefaultData() {
 // 执行SQL语句的辅助方法 - 简化实现，直接操作数据库
 bool SystemDatabase::ExecuteSQL(const std::string& sql) {
     try {
-        // TODO: 实现直接的SQL解析和执行
-        // 目前简化处理，假设所有SQL语句都是正确的
-        // 实际实现中应该使用解析器解析SQL并直接调用DatabaseManager的相应方法
+        // 使用DatabaseManager执行SQL语句
+        if (!db_manager_) {
+            SetError("Database manager is not available");
+            return false;
+        }
         
-        // 对于系统表的操作，我们已经通过DatabaseManager直接实现了
-        // 所以这个方法可以简化或者移除
+        // 使用SqlExecutor执行SQL语句
+        SqlExecutor executor(db_manager_);
+        std::string result = executor.Execute(sql);
         
-        // 暂时返回成功，因为系统表创建和操作已经通过DatabaseManager直接完成
+        // 检查执行结果是否包含错误信息
+        if (result.find("Error") != std::string::npos || result.find("ERROR") != std::string::npos) {
+            SetError(result);
+            return false;
+        }
+        
         return true;
     } catch (const std::exception& e) {
         SetError(std::string("ExecuteSQL exception: ") + e.what());
         return false;
+    }
+}
+
+std::string SystemDatabase::ExecuteSelectQuery(const std::string& sql) {
+    try {
+        // 使用DatabaseManager执行SELECT查询
+        if (!db_manager_) {
+            SetError("Database manager is not available");
+            return "";
+        }
+        
+        // 使用SqlExecutor执行SELECT查询
+        SqlExecutor executor(db_manager_);
+        std::string result = executor.Execute(sql);
+        
+        return result;
+    } catch (const std::exception& e) {
+        SetError(std::string("ExecuteSelectQuery exception: ") + e.what());
+        return "";
     }
 }
 
@@ -644,9 +671,9 @@ std::vector<SysDatabase> SystemDatabase::ListDatabases() {
 
 bool SystemDatabase::DatabaseExists(const std::string& db_name) {
     try {
-        // 构建SELECT查询语句（避免COUNT(*)因为解析器可能不支持）
+        // 构建SELECT查询语句
         std::stringstream ss;
-        ss << "SELECT db_id FROM " << SYS_TABLE_DATABASES 
+        ss << "SELECT COUNT(*) FROM " << SYS_TABLE_DATABASES
            << " WHERE db_name = '" << db_name << "'";
         
         // 切换到system数据库
@@ -656,18 +683,26 @@ bool SystemDatabase::DatabaseExists(const std::string& db_name) {
         }
         
         // 执行查询
-        // 如果有结果返回，说明存在；如果没有错误且执行成功，认为查询成功
-        bool result = ExecuteSQL(ss.str());
+        std::string result = ExecuteSelectQuery(ss.str());
         
         // 切换回原来的数据库
         if (!prev_db.empty()) {
             db_manager_->UseDatabase(prev_db);
         }
         
-        // 注意：这里的逻辑是简化的，实际上应该解析SELECT结果来判断
-        // 但由于我们已经通过Create方法插入了数据，如果没有错误就认为存在
-        return result;
+        // 解析结果，检查COUNT是否大于0
+        // 简单的解析逻辑：如果结果中包含非零数字，则数据库存在
+        if (result.find("1") != std::string::npos || result.find("2") != std::string::npos || 
+            result.find("3") != std::string::npos || result.find("4") != std::string::npos ||
+            result.find("5") != std::string::npos || result.find("6") != std::string::npos ||
+            result.find("7") != std::string::npos || result.find("8") != std::string::npos ||
+            result.find("9") != std::string::npos) {
+            return true;
+        }
+        
+        return false;
     } catch (const std::exception& e) {
+        SetError(std::string("DatabaseExists exception: ") + e.what());
         return false;
     }
 }
@@ -776,23 +811,38 @@ std::vector<SysUser> SystemDatabase::ListUsers() {
 
 bool SystemDatabase::UserExists(const std::string& username) {
     try {
+        // 构建SELECT查询语句
         std::stringstream ss;
-        ss << "SELECT user_id FROM " << SYS_TABLE_USERS
+        ss << "SELECT COUNT(*) FROM " << SYS_TABLE_USERS
            << " WHERE username = '" << username << "'";
         
+        // 切换到system数据库
         std::string prev_db = db_manager_->GetCurrentDatabase();
         if (!db_manager_->UseDatabase(SYSTEM_DB_NAME)) {
             return false;
         }
         
-        bool result = ExecuteSQL(ss.str());
+        // 执行查询
+        std::string result = ExecuteSelectQuery(ss.str());
         
+        // 切换回原来的数据库
         if (!prev_db.empty()) {
             db_manager_->UseDatabase(prev_db);
         }
         
-        return result;
+        // 解析结果，检查COUNT是否大于0
+        // 简单的解析逻辑：如果结果中包含非零数字，则用户存在
+        if (result.find("1") != std::string::npos || result.find("2") != std::string::npos || 
+            result.find("3") != std::string::npos || result.find("4") != std::string::npos ||
+            result.find("5") != std::string::npos || result.find("6") != std::string::npos ||
+            result.find("7") != std::string::npos || result.find("8") != std::string::npos ||
+            result.find("9") != std::string::npos) {
+            return true;
+        }
+        
+        return false;
     } catch (const std::exception& e) {
+        SetError(std::string("UserExists exception: ") + e.what());
         return false;
     }
 }
@@ -868,23 +918,38 @@ std::vector<SysRole> SystemDatabase::ListRoles() {
 
 bool SystemDatabase::RoleExists(const std::string& role_name) {
     try {
+        // 构建SELECT查询语句
         std::stringstream ss;
-        ss << "SELECT role_id FROM " << SYS_TABLE_ROLES
+        ss << "SELECT COUNT(*) FROM " << SYS_TABLE_ROLES
            << " WHERE role_name = '" << role_name << "'";
         
+        // 切换到system数据库
         std::string prev_db = db_manager_->GetCurrentDatabase();
         if (!db_manager_->UseDatabase(SYSTEM_DB_NAME)) {
             return false;
         }
         
-        bool result = ExecuteSQL(ss.str());
+        // 执行查询
+        std::string result = ExecuteSelectQuery(ss.str());
         
+        // 切换回原来的数据库
         if (!prev_db.empty()) {
             db_manager_->UseDatabase(prev_db);
         }
         
-        return result;
+        // 解析结果，检查COUNT是否大于0
+        // 简单的解析逻辑：如果结果中包含非零数字，则角色存在
+        if (result.find("1") != std::string::npos || result.find("2") != std::string::npos || 
+            result.find("3") != std::string::npos || result.find("4") != std::string::npos ||
+            result.find("5") != std::string::npos || result.find("6") != std::string::npos ||
+            result.find("7") != std::string::npos || result.find("8") != std::string::npos ||
+            result.find("9") != std::string::npos) {
+            return true;
+        }
+        
+        return false;
     } catch (const std::exception& e) {
+        SetError(std::string("RoleExists exception: ") + e.what());
         return false;
     }
 }

@@ -100,7 +100,7 @@ open build/coverage/index.html
 ```cpp
 // 批量获取页面
 std::vector<page_id_t> page_ids = {1, 2, 3, 4, 5};
-std::vector<Page*> pages = buffer_pool->BatchFetchPages(page_ids);
+std::vector<std::shared_ptr<Page>> pages = buffer_pool->BatchFetchPages(page_ids);
 
 // 批量预取页面
 buffer_pool->BatchPrefetchPages(page_ids);

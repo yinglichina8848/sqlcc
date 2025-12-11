@@ -21,6 +21,17 @@ cc_test(
 )
 
 cc_test(
+    name = "buffer_pool_smart_pointer_test",
+    srcs = ["buffer_pool_smart_pointer_test.cpp"],
+    deps = [
+        "//src/storage_engine:sqlcc_storage_engine",
+        "//src/core:sqlcc_core_lib",
+        "@com_google_googletest//:gtest_main",
+    ],
+    includes = ["../../../include"],
+)
+
+cc_test(
     name = "disk_manager_test",
     srcs = ["disk_manager_test.cpp"],
     deps = [
@@ -57,6 +68,7 @@ test_suite(
     tests = [
         ":b_plus_tree_test",
         ":buffer_pool_test",
+        ":buffer_pool_smart_pointer_test",
         ":disk_manager_test",
         ":index_maintenance_test",
         ":index_system_integration_test",

@@ -26,6 +26,13 @@ class DropUserStatement;
 class GrantStatement;
 class RevokeStatement;
 class ShowStatement;
+class CommitStatement;
+class RollbackStatement;
+class IdentifierExpression;
+class StringLiteralExpression;
+class NumericLiteralExpression;
+class BooleanLiteralExpression;
+class NullLiteralExpression;
 class CreateProcedureStatement;
 class CallProcedureStatement;
 class DropProcedureStatement;
@@ -58,6 +65,8 @@ public:
   virtual void visit(GrantStatement &node) = 0;
   virtual void visit(RevokeStatement &node) = 0;
   virtual void visit(ShowStatement &node) = 0;
+  virtual void visit(CommitStatement &node) = 0;
+  virtual void visit(RollbackStatement &node) = 0;
   virtual void visit(CreateProcedureStatement &node) = 0;
   virtual void visit(CallProcedureStatement &node) = 0;
   virtual void visit(DropProcedureStatement &node) = 0;
@@ -67,6 +76,11 @@ public:
 
   // 表达式访问方法
   virtual void visit(Expression &node) = 0;
+  virtual void visit(IdentifierExpression &node) = 0;
+  virtual void visit(StringLiteralExpression &node) = 0;
+  virtual void visit(NumericLiteralExpression &node) = 0;
+  virtual void visit(BooleanLiteralExpression &node) = 0;
+  virtual void visit(NullLiteralExpression &node) = 0;
 
   // 集合操作访问方法
   virtual void visit(SetOperationNode &node) = 0;
