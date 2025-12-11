@@ -18,6 +18,7 @@
 #ifdef __linux__
 #include <sys/socket.h>
 #include <netinet/in.h>
+#include <sys/epoll.h>
 #endif
 
 namespace sqlcc {

@@ -4,9 +4,9 @@
 #include <iostream>
 #include <filesystem>
 
-#include "core/system_database.h"
-#include "core/database_manager.h"
-#include "core/user_manager.h"
+#include "system_database.h"
+#include "database_manager.h"
+#include "user_manager.h"
 
 using namespace sqlcc;
 namespace fs = std::filesystem;

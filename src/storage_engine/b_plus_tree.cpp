@@ -1,147 +1,6 @@
-/**
- * @file b_plus_tree.cpp
- * @brief B+树索引核心实现
- * @details 本文件实现了B+树索引的核心功能，包括插入、删除、查询和范围查询等
- * @author SQLCC项目组
- * @date 2024-11-28
- * @version 0.6.0
- *
- * @par 版权信息
- * 版权所有 (c) 2024 SQLCC 项目组
- *
- * @par 相关文件
- * @see storage_engine.h - 存储引擎接口定义
- * @see page.h - 页管理接口定义
- * @see logger.h - 日志管理接口定义
- *
- * @par 数据库原理知识点
- * - B+树索引：实现了B+树索引的核心功能，包括插入、删除和查询
- * - 磁盘I/O优化：通过缓冲池减少磁盘I/O次数，提高查询性能
- * - 并发控制：使用锁机制确保多线程环境下的数据一致性
- * - 索引设计：支持高效的点查询和范围查询
- *
- * @par 设计模式
- * - 继承模式：BPlusTreeNode作为基类，派生出内部节点和叶子节点
- * - 组合模式：BPlusTreeIndex组合多个BPlusTreeNode实现完整的B+树
- * - 策略模式：不同类型的节点实现不同的插入、删除和查询策略
- */
 #include "storage/b_plus_tree.h"
-#include "page.h"
-#include "storage_engine.h"
 #include "utils/logger.h"
-#include <cstring>
-#include <memory>
 
-/**
- * =================================================================================================
- * 商业数据库核心索引技术：B+树设计思想深度剖析
- * =================================================================================================
- *
- * WHY (为什么选择B+树作为索引核心):
- * --------------------------------------------------------------------------------------
- *   商用数据库的核心挑战：
- *   1. 海量数据存储(EB级别)和高效查询需求
- *   2. 磁盘I/O最小化和随机访问优化
- *   3. 并发访问控制和事务一致性
- *   4. 可预测的查询性能和系统稳定性
- *   5. 索引维护成本与查询性能的平衡
- *
- *   B+树的设计巧妙解决了这些商业数据库的核心问题：
- *   - 平衡多叉树：充分利用磁盘页大小，减少I/O次数
- *   - 数据仅存叶子：内部节点作为路标，减少索引大小
- *   - 叶子节点链：支持高效的范围查询和顺序扫描
- *   - 平衡操作：保持树的平衡，查询性能可预测
- *
- * WHAT (B+树如何工作):
- * --------------------------------------------------------------------------------------
- *   核心设计理念：
- *   1. 多层索引结构：根 → 内部节点 → 叶子节点
- *   2. 磁盘页映射：每棵子树对应一个磁盘页
- *   3. 自平衡操作：通过分裂和合并维持平衡
- *   4. 范围查询支持：叶子节点通过指针相连
- *
- *   商业场景应用：
- *   - WHERE条件查询：O(logN)定位 + O(K)获取
- *   - 范围查询：叶子链顺序扫描，极高效率
- *   - 索引维护：增删改后自平衡调整
- *   - 并发控制：细粒度锁管理 + MVCC支持
- *
- * HOW (B+树在商业数据库中的实现要点):
- * --------------------------------------------------------------------------------------
- *   1. 节点结构设计：
- *      - 内部节点：只存储关键值+子指针，占用空间小
- *      - 叶子节点：存储完整数据+前后指针，支持范围查询
- *      - 填充因子：预留空间给频繁的插入操作
- *
- *   2. 分裂策略：
- *      - 溢出时中点分裂，确保左子树 ≤ 中点 ≤ 右子树
- *      - 批量分裂：减少递归分裂的性能开销
- *      - 并发分裂：细粒度锁控制，无阻塞设计
- *
- *   3. 性能优化：
- *      - 预取策略：预测性加载后续页面到缓冲池
- *      - 合并优化：延迟合并减少I/O开销
- *      - 缓存友好：节点大小适配CPU缓存行
- *
- *   4. 并发控制：
- *      - 乐观并发：版本戳控制冲突检测
- *      - 协同锁协议：允许读并发，写互斥
- *      - 锁升级策略：细粒度→粗粒度，按需升级
- *
- *   5. 商业数据库的特殊考虑：
- *      - WAL(预写日志)：确保崩溃恢复的一致性
- *      - 索引重构：在线重建索引保证业务连续
- *      - 统计信息：动态更新索引选择性信息
- *
- * WHY B+树主导商用数据库的核心性能指标：
- * --------------------------------------------------------------------------------------
- *   1. I/O效率：
- *      - B+树的阶数可达几百，树高度很低
- *      - 单次查询I/O次数通常为3-4次(根+内部+叶子)
- *      - 相比B树减少了30%-50%的I/O开销
- *
- *   2. 缓存效率：
- *      - 内部节点缓存热点，减少重复加载
- *      - 叶子节点预取策略，预测性缓存
- *      - 局部性原理得到充分应用
- *
- *   3. 并发效率：
- *      - 多版本B+树支持无阻塞快照读
- *      - 分层锁协议允许多并发访问
- *      - 乐观锁减少锁竞争开销
- *
- *   4. 维护效率：
- *      - 自平衡操作保证查询性能稳定
- *      - 批量操作减少维护时的性能抖动
- *      - 在线重建支持24x7业务连续性
- *
- *   5. 扩展性：
- *      - 支持索引分区和分布式部署
- *      - 动态调整适应数据量变化
- *      - 兼容多租户和大数据分析场景
- *
- * =================================================================================================
- * 这个B+树实现的商业价值和学习意义
- * =================================================================================================
- *   对于学生和开发者而言，理解B+树不仅仅是数据结构的知识，更重要的是：
- *
- *   1. 数据库系统设计思维：
- *      - 磁盘I/O是最昂贵的操作，一切设计围绕I/O优化
- *      - 树结构设计权衡读写操作的复杂度
- *      - 并发控制策略影响整个系统的伸缩性
- *
- *   2. 商业数据库的核心性能要求：
- *      - 查询延迟：毫秒级响应是基本要求
- *      - 吞吐量：每秒万级QPS是最低目标
- *      - 稳定性：99.99%可用性和可预测性能
- *      - 扩展性：无缝扩容到PB级别数据
- *
- *   3. 系统设计的最佳实践：
- *      - 抽象与封装：接口设计决定系统扩展性
- *      - 模块化设计：各组件职责清晰，独立演进
- *      - 性能监控：埋点和调优是持续性工作
- * =================================================================================================
- */
 namespace sqlcc {
 
 /**
@@ -203,14 +62,14 @@ namespace sqlcc {
  * - 新页面的初始化在Create方法中完成，构造函数只获取页面对象
  * - 页面对象通过缓冲池获取，减少磁盘I/O次数
  */
-BPlusTreeNode::BPlusTreeNode(StorageEngine *storage_engine, int32_t page_id,
+BPlusTreeNode::BPlusTreeNode(std::shared_ptr<StorageEngine> storage_engine, int32_t page_id,
                              bool is_leaf)
     : storage_engine_(storage_engine), page_id_(page_id), parent_page_id_(-1),
       is_leaf_(is_leaf), page_(nullptr) {
 
   // 获取页面对象用于数据存储
   if (storage_engine_) {
-    page_ = storage_engine_->FetchPage(page_id);
+    page_.reset(storage_engine_->FetchPage(page_id));
     // 新页面的初始化在Create方法中完成，这里不做初始化
   }
 
@@ -278,7 +137,7 @@ BPlusTreeNode::~BPlusTreeNode() {
  * - 构造函数会从页面中反序列化数据，初始化节点状态
  * - 如果页面不存在或无法访问，会导致初始化失败
  */
-BPlusTreeInternalNode::BPlusTreeInternalNode(StorageEngine *storage_engine,
+BPlusTreeInternalNode::BPlusTreeInternalNode(std::shared_ptr<StorageEngine> storage_engine,
                                              int32_t page_id)
     : BPlusTreeNode(storage_engine, page_id, false) {
   // 内部节点构造函数
@@ -542,7 +401,7 @@ void BPlusTreeInternalNode::InsertChild(int32_t child_page_id,
                                         const std::string &key) {
   // 内部节点应该有n个键和n+1个子节点指针
   // 所以当我们插入一个子节点时，我们需要同时插入一个键
-  // 除非这是第一个子节点，此时我们只需要插入子节点ID
+  // unless这是第一个子节点，此时我们只需要插入子节点ID
 
   // 找到插入位置
   auto it = std::lower_bound(keys_.begin(), keys_.end(), key);
@@ -597,14 +456,14 @@ int32_t BPlusTreeInternalNode::FindChildPageId(const std::string &key) const {
   return child_page_ids_[pos];
 }
 
-void BPlusTreeInternalNode::Split(BPlusTreeInternalNode *&new_node) {
+void BPlusTreeInternalNode::Split(std::unique_ptr<BPlusTreeInternalNode>& new_node) {
   // 创建新节点
   if (!storage_engine_)
     return;
 
   int32_t new_page_id;
   storage_engine_->NewPage(&new_page_id);
-  new_node = new BPlusTreeInternalNode(storage_engine_, new_page_id);
+  new_node = std::make_unique<BPlusTreeInternalNode>(storage_engine_, new_page_id);
 
   // 计算中间位置
   size_t mid = keys_.size() / 2;
@@ -625,7 +484,7 @@ void BPlusTreeInternalNode::Split(BPlusTreeInternalNode *&new_node) {
   new_node->SerializeToPage();
 }
 
-void BPlusTreeInternalNode::Merge(BPlusTreeInternalNode *right_node,
+void BPlusTreeInternalNode::Merge(std::unique_ptr<BPlusTreeInternalNode> right_node,
                                   const std::string &parent_key) {
   if (!right_node)
     return;
@@ -644,7 +503,7 @@ void BPlusTreeInternalNode::Merge(BPlusTreeInternalNode *right_node,
     // 只处理有效的页面ID
     if (child_id >= 0) {
       // 使用LoadNode来获取子节点，而不是直接实例化抽象类
-      BPlusTreeNode *child_node = nullptr;
+      std::unique_ptr<BPlusTreeNode> child_node = nullptr;
 
       // 检查页面是否为叶子节点
       Page *temp_page = storage_engine_->FetchPage(child_id);
@@ -655,15 +514,15 @@ void BPlusTreeInternalNode::Merge(BPlusTreeInternalNode *right_node,
 
         // 根据节点类型创建相应的节点对象
         if (is_leaf) {
-          child_node = new BPlusTreeLeafNode(storage_engine_, child_id);
+          child_node = std::make_unique<BPlusTreeLeafNode>(storage_engine_, child_id);
         } else {
-          child_node = new BPlusTreeInternalNode(storage_engine_, child_id);
+          child_node = std::make_unique<BPlusTreeInternalNode>(storage_engine_, child_id);
         }
 
         // 更新父节点ID并序列化
         child_node->SetParentPageId(page_id_);
         child_node->SerializeToPage();
-        delete child_node;
+    
       }
     }
   }
@@ -714,7 +573,7 @@ void BPlusTreeInternalNode::Merge(BPlusTreeInternalNode *right_node,
  * - 构造函数会从页面中反序列化数据，初始化节点状态
  * - 如果页面不存在或无法访问，会导致初始化失败
  */
-BPlusTreeLeafNode::BPlusTreeLeafNode(StorageEngine *storage_engine,
+BPlusTreeLeafNode::BPlusTreeLeafNode(std::shared_ptr<StorageEngine> storage_engine,
                                      int32_t page_id)
     : BPlusTreeNode(storage_engine, page_id, true), next_page_id_(-1) {
   // 叶子节点构造函数
@@ -1002,7 +861,7 @@ BPlusTreeLeafNode::Search(const std::string &key) const {
  * - B+树索引：实现了B+树索引的范围查询功能
  * - 叶子节点链：通过叶子节点之间的指针连接，支持高效的范围查询
  * - 二分查找：使用二分查找快速定位范围起始位置
- * - 顺序扫描：在叶子节点内进行顺序扫描，收集符合条件的条目
+ * - 顺序扫描：在叶子节点内进行顺序扫描，收集所有匹配的条目
  */
 std::vector<IndexEntry>
 BPlusTreeLeafNode::SearchRange(const std::string &lower_bound,
@@ -1053,14 +912,14 @@ BPlusTreeLeafNode::SearchRange(const std::string &lower_bound,
  * - 磁盘I/O优化：分裂操作涉及多个磁盘I/O，但通过缓冲池减少了实际的磁盘访问次数
  * - 页管理：为新节点分配新的磁盘页，高效管理磁盘空间
  */
-void BPlusTreeLeafNode::Split(BPlusTreeLeafNode *&new_node) {
+void BPlusTreeLeafNode::Split(std::unique_ptr<BPlusTreeLeafNode>& new_node) {
   // 创建新节点
   if (!storage_engine_)
     return;
 
   int32_t new_page_id;
   storage_engine_->NewPage(&new_page_id);
-  new_node = new BPlusTreeLeafNode(storage_engine_, new_page_id);
+  new_node = std::make_unique<BPlusTreeLeafNode>(storage_engine_, new_page_id);
 
   // 计算中间位置
   size_t mid = entries_.size() / 2;
@@ -1108,7 +967,7 @@ void BPlusTreeLeafNode::Split(BPlusTreeLeafNode *&new_node) {
  * - 磁盘I/O优化：合并操作涉及多个磁盘I/O，但通过缓冲池减少了实际的磁盘访问次数
  * - 页管理：合并后右节点的磁盘页可以被回收，高效管理磁盘空间
  */
-void BPlusTreeLeafNode::Merge(BPlusTreeLeafNode *right_node) {
+void BPlusTreeLeafNode::Merge(std::unique_ptr<BPlusTreeLeafNode> right_node) {
   if (!right_node)
     return;
 
@@ -1164,7 +1023,7 @@ void BPlusTreeLeafNode::Merge(BPlusTreeLeafNode *right_node) {
  * - 构造函数会加载索引元数据，如果索引不存在则创建新索引
  * - 索引名称格式为：表名_列名_idx
  */
-BPlusTreeIndex::BPlusTreeIndex(StorageEngine *storage_engine,
+BPlusTreeIndex::BPlusTreeIndex(std::shared_ptr<StorageEngine> storage_engine,
                                const std::string &table_name,
                                const std::string &column_name)
     : storage_engine_(storage_engine), table_name_(table_name),
@@ -1221,18 +1080,18 @@ BPlusTreeIndex::~BPlusTreeIndex() {
  * - 日志管理：记录索引创建日志
  */
 bool BPlusTreeIndex::Create() {
-  // 创建根节点（初始为空的叶子节点）
   if (!storage_engine_)
     return false;
 
-  // 分配一个新页面作为根节点
-  storage_engine_->NewPage(&root_page_id_);
+  // 分配根节点页面
+  if (!storage_engine_->NewPage(&root_page_id_))
+    return false;
+
   if (root_page_id_ < 0)
     return false;
 
-  // 创建叶子节点并初始化
-  BPlusTreeLeafNode *root_node =
-      new BPlusTreeLeafNode(storage_engine_, root_page_id_);
+  // 创建叶子节点并初始化（使用智能指针）
+  auto root_node = std::make_unique<BPlusTreeLeafNode>(storage_engine_, root_page_id_);
   if (!root_node) {
     storage_engine_->DeletePage(root_page_id_);
     return false;
@@ -1248,8 +1107,7 @@ bool BPlusTreeIndex::Create() {
   // 保存元数据，确保根节点页面ID被持久化
   SaveMetadata();
 
-  // 释放节点（页面仍然保留）
-  delete root_node;
+  // 智能指针自动释放，无需手动delete
   return true;
 }
 
@@ -1337,9 +1195,13 @@ bool BPlusTreeIndex::Insert(const IndexEntry &entry) {
 
   // 使用递归插入方法，处理分裂和树增长
   std::string promoted_key;
-  BPlusTreeNode *new_node = nullptr;
+  std::unique_ptr<BPlusTreeNode> new_node = nullptr;
 
-  BPlusTreeNode *root_node = LoadNode(root_page_id_);
+  auto root_node = LoadNode(root_page_id_);
+  if (!root_node) {
+    return false;
+  }
+  
   bool result = Insert(entry, root_node, promoted_key, new_node);
 
   // 保存根节点的状态
@@ -1351,9 +1213,8 @@ bool BPlusTreeIndex::Insert(const IndexEntry &entry) {
     int32_t new_root_page_id;
     storage_engine_->NewPage(&new_root_page_id);
 
-    // 创建新的内部节点作为根节点，直接使用新分配的页面ID
-    BPlusTreeInternalNode *new_root =
-        new BPlusTreeInternalNode(storage_engine_, new_root_page_id);
+    // 创建新的内部节点作为根节点，直接使用新分配的页面ID（使用智能指针）
+    auto new_root = std::make_unique<BPlusTreeInternalNode>(storage_engine_, new_root_page_id);
 
     // 使用InsertChild方法添加第一个子节点
     // 对于第一个子节点，我们使用一个空字符串作为键，因为内部节点的第一个子节点不需要键
@@ -1374,11 +1235,8 @@ bool BPlusTreeIndex::Insert(const IndexEntry &entry) {
     new_node->SetParentPageId(new_root_page_id);
     new_node->SerializeToPage();
 
-    delete new_root;
+    // 智能指针自动释放，无需手动delete
   }
-
-  delete root_node;
-  delete new_node;
 
   // 保存元数据，确保根节点页面ID被持久化
   SaveMetadata();
@@ -1419,15 +1277,15 @@ bool BPlusTreeIndex::Delete(const std::string &key) {
   if (!storage_engine_ || root_page_id_ < 0)
     return true; // 索引不存在或已删除，返回true
 
-  // 获取根节点
-  BPlusTreeNode *root_node = LoadNode(root_page_id_);
+  // 获取根节点（使用智能指针）
+  auto root_node = LoadNode(root_page_id_);
   if (!root_node)
     return true; // 节点加载失败，返回true
 
   // 递归删除
   Delete(key, root_node);
 
-  delete root_node;
+  // 智能指针自动释放，无需手动delete
   return true; // 无论删除是否成功，都返回true
 }
 
@@ -1463,15 +1321,13 @@ std::vector<IndexEntry> BPlusTreeIndex::Search(const std::string &key) const {
     return std::vector<IndexEntry>();
 
   // 获取根节点
-  BPlusTreeNode *root_node =
-      const_cast<BPlusTreeIndex *>(this)->LoadNode(root_page_id_);
+  auto root_node = const_cast<BPlusTreeIndex *>(this)->LoadNode(root_page_id_);
   if (!root_node)
     return std::vector<IndexEntry>();
 
   // 递归搜索
   std::vector<IndexEntry> results = Search(key, root_node);
 
-  delete root_node;
   return results;
 }
 
@@ -1514,8 +1370,7 @@ BPlusTreeIndex::SearchRange(const std::string &lower_bound,
     return std::vector<IndexEntry>();
 
   // 获取根节点
-  BPlusTreeNode *root_node =
-      const_cast<BPlusTreeIndex *>(this)->LoadNode(root_page_id_);
+  auto root_node = const_cast<BPlusTreeIndex *>(this)->LoadNode(root_page_id_);
   if (!root_node)
     return std::vector<IndexEntry>();
 
@@ -1523,7 +1378,6 @@ BPlusTreeIndex::SearchRange(const std::string &lower_bound,
   std::vector<IndexEntry> results =
       SearchRange(lower_bound, upper_bound, root_node);
 
-  delete root_node;
   return results;
 }
 
@@ -1612,12 +1466,12 @@ void BPlusTreeIndex::SaveMetadata() {
   // 或者在Insert方法中保存root_page_id_
 }
 
-BPlusTreeNode *BPlusTreeIndex::GetNode(int32_t page_id) const {
+std::unique_ptr<BPlusTreeNode> BPlusTreeIndex::GetNode(int32_t page_id) const {
   // 获取节点的实现
   return const_cast<BPlusTreeIndex *>(this)->LoadNode(page_id);
 }
 
-BPlusTreeNode *BPlusTreeIndex::CreateNewNode(bool is_leaf) {
+std::unique_ptr<BPlusTreeNode> BPlusTreeIndex::CreateNewNode(bool is_leaf) {
   // 创建新节点
   if (!storage_engine_)
     return nullptr;
@@ -1628,9 +1482,9 @@ BPlusTreeNode *BPlusTreeIndex::CreateNewNode(bool is_leaf) {
     return nullptr;
 
   if (is_leaf) {
-    return new BPlusTreeLeafNode(storage_engine_, page_id);
+    return std::make_unique<BPlusTreeLeafNode>(storage_engine_, page_id);
   } else {
-    return new BPlusTreeInternalNode(storage_engine_, page_id);
+    return std::make_unique<BPlusTreeInternalNode>(storage_engine_, page_id);
   }
 }
 
@@ -1642,33 +1496,33 @@ void BPlusTreeIndex::DeleteNode(int32_t page_id) {
 }
 
 // 辅助方法：检查节点是否需要合并
-bool BPlusTreeIndex::NeedMerge(BPlusTreeNode *node) {
+bool BPlusTreeIndex::NeedMerge(const std::unique_ptr<BPlusTreeNode>& node) {
   if (node->IsLeaf()) {
-    BPlusTreeLeafNode *leaf = dynamic_cast<BPlusTreeLeafNode *>(node);
+    BPlusTreeLeafNode *leaf = dynamic_cast<BPlusTreeLeafNode *>(node.get());
     return leaf->GetEntries().size() < BPLUS_TREE_LEAF_MIN_KEYS;
   } else {
     BPlusTreeInternalNode *internal =
-        dynamic_cast<BPlusTreeInternalNode *>(node);
+        dynamic_cast<BPlusTreeInternalNode *>(node.get());
     return internal->GetKeys().size() < BPLUS_TREE_MIN_KEYS;
   }
 }
 
 // 辅助方法：加载节点
 bool BPlusTreeIndex::Delete(const std::string &key,
-                            BPlusTreeNode *current_node) {
+                            const std::unique_ptr<BPlusTreeNode>& current_node) {
   if (!current_node)
     return false;
 
   if (current_node->IsLeaf()) {
     // 叶子节点直接删除
-    BPlusTreeLeafNode *leaf = dynamic_cast<BPlusTreeLeafNode *>(current_node);
+    BPlusTreeLeafNode *leaf = dynamic_cast<BPlusTreeLeafNode *>(current_node.get());
     bool result = leaf->Remove(key);
 
     // 将修改后的节点序列化回磁盘
     current_node->SerializeToPage();
 
     // 检查是否需要合并
-    if (result && NeedMerge(leaf)) {
+    if (result && NeedMerge(current_node)) {
       // 这里简化处理，只删除不合并，避免复杂的合并逻辑
       // 实际商业数据库实现会包含完整的合并逻辑
     }
@@ -1677,15 +1531,15 @@ bool BPlusTreeIndex::Delete(const std::string &key,
   } else {
     // 内部节点，找到对应的子节点
     BPlusTreeInternalNode *internal =
-        dynamic_cast<BPlusTreeInternalNode *>(current_node);
+        dynamic_cast<BPlusTreeInternalNode *>(current_node.get());
     int32_t child_page_id = internal->FindChildPageId(key);
 
-    BPlusTreeNode *child_node = LoadNode(child_page_id);
+    auto child_node = LoadNode(child_page_id);
     bool result = Delete(key, child_node);
 
     // 将修改后的子节点序列化回磁盘
     child_node->SerializeToPage();
-    delete child_node;
+
 
     // 将修改后的当前节点序列化回磁盘
     current_node->SerializeToPage();
@@ -1702,25 +1556,23 @@ bool BPlusTreeIndex::Delete(const std::string &key,
 
 std::vector<IndexEntry>
 BPlusTreeIndex::Search(const std::string &key,
-                       BPlusTreeNode *current_node) const {
+                       const std::unique_ptr<BPlusTreeNode>& current_node) const {
   if (!current_node)
     return std::vector<IndexEntry>();
 
   if (current_node->IsLeaf()) {
     // 叶子节点直接搜索
-    BPlusTreeLeafNode *leaf = dynamic_cast<BPlusTreeLeafNode *>(current_node);
+    BPlusTreeLeafNode *leaf = dynamic_cast<BPlusTreeLeafNode *>(current_node.get());
     return leaf->Search(key);
   } else {
     // 内部节点，找到对应的子节点
     BPlusTreeInternalNode *internal =
-        dynamic_cast<BPlusTreeInternalNode *>(current_node);
+        dynamic_cast<BPlusTreeInternalNode *>(current_node.get());
     int32_t child_page_id = internal->FindChildPageId(key);
 
-    BPlusTreeNode *child_node =
+    auto child_node =
         const_cast<BPlusTreeIndex *>(this)->LoadNode(child_page_id);
     std::vector<IndexEntry> results = Search(key, child_node);
-
-    delete child_node;
     return results;
   }
 }
@@ -1728,13 +1580,13 @@ BPlusTreeIndex::Search(const std::string &key,
 std::vector<IndexEntry>
 BPlusTreeIndex::SearchRange(const std::string &lower_bound,
                             const std::string &upper_bound,
-                            BPlusTreeNode *current_node) const {
+                            const std::unique_ptr<BPlusTreeNode>& current_node) const {
   if (!current_node)
     return std::vector<IndexEntry>();
 
   if (current_node->IsLeaf()) {
     // 叶子节点直接范围搜索
-    BPlusTreeLeafNode *leaf = dynamic_cast<BPlusTreeLeafNode *>(current_node);
+    BPlusTreeLeafNode *leaf = dynamic_cast<BPlusTreeLeafNode *>(current_node.get());
     std::vector<IndexEntry> results =
         leaf->SearchRange(lower_bound, upper_bound);
 
@@ -1756,15 +1608,14 @@ BPlusTreeIndex::SearchRange(const std::string &lower_bound,
       visited_pages.insert(next_page_id);
 
       // 加载下一个叶子节点
-      BPlusTreeNode *next_node =
+      auto next_node =
           const_cast<BPlusTreeIndex *>(this)->LoadNode(next_page_id);
       if (!next_node) {
         break;
       }
       BPlusTreeLeafNode *next_leaf =
-          dynamic_cast<BPlusTreeLeafNode *>(next_node);
+          dynamic_cast<BPlusTreeLeafNode *>(next_node.get());
       if (!next_leaf) {
-        delete next_node;
         break;
       }
 
@@ -1772,14 +1623,12 @@ BPlusTreeIndex::SearchRange(const std::string &lower_bound,
       // 如果超过上限，直接返回结果
       if (!next_leaf->GetEntries().empty() &&
           next_leaf->GetEntries().front().key.compare(upper_bound) > 0) {
-        delete next_leaf;
         break;
       }
 
       std::vector<IndexEntry> next_results =
           next_leaf->SearchRange(lower_bound, upper_bound);
       if (next_results.empty()) {
-        delete next_leaf;
         break;
       }
 
@@ -1795,19 +1644,16 @@ BPlusTreeIndex::SearchRange(const std::string &lower_bound,
 
       // 如果没有添加任何结果，说明已经处理完所有需要的结果
       if (!added) {
-        delete next_leaf;
         break;
       }
 
       // 检查是否已经超出上限
       if (!next_results.empty() && next_results.back().key >= upper_bound) {
-        delete next_leaf;
         break;
       }
 
-      // 获取下一个叶子节点的下一页ID，然后删除当前叶子节点
+      // 获取下一个叶子节点的下一页ID
       int32_t temp_next_page_id = next_leaf->GetNextPageId();
-      delete next_leaf;
       next_page_id = temp_next_page_id;
     }
 
@@ -1815,36 +1661,34 @@ BPlusTreeIndex::SearchRange(const std::string &lower_bound,
   } else {
     // 内部节点，找到对应的子节点
     BPlusTreeInternalNode *internal =
-        dynamic_cast<BPlusTreeInternalNode *>(current_node);
+        dynamic_cast<BPlusTreeInternalNode *>(current_node.get());
     int32_t child_page_id = internal->FindChildPageId(lower_bound);
 
-    BPlusTreeNode *child_node =
-        const_cast<BPlusTreeIndex *>(this)->LoadNode(child_page_id);
+    auto child_node = const_cast<BPlusTreeIndex *>(this)->LoadNode(child_page_id);
     std::vector<IndexEntry> results =
         SearchRange(lower_bound, upper_bound, child_node);
 
-    delete child_node;
     return results;
   }
 }
 
 bool BPlusTreeIndex::Insert(const IndexEntry &entry,
-                            BPlusTreeNode *current_node,
+                            const std::unique_ptr<BPlusTreeNode>& current_node,
                             std::string &promoted_key,
-                            BPlusTreeNode *&new_node) {
+                            std::unique_ptr<BPlusTreeNode>& new_node) {
   if (!current_node)
     return false;
 
   if (current_node->IsLeaf()) {
     // 叶子节点插入
-    BPlusTreeLeafNode *leaf = dynamic_cast<BPlusTreeLeafNode *>(current_node);
+    BPlusTreeLeafNode *leaf = dynamic_cast<BPlusTreeLeafNode *>(current_node.get());
 
     // 插入条目
     leaf->Insert(entry);
 
     // 检查是否需要分裂
     if (leaf->IsFull()) {
-      BPlusTreeLeafNode *new_leaf = nullptr;
+      std::unique_ptr<BPlusTreeLeafNode> new_leaf;
       leaf->Split(new_leaf);
 
       // 保存分裂后的叶子节点状态
@@ -1852,7 +1696,7 @@ bool BPlusTreeIndex::Insert(const IndexEntry &entry,
 
       // 设置提升的键为新叶子节点的第一个键
       promoted_key = new_leaf->GetEntries().front().key;
-      new_node = new_leaf;
+      new_node = std::move(new_leaf);
 
       return true;
     }
@@ -1861,14 +1705,14 @@ bool BPlusTreeIndex::Insert(const IndexEntry &entry,
   } else {
     // 内部节点插入
     BPlusTreeInternalNode *internal =
-        dynamic_cast<BPlusTreeInternalNode *>(current_node);
+        dynamic_cast<BPlusTreeInternalNode *>(current_node.get());
 
     // 找到要插入的子节点
     int32_t child_page_id = internal->FindChildPageId(entry.key);
-    BPlusTreeNode *child_node = LoadNode(child_page_id);
+    auto child_node = LoadNode(child_page_id);
 
     std::string child_promoted_key;
-    BPlusTreeNode *child_new_node = nullptr;
+    std::unique_ptr<BPlusTreeNode> child_new_node;
 
     // 递归插入到子节点
     bool result = Insert(entry, child_node, child_promoted_key, child_new_node);
@@ -1884,21 +1728,20 @@ bool BPlusTreeIndex::Insert(const IndexEntry &entry,
 
       // 检查当前节点是否需要分裂
       if (internal->IsFull()) {
-        BPlusTreeInternalNode *new_internal = nullptr;
+        std::unique_ptr<BPlusTreeInternalNode> new_internal;
         internal->Split(new_internal);
 
         // 设置提升的键为分裂后的内部节点的第一个键
         promoted_key = internal->GetKeys().back();
-        new_node = new_internal;
+        new_node = std::move(new_internal);
       }
     }
 
-    delete child_node;
     return result;
   }
 }
 
-BPlusTreeNode *BPlusTreeIndex::LoadNode(int32_t page_id) {
+std::unique_ptr<BPlusTreeNode> BPlusTreeIndex::LoadNode(int32_t page_id) {
   if (!storage_engine_)
     return nullptr;
 
@@ -1912,7 +1755,7 @@ BPlusTreeNode *BPlusTreeIndex::LoadNode(int32_t page_id) {
   // 我们不需要在这里检查节点类型，因为节点构造函数会处理
 
   // 首先尝试获取页面，检查节点类型
-  Page *temp_page = storage_engine_->FetchPage(page_id);
+  auto temp_page = storage_engine_->FetchPage(page_id);
   if (!temp_page)
     return nullptr;
 
@@ -1925,9 +1768,9 @@ BPlusTreeNode *BPlusTreeIndex::LoadNode(int32_t page_id) {
 
   // 根据节点类型创建节点
   if (is_leaf) {
-    return new BPlusTreeLeafNode(storage_engine_, page_id);
+    return std::make_unique<sqlcc::BPlusTreeLeafNode>(storage_engine_, page_id);
   } else {
-    return new BPlusTreeInternalNode(storage_engine_, page_id);
+    return std::make_unique<sqlcc::BPlusTreeInternalNode>(storage_engine_, page_id);
   }
 }
 

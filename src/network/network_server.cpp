@@ -14,7 +14,7 @@ void NetworkServer::handle_client(sqlcc::utils::FileDescriptor& client_fd) {
   ssize_t ret = recv(client_fd.get(), &first_byte, 1, MSG_PEEK);
   if (ret == 1 && first_byte == 0x0A) {
     // MySQL协议处理流程
-    MySQLProtocolHandler handler(client_fd.get());
+    MySQLProtocolHandler handler(client_fd);
     handler.send_handshake();
 
     // 处理客户端登录请求
@@ -24,7 +24,7 @@ void NetworkServer::handle_client(sqlcc::utils::FileDescriptor& client_fd) {
     }
   } else {
     // 使用MySQL协议处理器作为默认处理器
-    MySQLProtocolHandler handler(client_fd.get());
+    MySQLProtocolHandler handler(client_fd);
     handler.send_handshake();
 
     // 处理客户端响应
