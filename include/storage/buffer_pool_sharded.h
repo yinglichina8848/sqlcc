@@ -30,12 +30,12 @@ class BufferPoolSharded {
 public:
     /**
      * 构造函数
-     * @param disk_manager 磁盘管理器实例
+     * @param disk_manager 磁盘管理器智能指针
      * @param config_manager 配置管理器实例
      * @param pool_size 缓冲池大小
      * @param num_shards shard数量（必须是2的幂）
      */
-    BufferPoolSharded(DiskManager* disk_manager, ConfigManager& config_manager, 
+    BufferPoolSharded(std::shared_ptr<DiskManager> disk_manager, ConfigManager& config_manager, 
                      size_t pool_size, size_t num_shards = 16);
 
     /**
@@ -47,9 +47,16 @@ public:
      * 获取页面
      * @param page_id 页面ID
      * @param exclusive 是否需要独占锁
-     * @return 页面对象指针，失败时返回nullptr
+     * @return 页面智能指针，失败时返回nullptr
      */
-    Page* FetchPage(int32_t page_id, bool exclusive = false);
+    std::unique_ptr<Page> FetchPage(int32_t page_id, bool exclusive = false);
+
+    /**
+     * 创建新页面
+     * @param page_id 输出参数，页面ID
+     * @return 页面智能指针，失败时返回nullptr
+     */
+    std::unique_ptr<Page> NewPage(int32_t* page_id);
 
     /**
      * 刷新页面到磁盘
@@ -77,13 +84,6 @@ public:
      * @return 是否解除成功
      */
     bool UnpinPage(int32_t page_id, bool is_dirty);
-
-    /**
-     * 创建新页面
-     * @param page_id 输出参数，页面ID
-     * @return 页面对象指针，失败时返回nullptr
-     */
-    Page* NewPage(int32_t* page_id);
 
     /**
      * 获取缓冲池统计信息
@@ -145,8 +145,8 @@ private:
     // 从LRU链表中移除页面
     void RemoveFromLRU(Shard& shard, int32_t page_id);
 
-    // 磁盘管理器指针
-    DiskManager* disk_manager_;
+    // 磁盘管理器智能指针
+    std::shared_ptr<DiskManager> disk_manager_;
 
     // 配置管理器引用
     ConfigManager& config_manager_;

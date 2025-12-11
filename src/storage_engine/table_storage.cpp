@@ -1,6 +1,7 @@
 #include "storage/table_storage.h"
 #include "storage/b_plus_tree.h"
 #include "storage_engine.h"
+#include "sql_executor/index_manager.h"
 #include "utils/logger.h"
 #include <algorithm>
 #include <cstring>
@@ -10,10 +11,12 @@ namespace sqlcc {
 TableStorageManager::TableStorageManager(
     std::shared_ptr<StorageEngine> storage_engine)
     : storage_engine_(storage_engine) {
-  // TODO: 需要实现IndexManager类
-  // 临时注释掉索引管理器初始化
-  // index_manager_ = std::make_shared<IndexManager>(storage_engine_.get(),
-  // storage_engine->GetConfigManager());
+  // 初始化索引管理器
+  // 注意：这里需要获取ConfigManager，但在StorageEngine中可能没有直接提供
+  // 作为一个简化实现，我们可以创建一个默认的ConfigManager
+  // 在实际实现中，应该通过适当的方式获取ConfigManager
+  ConfigManager config_manager;
+  index_manager_ = std::make_shared<IndexManager>(storage_engine_, config_manager);
 }
 
 TableStorageManager::~TableStorageManager() {}
@@ -259,11 +262,13 @@ std::vector<std::vector<std::string>> TableStorageManager::GetRecords(
 
 Page *TableStorageManager::AllocateNewPage(const std::string &table_name) {
   int32_t page_id;
-  Page *page = storage_engine_->NewPage(&page_id);
-  if (!page) {
+  auto page_ptr = storage_engine_->NewPage(&page_id);
+  if (!page_ptr) {
     return nullptr;
   }
-
+  
+  Page* page = page_ptr.release();  // 释放unique_ptr的所有权
+  
   // 初始化页面
   InitializePage(page, table_name);
 
@@ -457,31 +462,63 @@ void TableStorageManager::WritePageHeader(Page *page,
 
 bool TableStorageManager::CreateIndex(const std::string &table_name,
                                       const std::string &column_name) {
-  // TODO: 需要实现IndexManager类
-  SQLCC_LOG_WARN("CreateIndex not implemented: IndexManager class is missing");
-  return false;
+  // 使用IndexManager创建索引
+  if (!index_manager_) {
+    SQLCC_LOG_ERROR("IndexManager not initialized");
+    return false;
+  }
+  
+  // 生成索引名称
+  std::string index_name = index_manager_->GetIndexName(table_name, column_name);
+  
+  // 创建索引
+  return index_manager_->CreateIndex(index_name, table_name, column_name);
 }
 
 bool TableStorageManager::DropIndex(const std::string &table_name,
                                     const std::string &column_name) {
-  // TODO: 需要实现IndexManager类
-  SQLCC_LOG_WARN("DropIndex not implemented: IndexManager class is missing");
-  return false;
+  // 使用IndexManager删除索引
+  if (!index_manager_) {
+    SQLCC_LOG_ERROR("IndexManager not initialized");
+    return false;
+  }
+  
+  // 生成索引名称
+  std::string index_name = index_manager_->GetIndexName(table_name, column_name);
+  
+  // 删除索引
+  return index_manager_->DropIndex(index_name, table_name);
 }
 
 bool TableStorageManager::IndexExists(const std::string &table_name,
                                       const std::string &column_name) const {
-  // TODO: 需要实现IndexManager类
-  SQLCC_LOG_WARN("IndexExists not implemented: IndexManager class is missing");
-  return false;
+  // 使用IndexManager检查索引是否存在
+  if (!index_manager_) {
+    SQLCC_LOG_ERROR("IndexManager not initialized");
+    return false;
+  }
+  
+  // 生成索引名称
+  std::string index_name = index_manager_->GetIndexName(table_name, column_name);
+  
+  // 检查索引是否存在
+  return index_manager_->IndexExists(index_name, table_name);
 }
 
-std::shared_ptr<BPlusTreeIndex>
+BPlusTreeIndex*
 TableStorageManager::GetIndex(const std::string &table_name,
                               const std::string &column_name) {
-  // TODO: 需要实现IndexManager类
-  SQLCC_LOG_WARN("GetIndex not implemented: IndexManager class is missing");
-  return nullptr;
+  // 使用IndexManager获取索引
+  if (!index_manager_) {
+    SQLCC_LOG_ERROR("IndexManager not initialized");
+    return nullptr;
+  }
+  
+  // 生成索引名称
+  std::string index_name = index_manager_->GetIndexName(table_name, column_name);
+  
+  // 获取索引
+  return index_manager_->GetIndex(index_name, table_name);
 }
 
 } // namespace sqlcc

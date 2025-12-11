@@ -37,15 +37,15 @@ struct HandshakeV10 {
  */
 class MySQLProtocolHandler {
 public:
-    explicit MySQLProtocolHandler(sqlcc::utils::FileDescriptor client_fd);
-    
+    explicit MySQLProtocolHandler(sqlcc::FileDescriptor&& client_fd);
+
     // 发送握手包
     void send_handshake();
-    
+
     // 处理客户端响应
     bool handle_client_response();
 
 private:
-    sqlcc::utils::FileDescriptor client_fd_;
+    sqlcc::FileDescriptor client_fd_;
     HandshakeV10 handshake_;
 };

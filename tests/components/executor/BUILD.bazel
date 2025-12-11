@@ -150,6 +150,43 @@ cc_test(
     ],
 )
 
+cc_test(
+    name = "dcl_executor_test",
+    srcs = ["dcl_executor_test.cpp"],
+    deps = [
+        "//src:sqlcc_core",
+        "@com_google_googletest//:gtest_main",
+    ],
+)
+
+cc_test(
+    name = "index_optimization_test",
+    srcs = ["index_optimization_test.cpp"],
+    deps = [
+        "//src:sqlcc_core",
+        "@com_google_googletest//:gtest_main",
+    ],
+)
+
+# 新增的索引使用测试
+cc_test(
+    name = "index_usage_test",
+    srcs = ["index_usage_test.cpp"],
+    deps = [
+        "//src:sqlcc_core",
+        "@com_google_googletest//:gtest_main",
+    ],
+)
+
+cc_test(
+    name = "unsupported_commands_test",
+    srcs = ["unsupported_commands_test.cpp"],
+    deps = [
+        "//src:sqlcc_core",
+        "@com_google_googletest//:gtest_main",
+    ],
+)
+
 test_suite(
     name = "executor_component_tests",
     tests = [
@@ -168,5 +205,9 @@ test_suite(
         ":alter_table_executor_test",  # 添加新的测试
         ":metadata_consistency_test",   # 添加新的测试
         ":privilege_consistency_test",   # 添加新的测试
+        ":dcl_executor_test",   # 添加DCL执行器测试
+        ":index_optimization_test",   # 添加索引优化测试
+        ":index_usage_test",   # 添加索引使用测试
+        ":unsupported_commands_test",   # 添加不支持命令测试
     ],
 )

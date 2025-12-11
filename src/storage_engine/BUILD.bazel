@@ -21,6 +21,7 @@ cc_library(
     includes = ["../../include"],
     deps = [
         "//src/config_manager:sqlcc_config_manager",
+        ":sqlcc_index_manager",
         "@com_google_absl//absl/strings",
         "@com_google_absl//absl/container:flat_hash_map",
         "@com_google_absl//absl/random",
@@ -51,6 +52,19 @@ cc_library(
         "//src/config_manager:sqlcc_config_manager",
         "@com_google_absl//absl/strings",
         "@com_google_absl//absl/container:flat_hash_map",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+# 索引管理器库
+cc_library(
+    name = "sqlcc_index_manager",
+    srcs = ["index_manager/index_manager.cpp"],
+    hdrs = ["//include:storage_engine_headers"],
+    includes = ["../../include"],
+    deps = [
+        "//src/config_manager:sqlcc_config_manager",
+        "@com_google_absl//absl/strings",
     ],
     visibility = ["//visibility:public"],
 )

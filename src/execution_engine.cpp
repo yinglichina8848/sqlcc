@@ -95,6 +95,54 @@ DDLExecutor::execute(std::unique_ptr<sqlcc::sql_parser::Statement> stmt) {
                                "Failed to drop table '" + table_name + "'");
       }
     }
+  } else if (auto create_index_stmt =
+                 dynamic_cast<sql_parser::CreateIndexStatement *>(stmt.get())) {
+    // 使用DDLExecutionStrategy来实际执行CREATE INDEX语句
+    DDLExecutionStrategy ddl_strategy;
+    
+    // 创建执行上下文
+    ExecutionContext context;
+    context.db_manager = db_manager_;
+    context.user_manager = execution_context_->get_user_manager();
+    context.current_database = execution_context_->get_current_database();
+    context.current_user = execution_context_->get_current_user();
+    
+    // 验证语句
+    if (!ddl_strategy.validate(*stmt, context)) {
+      return ExecutionResult(false, "Statement validation failed");
+    }
+    
+    // 检查权限
+    if (!ddl_strategy.checkPermission(*stmt, context)) {
+      return ExecutionResult(false, "Permission denied");
+    }
+    
+    // 执行语句
+    return ddl_strategy.execute(std::move(stmt), context);
+  } else if (auto drop_index_stmt =
+                 dynamic_cast<sql_parser::DropIndexStatement *>(stmt.get())) {
+    // 使用DDLExecutionStrategy来实际执行DROP INDEX语句
+    DDLExecutionStrategy ddl_strategy;
+    
+    // 创建执行上下文
+    ExecutionContext context;
+    context.db_manager = db_manager_;
+    context.user_manager = execution_context_->get_user_manager();
+    context.current_database = execution_context_->get_current_database();
+    context.current_user = execution_context_->get_current_user();
+    
+    // 验证语句
+    if (!ddl_strategy.validate(*stmt, context)) {
+      return ExecutionResult(false, "Statement validation failed");
+    }
+    
+    // 检查权限
+    if (!ddl_strategy.checkPermission(*stmt, context)) {
+      return ExecutionResult(false, "Permission denied");
+    }
+    
+    // 执行语句
+    return ddl_strategy.execute(std::move(stmt), context);
   }
 
   return ExecutionResult(false, "Unsupported DDL statement");
@@ -141,12 +189,26 @@ DMLExecutor::execute(std::unique_ptr<sqlcc::sql_parser::Statement> stmt) {
   return dml_strategy.execute(std::move(stmt), context);
 }
 
-// DMLExecutionStrategy 实现（空实现，避免链接错误）
+// DMLExecutionStrategy 实现
 ExecutionResult
 DMLExecutionStrategy::execute(std::unique_ptr<sql_parser::Statement> stmt,
                               ExecutionContext &context) {
-  // 空实现，避免链接错误
-  return {false, "DMLExecutionStrategy not implemented"};
+  // 根据具体的语句类型执行
+  if (auto insert_stmt =
+          dynamic_cast<sql_parser::InsertStatement *>(stmt.get())) {
+    return executeInsert(*insert_stmt, context);
+  } else if (auto update_stmt =
+                 dynamic_cast<sql_parser::UpdateStatement *>(stmt.get())) {
+    return executeUpdate(*update_stmt, context);
+  } else if (auto delete_stmt =
+                 dynamic_cast<sql_parser::DeleteStatement *>(stmt.get())) {
+    return executeDelete(*delete_stmt, context);
+  } else if (auto select_stmt =
+                 dynamic_cast<sql_parser::SelectStatement *>(stmt.get())) {
+    return executeSelect(*select_stmt, context);
+  }
+
+  return {false, "Unsupported DML statement type"};
 }
 
 bool DMLExecutionStrategy::checkPermission(const sql_parser::Statement &stmt,

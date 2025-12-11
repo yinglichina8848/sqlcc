@@ -81,4 +81,40 @@ void Page::ReadData(size_t offset, char* dest, size_t size) const {
     SQLCC_LOG_DEBUG("Successfully read data from page ID " + std::to_string(page_id_));
 }
 
+// 使用span安全地写入数据到页面
+void Page::WriteDataSpan(size_t offset, const char* data, size_t size) {
+    SQLCC_LOG_DEBUG("Writing data span to page ID " + std::to_string(page_id_) + 
+                   " at offset " + std::to_string(offset) + " with size " + std::to_string(size));
+    
+    // 检查边界
+    if (offset + size > PAGE_SIZE) {
+        std::string error_msg = "WriteDataSpan out of bounds: offset=" + std::to_string(offset) + 
+                               ", size=" + std::to_string(size) + ", page_size=" + std::to_string(PAGE_SIZE);
+        SQLCC_LOG_ERROR(error_msg);
+        throw PageException(error_msg);
+    }
+    
+    // 使用span数据进行安全复制
+    memcpy(data_ + offset, data, size);
+    SQLCC_LOG_DEBUG("Successfully wrote data span to page ID " + std::to_string(page_id_));
+}
+
+// 使用span安全地从页面读取数据
+void Page::ReadDataToSpan(size_t offset, void* output_data, size_t size) const {
+    SQLCC_LOG_DEBUG("Reading data to span from page ID " + std::to_string(page_id_) + 
+                   " at offset " + std::to_string(offset) + " with size " + std::to_string(size));
+    
+    // 检查边界
+    if (offset + size > PAGE_SIZE) {
+        std::string error_msg = "ReadDataToSpan out of bounds: offset=" + std::to_string(offset) + 
+                               ", size=" + std::to_string(size) + ", page_size=" + std::to_string(PAGE_SIZE);
+        SQLCC_LOG_ERROR(error_msg);
+        throw PageException(error_msg);
+    }
+    
+    // 安全复制到span
+    memcpy(output_data, data_ + offset, size);
+    SQLCC_LOG_DEBUG("Successfully read data to span from page ID " + std::to_string(page_id_));
+}
+
 } // namespace sqlcc

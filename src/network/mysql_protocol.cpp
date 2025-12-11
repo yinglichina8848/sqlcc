@@ -15,7 +15,7 @@ void HandshakeV10::generate_scramble() {
   }
 }
 
-MySQLProtocolHandler::MySQLProtocolHandler(sqlcc::utils::FileDescriptor client_fd)
+MySQLProtocolHandler::MySQLProtocolHandler(sqlcc::FileDescriptor&& client_fd)
     : client_fd_(std::move(client_fd)) {
   handshake_.thread_id = getpid(); // 使用进程ID替代线程ID
   handshake_.server_capabilities = CAPABILITIES;

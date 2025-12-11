@@ -16,9 +16,9 @@ cc_library(
         "//src/sql_executor:sqlcc_executor",
         "//src/execution:sqlcc_execution_engine",
         ":unified_executor",
+        ":dcl_executor",
     ],
 )
-
 # Execution Context库
 cc_library(
     name = "execution_context",
@@ -62,6 +62,83 @@ cc_library(
         "//src/storage_engine:sqlcc_storage_engine",
         "//src/config_manager:sqlcc_config_manager",
         ":execution_engine",
+        "@com_google_absl//absl/strings",
+    ],
+)
+
+# DCL Executor库
+cc_library(
+    name = "dcl_executor",
+    srcs = ["dcl_executor.cpp"],
+    hdrs = ["//include:core_headers"],
+    includes = ["../include", "../include/core"],
+    deps = [
+        "//src/core:sqlcc_core_lib",
+        "//src/core:sqlcc_database_manager",
+        "//src/sql_parser:sqlcc_parser",
+        "//src/sql_executor:sqlcc_executor",
+        "//src/config_manager:sqlcc_config_manager",
+        ":execution_engine",
+        "@com_google_absl//absl/strings",
+    ],
+)
+
+# Debug lexer program
+cc_binary(
+    name = "debug_lexer",
+    srcs = ["debug_lexer.cpp"],
+    deps = [
+        "//src/sql_parser:sqlcc_parser",
+        "@com_google_absl//absl/strings",
+    ],
+)
+
+# Simple debug program
+cc_binary(
+    name = "simple_debug",
+    srcs = ["simple_debug.cpp"],
+    deps = [
+        "//src/sql_parser:sqlcc_parser",
+        "@com_google_absl//absl/strings",
+    ],
+)
+
+# Token debug program
+cc_binary(
+    name = "token_debug",
+    srcs = ["token_debug.cpp"],
+    deps = [
+        "//src/sql_parser:sqlcc_parser",
+        "@com_google_absl//absl/strings",
+    ],
+)
+
+# String debug program
+cc_binary(
+    name = "string_debug",
+    srcs = ["string_debug.cpp"],
+    deps = [
+        "//src/sql_parser:sqlcc_parser",
+        "@com_google_absl//absl/strings",
+    ],
+)
+
+# Basic token test
+cc_binary(
+    name = "basic_token_test",
+    srcs = ["basic_token_test.cpp"],
+    deps = [
+        "//src/sql_parser:sqlcc_parser",
+        "@com_google_absl//absl/strings",
+    ],
+)
+
+# Lexer string test
+cc_binary(
+    name = "lexer_string_test",
+    srcs = ["lexer_string_test.cpp"],
+    deps = [
+        "//src/sql_parser:sqlcc_parser",
         "@com_google_absl//absl/strings",
     ],
 )

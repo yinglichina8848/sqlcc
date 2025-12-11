@@ -17,7 +17,7 @@ namespace sqlcc {
 
 class IndexManager {
 public:
-  IndexManager(StorageEngine *storage_engine, ConfigManager &config_manager);
+  IndexManager(std::shared_ptr<StorageEngine> storage_engine, ConfigManager &config_manager);
   ~IndexManager();
 
   // 索引管理
@@ -42,7 +42,7 @@ public:
                            const std::string &column_name) const;
 
 private:
-  StorageEngine *storage_engine_; // 存储引擎指针
+  std::shared_ptr<StorageEngine> storage_engine_; // 存储引擎智能指针
   std::unordered_map<std::string, std::unique_ptr<BPlusTreeIndex>>
       indexes_; // 索引映射表
 

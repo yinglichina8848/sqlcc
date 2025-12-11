@@ -123,7 +123,7 @@ private:
     std::string host_;
     int port_;
     bool connected_;
-    sqlcc::utils::FileDescriptor socket_fd_;
+    sqlcc::FileDescriptor socket_fd_;
 #ifdef __linux__
     bool tls_enabled_ = false;
     std::string ca_cert_path_;
@@ -172,7 +172,7 @@ private:
 // 连接处理器
 class ConnectionHandler {
 public:
-    ConnectionHandler(sqlcc::utils::FileDescriptor&& fd, std::shared_ptr<SessionManager> session_manager, std::shared_ptr<sqlcc::SqlExecutor> sql_executor);
+    ConnectionHandler(sqlcc::FileDescriptor&& fd, std::shared_ptr<SessionManager> session_manager, std::shared_ptr<sqlcc::SqlExecutor> sql_executor);
     ~ConnectionHandler();
     
     int GetFd() const;
@@ -200,7 +200,7 @@ private:
     std::vector<char> EncryptMessage(const std::vector<char>& message);
     std::vector<char> DecryptMessage(const std::vector<char>& message);
     
-    sqlcc::utils::FileDescriptor fd_;  // RAII文件描述符管理
+    sqlcc::FileDescriptor fd_;  // RAII文件描述符管理
     std::shared_ptr<SessionManager> session_manager_;
     std::shared_ptr<sqlcc::SqlExecutor> sql_executor_;
     std::shared_ptr<Session> session_;
@@ -255,8 +255,8 @@ private:
     
     int port_;
     int max_connections_;
-    sqlcc::utils::FileDescriptor listen_fd_;
-    sqlcc::utils::FileDescriptor epoll_fd_;
+    sqlcc::FileDescriptor listen_fd_;
+    sqlcc::FileDescriptor epoll_fd_;
     bool running_;
     std::shared_ptr<SessionManager> session_manager_;
     std::shared_ptr<sqlcc::SqlExecutor> sql_executor_;

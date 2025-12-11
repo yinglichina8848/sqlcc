@@ -45,17 +45,17 @@ protected:
  */
 TEST_F(FileDescriptorTest, BasicFunctionality) {
     // 测试默认构造函数
-    utils::FileDescriptor fd1;
+    FileDescriptor fd1;
     EXPECT_FALSE(fd1.valid());
     EXPECT_EQ(fd1.get(), -1);
 
     // 测试带参数构造函数
-    utils::FileDescriptor fd2(temp_fd_);
+    FileDescriptor fd2(temp_fd_);
     EXPECT_TRUE(fd2.valid());
     EXPECT_EQ(fd2.get(), temp_fd_);
 
     // 测试移动构造
-    utils::FileDescriptor fd3(std::move(fd2));
+    FileDescriptor fd3(std::move(fd2));
     EXPECT_TRUE(fd3.valid());
     EXPECT_EQ(fd3.get(), temp_fd_);
     EXPECT_FALSE(fd2.valid());  // fd2应该无效
@@ -72,7 +72,7 @@ TEST_F(FileDescriptorTest, ResourceManagement) {
     int original_fd;
 
     {
-        utils::FileDescriptor fd(temp_fd_);
+        FileDescriptor fd(temp_fd_);
         original_fd = fd.get();
         EXPECT_TRUE(fd.valid());
 
@@ -92,17 +92,17 @@ TEST_F(FileDescriptorTest, ResourceManagement) {
  */
 TEST_F(FileDescriptorTest, MoveSemantics) {
     // 创建第一个文件描述符
-    utils::FileDescriptor fd1(temp_fd_);
+    FileDescriptor fd1(temp_fd_);
     EXPECT_TRUE(fd1.valid());
 
     // 移动到第二个文件描述符
-    utils::FileDescriptor fd2 = std::move(fd1);
+    FileDescriptor fd2 = std::move(fd1);
     EXPECT_FALSE(fd1.valid());  // fd1应该无效
     EXPECT_TRUE(fd2.valid());   // fd2应该有效
     EXPECT_EQ(fd2.get(), temp_fd_);
 
     // 移动赋值
-    utils::FileDescriptor fd3;
+    FileDescriptor fd3;
     fd3 = std::move(fd2);
     EXPECT_FALSE(fd2.valid());  // fd2应该无效
     EXPECT_TRUE(fd3.valid());   // fd3应该有效
@@ -113,7 +113,7 @@ TEST_F(FileDescriptorTest, MoveSemantics) {
  * @brief 测试FileDescriptor reset和release
  */
 TEST_F(FileDescriptorTest, ResetAndRelease) {
-    utils::FileDescriptor fd(temp_fd_);
+    FileDescriptor fd(temp_fd_);
 
     // 测试release
     int released_fd = fd.release();
@@ -131,7 +131,7 @@ TEST_F(FileDescriptorTest, ResetAndRelease) {
  */
 TEST(SocketDescriptorTest, SocketCreation) {
     // 测试TCP套接字创建
-    auto tcp_socket = utils::SocketDescriptor::create_tcp();
+    auto tcp_socket = FileDescriptor::create_tcp_socket();
     EXPECT_TRUE(tcp_socket.valid());
 
     // 验证是TCP套接字
@@ -142,7 +142,7 @@ TEST(SocketDescriptorTest, SocketCreation) {
     EXPECT_EQ(type, SOCK_STREAM);
 
     // 测试UDP套接字创建
-    auto udp_socket = utils::SocketDescriptor::create_udp();
+    auto udp_socket = FileDescriptor::create_udp_socket();
     EXPECT_TRUE(udp_socket.valid());
 
     // 验证是UDP套接字
@@ -160,7 +160,7 @@ TEST_F(FileDescriptorTest, ThreadSafety) {
 
     std::thread t([&]() {
         {
-            utils::FileDescriptor fd(temp_fd_);
+            FileDescriptor fd(temp_fd_);
             // 模拟一些工作
             std::this_thread::sleep_for(std::chrono::milliseconds(10));
         } // fd在这里被销毁
@@ -178,7 +178,7 @@ TEST_F(FileDescriptorTest, ExceptionSafety) {
     bool exception_thrown = false;
 
     try {
-        utils::FileDescriptor fd(temp_fd_);
+        FileDescriptor fd(temp_fd_);
 
         // 模拟在作用域内抛出异常
         if (!exception_thrown) {

@@ -6,7 +6,6 @@
  * @date 2025-12-11
  */
 
-#include <gtest/gtest.h>
 #include <memory>
 #include <vector>
 #include <string>
@@ -17,6 +16,7 @@
 #include <ctime>
 #include <iomanip>
 #include <sstream>
+#include <map>
 
 namespace fs = std::filesystem;
 
@@ -166,144 +166,139 @@ private:
 };
 
 /**
- * @class MemorySafetyTest
- * @brief 内存安全测试
+ * @brief 主函数 - 执行内存审计
  */
-class MemorySafetyTest : public ::testing::Test {
-protected:
-    void SetUp() override {
-        project_root_ = "/home/liying/sqlcc";
+int main(int argc, char* argv[]) {
+    std::string project_root = "/home/liying/sqlcc";
+
+    // 如果提供了命令行参数，使用第一个参数作为项目根目录
+    if (argc > 1) {
+        project_root = argv[1];
     }
 
-    std::string project_root_;
-};
+    std::cout << "开始内存审计...\n";
+    std::cout << "项目根目录: " << project_root << "\n\n";
 
-/**
- * @brief 测试项目内存审计
- */
-TEST_F(MemorySafetyTest, AuditProjectMemoryUsage) {
     // 执行内存审计
-    auto findings = MemoryAuditTool::auditRawPointers(project_root_);
+    auto findings = MemoryAuditTool::auditRawPointers(project_root);
 
     // 输出审计结果
     std::cout << "\n=== 内存审计结果 ===\n";
     std::cout << "发现 " << findings.size() << " 个潜在的内存管理问题:\n\n";
 
+    // 按文件分组显示结果
+    std::map<std::string, std::vector<std::string>> findings_by_file;
     for (const auto& finding : findings) {
-        std::cout << finding << std::endl;
+        // 提取文件路径（在第一个冒号之前）
+        size_t colon_pos = finding.find(':');
+        if (colon_pos != std::string::npos) {
+            std::string file_path = finding.substr(0, colon_pos);
+            findings_by_file[file_path].push_back(finding);
+        }
+    }
+
+    for (const auto& [file_path, file_findings] : findings_by_file) {
+        std::cout << "📁 " << file_path << " (" << file_findings.size() << " 个问题)\n";
+        for (const auto& finding : file_findings) {
+            std::cout << "  " << finding << std::endl;
+        }
+        std::cout << std::endl;
     }
 
     // 记录审计结果到文件
-    std::string report_dir = project_root_ + "/docs/reports";
+    std::string report_dir = project_root + "/docs/reports";
     std::string report_path = report_dir + "/memory_audit_report.md";
-    
+
     // 确保目录存在
     std::filesystem::create_directories(report_dir);
-    
+
     // 获取当前时间
     auto now = std::time(nullptr);
     auto tm = *std::localtime(&now);
     std::ostringstream oss;
     oss << std::put_time(&tm, "%Y-%m-%d %H:%M:%S");
-    
+
     std::ofstream report_file(report_path);
     report_file << "# SQLCC项目内存审计报告\n\n";
     report_file << "## 基本信息\n\n";
     report_file << "- **生成时间**: " << oss.str() << "\n";
-    report_file << "- **审计文件数**: " << findings.size() << "\n";
-    report_file << "- **项目根目录**: " << project_root_ << "\n\n";
-    
+    report_file << "- **审计文件总数**: " << findings.size() << "\n";
+    report_file << "- **影响文件数**: " << findings_by_file.size() << "\n";
+    report_file << "- **项目根目录**: " << project_root << "\n\n";
+
     report_file << "## 审计结果\n\n";
-    
+
     if (findings.empty()) {
         report_file << "✅ 未发现内存管理问题，代码符合智能指针使用规范。\n\n";
     } else {
-        report_file << "发现 " << findings.size() << " 个潜在的内存管理问题:\n\n";
-        
-        for (size_t i = 0; i < findings.size(); ++i) {
-            report_file << "### 问题 " << (i+1) << "\n\n";
-            report_file << "```\n" << findings[i] << "```\n\n";
+        report_file << "### 问题统计\n\n";
+        report_file << "| 文件路径 | 问题数量 | 主要问题类型 |\n";
+        report_file << "|---------|---------|-------------|\n";
+
+        for (const auto& [file_path, file_findings] : findings_by_file) {
+            // 统计问题类型
+            int raw_pointer_count = 0;
+            int new_delete_count = 0;
+            int fd_count = 0;
+
+            for (const auto& finding : file_findings) {
+                if (finding.find("裸指针声明") != std::string::npos) raw_pointer_count++;
+                else if (finding.find("new操作符") != std::string::npos || finding.find("delete操作符") != std::string::npos) new_delete_count++;
+                else if (finding.find("文件描述符") != std::string::npos) fd_count++;
+            }
+
+            std::string main_issues;
+            if (raw_pointer_count > 0) main_issues += "裸指针(" + std::to_string(raw_pointer_count) + ") ";
+            if (new_delete_count > 0) main_issues += "new/delete(" + std::to_string(new_delete_count) + ") ";
+            if (fd_count > 0) main_issues += "文件描述符(" + std::to_string(fd_count) + ") ";
+
+            report_file << "| `" << file_path << "` | " << file_findings.size() << " | " << main_issues << " |\n";
+        }
+
+        report_file << "\n### 详细问题列表\n\n";
+
+        for (const auto& [file_path, file_findings] : findings_by_file) {
+            report_file << "#### 📁 " << file_path << "\n\n";
+            report_file << "**问题数量**: " << file_findings.size() << "\n\n";
+
+            for (size_t i = 0; i < file_findings.size(); ++i) {
+                report_file << "**问题 " << (i+1) << "**:\n\n";
+                report_file << "```\n" << file_findings[i] << "```\n\n";
+            }
         }
     }
-    
-    report_file << "## 建议\n\n";
-    report_file << "1. 使用 `std::unique_ptr` 替代裸指针进行独占所有权管理\n";
-    report_file << "2. 使用 `std::shared_ptr` 替代裸指针进行共享所有权管理\n";
-    report_file << "3. 使用 `std::make_unique` 和 `std::make_shared` 替代直接使用 `new`\n";
-    report_file << "4. 使用 RAII 模式管理资源，避免直接使用 `delete`\n";
-    report_file << "5. 将文件描述符等系统资源封装为 RAII 类\n\n";
-    
+
+    report_file << "## 改进建议\n\n";
+    report_file << "### 1. 智能指针使用原则\n";
+    report_file << "- 使用 `std::unique_ptr` 替代裸指针进行独占所有权管理\n";
+    report_file << "- 使用 `std::shared_ptr` 替代裸指针进行共享所有权管理\n";
+    report_file << "- 使用 `std::make_unique` 和 `std::make_shared` 替代直接使用 `new`\n\n";
+
+    report_file << "### 2. RAII资源管理\n";
+    report_file << "- 使用 RAII 模式管理资源，避免直接使用 `delete`\n";
+    report_file << "- 将文件描述符等系统资源封装为 RAII 类\n";
+    report_file << "- 实现异常安全的资源管理\n\n";
+
+    report_file << "### 3. 重构优先级\n";
+    report_file << "1. **高优先级**: 裸指针成员变量（内存泄漏风险）\n";
+    report_file << "2. **中优先级**: 文件描述符直接使用（资源泄漏风险）\n";
+    report_file << "3. **低优先级**: 函数参数裸指针（接口兼容性考虑）\n\n";
+
+    report_file << "### 4. 验证机制\n";
+    report_file << "- 启用 ASan/LSan 进行运行时内存检查\n";
+    report_file << "- 定期运行内存审计工具监控改进效果\n";
+    report_file << "- 建立自动化测试确保重构质量\n\n";
+
     report_file.close();
 
     std::cout << "\n审计报告已保存到: " << report_path << "\n";
+    std::cout << "总共发现 " << findings.size() << " 个问题，影响 " << findings_by_file.size() << " 个文件\n";
 
-    // 这是一个信息性的测试，不应该失败
-    SUCCEED();
-}
-
-/**
- * @brief 测试智能指针最佳实践
- */
-TEST_F(MemorySafetyTest, SmartPointerBestPractices) {
-    // 测试unique_ptr的基本用法
-    auto resource = std::make_unique<int>(42);
-    ASSERT_EQ(*resource, 42);
-
-    // 测试移动语义
-    auto moved_resource = std::move(resource);
-    ASSERT_EQ(resource, nullptr);
-    ASSERT_EQ(*moved_resource, 42);
-
-    // 测试RAII - 资源自动释放
-    bool destructor_called = false;
-    {
-        auto raii_test = std::make_unique<bool>(false);
-        // 这里可以进行一些操作
-        *raii_test = true;
-        ASSERT_TRUE(*raii_test);
-        destructor_called = true; // 标记测试通过
+    if (findings.empty()) {
+        std::cout << "🎉 恭喜！项目代码符合内存安全规范！\n";
+        return 0;
+    } else {
+        std::cout << "⚠️  发现内存安全问题，请参考上述建议进行改进。\n";
+        return 1; // 返回非零表示发现问题
     }
-    // unique_ptr离开作用域时自动释放资源
-    ASSERT_TRUE(destructor_called);
-}
-
-/**
- * @brief 测试文件描述符封装
- */
-TEST_F(MemorySafetyTest, FileDescriptorEncapsulation) {
-    // 这是一个示例测试，展示如何正确封装文件描述符
-    class SafeFileDescriptor {
-    public:
-        explicit SafeFileDescriptor(int fd) : fd_(fd) {}
-        ~SafeFileDescriptor() {
-            if (fd_ >= 0) {
-                close(fd_);
-            }
-        }
-
-        int get() const { return fd_; }
-
-        // 禁止拷贝
-        SafeFileDescriptor(const SafeFileDescriptor&) = delete;
-        SafeFileDescriptor& operator=(const SafeFileDescriptor&) = delete;
-
-        // 允许移动
-        SafeFileDescriptor(SafeFileDescriptor&& other) noexcept : fd_(other.fd_) {
-            other.fd_ = -1;
-        }
-
-    private:
-        int fd_;
-    };
-
-    // 测试封装后的安全性
-    SafeFileDescriptor safe_fd(0); // 使用stdin作为示例
-    ASSERT_EQ(safe_fd.get(), 0);
-
-    // 移动构造
-    SafeFileDescriptor moved_fd = std::move(safe_fd);
-    ASSERT_EQ(moved_fd.get(), 0);
-
-    // 这只是一个示例，实际使用时需要真正的文件描述符
-    SUCCEED();
 }

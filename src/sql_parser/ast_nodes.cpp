@@ -136,6 +136,10 @@ void SelectStatement::setWhereClause(const WhereClause &where) {
   whereClause_ = where;
 }
 
+void SelectStatement::setWhereExpression(std::unique_ptr<Expression> expr) {
+  whereExpression_ = std::move(expr);
+}
+
 void SelectStatement::setGroupByColumn(const std::string &column) {
   groupByColumn_ = column;
 }
@@ -174,6 +178,10 @@ const WhereClause &SelectStatement::getWhereClause() const {
   return whereClause_;
 }
 
+const Expression *SelectStatement::getWhereExpression() const {
+  return whereExpression_.get();
+}
+
 const std::string &SelectStatement::getGroupByColumn() const {
   return groupByColumn_;
 }
@@ -198,6 +206,10 @@ bool SelectStatement::isSelectAll() const { return selectAll_; }
 
 bool SelectStatement::hasWhereClause() const {
   return !whereClause_.getColumnName().empty();
+}
+
+bool SelectStatement::hasWhereExpression() const {
+  return whereExpression_ != nullptr;
 }
 
 bool SelectStatement::hasGroupBy() const { return !groupByColumn_.empty(); }
@@ -575,6 +587,68 @@ const std::string &ShowStatement::getFromDatabase() const {
 }
 
 bool ShowStatement::hasFromDatabase() const { return hasFromDb_; }
+
+// ==================== Expression Classes ====================
+
+IdentifierExpression::IdentifierExpression(const std::string &name) : name_(name) {}
+
+IdentifierExpression::~IdentifierExpression() {}
+
+const std::string &IdentifierExpression::getName() const { return name_; }
+
+std::string IdentifierExpression::getTypeName() const { return "IdentifierExpression"; }
+
+void IdentifierExpression::accept(NodeVisitor &visitor) { visitor.visit(*this); }
+
+StringLiteralExpression::StringLiteralExpression(const std::string &value) : value_(value) {}
+
+StringLiteralExpression::~StringLiteralExpression() {}
+
+const std::string &StringLiteralExpression::getValue() const { return value_; }
+
+std::string StringLiteralExpression::getTypeName() const { return "StringLiteralExpression"; }
+
+void StringLiteralExpression::accept(NodeVisitor &visitor) { visitor.visit(*this); }
+
+NumericLiteralExpression::NumericLiteralExpression(double value) : value_(value) {}
+
+NumericLiteralExpression::~NumericLiteralExpression() {}
+
+double NumericLiteralExpression::getValue() const { return value_; }
+
+std::string NumericLiteralExpression::getTypeName() const { return "NumericLiteralExpression"; }
+
+void NumericLiteralExpression::accept(NodeVisitor &visitor) { visitor.visit(*this); }
+
+BooleanLiteralExpression::BooleanLiteralExpression(bool value) : value_(value) {}
+
+BooleanLiteralExpression::~BooleanLiteralExpression() {}
+
+bool BooleanLiteralExpression::getValue() const { return value_; }
+
+std::string BooleanLiteralExpression::getTypeName() const { return "BooleanLiteralExpression"; }
+
+void BooleanLiteralExpression::accept(NodeVisitor &visitor) { visitor.visit(*this); }
+
+NullLiteralExpression::NullLiteralExpression() {}
+
+NullLiteralExpression::~NullLiteralExpression() {}
+
+std::string NullLiteralExpression::getTypeName() const { return "NullLiteralExpression"; }
+
+void NullLiteralExpression::accept(NodeVisitor &visitor) { visitor.visit(*this); }
+
+// ==================== CommitStatement ====================
+
+CommitStatement::CommitStatement() : Statement(COMMIT) {}
+
+CommitStatement::~CommitStatement() {}
+
+// ==================== RollbackStatement ====================
+
+RollbackStatement::RollbackStatement() : Statement(ROLLBACK) {}
+
+RollbackStatement::~RollbackStatement() {}
 
 // ==================== ProcedureParameter ====================
 

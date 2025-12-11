@@ -15,7 +15,7 @@ namespace sqlcc {
 // Role and privilege constants are defined inline in the header (C++17 inline variables)
 // to avoid ODR violations when multiple shared objects are linked into the test binary.
 
-UserManager::UserManager(const std::string& data_path) : data_path_(data_path), sys_db_(nullptr) {
+UserManager::UserManager(const std::string& data_path) : data_path_(data_path) {
     // 确保数据目录存在
     fs::create_directories(data_path_);
     
@@ -35,7 +35,7 @@ UserManager::~UserManager() {
 }
 
 // 设置SystemDatabase引用
-void UserManager::SetSystemDatabase(SystemDatabase* sys_db) {
+void UserManager::SetSystemDatabase(std::shared_ptr<SystemDatabase> sys_db) {
     std::lock_guard<std::mutex> lock(mutex_);
     sys_db_ = sys_db;
 }

@@ -407,6 +407,13 @@ public:
     bool CheckPrivilegeConsistency(const std::string& grantee_name);
     
     /**
+     * 执行SELECT查询并返回结果
+     * @param sql SELECT查询语句
+     * @return 查询结果字符串
+     */
+    std::string ExecuteSelectQuery(const std::string& sql);
+    
+    /**
      * 获取最后一次错误信息
      * @return 错误信息
      */

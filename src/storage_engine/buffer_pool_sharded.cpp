@@ -4,10 +4,10 @@
 
 namespace sqlcc {
 
-BufferPoolSharded::BufferPoolSharded(DiskManager *disk_manager,
+BufferPoolSharded::BufferPoolSharded(std::shared_ptr<DiskManager> disk_manager,
                                      ConfigManager &config_manager,
                                      size_t pool_size, size_t num_shards)
-    : disk_manager_(disk_manager), config_manager_(config_manager),
+    : disk_manager_(std::move(disk_manager)), config_manager_(config_manager),
       pool_size_(pool_size), next_page_id_(0) {
   // 确保num_shards是2的幂
   if (num_shards & (num_shards - 1)) {
@@ -39,75 +39,78 @@ BufferPoolSharded::~BufferPoolSharded() {
   FlushAllPages();
 }
 
-Page *BufferPoolSharded::FetchPage(int32_t page_id, bool exclusive) {
-  size_t shard_idx = GetShardIndex(page_id);
-  Shard &shard = *shards_[shard_idx];
-  (void)exclusive; // 标记参数为已使用
+std::unique_ptr<Page> BufferPoolSharded::FetchPage(int32_t page_id, bool exclusive) {
+    size_t shard_idx = GetShardIndex(page_id);
+    Shard &shard = *shards_[shard_idx];
+    (void)exclusive; // 标记参数为已使用
 
-  std::lock_guard<std::mutex> lock(shard.mutex);
+    std::lock_guard<std::mutex> lock(shard.mutex);
 
-  // 查找页面是否已在缓冲池中
-  auto it = shard.page_table.find(page_id);
-  if (it != shard.page_table.end()) {
-    // 页面已在缓冲池中
-    std::shared_ptr<PageWrapper> page_wrapper = it->second;
+    // 查找页面是否已在缓冲池中
+    auto it = shard.page_table.find(page_id);
+    if (it != shard.page_table.end()) {
+        // 页面已在缓冲池中
+        std::shared_ptr<PageWrapper> page_wrapper = it->second;
 
-    // 更新引用计数
-    page_wrapper->ref_count++;
+        // 更新引用计数
+        page_wrapper->ref_count++;
 
-    // 如果页面在LRU列表中，则将其移到头部
-    if (page_wrapper->is_in_lru) {
-      MoveToHead(shard, page_id);
+        // 如果页面在LRU列表中，则将其移到头部
+        if (page_wrapper->is_in_lru) {
+            MoveToHead(shard, page_id);
+        }
+
+        stats_.total_hits++;
+        // 返回页面的副本，确保调用者拥有独立的所有权
+        return std::make_unique<Page>(*page_wrapper->page);
     }
 
-    stats_.total_hits++;
-    return page_wrapper->page.get();
-  }
+    // 页面不在缓冲池中，需要从磁盘加载
+    stats_.total_misses++;
 
-  // 页面不在缓冲池中，需要从磁盘加载
-  stats_.total_misses++;
-
-  // 如果shard已满，需要替换页面
-  if (shard.current_size >= shard.max_size) {
-    int32_t replaced_page_id = ReplacePage(shard);
-    if (replaced_page_id == -1) {
-      SQLCC_LOG_ERROR("Failed to replace page for page_id: " +
-                      std::to_string(page_id));
-      return nullptr;
+    // 如果shard已满，需要替换页面
+    if (shard.current_size >= shard.max_size) {
+        int32_t replaced_page_id = ReplacePage(shard);
+        if (replaced_page_id == -1) {
+            SQLCC_LOG_ERROR("Failed to replace page for page_id: " +
+                           std::to_string(page_id));
+            // 返回空智能指针表示替换失败
+            return nullptr;
+        }
     }
-  }
 
-  // 从磁盘读取页面数据
-  char page_data[PAGE_SIZE];
-  bool read_success = disk_manager_->ReadPage(page_id, page_data);
-  if (!read_success) {
-    // 如果读取失败，可能是新页面，创建一个新的页面
-    memset(page_data, 0, PAGE_SIZE);
-  }
+    // 从磁盘读取页面数据
+    char page_data[PAGE_SIZE];
+    bool read_success = disk_manager_->ReadPage(page_id, page_data);
+    if (!read_success) {
+        // 如果读取失败，可能是新页面，创建一个新的页面
+        memset(page_data, 0, PAGE_SIZE);
+    }
 
-  // 创建新页面
-  auto page = std::make_unique<Page>(page_id);
-  memcpy(page->GetData(), page_data, PAGE_SIZE);
+    // 创建新页面
+    auto page = std::make_unique<Page>(page_id);
+    memcpy(page->GetData(), page_data, PAGE_SIZE);
 
-  auto page_wrapper = std::make_shared<PageWrapper>(std::move(page));
-  page_wrapper->ref_count = 1;
-  page_wrapper->is_dirty = false;
+    auto page_wrapper = std::make_shared<PageWrapper>(std::move(page));
+    page_wrapper->ref_count = 1;
+    page_wrapper->is_dirty = false;
 
-  shard.page_table[page_id] = page_wrapper;
-  shard.lru_list.push_front(page_id);
-  shard.lru_map[page_id] = shard.lru_list.begin();
-  page_wrapper->lru_iter = shard.lru_list.begin();
-  page_wrapper->is_in_lru = true;
-  shard.current_size++;
+    shard.page_table[page_id] = page_wrapper;
+    shard.lru_list.push_front(page_id);
+    shard.lru_map[page_id] = shard.lru_list.begin();
+    page_wrapper->lru_iter = shard.lru_list.begin();
+    page_wrapper->is_in_lru = true;
+    shard.current_size++;
 
-  // 记录已分配的页面
-  {
-    std::lock_guard<std::mutex> alloc_lock(allocated_pages_mutex_);
-    allocated_pages_.insert(page_id);
-  }
+    // 记录已分配的页面
+    {
+        std::lock_guard<std::mutex> alloc_lock(allocated_pages_mutex_);
+        allocated_pages_.insert(page_id);
+    }
 
-  stats_.total_accesses++;
-  return page_wrapper->page.get();
+    stats_.total_accesses++;
+    // 返回页面的副本，确保调用者拥有独立的所有权
+    return std::make_unique<Page>(*page_wrapper->page);
 }
 
 bool BufferPoolSharded::FlushPage(int32_t page_id) {
@@ -147,7 +150,8 @@ void BufferPoolSharded::FlushAllPages() {
       (void)page_id; // 标记变量为已使用
 
       if (page_wrapper->is_dirty) {
-        
+        disk_manager_->WritePage(
+            page_id, static_cast<char *>(page_wrapper->page->GetData()));
         page_wrapper->is_dirty = false;
       }
     }
@@ -177,7 +181,7 @@ bool BufferPoolSharded::UnpinPage(int32_t page_id, bool is_dirty) {
   return true;
 }
 
-Page *BufferPoolSharded::NewPage(int32_t *page_id) {
+std::unique_ptr<Page> BufferPoolSharded::NewPage(int32_t *page_id) {
   // 分配新的页面ID
   int32_t new_page_id = next_page_id_++;
 
@@ -192,6 +196,11 @@ Page *BufferPoolSharded::NewPage(int32_t *page_id) {
     int32_t replaced_page_id = ReplacePage(shard);
     if (replaced_page_id == -1) {
       SQLCC_LOG_ERROR("Failed to replace page for new page creation");
+      // 设置无效页面ID表示失败
+      if (page_id != nullptr) {
+        *page_id = -1;
+      }
+      // 返回空智能指针表示替换失败
       return nullptr;
     }
   }
@@ -217,7 +226,8 @@ Page *BufferPoolSharded::NewPage(int32_t *page_id) {
   }
 
   *page_id = new_page_id;
-  return page_wrapper->page.get();
+  // 返回页面的副本，确保调用者拥有独立的所有权
+  return std::make_unique<Page>(*page_wrapper->page);
 }
 
 bool BufferPoolSharded::DeletePage(int32_t page_id) {

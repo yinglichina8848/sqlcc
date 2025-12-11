@@ -11,26 +11,27 @@
 #include <cstring>
 #include <errno.h> // 添加errno头文件以获取错误信息
 #include <iostream> // 添加iostream以支持调试输出
+#include <filesystem>
 
 using namespace std;
 using namespace sqlcc::network;
 
-// 简单的网络客户端测试类
+// 简单的网络客户端测试类 - 使用RAII模式管理资源
 class SqlNetworkTestClient {
 public:
     SqlNetworkTestClient(const string& host, int port, bool disable_encryption = true, bool disable_auth = true)
-        : host_(host), port_(port), sock_fd_(-1), disable_encryption_(disable_encryption), disable_auth_(disable_auth) {}
-    
+        : host_(host), port_(port), disable_encryption_(disable_encryption), disable_auth_(disable_auth) {}
+
     void SetDisableEncryption(bool disable) {
         disable_encryption_ = disable;
     }
-    
+
     void SetDisableAuth(bool disable) {
         disable_auth_ = disable;
     }
-    
+
     ~SqlNetworkTestClient() {
-        Disconnect();
+        Disconnect(); // RAII自动断开连接
     }
     
     bool Connect() {

@@ -59,16 +59,12 @@ cc_test(
     ],
 )
 
-# ==================== 可执行文件定义 ====================
-
-# 注意：test_drop_use_commands已被移动到tests/components/debug/目录下
-
 # ==================== 测试套件 ====================
 # 核心组件测试套件
 test_suite(
     name = "core_tests",
     tests = [
-        "//src:core_component_tests",
+        "//tests/components/core:core_component_tests",
     ],
 )
 
@@ -120,11 +116,27 @@ test_suite(
     ],
 )
 
+# 主测试套件
+test_suite(
+    name = "main_tests",
+    tests = [
+        "//tests:main_tests",
+    ],
+)
+
 # 调试组件测试套件
 test_suite(
     name = "debug_tests",
     tests = [
         "//tests/components/debug:debug_tests",
+    ],
+)
+
+# 性能测试套件
+test_suite(
+    name = "performance_tests",
+    tests = [
+        "//tests/performance:performance_tests",
     ],
 )
 
@@ -140,5 +152,7 @@ test_suite(
         ":security_tests",
         ":transaction_tests",
         ":debug_tests",
+        ":performance_tests",
+        ":main_tests",
     ],
 )
