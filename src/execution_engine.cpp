@@ -128,12 +128,12 @@ DMLExecutor::execute(std::unique_ptr<sqlcc::sql_parser::Statement> stmt) {
   context.current_user = execution_context_->get_current_user();
 
   // 验证语句
-  if (!dml_strategy.validate(stmt.get(), context)) {
+  if (!dml_strategy.validate(*stmt, context)) {
     return ExecutionResult(false, "Statement validation failed");
   }
 
   // 检查权限
-  if (!dml_strategy.checkPermission(stmt.get(), context)) {
+  if (!dml_strategy.checkPermission(*stmt, context)) {
     return ExecutionResult(false, "Permission denied");
   }
 
@@ -149,13 +149,13 @@ DMLExecutionStrategy::execute(std::unique_ptr<sql_parser::Statement> stmt,
   return {false, "DMLExecutionStrategy not implemented"};
 }
 
-bool DMLExecutionStrategy::checkPermission(const sql_parser::Statement *stmt,
+bool DMLExecutionStrategy::checkPermission(const sql_parser::Statement &stmt,
                                            const ExecutionContext &context) {
   // 空实现，避免链接错误
   return true;
 }
 
-bool DMLExecutionStrategy::validate(const sql_parser::Statement *stmt,
+bool DMLExecutionStrategy::validate(const sql_parser::Statement &stmt,
                                     const ExecutionContext &context) {
   // 空实现，避免链接错误
   return true;

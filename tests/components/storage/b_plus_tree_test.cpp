@@ -12,10 +12,11 @@ protected:
   void SetUp() override {
     // 每次测试前创建ConfigManager和StorageEngine实例
     config_manager_ = std::make_unique<ConfigManager>();
-    storage_engine_ = std::make_unique<StorageEngine>(*config_manager_);
-    // 创建BPlusTreeIndex实例
+    // 创建shared_ptr而不是unique_ptr，以便与BPlusTreeIndex共享所有权
+    storage_engine_ = std::make_shared<StorageEngine>(*config_manager_);
+    // 创建BPlusTreeIndex实例 - 直接使用shared_ptr
     b_plus_tree_index_ = std::make_unique<BPlusTreeIndex>(
-        storage_engine_.get(), "test_table", "test_column");
+        storage_engine_, "test_table", "test_column");
     // 创建索引
     b_plus_tree_index_->Create();
   }
@@ -30,7 +31,7 @@ protected:
   }
 
   std::unique_ptr<ConfigManager> config_manager_;
-  std::unique_ptr<StorageEngine> storage_engine_;
+  std::shared_ptr<StorageEngine> storage_engine_;  // 改为shared_ptr以便与BPlusTreeIndex共享
   std::unique_ptr<BPlusTreeIndex> b_plus_tree_index_;
 };
 

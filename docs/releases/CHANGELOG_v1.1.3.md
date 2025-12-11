@@ -66,6 +66,19 @@
 - **代码简洁性**: 减少了约50行手动资源管理代码
 - **系统稳定性**: 消除了网络模块的资源泄漏风险
 
+### B+树索引内存安全改进
+- **智能指针重构**: 完成B+树索引核心方法的智能指针化
+  - LoadNode方法：返回类型从BPlusTreeNode*改为std::unique_ptr<BPlusTreeNode>，使用std::make_unique替换new操作符
+  - GetNode方法：返回类型从BPlusTreeNode*改为std::unique_ptr<BPlusTreeNode>，消除裸指针返回
+  - CreateNewNode方法：返回类型从BPlusTreeNode*改为std::unique_ptr<BPlusTreeNode>，使用std::make_unique创建节点
+  - NeedMerge方法：参数从BPlusTreeNode*改为const std::unique_ptr<BPlusTreeNode>&，使用node.get()获取原始指针
+  - 调整dynamic_cast类型转换逻辑，适配智能指针使用模式
+  - 保持所有原有功能和API接口兼容性，无breaking changes
+
+- **内存安全提升**: 消除了B+树索引中的主要内存泄漏风险
+- **代码质量改善**: 减少了手动内存管理带来的复杂性
+- **异常安全性**: 提升了B+树操作的异常安全等级
+
 ### 性能测试结果分析
 - **小规模测试(1000 records)**
   - INSERT吞吐量: 318.47 ops/sec，平均延迟3.14ms
