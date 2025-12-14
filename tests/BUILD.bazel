@@ -1,46 +1,106 @@
-cc_test(
-    name = "simple_test",
-    srcs = ["simple_test.cpp"],
+cc_binary(
+    name = "parser_create_table_test",
+    srcs = ["parser_create_table_test.cpp"],
     deps = [
-        "//src/core:sqlcc_database_manager",
-        "//src/sql_executor:sqlcc_executor",
-        "@com_google_googletest//:gtest_main",
+        "//src/sql_parser:sqlcc_parser",
     ],
-    includes = [
-        "../include",
-        "../include/core",
+)
+
+cc_binary(
+    name = "parser_create_table_advanced_test",
+    srcs = ["parser_create_table_advanced_test.cpp"],
+    deps = [
+        "//src/sql_parser:sqlcc_parser",
+    ],
+)
+
+cc_binary(
+    name = "parser_alter_table_test",
+    srcs = ["parser_alter_table_test.cpp"],
+    deps = [
+        "//src/sql_parser:sqlcc_parser",
+    ],
+)
+
+cc_binary(
+    name = "parser_alter_table_comprehensive_test",
+    srcs = ["parser_alter_table_comprehensive_test.cpp"],
+    deps = [
+        "//src/sql_parser:sqlcc_parser",
+    ],
+)
+
+cc_binary(
+    name = "parser_drop_table_test",
+    srcs = ["parser_drop_table_test.cpp"],
+    deps = [
+        "//src/sql_parser:sqlcc_parser",
+    ],
+)
+
+cc_binary(
+    name = "parser_select_test",
+    srcs = ["parser_select_test.cpp"],
+    deps = [
+        "//src/sql_parser:sqlcc_parser",
+    ],
+)
+
+cc_binary(
+    name = "parser_insert_test",
+    srcs = ["parser_insert_test.cpp"],
+    deps = [
+        "//src/sql_parser:sqlcc_parser",
+    ],
+)
+
+cc_binary(
+    name = "debug_lexer_test",
+    srcs = ["debug_lexer_test.cpp"],
+    deps = [
+        "//src/sql_parser:sqlcc_parser",
+    ],
+)
+
+cc_binary(
+    name = "debug_token_enum_values",
+    srcs = ["debug_token_enum_values.cpp"],
+    deps = [
+        "//src/sql_parser:sqlcc_parser",
+    ],
+)
+
+cc_binary(
+    name = "debug_keyword_check",
+    srcs = ["debug_keyword_check.cpp"],
+    deps = [
+        "//src/sql_parser:sqlcc_parser",
     ],
 )
 
 cc_test(
-    name = "comprehensive_sales_test",
-    srcs = ["comprehensive_sales_test.cpp"],
-    deps = [
-        "//src/sql_executor:sqlcc_executor",
-        "@com_google_googletest//:gtest_main",
-    ],
-    includes = [
-        "../include",
-    ],
-)
-
-cc_test(
-    name = "debug_insert",
-    srcs = ["debug_insert.cpp"],
+    name = "parser_alter_table_test_run",
+    srcs = ["parser_alter_table_test.cpp"],
     deps = [
         "//src/sql_parser:sqlcc_parser",
         "@com_google_googletest//:gtest_main",
     ],
-    includes = [
-        "../include",
+)
+
+cc_test(
+    name = "parser_alter_table_comprehensive_test_run",
+    srcs = ["parser_alter_table_comprehensive_test.cpp"],
+    deps = [
+        "//src/sql_parser:sqlcc_parser",
+        "@com_google_googletest//:gtest_main",
     ],
 )
 
-test_suite(
-    name = "main_tests",
-    tests = [
-        ":simple_test",
-        ":comprehensive_sales_test",
-        ":debug_insert",
+cc_test(
+    name = "parser_drop_table_test_run",
+    srcs = ["parser_drop_table_test.cpp"],
+    deps = [
+        "//src/sql_parser:sqlcc_parser",
+        "@com_google_googletest//:gtest_main",
     ],
 )
