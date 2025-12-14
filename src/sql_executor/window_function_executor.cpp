@@ -8,18 +8,18 @@ WindowFunctionExecutor::WindowFunctionExecutor(std::shared_ptr<DatabaseManager> 
     : db_manager_(db_manager) {}
 
 WindowFunctionResult WindowFunctionExecutor::executeWindowFunction(
-    const sql_parser::WindowFunctionNode& window_function,
+    const sql_parser::WindowFunction& window_function,
     const std::string& table_name,
     const std::vector<std::vector<std::string>>& data) {
     
     switch (window_function.getFunctionType()) {
-        case sql_parser::WindowFunctionNode::ROW_NUMBER:
+        case sql_parser::WindowFunction::ROW_NUMBER:
             return executeRowNumber(window_function, data);
             
-        case sql_parser::WindowFunctionNode::RANK:
+        case sql_parser::WindowFunction::RANK:
             return executeRank(window_function, data);
             
-        case sql_parser::WindowFunctionNode::DENSE_RANK:
+        case sql_parser::WindowFunction::DENSE_RANK:
             return executeDenseRank(window_function, data);
             
         default:
@@ -31,7 +31,7 @@ WindowFunctionResult WindowFunctionExecutor::executeWindowFunction(
 }
 
 WindowFunctionResult WindowFunctionExecutor::executeRowNumber(
-    const sql_parser::WindowFunctionNode& window_function,
+    const sql_parser::WindowFunction& window_function,
     const std::vector<std::vector<std::string>>& data) {
     
     WindowFunctionResult result;
@@ -79,7 +79,7 @@ WindowFunctionResult WindowFunctionExecutor::executeRowNumber(
 }
 
 WindowFunctionResult WindowFunctionExecutor::executeRank(
-    const sql_parser::WindowFunctionNode& window_function,
+    const sql_parser::WindowFunction& window_function,
     const std::vector<std::vector<std::string>>& data) {
     
     WindowFunctionResult result;
@@ -141,7 +141,7 @@ WindowFunctionResult WindowFunctionExecutor::executeRank(
 }
 
 WindowFunctionResult WindowFunctionExecutor::executeDenseRank(
-    const sql_parser::WindowFunctionNode& window_function,
+    const sql_parser::WindowFunction& window_function,
     const std::vector<std::vector<std::string>>& data) {
     
     WindowFunctionResult result;

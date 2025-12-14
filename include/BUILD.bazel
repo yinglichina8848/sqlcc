@@ -52,8 +52,26 @@ filegroup(
     srcs = glob(["execution/*.h"]),
 )
 
+# 索引管理器头文件库
+filegroup(
+    name = "index_manager_headers",
+    srcs = glob(["storage/index_manager.h"]),
+)
+
 # 根目录头文件库（包含不在子目录中的头文件）
 filegroup(
     name = "root_headers",
     srcs = glob(["*.h"]),
+)
+
+# 错误处理头文件
+filegroup(
+    name = "error_handler_header",
+    srcs = ["error_handler.h"],
+)
+
+# 事务管理器头文件
+filegroup(
+    name = "transaction_manager_headers",
+    srcs = ["transaction_manager.h"],
 )

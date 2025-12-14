@@ -1,0 +1,38 @@
+# Storage engine tests BUILD configuration
+
+package(default_visibility = ["//visibility:public"])
+
+# Buffer pool测试
+cc_test(
+    name = "buffer_pool_test",
+    srcs = ["buffer_pool_v3_test.cpp"],
+    includes = ["../../include"],
+    deps = [
+        "//src/storage_engine:sqlcc_storage_engine",
+        "@com_google_googletest//:gtest_main",
+    ],
+)
+
+# B+树测试
+cc_test(
+    name = "bplus_tree_test",
+    srcs = ["index_insert_test.cpp"],
+    includes = ["../../include"],
+    deps = [
+        "//src/storage_engine:sqlcc_storage_engine",
+        "@com_google_googletest//:gtest_main",
+    ],
+)
+
+# Storage engine测试套件
+test_suite(
+    name = "storage_engine_tests",
+    tests = [
+        ":buffer_pool_test",
+        ":bplus_tree_test",
+    ],
+)
+
+exports_files([
+    "index_insert_test.cpp",
+])

@@ -1,0 +1,69 @@
+# Debug test source files BUILD configuration
+
+package(default_visibility = ["//visibility:public"])
+
+# Individual debug test binaries
+cc_binary(
+    name = "debug_lexer",
+    srcs = ["debug_lexer.cpp"],
+    copts = ["-std=c++17"],
+    deps = [
+        "//include/sql_parser:sqlcc_parser_headers",
+        "//src/sql_parser:sqlcc_parser",
+    ],
+)
+
+cc_binary(
+    name = "debug_lexer2",
+    srcs = ["debug_lexer2.cpp"],
+    copts = ["-std=c++17"],
+    deps = [
+        "//include/sql_parser:sqlcc_parser_headers",
+        "//src/sql_parser:sqlcc_parser",
+    ],
+)
+
+cc_binary(
+    name = "debug_simple",
+    srcs = ["debug_simple.cpp"],
+    copts = ["-std=c++17"],
+    deps = [
+        "//include/sql_parser:sqlcc_parser_headers",
+        "//src/sql_parser:sqlcc_parser",
+    ],
+)
+
+cc_binary(
+    name = "minimal_test",
+    srcs = ["minimal_test.cpp"],
+    copts = ["-std=c++17"],
+)
+
+cc_binary(
+    name = "trace_test",
+    srcs = ["trace_test.cpp"],
+    copts = ["-std=c++17"],
+    deps = [
+        "//include/sql_parser:sqlcc_parser_headers",
+        "//src/sql_parser:sqlcc_parser",
+    ],
+)
+
+# More complex debug tests
+cc_binary(
+    name = "debug_loop",
+    srcs = ["debug_loop.cpp"],
+    copts = ["-std=c++17"],
+)
+
+cc_binary(
+    name = "debug_setup",
+    srcs = ["debug_setup.cpp"],
+    copts = ["-std=c++17"],
+)
+
+cc_binary(
+    name = "debug_setup2",
+    srcs = ["debug_setup2.cpp"],
+    copts = ["-std=c++17"],
+)

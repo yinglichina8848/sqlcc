@@ -3,7 +3,7 @@
 #include <string>
 
 #include "sql_parser/parser_new.h"
-#include "sql_parser/ast_nodes.h"
+#include "../../../include/sql_parser/ast_nodes.h"
 
 using namespace sqlcc::sql_parser;
 

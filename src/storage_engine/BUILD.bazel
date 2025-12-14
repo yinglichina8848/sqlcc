@@ -1,70 +1,70 @@
-"""Bazel构建配置 for SQLCC storage_engine组件"""
+# 存储引擎组件Bazel构建配置
 
-load("@rules_cc//cc:defs.bzl", "cc_library")
+package(default_visibility = ["//visibility:public"])
 
-# 存储引擎库
 cc_library(
     name = "sqlcc_storage_engine",
     srcs = [
-        "b_plus_tree.cpp",
-        "buffer_pool.cpp",
-        "buffer_pool_sharded.cpp",
-        "concurrency_control.cpp",
+        "storage_engine.cpp",
         "disk_manager.cpp",
         "page.cpp",
-        "performance_monitor.cpp",
-        "replace_strategy.cpp",
-        "storage_engine.cpp",
+        "buffer_pool.cpp",
+        "buffer_pool_sharded.cpp",
+        "b_plus_tree.cpp",
         "table_storage.cpp",
+        "index_manager/index_manager.cpp",
+        "concurrency_control.cpp",
     ],
-    hdrs = ["//include:storage_engine_headers"],
+    hdrs = [
+        "//include:storage_engine_headers",
+    ],
     includes = ["../../include"],
     deps = [
-        "//src/config_manager:sqlcc_config_manager",
-        ":sqlcc_index_manager",
-        "@com_google_absl//absl/strings",
-        "@com_google_absl//absl/container:flat_hash_map",
-        "@com_google_absl//absl/random",
+        "//src/core:error_handler",
+        "//src/core:sqlcc_config_manager",
     ],
     visibility = ["//visibility:public"],
+    linkopts = ["-latomic"],
 )
 
-# B+树库（如果需要单独使用）
-cc_library(
-    name = "sqlcc_b_plus_tree",
-    srcs = ["b_plus_tree.cpp"],
-    hdrs = ["//include:storage_engine_headers"],
-    includes = ["../../include"],
-    deps = [
-        "//src/config_manager:sqlcc_config_manager",
-        "@com_google_absl//absl/strings",
-    ],
-    visibility = ["//visibility:public"],
-)
-
-# 缓冲池库（如果需要单独使用）
-cc_library(
-    name = "sqlcc_buffer_pool",
-    srcs = ["buffer_pool.cpp", "buffer_pool_sharded.cpp"],
-    hdrs = ["//include:storage_engine_headers"],
-    includes = ["../../include"],
-    deps = [
-        "//src/config_manager:sqlcc_config_manager",
-        "@com_google_absl//absl/strings",
-        "@com_google_absl//absl/container:flat_hash_map",
-    ],
-    visibility = ["//visibility:public"],
-)
-
-# 索引管理器库
 cc_library(
     name = "sqlcc_index_manager",
-    srcs = ["index_manager/index_manager.cpp"],
-    hdrs = ["//include:storage_engine_headers"],
+    srcs = [
+        "index_manager/index_manager.cpp",
+    ],
+    hdrs = [
+        "//include:index_manager_headers",
+    ],
     includes = ["../../include"],
     deps = [
-        "//src/config_manager:sqlcc_config_manager",
-        "@com_google_absl//absl/strings",
+        "//src/storage_engine:sqlcc_storage_engine",
+        "//src/core:error_handler",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+cc_library(
+    name = "sqlcc_concurrency_control",
+    srcs = ["concurrency_control.cpp"],
+    hdrs = [
+        "//include/storage:concurrency_control_headers",
+    ],
+    includes = ["../../include"],
+    deps = [
+        "//src/core:error_handler",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+cc_library(
+    name = "sqlcc_replace_strategy",
+    srcs = ["replace_strategy.cpp"],
+    hdrs = [
+        "//include/storage:replace_strategy_headers",
+    ],
+    includes = ["../../include"],
+    deps = [
+        "//src/core:error_handler",
     ],
     visibility = ["//visibility:public"],
 )

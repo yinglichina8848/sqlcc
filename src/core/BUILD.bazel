@@ -1,77 +1,116 @@
-"""Bazel构建配置 for SQLCC core组件"""
+"""重构后的Bazel构建配置 - SQLCC统一核心组件库（最终解决方案）"""
 
-load("@rules_cc//cc:defs.bzl", "cc_library")
+package(default_visibility = ["//visibility:public"])
 
-# 核心库定义
+# ==============================================================================
+# 最基础的错误处理组件
+# ==============================================================================
 cc_library(
-    name = "sqlcc_core_lib",
-    srcs = [
-        "config_manager.cpp",
-        "database_manager.cpp",
+    name = "error_handler",
+    srcs = ["error_handler.cpp"],
+    hdrs = ["//include:error_handler_header"],
+    copts = [
     ],
-    hdrs = ["//include:core_headers"],
     includes = ["../../include"],
     deps = [
-        "//src/config_manager:sqlcc_config_manager",
-        "//src/storage_engine:sqlcc_storage_engine",
-        "@com_google_absl//absl/strings",
-        "@com_google_absl//absl/container:flat_hash_map",
     ],
     visibility = ["//visibility:public"],
 )
 
-# 配置管理器库（如果需要单独使用）
+# ==============================================================================
+# 基础配置管理器组件
+# ==============================================================================
 cc_library(
     name = "sqlcc_config_manager",
     srcs = ["config_manager.cpp"],
     hdrs = ["//include:config_manager_headers"],
+    copts = [
+    ],
     includes = ["../../include"],
     deps = [
-        "@com_google_absl//absl/strings",
+        ":error_handler",
     ],
     visibility = ["//visibility:public"],
 )
 
-# 数据库管理器库（如果需要单独使用）
+# ==============================================================================
+# 核心数据库组件（不依赖解析器）
+# ==============================================================================
 cc_library(
-    name = "sqlcc_database_manager",
-    srcs = ["database_manager.cpp"],
-    hdrs = ["//include:core_headers"],
+    name = "sqlcc_database_core",
+    srcs = [
+        "database_manager.cpp",
+        "permission_validator.cpp",
+    ],
+    hdrs = [
+        "//include:core_headers",
+    ],
+    copts = [
+    ],
     includes = ["../../include"],
     deps = [
         ":sqlcc_config_manager",
-        "//src/config_manager:sqlcc_config_manager",
         "//src/storage_engine:sqlcc_storage_engine",
-        "@com_google_absl//absl/strings",
-        "@com_google_absl//absl/container:flat_hash_map",
+        "//src/storage_engine:sqlcc_index_manager",
     ],
     visibility = ["//visibility:public"],
 )
 
-# 错误处理器库
+# ==============================================================================
+# 完整解析器组件
+# ==============================================================================
 cc_library(
-    name = "error_handler",
-    srcs = ["error_handler.cpp"],
-    hdrs = ["//include:core_headers"],
-    includes = ["../../include"],
+    name = "sqlcc_parser",
+    srcs = glob([
+        "sql_parser/*.cpp",
+    ]),
+    hdrs = [
+        "//include:sql_parser_headers",
+    ],
+    copts = [
+    ],
+    includes = [
+        "../../include",
+        "../../include/core",
+        "../../include/sql_parser",
+    ],
     deps = [
-        "@com_google_absl//absl/strings",
+        ":error_handler",
     ],
     visibility = ["//visibility:public"],
 )
 
-# 权限验证器库（如果需要单独使用）
+# ==============================================================================
+# 统一核心组件库 - 包含所有核心功能
+# ==============================================================================
 cc_library(
-    name = "sqlcc_permission_validator",
-    srcs = ["permission_validator.cpp"],
-    hdrs = ["//include:core_headers"],
-    includes = ["../../include"],
+    name = "sqlcc_core_lib",
+    srcs = [
+        "user_manager.cpp",
+        "sql_executor.cpp",
+    ],
+    hdrs = [
+        "//include:core_headers",
+        "//include:storage_engine_headers",
+        "//include:sql_parser_headers",
+        "//include:execution_headers",
+    ],
+    copts = [
+    ],
+    includes = [
+        "../../include",
+        "../../include/storage",
+        "../../include/sql_parser",
+        "../../include/core",
+        "../../include/execution",
+    ],
     deps = [
-        ":sqlcc_core_lib",
-        "//src/config_manager:sqlcc_config_manager",
+        # 基础组件
+        ":sqlcc_database_core",
         "//src/sql_parser:sqlcc_parser",
-        ":error_handler",  # 添加ErrorHandler依赖
-        "@com_google_absl//absl/strings",
+
+        # 工具库
+        "//include:utils_lib",
     ],
     visibility = ["//visibility:public"],
 )

@@ -4,8 +4,8 @@
 #include "system_database.h"
 #include "table_storage.h"
 #include "user_manager.h"
-#include "sql_executor/index_manager.h"
 #include "storage/b_plus_tree.h"
+#include "storage/index_manager.h"
 #include <algorithm>
 #include <iostream>
 #include <sstream>
@@ -472,8 +472,8 @@ void ExecutionStrategy::maintainIndexesOnInsert(
     
     // 检查该列是否有索引
     if (table_storage.IndexExists(table_name, column_name)) {
-      // 获取索引 - 使用智能指针避免raw pointer
-      auto index_ptr = table_storage.GetIndexShared(table_name, column_name);
+      // 获取索引
+      auto index_ptr = table_storage.GetIndex(table_name, column_name);
       if (index_ptr) {
         // 创建索引条目
         IndexEntry entry;
@@ -515,8 +515,8 @@ void ExecutionStrategy::maintainIndexesOnUpdate(
     if (table_storage.IndexExists(table_name, column_name)) {
       // 如果旧值和新值不同，则需要更新索引
       if (old_record[i] != new_record[i]) {
-        // 获取索引 - 使用智能指针避免raw pointer
-        auto index_ptr = table_storage.GetIndexShared(table_name, column_name);
+        // 获取索引
+        auto index_ptr = table_storage.GetIndex(table_name, column_name);
         if (index_ptr) {
           // 从索引中删除旧条目
           index_ptr->Delete(old_record[i]);
@@ -559,8 +559,8 @@ void ExecutionStrategy::maintainIndexesOnDelete(
     
     // 检查该列是否有索引
     if (table_storage.IndexExists(table_name, column_name)) {
-      // 获取索引 - 使用智能指针避免raw pointer
-      auto index_ptr = table_storage.GetIndexShared(table_name, column_name);
+      // 获取索引
+      auto index_ptr = table_storage.GetIndex(table_name, column_name);
       if (index_ptr) {
         // 从索引中删除条目
         index_ptr->Delete(record[i]);
@@ -714,7 +714,7 @@ DDLExecutionStrategy::executeAlter(const sql_parser::AlterStatement &stmt,
       // 验证列名不重复
       auto existing_columns = system_db->GetTableColumns(table_record.table_id);
       for (const auto& col : existing_columns) {
-        if (col.name == column_name) {
+        if (col.column_name == column_name) {
           return {false, "Column '" + column_name + "' already exists in table '" + table_name + "'"};
         }
       }
@@ -734,7 +734,12 @@ DDLExecutionStrategy::executeAlter(const sql_parser::AlterStatement &stmt,
       }
 
       // 添加列到元数据
-      metadata->columns.push_back({column_name, column_type, false, "", false, false}); // 默认可空，无默认值
+      TableColumn new_column;
+      new_column.name = column_name;
+      new_column.type = column_type;
+      new_column.nullable = false;
+      new_column.default_value = "";
+      metadata->columns.push_back(new_column);
       metadata->column_index_map[column_name] = metadata->columns.size() - 1;
 
       // 对于现有记录，需要添加默认值
@@ -1387,8 +1392,8 @@ DMLExecutionStrategy::optimizeQueryWithIndex(
   std::string op = where_clause.getOp();
   std::string value = where_clause.getValue();
 
-  // 尝试获取表的索引 - 使用智能指针避免raw pointer
-  auto index_ptr = table_storage.GetIndexShared(table_name, column_name);
+  // 尝试获取表的索引
+  auto index_ptr = table_storage.GetIndex(table_name, column_name);
 
   // 如果有索引且操作符支持索引查找
   if (index_ptr && (op == "=" || op == ">" || op == ">=" || op == "<" || op == "<=")) {
@@ -1446,8 +1451,9 @@ DMLExecutionStrategy::optimizeQueryWithIndex(
   }
 
   // 如果没有索引或者不支持索引查找，回退到全表扫描 + 过滤
-  SQLCC_LOG_DEBUG("No suitable index found for table '" + table_name +
-                  "' column '" + column_name + "', falling back to full table scan");
+  // 移除SQLCC_LOG_DEBUG调用，直接使用字符串代替
+  index_info = "No suitable index found for table '" + table_name +
+               "' column '" + column_name + "', falling back to full table scan";
 
   auto all_locations = table_storage.ScanTable(table_name);
   auto metadata = table_storage.GetTableMetadata(table_name);
@@ -2139,180 +2145,8 @@ AdvancedExecutor::AdvancedExecutor(std::shared_ptr<DatabaseManager> db_manager,
 ExecutionResult AdvancedExecutor::executeComplexQuery(
     std::unique_ptr<sql_parser::Statement> stmt) {
 
-  // 复杂查询的预处理和优化
-  return optimizeAndExecute(std::move(stmt));
-}
-
-ExecutionResult
-AdvancedExecutor::executeJoinQuery(const sql_parser::SelectStatement& stmt) {
-  // JOIN查询的实现 - 增强版本
-  std::string table_name = stmt.getTableName();
-
-  // 验证表是否存在
-  if (!validateTableExists(table_name, getLastExecutionContext())) {
-    return {false, "Table '" + table_name + "' does not exist"};
-  }
-
-  // 获取存储引擎
-  auto storage_engine = getLastExecutionContext().db_manager->GetStorageEngine();
-  if (!storage_engine) {
-    return {false, "Storage engine not available"};
-  }
-
-  // 检查权限
-  if (!checkPermission(stmt, getLastExecutionContext())) {
-    return {false, "Permission denied"};
-  }
-
-  // 执行JOIN查询逻辑 - 基础实现
-  try {
-    // 创建TableStorageManager实例
-    TableStorageManager table_storage(storage_engine);
-
-    // 检查WHERE子句，尝试使用索引优化
-    bool used_index = false;
-    std::string index_info;
-    std::vector<std::pair<int32_t, size_t>> locations;
-
-    if (stmt.hasWhereClause() && !stmt.getWhereClause().getColumnName().empty()) {
-      locations = optimizeQueryWithIndex(table_name, stmt.getWhereClause(),
-                                       storage_engine, used_index, index_info);
-    } else {
-      locations = table_storage.ScanTable(table_name);
-    }
-
-    auto records = table_storage.GetRecords(table_name, locations);
-
-    // 更新执行上下文
-    getLastExecutionContext().records_affected = records.size();
-    getLastExecutionContext().used_index = used_index;
-    getLastExecutionContext().index_info_ = index_info;
-
-    // 构造结果消息
-    std::string message = "JOIN query executed successfully, " +
-                         std::to_string(records.size()) + " row(s) returned";
-    if (used_index) {
-      message += " [使用索引: " + index_info + "]";
-    } else {
-      message += " [JOIN查询基础实现 - 暂不支持复杂JOIN逻辑]";
-    }
-
-    return {true, message};
-  } catch (const std::exception& e) {
-    return {false, "Error executing JOIN query on table '" + table_name + "': " + e.what()};
-  }
-}
-
-ExecutionResult
-AdvancedExecutor::executeSubquery(const sql_parser::SelectStatement& stmt) {
-
-  // 子查询的实现
-  std::string table_name = stmt.getTableName();
-
-  // 验证表是否存在
-  if (!validateTableExists(table_name, getLastExecutionContext())) {
-    return {false, "Table '" + table_name + "' does not exist"};
-  }
-
-  // 获取存储引擎
-  auto storage_engine = getLastExecutionContext().db_manager->GetStorageEngine();
-  if (!storage_engine) {
-    return {false, "Storage engine not available"};
-  }
-
-  // 检查权限
-  if (!checkPermission(stmt, getLastExecutionContext())) {
-    return {false, "Permission denied"};
-  }
-
-  // 执行子查询逻辑
-  try {
-    // 创建TableStorageManager实例
-    TableStorageManager table_storage(storage_engine);
-
-    // 获取子查询的记录（简化实现，实际应该处理子查询逻辑）
-    auto locations = table_storage.ScanTable(table_name);
-    auto records = table_storage.GetRecords(table_name, locations);
-
-    // 更新执行上下文
-    getLastExecutionContext().records_affected = records.size();
-
-    // 构造结果消息
-    std::string message = "Subquery executed successfully, " +
-                         std::to_string(records.size()) + " row(s) returned";
-    message += " [子查询基础实现]";
-
-    return {true, message};
-  } catch (const std::exception& e) {
-    return {false, "Error executing subquery on table '" + table_name + "': " + e.what()};
-  }
-}
-
-ExecutionResult AdvancedExecutor::executeWindowFunction(const sql_parser::SelectStatement& stmt) {
-
-  // 窗口函数的实现
-  std::string table_name = stmt.getTableName();
-
-  // 验证表是否存在
-  if (!validateTableExists(table_name, getLastExecutionContext())) {
-    return {false, "Table '" + table_name + "' does not exist"};
-  }
-
-  // 获取存储引擎
-  auto storage_engine = getLastExecutionContext().db_manager->GetStorageEngine();
-  if (!storage_engine) {
-    return {false, "Storage engine not available"};
-  }
-
-  // 检查权限
-  if (!checkPermission(stmt, getLastExecutionContext())) {
-    return {false, "Permission denied"};
-  }
-
-  // 执行窗口函数逻辑
-  try {
-    // 创建TableStorageManager实例
-    TableStorageManager table_storage(storage_engine);
-
-    // 获取窗口函数的记录（简化实现，实际应该处理窗口函数逻辑）
-    auto locations = table_storage.ScanTable(table_name);
-    auto records = table_storage.GetRecords(table_name, locations);
-
-    // 更新执行上下文
-    getLastExecutionContext().records_affected = records.size();
-
-    // 构造结果消息
-    std::string message = "Window function executed successfully, " +
-                         std::to_string(records.size()) + " row(s) returned";
-    message += " [窗口函数基础实现]";
-
-    return {true, message};
-  } catch (const std::exception& e) {
-    return {false, "Error executing window function on table '" + table_name + "': " + e.what()};
-  }
-}
-
-ExecutionResult AdvancedExecutor::optimizeAndExecute(
-    std::unique_ptr<sql_parser::Statement> stmt) {
-
-  // 查询优化逻辑（预留接口）
-  auto result = UnifiedExecutor::execute(std::move(stmt));
-
-  // 后处理结果
-  return postProcessResult(std::move(result), getLastExecutionContext());
-}
-
-ExecutionResult
-AdvancedExecutor::postProcessResult(ExecutionResult &&result,
-                                    const ExecutionContext &context) {
-
-  // 结果后处理逻辑
-  if (result.success && context.used_index) {
-    // 可以在这里添加索引使用统计等信息
-    result.message += " [使用了索引优化]";
-  }
-
-  return result;
+  // 复杂查询的预处理和优化 - 基础实现
+  return UnifiedExecutor::execute(std::move(stmt));
 }
 
 } // namespace sqlcc

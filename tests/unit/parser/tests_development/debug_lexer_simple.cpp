@@ -1,5 +1,5 @@
 #include <iostream>
-#include "sql_parser/lexer_new.h"
+#include "sql_parser/lexer.h"
 
 int main() {
     std::string input = "SELECT * FROM users WHERE id = 1;";

@@ -1,6 +1,6 @@
 #include "sql_parser/parser.h"
-#include "sql_parser/set_operation_node.h"
-#include "sql_parser/ast_nodes.h"
+#include "sql_parser/set_operation.h"
+#include "../../../include/sql_parser/ast_nodes.h"
 #include <gtest/gtest.h>
 #include <memory>
 #include <string>
@@ -21,7 +21,7 @@ protected:
     // 辅助方法：解析SQL并返回语句列表
     std::vector<std::unique_ptr<Statement>> parseSQL(const std::string& sql) {
         Parser parser(sql);
-        return parser.parseStatements();
+        return parser.parse();
     }
     
     // 辅助方法：验证语句类型

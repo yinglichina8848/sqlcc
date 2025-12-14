@@ -1,0 +1,21 @@
+# SQLCC存储引擎头文件库定义
+
+package(default_visibility = ["//visibility:public"])
+
+# 并发控制头文件库
+filegroup(
+    name = "concurrency_control_headers",
+    srcs = ["concurrency_control.h"],
+)
+
+# 替换策略头文件库
+filegroup(
+    name = "replace_strategy_headers",
+    srcs = ["replace_strategy.h"],
+)
+
+# 存储引擎头文件集合
+filegroup(
+    name = "storage_headers",
+    srcs = glob(["*.h"]),
+)

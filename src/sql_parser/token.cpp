@@ -1,180 +1,217 @@
-#include "../../include/sql_parser/token.h"
+#include "sql_parser/token.h"
+#include <iostream>
+#include <unordered_map>
 
 namespace sqlcc {
 namespace sql_parser {
 
-Token::Token() : type_(END_OF_INPUT), lexeme_(""), line_(0), column_(0) {
-}
+Token::Token() : type_(UNKNOWN), line_(0), column_(0) {}
 
-Token::Token(Type type, const std::string& lexeme, int line, int column)
-    : type_(type), lexeme_(lexeme), line_(line), column_(column) {
-}
-
-// 拷贝构造函数
-Token::Token(const Token& other)
-    : type_(other.type_), lexeme_(other.lexeme_), line_(other.line_), column_(other.column_) {
-}
-
-// 拷贝赋值操作符
-Token& Token::operator=(const Token& other) {
-    if (this != &other) {
-        type_ = other.type_;
-        lexeme_ = other.lexeme_;
-        line_ = other.line_;
-        column_ = other.column_;
-    }
-    return *this;
-}
-
-// 移动构造函数
-Token::Token(Token&& other) noexcept
-    : type_(other.type_), lexeme_(std::move(other.lexeme_)), line_(other.line_), column_(other.column_) {
-    // 将源对象置为有效但未指定的状态
-    other.type_ = END_OF_INPUT;
-    other.line_ = 0;
-    other.column_ = 0;
-}
-
-// 移动赋值操作符
-Token& Token::operator=(Token&& other) noexcept {
-    if (this != &other) {
-        type_ = other.type_;
-        lexeme_ = std::move(other.lexeme_);
-        line_ = other.line_;
-        column_ = other.column_;
-        
-        // 将源对象置为有效但未指定的状态
-        other.type_ = END_OF_INPUT;
-        other.line_ = 0;
-        other.column_ = 0;
-    }
-    return *this;
-}
-
-Token::Type Token::getType() const {
-    return type_;
-}
-
-const std::string& Token::getLexeme() const {
-    return lexeme_;
-}
-
-int Token::getLine() const {
-    return line_;
-}
-
-int Token::getColumn() const {
-    return column_;
-}
+Token::Token(Type type, const std::string &lexeme, size_t line, size_t column)
+    : type_(type), lexeme_(lexeme), line_(line), column_(column) {}
 
 std::string Token::getTypeName(Type type) {
-    switch (type) {
-        case LPAREN: return "LEFT_PAREN";
-        case RPAREN: return "RIGHT_PAREN";
-        case LEFT_BRACE: return "LEFT_BRACE";
-        case RIGHT_BRACE: return "RIGHT_BRACE";
-        case COMMA: return "COMMA";
-        case DOT: return "DOT";
-        case MINUS: return "MINUS";
-        case PLUS: return "PLUS";
-        case SEMICOLON: return "SEMICOLON";
-        case SLASH: return "SLASH";
-        case EQUAL: return "EQUAL";
-        case NOT_EQUAL: return "NOT_EQUAL";
-        case LESS: return "LESS";
-        case LESS_EQUAL: return "LESS_EQUAL";
-        case GREATER: return "GREATER";
-        case GREATER_EQUAL: return "GREATER_EQUAL";
-        case IDENTIFIER: return "IDENTIFIER";
-        case STRING: return "STRING";
-        case NUMBER: return "NUMBER";
-        case STRING_LITERAL: return "STRING_LITERAL";
-        case INTEGER_LITERAL: return "INTEGER_LITERAL";
-        case FLOAT_LITERAL: return "FLOAT_LITERAL";
-        case KEYWORD_AND: return "AND";
-        case KEYWORD_BREAK: return "BREAK";
-        case KEYWORD_CLASS: return "CLASS";
-        case KEYWORD_CONTINUE: return "CONTINUE";
-        case KEYWORD_DEF: return "DEF";
-        case KEYWORD_DEL: return "DEL";
-        case KEYWORD_DO: return "DO";
-        case KEYWORD_ELSE: return "ELSE";
-        case KEYWORD_FALSE: return "FALSE";
-        case KEYWORD_FOR: return "FOR";
-        case KEYWORD_FROM: return "FROM";
-        case KEYWORD_IF: return "IF";
-        case KEYWORD_IN: return "IN";
-        case KEYWORD_IS: return "IS";
-        case KEYWORD_NULL: return "NULL";
-        case KEYWORD_OR: return "OR";
-        case KEYWORD_PRINT: return "PRINT";
-        case KEYWORD_RETURN: return "RETURN";
-        case KEYWORD_SUPER: return "SUPER";
-        case KEYWORD_THIS: return "THIS";
-        case KEYWORD_TRUE: return "TRUE";
-        case KEYWORD_VAR: return "VAR";
-        case KEYWORD_WHILE: return "WHILE";
-        case KEYWORD_SELECT: return "SELECT";
-        case KEYWORD_DISTINCT: return "DISTINCT";
-        case KEYWORD_INSERT: return "INSERT";
-        case KEYWORD_UPDATE: return "UPDATE";
-        case KEYWORD_DELETE: return "DELETE";
-        case KEYWORD_CREATE: return "CREATE";
-        case KEYWORD_DROP: return "DROP";
-        case KEYWORD_ALTER: return "ALTER";
-        case KEYWORD_DATABASE: return "DATABASE";
-        case KEYWORD_TABLE: return "TABLE";
-        case KEYWORD_INDEX: return "INDEX";
-        case KEYWORD_PRIMARY: return "PRIMARY";
-        case KEYWORD_KEY: return "KEY";
-        case KEYWORD_NOT: return "NOT";
-        case KEYWORD_UNIQUE: return "UNIQUE";
-        case KEYWORD_CHECK: return "CHECK";
-        case KEYWORD_DEFAULT: return "DEFAULT";
-        case KEYWORD_AUTO_INCREMENT: return "AUTO_INCREMENT";
-        case KEYWORD_REFERENCES: return "REFERENCES";
-        case KEYWORD_FOREIGN: return "FOREIGN";
-        case KEYWORD_USE: return "USE";
-        case KEYWORD_VALUES: return "VALUES";
-        case KEYWORD_SET: return "SET";
-        case KEYWORD_WHERE: return "WHERE";
-        case KEYWORD_GROUP: return "GROUP";
-        case KEYWORD_BY: return "BY";
-        case KEYWORD_ORDER: return "ORDER";
-        case KEYWORD_ASC: return "ASC";
-        case KEYWORD_DESC: return "DESC";
-        case KEYWORD_INTO: return "INTO";
-        case KEYWORD_USER: return "USER";
-        case KEYWORD_GRANT: return "GRANT";
-        case KEYWORD_REVOKE: return "REVOKE";
-        case KEYWORD_TO: return "TO";
-        case KEYWORD_ON: return "ON";
-        case KEYWORD_EXISTS: return "EXISTS";
-        case KEYWORD_JOIN: return "JOIN";
-        case KEYWORD_HAVING: return "HAVING";
-        case KEYWORD_CONSTRAINT: return "CONSTRAINT";
-        case KEYWORD_PRIVILEGES: return "PRIVILEGES";
-        case KEYWORD_WITH: return "WITH";
-        case KEYWORD_PASSWORD: return "PASSWORD";
-        case KEYWORD_IDENTIFIED: return "IDENTIFIED";
-        case MULTIPLY: return "MULTIPLY";
-        case OPERATOR_PLUS: return "OPERATOR_PLUS";
-        case OPERATOR_MINUS: return "OPERATOR_MINUS";
-        case OPERATOR_MULTIPLY: return "OPERATOR_MULTIPLY";
-        case OPERATOR_DIVIDE: return "OPERATOR_DIVIDE";
-        case OPERATOR_EQUAL: return "OPERATOR_EQUAL";
-        case OPERATOR_NOT_EQUAL: return "OPERATOR_NOT_EQUAL";
-        case OPERATOR_LESS_THAN: return "OPERATOR_LESS_THAN";
-        case OPERATOR_LESS_EQUAL: return "OPERATOR_LESS_EQUAL";
-        case OPERATOR_GREATER_THAN: return "OPERATOR_GREATER_THAN";
-        case OPERATOR_GREATER_EQUAL: return "OPERATOR_GREATER_EQUAL";
-        case OPERATOR_MODULO: return "OPERATOR_MODULO";
-        case COLON: return "COLON";
-        case UNKNOWN: return "UNKNOWN";
-        case END_OF_INPUT: return "END_OF_INPUT";
-        case ERROR: return "ERROR";
-        default: return "UNKNOWN";
-    }
+  static std::unordered_map<Type, std::string> typeNames = {
+      // Punctuation
+      {SEMICOLON, "SEMICOLON"},
+      {COLON, "COLON"},
+      {LPAREN, "LPAREN"},
+      {RPAREN, "RPAREN"},
+      {COMMA, "COMMA"},
+      {DOT, "DOT"},
+      {LEFT_BRACE, "LEFT_BRACE"},
+      {RIGHT_BRACE, "RIGHT_BRACE"},
+      {LEFT_BRACKET, "LEFT_BRACKET"},
+      {RIGHT_BRACKET, "RIGHT_BRACKET"},
+
+      // Literals
+      {INTEGER_LITERAL, "INTEGER_LITERAL"},
+      {FLOAT_LITERAL, "FLOAT_LITERAL"},
+      {STRING_LITERAL, "STRING_LITERAL"},
+      {BOOLEAN_LITERAL, "BOOLEAN_LITERAL"},
+      {NULL_LITERAL, "NULL_LITERAL"},
+
+      // Identifiers
+      {IDENTIFIER, "IDENTIFIER"},
+
+      // Operators
+      {OPERATOR, "OPERATOR"},
+      {OPERATOR_PLUS, "OPERATOR_PLUS"},
+      {OPERATOR_MINUS, "OPERATOR_MINUS"},
+      {OPERATOR_MULTIPLY, "OPERATOR_MULTIPLY"},
+      {OPERATOR_DIVIDE, "OPERATOR_DIVIDE"},
+      {OPERATOR_EQUAL, "OPERATOR_EQUAL"},
+      {OPERATOR_NOT_EQUAL, "OPERATOR_NOT_EQUAL"},
+      {OPERATOR_LESS_THAN, "OPERATOR_LESS_THAN"},
+      {OPERATOR_LESS_EQUAL, "OPERATOR_LESS_EQUAL"},
+      {OPERATOR_GREATER_THAN, "OPERATOR_GREATER_THAN"},
+      {OPERATOR_GREATER_EQUAL, "OPERATOR_GREATER_EQUAL"},
+      {OPERATOR_MODULO, "OPERATOR_MODULO"},
+      {OPERATOR_AND, "OPERATOR_AND"},
+      {OPERATOR_OR, "OPERATOR_OR"},
+      {OPERATOR_NOT, "OPERATOR_NOT"},
+      {OPERATOR_BITWISE_AND, "OPERATOR_BITWISE_AND"},
+      {OPERATOR_BITWISE_OR, "OPERATOR_BITWISE_OR"},
+      {OPERATOR_BITWISE_NOT, "OPERATOR_BITWISE_NOT"},
+      {OPERATOR_BITWISE_XOR, "OPERATOR_BITWISE_XOR"},
+      {OPERATOR_TERNARY, "OPERATOR_TERNARY"},
+      {OPERATOR_AT, "OPERATOR_AT"},
+
+      // Keywords - DDL
+      {KEYWORD_CREATE, "KEYWORD_CREATE"},
+      {KEYWORD_ALTER, "KEYWORD_ALTER"},
+      {KEYWORD_DROP, "KEYWORD_DROP"},
+      {KEYWORD_TRUNCATE, "KEYWORD_TRUNCATE"},
+      {KEYWORD_RENAME, "KEYWORD_RENAME"},
+      {KEYWORD_COMMENT, "KEYWORD_COMMENT"},
+      {KEYWORD_ADD, "KEYWORD_ADD"},
+      {KEYWORD_COLUMN, "KEYWORD_COLUMN"},
+      {KEYWORD_MODIFY, "KEYWORD_MODIFY"},
+      {KEYWORD_CONSTRAINT, "KEYWORD_CONSTRAINT"},
+
+      // Keywords - DML
+      {KEYWORD_SELECT, "KEYWORD_SELECT"},
+      {KEYWORD_INSERT, "KEYWORD_INSERT"},
+      {KEYWORD_UPDATE, "KEYWORD_UPDATE"},
+      {KEYWORD_DELETE, "KEYWORD_DELETE"},
+      {KEYWORD_MERGE, "KEYWORD_MERGE"},
+      {KEYWORD_FROM, "KEYWORD_FROM"},
+      {KEYWORD_INTO, "KEYWORD_INTO"},
+      {KEYWORD_VALUES, "KEYWORD_VALUES"},
+      {KEYWORD_SET, "KEYWORD_SET"},
+      {KEYWORD_WHERE, "KEYWORD_WHERE"},
+      {KEYWORD_GROUP, "KEYWORD_GROUP"},
+      {KEYWORD_BY, "KEYWORD_BY"},
+      {KEYWORD_HAVING, "KEYWORD_HAVING"},
+      {KEYWORD_ORDER, "KEYWORD_ORDER"},
+      {KEYWORD_LIMIT, "KEYWORD_LIMIT"},
+      {KEYWORD_OFFSET, "KEYWORD_OFFSET"},
+      {KEYWORD_DISTINCT, "KEYWORD_DISTINCT"},
+      {KEYWORD_ALL, "KEYWORD_ALL"},
+      {KEYWORD_AS, "KEYWORD_AS"},
+      {KEYWORD_JOIN, "KEYWORD_JOIN"},
+      {KEYWORD_INNER, "KEYWORD_INNER"},
+      {KEYWORD_LEFT, "KEYWORD_LEFT"},
+      {KEYWORD_RIGHT, "KEYWORD_RIGHT"},
+      {KEYWORD_FULL, "KEYWORD_FULL"},
+      {KEYWORD_OUTER, "KEYWORD_OUTER"},
+      {KEYWORD_ON, "KEYWORD_ON"},
+      {KEYWORD_USING, "KEYWORD_USING"},
+
+      // Keywords - DCL
+      {KEYWORD_GRANT, "KEYWORD_GRANT"},
+      {KEYWORD_REVOKE, "KEYWORD_REVOKE"},
+      {KEYWORD_DENY, "KEYWORD_DENY"},
+
+      // Keywords - TCL
+      {KEYWORD_BEGIN, "KEYWORD_BEGIN"},
+      {KEYWORD_COMMIT, "KEYWORD_COMMIT"},
+      {KEYWORD_ROLLBACK, "KEYWORD_ROLLBACK"},
+      {KEYWORD_SAVEPOINT, "KEYWORD_SAVEPOINT"},
+      {KEYWORD_TRANSACTION, "KEYWORD_TRANSACTION"},
+
+      // Keywords - Logical Operators
+      {KEYWORD_AND, "KEYWORD_AND"},
+      {KEYWORD_OR, "KEYWORD_OR"},
+      {KEYWORD_IN, "KEYWORD_IN"},
+      {KEYWORD_EXISTS, "KEYWORD_EXISTS"},
+      {KEYWORD_BETWEEN, "KEYWORD_BETWEEN"},
+      {KEYWORD_LIKE, "KEYWORD_LIKE"},
+      {KEYWORD_IS, "KEYWORD_IS"},
+
+      // Keywords - Set Operations
+      {KEYWORD_UNION, "KEYWORD_UNION"},
+      {KEYWORD_INTERSECT, "KEYWORD_INTERSECT"},
+      {KEYWORD_EXCEPT, "KEYWORD_EXCEPT"},
+
+      // Keywords - Control Flow
+      {KEYWORD_CASE, "KEYWORD_CASE"},
+      {KEYWORD_WHEN, "KEYWORD_WHEN"},
+      {KEYWORD_THEN, "KEYWORD_THEN"},
+      {KEYWORD_ELSE, "KEYWORD_ELSE"},
+      {KEYWORD_END, "KEYWORD_END"},
+      {KEYWORD_IF, "KEYWORD_IF"},
+      {KEYWORD_WHILE, "KEYWORD_WHILE"},
+      {KEYWORD_FOR, "KEYWORD_FOR"},
+      {KEYWORD_DO, "KEYWORD_DO"},
+
+      // Keywords - Database Objects
+      {KEYWORD_DATABASE, "KEYWORD_DATABASE"},
+      {KEYWORD_TABLE, "KEYWORD_TABLE"},
+      {KEYWORD_INDEX, "KEYWORD_INDEX"},
+      {KEYWORD_VIEW, "KEYWORD_VIEW"},
+      {KEYWORD_SEQUENCE, "KEYWORD_SEQUENCE"},
+      {KEYWORD_TRIGGER, "KEYWORD_TRIGGER"},
+      {KEYWORD_PROCEDURE, "KEYWORD_PROCEDURE"},
+      {KEYWORD_FUNCTION, "KEYWORD_FUNCTION"},
+
+      // Keywords - Constraints
+      {KEYWORD_PRIMARY, "KEYWORD_PRIMARY"},
+      {KEYWORD_KEY, "KEYWORD_KEY"},
+      {KEYWORD_FOREIGN, "KEYWORD_FOREIGN"},
+      {KEYWORD_REFERENCES, "KEYWORD_REFERENCES"},
+      {KEYWORD_UNIQUE, "KEYWORD_UNIQUE"},
+      {KEYWORD_CHECK, "KEYWORD_CHECK"},
+      {KEYWORD_NOT, "KEYWORD_NOT"},
+      {KEYWORD_NULL, "KEYWORD_NULL"},
+      {KEYWORD_DEFAULT, "KEYWORD_DEFAULT"},
+      {KEYWORD_AUTO_INCREMENT, "KEYWORD_AUTO_INCREMENT"},
+
+      // Keywords - Data Types
+      {KEYWORD_INT, "KEYWORD_INT"},
+      {KEYWORD_INTEGER, "KEYWORD_INTEGER"},
+      {KEYWORD_SMALLINT, "KEYWORD_SMALLINT"},
+      {KEYWORD_BIGINT, "KEYWORD_BIGINT"},
+      {KEYWORD_TINYINT, "KEYWORD_TINYINT"},
+      {KEYWORD_VARCHAR, "KEYWORD_VARCHAR"},
+      {KEYWORD_CHAR, "KEYWORD_CHAR"},
+      {KEYWORD_TEXT, "KEYWORD_TEXT"},
+      {KEYWORD_BLOB, "KEYWORD_BLOB"},
+      {KEYWORD_CLOB, "KEYWORD_CLOB"},
+      {KEYWORD_DECIMAL, "KEYWORD_DECIMAL"},
+      {KEYWORD_NUMERIC, "KEYWORD_NUMERIC"},
+      {KEYWORD_FLOAT, "KEYWORD_FLOAT"},
+      {KEYWORD_DOUBLE, "KEYWORD_DOUBLE"},
+      {KEYWORD_REAL, "KEYWORD_REAL"},
+      {KEYWORD_DATE, "KEYWORD_DATE"},
+      {KEYWORD_TIME, "KEYWORD_TIME"},
+      {KEYWORD_TIMESTAMP, "KEYWORD_TIMESTAMP"},
+      {KEYWORD_DATETIME, "KEYWORD_DATETIME"},
+      {KEYWORD_YEAR, "KEYWORD_YEAR"},
+      {KEYWORD_BOOLEAN, "KEYWORD_BOOLEAN"},
+      {KEYWORD_BOOL, "KEYWORD_BOOL"},
+
+      // Keywords - Others
+      {KEYWORD_USE, "KEYWORD_USE"},
+      {KEYWORD_SHOW, "KEYWORD_SHOW"},
+      {KEYWORD_DESCRIBE, "KEYWORD_DESCRIBE"},
+      {KEYWORD_EXPLAIN, "KEYWORD_EXPLAIN"},
+      {KEYWORD_HELP, "KEYWORD_HELP"},
+      {KEYWORD_STATUS, "KEYWORD_STATUS"},
+      {KEYWORD_ASC, "KEYWORD_ASC"},
+      {KEYWORD_DESC, "KEYWORD_DESC"},
+      {KEYWORD_USER, "KEYWORD_USER"},
+      {KEYWORD_TO, "KEYWORD_TO"},
+      {KEYWORD_PRIVILEGES, "KEYWORD_PRIVILEGES"},
+      {KEYWORD_WITH, "KEYWORD_WITH"},
+      {KEYWORD_PASSWORD, "KEYWORD_PASSWORD"},
+      {KEYWORD_IDENTIFIED, "KEYWORD_IDENTIFIED"},
+      {KEYWORD_COLUMNS, "KEYWORD_COLUMNS"},
+      {KEYWORD_INDEXES, "KEYWORD_INDEXES"},
+      {KEYWORD_GRANTS, "KEYWORD_GRANTS"},
+      {KEYWORD_DATABASES, "KEYWORD_DATABASES"},
+      {KEYWORD_TABLES, "KEYWORD_TABLES"},
+
+      // Special tokens
+      {END_OF_INPUT, "END_OF_INPUT"},
+      {ERROR, "ERROR"},
+      {UNKNOWN, "UNKNOWN"}};
+
+  auto it = typeNames.find(type);
+  if (it != typeNames.end()) {
+    return it->second;
+  }
+  return "UNKNOWN_TYPE";
 }
 
 } // namespace sql_parser

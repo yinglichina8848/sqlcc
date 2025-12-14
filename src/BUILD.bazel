@@ -7,14 +7,13 @@ cc_library(
     name = "sqlcc_core",
     deps = [
         "//src/core:sqlcc_core_lib",
-        "//src/core:sqlcc_permission_validator",
         "//src/sql_parser:sqlcc_parser",
         "//src/config_manager:sqlcc_config_manager",
         "//src/storage_engine:sqlcc_storage_engine",
         "//src/transaction_manager:sqlcc_transaction_manager",
         "//src/network:sqlcc_network",
         "//src/sql_executor:sqlcc_executor",
-        "//src/execution:sqlcc_execution_engine",
+        "//src/execution:execution",
         ":unified_executor",
         ":dcl_executor",
     ],
@@ -29,22 +28,24 @@ cc_library(
         "//src/core:sqlcc_core_lib",
         "//src/storage_engine:sqlcc_storage_engine",
         "//src/config_manager:sqlcc_config_manager",
-        "@com_google_absl//absl/strings",
+        # "@com_google_absl//absl/strings",
     ],
 )
 
 # Execution Engine库
 cc_library(
     name = "execution_engine",
-    srcs = ["execution_engine.cpp"],
-    hdrs = ["//include:core_headers"],
-    includes = ["../include", "../include/core"],
+    srcs = [
+        "execution_engine.cpp",
+    ],
+    hdrs = [
+        "//include:execution_headers",
+    ],
+    includes = ["../include"],
     deps = [
         "//src/core:sqlcc_core_lib",
-        "//src/storage_engine:sqlcc_storage_engine",
-        "//src/config_manager:sqlcc_config_manager",
-        ":execution_context",
-        "@com_google_absl//absl/strings",
+        "//src/execution:execution",  # 添加对新执行模块的依赖
+        # "@com_google_absl//absl/strings",
     ],
 )
 
@@ -56,13 +57,13 @@ cc_library(
     includes = ["../include", "../include/core", "../include/storage"],
     deps = [
         "//src/core:sqlcc_core_lib",
-        "//src/core:sqlcc_database_manager",
+        "//src/core:sqlcc_database_core",
         "//src/sql_parser:sqlcc_parser",
         "//src/sql_executor:sqlcc_executor",
         "//src/storage_engine:sqlcc_storage_engine",
         "//src/config_manager:sqlcc_config_manager",
         ":execution_engine",
-        "@com_google_absl//absl/strings",
+        # "@com_google_absl//absl/strings",
     ],
 )
 
@@ -74,12 +75,12 @@ cc_library(
     includes = ["../include", "../include/core"],
     deps = [
         "//src/core:sqlcc_core_lib",
-        "//src/core:sqlcc_database_manager",
+        "//src/core:sqlcc_database_core",
         "//src/sql_parser:sqlcc_parser",
         "//src/sql_executor:sqlcc_executor",
         "//src/config_manager:sqlcc_config_manager",
         ":execution_engine",
-        "@com_google_absl//absl/strings",
+        # "@com_google_absl//absl/strings",
     ],
 )
 
@@ -89,7 +90,7 @@ cc_binary(
     srcs = ["debug_lexer.cpp"],
     deps = [
         "//src/sql_parser:sqlcc_parser",
-        "@com_google_absl//absl/strings",
+        # "@com_google_absl//absl/strings",
     ],
 )
 
@@ -99,7 +100,7 @@ cc_binary(
     srcs = ["simple_debug.cpp"],
     deps = [
         "//src/sql_parser:sqlcc_parser",
-        "@com_google_absl//absl/strings",
+        # "@com_google_absl//absl/strings",
     ],
 )
 
@@ -109,7 +110,7 @@ cc_binary(
     srcs = ["token_debug.cpp"],
     deps = [
         "//src/sql_parser:sqlcc_parser",
-        "@com_google_absl//absl/strings",
+        # "@com_google_absl//absl/strings",
     ],
 )
 
@@ -119,7 +120,7 @@ cc_binary(
     srcs = ["string_debug.cpp"],
     deps = [
         "//src/sql_parser:sqlcc_parser",
-        "@com_google_absl//absl/strings",
+        # "@com_google_absl//absl/strings",
     ],
 )
 
@@ -129,7 +130,7 @@ cc_binary(
     srcs = ["basic_token_test.cpp"],
     deps = [
         "//src/sql_parser:sqlcc_parser",
-        "@com_google_absl//absl/strings",
+        # "@com_google_absl//absl/strings",
     ],
 )
 
@@ -139,6 +140,6 @@ cc_binary(
     srcs = ["lexer_string_test.cpp"],
     deps = [
         "//src/sql_parser:sqlcc_parser",
-        "@com_google_absl//absl/strings",
+        # "@com_google_absl//absl/strings",
     ],
 )

@@ -3,19 +3,24 @@
 package(default_visibility = ["//visibility:public"])
 
 cc_library(
-    name = "sqlcc_execution_engine",
+    name = "execution",
     srcs = [
         "join_executor.cpp",
         "set_operation_executor.cpp",
         "subquery_executor.cpp",
+        "task_executor.cpp",  # 添加任务执行器实现文件
     ],
-    hdrs = ["//include:execution_headers"],
-    includes = ["../../include"],
+    hdrs = [
+        "//include/execution:join_executor_hdr",
+        "//include/execution:set_operation_executor_hdr",
+        "//include/execution:subquery_executor_hdr",
+        "//include/execution:task_executor_hdr",  # 添加任务执行器头文件
+    ],
+    includes = ["../include"],
     deps = [
         "//src/core:sqlcc_core_lib",
-        "//src/sql_executor:sqlcc_executor",
         "//src/sql_parser:sqlcc_parser",
-        "@com_google_absl//absl/strings",
+        "//src/storage_engine:sqlcc_storage_engine",
+        "//src:execution_context",
     ],
-    visibility = ["//visibility:public"],
 )

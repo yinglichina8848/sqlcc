@@ -1,6 +1,5 @@
 #include "unified_query_plan.h"
 #include "sql_parser/ast_nodes.h"
-#include <sstream>
 
 namespace sqlcc {
 

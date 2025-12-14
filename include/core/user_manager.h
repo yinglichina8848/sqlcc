@@ -113,7 +113,7 @@ public:
                  const std::string &new_role_name);
   bool SetCurrentRole(const std::string &username,
                       const std::string &role_name);
-  std::string GetUserCurrentRole(const std::string &username);
+  std::string GetUserCurrentRole(const std::string &username) const;
 
   // 权限管理方法
   bool GrantPrivilege(const std::string &grantee, const std::string &database,

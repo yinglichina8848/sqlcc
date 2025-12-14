@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include <iostream>
+#include <sql_parser/lexer.h>
 #include <sql_parser/lexer_new.h>
 #include <sql_parser/parser_new.h>
 #include <sql_parser/token_new.h>
@@ -124,7 +125,7 @@ TEST_F(LexerNewUnitTest, OperatorsRecognition) {
   // 检查运算符
   EXPECT_EQ(tokens[8].getType(), Token::Type::OPERATOR_GREATER_THAN);
   EXPECT_EQ(tokens[10].getType(), Token::Type::KEYWORD_AND);
-  EXPECT_EQ(tokens[11].getType(), Token::Type::OPERATOR_LIKE);
+  EXPECT_EQ(tokens[11].getType(), Token::Type::KEYWORD_LIKE);
 }
 
 // 测试标点符号

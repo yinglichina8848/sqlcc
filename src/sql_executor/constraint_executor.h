@@ -1,5 +1,3 @@
-#pragma once
-
 #include "sql_parser/ast_nodes.h"
 #include "storage_engine.h"
 #include <functional>

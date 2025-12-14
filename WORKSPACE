@@ -53,13 +53,13 @@ http_archive(
     ],
 )
 
-# 加载Abseil库
-http_archive(
-    name = "com_google_absl",
-    sha256 = "987ce98f02eefbaf930d6e38ab16aa05737234d7afbab2d5c4ea7adbe50c28ed",
-    strip_prefix = "abseil-cpp-20230802.1",
-    urls = ["https://github.com/abseil/abseil-cpp/archive/refs/tags/20230802.1.tar.gz"],
-)
+# 加载Abseil库（使用自定义配置）
+# http_archive(
+#     name = "com_google_absl",
+#     sha256 = "987ce98f02eefbaf930d6e38ab16aa05737234d7afbab2d5c4ea7adbe50c28ed",
+#     strip_prefix = "abseil-cpp-20230802.1",
+#     urls = ["https://github.com/abseil/abseil-cpp/archive/refs/tags/20230802.1.tar.gz"],
+# )
 
 # 加载protobuf库
 http_archive(
@@ -75,6 +75,22 @@ http_archive(
     sha256 = "2a4d07cd64b0719b39a7c12218a3e507672b82a97b98c6a89d38565894cf7c51",
     strip_prefix = "rules_foreign_cc-0.9.0",
     url = "https://github.com/bazelbuild/rules_foreign_cc/archive/0.9.0.tar.gz",
+)
+
+# 加载Google Benchmark
+http_archive(
+    name = "com_github_google_benchmark",
+    sha256 = "6430e4092653380d9dc4ccb45a1e2dc9259d581f4866dc0759713126056bc1d7",
+    strip_prefix = "benchmark-1.7.1",
+    urls = ["https://github.com/google/benchmark/archive/v1.7.1.tar.gz"],
+)
+
+# 加载RE2正则表达式库
+http_archive(
+    name = "com_googlesource_code_re2",
+    sha256 = "5bb6875ae1cd1e9fedde98018c346db7260655f86fdb8837e3075103acd3649b",
+    strip_prefix = "re2-2023-09-01",
+    urls = ["https://github.com/google/re2/archive/2023-09-01.tar.gz"],
 )
 
 # 注册rules_foreign_cc工具链

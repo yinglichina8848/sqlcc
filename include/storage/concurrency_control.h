@@ -2,312 +2,287 @@
 
 #include <atomic>
 #include <chrono>
-#include <condition_variable>
-#include <functional>
-#include <memory>
 #include <mutex>
-#include <queue>
 #include <shared_mutex>
 #include <thread>
 #include <unordered_map>
-#include <unordered_set>
 #include <vector>
-
-#include "disk_manager.h"
-#include "page.h"
-#include "utils/config_manager.h"
+#include <memory>
 
 namespace sqlcc {
 
 /**
- * @brief 死锁检测节点信息
- */
-struct DeadlockNode {
-  int32_t transaction_id;
-  std::unordered_set<int32_t> wait_for;   // 等待的事务ID集合
-  std::unordered_set<int32_t> held_pages; // 持有的页面ID集合
-  std::unordered_set<int32_t> wait_pages; // 等待的页面ID集合
-
-  DeadlockNode(int32_t tid) : transaction_id(tid) {}
-};
-
-/**
- * @brief 死锁检测结果
- */
-struct DeadlockResult {
-  bool has_deadlock;
-  std::vector<int32_t> cycle; // 死锁环中的事务ID列表
-  int32_t victim_transaction; // 被选为牺牲者的事务ID
-
-  DeadlockResult() : has_deadlock(false), victim_transaction(-1) {}
-};
-
-/**
- * @brief 锁请求信息
- */
-struct LockRequest {
-  int32_t transaction_id;
-  int32_t page_id;
-  bool is_exclusive; // true: 排他锁, false: 共享锁
-  std::chrono::steady_clock::time_point request_time;
-  std::chrono::milliseconds timeout;
-  std::function<void(bool)> callback; // 回调函数，参数表示是否成功获取锁
-
-  LockRequest(int32_t tid, int32_t pid, bool excl, std::chrono::milliseconds to,
-              std::function<void(bool)> cb)
-      : transaction_id(tid), page_id(pid), is_exclusive(excl),
-        request_time(std::chrono::steady_clock::now()), timeout(to),
-        callback(cb) {}
-};
-
-/**
- * @brief 页面锁信息
- */
-struct PageLockInfo {
-  std::shared_mutex page_mutex;                        // 页面级别的读写锁
-  std::unordered_set<int32_t> shared_holders;          // 持有共享锁的事务ID
-  int32_t exclusive_holder;                            // 持有排他锁的事务ID
-  std::queue<std::shared_ptr<LockRequest>> wait_queue; // 等待队列
-
-  PageLockInfo() : exclusive_holder(-1) {}
-};
-
-/**
- * @brief 死锁检测器
- */
-class DeadlockDetector {
-public:
-  explicit DeadlockDetector(ConfigManager &config);
-  ~DeadlockDetector();
-
-  // 添加锁等待关系
-  void AddWaitRelation(int32_t waiter, int32_t holder, int32_t page_id);
-
-  // 移除锁等待关系
-  void RemoveWaitRelation(int32_t waiter, int32_t holder, int32_t page_id);
-
-  // 添加事务持有页面信息
-  void AddHeldPage(int32_t transaction_id, int32_t page_id, bool is_exclusive);
-
-  // 移除事务持有页面信息
-  void RemoveHeldPage(int32_t transaction_id, int32_t page_id);
-
-  // 执行死锁检测
-  DeadlockResult DetectDeadlock();
-
-  // 获取检测统计信息
-  struct DetectionStats {
-    size_t total_detections;
-    size_t deadlocks_found;
-    std::chrono::milliseconds avg_detection_time;
-    size_t max_wait_queue_size;
-  };
-
-  DetectionStats GetStats() const;
-
-  // 重置统计信息
-  void ResetStats();
-
-private:
-  // 深度优先搜索检测死锁环
-  bool DFS(int32_t node_id, std::unordered_map<int32_t, int> &visit_state,
-           std::vector<int32_t> &path);
-
-  // 选择牺牲者事务
-  int32_t SelectVictim(const std::vector<int32_t> &cycle);
-
-  // 清理已结束的事务
-  void CleanupFinishedTransactions();
-
-  ConfigManager &config_;
-  std::unordered_map<int32_t, std::unique_ptr<DeadlockNode>> wait_graph_;
-  mutable std::mutex graph_mutex_;
-
-  // 统计信息
-  mutable std::mutex stats_mutex_;
-  DetectionStats stats_;
-
-  // 检测配置
-  std::chrono::milliseconds detection_interval_;
-  size_t max_transaction_age_;
-  bool enable_detection_;
-};
-
-/**
- * @brief 分层锁管理器
+ * @brief 层级锁管理器
+ * 
+ * 为BufferPool提供分层级的锁管理机制，包括页面级锁和表级锁。
+ * 支持读写锁分离，提高并发性能。
  */
 class HierarchicalLockManager {
 public:
-  explicit HierarchicalLockManager(ConfigManager &config);
-  ~HierarchicalLockManager();
+    /**
+     * @brief 锁类型
+     */
+    enum class LockType {
+        SHARED,    // 共享锁（读锁）
+        EXCLUSIVE  // 排他锁（写锁）
+    };
 
-  // 请求页面锁
-  bool AcquirePageLock(
-      int32_t transaction_id, int32_t page_id, bool is_exclusive,
-      std::chrono::milliseconds timeout = std::chrono::milliseconds(5000),
-      std::function<void(bool)> callback = nullptr);
+    /**
+     * @brief 锁信息结构
+     */
+    struct LockInfo {
+        LockType type;
+        int32_t transaction_id;
+        std::chrono::steady_clock::time_point acquire_time;
+        
+        LockInfo(LockType t, int32_t txn_id) 
+            : type(t), transaction_id(txn_id), acquire_time(std::chrono::steady_clock::now()) {}
+    };
 
-  // 释放页面锁
-  bool ReleasePageLock(int32_t transaction_id, int32_t page_id);
+    /**
+     * @brief 锁管理器统计信息
+     */
+    struct LockManagerStats {
+        size_t shared_locks = 0;        // 当前共享锁数量
+        size_t exclusive_locks = 0;     // 当前排他锁数量
+        size_t total_acquires = 0;      // 总获取次数
+        size_t total_waits = 0;         // 总等待次数
+        size_t deadlocks_detected = 0;  // 检测到的死锁数量
+    };
 
-  // 检查事务是否持有页面锁
-  bool HoldsPageLock(int32_t transaction_id, int32_t page_id,
-                     bool is_exclusive) const;
+    /**
+     * @brief 构造函数
+     */
+    explicit HierarchicalLockManager(size_t max_locks = 1024);
 
-  // 获取锁等待队列长度
-  size_t GetWaitQueueSize(int32_t page_id) const;
+    /**
+     * @brief 析构函数
+     */
+    ~HierarchicalLockManager();
 
-  // 获取锁管理器统计信息
-  struct LockManagerStats {
-    size_t total_pages_locked;
-    size_t exclusive_locks;
-    size_t shared_locks;
-    size_t waiting_requests;
-    size_t timeouts;
-    size_t deadlocks;
-  };
+    /**
+     * @brief 获取页面锁
+     * @param page_id 页面ID
+     * @param lock_type 锁类型
+     * @param transaction_id 事务ID
+     * @param timeout_ms 超时时间（毫秒）
+     * @return 是否成功获取锁
+     */
+    bool AcquirePageLock(int32_t page_id, LockType lock_type, 
+                        int32_t transaction_id, size_t timeout_ms = 5000);
 
-  LockManagerStats GetStats() const;
+    /**
+     * @brief 释放页面锁
+     * @param page_id 页面ID
+     * @param transaction_id 事务ID
+     * @return 是否成功释放锁
+     */
+    bool ReleasePageLock(int32_t page_id, int32_t transaction_id);
 
-  // 重置统计信息
-  void ResetStats();
+    /**
+     * @brief 获取表锁
+     * @param table_name 表名
+     * @param lock_type 锁类型
+     * @param transaction_id 事务ID
+     * @param timeout_ms 超时时间（毫秒）
+     * @return 是否成功获取锁
+     */
+    bool AcquireTableLock(const std::string& table_name, LockType lock_type,
+                         int32_t transaction_id, size_t timeout_ms = 5000);
 
-  // 设置死锁检测器
-  void SetDeadlockDetector(std::shared_ptr<DeadlockDetector> detector);
+    /**
+     * @brief 释放表锁
+     * @param table_name 表名
+     * @param transaction_id 事务ID
+     * @return 是否成功释放锁
+     */
+    bool ReleaseTableLock(const std::string& table_name, int32_t transaction_id);
 
-  // 强制释放事务的所有锁（事务中止时使用）
-  void ReleaseAllLocks(int32_t transaction_id);
+    /**
+     * @brief 获取锁统计信息
+     * @return 统计信息
+     */
+    LockManagerStats GetStats() const;
+
+    /**
+     * @brief 检测死锁
+     * @return 是否检测到死锁
+     */
+    bool DetectDeadlock() const;
+
+    /**
+     * @brief 清理过期锁
+     */
+    void CleanupExpiredLocks();
 
 private:
-  // 处理锁等待队列
-  void ProcessWaitQueue(int32_t page_id);
-
-  // 检查锁兼容性
-  bool IsLockCompatible(const PageLockInfo &lock_info, bool is_exclusive,
-                        int32_t transaction_id) const;
-
-  // 添加锁请求到等待队列
-  void AddToWaitQueue(int32_t page_id, std::shared_ptr<LockRequest> request);
-
-  // 从等待队列移除请求
-  void RemoveFromWaitQueue(int32_t page_id, int32_t transaction_id);
-
-  // 处理锁超时
-  void HandleTimeouts();
-
-  ConfigManager &config_;
-  std::unordered_map<int32_t, std::unique_ptr<PageLockInfo>> page_locks_;
-  mutable std::shared_mutex locks_mutex_;
-
-  // 死锁检测器
-  std::shared_ptr<DeadlockDetector> deadlock_detector_;
-
-  // 统计信息
-  mutable std::mutex stats_mutex_;
-  LockManagerStats stats_;
-
-  // 超时处理线程
-  std::thread timeout_thread_;
-  std::atomic<bool> shutdown_;
-  std::condition_variable shutdown_cv_;
-  std::mutex shutdown_mutex_;
-
-  // 配置参数
-  std::chrono::milliseconds default_timeout_;
-  size_t max_wait_queue_size_;
-  bool enable_deadlock_detection_;
+    /**
+     * @brief 页面锁映射：page_id -> 锁信息列表
+     */
+    std::unordered_map<int32_t, std::vector<LockInfo>> page_locks_;
+    
+    /**
+     * @brief 表锁映射：table_name -> 锁信息列表
+     */
+    std::unordered_map<std::string, std::vector<LockInfo>> table_locks_;
+    
+    /**
+     * @brief 页面锁的互斥锁
+     */
+    mutable std::shared_mutex page_locks_mutex_;
+    
+    /**
+     * @brief 表锁的互斥锁
+     */
+    mutable std::shared_mutex table_locks_mutex_;
+    
+    /**
+     * @brief 统计信息
+     */
+    mutable std::atomic<LockManagerStats> stats_;
+    
+    /**
+     * @brief 最大锁数量
+     */
+    const size_t max_locks_;
+    
+    /**
+     * @brief 锁超时时间（毫秒）
+     */
+    static constexpr size_t LOCK_TIMEOUT_MS = 10000;
 };
 
 /**
  * @brief 预取器
+ * 
+ * 负责智能预取页面，减少磁盘I/O延迟。
+ * 支持基于访问模式的预测性预取。
  */
 class Prefetcher {
 public:
-  explicit Prefetcher(ConfigManager &config, DiskManager &disk_manager);
-  ~Prefetcher();
+    /**
+     * @brief 预取器统计信息
+     */
+    struct PrefetcherStats {
+        size_t prefetches_requested = 0;  // 请求的预取次数
+        size_t prefetches_served = 0;     // 实际服务的预取次数
+        size_t prefetch_hit_rate = 0;     // 预取命中率
+        size_t sequential_prefetch = 0;   // 顺序预取次数
+        size_t random_prefetch = 0;       // 随机预取次数
+    };
 
-  // 通知页面访问（用于预测下一访问页面）
-  void NotifyPageAccess(int32_t transaction_id, int32_t page_id);
+    /**
+     * @brief 访问模式
+     */
+    enum class AccessPattern {
+        SEQUENTIAL,    // 顺序访问
+        RANDOM,        // 随机访问
+        STRIDED,       // 跨步访问
+        PREDICTABLE    // 可预测访问
+    };
 
-  // 预取页面
-  void PrefetchPage(int32_t page_id);
+    /**
+     * @brief 构造函数
+     * @param buffer_pool BufferPool引用
+     * @param max_prefetch_size 最大预取大小
+     */
+    explicit Prefetcher(void* buffer_pool, size_t max_prefetch_size = 64);
 
-  // 获取预取的页面（如果存在）
-  bool GetPrefetchedPage(int32_t page_id, Page &page);
+    /**
+     * @brief 析构函数
+     */
+    ~Prefetcher();
 
-  // 获取预取器统计信息
-  struct PrefetcherStats {
-    size_t total_prefetches;
-    size_t successful_prefetches;
-    size_t unused_prefetches;
-    double prefetch_accuracy;
-    std::chrono::milliseconds avg_prefetch_time;
-  };
+    /**
+     * @brief 记录页面访问
+     * @param page_id 页面ID
+     * @param is_write 是否为写操作
+     */
+    void RecordPageAccess(int32_t page_id, bool is_write);
 
-  PrefetcherStats GetStats() const;
+    /**
+     * @brief 预取页面
+     * @param page_id 页面ID
+     * @return 是否成功触发预取
+     */
+    bool PrefetchPage(int32_t page_id);
 
-  // 重置统计信息
-  void ResetStats();
+    /**
+     * @brief 批量预取页面
+     * @param page_ids 页面ID列表
+     * @return 成功预取的页面数量
+     */
+    size_t PrefetchPages(const std::vector<int32_t>& page_ids);
 
-  // 启用/禁用预取器
-  void SetEnabled(bool enabled);
+    /**
+     * @brief 获取预取统计信息
+     * @return 统计信息
+     */
+    PrefetcherStats GetStats() const;
+
+    /**
+     * @brief 启用/禁用预取
+     * @param enabled 是否启用
+     */
+    void SetEnabled(bool enabled);
+
+    /**
+     * @brief 获取访问模式
+     * @param page_id 页面ID
+     * @return 访问模式
+     */
+    AccessPattern GetAccessPattern(int32_t page_id) const;
 
 private:
-  // 预取工作线程
-  void PrefetchWorker();
-
-  // 预测下一访问页面
-  std::vector<int32_t> PredictNextPages(int32_t transaction_id,
-                                        int32_t current_page);
-
-  // 清理过期的预取页面
-  void CleanupExpiredPrefetches();
-
-  ConfigManager &config_;
-  DiskManager &disk_manager_;
-
-  // 预取页面缓存
-  struct PrefetchEntry {
-    Page page;
-    std::chrono::steady_clock::time_point prefetch_time;
-    std::chrono::milliseconds expiry_time;
-    bool used;
-
-    PrefetchEntry(const Page &p, std::chrono::milliseconds expiry)
-        : page(p), prefetch_time(std::chrono::steady_clock::now()),
-          expiry_time(expiry), used(false) {}
-  };
-
-  std::unordered_map<int32_t, std::unique_ptr<PrefetchEntry>> prefetch_cache_;
-  mutable std::shared_mutex prefetch_mutex_;
-
-  // 访问历史（用于预测）
-  struct AccessHistory {
-    std::deque<int32_t> recent_pages; // 最近访问的页面
-    std::unordered_map<int32_t, std::unordered_map<int32_t, int>>
-        transitions; // 页面转换计数
-  };
-
-  std::unordered_map<int32_t, std::unique_ptr<AccessHistory>> access_history_;
-  mutable std::mutex history_mutex_;
-
-  // 预取工作线程
-  std::thread prefetch_thread_;
-  std::queue<int32_t> prefetch_queue_;
-  std::mutex queue_mutex_;
-  std::condition_variable queue_cv_;
-  std::atomic<bool> shutdown_;
-
-  // 统计信息
-  mutable std::mutex stats_mutex_;
-  PrefetcherStats stats_;
-
-  // 配置参数
-  bool enabled_;
-  size_t max_prefetch_pages_;
-  size_t history_size_;
-  std::chrono::milliseconds prefetch_expiry_;
-  std::chrono::milliseconds prefetch_interval_;
+    /**
+     * @brief 页面访问历史
+     */
+    std::unordered_map<int32_t, std::vector<std::chrono::steady_clock::time_point>> access_history_;
+    
+    /**
+     * @brief 访问历史互斥锁
+     */
+    mutable std::mutex access_history_mutex_;
+    
+    /**
+     * @brief 预取队列
+     */
+    std::vector<int32_t> prefetch_queue_;
+    
+    /**
+     * @brief 预取队列互斥锁
+     */
+    mutable std::mutex prefetch_queue_mutex_;
+    
+    /**
+     * @brief 预取线程
+     */
+    std::thread prefetch_thread_;
+    
+    /**
+     * @brief 停止预取线程标志
+     */
+    std::atomic<bool> stop_prefetch_;
+    
+    /**
+     * @brief 是否启用预取
+     */
+    std::atomic<bool> enabled_;
+    
+    /**
+     * @brief 统计信息
+     */
+    mutable std::atomic<PrefetcherStats> stats_;
+    
+    /**
+     * @brief 最大预取大小
+     */
+    const size_t max_prefetch_size_;
+    
+    /**
+     * @brief 预取线程函数
+     */
+    void PrefetchWorker();
 };
 
 } // namespace sqlcc

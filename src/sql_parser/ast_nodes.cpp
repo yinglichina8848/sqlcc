@@ -1,4 +1,4 @@
-#include "../../include/sql_parser/ast_nodes.h"
+#include "sql_parser/ast_nodes.h"
 #include <algorithm>
 #include <cctype>
 #include <iostream>
@@ -97,12 +97,26 @@ void CreateStatement::addConstraint(TableConstraint &&constraint) {
   constraints_.push_back(std::move(constraint));
 }
 
+void CreateStatement::accept(NodeVisitor &visitor) {
+  visitor.visit(*this);
+}
+
 CreateStatement::ObjectType CreateStatement::getObjectType() const {
   return objectType_;
 }
+
+// Non-const version for compatibility (remove duplicate signature)
 const std::string &CreateStatement::getObjectName() const {
   return objectName_;
 }
+
+// Non-const compatibility getters (restore symbols expected by other TUs)
+CreateStatement::ObjectType CreateStatement::getObjectType() {
+  return objectType_;
+}
+
+std::string CreateStatement::getObjectName() { return objectName_; }
+
 const std::vector<ColumnDefinition> &CreateStatement::getColumns() const {
   return columns_;
 }
@@ -115,6 +129,10 @@ SelectStatement::SelectStatement()
       selectAll_(false), hasLimit_(false), hasOffset_(false) {}
 
 SelectStatement::~SelectStatement() {}
+
+void SelectStatement::accept(NodeVisitor &visitor) {
+  visitor.visit(*this);
+}
 
 void SelectStatement::addSelectColumn(const std::string &column) {
   selectColumns_.push_back(column);
@@ -224,6 +242,13 @@ bool SelectStatement::hasLimit() const { return hasLimit_; }
 
 bool SelectStatement::hasOffset() const { return hasOffset_; }
 
+// ==================== CompositeSelectStatement ====================
+
+// Implement the missing accept method
+void CompositeSelectStatement::accept(NodeVisitor &visitor) {
+  visitor.visit(*this);
+}
+
 // ==================== InsertStatement ====================
 
 InsertStatement::InsertStatement() : Statement(INSERT), tableName_("") {}
@@ -232,6 +257,10 @@ InsertStatement::InsertStatement(const std::string &tableName)
     : Statement(INSERT), tableName_(tableName) {}
 
 InsertStatement::~InsertStatement() {}
+
+void InsertStatement::accept(NodeVisitor &visitor) {
+  visitor.visit(*this);
+}
 
 void InsertStatement::addColumn(const std::string &column) {
   columns_.push_back(column);
@@ -277,6 +306,10 @@ UpdateStatement::UpdateStatement(const std::string &tableName)
 
 UpdateStatement::~UpdateStatement() {}
 
+void UpdateStatement::accept(NodeVisitor &visitor) {
+  visitor.visit(*this);
+}
+
 void UpdateStatement::addUpdateValue(const std::string &column,
                                      const std::string &value) {
   updateValues_[column] = value;
@@ -287,6 +320,9 @@ void UpdateStatement::setWhereClause(const WhereClause &where) {
 }
 
 const std::string &UpdateStatement::getTableName() const { return tableName_; }
+
+// Non-const version for compatibility
+std::string UpdateStatement::getTableName() { return tableName_; }
 
 const std::unordered_map<std::string, std::string> &
 UpdateStatement::getUpdateValues() const {
@@ -310,11 +346,18 @@ DeleteStatement::DeleteStatement(const std::string &tableName)
 
 DeleteStatement::~DeleteStatement() {}
 
+void DeleteStatement::accept(NodeVisitor &visitor) {
+  visitor.visit(*this);
+}
+
 void DeleteStatement::setWhereClause(const WhereClause &where) {
   whereClause_ = where;
 }
 
 const std::string &DeleteStatement::getTableName() const { return tableName_; }
+
+// Non-const version for compatibility
+std::string DeleteStatement::getTableName() { return tableName_; }
 
 const WhereClause &DeleteStatement::getWhereClause() const {
   return whereClause_;
@@ -337,12 +380,27 @@ DropStatement::DropStatement(ObjectType objectType)
     : Statement(DROP), objectType_(objectType), objectName_(""),
       ifExists_(false) {}
 
+void DropStatement::accept(NodeVisitor &visitor) {
+  visitor.visit(*this);
+}
+
 void DropStatement::setIfExists(bool ifExists) { ifExists_ = ifExists; }
 
 DropStatement::ObjectType DropStatement::getObjectType() const {
   return objectType_;
 }
+
+// Non-const version for compatibility
+DropStatement::ObjectType DropStatement::getObjectType() {
+  return objectType_;
+}
+
 const std::string &DropStatement::getObjectName() const { return objectName_; }
+
+// Non-const version for compatibility
+std::string DropStatement::getObjectName() {
+  return objectName_;
+}
 bool DropStatement::isIfExists() const { return ifExists_; }
 
 // ==================== AlterStatement ====================
@@ -385,12 +443,25 @@ void AlterStatement::setIndexName(const std::string& name) { indexName_ = name; 
 
 void AlterStatement::setNewTableName(const std::string& newName) { newTableName_ = newName; }
 
+void AlterStatement::accept(NodeVisitor &visitor) {
+  visitor.visit(*this);
+}
+
 UseStatement::UseStatement(const std::string &databaseName)
     : Statement(USE), databaseName_(databaseName) {}
 
 UseStatement::~UseStatement() {}
 
+void UseStatement::accept(NodeVisitor &visitor) {
+  visitor.visit(*this);
+}
+
 const std::string &UseStatement::getDatabaseName() const {
+  return databaseName_;
+}
+
+// Non-const version for compatibility
+std::string UseStatement::getDatabaseName() {
   return databaseName_;
 }
 
@@ -404,6 +475,10 @@ CreateIndexStatement::CreateIndexStatement(const std::string &indexName,
 
 CreateIndexStatement::~CreateIndexStatement() {}
 
+void CreateIndexStatement::accept(NodeVisitor &visitor) {
+  visitor.visit(*this);
+}
+
 void CreateIndexStatement::addColumn(const std::string &column) {
   columns_.push_back(column);
 }
@@ -413,6 +488,11 @@ const std::string &CreateIndexStatement::getIndexName() const {
 }
 
 const std::string &CreateIndexStatement::getTableName() const {
+  return tableName_;
+}
+
+// Non-const version for compatibility
+std::string CreateIndexStatement::getTableName() {
   return tableName_;
 }
 
@@ -436,6 +516,10 @@ DropIndexStatement::DropIndexStatement(const std::string &indexName)
       hasTableName_(false) {}
 
 DropIndexStatement::~DropIndexStatement() {}
+
+void DropIndexStatement::accept(NodeVisitor &visitor) {
+  visitor.visit(*this);
+}
 
 const std::string &DropIndexStatement::getIndexName() const {
   return indexName_;
@@ -465,7 +549,16 @@ CreateUserStatement::CreateUserStatement(const std::string &username,
 
 CreateUserStatement::~CreateUserStatement() {}
 
+void CreateUserStatement::accept(NodeVisitor &visitor) {
+  visitor.visit(*this);
+}
+
 const std::string &CreateUserStatement::getUsername() const {
+  return username_;
+}
+
+// Non-const version for compatibility
+std::string CreateUserStatement::getUsername() {
   return username_;
 }
 
@@ -486,7 +579,16 @@ DropUserStatement::DropUserStatement(const std::string &username)
 
 DropUserStatement::~DropUserStatement() {}
 
+void DropUserStatement::accept(NodeVisitor &visitor) {
+  visitor.visit(*this);
+}
+
 const std::string &DropUserStatement::getUsername() const { return username_; }
+
+// Non-const version for compatibility
+std::string DropUserStatement::getUsername() {
+  return username_;
+}
 
 bool DropUserStatement::isIfExists() const { return ifExists_; }
 
@@ -497,6 +599,10 @@ void DropUserStatement::setIfExists(bool ifExists) { ifExists_ = ifExists; }
 GrantStatement::GrantStatement() : Statement(GRANT) {}
 
 GrantStatement::~GrantStatement() {}
+
+void GrantStatement::accept(NodeVisitor &visitor) {
+  visitor.visit(*this);
+}
 
 void GrantStatement::addPrivilege(const std::string &privilege) {
   privileges_.push_back(privilege);
@@ -524,11 +630,20 @@ void GrantStatement::setGrantee(const std::string &grantee) {
 
 const std::string &GrantStatement::getGrantee() const { return grantee_; }
 
+// Non-const version for compatibility
+std::string GrantStatement::getGrantee() {
+  return grantee_;
+}
+
 // ==================== RevokeStatement ====================
 
 RevokeStatement::RevokeStatement() : Statement(REVOKE) {}
 
 RevokeStatement::~RevokeStatement() {}
+
+void RevokeStatement::accept(NodeVisitor &visitor) {
+  visitor.visit(*this);
+}
 
 void RevokeStatement::addPrivilege(const std::string &privilege) {
   privileges_.push_back(privilege);
@@ -560,12 +675,21 @@ void RevokeStatement::setGrantee(const std::string &grantee) {
 
 const std::string &RevokeStatement::getGrantee() const { return grantee_; }
 
+// Non-const version for compatibility
+std::string RevokeStatement::getGrantee() {
+  return grantee_;
+}
+
 // ==================== ShowStatement ====================
 
 ShowStatement::ShowStatement(ShowType type)
     : Statement(SHOW), type_(type), hasFromDb_(false) {}
 
 ShowStatement::~ShowStatement() {}
+
+void ShowStatement::accept(NodeVisitor &visitor) {
+  visitor.visit(*this);
+}
 
 ShowStatement::ShowType ShowStatement::getShowType() const { return type_; }
 
@@ -644,11 +768,19 @@ CommitStatement::CommitStatement() : Statement(COMMIT) {}
 
 CommitStatement::~CommitStatement() {}
 
+void CommitStatement::accept(NodeVisitor &visitor) {
+  visitor.visit(*this);
+}
+
 // ==================== RollbackStatement ====================
 
 RollbackStatement::RollbackStatement() : Statement(ROLLBACK) {}
 
 RollbackStatement::~RollbackStatement() {}
+
+void RollbackStatement::accept(NodeVisitor &visitor) {
+  visitor.visit(*this);
+}
 
 // ==================== ProcedureParameter ====================
 
@@ -684,6 +816,10 @@ CreateProcedureStatement::CreateProcedureStatement(const std::string &name)
 
 CreateProcedureStatement::~CreateProcedureStatement() {}
 
+void CreateProcedureStatement::accept(NodeVisitor &visitor) {
+  visitor.visit(*this);
+}
+
 void CreateProcedureStatement::addParameter(const ProcedureParameter &param) {
   parameters_.push_back(param);
 }
@@ -708,6 +844,10 @@ CallProcedureStatement::CallProcedureStatement(const std::string &name)
 
 CallProcedureStatement::~CallProcedureStatement() {}
 
+void CallProcedureStatement::accept(NodeVisitor &visitor) {
+  visitor.visit(*this);
+}
+
 void CallProcedureStatement::addArgument(std::unique_ptr<Expression> arg) {
   arguments_.push_back(std::move(arg));
 }
@@ -725,6 +865,10 @@ DropProcedureStatement::DropProcedureStatement(const std::string &name)
     : Statement(DROP_PROCEDURE), name_(name) {}
 
 DropProcedureStatement::~DropProcedureStatement() {}
+
+void DropProcedureStatement::accept(NodeVisitor &visitor) {
+  visitor.visit(*this);
+}
 
 const std::string &DropProcedureStatement::getName() const { return name_; }
 
@@ -798,6 +942,9 @@ const std::string &TriggerDefinition::getCondition() const {
   return condition_;
 }
 
+// Accept methods are already defined inline in the class implementations above
+
+
 bool TriggerDefinition::hasCondition() const { return hasCondition_; }
 
 void TriggerDefinition::setBody(const std::string &body) { body_ = body; }
@@ -812,6 +959,10 @@ CreateTriggerStatement::CreateTriggerStatement(
 
 CreateTriggerStatement::~CreateTriggerStatement() {}
 
+void CreateTriggerStatement::accept(NodeVisitor &visitor) {
+  visitor.visit(*this);
+}
+
 const TriggerDefinition &CreateTriggerStatement::getTriggerDefinition() const {
   return triggerDef_;
 }
@@ -823,6 +974,10 @@ DropTriggerStatement::DropTriggerStatement(const std::string &name)
 
 DropTriggerStatement::~DropTriggerStatement() {}
 
+void DropTriggerStatement::accept(NodeVisitor &visitor) {
+  visitor.visit(*this);
+}
+
 const std::string &DropTriggerStatement::getName() const { return name_; }
 
 // ==================== AlterTriggerStatement ====================
@@ -832,6 +987,10 @@ AlterTriggerStatement::AlterTriggerStatement(const std::string &name,
     : Statement(ALTER_TRIGGER), name_(name), action_(action) {}
 
 AlterTriggerStatement::~AlterTriggerStatement() {}
+
+void AlterTriggerStatement::accept(NodeVisitor &visitor) {
+  visitor.visit(*this);
+}
 
 const std::string &AlterTriggerStatement::getName() const { return name_; }
 
@@ -865,6 +1024,80 @@ std::string AlterTriggerStatement::getActionString() const {
 // ==================== RevokeStatement ====================
 
 // RevokeStatement methods are already defined above (around line 450)
+
+// Force generation of typeinfo for all classes
+// This ensures the linker can find the typeinfo by actually instantiating classes
+namespace {
+    // Expression classes
+    sqlcc::sql_parser::Expression dummy_expression;
+    sqlcc::sql_parser::BinaryExpression dummy_binary_expr(nullptr, nullptr, sqlcc::sql_parser::Token::OPERATOR_PLUS);
+    sqlcc::sql_parser::IdentifierExpression dummy_identifier("");
+    sqlcc::sql_parser::StringLiteralExpression dummy_string("");
+    sqlcc::sql_parser::NumericLiteralExpression dummy_numeric(0.0);
+    sqlcc::sql_parser::BooleanLiteralExpression dummy_boolean(true);
+    sqlcc::sql_parser::NullLiteralExpression dummy_null;
+
+    // Statement classes
+    sqlcc::sql_parser::CreateStatement dummy_create(sqlcc::sql_parser::CreateStatement::TABLE, "");
+    sqlcc::sql_parser::SelectStatement dummy_select;
+    sqlcc::sql_parser::CompositeSelectStatement dummy_composite_select;
+    sqlcc::sql_parser::InsertStatement dummy_insert("");
+    sqlcc::sql_parser::UpdateStatement dummy_update("");
+    sqlcc::sql_parser::DeleteStatement dummy_delete("");
+    sqlcc::sql_parser::DropStatement dummy_drop(sqlcc::sql_parser::DropStatement::TABLE, "");
+    sqlcc::sql_parser::AlterStatement dummy_alter(sqlcc::sql_parser::AlterStatement::TABLE);
+    sqlcc::sql_parser::UseStatement dummy_use("");
+    sqlcc::sql_parser::CreateIndexStatement dummy_create_index("", "", "");
+    sqlcc::sql_parser::DropIndexStatement dummy_drop_index("");
+    sqlcc::sql_parser::CreateUserStatement dummy_create_user("", "");
+    sqlcc::sql_parser::DropUserStatement dummy_drop_user("");
+    sqlcc::sql_parser::GrantStatement dummy_grant;
+    sqlcc::sql_parser::RevokeStatement dummy_revoke;
+    sqlcc::sql_parser::ShowStatement dummy_show(sqlcc::sql_parser::ShowStatement::TABLES);
+    sqlcc::sql_parser::CommitStatement dummy_commit;
+    sqlcc::sql_parser::RollbackStatement dummy_rollback;
+    sqlcc::sql_parser::CreateProcedureStatement dummy_create_proc("");
+    sqlcc::sql_parser::CallProcedureStatement dummy_call_proc("");
+    sqlcc::sql_parser::DropProcedureStatement dummy_drop_proc("");
+    sqlcc::sql_parser::CreateTriggerStatement dummy_create_trigger(sqlcc::sql_parser::TriggerDefinition("", sqlcc::sql_parser::TriggerDefinition::BEFORE, sqlcc::sql_parser::TriggerDefinition::INSERT, sqlcc::sql_parser::TriggerDefinition::ROW, ""));
+    sqlcc::sql_parser::DropTriggerStatement dummy_drop_trigger("");
+    sqlcc::sql_parser::AlterTriggerStatement dummy_alter_trigger("", sqlcc::sql_parser::AlterTriggerStatement::ENABLE);
+
+    // Get type names to ensure typeinfo is generated
+    volatile const char* type_names[] = {
+        typeid(sqlcc::sql_parser::Expression).name(),
+        typeid(sqlcc::sql_parser::BinaryExpression).name(),
+        typeid(sqlcc::sql_parser::IdentifierExpression).name(),
+        typeid(sqlcc::sql_parser::StringLiteralExpression).name(),
+        typeid(sqlcc::sql_parser::NumericLiteralExpression).name(),
+        typeid(sqlcc::sql_parser::BooleanLiteralExpression).name(),
+        typeid(sqlcc::sql_parser::NullLiteralExpression).name(),
+        typeid(sqlcc::sql_parser::CreateStatement).name(),
+        typeid(sqlcc::sql_parser::SelectStatement).name(),
+        typeid(sqlcc::sql_parser::CompositeSelectStatement).name(),
+        typeid(sqlcc::sql_parser::InsertStatement).name(),
+        typeid(sqlcc::sql_parser::UpdateStatement).name(),
+        typeid(sqlcc::sql_parser::DeleteStatement).name(),
+        typeid(sqlcc::sql_parser::DropStatement).name(),
+        typeid(sqlcc::sql_parser::AlterStatement).name(),
+        typeid(sqlcc::sql_parser::UseStatement).name(),
+        typeid(sqlcc::sql_parser::CreateIndexStatement).name(),
+        typeid(sqlcc::sql_parser::DropIndexStatement).name(),
+        typeid(sqlcc::sql_parser::CreateUserStatement).name(),
+        typeid(sqlcc::sql_parser::DropUserStatement).name(),
+        typeid(sqlcc::sql_parser::GrantStatement).name(),
+        typeid(sqlcc::sql_parser::RevokeStatement).name(),
+        typeid(sqlcc::sql_parser::ShowStatement).name(),
+        typeid(sqlcc::sql_parser::CommitStatement).name(),
+        typeid(sqlcc::sql_parser::RollbackStatement).name(),
+        typeid(sqlcc::sql_parser::CreateProcedureStatement).name(),
+        typeid(sqlcc::sql_parser::CallProcedureStatement).name(),
+        typeid(sqlcc::sql_parser::DropProcedureStatement).name(),
+        typeid(sqlcc::sql_parser::CreateTriggerStatement).name(),
+        typeid(sqlcc::sql_parser::DropTriggerStatement).name(),
+        typeid(sqlcc::sql_parser::AlterTriggerStatement).name()
+    };
+} // anonymous namespace
 
 } // namespace sql_parser
 } // namespace sqlcc

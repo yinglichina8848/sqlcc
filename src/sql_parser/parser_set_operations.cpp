@@ -1,5 +1,5 @@
-#include "../../include/sql_parser/parser_new.h"
-#include "../../include/sql_parser/set_operation_node.h"
+#include "sql_parser/parser.h"
+#include "sql_parser/set_operation.h"
 #include <memory>
 #include <stdexcept>
 
@@ -8,7 +8,7 @@ namespace sql_parser {
 
 // ==================== 集合操作解析方法 ====================
 
-std::unique_ptr<Statement> ParserNew::parseCompositeSelectStatement() {
+std::unique_ptr<Statement> Parser::parseCompositeSelectStatement() {
   // 解析第一个SELECT语句
   auto firstSelect = parseSelectStatement();
   if (!firstSelect) {
@@ -39,7 +39,7 @@ std::unique_ptr<Statement> ParserNew::parseCompositeSelectStatement() {
   return compositeStmt;
 }
 
-std::unique_ptr<SetOperationNode> ParserNew::parseSetOperation() {
+std::unique_ptr<SetOperation> Parser::parseSetOperation() {
   // 解析集合操作类型
   SetOperationType operationType = parseSetOperationType();
 
@@ -58,11 +58,14 @@ std::unique_ptr<SetOperationNode> ParserNew::parseSetOperation() {
   }
 
   // 创建集合操作节点
-  return std::make_unique<SetOperationNode>(operationType, nullptr,
-                                            std::move(rightOperand), allFlag);
+  // 注意：左侧操作数由CompositeSelectStatement在添加操作时设置
+  return std::make_unique<SetOperation>(operationType, 
+                                        nullptr,
+                                        std::move(rightOperand), 
+                                        allFlag);
 }
 
-SetOperationType ParserNew::parseSetOperationType() {
+SetOperationType Parser::parseSetOperationType() {
   if (match(Token::KEYWORD_UNION)) {
     consume(Token::KEYWORD_UNION);
     return SetOperationType::UNION;
@@ -73,14 +76,15 @@ SetOperationType ParserNew::parseSetOperationType() {
     consume(Token::KEYWORD_EXCEPT);
     return SetOperationType::EXCEPT;
   } else {
-    reportError("Expected UNION, INTERSECT, or EXCEPT");
+    reportError("Expected set operation keyword (UNION, INTERSECT, or EXCEPT)");
     return SetOperationType::UNION; // 默认返回UNION
   }
 }
 
-bool ParserNew::isSetOperation() {
-  return match(Token::KEYWORD_UNION) || match(Token::KEYWORD_INTERSECT) ||
-         match(Token::KEYWORD_EXCEPT);
+bool Parser::isSetOperation() const {
+  return check(Token::KEYWORD_UNION) || 
+         check(Token::KEYWORD_INTERSECT) || 
+         check(Token::KEYWORD_EXCEPT);
 }
 
 // ==================== 修改现有的SELECT语句解析 ====================

@@ -172,6 +172,32 @@ public:
         return FileDescriptor(fd);
     }
 
+    /**
+     * @brief Open a file and return a FileDescriptor instance
+     * @param pathname Path to the file
+     * @param flags Open flags (O_RDONLY, O_WRONLY, O_RDWR, etc.)
+     * @param mode File mode (only used when creating new files)
+     * @return FileDescriptor instance for the opened file
+     */
+    static FileDescriptor open(const char* pathname, int flags, mode_t mode = 0666) {
+        int fd = ::open(pathname, flags, mode);
+        if (fd < 0) {
+            throw std::runtime_error("Failed to open file: " + std::string(pathname));
+        }
+        return FileDescriptor(fd);
+    }
+
+    /**
+     * @brief Open a file and return a FileDescriptor instance (string overload)
+     * @param pathname Path to the file
+     * @param flags Open flags (O_RDONLY, O_WRONLY, O_RDWR, etc.)
+     * @param mode File mode (only used when creating new files)
+     * @return FileDescriptor instance for the opened file
+     */
+    static FileDescriptor open(const std::string& pathname, int flags, mode_t mode = 0666) {
+        return open(pathname.c_str(), flags, mode);
+    }
+
 private:
     int fd_;  ///< File descriptor value
 };

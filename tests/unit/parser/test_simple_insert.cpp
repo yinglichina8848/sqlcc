@@ -1,3 +1,4 @@
+#include "sql_parser/parser.h"
 #include "sql_parser/parser_new.h"
 #include <iostream>
 

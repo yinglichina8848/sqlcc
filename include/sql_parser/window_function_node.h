@@ -1,69 +1,17 @@
 #ifndef SQLCC_SQL_PARSER_WINDOW_FUNCTION_NODE_H
 #define SQLCC_SQL_PARSER_WINDOW_FUNCTION_NODE_H
 
-#include "ast_node.h"
-#include "node_visitor.h"
-#include <string>
-#include <vector>
-#include <memory>
+#include "window_function.h"
 
 namespace sqlcc {
 namespace sql_parser {
 
-// 窗口函数节点
-class WindowFunctionNode : public Node {
-public:
-    enum FunctionType {
-        ROW_NUMBER,
-        RANK,
-        DENSE_RANK
-    };
-
-    WindowFunctionNode(FunctionType type);
-    ~WindowFunctionNode();
-
-    FunctionType getFunctionType() const { return functionType_; }
-    const std::string& getAlias() const { return alias_; }
-    const std::vector<std::string>& getPartitionByColumns() const { return partitionByColumns_; }
-    const std::vector<std::string>& getOrderByColumns() const { return orderByColumns_; }
-    const std::string& getOrderDirection() const { return orderDirection_; }
-
-    void setAlias(const std::string& alias) { alias_ = alias; }
-    void addPartitionByColumn(const std::string& column) { partitionByColumns_.push_back(column); }
-    void addOrderByColumn(const std::string& column) { orderByColumns_.push_back(column); }
-    void setOrderDirection(const std::string& direction) { orderDirection_ = direction; }
-
-    void accept(NodeVisitor& visitor) override { visitor.visit(*this); }
-
-private:
-    FunctionType functionType_;
-    std::string alias_;
-    std::vector<std::string> partitionByColumns_;
-    std::vector<std::string> orderByColumns_;
-    std::string orderDirection_;
-};
-
-// 窗口规范节点
-class WindowSpecificationNode : public Node {
-public:
-    WindowSpecificationNode();
-    ~WindowSpecificationNode();
-
-    const std::vector<std::string>& getPartitionByColumns() const { return partitionByColumns_; }
-    const std::vector<std::string>& getOrderByColumns() const { return orderByColumns_; }
-    const std::string& getOrderDirection() const { return orderDirection_; }
-
-    void addPartitionByColumn(const std::string& column) { partitionByColumns_.push_back(column); }
-    void addOrderByColumn(const std::string& column) { orderByColumns_.push_back(column); }
-    void setOrderDirection(const std::string& direction) { orderDirection_ = direction; }
-
-    void accept(NodeVisitor& visitor) override { visitor.visit(*this); }
-
-private:
-    std::vector<std::string> partitionByColumns_;
-    std::vector<std::string> orderByColumns_;
-    std::string orderDirection_;
-};
+// Backwards-compatibility aliases: some parts of the codebase use
+// WindowFunctionNode / WindowSpecificationNode while others use
+// WindowFunction / WindowSpecification. Make them the same type so
+// both naming styles compile without further changes.
+using WindowFunctionNode = WindowFunction;
+using WindowSpecificationNode = WindowSpecification;
 
 } // namespace sql_parser
 } // namespace sqlcc

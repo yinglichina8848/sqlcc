@@ -7,66 +7,67 @@ BufferPool是存储引擎的缓冲池管理组件，负责内存中的页面缓�
 ## 类定义
 
 ```cpp
+namespace sqlcc {
+
 class BufferPool {
 public:
-    explicit BufferPool(DiskManager* disk_manager, size_t pool_size, ConfigManager& config_manager);
+    explicit BufferPool(std::shared_ptr<DiskManager> disk_manager,
+                       ConfigManager& config_manager, size_t pool_size = 1024);
     ~BufferPool();
-    
+
     BufferPool(const BufferPool&) = delete;
     BufferPool& operator=(const BufferPool&) = delete;
-    
-    Page* FetchPage(int32_t page_id);
-    std::vector<std::shared_ptr<Page>> BatchFetchPages(const std::vector<int32_t>& page_ids);
-    Page* NewPage(int32_t* page_id);
-    bool UnpinPage(int32_t page_id, bool is_dirty);
+
+    // 核心接口 - 使用智能指针
+    std::shared_ptr<BufferPage> FetchPage(int32_t page_id, int32_t transaction_id = -1);
+    bool UnpinPage(int32_t page_id, int32_t transaction_id = -1);
+    int32_t NewPage(int32_t transaction_id = -1);
     bool FlushPage(int32_t page_id);
-    void FlushAllPages();
     bool DeletePage(int32_t page_id);
-    bool PrefetchPage(int32_t page_id);
-    bool BatchPrefetchPages(const std::vector<int32_t>& page_ids);
-    std::unordered_map<std::string, double> GetStats() const;
-    size_t GetPoolSize() const;
-    size_t GetUsedPages() const;
-    bool IsPageInBuffer(int32_t page_id) const;
+    bool FlushAllPages();
+    bool Resize(size_t new_pool_size);
+
+    // 统计信息
+    BufferPoolStats GetStats() const;
+    void ResetStats();
+
+    // 可插拔替换策略
+    bool ChangeReplaceStrategy(ReplaceStrategyFactory::StrategyType strategy_type);
+    void SetPrefetcherEnabled(bool enabled);
 
 private:
-    int32_t FindVictimPage();
-    bool ReplacePage(int32_t victim_page_id, int32_t new_page_id);
-    void UpdateLRUList(int32_t page_id);
-    void MoveToHead(int32_t page_id);
-    void RemoveFromLRUList(int32_t page_id);
-    int32_t ReplacePageInternal();
-    int32_t ReplacePage();
-    void OnConfigChange(const std::string& key, const ConfigValue& value);
-    void AdjustBufferPoolSize(size_t new_pool_size);
-    void AdjustBufferPoolSizeNoLock(size_t new_pool_size);
+    bool LoadPageFromDisk(int32_t page_id);
+    bool WritePageToDisk(int32_t page_id);
+    int32_t EvictPage();
+    bool AddPageToPool(int32_t page_id);
+    bool RemovePageFromPool(int32_t page_id);
+    void UpdateStats(bool is_hit, std::chrono::microseconds access_time);
 
 private:
-    DiskManager* disk_manager_;
+    // 智能指针管理依赖
     ConfigManager& config_manager_;
+    std::shared_ptr<DiskManager> disk_manager_;
     size_t pool_size_;
-    std::unordered_map<int32_t, Page*> page_table_;
-    std::list<int32_t> lru_list_;
-    std::unordered_map<int32_t, std::list<int32_t>::iterator> lru_map_;
-    mutable std::timed_mutex latch_;
-    struct Stats {
-        size_t total_accesses = 0;
-        size_t total_hits = 0;
-        size_t total_misses = 0;
-        size_t total_evictions = 0;
-        size_t total_prefetches = 0;
-        size_t prefetch_hits = 0;
-    } stats_;
-    std::unordered_map<int32_t, int> page_refs_;
-    std::unordered_map<int32_t, bool> dirty_pages_;
-    std::deque<int32_t> prefetch_queue_;
-    std::unordered_map<int32_t, int> access_stats_;
-    std::vector<char*> batch_buffer_;
-    bool simulate_flush_failure_;
-    size_t read_lock_timeout_ms_;
-    size_t write_lock_timeout_ms_;
-    size_t lock_timeout_ms_;
+
+    // 页面缓存 - 使用智能指针
+    std::unordered_map<int32_t, std::shared_ptr<BufferPage>> page_table_;
+    mutable std::shared_mutex page_table_mutex_;
+
+    // 可插拔组件 - 智能指针自动管理
+    std::unique_ptr<AbstractReplaceStrategy> replace_strategy_;
+    std::unique_ptr<HierarchicalLockManager> lock_manager_;
+    std::unique_ptr<Prefetcher> prefetcher_;
+
+    // 统计信息
+    mutable std::mutex stats_mutex_;
+    BufferPoolStats stats_;
+
+    // 原子操作
+    std::atomic<int32_t> next_page_id_;
+    std::atomic<bool> shutdown_;
 };
+
+} // namespace sqlcc
 ```
 
 ## 构造函数
@@ -91,28 +92,24 @@ private:
 
 ## 核心方法
 
-### Page* FetchPage(int32_t page_id)
+### std::shared_ptr<BufferPage> FetchPage(int32_t page_id, int32_t transaction_id = -1)
 
 获取页面，如果页面不在缓冲池中则从磁盘加载：
 
-1. 在页面表中查找页面
-2. 如果找到则更新LRU列表并返回
-3. 如果未找到则从磁盘加载
+1. 获取页面表读锁
+2. 在页面表中查找页面
+3. 如果找到则增加引用计数，返回智能指针
+4. 如果未找到则从磁盘加载并添加缓存
+5. 记录访问统计信息
 
-### std::vector<std::shared_ptr<Page>> BatchFetchPages(const std::vector<int32_t>& page_ids)
-
-批量获取页面，优化多个页面的加载性能：
-
-1. 对每个页面调用FetchPage方法
-2. 或者实现更高效的批量加载策略
-
-### Page* NewPage(int32_t* page_id)
+### int32_t NewPage(int32_t transaction_id = -1)
 
 创建新页面：
 
-1. 从空闲页面列表中获取页面
-2. 或者替换一个现有页面
-3. 初始化页面数据
+1. 生成新的页面ID
+2. 创建BufferPage对象并初始化
+3. 添加到页面表中
+4. 返回新页面ID
 
 ### bool UnpinPage(int32_t page_id, bool is_dirty)
 

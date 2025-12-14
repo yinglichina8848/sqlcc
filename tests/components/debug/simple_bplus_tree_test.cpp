@@ -20,7 +20,7 @@ int main() {
         
         // 创建B+树索引
         auto bplus_tree = std::make_unique<sqlcc::BPlusTreeIndex>(
-            storage_engine.get(), "test_table", "test_column");
+            storage_engine, "test_table", "test_column");
         
         // 创建索引
         std::cout << "Creating index..." << std::endl;

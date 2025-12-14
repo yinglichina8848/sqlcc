@@ -1,4 +1,5 @@
 #include "sql_parser/lexer_new.h"
+#include "sql_parser/lexer.h"
 #include <iostream>
 #include <vector>
 #include <string>

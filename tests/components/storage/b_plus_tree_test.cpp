@@ -23,9 +23,9 @@ protected:
     // 创建StorageEngine实例，传入临时目录作为数据库路径
     storage_engine_ = std::make_shared<StorageEngine>(*config_manager_, test_dir_.string());
     
-    // 创建BPlusTreeIndex实例 - 使用shared_ptr的get()方法获取原始指针
+    // 创建BPlusTreeIndex实例 - 直接传递shared_ptr
     b_plus_tree_index_ = std::make_unique<BPlusTreeIndex>(
-        storage_engine_.get(), "test_table", "test_column");
+        storage_engine_, "test_table", "test_column");
     // 创建索引
     b_plus_tree_index_->Create();
   }

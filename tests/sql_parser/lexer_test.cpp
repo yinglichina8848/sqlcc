@@ -1,5 +1,4 @@
-#include "lexer_new.h"
-#include "token_new.h"
+#include "lexer.h"
 #include <gtest/gtest.h>
 
 using namespace sqlcc::sql_parser;

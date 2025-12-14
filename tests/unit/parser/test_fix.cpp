@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include "include/sql_parser/parser.h"
 #include "include/sql_parser/parser_new.h"
 #include "include/sql_parser/lexer.h"
 #include "include/sql_parser/token.h"

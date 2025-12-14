@@ -1,0 +1,11 @@
+# Debug tests BUILD file
+
+cc_binary(
+    name = "test_task_executor",
+    srcs = ["test_task_executor.cpp"],
+    copts = ["-std=c++17"],
+    linkopts = ["-pthread"],
+)
+
+# Include all debug source tests
+exports_files(glob(["src/*"]))

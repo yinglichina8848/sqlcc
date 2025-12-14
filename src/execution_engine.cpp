@@ -9,7 +9,7 @@ namespace sqlcc {
 ExecutionEngine::ExecutionEngine(std::shared_ptr<DatabaseManager> db_manager)
     : db_manager_(db_manager),
       execution_context_(
-          std::make_shared<ExecutionContext>()) { // 默认执行上下文
+          std::make_shared<ExecutionContext>(db_manager)) { // 默认执行上下文
 }
 
 void ExecutionEngine::set_execution_context(
@@ -189,39 +189,7 @@ DMLExecutor::execute(std::unique_ptr<sqlcc::sql_parser::Statement> stmt) {
   return dml_strategy.execute(std::move(stmt), context);
 }
 
-// DMLExecutionStrategy 实现
-ExecutionResult
-DMLExecutionStrategy::execute(std::unique_ptr<sql_parser::Statement> stmt,
-                              ExecutionContext &context) {
-  // 根据具体的语句类型执行
-  if (auto insert_stmt =
-          dynamic_cast<sql_parser::InsertStatement *>(stmt.get())) {
-    return executeInsert(*insert_stmt, context);
-  } else if (auto update_stmt =
-                 dynamic_cast<sql_parser::UpdateStatement *>(stmt.get())) {
-    return executeUpdate(*update_stmt, context);
-  } else if (auto delete_stmt =
-                 dynamic_cast<sql_parser::DeleteStatement *>(stmt.get())) {
-    return executeDelete(*delete_stmt, context);
-  } else if (auto select_stmt =
-                 dynamic_cast<sql_parser::SelectStatement *>(stmt.get())) {
-    return executeSelect(*select_stmt, context);
-  }
 
-  return {false, "Unsupported DML statement type"};
-}
-
-bool DMLExecutionStrategy::checkPermission(const sql_parser::Statement &stmt,
-                                           const ExecutionContext &context) {
-  // 空实现，避免链接错误
-  return true;
-}
-
-bool DMLExecutionStrategy::validate(const sql_parser::Statement &stmt,
-                                    const ExecutionContext &context) {
-  // 空实现，避免链接错误
-  return true;
-}
 
 // DCLExecutor 实现
 DCLExecutor::DCLExecutor(std::shared_ptr<DatabaseManager> db_manager,

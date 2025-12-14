@@ -1,4 +1,4 @@
-#include "sql_parser/lexer_new.h"
+#include "sql_parser/lexer.h"
 #include <iostream>
 
 int main() {
@@ -8,7 +8,7 @@ int main() {
     std::string sql = "insert into users (id, name) values (1, 'Alice');";
     std::cout << "Input SQL: " << sql << std::endl;
     
-    sqlcc::sql_parser::LexerNew lexer(sql);
+    sqlcc::sql_parser::Lexer lexer(sql);
     
     std::cout << "\n=== Getting tokens ===" << std::endl;
     int token_count = 0;

@@ -10,7 +10,7 @@
 #include "core/database_manager.h"
 #include "sql/parser/parser.h"
 #include "sql/executor/executor.h"
-#include "storage/storage_engine.h"
+#include "storage_engine.h"
 
 using namespace sqlcc;
 using namespace std::chrono;

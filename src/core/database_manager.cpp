@@ -1,5 +1,5 @@
 #include "database_manager.h"
-#include "sql_executor/index_manager.h"
+#include "storage/index_manager.h"
 #include "storage/buffer_pool.h"
 #include "storage/buffer_pool_sharded.h"
 #include "storage/table_storage.h"

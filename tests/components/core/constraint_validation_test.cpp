@@ -1,6 +1,7 @@
 #include "constraint_executor.h"
 #include "database_manager.h"
 #include "execution_engine.h"
+#include "sql_parser/parser.h"
 #include "sql_parser/parser_new.h"
 #include <filesystem>
 #include <gtest/gtest.h>

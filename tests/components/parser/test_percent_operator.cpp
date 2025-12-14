@@ -1,6 +1,6 @@
 #include <iostream>
-#include "sql_parser/lexer_new.h"
-#include "sql_parser/parser_new.h"
+#include "sql_parser/lexer.h"
+#include "sql_parser/parser.h"
 
 int main() {
     // 测试包含'%'字符的SQL语句
@@ -10,7 +10,7 @@ int main() {
     
     try {
         // 测试lexer
-        sqlcc::sql_parser::LexerNew lexer(sql);
+        sqlcc::sql_parser::Lexer lexer(sql);
         std::cout << "Lexer初始化成功" << std::endl;
         
         // 测试token解析
@@ -32,7 +32,7 @@ int main() {
         std::cout << "Lexer测试成功，共解析了 " << tokenCount << " 个token" << std::endl;
         
         // 测试parser
-        sqlcc::sql_parser::ParserNew parser(sql);
+        sqlcc::sql_parser::Parser parser(sql);
         std::cout << "Parser初始化成功" << std::endl;
         
         auto statements = parser.parse();

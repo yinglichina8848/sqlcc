@@ -25,7 +25,7 @@ int main() {
         
         // 创建B+树索引
         std::cout << "\n--- Creating B+Tree Index ---" << std::endl;
-        sqlcc::BPlusTreeIndex index(storage_engine.get(), "test_table", "test_column");
+        sqlcc::BPlusTreeIndex index(storage_engine, "test_table", "test_column");
         std::cout << "BPlusTreeIndex object created" << std::endl;
         
         // 测试创建索引

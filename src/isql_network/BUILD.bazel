@@ -1,0 +1,39 @@
+# ISQL网络客户端组件Bazel构建配置
+
+package(default_visibility = ["//visibility:public"])
+
+cc_library(
+    name = "isql_network_lib",
+    srcs = [
+        "client_main.cpp",
+    ],
+    hdrs = [
+        # 如果有头文件，可以在这里添加
+    ],
+    includes = ["../../include"],
+    deps = [
+        "//src/network:sqlcc_network",
+        "//src/core:sqlcc_core_lib",
+        "//src/sql_parser:sqlcc_parser",
+        # "@com_google_absl//absl/strings",
+    ],
+    visibility = ["//visibility:public"],
+    linkopts = ["-lssl", "-lcrypto"],
+)
+
+cc_binary(
+    name = "isql",
+    srcs = [
+        "client_main.cpp",
+    ],
+    includes = ["../../include"],
+    deps = [
+        "//src/network:sqlcc_network",
+        "//src/core:sqlcc_core_lib",
+        "//src/sql_parser:sqlcc_parser",
+        "//src/sql_executor:sqlcc_executor",
+        # "@com_google_absl//absl/strings",
+    ],
+    visibility = ["//visibility:public"],
+    linkopts = ["-lssl", "-lcrypto"],
+)

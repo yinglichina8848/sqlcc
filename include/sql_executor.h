@@ -5,6 +5,7 @@
 #include "core/system_database.h"
 #include "core/user_manager.h"
 #include "database_manager.h"
+#include "sql_parser/parser.h"
 #include "sql_parser/parser_new.h"
 #include "unified_query_plan.h"
 #include <memory>

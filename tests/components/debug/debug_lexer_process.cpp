@@ -1,4 +1,4 @@
-#include "sql_parser/lexer_new.h"
+#include "sql_parser/lexer.h"
 #include <iostream>
 #include <memory>
 
@@ -7,7 +7,7 @@ int main() {
     
     std::cout << "Creating lexer with SQL: " << sql << std::endl;
     
-    sqlcc::sql_parser::LexerNew lexer(sql);
+    sqlcc::sql_parser::Lexer lexer(sql);
     
     std::cout << "Getting tokens:" << std::endl;
     

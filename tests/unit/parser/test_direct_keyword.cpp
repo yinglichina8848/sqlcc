@@ -1,5 +1,5 @@
-#include "sql_parser/lexer_new.h"
-#include "sql_parser/token_new.h"
+#include "sql_parser/lexer.h"
+#include "sql_parser/token.h"
 #include <iostream>
 
 int main() {
@@ -10,7 +10,7 @@ int main() {
     
     // 创建一个简单的lexer来测试
     std::string sql = "INSERT";
-    sqlcc::sql_parser::LexerNew lexer(sql);
+    sqlcc::sql_parser::Lexer lexer(sql);
     sqlcc::sql_parser::Token token = lexer.nextToken();
     
     std::cout << "Token for 'INSERT': " << token.getLexeme() 

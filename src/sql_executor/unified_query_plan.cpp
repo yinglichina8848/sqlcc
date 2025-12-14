@@ -1,5 +1,6 @@
 #include "unified_query_plan.h"
 #include "sql_parser/ast_nodes.h"
+#include "unified_executor.h"
 #include <memory>
 
 namespace sqlcc {
@@ -133,9 +134,16 @@ bool DDLQueryPlan::buildSpecificPlan() {
 
 ExecutionResult DDLQueryPlan::executeSpecificPlan() {
   ExecutionResult result;
-  result.success = true;
-  result.message = "DDL语句执行成功";
-  return result;
+  try {
+    // 使用统一执行器执行DDL语句
+    UnifiedExecutor executor(db_manager_, user_manager_, system_db_);
+    result = executor.execute(std::move(statement_));
+    return result;
+  } catch (const std::exception& e) {
+    result.success = false;
+    result.message = "DDL执行失败: " + std::string(e.what());
+    return result;
+  }
 }
 
 // DMLQueryPlan 实现
@@ -151,9 +159,16 @@ bool DMLQueryPlan::buildSpecificPlan() {
 
 ExecutionResult DMLQueryPlan::executeSpecificPlan() {
   ExecutionResult result;
-  result.success = true;
-  result.message = "DML语句执行成功";
-  return result;
+  try {
+    // 使用统一执行器执行DML语句
+    UnifiedExecutor executor(db_manager_, user_manager_, system_db_);
+    result = executor.execute(std::move(statement_));
+    return result;
+  } catch (const std::exception& e) {
+    result.success = false;
+    result.message = "DML执行失败: " + std::string(e.what());
+    return result;
+  }
 }
 
 // DCLQueryPlan 实现

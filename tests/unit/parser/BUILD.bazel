@@ -1,7 +1,21 @@
 # 解析器单元测试套件
 package(default_visibility = ["//visibility:public"])
 
+cc_test(
+    name = "sql_parser_high_coverage_test",
+    srcs = ["sql_parser_high_coverage_test.cpp"],
+    includes = ["../../../include"],
+    deps = [
+        "//src/sql_parser:sqlcc_parser",
+        "@com_google_googletest//:gtest_main",
+    ],
+    copts = ["-std=c++20"],
+)
+
 test_suite(
     name = "parser_unit_tests",
-    tests = ["//tests/components/parser:parser_component_tests"],
+    tests = [
+        ":sql_parser_high_coverage_test",
+        "//tests/components/parser:parser_component_tests",
+    ],
 )

@@ -41,7 +41,7 @@ int main() {
         std::cout << "IndexEntry created: key=" << entry.key << ", page_id=" << entry.page_id << ", offset=" << entry.offset << std::endl;
         
         std::cout << "Calling index.Insert()..." << std::endl;
-        bool insert_result = index.Insert(entry);
+        bool insert_result = index.Insert(entry.key, entry.page_id, entry.offset);
         std::cout << "Index Entry Insert result: " << (insert_result ? "SUCCESS" : "FAILED") << std::endl;
         
         // 测试搜索条目

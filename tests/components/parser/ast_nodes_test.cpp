@@ -1,4 +1,4 @@
-#include "sql_parser/ast_nodes.h"
+#include "../../../include/sql_parser/ast_nodes.h"
 #include <gtest/gtest.h>
 #include <memory>
 

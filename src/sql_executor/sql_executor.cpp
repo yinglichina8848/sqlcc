@@ -5,7 +5,6 @@
 #include "database_manager.h"
 #include "execution_engine.h"
 #include "sql_parser/ast_nodes.h"
-#include "sql_parser/parser_new.h"
 #include <fstream>
 #include <iostream>
 #include <memory>
