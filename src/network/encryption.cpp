@@ -10,6 +10,8 @@
 #include <cstring>
 #include <random>
 #include <stdexcept>
+#include <iostream>
+#include <ostream>
 
 #ifdef __linux__
 #include <openssl/evp.h>
@@ -206,18 +208,63 @@ bool AESEncryptor::InitializeContext() {
 std::vector<uint8_t> HMACSHA256::Compute(const std::vector<uint8_t>& key,
                                          const std::vector<uint8_t>& data) {
 #ifdef __linux__
-    unsigned int len = 0;
-    std::vector<uint8_t> mac(EVP_MAX_MD_SIZE);
-    HMAC(EVP_sha256(), key.data(), static_cast<int>(key.size()),
-         reinterpret_cast<const unsigned char*>(data.data()), data.size(),
-         mac.data(), &len);
-    mac.resize(len);
-    return mac;
+    // 添加输入大小检查，防止过大的数据导致内存分配失败
+    if (key.size() > 1024 * 1024 || data.size() > 1024 * 1024) { // 限制为1MB
+        throw std::runtime_error("Input data too large for HMAC computation");
+    }
+    
+    try {
+        // 添加更多调试信息
+        std::cerr << "HMACSHA256::Compute called with key.size()=" << key.size() 
+                  << ", data.size()=" << data.size() << std::endl;
+        
+        // 检查输入参数
+        if (key.data() == nullptr && key.size() > 0) {
+            throw std::runtime_error("Key data is null but size > 0");
+        }
+        if (data.data() == nullptr && data.size() > 0) {
+            throw std::runtime_error("Data is null but size > 0");
+        }
+        
+        // 检查EVP_MAX_MD_SIZE是否合理
+        if (EVP_MAX_MD_SIZE > 1024 * 1024) { // 限制为1MB
+            throw std::runtime_error("EVP_MAX_MD_SIZE too large for HMAC computation");
+        }
+        
+        unsigned int len = 0;
+        std::vector<uint8_t> mac(EVP_MAX_MD_SIZE);
+        
+        // 检查mac vector的大小
+        std::cerr << "Created mac vector with size: " << mac.size() << std::endl;
+        
+        std::cerr << "Calling HMAC function..." << std::endl;
+        HMAC(EVP_sha256(), key.data(), static_cast<int>(key.size()),
+             reinterpret_cast<const unsigned char*>(data.data()), data.size(),
+             mac.data(), &len);
+        std::cerr << "HMAC function returned, len=" << len << std::endl;
+        
+        // 检查返回的长度是否合理
+        if (len > EVP_MAX_MD_SIZE || len == 0) {
+            throw std::runtime_error("Invalid HMAC length returned: " + std::to_string(len));
+        }
+        
+        mac.resize(len);
+        std::cerr << "Resized mac to len=" << len << std::endl;
+        return mac;
+    } catch (const std::bad_alloc& e) {
+        std::cerr << "Memory allocation failed during HMAC computation: " << e.what() << std::endl;
+        throw std::runtime_error("Memory allocation failed during HMAC computation: " + std::string(e.what()));
+    } catch (const std::exception& e) {
+        std::cerr << "Error during HMAC computation: " << e.what() << std::endl;
+        throw std::runtime_error("Error during HMAC computation: " + std::string(e.what()));
+    } catch (...) {
+        std::cerr << "Unknown error during HMAC computation" << std::endl;
+        throw std::runtime_error("Unknown error during HMAC computation");
+    }
 #else
     throw std::runtime_error("HMAC-SHA256 not supported on non-Linux platforms");
 #endif
 }
-
 bool HMACSHA256::Verify(const std::vector<uint8_t>& key,
                         const std::vector<uint8_t>& data,
                         const std::vector<uint8_t>& mac) {

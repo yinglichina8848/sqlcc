@@ -1,7 +1,7 @@
 #ifndef SQLCC_SQL_EXECUTOR_WINDOW_FUNCTION_EXECUTOR_H
 #define SQLCC_SQL_EXECUTOR_WINDOW_FUNCTION_EXECUTOR_H
 
-#include "sql_parser/window_function_node.h"
+#include "sql_parser/window_function.h"
 #include "database_manager.h"
 #include <memory>
 #include <vector>
@@ -36,7 +36,7 @@ public:
      * @return 执行结果
      */
     WindowFunctionResult executeWindowFunction(
-        const sql_parser::WindowFunctionNode& window_function,
+        const sql_parser::WindowFunction& window_function,
         const std::string& table_name,
         const std::vector<std::vector<std::string>>& data);
 
@@ -45,21 +45,21 @@ private:
      * @brief 执行ROW_NUMBER函数
      */
     WindowFunctionResult executeRowNumber(
-        const sql_parser::WindowFunctionNode& window_function,
+        const sql_parser::WindowFunction& window_function,
         const std::vector<std::vector<std::string>>& data);
 
     /**
      * @brief 执行RANK函数
      */
     WindowFunctionResult executeRank(
-        const sql_parser::WindowFunctionNode& window_function,
+        const sql_parser::WindowFunction& window_function,
         const std::vector<std::vector<std::string>>& data);
 
     /**
      * @brief 执行DENSE_RANK函数
      */
     WindowFunctionResult executeDenseRank(
-        const sql_parser::WindowFunctionNode& window_function,
+        const sql_parser::WindowFunction& window_function,
         const std::vector<std::vector<std::string>>& data);
 
     /**

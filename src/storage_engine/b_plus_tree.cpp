@@ -1,6 +1,7 @@
 #include "storage/b_plus_tree.h"
 #include "storage_engine.h"
 #include "utils/logger.h"
+#include <algorithm>
 
 namespace sqlcc {
 
@@ -65,17 +66,21 @@ namespace sqlcc {
  */
 BPlusTreeNode::BPlusTreeNode(std::shared_ptr<StorageEngine> storage_engine, int32_t page_id,
                              bool is_leaf)
-    : storage_engine_(storage_engine), page_id_(page_id), parent_page_id_(-1),
+    : storage_engine_(std::move(storage_engine)), page_id_(page_id), parent_page_id_(-1),
       is_leaf_(is_leaf), page_(nullptr) {
 
   // 获取页面对象用于数据存储
   if (storage_engine_) {
-    std::unique_ptr<Page> raw_page = storage_engine_->FetchPage(page_id);
+    Page* raw_page = storage_engine_->FetchPage(page_id);
     if (raw_page) {
+      // 使用弱引用或原始指针，避免与StorageEngine的页面管理冲突
       // 注意：这里我们不接管所有权，只是保存引用
       // 实际的页面管理由StorageEngine负责
-      page_ = std::shared_ptr<Page>(raw_page.release(), [](Page*) {
-        // 自定义删除器，不实际删除，由StorageEngine管理
+      page_ = std::shared_ptr<Page>(raw_page, [this](Page* p) {
+        // 自定义删除器，将页面返回给StorageEngine
+        if (storage_engine_) {
+          storage_engine_->UnpinPage(page_id_, true); // 标记为脏页并释放
+        }
       });
     }
     // 新页面的初始化在Create方法中完成，这里不做初始化
@@ -99,10 +104,7 @@ BPlusTreeNode::BPlusTreeNode(std::shared_ptr<StorageEngine> storage_engine, int3
  * - 页面通过缓冲池释放，减少磁盘I/O次数
  */
 BPlusTreeNode::~BPlusTreeNode() {
-  // 释放页面资源
-  if (page_ && storage_engine_) {
-    storage_engine_->UnpinPage(page_id_, true); // 标记为脏页
-  }
+  // 页面资源由page_的自定义删除器处理，不需要在这里再次释放
   SQLCC_LOG_DEBUG("Destroyed B+Tree node: page_id=" + std::to_string(page_id_));
 }
 
@@ -240,29 +242,84 @@ void BPlusTreeInternalNode::DeserializeFromPage() {
     return;
 
   char *data = page_->GetData();
+  
+  // 检查页面数据是否足够存储头部信息
+  if (PAGE_SIZE < PAGE_HEADER_SIZE) {
+    SQLCC_LOG_ERROR("Page size too small for B+Tree node header");
+    return;
+  }
+
   int32_t key_count = *reinterpret_cast<int32_t *>(data + 1);
   parent_page_id_ = *reinterpret_cast<int32_t *>(data + 5);
 
+  // 检查键数量是否合理
+  if (key_count < 0 || key_count > BPLUS_TREE_MAX_KEYS) {
+    SQLCC_LOG_ERROR("Invalid key count in B+Tree internal node: " + std::to_string(key_count));
+    return;
+  }
+
   keys_.clear();
   child_page_ids_.clear();
+  keys_.reserve(key_count); // 预分配空间，避免频繁重新分配
+  child_page_ids_.reserve(key_count + 1); // 子节点数量比键数量多1
 
   size_t offset = PAGE_HEADER_SIZE;
   for (int32_t i = 0; i < key_count; ++i) {
+    // 检查是否有足够空间读取键长度
+    if (offset + sizeof(int32_t) > PAGE_SIZE) {
+      SQLCC_LOG_ERROR("Insufficient page data to read key length");
+      keys_.clear();
+      child_page_ids_.clear();
+      return;
+    }
+    
     // 反序列化键长度
     int32_t key_len = *reinterpret_cast<int32_t *>(data + offset);
     offset += sizeof(int32_t);
 
+    // 检查键长度是否合理
+    if (key_len < 0 || key_len > (PAGE_SIZE - offset - sizeof(int32_t))) {
+      SQLCC_LOG_ERROR("Invalid key length in B+Tree internal node: " + std::to_string(key_len));
+      keys_.clear();
+      child_page_ids_.clear();
+      return;
+    }
+
+    // 检查是否有足够空间读取键内容
+    if (offset + key_len > PAGE_SIZE) {
+      SQLCC_LOG_ERROR("Insufficient page data to read key content");
+      keys_.clear();
+      child_page_ids_.clear();
+      return;
+    }
+    
     // 反序列化键内容
     std::string key(data + offset, key_len);
     offset += key_len;
     keys_.push_back(key);
 
+    // 检查是否有足够空间读取子节点ID
+    if (offset + sizeof(int32_t) > PAGE_SIZE) {
+      SQLCC_LOG_ERROR("Insufficient page data to read child page ID");
+      keys_.clear();
+      child_page_ids_.clear();
+      return;
+    }
+    
     // 反序列化子节点ID
     int32_t child_page_id = *reinterpret_cast<int32_t *>(data + offset);
     offset += sizeof(int32_t);
     child_page_ids_.push_back(child_page_id);
   }
 
+  // 检查是否有足够空间读取最后一个子节点ID
+  if (offset + sizeof(int32_t) > PAGE_SIZE) {
+    SQLCC_LOG_ERROR("Insufficient page data to read last child page ID");
+    keys_.clear();
+    child_page_ids_.clear();
+    return;
+  }
+  
   // 反序列化最后一个子节点ID
   int32_t last_child_id = *reinterpret_cast<int32_t *>(data + offset);
   child_page_ids_.push_back(last_child_id);
@@ -363,6 +420,14 @@ int32_t BPlusTreeInternalNode::FindChildPageId(const std::string &key) const {
   // 根据B+树的搜索规则：
   // - 如果key小于所有键，返回第一个子节点
   // - 如果key大于等于某个键，返回该键右侧的子节点
+  
+  // 检查pos是否在有效范围内
+  if (pos >= child_page_ids_.size()) {
+    SQLCC_LOG_ERROR("Invalid child page ID position: " + std::to_string(pos) + 
+                   ", child_page_ids_.size() = " + std::to_string(child_page_ids_.size()));
+    return -1; // 返回无效页面ID
+  }
+  
   return child_page_ids_[pos];
 }
 
@@ -409,33 +474,8 @@ void BPlusTreeInternalNode::Merge(std::unique_ptr<BPlusTreeInternalNode> right_n
                          right_node->child_page_ids_.end());
 
   // 更新子节点的父节点ID
-  for (int32_t child_id : child_page_ids_) {
-    // 只处理有效的页面ID
-    if (child_id >= 0) {
-      // 使用LoadNode来获取子节点，而不是直接实例化抽象类
-      std::unique_ptr<BPlusTreeNode> child_node = nullptr;
-
-      // 检查页面是否为叶子节点
-      std::unique_ptr<Page> temp_page = storage_engine_->FetchPage(child_id);
-      if (temp_page) {
-        const char* data = static_cast<const char*>(temp_page->GetData());
-        bool is_leaf = (data[0] == 1);
-        storage_engine_->UnpinPage(child_id, false);
-
-        // 根据节点类型创建相应的节点对象
-        if (is_leaf) {
-          child_node = std::make_unique<BPlusTreeLeafNode>(storage_engine_, child_id);
-        } else {
-          child_node = std::make_unique<BPlusTreeInternalNode>(storage_engine_, child_id);
-        }
-
-        // 更新父节点ID并序列化
-        child_node->SetParentPageId(page_id_);
-        child_node->SerializeToPage();
-
-      }
-    }
-  }
+  // 注意：这里暂时跳过，因为需要访问BPlusTreeIndex的私有方法
+  // TODO: 重构代码以支持子节点父节点ID的更新
 
   // 序列化当前节点
   SerializeToPage();
@@ -577,22 +617,64 @@ void BPlusTreeLeafNode::DeserializeFromPage() {
     return;
 
   char *data = page_->GetData();
+  
+  // 检查页面数据是否足够存储头部信息
+  if (PAGE_SIZE < PAGE_HEADER_SIZE) {
+    SQLCC_LOG_ERROR("Page size too small for B+Tree node header");
+    return;
+  }
+
   int32_t entry_count = *reinterpret_cast<int32_t *>(data + 1);
   parent_page_id_ = *reinterpret_cast<int32_t *>(data + 5);
   next_page_id_ = *reinterpret_cast<int32_t *>(data + 9);
 
+  // 检查条目数量是否合理
+  if (entry_count < 0 || entry_count > BPLUS_TREE_MAX_KEYS) {
+    SQLCC_LOG_ERROR("Invalid entry count in B+Tree leaf node: " + std::to_string(entry_count));
+    return;
+  }
+
   entries_.clear();
+  entries_.reserve(entry_count); // 预分配空间，避免频繁重新分配
 
   size_t offset = PAGE_HEADER_SIZE;
   for (int32_t i = 0; i < entry_count; ++i) {
+    // 检查是否有足够空间读取键长度
+    if (offset + sizeof(int32_t) > PAGE_SIZE) {
+      SQLCC_LOG_ERROR("Insufficient page data to read key length");
+      entries_.clear();
+      return;
+    }
+    
     // 反序列化键长度
     int32_t key_len = *reinterpret_cast<int32_t *>(data + offset);
     offset += sizeof(int32_t);
 
+    // 检查键长度是否合理
+    if (key_len < 0 || key_len > (PAGE_SIZE - offset - sizeof(int32_t) - sizeof(size_t))) {
+      SQLCC_LOG_ERROR("Invalid key length in B+Tree leaf node: " + std::to_string(key_len));
+      entries_.clear();
+      return;
+    }
+
+    // 检查是否有足够空间读取键内容
+    if (offset + key_len > PAGE_SIZE) {
+      SQLCC_LOG_ERROR("Insufficient page data to read key content");
+      entries_.clear();
+      return;
+    }
+    
     // 反序列化键内容
     std::string key(data + offset, key_len);
     offset += key_len;
 
+    // 检查是否有足够空间读取页面ID和偏移量
+    if (offset + sizeof(int32_t) + sizeof(size_t) > PAGE_SIZE) {
+      SQLCC_LOG_ERROR("Insufficient page data to read page_id and offset");
+      entries_.clear();
+      return;
+    }
+    
     // 反序列化页面ID和偏移量
     int32_t page_id = *reinterpret_cast<int32_t *>(data + offset);
     offset += sizeof(int32_t);
@@ -1118,14 +1200,24 @@ bool BPlusTreeIndex::Insert(const std::string& key, int32_t page_id, size_t offs
     IndexEntry entry(key, page_id, offset);
     result = leaf_node->Insert(entry);
   } else if (auto internal_node = dynamic_cast<BPlusTreeInternalNode*>(node.get())) {
-    // 对于内部节点，我们需要找到合适的子节点进行递归插入
-    // 这里简化处理，实际实现应该更复杂
-    (void)internal_node; // 避免未使用变量警告
-    result = true; // 简化实现
+    // 对于内部节点，找到合适的子节点进行递归插入
+    int32_t child_page_id = internal_node->FindChildPageId(key);
+    auto child_node = LoadNode(child_page_id);
+    if (child_node) {
+      result = Insert(key, page_id, offset, child_node);
+      // 如果子节点插入成功，保存内部节点状态
+      if (result) {
+        node->SerializeToPage();
+      }
+    } else {
+      result = false;
+    }
   }
 
-  // 保存节点状态
-  node->SerializeToPage();
+  // 如果是叶子节点，保存节点状态
+  if (auto leaf_node = dynamic_cast<BPlusTreeLeafNode*>(node.get())) {
+    node->SerializeToPage();
+  }
 
   return result;
 }
@@ -1192,9 +1284,13 @@ std::vector<IndexEntry> BPlusTreeIndex::Search(const std::string& key) const {
     return std::vector<IndexEntry>();
 
   // 获取根节点
+  // 使用const_cast是因为LoadNode需要修改页面的访问计数
   auto root_node = const_cast<BPlusTreeIndex*>(this)->LoadNode(root_page_id_);
   if (!root_node)
     return std::vector<IndexEntry>();
+
+  // 保存节点状态（如果有修改）
+  root_node->SerializeToPage();
 
   // 递归搜索
   return Search(key, root_node);
@@ -1217,10 +1313,8 @@ std::vector<IndexEntry> BPlusTreeIndex::Search(const std::string& key) const {
  * - 如果是内部节点，递归搜索
  */
 std::vector<IndexEntry> BPlusTreeIndex::Search(const std::string& key, std::unique_ptr<BPlusTreeNode>& node) const {
-  std::vector<IndexEntry> results;
-
   if (!node)
-    return results;
+    return std::vector<IndexEntry>();
 
   // 根据节点类型调用相应的搜索方法
   if (IsLeafNode(node)) {
@@ -1237,12 +1331,14 @@ std::vector<IndexEntry> BPlusTreeIndex::Search(const std::string& key, std::uniq
       int32_t child_page_id = internal_node->FindChildPageId(key);
       auto child_node = const_cast<BPlusTreeIndex*>(this)->LoadNode(child_page_id);
       if (child_node) {
-        return Search(key, child_node);
+        // 递归搜索子节点，但不直接返回，确保child_node在搜索完成后才销毁
+        std::vector<IndexEntry> results = Search(key, child_node);
+        return results;
       }
     }
   }
 
-  return results;
+  return std::vector<IndexEntry>();
 }
 
 /**
@@ -1303,10 +1399,18 @@ bool BPlusTreeIndex::Delete(const std::string& key, std::unique_ptr<BPlusTreeNod
   if (auto leaf_node = dynamic_cast<BPlusTreeLeafNode*>(node.get())) {
     result = leaf_node->Remove(key);
   } else if (auto internal_node = dynamic_cast<BPlusTreeInternalNode*>(node.get())) {
-    // 对于内部节点，我们需要找到合适的子节点进行递归删除
-    // 这里简化处理，实际实现应该更复杂
-    (void)internal_node; // 避免未使用变量警告
-    result = true; // 简化实现
+    // 对于内部节点，找到合适的子节点进行递归删除
+    int32_t child_page_id = internal_node->FindChildPageId(key);
+    auto child_node = LoadNode(child_page_id);
+    if (child_node) {
+      result = Delete(key, child_node);
+      // 如果子节点删除成功，保存内部节点状态
+      if (result) {
+        node->SerializeToPage();
+      }
+    } else {
+      result = false;
+    }
   }
 
   // 如果节点需要合并，处理合并
@@ -1314,8 +1418,10 @@ bool BPlusTreeIndex::Delete(const std::string& key, std::unique_ptr<BPlusTreeNod
     // TODO: 实现节点合并逻辑
   }
 
-  // 保存节点状态
-  node->SerializeToPage();
+  // 如果是叶子节点，保存节点状态
+  if (auto leaf_node = dynamic_cast<BPlusTreeLeafNode*>(node.get())) {
+    node->SerializeToPage();
+  }
 
   return result;
 }
@@ -1600,24 +1706,23 @@ std::unique_ptr<BPlusTreeNode> BPlusTreeIndex::LoadNode(int32_t page_id) {
   if (!storage_engine_)
     return nullptr;
 
-  // 直接尝试获取页面，检查节点类型
-  std::unique_ptr<Page> temp_page = storage_engine_->FetchPage(page_id);
-  if (!temp_page)
-    return nullptr;
-
-  const char* data = static_cast<const char*>(temp_page->GetData());
-  bool is_leaf = (data[0] == 1);
-
-  // 不要释放页面，因为节点构造函数会再次获取它
-  // 让节点构造函数自己处理页面的获取和释放
-  storage_engine_->UnpinPage(page_id, false);
-
-  // 根据节点类型创建节点
-  if (is_leaf) {
-    return std::make_unique<BPlusTreeLeafNode>(storage_engine_, page_id);
-  } else {
-    return std::make_unique<BPlusTreeInternalNode>(storage_engine_, page_id);
+  // 直接创建叶子节点，让节点构造函数自己处理页面获取和类型检查
+  // 节点构造函数会正确管理页面生命周期
+  auto leaf_node = std::make_unique<BPlusTreeLeafNode>(storage_engine_, page_id);
+  
+  // 检查节点是否成功创建（通过检查页面ID是否有效）
+  if (leaf_node && leaf_node->GetPageId() >= 0) {
+    return leaf_node;
   }
+  
+  // 如果叶子节点创建失败，尝试创建内部节点
+  auto internal_node = std::make_unique<BPlusTreeInternalNode>(storage_engine_, page_id);
+  if (internal_node && internal_node->GetPageId() >= 0) {
+    return internal_node;
+  }
+  
+  SQLCC_LOG_ERROR("Failed to load node for page " + std::to_string(page_id));
+  return nullptr;
 }
 
 /**
@@ -1730,6 +1835,28 @@ bool BPlusTreeIndex::NeedMerge(const std::unique_ptr<BPlusTreeNode>& node) {
   }
   
   return false;
+}
+
+/**
+ * @brief 检查B+树索引是否存在
+ * @details 检查B+树索引是否存在，通过根节点页ID判断
+ *
+ * @return bool - 如果索引存在返回true，否则返回false
+ *
+ * @par 算法复杂度
+ * - 时间复杂度：O(1)
+ * - 空间复杂度：O(1)
+ *
+ * @par 设计思路
+ * - 通过检查根节点页ID是否有效（>= 0）来判断索引是否存在
+ * - 根节点页ID为-1表示索引不存在或已被删除
+ *
+ * @par 注意事项
+ * - 此方法只检查索引的元数据是否存在，不检查索引的完整性
+ * - 如果索引元数据存在但根节点页面损坏，此方法仍会返回true
+ */
+bool BPlusTreeIndex::Exists() const {
+  return root_page_id_ >= 0;
 }
 
 // IndexManager

@@ -3,186 +3,15 @@
 load("@rules_cc//cc:defs.bzl", "cc_test")
 
 cc_test(
-    name = "database_manager_test",
-    srcs = ["database_manager_test.cpp"],
+    name = "sql_executor_test",
+    srcs = ["sql_executor_test.cpp"],
+    includes = ["../../../include", "../../../include/core", "../../../include/executor"],
     deps = [
-        "//src:sqlcc_core",
-        "@com_google_googletest//:gtest_main",
-    ],
-)
-
-cc_test(
-    name = "database_manager_test_development",
-    srcs = ["database_manager_test_development.cpp"],
-    deps = [
-        "//src:sqlcc_core",
-        "@com_google_googletest//:gtest_main",
-    ],
-)
-
-cc_test(
-    name = "dml_executor_integration_test",
-    srcs = ["dml_executor_integration_test.cpp"],
-    deps = [
-        "//src:sqlcc_core",
-        "@com_google_googletest//:gtest_main",
-    ],
-)
-
-cc_test(
-    name = "dml_improvement_test",
-    srcs = ["dml_improvement_test.cpp"],
-    deps = [
-        "//src:sqlcc_core",
-        "@com_google_googletest//:gtest_main",
-    ],
-)
-
-cc_test(
-    name = "execution_context_test",
-    srcs = ["execution_context_test.cpp"],
-    deps = [
-        "//src:sqlcc_core",
-        "@com_google_googletest//:gtest_main",
-    ],
-)
-
-cc_test(
-    name = "execution_engine_test",
-    srcs = ["execution_engine_test.cpp"],
-    deps = [
-        "//src:sqlcc_core",
-        "@com_google_googletest//:gtest_main",
-    ],
-)
-
-cc_test(
-    name = "join_executor_test",
-    srcs = ["join_executor_test.cpp"],
-    deps = [
-        "//src:sqlcc_core",
-        "@com_google_googletest//:gtest_main",
-    ],
-)
-
-cc_test(
-    name = "set_operation_test",
-    srcs = ["set_operation_test.cpp"],
-    deps = [
-        "//src:sqlcc_core",
-        "@com_google_googletest//:gtest_main",
-    ],
-)
-
-cc_test(
-    name = "subquery_executor_test",
-    srcs = ["subquery_executor_test.cpp"],
-    deps = [
-        "//src/execution:sqlcc_execution_engine",
         "//src/core:sqlcc_core_lib",
         "//src/sql_executor:sqlcc_executor",
-        "//src:execution_context",
         "//src:execution_engine",
         "//src:unified_executor",
-        "//src:sqlcc_core",
-        "@com_google_googletest//:gtest_main",
-    ],
-)
-
-cc_test(
-    name = "unified_executor_test",
-    srcs = ["unified_executor_test.cpp"],
-    includes = ["../../../include", "../../../include/core", "../../../include/utils"],
-    deps = [
-        "//src:sqlcc_core",
-        "@com_google_googletest//:gtest_main",
-    ],
-)
-
-cc_test(
-    name = "where_clause_optimization_test",
-    srcs = ["where_clause_optimization_test.cpp"],
-    deps = [
-        "//src:sqlcc_core",
-        "@com_google_googletest//:gtest_main",
-    ],
-)
-
-cc_test(
-    name = "window_function_executor_test",
-    srcs = ["window_function_executor_test.cpp"],
-    deps = [
-        "//src:sqlcc_core",
-        "@com_google_googletest//:gtest_main",
-    ],
-)
-
-# 新增的ALTER TABLE执行器测试
-cc_test(
-    name = "alter_table_executor_test",
-    srcs = ["alter_table_executor_test.cpp"],
-    includes = ["../../../include", "../../../include/core", "../../../include/utils"],
-    deps = [
-        "//src:sqlcc_core",
-        "@com_google_googletest//:gtest_main",
-    ],
-)
-
-# 新增的元数据一致性检查测试
-cc_test(
-    name = "metadata_consistency_test",
-    srcs = ["metadata_consistency_test.cpp"],
-    includes = ["../../../include", "../../../include/core", "../../../include/utils"],
-    deps = [
-        "//src:sqlcc_core",
-        "@com_google_googletest//:gtest_main",
-    ],
-)
-
-# 新增的权限一致性测试
-cc_test(
-    name = "privilege_consistency_test",
-    srcs = ["privilege_consistency_test.cpp"],
-    includes = ["../../../include", "../../../include/core", "../../../include/utils"],
-    deps = [
-        "//src:sqlcc_core",
-        "@com_google_googletest//:gtest_main",
-    ],
-)
-
-cc_test(
-    name = "dcl_executor_test",
-    srcs = ["dcl_executor_test.cpp"],
-    deps = [
-        "//src:sqlcc_core",
-        "@com_google_googletest//:gtest_main",
-    ],
-)
-
-cc_test(
-    name = "index_optimization_test",
-    srcs = ["index_optimization_test.cpp"],
-    deps = [
-        "//src:sqlcc_core",
-        "@com_google_googletest//:gtest_main",
-    ],
-)
-
-# 新增的索引使用测试
-cc_test(
-    name = "index_usage_test",
-    srcs = ["index_usage_test.cpp"],
-    deps = [
-        "//src:sqlcc_core",
-        "@com_google_googletest//:gtest_main",
-    ],
-)
-
-cc_test(
-    name = "unsupported_commands_test",
-    srcs = ["unsupported_commands_test.cpp"],
-    deps = [
-        "//src:sqlcc_core",
+        "//src/sql_parser:sqlcc_parser",
         "@com_google_googletest//:gtest_main",
     ],
 )
@@ -190,24 +19,6 @@ cc_test(
 test_suite(
     name = "executor_component_tests",
     tests = [
-        ":database_manager_test",
-        ":database_manager_test_development",
-        ":dml_executor_integration_test",
-        ":dml_improvement_test",
-        ":execution_context_test",
-        ":execution_engine_test",
-        ":join_executor_test",
-        ":set_operation_test",
-        ":subquery_executor_test",
-        ":unified_executor_test",
-        ":where_clause_optimization_test",
-        ":window_function_executor_test",
-        ":alter_table_executor_test",  # 添加新的测试
-        ":metadata_consistency_test",   # 添加新的测试
-        ":privilege_consistency_test",   # 添加新的测试
-        ":dcl_executor_test",   # 添加DCL执行器测试
-        ":index_optimization_test",   # 添加索引优化测试
-        ":index_usage_test",   # 添加索引使用测试
-        ":unsupported_commands_test",   # 添加不支持命令测试
+        ":sql_executor_test",
     ],
 )

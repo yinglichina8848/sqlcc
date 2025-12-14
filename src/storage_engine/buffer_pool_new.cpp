@@ -244,7 +244,7 @@ bool BufferPool::FlushPage(int32_t page_id) {
     return true;
   }
 
-  Page *page = it->second;
+  Page *page = it->second.get();
 
   // Release lock for disk I/O
   lock.unlock();
@@ -376,10 +376,10 @@ bool BufferPool::DeletePage(int32_t page_id) {
     }
   }
 
-  // Remove victim page from buffer pool
-  page_table_.erase(victim_it);
-  page_refs_.erase(victim_page_id);
-  dirty_pages_.erase(victim_page_id);
+  // Remove page from buffer pool
+  page_table_.erase(it);
+  page_refs_.erase(page_id);
+  dirty_pages_.erase(page_id);
 
   auto lru_it = lru_map_.find(page_id);
   if (lru_it != lru_map_.end()) {
@@ -488,7 +488,7 @@ bool BufferPool::ReplacePage(int32_t victim_page_id, int32_t new_page_id) {
     return false;
   }
 
-  Page *victim_page = victim_it->second;
+  Page *victim_page = victim_it->second.get();
 
   // Flush victim page if dirty
   auto dirty_it = dirty_pages_.find(victim_page_id);

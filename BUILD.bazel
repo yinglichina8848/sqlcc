@@ -14,7 +14,7 @@ cc_library(
     includes = ["include", "include/core"],
     deps = [
         "//src/core:sqlcc_core_lib",
-        "@com_google_absl//absl/strings",
+        # "@com_google_absl//absl/strings",
     ],
 )
 
@@ -26,9 +26,9 @@ cc_library(
     includes = ["include", "include/core", "include/storage"],
     deps = [
         "//src/core:sqlcc_core_lib",
-        "//src/sql_executor:sqlcc_executor",
         "//src/sql_parser:sqlcc_parser",
-        "@com_google_absl//absl/strings",
+        ":execution_context",
+        # "@com_google_absl//absl/strings",
     ],
 )
 
@@ -36,13 +36,15 @@ cc_library(
 cc_library(
     name = "unified_executor",
     srcs = ["//src:unified_executor.cpp"],
-    hdrs = ["//include:unified_query_plan.h"],
+    hdrs = ["//include:core/unified_executor.h"],
     includes = ["include", "include/core", "include/storage"],
     deps = [
         "//src/core:sqlcc_core_lib",
-        "//src/sql_executor:sqlcc_executor",
         "//src/sql_parser:sqlcc_parser",
-        "@com_google_absl//absl/strings",
+        "//src/storage_engine:sqlcc_storage_engine",
+        ":execution_engine",
+        ":execution_context",
+        # "@com_google_absl//absl/strings",
     ],
 )
 
@@ -154,5 +156,57 @@ test_suite(
         ":debug_tests",
         ":performance_tests",
         ":main_tests",
+    ],
+)
+
+# ==================== 主要可执行程序 ====================
+
+# SQLCC服务器端程序
+cc_binary(
+    name = "sqlcc",
+    srcs = ["//src/sqlcc_server:server_main.cpp"],
+    deps = [
+        "//src/network:sqlcc_network",
+        "//src/core:sqlcc_core_lib",
+        "//src/sql_executor:sqlcc_executor",
+        ":unified_executor",
+        "//src/sql_parser:sqlcc_parser",
+        "//src/storage_engine:sqlcc_storage_engine",
+        "//src/storage_engine:sqlcc_index_manager",
+        "//src/transaction_manager:sqlcc_transaction_manager",
+    ],
+    includes = ["include", "include/core", "include/storage"],
+    linkopts = ["-lssl", "-lcrypto"],
+)
+
+# ISQL客户端程序
+cc_binary(
+    name = "isql",
+    srcs = ["//src/isql_network:client_main.cpp"],
+    deps = [
+        "//src/isql_network:isql_network_lib",
+        "//src/network:sqlcc_network",
+        "//src/core:sqlcc_core_lib",
+        "//src/sql_executor:sqlcc_executor",
+        # "@com_google_absl//absl/strings",
+    ],
+    includes = ["include", "include/core", "include/network"],
+    linkopts = ["-lssl", "-lcrypto"],
+)
+
+# SQLCC库
+cc_library(
+    name = "sqlcc_lib",
+    deps = [
+        "//src:sqlcc_core",
+        "//src:execution_engine",
+        "//src:unified_executor",
+        "//src/config_manager:sqlcc_config_manager",
+        "//src/core:sqlcc_database_core",
+        "//src/transaction_manager:sqlcc_transaction_manager",
+        "//src/storage_engine:sqlcc_storage_engine",
+        "//src/sql_parser:sqlcc_parser",
+        "//src/network:sqlcc_network",
+        "//src/execution:execution",  # 修复对新执行模块的依赖
     ],
 )

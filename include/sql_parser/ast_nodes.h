@@ -2,7 +2,9 @@
 #define SQLCC_SQL_PARSER_AST_NODES_H
 
 #include "ast_node.h"
-#include "node_visitor.h"
+#include "constraint.h"
+#include "set_operation.h"
+#include "window_function.h"
 #include <memory>
 #include <string>
 #include <unordered_map>
@@ -149,7 +151,13 @@ public:
   void setDatabaseName(const std::string &name) { objectName_ = name; }
   void setTableName(const std::string &name) { objectName_ = name; }
 
-  void accept(NodeVisitor &visitor) override { visitor.visit(*this); }
+  // 兼容旧API的非const getter
+  // (removed non-const compatibility getters to keep a single canonical API)
+  // 兼容旧API的非const getter（保留以兼容已编译的对象文件）
+  std::string getObjectName();
+  CreateStatement::ObjectType getObjectType();
+
+  void accept(NodeVisitor &visitor) override;
 
 private:
   ObjectType objectType_;
@@ -203,7 +211,7 @@ public:
   bool hasLimit() const;
   bool hasOffset() const;
 
-  void accept(NodeVisitor &visitor) override { visitor.visit(*this); }
+  void accept(NodeVisitor &visitor) override;
 
 private:
   std::vector<std::string> selectColumns_;
@@ -220,6 +228,40 @@ private:
   bool selectAll_;
   bool hasLimit_;
   bool hasOffset_;
+};
+
+// ==================== CompositeSelectStatement (复合SELECT，包含集合操作) ====================
+
+class CompositeSelectStatement : public Statement {
+public:
+  CompositeSelectStatement() : Statement(Statement::COMPOSITE_SELECT) {}
+  ~CompositeSelectStatement() override = default;
+
+  void addSelectStatement(std::unique_ptr<SelectStatement> stmt) {
+    selectStatements_.push_back(std::move(stmt));
+  }
+
+  void addSetOperation(std::unique_ptr<SetOperation> op) {
+    operations_.push_back(std::move(op));
+  }
+
+  const std::vector<std::unique_ptr<SelectStatement>> &getSelectStatements() const {
+    return selectStatements_;
+  }
+
+  const std::vector<std::unique_ptr<SetOperation>> &getSetOperations() const {
+    return operations_;
+  }
+
+  size_t getStatementCount() const { return selectStatements_.size(); }
+  size_t getOperationCount() const { return operations_.size(); }
+  bool hasSetOperations() const { return !operations_.empty(); }
+
+  void accept(NodeVisitor &visitor) override;
+
+private:
+  std::vector<std::unique_ptr<SelectStatement>> selectStatements_;
+  std::vector<std::unique_ptr<SetOperation>> operations_;
 };
 
 // ==================== InsertStatement ====================
@@ -240,7 +282,7 @@ public:
   void finishRow();
   void addValueRow(const std::vector<std::unique_ptr<Expression>> &values);
 
-  void accept(NodeVisitor &visitor) override { visitor.visit(*this); }
+  void accept(NodeVisitor &visitor) override;
 
 private:
   std::string tableName_;
@@ -262,11 +304,12 @@ public:
   void setTableName(const std::string &tableName) { tableName_ = tableName; }
 
   const std::string &getTableName() const;
+  std::string getTableName();
   const std::unordered_map<std::string, std::string> &getUpdateValues() const;
   const WhereClause &getWhereClause() const;
   bool hasWhereClause() const;
 
-  void accept(NodeVisitor &visitor) override { visitor.visit(*this); }
+  void accept(NodeVisitor &visitor) override;
 
 private:
   std::string tableName_;
@@ -286,10 +329,11 @@ public:
   void setTableName(const std::string &tableName) { tableName_ = tableName; }
 
   const std::string &getTableName() const;
+  std::string getTableName();
   const WhereClause &getWhereClause() const;
   bool hasWhereClause() const;
 
-  void accept(NodeVisitor &visitor) override { visitor.visit(*this); }
+  void accept(NodeVisitor &visitor) override;
 
 private:
   std::string tableName_;
@@ -315,7 +359,11 @@ public:
   void setDatabaseName(const std::string &name) { objectName_ = name; }
   void setTableName(const std::string &name) { objectName_ = name; }
 
-  void accept(NodeVisitor &visitor) override { visitor.visit(*this); }
+  // 兼容旧API的非const getter
+  std::string getObjectName();
+  DropStatement::ObjectType getObjectType();
+
+  void accept(NodeVisitor &visitor) override;
 
 private:
   ObjectType objectType_;
@@ -342,7 +390,7 @@ public:
   ~AlterStatement();
 
   Type getType() const { return ALTER; }
-  void accept(NodeVisitor &visitor) override { visitor.visit(*this); }
+  void accept(NodeVisitor &visitor) override;
 
   // Getters
   Target getTarget() const;
@@ -382,8 +430,9 @@ public:
   ~UseStatement();
 
   const std::string &getDatabaseName() const;
+  std::string getDatabaseName();
 
-  void accept(NodeVisitor &visitor) override { visitor.visit(*this); }
+  void accept(NodeVisitor &visitor) override;
 
 private:
   std::string databaseName_;
@@ -400,6 +449,7 @@ public:
 
   const std::string &getIndexName() const;
   const std::string &getTableName() const;
+  std::string getTableName();
   const std::string &getColumnName() const;
   void addColumn(const std::string &column);
   const std::vector<std::string> &getColumns() const;
@@ -407,7 +457,7 @@ public:
   void setUnique(bool unique); // 设置UNIQUE标记
   bool isUnique() const;       // 获取UNIQUE标记
 
-  void accept(NodeVisitor &visitor) override { visitor.visit(*this); }
+  void accept(NodeVisitor &visitor) override;
 
 private:
   std::string indexName_;
@@ -427,12 +477,13 @@ public:
 
   void setTableName(const std::string &tableName); // 设置表名
   const std::string &getTableName() const;         // 获取表名
+  std::string getTableName();
   bool hasTableName() const;                       // 是否指定了表名
 
   void setIfExists(bool ifExists); // 设置IF EXISTS标记
   bool isIfExists() const;         // 获取IF EXISTS标记
 
-  void accept(NodeVisitor &visitor) override { visitor.visit(*this); }
+  void accept(NodeVisitor &visitor) override;
 
 private:
   std::string indexName_;
@@ -449,11 +500,12 @@ public:
   ~CreateUserStatement();
 
   const std::string &getUsername() const;
+  std::string getUsername();
   const std::string &getPassword() const;
   bool isWithPassword() const;
   void setWithPassword(bool withPassword);
 
-  void accept(NodeVisitor &visitor) override { visitor.visit(*this); }
+  void accept(NodeVisitor &visitor) override;
 
 private:
   std::string username_;
@@ -469,10 +521,11 @@ public:
   ~DropUserStatement();
 
   const std::string &getUsername() const;
+  std::string getUsername();
   bool isIfExists() const;
   void setIfExists(bool ifExists);
 
-  void accept(NodeVisitor &visitor) override { visitor.visit(*this); }
+  void accept(NodeVisitor &visitor) override;
 
 private:
   std::string username_;
@@ -497,8 +550,9 @@ public:
 
   void setGrantee(const std::string &grantee);
   const std::string &getGrantee() const;
+  std::string getGrantee();
 
-  void accept(NodeVisitor &visitor) override { visitor.visit(*this); }
+  void accept(NodeVisitor &visitor) override;
 
 private:
   std::vector<std::string> privileges_;
@@ -525,8 +579,9 @@ public:
 
   void setGrantee(const std::string &grantee);
   const std::string &getGrantee() const;
+  std::string getGrantee();
 
-  void accept(NodeVisitor &visitor) override { visitor.visit(*this); }
+  void accept(NodeVisitor &visitor) override;
 
 private:
   std::vector<std::string> privileges_;
@@ -562,7 +617,7 @@ public:
   const std::string &getFromDatabase() const;
   bool hasFromDatabase() const;
 
-  void accept(NodeVisitor &visitor) override { visitor.visit(*this); }
+  void accept(NodeVisitor &visitor) override;
 
 private:
   ShowType type_;
@@ -646,7 +701,7 @@ public:
   CommitStatement();
   ~CommitStatement();
 
-  void accept(NodeVisitor &visitor) override { visitor.visit(*this); }
+  void accept(NodeVisitor &visitor) override;
 
 private:
 };
@@ -658,7 +713,7 @@ public:
   RollbackStatement();
   ~RollbackStatement();
 
-  void accept(NodeVisitor &visitor) override { visitor.visit(*this); }
+  void accept(NodeVisitor &visitor) override;
 
 private:
 };
@@ -699,7 +754,7 @@ public:
 
   const std::string &getName() const;
 
-  void accept(NodeVisitor &visitor) override { visitor.visit(*this); }
+  void accept(NodeVisitor &visitor) override;
 
 private:
   std::string name_;
@@ -719,7 +774,7 @@ public:
 
   const std::string &getName() const;
 
-  void accept(NodeVisitor &visitor) override { visitor.visit(*this); }
+  void accept(NodeVisitor &visitor) override;
 
 private:
   std::string name_;
@@ -735,7 +790,7 @@ public:
 
   const std::string &getName() const;
 
-  void accept(NodeVisitor &visitor) override { visitor.visit(*this); }
+  void accept(NodeVisitor &visitor) override;
 
 private:
   std::string name_;
@@ -763,6 +818,7 @@ public:
   Level getLevel() const;
   std::string getLevelString() const;
   const std::string &getTableName() const;
+  std::string getTableName();
 
   void setCondition(const std::string &condition);
   const std::string &getCondition() const;
@@ -791,7 +847,7 @@ public:
 
   const TriggerDefinition &getTriggerDefinition() const;
 
-  void accept(NodeVisitor &visitor) override { visitor.visit(*this); }
+  void accept(NodeVisitor &visitor) override;
 
 private:
   TriggerDefinition triggerDef_;
@@ -806,7 +862,7 @@ public:
 
   const std::string &getName() const;
 
-  void accept(NodeVisitor &visitor) override { visitor.visit(*this); }
+  void accept(NodeVisitor &visitor) override;
 
 private:
   std::string name_;
@@ -825,7 +881,7 @@ public:
   Action getAction() const;
   std::string getActionString() const;
 
-  void accept(NodeVisitor &visitor) override { visitor.visit(*this); }
+  void accept(NodeVisitor &visitor) override;
 
 private:
   std::string name_;

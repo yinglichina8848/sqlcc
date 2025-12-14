@@ -2,47 +2,51 @@
 
 package(default_visibility = ["//visibility:public"])
 
-load("@rules_cc//cc:defs.bzl", "cc_library")
-
 cc_library(
     name = "sqlcc_parser",
-    srcs = [
-        "ast_node.cpp",
-        "ast_nodes.cpp",
-        "lexer.cpp",
-        "lexer_new.cpp",
-        "parser_new.cpp",
-        # 移除parser_set_operations.cpp以避免重复定义
-        "set_operation_node.cpp",
-        "token.cpp",
-        # 移除token_new.cpp以避免重复定义
-        "window_function_node.cpp",
+    srcs = glob([
+        "*.cpp",
+        "!window_function_node.cpp",
+    ]),
+    hdrs = glob([
+        "*.h",
+        "!lexer_new.h",
+        "!parser_new.h",
+        "!token_new.h",
+    ]),
+    copts = [
     ],
-    hdrs = ["//include:sql_parser_headers"],
-    includes = ["../../include"],
-    copts = ["-std=c++17"],
-    deps = ["//src/core:sqlcc_core_lib"],
+    includes = [
+        "../../include",
+    ],
+    deps = [
+        # parser does not depend on core to avoid dependency cycles
+        "//include/sql_parser:sqlcc_parser_headers",
+    ],
+    visibility = ["//visibility:public"],
 )
 
-# 轻量级解析器库，用于测试和调试，不依赖core库
 cc_library(
     name = "sqlcc_parser_light",
-    srcs = [
-        "ast_node.cpp",
-        "ast_nodes.cpp",
-        "lexer.cpp",
+    srcs = glob([
         "lexer_new.cpp",
         "parser_new.cpp",
+        "token_new.cpp",
         "set_operation_node.cpp",
-        "token.cpp",
-        # 移除token_new.cpp以避免重复定义
-        "window_function_node.cpp",
+    ]),
+    hdrs = glob([
+        "lexer_new.h",
+        "parser_new.h",
+        "token_new.h",
+    ]),
+    copts = [
     ],
-    hdrs = ["//include:sql_parser_headers"],
-    includes = ["../../include"],
-    copts = ["-std=c++17"],
+    includes = [
+        "../../include",
+    ],
     deps = [
-        "@com_google_absl//absl/strings",
-        "@com_google_absl//absl/container:flat_hash_map",
+        # light parser variant has no direct core dependency
+        "//include/sql_parser:sqlcc_parser_headers",
     ],
+    visibility = ["//visibility:public"],
 )

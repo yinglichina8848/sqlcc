@@ -1,5 +1,5 @@
 #include <iostream>
-#include "sql_parser/lexer_new.h"
+#include "sql_parser/lexer.h"
 
 using namespace sqlcc::sql_parser;
 

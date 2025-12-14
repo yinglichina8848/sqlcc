@@ -2,20 +2,19 @@
 #define SQLCC_SQL_PARSER_AST_NODE_H
 
 #include "node_visitor.h"
-#include "token_new.h"
+#include "token.h"
 #include <memory>
 #include <string>
 
-namespace sqlcc {
-namespace sql_parser {
+namespace sqlcc::sql_parser {
 
 /**
  * AST节点基类
  */
 class Node {
 public:
-  virtual ~Node() = default;
-  virtual void accept(NodeVisitor &visitor) = 0;
+  virtual ~Node();
+  virtual void accept(NodeVisitor &visitor) { /* default empty implementation */ }
 };
 
 /**
@@ -36,12 +35,12 @@ public:
     IN
   };
 
-  Expression();
+  Expression() = default;
   virtual ~Expression();
 
-  virtual std::string getTypeName() const;
-  virtual void accept(NodeVisitor &visitor) = 0;
-  virtual Type getType() const = 0;
+  virtual std::string getTypeName() const { return "Expression"; }
+  virtual void accept(NodeVisitor &visitor);
+  virtual Type getType() const;
 };
 
 /**
@@ -75,6 +74,7 @@ public:
   enum Type {
     CREATE,
     SELECT,
+    COMPOSITE_SELECT,
     INSERT,
     UPDATE,
     DELETE,
@@ -98,18 +98,19 @@ public:
     ALTER_TRIGGER
   };
 
-  Statement(Type type);
+  Statement(Type type) : type_(type) {}
   virtual ~Statement();
 
-  Type getType() const;
-  std::string getTypeName() const;
-  virtual void accept(NodeVisitor &visitor) = 0;
+  Type getType() const { return type_; }
+  std::string getTypeName() const { return "Statement"; }
+  virtual void accept(NodeVisitor &visitor);
 
 private:
   Type type_;
 };
 
-} // namespace sql_parser
+
+} // namespace sqlcc::sql_parser
 
 // BinaryExpression 实现
 inline sqlcc::sql_parser::BinaryExpression::BinaryExpression(
@@ -123,6 +124,8 @@ inline sqlcc::sql_parser::BinaryExpression::~BinaryExpression() = default;
 inline std::string sqlcc::sql_parser::BinaryExpression::getTypeName() const {
   return "BinaryExpression";
 }
+
+namespace sqlcc::sql_parser {
 
 inline void sqlcc::sql_parser::BinaryExpression::accept(
     sqlcc::sql_parser::NodeVisitor &visitor) {

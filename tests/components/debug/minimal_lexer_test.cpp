@@ -1,4 +1,4 @@
-#include "include/sql_parser/lexer_new.h"
+#include "include/sql_parser/lexer.h"
 #include <iostream>
 
 using namespace sqlcc::sql_parser;
@@ -8,7 +8,7 @@ int main() {
     
     try {
         // 创建一个简单的词法分析器实例
-        LexerNew lexer("ALTER");
+        Lexer lexer("ALTER");
         std::cout << "Lexer created successfully" << std::endl;
         
         // 获取第一个token

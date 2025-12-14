@@ -555,7 +555,7 @@ bool UserManager::SetCurrentRole(const std::string& username, const std::string&
 }
 
 // 获取用户当前角色
-std::string UserManager::GetUserCurrentRole(const std::string& username) {
+std::string UserManager::GetUserCurrentRole(const std::string& username) const {
     std::lock_guard<std::mutex> lock(mutex_);
     
     // 查找用户

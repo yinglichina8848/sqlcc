@@ -1,0 +1,20 @@
+# SQLCC服务器端程序构建配置
+
+package(default_visibility = ["//visibility:public"])
+
+cc_binary(
+    name = "server_main",
+    srcs = ["server_main.cpp"],
+    deps = [
+        "//src/network:sqlcc_network",
+        "//src/core:sqlcc_core_lib",
+        "//src/sql_executor:sqlcc_executor",
+        "//src:unified_executor",
+        "//src/sql_parser:sqlcc_parser",
+        "//src/storage_engine:sqlcc_storage_engine",
+        "//src/storage_engine:sqlcc_index_manager",
+        "//src/transaction_manager:sqlcc_transaction_manager",
+    ],
+    includes = ["../../include", "../../include/core", "../../include/storage"],
+    linkopts = ["-lssl", "-lcrypto"],
+)

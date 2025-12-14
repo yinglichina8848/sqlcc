@@ -1,7 +1,7 @@
 #include <iostream>
 #include <memory>
 #include "sql_parser/having_clause_node.h"
-#include "sql_parser/ast_nodes.h"
+#include "../include/sql_parser/ast_nodes.h"
 #include "sql_parser/advanced_ast.h"
 
 using namespace sqlcc::sql_parser;

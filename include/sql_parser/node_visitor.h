@@ -28,6 +28,7 @@ class RevokeStatement;
 class ShowStatement;
 class CommitStatement;
 class RollbackStatement;
+class BinaryExpression;
 class IdentifierExpression;
 class StringLiteralExpression;
 class NumericLiteralExpression;
@@ -40,10 +41,10 @@ class CreateTriggerStatement;
 class DropTriggerStatement;
 class AlterTriggerStatement;
 class Expression;
-class SetOperationNode;
+class SetOperation;
 class CompositeSelectStatement;
-class WindowFunctionNode;
-class WindowSpecificationNode;
+class WindowFunction;
+class WindowSpecification;
 
 class NodeVisitor {
 public:
@@ -75,7 +76,7 @@ public:
   virtual void visit(AlterTriggerStatement &node) = 0;
 
   // 表达式访问方法
-  virtual void visit(Expression &node) = 0;
+  virtual void visit(BinaryExpression &node) = 0;
   virtual void visit(IdentifierExpression &node) = 0;
   virtual void visit(StringLiteralExpression &node) = 0;
   virtual void visit(NumericLiteralExpression &node) = 0;
@@ -83,12 +84,12 @@ public:
   virtual void visit(NullLiteralExpression &node) = 0;
 
   // 集合操作访问方法
-  virtual void visit(SetOperationNode &node) = 0;
+  virtual void visit(SetOperation &node) = 0;
   virtual void visit(CompositeSelectStatement &node) = 0;
   
   // 窗口函数访问方法
-  virtual void visit(WindowFunctionNode &node) = 0;
-  virtual void visit(WindowSpecificationNode &node) = 0;
+  virtual void visit(WindowFunction &node) = 0;
+  virtual void visit(WindowSpecification &node) = 0;
 };
 
 } // namespace sql_parser

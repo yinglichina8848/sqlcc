@@ -49,7 +49,7 @@ int main() {
         // 尝试插入条目到索引
         std::cout << "\n--- Testing Index Insert ---" << std::endl;
         std::cout << "Calling index.Insert()..." << std::endl;
-        bool insert_result = index.Insert(entry);
+        bool insert_result = index.Insert(entry.key, entry.page_id, entry.offset);
         std::cout << "Index Insert result: " << (insert_result ? "SUCCESS" : "FAILED") << std::endl;
         
         // 测试搜索条目

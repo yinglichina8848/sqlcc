@@ -1,8 +1,8 @@
 #include <iostream>
 #include <memory>
 #include "sql_parser/parser_new.h"
-#include "sql_parser/lexer_new.h"
-#include "sql_parser/ast_nodes.h"
+#include "sql_parser/lexer.h"
+#include "../../../include/sql_parser/ast_nodes.h"
 
 using namespace sqlcc;
 using namespace sqlcc::sql_parser;

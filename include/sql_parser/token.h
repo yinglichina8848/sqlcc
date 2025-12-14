@@ -8,73 +8,225 @@ namespace sql_parser {
 
 class Token {
 public:
-    enum Type {
-        // 单字符符号
-        LPAREN, RPAREN, LEFT_BRACE, RIGHT_BRACE,
-        COMMA, DOT, MINUS, PLUS, SEMICOLON, SLASH,
-        EQUAL, NOT_EQUAL, LESS, LESS_EQUAL, GREATER, GREATER_EQUAL,
-        
-        // 字面量
-        IDENTIFIER, STRING, NUMBER, STRING_LITERAL, INTEGER_LITERAL, FLOAT_LITERAL,
-        
-        // 关键字
-        KEYWORD_ADD, KEYWORD_MODIFY, KEYWORD_RENAME, KEYWORD_COLUMN, KEYWORD_CHANGE,
-        KEYWORD_AND, KEYWORD_BREAK, KEYWORD_CLASS, KEYWORD_CONTINUE, KEYWORD_DEF, 
-        KEYWORD_DEL, KEYWORD_DO, KEYWORD_ELSE, KEYWORD_FALSE, KEYWORD_FOR, 
-        KEYWORD_FROM, KEYWORD_IF, KEYWORD_IN, KEYWORD_IS, KEYWORD_NULL, 
-        KEYWORD_OR, KEYWORD_PRINT, KEYWORD_RETURN, KEYWORD_SUPER, KEYWORD_THIS, 
-        KEYWORD_TRUE, KEYWORD_VAR, KEYWORD_WHILE, KEYWORD_SELECT, KEYWORD_INSERT, 
-        KEYWORD_UPDATE, KEYWORD_DELETE, KEYWORD_CREATE, KEYWORD_DROP, KEYWORD_ALTER,
-        KEYWORD_DATABASE, KEYWORD_TABLE, KEYWORD_INDEX, KEYWORD_PRIMARY, KEYWORD_KEY,
-        KEYWORD_NOT, KEYWORD_UNIQUE, KEYWORD_CHECK, KEYWORD_DEFAULT, KEYWORD_AUTO_INCREMENT,
-        KEYWORD_REFERENCES, KEYWORD_FOREIGN, KEYWORD_USE, KEYWORD_VALUES, KEYWORD_SET,
-        KEYWORD_WHERE, KEYWORD_GROUP, KEYWORD_BY, KEYWORD_ORDER, KEYWORD_ASC, KEYWORD_DESC,
-        KEYWORD_INTO, KEYWORD_USER, KEYWORD_GRANT, KEYWORD_REVOKE, KEYWORD_TO, KEYWORD_ON,
-        KEYWORD_EXISTS, KEYWORD_JOIN, KEYWORD_HAVING, KEYWORD_CONSTRAINT, KEYWORD_PRIVILEGES,
-        KEYWORD_WITH, KEYWORD_PASSWORD, KEYWORD_IDENTIFIED, KEYWORD_SHOW, KEYWORD_COLUMNS,
-        KEYWORD_INDEXES, KEYWORD_GRANTS, KEYWORD_DATABASES, KEYWORD_TABLES,
-        KEYWORD_ALL, KEYWORD_DISTINCT, KEYWORD_UNION, KEYWORD_INTERSECT, KEYWORD_EXCEPT, KEYWORD_LIMIT, KEYWORD_OFFSET, KEYWORD_OUTER,
-        
-        MULTIPLY, // *
-        
-        // 操作符
-        OPERATOR_PLUS, OPERATOR_MINUS, OPERATOR_MULTIPLY, OPERATOR_DIVIDE,
-        OPERATOR_EQUAL, OPERATOR_NOT_EQUAL, OPERATOR_LESS_THAN, OPERATOR_LESS_EQUAL,
-        OPERATOR_GREATER_THAN, OPERATOR_GREATER_EQUAL, OPERATOR_MODULO,
-        
-        // 其他符号
-        COLON, UNKNOWN,
-        
-        END_OF_INPUT, // 文件结束
-        
-        ERROR // 错误标记
-    };
+  enum Type {
+    // Punctuation
+    SEMICOLON,
+    COLON,
+    LPAREN,
+    RPAREN,
+    COMMA,
+    DOT,
+    LEFT_BRACE,
+    RIGHT_BRACE,
+    LEFT_BRACKET,
+    RIGHT_BRACKET,
 
-    // 默认构造函数
-    Token();
+    // Literals
+    INTEGER_LITERAL,
+    FLOAT_LITERAL,
+    STRING_LITERAL,
+    BOOLEAN_LITERAL,
+    NULL_LITERAL,
+
+    // Identifiers
+    IDENTIFIER,
+
+    // Operators
+    OPERATOR,
+    OPERATOR_PLUS,
+    OPERATOR_MINUS,
+    OPERATOR_MULTIPLY,
+    OPERATOR_DIVIDE,
+    OPERATOR_EQUAL,
+    OPERATOR_NOT_EQUAL,
+    OPERATOR_LESS_THAN,
+    OPERATOR_LESS_EQUAL,
+    OPERATOR_GREATER_THAN,
+    OPERATOR_GREATER_EQUAL,
+    OPERATOR_MODULO,
+    OPERATOR_AND,
+    OPERATOR_OR,
+    OPERATOR_NOT,
+    OPERATOR_BITWISE_AND,
+    OPERATOR_BITWISE_OR,
+    OPERATOR_BITWISE_NOT,
+    OPERATOR_BITWISE_XOR,
+    OPERATOR_TERNARY,
+    OPERATOR_AT,
+
+    // Keywords - DDL
+    KEYWORD_CREATE,
+    KEYWORD_ALTER,
+    KEYWORD_DROP,
+    KEYWORD_TRUNCATE,
+    KEYWORD_RENAME,
+    KEYWORD_COMMENT,
+    KEYWORD_ADD,
+    KEYWORD_COLUMN,
+    KEYWORD_MODIFY,
+    KEYWORD_CONSTRAINT,
+
+    // Keywords - DML
+    KEYWORD_SELECT,
+    KEYWORD_INSERT,
+    KEYWORD_UPDATE,
+    KEYWORD_DELETE,
+    KEYWORD_MERGE,
+    KEYWORD_FROM,
+    KEYWORD_INTO,
+    KEYWORD_VALUES,
+    KEYWORD_SET,
+    KEYWORD_WHERE,
+    KEYWORD_GROUP,
+    KEYWORD_BY,
+    KEYWORD_HAVING,
+    KEYWORD_ORDER,
+    KEYWORD_LIMIT,
+    KEYWORD_OFFSET,
+    KEYWORD_DISTINCT,
+    KEYWORD_ALL,
+    KEYWORD_AS,
+    KEYWORD_JOIN,
+    KEYWORD_INNER,
+    KEYWORD_LEFT,
+    KEYWORD_RIGHT,
+    KEYWORD_FULL,
+    KEYWORD_OUTER,
+    KEYWORD_ON,
+    KEYWORD_USING,
+
+    // Keywords - DCL
+    KEYWORD_GRANT,
+    KEYWORD_REVOKE,
+    KEYWORD_DENY,
+
+    // Keywords - TCL
+    KEYWORD_BEGIN,
+    KEYWORD_COMMIT,
+    KEYWORD_ROLLBACK,
+    KEYWORD_SAVEPOINT,
+    KEYWORD_TRANSACTION,
+
+    // Keywords - Logical Operators
+    KEYWORD_AND,
+    KEYWORD_OR,
+    KEYWORD_IN,
+    KEYWORD_EXISTS,
+    KEYWORD_BETWEEN,
+    KEYWORD_LIKE,
+    KEYWORD_IS,
+
+    // Keywords - Set Operations
+    KEYWORD_UNION,
+    KEYWORD_INTERSECT,
+    KEYWORD_EXCEPT,
+
+    // Keywords - Control Flow
+    KEYWORD_CASE,
+    KEYWORD_WHEN,
+    KEYWORD_THEN,
+    KEYWORD_ELSE,
+    KEYWORD_END,
+    KEYWORD_IF,
+    KEYWORD_WHILE,
+    KEYWORD_FOR,
+    KEYWORD_DO,
+
+    // Keywords - Database Objects
+    KEYWORD_DATABASE,
+    KEYWORD_TABLE,
+    KEYWORD_INDEX,
+    KEYWORD_VIEW,
+    KEYWORD_SEQUENCE,
+    KEYWORD_TRIGGER,
+    KEYWORD_PROCEDURE,
+    KEYWORD_FUNCTION,
+
+    // Keywords - Constraints
+    KEYWORD_PRIMARY,
+    KEYWORD_KEY,
+    KEYWORD_FOREIGN,
+    KEYWORD_REFERENCES,
+    KEYWORD_UNIQUE,
+    KEYWORD_CHECK,
+    KEYWORD_NOT,
+    KEYWORD_NULL,
+    KEYWORD_DEFAULT,
+    KEYWORD_AUTO_INCREMENT,
+
+    // Keywords - Data Types
+    KEYWORD_INT,
+    KEYWORD_INTEGER,
+    KEYWORD_SMALLINT,
+    KEYWORD_BIGINT,
+    KEYWORD_TINYINT,
+    KEYWORD_VARCHAR,
+    KEYWORD_CHAR,
+    KEYWORD_TEXT,
+    KEYWORD_BLOB,
+    KEYWORD_CLOB,
+    KEYWORD_DECIMAL,
+    KEYWORD_NUMERIC,
+    KEYWORD_FLOAT,
+    KEYWORD_DOUBLE,
+    KEYWORD_REAL,
+    KEYWORD_DATE,
+    KEYWORD_TIME,
+    KEYWORD_TIMESTAMP,
+    KEYWORD_DATETIME,
+    KEYWORD_YEAR,
+    KEYWORD_BOOLEAN,
+    KEYWORD_BOOL,
+
+    // Keywords - Others
+    KEYWORD_USE,
+    KEYWORD_SHOW,
+    KEYWORD_DESCRIBE,
+    KEYWORD_EXPLAIN,
+    KEYWORD_HELP,
+    KEYWORD_STATUS,
+    KEYWORD_ASC,
+    KEYWORD_DESC,
+    KEYWORD_USER,
+    KEYWORD_TO,
+    KEYWORD_PRIVILEGES,
+    KEYWORD_WITH,
+    KEYWORD_PASSWORD,
+    KEYWORD_IDENTIFIED,
+    KEYWORD_COLUMNS,
+    KEYWORD_INDEXES,
+    KEYWORD_GRANTS,
+    KEYWORD_DATABASES,
+    KEYWORD_TABLES,
     
-    Token(Type type, const std::string& lexeme, int line, int column);
-    ~Token() = default;
+    // Keywords - Date/Time Functions
+    KEYWORD_NOW,
+    KEYWORD_CURRENT_TIMESTAMP,
 
-    // 显式声明拷贝构造函数和拷贝赋值操作符
-    Token(const Token& other);
-    Token& operator=(const Token& other);
-    
-    // 显式声明移动构造函数和移动赋值操作符
-    Token(Token&& other) noexcept;
-    Token& operator=(Token&& other) noexcept;
+    // Special tokens
+    END_OF_INPUT,
+    ERROR,
+    UNKNOWN
+  };
 
-    Type getType() const;
-    const std::string& getLexeme() const;
-    int getLine() const;
-    int getColumn() const;
-    static std::string getTypeName(Type type);
+  // Constructors
+  Token();
+  Token(Type type, const std::string &lexeme, size_t line, size_t column);
+
+  // Getters
+  Type getType() const { return type_; }
+  const std::string &getLexeme() const { return lexeme_; }
+  size_t getLine() const { return line_; }
+  size_t getColumn() const { return column_; }
+
+  // Static utility method
+  static std::string getTypeName(Type type);
 
 private:
-    Type type_;
-    std::string lexeme_;
-    int line_;
-    int column_;
+  Type type_;
+  std::string lexeme_;
+  size_t line_;
+  size_t column_;
 };
 
 } // namespace sql_parser

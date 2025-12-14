@@ -1,6 +1,7 @@
 #include "disk_manager.h"
 #include "exception.h"
 #include "utils/logger.h"
+#include "utils/file_descriptor.h"
 #include <algorithm>
 #include <cstring>
 #include <fcntl.h>
@@ -506,47 +507,46 @@ bool DiskManager::BatchReadPages(const std::vector<int32_t> &page_ids,
   // 按页面ID排序，优化磁盘访问模式
   std::sort(page_pairs.begin(), page_pairs.end());
 
-  // 使用文件描述符进行更高效的读取
-  int fd = open(db_file_name_.c_str(), O_RDONLY);
-  if (fd == -1) {
-    SQLCC_LOG_ERROR("Failed to open database file for batch read: " +
-                    db_file_name_);
+  // 使用RAII文件描述符进行更高效的读取
+  try {
+    sqlcc::FileDescriptor fd = sqlcc::FileDescriptor::open(db_file_name_, O_RDONLY);
+
+    bool success = true;
+
+    // 批量读取页面
+    for (const auto &pair : page_pairs) {
+      int32_t page_id = pair.first;
+      char *data = pair.second;
+
+      // 计算页面偏移量
+      off_t offset = static_cast<off_t>(page_id) * PAGE_SIZE;
+
+      // 定位到页面位置
+      if (lseek(fd.get(), offset, SEEK_SET) == -1) {
+        SQLCC_LOG_ERROR("Failed to seek to page " + std::to_string(page_id) +
+                        " during batch read");
+        success = false;
+        continue;
+      }
+
+      // 读取页面数据
+      ssize_t bytes_read = read(fd.get(), data, PAGE_SIZE);
+      if (bytes_read == -1) {
+        SQLCC_LOG_ERROR("Failed to read page " + std::to_string(page_id) +
+                        " during batch read");
+        success = false;
+        continue;
+      } else if (bytes_read < static_cast<ssize_t>(PAGE_SIZE)) {
+        // 如果读取的字节数小于页面大小，可能是文件末尾，填充剩余部分为0
+        memset(data + bytes_read, 0, PAGE_SIZE - bytes_read);
+      }
+    }
+
+    return success;
+  } catch (const std::runtime_error& e) {
+    SQLCC_LOG_ERROR("Failed to open database file for batch read: " + std::string(e.what()));
     return false;
   }
-
-  bool success = true;
-
-  // 批量读取页面
-  for (const auto &pair : page_pairs) {
-    int32_t page_id = pair.first;
-    char *data = pair.second;
-
-    // 计算页面偏移量
-    off_t offset = static_cast<off_t>(page_id) * PAGE_SIZE;
-
-    // 定位到页面位置
-    if (lseek(fd, offset, SEEK_SET) == -1) {
-      SQLCC_LOG_ERROR("Failed to seek to page " + std::to_string(page_id) +
-                      " during batch read");
-      success = false;
-      continue;
-    }
-
-    // 读取页面数据
-    ssize_t bytes_read = read(fd, data, PAGE_SIZE);
-    if (bytes_read == -1) {
-      SQLCC_LOG_ERROR("Failed to read page " + std::to_string(page_id) +
-                      " during batch read");
-      success = false;
-      continue;
-    } else if (bytes_read < static_cast<ssize_t>(PAGE_SIZE)) {
-      // 如果读取的字节数小于页面大小，可能是文件末尾，填充剩余部分为0
-      memset(data + bytes_read, 0, PAGE_SIZE - bytes_read);
-    }
-  }
-
-  close(fd);
-  return success;
 }
 
 bool DiskManager::PrefetchPage(int32_t page_id) {
@@ -562,27 +562,26 @@ bool DiskManager::PrefetchPage(int32_t page_id) {
     return false;
   }
 
-  // 使用文件描述符进行预读
-  int fd = open(db_file_name_.c_str(), O_RDONLY);
-  if (fd == -1) {
-    SQLCC_LOG_ERROR("Failed to open database file for prefetch: " +
-                    db_file_name_);
+  // 使用RAII文件描述符进行预读
+  try {
+    sqlcc::FileDescriptor fd = sqlcc::FileDescriptor::open(db_file_name_, O_RDONLY);
+
+    // 计算页面偏移量
+    off_t offset = static_cast<off_t>(page_id) * PAGE_SIZE;
+
+    // 使用posix_fadvise建议操作系统预读页面
+    int result = posix_fadvise(fd.get(), offset, PAGE_SIZE, POSIX_FADV_WILLNEED);
+
+    if (result != 0) {
+      SQLCC_LOG_ERROR("Failed to prefetch page " + std::to_string(page_id));
+      return false;
+    }
+
+    return true;
+  } catch (const std::runtime_error& e) {
+    SQLCC_LOG_ERROR("Failed to open database file for prefetch: " + std::string(e.what()));
     return false;
   }
-
-  // 计算页面偏移量
-  off_t offset = static_cast<off_t>(page_id) * PAGE_SIZE;
-
-  // 使用posix_fadvise建议操作系统预读页面
-  int result = posix_fadvise(fd, offset, PAGE_SIZE, POSIX_FADV_WILLNEED);
-  close(fd);
-
-  if (result != 0) {
-    SQLCC_LOG_ERROR("Failed to prefetch page " + std::to_string(page_id));
-    return false;
-  }
-
-  return true;
 }
 
 bool DiskManager::BatchPrefetchPages(const std::vector<int32_t> &page_ids) {
@@ -613,42 +612,41 @@ bool DiskManager::BatchPrefetchPages(const std::vector<int32_t> &page_ids) {
   // 按页面ID排序，优化磁盘访问模式
   std::sort(valid_pages.begin(), valid_pages.end());
 
-  // 使用文件描述符进行批量预读
-  int fd = open(db_file_name_.c_str(), O_RDONLY);
-  if (fd == -1) {
-    SQLCC_LOG_ERROR("Failed to open database file for batch prefetch: " +
-                    db_file_name_);
+  // 使用RAII文件描述符进行批量预读
+  try {
+    sqlcc::FileDescriptor fd = sqlcc::FileDescriptor::open(db_file_name_, O_RDONLY);
+
+    bool success = true;
+
+    // 合并连续的页面范围，提高预读效率
+    for (size_t i = 0; i < valid_pages.size();) {
+      int32_t start_page = valid_pages[i];
+      int32_t end_page = start_page;
+
+      // 找到连续的页面范围
+      while (i + 1 < valid_pages.size() && valid_pages[i + 1] == end_page + 1) {
+        i++;
+        end_page++;
+      }
+
+      // 计算连续范围的偏移量和大小
+      off_t offset = static_cast<off_t>(start_page) * PAGE_SIZE;
+      off_t size = static_cast<off_t>(end_page - start_page + 1) * PAGE_SIZE;
+
+      // 使用posix_fadvise建议操作系统预读连续页面范围
+      int result = posix_fadvise(fd.get(), offset, size, POSIX_FADV_WILLNEED);
+      if (result != 0) {
+        success = false;
+      }
+
+      i++; // 移动到下一个不连续的页面
+    }
+
+    return success;
+  } catch (const std::runtime_error& e) {
+    SQLCC_LOG_ERROR("Failed to open database file for batch prefetch: " + std::string(e.what()));
     return false;
   }
-
-  bool success = true;
-
-  // 合并连续的页面范围，提高预读效率
-  for (size_t i = 0; i < valid_pages.size();) {
-    int32_t start_page = valid_pages[i];
-    int32_t end_page = start_page;
-
-    // 找到连续的页面范围
-    while (i + 1 < valid_pages.size() && valid_pages[i + 1] == end_page + 1) {
-      i++;
-      end_page++;
-    }
-
-    // 计算连续范围的偏移量和大小
-    off_t offset = static_cast<off_t>(start_page) * PAGE_SIZE;
-    off_t size = static_cast<off_t>(end_page - start_page + 1) * PAGE_SIZE;
-
-    // 使用posix_fadvise建议操作系统预读连续页面范围
-    int result = posix_fadvise(fd, offset, size, POSIX_FADV_WILLNEED);
-    if (result != 0) {
-      success = false;
-    }
-
-    i++; // 移动到下一个不连续的页面
-  }
-
-  close(fd);
-  return success;
 }
 
 // 配置变更回调处理实现

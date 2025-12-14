@@ -1,5 +1,4 @@
-#include "include/sql_parser/lexer_new.h"
-#include "include/sql_parser/token_new.h"
+#include "include/sql_parser/lexer.h"
 #include <iostream>
 
 using namespace sqlcc::sql_parser;

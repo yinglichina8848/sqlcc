@@ -15,8 +15,24 @@ cc_library(
     deps = [
         "//src/core:sqlcc_core_lib",
         "//include:utils_lib",
-        "@com_google_absl//absl/strings",
+        # 使用系统安装的absl而不是外部依赖
+        # # "@com_google_absl//absl/strings",
     ],
     visibility = ["//visibility:public"],
+    linkopts = ["-lssl", "-lcrypto"],
+)
+
+# SQLCC服务器端程序
+cc_binary(
+    name = "sqlcc_server",
+    srcs = ["server_main.cpp"],
+    deps = [
+        ":sqlcc_network",
+        "//src/core:sqlcc_core_lib",
+        "//src/storage_engine:sqlcc_storage_engine",
+        "//src/transaction_manager:sqlcc_transaction_manager",
+        # # "@com_google_absl//absl/strings",
+    ],
+    includes = ["../../include", "../../include/core", "../../include/storage"],
     linkopts = ["-lssl", "-lcrypto"],
 )

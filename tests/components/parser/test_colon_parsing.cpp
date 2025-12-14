@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include "sql_parser/lexer_new.h"
+#include "sql_parser/lexer.h"
 #include "sql_parser/token_new.h"
 
 using namespace sqlcc;

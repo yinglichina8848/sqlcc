@@ -1,316 +1,359 @@
 #pragma once
 
-#include <atomic>
-#include <chrono>
-#include <list>
 #include <memory>
-#include <mutex>
-#include <string>
 #include <unordered_map>
-
-#include "exception.h"
-#include "page.h"
-#include "utils/config_manager.h"
+#include <vector>
+#include <chrono>
+#include <functional>
+#include <list>
+#include <mutex>
 
 namespace sqlcc {
 
 /**
- * @brief 页面替换策略抽象基类
- *
- * 定义了缓冲池页面替换策略的通用接口，支持多种替换算法的可插拔实现。
- * 主要替换策略包括LRU、2Q、LFU、ARC等。
+ * @brief 抽象替换策略基类
+ * 
+ * 定义了页面替换策略的通用接口，支持多种替换算法。
+ * 派生类需要实现具体的替换逻辑。
  */
 class AbstractReplaceStrategy {
 public:
-  /**
-   * @brief 页面访问记录结构
-   */
-  struct PageAccessInfo {
-    int32_t page_id;                                   // 页面ID
-    int ref_count;                                     // 引用计数
-    bool is_dirty;                                     // 脏页标记
-    std::chrono::steady_clock::time_point access_time; // 最后访问时间
-    size_t access_frequency;                           // 访问频率
+    /**
+     * @brief 页面访问信息
+     */
+    struct PageAccessInfo {
+        int32_t page_id;
+        int32_t access_count;
+        std::chrono::steady_clock::time_point last_access_time;
+        bool is_dirty;
+        int32_t pin_count;
+        
+        PageAccessInfo(int32_t id) 
+            : page_id(id), access_count(0), is_dirty(false), pin_count(0) {
+            last_access_time = std::chrono::steady_clock::now();
+        }
+    };
 
-    PageAccessInfo(int32_t id = -1)
-        : page_id(id), ref_count(0), is_dirty(false),
-          access_time(std::chrono::steady_clock::now()), access_frequency(1) {}
-  };
+    /**
+     * @brief 策略统计信息
+     */
+    struct StrategyStats {
+        size_t total_evictions = 0;      // 总替换次数
+        size_t cache_hits = 0;           // 缓存命中次数
+        size_t cache_misses = 0;         // 缓存未命中次数
+        double hit_rate = 0.0;           // 命中率
+        size_t dirty_evictions = 0;      // 脏页替换次数
+        std::chrono::microseconds avg_eviction_time{0}; // 平均替换时间
+        
+        void UpdateHitRate() {
+            size_t total = cache_hits + cache_misses;
+            hit_rate = total > 0 ? static_cast<double>(cache_hits) * 100.0 / total : 0.0;
+        }
+    };
 
-  /**
-   * @brief 替换策略统计信息
-   */
-  struct StrategyStats {
-    std::atomic<size_t> total_accesses{0};  // 总访问次数
-    std::atomic<size_t> total_evictions{0}; // 总替换次数
-    std::atomic<size_t> strategy_hits{0};   // 策略命中次数
-    std::atomic<size_t> strategy_misses{0}; // 策略未命中次数
+    /**
+     * @brief 构造函数
+     */
+    explicit AbstractReplaceStrategy(const std::string& name);
 
-    // 默认构造函数
-    StrategyStats() = default;
+    /**
+     * @brief 析构函数
+     */
+    virtual ~AbstractReplaceStrategy() = default;
 
-    // 拷贝构造函数
-    StrategyStats(const StrategyStats &other)
-        : total_accesses(other.total_accesses.load()),
-          total_evictions(other.total_evictions.load()),
-          strategy_hits(other.strategy_hits.load()),
-          strategy_misses(other.strategy_misses.load()) {}
+    /**
+     * @brief 记录页面访问
+     * @param page_id 页面ID
+     * @param is_hit 是否命中
+     * @param is_write 是否为写操作
+     */
+    virtual void RecordAccess(int32_t page_id, bool is_hit, bool is_write) = 0;
 
-    // 赋值操作符
-    StrategyStats &operator=(const StrategyStats &other) {
-      if (this != &other) {
-        total_accesses.store(other.total_accesses.load());
-        total_evictions.store(other.total_evictions.load());
-        strategy_hits.store(other.strategy_hits.load());
-        strategy_misses.store(other.strategy_misses.load());
-      }
-      return *this;
-    }
+    /**
+     * @brief 页面被钉住（引用计数增加）
+     * @param page_id 页面ID
+     */
+    virtual void PinPage(int32_t page_id);
 
-    double hit_rate() const {
-      size_t total = total_accesses.load();
-      return total > 0
-                 ? (static_cast<double>(strategy_hits.load()) * 100.0) / total
-                 : 0.0;
-    }
-  };
+    /**
+     * @brief 页面被释放（引用计数减少）
+     * @param page_id 页面ID
+     */
+    virtual void UnpinPage(int32_t page_id);
 
-  /**
-   * @brief 构造函数
-   * @param config_manager 配置管理器引用
-   * @param max_pages 最大页面数量
-   */
-  explicit AbstractReplaceStrategy(ConfigManager &config_manager,
-                                   size_t max_pages)
-      : config_manager_(config_manager), max_pages_(max_pages) {}
+    /**
+     * @brief 页面被修改（标记为脏页）
+     * @param page_id 页面ID
+     */
+    virtual void MarkDirty(int32_t page_id);
 
-  /**
-   * @brief 虚析构函数
-   */
-  virtual ~AbstractReplaceStrategy() = default;
+    /**
+     * @brief 页面被清理（脏页状态清除）
+     * @param page_id 页面ID
+     */
+    virtual void CleanPage(int32_t page_id);
 
-  /**
-   * @brief 通知页面被访问
-   * @param page_id 页面ID
-   * @param is_dirty 是否为脏页
-   */
-  virtual void NotifyPageAccess(int32_t page_id, bool is_dirty) = 0;
+    /**
+     * @brief 选择要替换的页面
+     * @return 被选中的页面ID，如果没有可替换的页面返回-1
+     */
+    virtual int32_t SelectVictim() = 0;
 
-  /**
-   * @brief 通知页面被释放
-   * @param page_id 页面ID
-   */
-  virtual void NotifyPageRelease(int32_t page_id) = 0;
+    /**
+     * @brief 获取策略名称
+     * @return 策略名称
+     */
+    const std::string& GetName() const { return name_; }
 
-  /**
-   * @brief 选择要替换的页面
-   * @return 要替换的页面ID，如果没有可替换的页面返回-1
-   */
-  virtual int32_t SelectVictim() = 0;
+    /**
+     * @brief 获取统计信息
+     * @return 统计信息
+     */
+    StrategyStats GetStats() const;
 
-  /**
-   * @brief 检查页面是否在策略中
-   * @param page_id 页面ID
-   * @return 是否存在
-   */
-  virtual bool Contains(int32_t page_id) const = 0;
+    /**
+     * @brief 重置统计信息
+     */
+    void ResetStats();
 
-  /**
-   * @brief 获取策略中的页面数量
-   * @return 页面数量
-   */
-  virtual size_t Size() const = 0;
+    /**
+     * @brief 获取页面访问信息
+     * @param page_id 页面ID
+     * @return 页面访问信息，如果页面不存在返回nullptr
+     */
+    PageAccessInfo* GetPageInfo(int32_t page_id);
 
-  /**
-   * @brief 获取策略统计信息
-   * @return 统计信息
-   */
-  virtual StrategyStats GetStats() const = 0;
-
-  /**
-   * @brief 重置策略状态
-   */
-  virtual void Reset() = 0;
-
-  /**
-   * @brief 获取策略名称
-   * @return 策略名称
-   */
-  virtual std::string GetStrategyName() const = 0;
-
-  /**
-   * @brief 更新配置参数
-   */
-  virtual void UpdateConfig() = 0;
+    /**
+     * @brief 移除页面信息
+     * @param page_id 页面ID
+     */
+    virtual void RemovePage(int32_t page_id);
 
 protected:
-  ConfigManager &config_manager_;     // 配置管理器引用
-  size_t max_pages_;                  // 最大页面数量
-  mutable std::mutex strategy_mutex_; // 策略互斥锁
+    /**
+     * @brief 添加新页面
+     * @param page_id 页面ID
+     */
+    virtual void AddPage(int32_t page_id);
+
+    /**
+     * @brief 页面访问信息映射
+     */
+    std::unordered_map<int32_t, PageAccessInfo> page_info_;
+
+    /**
+     * @brief 页面访问信息互斥锁
+     */
+    mutable std::mutex page_info_mutex_;
+
+    /**
+     * @brief 策略名称
+     */
+    const std::string name_;
+
+    /**
+     * @brief 统计信息
+     */
+    mutable StrategyStats stats_;
+
+    /**
+     * @brief 统计信息互斥锁
+     */
+    mutable std::mutex stats_mutex_;
 };
 
 /**
- * @brief LRU (Least Recently Used) 替换策略实现
- *
- * LRU策略选择最近最少使用的页面进行替换。这是最常用的页面替换算法之一，
- * 适用于大多数通用数据库工作负载。
+ * @brief LRU（最近最少使用）替换策略
  */
-class LRUStrategy : public AbstractReplaceStrategy {
+class LRUReplaceStrategy : public AbstractReplaceStrategy {
 public:
-  /**
-   * @brief 构造函数
-   * @param config_manager 配置管理器引用
-   * @param max_pages 最大页面数量
-   */
-  explicit LRUStrategy(ConfigManager &config_manager, size_t max_pages);
+    /**
+     * @brief 构造函数
+     */
+    LRUReplaceStrategy();
 
-  /**
-   * @brief 析构函数
-   */
-  ~LRUStrategy() override = default;
+    /**
+     * @brief 析构函数
+     */
+    ~LRUReplaceStrategy() override = default;
 
-  // 实现基类接口
-  void NotifyPageAccess(int32_t page_id, bool is_dirty) override;
-  void NotifyPageRelease(int32_t page_id) override;
-  int32_t SelectVictim() override;
-  bool Contains(int32_t page_id) const override;
-  size_t Size() const override;
-  StrategyStats GetStats() const override;
-  void Reset() override;
-  std::string GetStrategyName() const override;
-  void UpdateConfig() override;
+    void RecordAccess(int32_t page_id, bool is_hit, bool is_write) override;
+    int32_t SelectVictim() override;
 
 private:
-  // LRU链表：最近使用的在头部，最少使用的在尾部
-  std::list<int32_t> lru_list_;
+    /**
+     * @brief LRU链表：最近使用的页面在头部
+     */
+    std::list<int32_t> lru_list_;
 
-  // 页面ID到LRU链表迭代器的映射，用于快速查找和更新
-  std::unordered_map<int32_t, std::list<int32_t>::iterator> lru_map_;
+    /**
+     * @brief 页面ID到LRU链表迭代器的映射
+     */
+    std::unordered_map<int32_t, std::list<int32_t>::iterator> lru_map_;
 
-  // 页面访问信息
-  std::unordered_map<int32_t, PageAccessInfo> page_info_;
-
-  // 统计信息
-  StrategyStats stats_;
+    /**
+     * @brief 更新LRU列表
+     * @param page_id 页面ID
+     */
+    void UpdateLRU(int32_t page_id);
 };
 
 /**
- * @brief 2Q (Two Queues) 替换策略实现
- *
- * 2Q策略是LRU的改进版本，使用两个队列来管理页面：
- * 1. A1in队列：最近被访问一次的页面
- * 2. Am队列：被访问多次的页面
- *
- * 这种策略能够更好地处理循环扫描和突发访问的工作负载。
+ * @brief LFU（最不经常使用）替换策略
  */
-class TwoQStrategy : public AbstractReplaceStrategy {
+class LFUReplaceStrategy : public AbstractReplaceStrategy {
 public:
-  /**
-   * @brief 构造函数
-   * @param config_manager 配置管理器引用
-   * @param max_pages 最大页面数量
-   */
-  explicit TwoQStrategy(ConfigManager &config_manager, size_t max_pages);
+    /**
+     * @brief 构造函数
+     */
+    LFUReplaceStrategy();
 
-  /**
-   * @brief 析构函数
-   */
-  ~TwoQStrategy() override = default;
+    /**
+     * @brief 析构函数
+     */
+    ~LFUReplaceStrategy() override = default;
 
-  // 实现基类接口
-  void NotifyPageAccess(int32_t page_id, bool is_dirty) override;
-  void NotifyPageRelease(int32_t page_id) override;
-  int32_t SelectVictim() override;
-  bool Contains(int32_t page_id) const override;
-  size_t Size() const override;
-  StrategyStats GetStats() const override;
-  void Reset() override;
-  std::string GetStrategyName() const override;
-  void UpdateConfig() override;
+    void RecordAccess(int32_t page_id, bool is_hit, bool is_write) override;
+    int32_t SelectVictim() override;
 
 private:
-  // A1in队列：最近被访问一次的页面（FIFO）
-  std::list<int32_t> a1in_list_;
-  std::unordered_map<int32_t, std::list<int32_t>::iterator> a1in_map_;
+    /**
+     * @brief 访问频率列表：频率低的页面在头部
+     */
+    std::list<int32_t> frequency_list_;
 
-  // Am队列：被访问多次的页面（LRU）
-  std::list<int32_t> am_list_;
-  std::unordered_map<int32_t, std::list<int32_t>::iterator> am_map_;
-
-  // A1out历史队列：记录从A1in队列移出的页面ID
-  std::list<int32_t> a1out_history_;
-  std::unordered_map<int32_t, std::list<int32_t>::iterator> a1out_map_;
-
-  // 页面访问信息
-  std::unordered_map<int32_t, PageAccessInfo> page_info_;
-
-  // 队列大小配置
-  size_t a1in_capacity_;  // A1in队列容量
-  size_t am_capacity_;    // Am队列容量
-  size_t a1out_capacity_; // A1out历史队列容量
-
-  // 统计信息
-  StrategyStats stats_;
-
-  /**
-   * @brief 将页面移动到Am队列
-   * @param page_id 页面ID
-   */
-  void MoveToAmQueue(int32_t page_id);
-
-  /**
-   * @brief 从A1in队列移除页面
-   * @param page_id 页面ID
-   */
-  void RemoveFromA1inQueue(int32_t page_id);
-
-  /**
-   * @brief 更新队列容量配置
-   */
-  void UpdateQueueCapacities();
+    /**
+     * @brief 页面ID到频率列表迭代器的映射
+     */
+    std::unordered_map<int32_t, std::list<int32_t>::iterator> frequency_map_;
 };
 
 /**
- * @brief 替换策略工厂类
- *
- * 负责创建和管理不同类型的替换策略实例。
+ * @brief CLOCK（时钟）替换策略
+ */
+class ClockReplaceStrategy : public AbstractReplaceStrategy {
+public:
+    /**
+     * @brief 构造函数
+     */
+    ClockReplaceStrategy();
+
+    /**
+     * @brief 析构函数
+     */
+    ~ClockReplaceStrategy() override = default;
+
+    void RecordAccess(int32_t page_id, bool is_hit, bool is_write) override;
+    int32_t SelectVictim() override;
+
+private:
+    /**
+     * @brief 页面引用位
+     */
+    std::unordered_map<int32_t, bool> reference_bits_;
+
+    /**
+     * @brief 时钟指针
+     */
+    std::list<int32_t>::iterator clock_hand_;
+    std::list<int32_t> clock_list_;
+};
+
+/**
+ * @brief 替换策略工厂
  */
 class ReplaceStrategyFactory {
 public:
-  /**
-   * @brief 策略类型枚举
-   */
-  enum class StrategyType {
-    LRU,   // LRU策略
-    TWO_Q, // 2Q策略
-    LFU,   // LFU策略（未来扩展）
-    ARC    // ARC策略（未来扩展）
-  };
+    /**
+     * @brief 策略类型枚举
+     */
+    enum class StrategyType {
+        LRU,     // 最近最少使用
+        LFU,     // 最不经常使用
+        CLOCK,   // 时钟算法
+        ARC,     // 自适应替换缓存
+        FIFO     // 先进先出
+    };
 
-  /**
-   * @brief 创建替换策略实例
-   * @param type 策略类型
-   * @param config_manager 配置管理器引用
-   * @param max_pages 最大页面数量
-   * @return 替换策略智能指针
-   */
-  static std::unique_ptr<AbstractReplaceStrategy>
-  CreateStrategy(StrategyType type, ConfigManager &config_manager,
-                 size_t max_pages);
+    /**
+     * @brief 创建替换策略实例
+     * @param type 策略类型
+     * @return 策略实例
+     */
+    static std::unique_ptr<AbstractReplaceStrategy> CreateStrategy(StrategyType type);
 
-  /**
-   * @brief 从字符串解析策略类型
-   * @param strategy_name 策略名称字符串
-   * @return 策略类型
-   */
-  static StrategyType ParseStrategyType(const std::string &strategy_name);
+    /**
+     * @brief 获取策略类型对应的名称
+     * @param type 策略类型
+     * @return 策略名称
+     */
+    static std::string GetStrategyName(StrategyType type);
 
-  /**
-   * @brief 获取策略类型的字符串表示
-   * @param type 策略类型
-   * @return 策略名称字符串
-   */
-  static std::string GetStrategyName(StrategyType type);
+    /**
+     * @brief 根据名称获取策略类型
+     * @param name 策略名称
+     * @return 策略类型
+     */
+    static StrategyType GetStrategyType(const std::string& name);
+};
+
+/**
+ * @brief ARC（自适应替换缓存）替换策略
+ * 
+ * 结合了LRU和LFU的优点，自适应地在两种策略之间切换。
+ */
+class ARCReplaceStrategy : public AbstractReplaceStrategy {
+public:
+    /**
+     * @brief 构造函数
+     * @param p 初始T1和T2的大小参数（默认：总缓存大小的1/32）
+     * @param total_size 总缓存大小
+     */
+    ARCReplaceStrategy(size_t p, size_t total_size);
+
+    /**
+     * @brief 析构函数
+     */
+    ~ARCReplaceStrategy() override = default;
+
+    void RecordAccess(int32_t page_id, bool is_hit, bool is_write) override;
+    int32_t SelectVictim() override;
+
+private:
+    /**
+     * @brief T1列表：最近访问的页面
+     */
+    std::list<int32_t> t1_list_;
+
+    /**
+     * @brief T2列表：经常访问的页面
+     */
+    std::list<int32_t> t2_list_;
+
+    /**
+     * @brief B1列表：最近被替换出T1的页面
+     */
+    std::list<int32_t> b1_list_;
+
+    /**
+     * @brief B2列表：最近被替换出T2的页面
+     */
+    std::list<int32_t> b2_list_;
+
+    /**
+     * @brief P值：T1的目标大小
+     */
+    size_t p_;
+
+    /**
+     * @brief 总缓存大小
+     */
+    const size_t total_size_;
+
+    /**
+     * @brief 获取迭代器的工具函数
+     */
+    std::list<int32_t>::iterator GetIterator(const std::string& list_name, int32_t page_id);
 };
 
 } // namespace sqlcc

@@ -2,7 +2,7 @@
 #define SQLCC_SET_OPERATION_EXECUTOR_H
 
 #include "core/execution_result.h"
-#include "sql_parser/set_operation_node.h"
+#include "sql_parser/set_operation.h"
 #include <chrono>
 #include <memory>
 #include <optional>
@@ -14,7 +14,7 @@ class SqlExecutor;
 
 // 使用命名空间别名简化代码
 using sql_parser::SelectStatement;
-using sql_parser::SetOperationNode;
+using sql_parser::SetOperation;
 using sql_parser::SetOperationType;
 
 // 执行统计信息
@@ -53,7 +53,7 @@ public:
   SetOperationExecutor &operator=(SetOperationExecutor &&) = delete;
 
   // 执行集合操作
-  ExecutionResult execute(const SetOperationNode &operation);
+  ExecutionResult execute(const SetOperation &operation);
 
   // 设置内存限制（字节）
   void set_memory_limit(size_t limit_bytes);
@@ -63,17 +63,17 @@ public:
 
 private:
   // 执行UNION操作
-  ExecutionResult execute_union(const SetOperationNode &operation,
+  ExecutionResult execute_union(const SetOperation &operation,
                                 const ExecutionResult &left,
                                 const ExecutionResult &right);
 
   // 执行INTERSECT操作
-  ExecutionResult execute_intersect(const SetOperationNode &operation,
+  ExecutionResult execute_intersect(const SetOperation &operation,
                                     const ExecutionResult &left,
                                     const ExecutionResult &right);
 
   // 执行EXCEPT操作
-  ExecutionResult execute_except(const SetOperationNode &operation,
+  ExecutionResult execute_except(const SetOperation &operation,
                                  const ExecutionResult &left,
                                  const ExecutionResult &right);
 

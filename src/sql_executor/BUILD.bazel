@@ -7,8 +7,6 @@ cc_library(
     srcs = [
         "constraint_executor.cpp",
         "data_type.cpp",
-        "index_manager.cpp",
-        "permission_validator.cpp",
         "schema_manager.cpp",
         "sql_executor.cpp",
         "system_database.cpp",
@@ -25,12 +23,10 @@ cc_library(
     deps = [
         "//src/config_manager:sqlcc_config_manager",
         "//src/core:sqlcc_core_lib",
-        "//src/core:error_handler",  # 添加ErrorHandler依赖
+        "//:unified_executor",
         "//src/storage_engine:sqlcc_storage_engine",
         "//src/storage_engine:sqlcc_index_manager",
         "//src/sql_parser:sqlcc_parser",
-        "@com_google_absl//absl/strings",
-        "@com_google_absl//absl/container:flat_hash_map",
     ],
     visibility = ["//visibility:public"],
 )

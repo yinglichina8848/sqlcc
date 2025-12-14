@@ -67,13 +67,25 @@ SQLCC文档体系
 
 ## 🎯 按角色分类
 
+### 🤖 AI开发者 (新增v1.1.4)
+
+**AI专用开发指南** ([🔗 AI开发指南总览](docs/AI-Agent/项目目录结构说明.md)):
+1. [项目目录结构说明](docs/AI-Agent/项目目录结构说明.md) - 完整项目架构和目录职责
+2. [源码组织架构](docs/AI-Agent/源码组织架构.md) - 分层架构和模块协作详解
+3. [头文件组织说明](docs/AI-Agent/头文件组织说明.md) - 接口定义和依赖关系规范
+4. [构建系统详解](docs/AI-Agent/构建系统详解.md) - Bazel构建配置和命令使用
+5. [测试脚本组织](docs/AI-Agent/测试脚本组织.md) - 多层次测试体系和执行方法
+6. [当前工作状态](docs/AI-Agent/当前工作状态.md) - v1.1.4开发进展和未来规划
+7. [代码改进历史](docs/AI-Agent/代码改进历史.md) - 从v1.1.3到v1.1.4的主要改进
+
 ### 👨‍💻 开发者
 
 **新手开发者** ([🔗 开发手册](docs/guides/DEVELOPMENT_ENVIRONMENT_SETUP.md)):
 1. [开发环境安装配置](docs/guides/DEVELOPMENT_ENVIRONMENT_SETUP.md) - Ubuntu环境配置指南
-2. [AI工具使用指南](docs/guides/AI_TOOLS_USAGE_GUIDE.md) - AI编程助手最佳实践
-3. [测试驱动开发指南](docs/guides/TEST_DRIVEN_DEVELOPMENT_GUIDE.md) - TDD方法论与实践
-4. [Doxygen文档配置](docs/guides/DOXYGEN_COVERAGE_CONFIGURATION.md) - API文档和覆盖率配置
+2. [构建和编译测试指南](docs/guides/BUILD_AND_TEST_GUIDE.md) - 完整构建测试流程
+3. [AI工具使用指南](docs/guides/AI_TOOLS_USAGE_GUIDE.md) - AI编程助手最佳实践
+4. [测试驱动开发指南](docs/guides/TEST_DRIVEN_DEVELOPMENT_GUIDE.md) - TDD方法论与实践
+5. [Doxygen文档配置](docs/guides/DOXYGEN_COVERAGE_CONFIGURATION.md) - API文档和覆盖率配置
 
 **进阶开发者**:
 1. [数据库知识生态系统](DATABASE_KNOWLEDGE_ECOSYSTEM.md) - 计算机科学知识全景图
@@ -244,8 +256,8 @@ grep -r "批量预取" docs/
 
 ## 📞 联系支持
 
-**文档维护**: SQLCC开发团队  
-**最后更新**: 2025年11月12日  
+**文档维护**: SQLCC开发团队
+**最后更新**: 2025年12月14日
 **更新频率**: 每周检查，重大变更即时更新
 
 ### 📊 文档质量与完整性

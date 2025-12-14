@@ -2,7 +2,7 @@
 #include "database_manager.h"
 #include "table_storage.h"
 #include "storage_engine.h"
-#include "sql_parser/parser_new.h"
+#include "sql_parser/parser.h"
 #include <iostream>
 #include <memory>
 #include <vector>

@@ -1,5 +1,5 @@
 #include "database_manager.h"
-#include "sql_parser/parser_new.h"
+#include "sql_parser/parser.h"
 #include "unified_executor.h"
 #include <iostream>
 #include <memory>
@@ -26,7 +26,7 @@ int main() {
 
     // CREATE DATABASE
     {
-      sqlcc::sql_parser::ParserNew parser("CREATE DATABASE test_unified;");
+      sqlcc::sql_parser::Parser parser("CREATE DATABASE test_unified;");
       auto statements = parser.parse();
       if (!statements.empty()) {
         auto result = unified_executor->execute(std::move(statements[0]));
@@ -37,7 +37,7 @@ int main() {
 
     // USE DATABASE
     {
-      sqlcc::sql_parser::ParserNew parser("USE test_unified;");
+      sqlcc::sql_parser::Parser parser("USE test_unified;");
       auto statements = parser.parse();
       if (!statements.empty()) {
         auto result = unified_executor->execute(std::move(statements[0]));
@@ -48,8 +48,8 @@ int main() {
 
     // CREATE TABLE
     {
-      sqlcc::sql_parser::ParserNew parser(
-          "CREATE TABLE employees (id INT, name VARCHAR(50), salary INT);");
+      sqlcc::sql_parser::Parser parser(
+          "CREATE TABLE employees (id INT PRIMARY KEY, name VARCHAR(50), salary INT);");
       auto statements = parser.parse();
       if (!statements.empty()) {
         auto result = unified_executor->execute(std::move(statements[0]));
@@ -70,7 +70,7 @@ int main() {
         "INSERT INTO employees VALUES (5, 'Eve', 70000);"};
 
     for (const auto &sql : insert_sqls) {
-      sqlcc::sql_parser::ParserNew parser(sql);
+      sqlcc::sql_parser::Parser parser(sql);
       auto statements = parser.parse();
       if (!statements.empty()) {
         auto result = unified_executor->execute(std::move(statements[0]));
@@ -81,7 +81,7 @@ int main() {
 
     // UPDATE语句（演示索引优化）
     {
-      sqlcc::sql_parser::ParserNew parser(
+      sqlcc::sql_parser::Parser parser(
           "UPDATE employees SET salary = 75000 WHERE id = 1;");
       auto statements = parser.parse();
       if (!statements.empty()) {
@@ -101,7 +101,7 @@ int main() {
 
     // DELETE语句（演示索引优化）
     {
-      sqlcc::sql_parser::ParserNew parser(
+      sqlcc::sql_parser::Parser parser(
           "DELETE FROM employees WHERE id = 5;");
       auto statements = parser.parse();
       if (!statements.empty()) {
@@ -123,7 +123,7 @@ int main() {
 
     // SHOW TABLES
     {
-      sqlcc::sql_parser::ParserNew parser("SHOW TABLES;");
+      sqlcc::sql_parser::Parser parser("SHOW TABLES;");
       auto statements = parser.parse();
       if (!statements.empty()) {
         auto result = unified_executor->execute(std::move(statements[0]));
@@ -136,7 +136,7 @@ int main() {
 
     // CREATE USER
     {
-      sqlcc::sql_parser::ParserNew parser(
+      sqlcc::sql_parser::Parser parser(
           "CREATE USER test_user IDENTIFIED BY 'password123';");
       auto statements = parser.parse();
       if (!statements.empty()) {
@@ -148,7 +148,7 @@ int main() {
 
     // GRANT权限
     {
-      sqlcc::sql_parser::ParserNew parser(
+      sqlcc::sql_parser::Parser parser(
           "GRANT SELECT, INSERT ON TABLE employees TO test_user;");
       auto statements = parser.parse();
       if (!statements.empty()) {

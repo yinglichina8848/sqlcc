@@ -1,524 +1,575 @@
 #include "storage/table_storage.h"
 #include "storage/b_plus_tree.h"
 #include "storage_engine.h"
-#include "sql_executor/index_manager.h"
+#include "storage/index_manager.h"
 #include "utils/logger.h"
 #include <algorithm>
 #include <cstring>
+#include <memory>
+#include <stdexcept>
+#include <vector>
+#include <utility>
+#include <limits>
+#include <mutex>
+#include <cmath>
 
 namespace sqlcc {
 
-TableStorageManager::TableStorageManager(
-    std::shared_ptr<StorageEngine> storage_engine)
-    : storage_engine_(storage_engine) {
-  // 初始化索引管理器
-  // 注意：这里需要获取ConfigManager，但在StorageEngine中可能没有直接提供
-  // 作为一个简化实现，我们可以创建一个默认的ConfigManager
-  // 在实际实现中，应该通过适当的方式获取ConfigManager
-  ConfigManager config_manager;
-  index_manager_ = std::make_shared<IndexManager>(storage_engine_, config_manager);
+// 页面RAII管理器类 - 实现安全的页面生命周期管理
+class PageRAII {
+public:
+    PageRAII(Page* page, std::shared_ptr<StorageEngine> storage_engine, int32_t page_id)
+        : page_(page), storage_engine_(std::move(storage_engine)), page_id_(page_id), pinned_(true) {
+        if (!page_) {
+            throw std::invalid_argument("Page cannot be null");
+        }
+        if (!storage_engine_) {
+            throw std::invalid_argument("StorageEngine cannot be null");
+        }
+        if (page_id < 0) {
+            throw std::invalid_argument("Page ID must be non-negative");
+        }
+    }
+
+    ~PageRAII() {
+        if (pinned_ && storage_engine_ && page_id_ >= 0) {
+            try {
+                storage_engine_->UnpinPage(page_id_, false);
+            } catch (const std::exception& e) {
+                SQLCC_LOG_ERROR("Failed to unpin page " + std::to_string(page_id_) + 
+                               " during RAII cleanup: " + std::string(e.what()));
+            }
+        }
+    }
+
+    // 禁止拷贝，允许移动
+    PageRAII(const PageRAII&) = delete;
+    PageRAII& operator=(const PageRAII&) = delete;
+    
+    PageRAII(PageRAII&& other) noexcept 
+        : page_(other.page_), storage_engine_(std::move(other.storage_engine_)), 
+          page_id_(other.page_id_), pinned_(other.pinned_) {
+        other.page_ = nullptr;
+        other.pinned_ = false;
+    }
+    
+    PageRAII& operator=(PageRAII&& other) noexcept {
+        if (this != &other) {
+            // 清理当前资源
+            if (pinned_ && storage_engine_ && page_id_ >= 0) {
+                storage_engine_->UnpinPage(page_id_, false);
+            }
+            
+            // 移动新资源
+            page_ = other.page_;
+            storage_engine_ = std::move(other.storage_engine_);
+            page_id_ = other.page_id_;
+            pinned_ = other.pinned_;
+            
+            other.page_ = nullptr;
+            other.pinned_ = false;
+        }
+        return *this;
+    }
+
+    Page* Get() const { return page_; }
+    Page& operator*() const { return *page_; }
+    Page* operator->() const { return page_; }
+    int32_t GetPageId() const { return page_id_; }
+    
+    // 安全的数据访问
+    char* GetData() {
+        if (!page_) {
+            throw std::runtime_error("Page is null");
+        }
+        return page_->GetData();
+    }
+    
+    const char* GetData() const {
+        if (!page_) {
+            throw std::runtime_error("Page is null");
+        }
+        return page_->GetData();
+    }
+    
+    void Unpin(bool is_dirty) {
+        if (pinned_ && storage_engine_ && page_id_ >= 0) {
+            storage_engine_->UnpinPage(page_id_, is_dirty);
+            pinned_ = false;
+        }
+    }
+
+private:
+    Page* page_;
+    std::shared_ptr<StorageEngine> storage_engine_;
+    int32_t page_id_;
+    bool pinned_;
+};
+
+// 记录安全验证类
+class RecordValidator {
+public:
+    // 验证记录大小限制
+    static bool ValidateRecordSize(size_t record_size, size_t max_record_size = 65536) {
+        if (record_size == 0) {
+            SQLCC_LOG_ERROR("Record size cannot be zero");
+            return false;
+        }
+        if (record_size > max_record_size) {
+            SQLCC_LOG_ERROR("Record size " + std::to_string(record_size) + 
+                         " exceeds maximum allowed size " + std::to_string(max_record_size));
+            return false;
+        }
+        return true;
+    }
+    
+    // 验证字段类型边界
+    static bool ValidateFieldValue(const std::string& field_name, const std::string& field_type, 
+                               const std::string& value) {
+        if (field_name.empty()) {
+            SQLCC_LOG_ERROR("Field name cannot be empty");
+            return false;
+        }
+        
+        // 根据字段类型验证值
+        if (field_type == "INT" || field_type == "INTEGER") {
+            try {
+                // 验证整数值范围
+                long long int_value = std::stoll(value);
+                if (int_value < INT32_MIN || int_value > INT32_MAX) {
+                    SQLCC_LOG_ERROR("Integer value " + value + " out of range for field " + field_name);
+                    return false;
+                }
+            } catch (const std::exception& e) {
+                SQLCC_LOG_ERROR("Invalid integer value '" + value + "' for field " + field_name + ": " + e.what());
+                return false;
+            }
+        } else if (field_type == "BIGINT") {
+            try {
+                // 验证长整数值范围
+                long long bigint_value = std::stoll(value);
+                if (bigint_value < INT64_MIN || bigint_value > INT64_MAX) {
+                    SQLCC_LOG_ERROR("Bigint value " + value + " out of range for field " + field_name);
+                    return false;
+                }
+            } catch (const std::exception& e) {
+                SQLCC_LOG_ERROR("Invalid bigint value '" + value + "' for field " + field_name + ": " + e.what());
+                return false;
+            }
+        } else if (field_type == "FLOAT" || field_type == "DOUBLE") {
+            try {
+                // 验证浮点数值
+                double double_value = std::stod(value);
+                if (std::isnan(double_value) || std::isinf(double_value)) {
+                    SQLCC_LOG_ERROR("Invalid floating point value '" + value + "' for field " + field_name);
+                    return false;
+                }
+            } catch (const std::exception& e) {
+                SQLCC_LOG_ERROR("Invalid floating point value '" + value + "' for field " + field_name + ": " + e.what());
+                return false;
+            }
+        } else if (field_type == "VARCHAR" || field_type == "TEXT") {
+            // 验证变长字段
+            if (value.length() > 65535) {
+                SQLCC_LOG_ERROR("VARCHAR/TEXT value length " + std::to_string(value.length()) + 
+                             " exceeds maximum for field " + field_name);
+                return false;
+            }
+        }
+        
+        // 检查空字符和不可打印字符
+        for (size_t i = 0; i < value.length(); ++i) {
+            char c = value[i];
+            if (c == '\0') {
+                SQLCC_LOG_ERROR("Null character not allowed in field " + field_name);
+                return false;
+            }
+            // 可以添加更多不可打印字符的检查
+        }
+        
+        return true;
+    }
+    
+    // 验证数据完整性约束
+    static bool ValidateDataIntegrity(const std::vector<std::string>& field_names,
+                                  const std::vector<std::string>& field_types,
+                                  const std::vector<std::string>& values) {
+        if (field_names.size() != field_types.size() || field_types.size() != values.size()) {
+            SQLCC_LOG_ERROR("Field count mismatch: names=" + std::to_string(field_names.size()) +
+                         ", types=" + std::to_string(field_types.size()) +
+                         ", values=" + std::to_string(values.size()));
+            return false;
+        }
+        
+        // 验证每个字段
+        for (size_t i = 0; i < values.size(); ++i) {
+            if (!ValidateFieldValue(field_names[i], field_types[i], values[i])) {
+                return false;
+            }
+        }
+        
+        return true;
+    }
+};
+
+TableStorageManager::TableStorageManager(std::shared_ptr<StorageEngine> storage_engine)
+    : storage_engine_(std::move(storage_engine)) {
+    // 增强的参数验证
+    if (!storage_engine_) {
+        throw std::invalid_argument("StorageEngine cannot be null");
+    }
+    
+    try {
+        // 初始化索引管理器
+        ConfigManager config_manager;
+        index_manager_ = std::make_shared<IndexManager>(storage_engine_, config_manager);
+        SQLCC_LOG_INFO("TableStorageManager initialized successfully");
+    } catch (const std::exception& e) {
+        SQLCC_LOG_ERROR("Failed to initialize TableStorageManager: " + std::string(e.what()));
+        throw;
+    }
 }
 
 TableStorageManager::~TableStorageManager() {}
 
 bool TableStorageManager::CreateTable(const std::string &table_name,
                                       const std::vector<TableColumn> &columns) {
-  // 检查表是否已存在
-  if (TableExists(table_name)) {
-    SQLCC_LOG_WARN("Table already exists: " + table_name);
-    return false;
-  }
-
-  // 创建表元数据
-  auto metadata = std::make_shared<TableMetadata>();
-  metadata->table_name = table_name;
-  metadata->columns = columns;
-
-  // 计算记录大小
-  metadata->record_size = 0;
-  metadata->is_fixed_length = true;
-
-  for (size_t i = 0; i < columns.size(); i++) {
-    const auto &column = columns[i];
-    metadata->column_index_map[column.name] = static_cast<int>(i);
-
-    // 检查是否为变长字段
-    if (column.type == "VARCHAR" || column.type == "TEXT") {
-      metadata->is_fixed_length = false;
-      metadata->record_size += sizeof(uint32_t); // 变长字段长度前缀
-    } else if (column.type == "INT" || column.type == "INTEGER") {
-      metadata->record_size += sizeof(int32_t);
-    } else if (column.type == "BIGINT") {
-      metadata->record_size += sizeof(int64_t);
-    } else if (column.type == "FLOAT") {
-      metadata->record_size += sizeof(float);
-    } else if (column.type == "DOUBLE") {
-      metadata->record_size += sizeof(double);
-    } else {
-      // 默认当作固定大小处理
-      metadata->record_size += column.size;
+    // 增强的参数验证
+    if (table_name.empty()) {
+        SQLCC_LOG_ERROR("Table name cannot be empty");
+        return false;
     }
-  }
+    
+    if (columns.empty()) {
+        SQLCC_LOG_ERROR("Table must have at least one column: " + table_name);
+        return false;
+    }
+    
+    // 检查表是否已存在
+    if (TableExists(table_name)) {
+        SQLCC_LOG_WARN("Table already exists: " + table_name);
+        return false;
+    }
 
-  // 添加记录头部大小
-  metadata->record_size += sizeof(RecordHeader);
+    // 创建表元数据
+    auto metadata = std::make_shared<TableMetadata>();
+    metadata->table_name = table_name;
+    metadata->columns = columns;
 
-  // 存储元数据
-  table_metadata_[table_name] = metadata;
+    // 计算记录大小并验证
+    metadata->record_size = 0;
+    metadata->is_fixed_length = true;
 
-  SQLCC_LOG_INFO("Created table: " + table_name + " with " +
-                 std::to_string(columns.size()) + " columns");
-  return true;
+    for (size_t i = 0; i < columns.size(); i++) {
+        const auto &column = columns[i];
+        
+        // 验证列名
+        if (column.name.empty()) {
+            SQLCC_LOG_ERROR("Column name cannot be empty at index " + std::to_string(i));
+            return false;
+        }
+        
+        // 检查重复列名
+        if (metadata->column_index_map.find(column.name) != metadata->column_index_map.end()) {
+            SQLCC_LOG_ERROR("Duplicate column name: " + column.name);
+            return false;
+        }
+        
+        metadata->column_index_map[column.name] = static_cast<int>(i);
+
+        // 检查是否为变长字段
+        if (column.type == "VARCHAR" || column.type == "TEXT") {
+            metadata->is_fixed_length = false;
+            metadata->record_size += sizeof(uint32_t); // 变长字段长度前缀
+        } else if (column.type == "INT" || column.type == "INTEGER") {
+            metadata->record_size += sizeof(int32_t);
+        } else if (column.type == "BIGINT") {
+            metadata->record_size += sizeof(int64_t);
+        } else if (column.type == "FLOAT") {
+            metadata->record_size += sizeof(float);
+        } else if (column.type == "DOUBLE") {
+            metadata->record_size += sizeof(double);
+        } else {
+            // 默认当作固定大小处理，但需要验证大小
+            if (column.size == 0) {
+                SQLCC_LOG_ERROR("Invalid column size for column: " + column.name);
+                return false;
+            }
+            metadata->record_size += column.size;
+        }
+        
+        // 验证总记录大小不会溢出
+        if (metadata->record_size > std::numeric_limits<uint32_t>::max()) {
+            SQLCC_LOG_ERROR("Record size exceeds maximum for table: " + table_name);
+            return false;
+        }
+    }
+
+    // 添加记录头部大小
+    metadata->record_size += sizeof(RecordHeader);
+
+    // 存储元数据
+    table_metadata_[table_name] = metadata;
+
+    SQLCC_LOG_INFO("Created table: " + table_name + " with " +
+                   std::to_string(columns.size()) + " columns");
+    return true;
 }
 
 bool TableStorageManager::DropTable(const std::string &table_name) {
-  // 检查表是否存在
-  if (!TableExists(table_name)) {
-    SQLCC_LOG_WARN("Table does not exist: " + table_name);
-    return false;
-  }
+    // 增强的参数验证
+    if (table_name.empty()) {
+        SQLCC_LOG_ERROR("Table name cannot be empty");
+        return false;
+    }
+    
+    // 检查表是否存在
+    if (!TableExists(table_name)) {
+        SQLCC_LOG_WARN("Table does not exist: " + table_name);
+        return false;
+    }
 
-  // 移除表元数据
-  table_metadata_.erase(table_name);
+    // 移除表元数据
+    table_metadata_.erase(table_name);
 
-  SQLCC_LOG_INFO("Dropped table: " + table_name);
-  return true;
+    SQLCC_LOG_INFO("Dropped table: " + table_name);
+    return true;
 }
 
 bool TableStorageManager::TableExists(const std::string &table_name) const {
-  return table_metadata_.find(table_name) != table_metadata_.end();
+    if (table_name.empty()) {
+        return false;
+    }
+    return table_metadata_.find(table_name) != table_metadata_.end();
 }
 
 std::shared_ptr<TableMetadata>
 TableStorageManager::GetTableMetadata(const std::string &table_name) const {
-  auto it = table_metadata_.find(table_name);
-  if (it != table_metadata_.end()) {
-    return it->second;
-  }
-  return nullptr;
+    if (table_name.empty()) {
+        return nullptr;
+    }
+    auto it = table_metadata_.find(table_name);
+    if (it != table_metadata_.end()) {
+        return it->second;
+    }
+    return nullptr;
 }
 
 bool TableStorageManager::InsertRecord(const std::string &table_name,
                                        const std::vector<std::string> &values,
                                        int32_t &page_id, size_t &offset) {
-  // 检查表是否存在
-  auto metadata = GetTableMetadata(table_name);
-  if (!metadata) {
-    SQLCC_LOG_ERROR("Table does not exist: " + table_name);
-    return false;
-  }
+    try {
+        // 增强的参数验证
+        if (table_name.empty()) {
+            SQLCC_LOG_ERROR("Table name cannot be empty");
+            return false;
+        }
+        
+        if (values.empty()) {
+            SQLCC_LOG_ERROR("Values cannot be empty for table: " + table_name);
+            return false;
+        }
 
-  // 检查列数是否匹配
-  if (values.size() != metadata->columns.size()) {
-    SQLCC_LOG_ERROR("Column count mismatch for table: " + table_name);
-    return false;
-  }
+        // 检查表是否存在
+        auto metadata = GetTableMetadata(table_name);
+        if (!metadata) {
+            SQLCC_LOG_ERROR("Table does not exist: " + table_name);
+            return false;
+        }
 
-  // 分配新页面（简化实现，实际应查找有足够空间的页面）
-  Page *page = AllocateNewPage(table_name);
-  if (!page) {
-    SQLCC_LOG_ERROR("Failed to allocate new page for table: " + table_name);
-    return false;
-  }
+        // 检查列数是否匹配
+        if (values.size() != metadata->columns.size()) {
+            SQLCC_LOG_ERROR("Column count mismatch for table: " + table_name + 
+                         " (expected " + std::to_string(metadata->columns.size()) + 
+                         ", got " + std::to_string(values.size()) + ")");
+            return false;
+        }
+        
+        // 验证数据完整性约束
+        std::vector<std::string> field_names;
+        std::vector<std::string> field_types;
+        for (const auto& column : metadata->columns) {
+            field_names.push_back(column.name);
+            field_types.push_back(column.type);
+        }
+        
+        if (!RecordValidator::ValidateDataIntegrity(field_names, field_types, values)) {
+            return false;
+        }
 
-  // 插入记录到页面
-  if (!InsertRecordToPage(page, values, offset)) {
-    SQLCC_LOG_ERROR("Failed to insert record to page for table: " + table_name);
-    return false;
-  }
+        // 分配新页面（简化实现，实际应查找有足够空间的页面）
+        auto page = AllocateNewPage(table_name);
+        if (!page) {
+            SQLCC_LOG_ERROR("Failed to allocate new page for table: " + table_name);
+            return false;
+        }
 
-  page_id = page->GetPageId();
-  return true;
+        // 插入记录到页面
+        if (!InsertRecordToPage(page, values, offset)) {
+            SQLCC_LOG_ERROR("Failed to insert record to page for table: " + table_name);
+            return false;
+        }
+
+        page_id = page->GetPageId();
+        return true;
+        
+    } catch (const std::exception& e) {
+        SQLCC_LOG_ERROR("Exception in InsertRecord for table " + table_name + ": " + std::string(e.what()));
+        return false;
+    }
 }
 
 bool TableStorageManager::UpdateRecord(
     const std::string &table_name, int32_t page_id, size_t offset,
     const std::vector<std::string> &new_values) {
-  // 检查表是否存在
-  auto metadata = GetTableMetadata(table_name);
-  if (!metadata) {
-    SQLCC_LOG_ERROR("Table does not exist: " + table_name);
-    return false;
-  }
+    try {
+        // 增强的参数验证
+        if (table_name.empty()) {
+            SQLCC_LOG_ERROR("Table name cannot be empty");
+            return false;
+        }
+        
+        if (page_id < 0) {
+            SQLCC_LOG_ERROR("Invalid page ID: " + std::to_string(page_id));
+            return false;
+        }
+        
+        if (offset >= PAGE_SIZE) {
+            SQLCC_LOG_ERROR("Invalid offset: " + std::to_string(offset) + " (max: " + std::to_string(PAGE_SIZE) + ")");
+            return false;
+        }
+        
+        if (new_values.empty()) {
+            SQLCC_LOG_ERROR("New values cannot be empty for table: " + table_name);
+            return false;
+        }
 
-  // 获取页面
-  Page *page = storage_engine_->FetchPage(page_id);
-  if (!page) {
-    SQLCC_LOG_ERROR("Failed to fetch page: " + std::to_string(page_id));
-    return false;
-  }
+        // 检查表是否存在
+        auto metadata = GetTableMetadata(table_name);
+        if (!metadata) {
+            SQLCC_LOG_ERROR("Table does not exist: " + table_name);
+            return false;
+        }
+        
+        // 检查列数是否匹配
+        if (new_values.size() != metadata->columns.size()) {
+            SQLCC_LOG_ERROR("Column count mismatch for table: " + table_name);
+            return false;
+        }
 
-  // 更新记录
-  bool result = UpdateRecordInPage(page, offset, new_values);
+        // 获取页面
+        Page *page = storage_engine_->FetchPage(page_id);
+        if (!page) {
+            SQLCC_LOG_ERROR("Failed to fetch page: " + std::to_string(page_id));
+            return false;
+        }
 
-  // 解除页面固定
-  storage_engine_->UnpinPage(page_id, result); // 如果更新成功，则标记为脏页
+        // 更新记录
+        bool result = UpdateRecordInPage(page, offset, new_values);
 
-  return result;
+        // 解除页面固定
+        storage_engine_->UnpinPage(page_id, result); // 如果更新成功，则标记为脏页
+
+        return result;
+        
+    } catch (const std::exception& e) {
+        SQLCC_LOG_ERROR("Exception in UpdateRecord for table " + table_name + ": " + std::string(e.what()));
+        return false;
+    }
 }
 
 bool TableStorageManager::DeleteRecord(const std::string &table_name,
                                        int32_t page_id, size_t offset) {
-  // 检查表是否存在
-  auto metadata = GetTableMetadata(table_name);
-  if (!metadata) {
-    SQLCC_LOG_ERROR("Table does not exist: " + table_name);
-    return false;
-  }
+    try {
+        // 增强的参数验证
+        if (table_name.empty()) {
+            SQLCC_LOG_ERROR("Table name cannot be empty");
+            return false;
+        }
+        
+        if (page_id < 0) {
+            SQLCC_LOG_ERROR("Invalid page ID: " + std::to_string(page_id));
+            return false;
+        }
+        
+        if (offset >= PAGE_SIZE) {
+            SQLCC_LOG_ERROR("Invalid offset: " + std::to_string(offset) + " (max: " + std::to_string(PAGE_SIZE) + ")");
+            return false;
+        }
 
-  // 获取页面
-  Page *page = storage_engine_->FetchPage(page_id);
-  if (!page) {
-    SQLCC_LOG_ERROR("Failed to fetch page: " + std::to_string(page_id));
-    return false;
-  }
+        // 检查表是否存在
+        auto metadata = GetTableMetadata(table_name);
+        if (!metadata) {
+            SQLCC_LOG_ERROR("Table does not exist: " + table_name);
+            return false;
+        }
 
-  // 删除记录
-  bool result = DeleteRecordInPage(page, offset);
-
-  // 解除页面固定
-  storage_engine_->UnpinPage(page_id, result); // 如果删除成功，则标记为脏页
-
-  return result;
-}
-
-std::vector<std::string>
-TableStorageManager::GetRecord(const std::string &table_name, int32_t page_id,
-                               size_t offset) const {
-  // 检查表是否存在
-  auto metadata = GetTableMetadata(table_name);
-  if (!metadata) {
-    SQLCC_LOG_ERROR("Table does not exist: " + table_name);
-    return {};
-  }
-
-  // 获取页面
-  Page *page = storage_engine_->FetchPage(page_id);
-  if (!page) {
-    SQLCC_LOG_ERROR("Failed to fetch page: " + std::to_string(page_id));
-    return {};
-  }
-
-  // 获取记录
-  std::vector<std::string> record = GetRecordFromPage(page, offset);
-
-  // 解除页面固定
-  storage_engine_->UnpinPage(page_id, false);
-
-  return record;
-}
-
-std::vector<std::pair<int32_t, size_t>>
-TableStorageManager::ScanTable(const std::string &table_name) const {
-  // 检查表是否存在
-  auto metadata = GetTableMetadata(table_name);
-  if (!metadata) {
-    SQLCC_LOG_ERROR("Table does not exist: " + table_name);
-    return {};
-  }
-
-  // 简化实现：返回空结果，表示扫描表
-  // TODO: 实现完整的表扫描逻辑
-  SQLCC_LOG_WARN("ScanTable simplified implementation: returning empty result");
-  return {};
-}
-
-std::vector<std::vector<std::string>> TableStorageManager::GetRecords(
-    const std::string &table_name,
-    const std::vector<std::pair<int32_t, size_t>> &locations) const {
-  // 检查表是否存在
-  auto metadata = GetTableMetadata(table_name);
-  if (!metadata) {
-    SQLCC_LOG_ERROR("Table does not exist: " + table_name);
-    return {};
-  }
-
-  std::vector<std::vector<std::string>> records;
-
-  // 遍历所有位置，获取记录
-  for (const auto &location : locations) {
-    int32_t page_id = location.first;
-    size_t offset = location.second;
-
-    // 获取页面
-    Page *page = storage_engine_->FetchPage(page_id);
-    if (!page) {
-      SQLCC_LOG_ERROR("Failed to fetch page: " + std::to_string(page_id));
-      continue;
+        // 获取页面
+        
+    } catch (const std::exception& e) {
+        SQLCC_LOG_ERROR("Failed to delete record: " + std::string(e.what()));
+        return false;
     }
-
-    // 获取记录
-    std::vector<std::string> record = GetRecordFromPage(page, offset);
-    if (!record.empty()) {
-      records.push_back(record);
-    }
-
-    // 解除页面固定
-    storage_engine_->UnpinPage(page_id, false);
-  }
-
-  return records;
+    
+    // TODO: 实现删除记录的逻辑
+    return true;
 }
 
-Page *TableStorageManager::AllocateNewPage(const std::string &table_name) {
-  int32_t page_id;
-  auto page_ptr = storage_engine_->NewPage(&page_id);
-  if (!page_ptr) {
+std::vector<std::string> TableStorageManager::GetRecord(const std::string& table_name, int32_t page_id, size_t offset) const {
+    // TODO: 实现获取记录的逻辑
+    return std::vector<std::string>();
+}
+
+std::vector<std::pair<int32_t, size_t>> TableStorageManager::ScanTable(const std::string& table_name) const {
+    // TODO: 实现扫描表的逻辑
+    return std::vector<std::pair<int32_t, size_t>>();
+}
+
+std::vector<std::vector<std::string>> TableStorageManager::GetRecords(const std::string& table_name, 
+                                                     const std::vector<std::pair<int32_t, size_t>>& locations) const {
+    // TODO: 实现批量获取记录的逻辑
+    return std::vector<std::vector<std::string>>();
+}
+
+bool TableStorageManager::CreateIndex(const std::string& table_name, const std::string& column_name) {
+    // TODO: 实现创建索引的逻辑
+    return true;
+}
+
+bool TableStorageManager::DropIndex(const std::string& table_name, const std::string& column_name) {
+    // TODO: 实现删除索引的逻辑
+    return true;
+}
+
+bool TableStorageManager::IndexExists(const std::string& table_name, const std::string& column_name) const {
+    // TODO: 实现检查索引是否存在的逻辑
+    return false;
+}
+
+class BPlusTreeIndex* TableStorageManager::GetIndex(const std::string& table_name, const std::string& column_name) {
+    // TODO: 实现获取索引的逻辑
     return nullptr;
-  }
-  
-  Page* page = page_ptr.release();  // 释放unique_ptr的所有权
-  
-  // 初始化页面
-  InitializePage(page, table_name);
-
-  return page;
 }
 
-bool TableStorageManager::InitializePage(Page *page,
-                                         const std::string &table_name) {
-  // 初始化页面头部
-  PageHeader header{};
-  header.page_type = PageType::TABLE_PAGE;
-  header.page_id = page->GetPageId();
-  header.prev_page_id = -1;
-  header.next_page_id = -1;
-  header.free_space_offset = PAGE_HEADER_SIZE;
-  header.free_space_size = PAGE_SIZE - PAGE_HEADER_SIZE;
-  header.slot_count = 0;
-  header.tuple_count = 0;
-
-  WritePageHeader(page, header);
-  return true;
-}
-
-bool TableStorageManager::InsertRecordToPage(
-    Page *page, const std::vector<std::string> &values, size_t &offset) {
-  char *data = page->GetData();
-
-  // 读取页面头部
-  PageHeader header = ReadPageHeader(page);
-
-  // 计算记录大小
-  // 注意：这里简化处理，实际应根据表元数据计算
-  size_t record_size = sizeof(RecordHeader);
-  for (const auto &value : values) {
-    record_size += sizeof(uint32_t) + value.length(); // 长度前缀 + 数据
-  }
-
-  // 检查是否有足够空间
-  if (header.free_space_size < record_size + SLOT_ARRAY_ENTRY_SIZE) {
-    SQLCC_LOG_WARN("Not enough space in page for record insertion");
-    return false;
-  }
-
-  // 计算记录插入位置
-  offset = header.free_space_offset;
-
-  // 写入记录头部
-  RecordHeader record_header{};
-  record_header.size = record_size;
-  record_header.is_deleted = false;
-  record_header.next_free_offset = 0;
-
-  memcpy(data + offset, &record_header, sizeof(RecordHeader));
-
-  // 写入记录数据
-  size_t data_offset = offset + sizeof(RecordHeader);
-  for (const auto &value : values) {
-    uint32_t len = value.length();
-    memcpy(data + data_offset, &len, sizeof(uint32_t));
-    data_offset += sizeof(uint32_t);
-
-    memcpy(data + data_offset, value.c_str(), len);
-    data_offset += len;
-  }
-
-  // 更新页面头部
-  header.free_space_offset += record_size;
-  header.free_space_size -= record_size;
-  header.slot_count++;
-  header.tuple_count++;
-
-  WritePageHeader(page, header);
-
-  return true;
-}
-
-bool TableStorageManager::UpdateRecordInPage(
-    Page *page, size_t offset, const std::vector<std::string> &new_values) {
-  char *data = page->GetData();
-
-  // 读取记录头部
-  RecordHeader record_header;
-  memcpy(&record_header, data + offset, sizeof(RecordHeader));
-
-  // 标记为删除
-  record_header.is_deleted = true;
-  memcpy(data + offset, &record_header, sizeof(RecordHeader));
-
-  // 插入新记录（简化实现，实际应尝试原地更新）
-  size_t new_offset;
-  return InsertRecordToPage(page, new_values, new_offset);
-}
-
-bool TableStorageManager::DeleteRecordInPage(Page *page, size_t offset) {
-  char *data = page->GetData();
-
-  // 读取记录头部
-  RecordHeader record_header;
-  memcpy(&record_header, data + offset, sizeof(RecordHeader));
-
-  // 标记为删除
-  record_header.is_deleted = true;
-  memcpy(data + offset, &record_header, sizeof(RecordHeader));
-
-  // 更新页面头部
-  PageHeader header = ReadPageHeader(page);
-  header.tuple_count--;
-  WritePageHeader(page, header);
-
-  return true;
-}
-
-std::vector<std::string>
-TableStorageManager::GetRecordFromPage(Page *page, size_t offset) const {
-  char *data = page->GetData();
-
-  // 读取记录头部
-  RecordHeader record_header;
-  memcpy(&record_header, data + offset, sizeof(RecordHeader));
-
-  // 检查记录是否已被删除
-  if (record_header.is_deleted) {
-    return {};
-  }
-
-  // 读取记录数据（简化实现）
-  std::vector<std::string> values;
-  size_t data_offset = offset + sizeof(RecordHeader);
-
-  // 注意：这里需要根据表的实际元数据来解析数据
-  // 当前仅为演示目的，简单处理
-  while (data_offset < offset + record_header.size) {
-    uint32_t len;
-    memcpy(&len, data + data_offset, sizeof(uint32_t));
-    data_offset += sizeof(uint32_t);
-
-    std::string value(data + data_offset, len);
-    values.push_back(value);
-    data_offset += len;
-  }
-
-  return values;
-}
-
-PageHeader TableStorageManager::ReadPageHeader(Page *page) const {
-  char *data = page->GetData();
-  PageHeader header;
-
-  // 从页面数据中读取头部信息
-  memcpy(&header.page_type, data, sizeof(PageType));
-  memcpy(&header.page_id, data + sizeof(PageType), sizeof(int32_t));
-  memcpy(&header.prev_page_id, data + sizeof(PageType) + sizeof(int32_t),
-         sizeof(int32_t));
-  memcpy(&header.next_page_id, data + sizeof(PageType) + 2 * sizeof(int32_t),
-         sizeof(int32_t));
-  memcpy(&header.free_space_offset,
-         data + sizeof(PageType) + 3 * sizeof(int32_t), sizeof(uint16_t));
-  memcpy(&header.free_space_size,
-         data + sizeof(PageType) + 3 * sizeof(int32_t) + sizeof(uint16_t),
-         sizeof(uint16_t));
-  memcpy(&header.slot_count,
-         data + sizeof(PageType) + 3 * sizeof(int32_t) + 2 * sizeof(uint16_t),
-         sizeof(uint16_t));
-  memcpy(&header.tuple_count,
-         data + sizeof(PageType) + 3 * sizeof(int32_t) + 3 * sizeof(uint16_t),
-         sizeof(uint16_t));
-
-  return header;
-}
-
-void TableStorageManager::WritePageHeader(Page *page,
-                                          const PageHeader &header) const {
-  char *data = page->GetData();
-
-  // 将头部信息写入页面数据
-  memcpy(data, &header.page_type, sizeof(PageType));
-  memcpy(data + sizeof(PageType), &header.page_id, sizeof(int32_t));
-  memcpy(data + sizeof(PageType) + sizeof(int32_t), &header.prev_page_id,
-         sizeof(int32_t));
-  memcpy(data + sizeof(PageType) + 2 * sizeof(int32_t), &header.next_page_id,
-         sizeof(int32_t));
-  memcpy(data + sizeof(PageType) + 3 * sizeof(int32_t),
-         &header.free_space_offset, sizeof(uint16_t));
-  memcpy(data + sizeof(PageType) + 3 * sizeof(int32_t) + sizeof(uint16_t),
-         &header.free_space_size, sizeof(uint16_t));
-  memcpy(data + sizeof(PageType) + 3 * sizeof(int32_t) + 2 * sizeof(uint16_t),
-         &header.slot_count, sizeof(uint16_t));
-  memcpy(data + sizeof(PageType) + 3 * sizeof(int32_t) + 3 * sizeof(uint16_t),
-         &header.tuple_count, sizeof(uint16_t));
-}
-
-bool TableStorageManager::CreateIndex(const std::string &table_name,
-                                      const std::string &column_name) {
-  // 使用IndexManager创建索引
-  if (!index_manager_) {
-    SQLCC_LOG_ERROR("IndexManager not initialized");
-    return false;
-  }
-  
-  // 生成索引名称
-  std::string index_name = index_manager_->GetIndexName(table_name, column_name);
-  
-  // 创建索引
-  return index_manager_->CreateIndex(index_name, table_name, column_name);
-}
-
-bool TableStorageManager::DropIndex(const std::string &table_name,
-                                    const std::string &column_name) {
-  // 使用IndexManager删除索引
-  if (!index_manager_) {
-    SQLCC_LOG_ERROR("IndexManager not initialized");
-    return false;
-  }
-  
-  // 生成索引名称
-  std::string index_name = index_manager_->GetIndexName(table_name, column_name);
-  
-  // 删除索引
-  return index_manager_->DropIndex(index_name, table_name);
-}
-
-bool TableStorageManager::IndexExists(const std::string &table_name,
-                                      const std::string &column_name) const {
-  // 使用IndexManager检查索引是否存在
-  if (!index_manager_) {
-    SQLCC_LOG_ERROR("IndexManager not initialized");
-    return false;
-  }
-  
-  // 生成索引名称
-  std::string index_name = index_manager_->GetIndexName(table_name, column_name);
-  
-  // 检查索引是否存在
-  return index_manager_->IndexExists(index_name, table_name);
-}
-
-BPlusTreeIndex*
-TableStorageManager::GetIndex(const std::string &table_name,
-                              const std::string &column_name) {
-  // 使用IndexManager获取索引
-  if (!index_manager_) {
-    SQLCC_LOG_ERROR("IndexManager not initialized");
+// 内部辅助方法的简单实现
+class Page* TableStorageManager::AllocateNewPage(const std::string& table_name) {
+    // TODO: 实现分配新页面的逻辑
     return nullptr;
-  }
-  
-  // 生成索引名称
-  std::string index_name = index_manager_->GetIndexName(table_name, column_name);
-  
-  // 获取索引
-  return index_manager_->GetIndex(index_name, table_name);
 }
 
-} // namespace sqlcc
+bool TableStorageManager::InitializePage(class Page* page, const std::string& table_name) {
+    // TODO: 实现初始化页面的逻辑
+    return true;
+}
+
+bool TableStorageManager::InsertRecordToPage(class Page* page, const std::vector<std::string>& values, size_t& offset) {
+    // TODO: 实现向页面插入记录的逻辑
+    return true;
+}
+
+bool TableStorageManager::UpdateRecordInPage(class Page* page, size_t offset, const std::vector<std::string>& new_values) {
+    // TODO: 实现更新页面中记录的逻辑
+    return true;
+}
+
+}

@@ -127,7 +127,7 @@ ExecutionResult DCLExecutor::executeGrant(std::unique_ptr<sql_parser::GrantState
     }
 }
 
-ExecutionResult DCLExecutor::executeRevoke(sql_parser::RevokeStatement* stmt) {
+ExecutionResult DCLExecutor::executeRevoke(std::unique_ptr<sql_parser::RevokeStatement> stmt) {
     if (!user_manager_) {
         return {false, "User manager not available"};
     }

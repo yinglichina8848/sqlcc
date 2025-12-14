@@ -1,6 +1,6 @@
 #include "execution/set_operation_executor.h"
 #include "exception.h"
-#include "sql_parser/set_operation_node.h"
+#include "sql_parser/set_operation.h"
 #include <algorithm>
 #include <memory>
 #include <unordered_set>
@@ -17,7 +17,7 @@ SetOperationExecutor::SetOperationExecutor(
 }
 
 ExecutionResult
-SetOperationExecutor::execute(const SetOperationNode &operation) {
+SetOperationExecutor::execute(const SetOperation &operation) {
   // 重置执行统计
   stats_ = ExecutionStats{};
 
@@ -98,7 +98,7 @@ void SetOperationExecutor::set_memory_limit(size_t limit_bytes) {
 ExecutionStats SetOperationExecutor::get_stats() const { return stats_; }
 
 ExecutionResult
-SetOperationExecutor::execute_union(const SetOperationNode &operation,
+SetOperationExecutor::execute_union(const SetOperation &operation,
                                     const ExecutionResult &left,
                                     const ExecutionResult &right) {
   if (operation.isAll()) {
@@ -109,14 +109,14 @@ SetOperationExecutor::execute_union(const SetOperationNode &operation,
 }
 
 ExecutionResult
-SetOperationExecutor::execute_intersect(const SetOperationNode &operation,
+SetOperationExecutor::execute_intersect(const SetOperation &operation,
                                         const ExecutionResult &left,
                                         const ExecutionResult &right) {
   return ResultSetCombiner::intersect(left, right, operation.isAll());
 }
 
 ExecutionResult
-SetOperationExecutor::execute_except(const SetOperationNode &operation,
+SetOperationExecutor::execute_except(const SetOperation &operation,
                                      const ExecutionResult &left,
                                      const ExecutionResult &right) {
   return ResultSetCombiner::except(left, right, operation.isAll());

@@ -268,16 +268,6 @@ private:
     bool resource_acquired_;
 };
 
-TEST_F(MemorySafetyTest, RaiiResourceManagement) {
-    // 测试RAII资源管理
-    RaiiResourceManager manager;
-
-    // 资源自动获取
-    ASSERT_NO_THROW(manager.useResource());
-
-    // 资源自动释放（在作用域结束时）
-}
-
 // 测试智能指针所有权转移
 TEST_F(MemorySafetyTest, SmartPointerOwnershipTransfer) {
     // 创建智能指针

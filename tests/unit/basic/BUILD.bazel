@@ -6,8 +6,11 @@ package(default_visibility = ["//visibility:public"])
 cc_test(
     name = "execution_context_test",
     srcs = ["execution_context_test.cpp"],
+    includes = ["include"],
     deps = [
         "//src/core:sqlcc_core_lib",
+        "//src:execution_context",
+        "//src/sql_parser:sqlcc_parser",
         "@com_google_googletest//:gtest_main",
     ],
 )
@@ -16,7 +19,7 @@ cc_test(
     name = "permission_validator_test",
     srcs = ["permission_validator_test.cpp"],
     deps = [
-        "//src/core:sqlcc_permission_validator",
+        "//src/core:sqlcc_database_core",
         "//src/core:sqlcc_core_lib",
         "//src/sql_parser:sqlcc_parser",
         "//src/sql_executor:sqlcc_executor",

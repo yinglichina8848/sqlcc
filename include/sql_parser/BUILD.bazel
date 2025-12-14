@@ -1,15 +1,39 @@
 package(default_visibility = ["//visibility:public"])
 
 exports_files([
+    "ast_constraint.cpp",
     "ast_node.h",
     "ast_nodes.h",
+    "constraint.h",
     "lexer.h",
     "lexer_new.h",
     "node_visitor.h",
+    "parser.h",
     "parser_new.h",
-    "parser_set_operations.h",
-    "set_operation_node.h",
+    "set_operation.h",
     "token.h",
     "token_new.h",
+    "window_function.h",
     "window_function_node.h",
 ])
+
+cc_library(
+    name = "sqlcc_parser_headers",
+    hdrs = [
+        "ast_node.h",
+        "ast_nodes.h",
+        "constraint.h",
+        "lexer.h",
+        "lexer_new.h",
+        "node_visitor.h",
+        "parser.h",
+        "parser_new.h",
+        "set_operation.h",
+        "token.h",
+        "token_new.h",
+        "window_function.h",
+        "window_function_node.h",
+    ],
+    includes = ["."],
+    visibility = ["//visibility:public"],
+)

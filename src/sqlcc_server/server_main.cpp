@@ -80,7 +80,13 @@ int main(int argc, char* argv[]) {
     std::cout << "Server successfully started on port " << port << std::endl;
     
     // 主循环
+    std::cout << "[SERVER] Entering main event loop..." << std::endl;
+    int loop_count = 0;
     while (true) {
+        loop_count++;
+        if (loop_count % 100 == 0) {  // 每100次循环输出一次
+            std::cout << "[SERVER] Event loop iteration " << loop_count << std::endl;
+        }
         server.ProcessEvents();
         std::this_thread::sleep_for(std::chrono::milliseconds(10));
     }

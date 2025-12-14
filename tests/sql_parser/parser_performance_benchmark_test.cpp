@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 #include <sql_parser/parser_new.h>
-#include <sql_parser/lexer_new.h>
+#include <sql_parser/lexer.h>
 #include <chrono>
 #include <vector>
 #include <string>

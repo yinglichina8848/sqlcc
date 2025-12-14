@@ -1,5 +1,5 @@
 #include <iostream>
-#include "include/sql_parser/token_new.h"
+#include "include/sql_parser/token.h"
 
 int main() {
     std::cout << "Token Type Values:" << std::endl;

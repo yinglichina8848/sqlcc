@@ -112,6 +112,8 @@ public:
     bool IsConnected() const;
     bool SendData(const std::vector<char>& data);
     std::vector<char> ReceiveData();
+    // Test helper: return associated session id (0 if none)
+    int GetSessionId() const { return 0; }
 
     // TLS/SSL 支持
     void EnableTLS(bool enabled);
@@ -153,6 +155,10 @@ public:
     std::shared_ptr<AESEncryptor> GetAESEncryptor() const;
     bool IsAESEncryptionEnabled() const;
 
+    // AES 加密/解密（对测试公开）
+    std::vector<char> EncryptMessage(const std::vector<char>& message);
+    std::vector<char> DecryptMessage(const std::vector<char>& message);
+
     // TLS 客户端支持
     void EnableTLS(bool enabled);
 #ifdef __linux__
@@ -160,9 +166,7 @@ public:
 #endif
 
 private:
-    // AES加密半加密/解密方法
-    std::vector<char> EncryptMessage(const std::vector<char>& message);
-    std::vector<char> DecryptMessage(const std::vector<char>& message);
+    // AES加密/解密实现（在实现文件中定义）
     
     std::unique_ptr<ClientConnection> connection_;
     std::shared_ptr<SessionManager> session_manager_;
@@ -178,6 +182,7 @@ public:
     int GetFd() const;
     bool IsClosed() const;
     void HandleEvent(uint32_t events);
+    void HandleRead();  // 设为public以便NetworkServer调用
     void ProcessMessage(const std::vector<char>& data);
 
 #ifdef __linux__
@@ -185,9 +190,9 @@ public:
 #endif
 
 private:
-    void HandleRead();
     void HandleWrite();
     void SendMessage(const std::vector<char>& message);
+    bool TrySendImmediately(const std::vector<char>& data);
     void Close();
     
     void HandleConnectMessage(const std::vector<char>& data);
@@ -240,6 +245,7 @@ public:
     
     bool Start();
     void Stop();
+    bool IsRunning() const { return running_; }
     void ProcessEvents();
     void SetSqlExecutor(std::shared_ptr<sqlcc::SqlExecutor> sql_executor);
 

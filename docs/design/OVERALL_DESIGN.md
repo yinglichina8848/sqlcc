@@ -15,7 +15,7 @@ SQLCC (Simple Compact Course Computer) 是一个专为教学目的设计的轻�
 
 ### 1.3 技术栈
 - **开发语言**：C++
-- **构建系统**：CMake
+- **构建系统**：Bazel
 - **测试框架**：Google Test
 - **通信协议**：自定义基于TCP/IP的协议
 - **存储格式**：8KB定长页式存储

@@ -61,6 +61,12 @@ SessionManager::SessionManager() : next_session_id_(1) {}
 
 std::shared_ptr<Session> SessionManager::CreateSession() {
     std::lock_guard<std::mutex> lock(sessions_mutex_);
+    
+    // 检查会话ID溢出
+    if (next_session_id_ <= 0) {
+        next_session_id_ = 1;  // 重置为1
+    }
+    
     int session_id = next_session_id_++;
     auto session = std::make_shared<Session>(session_id);
     sessions_[session_id] = session;
@@ -68,10 +74,20 @@ std::shared_ptr<Session> SessionManager::CreateSession() {
 }
 
 std::shared_ptr<Session> SessionManager::GetSession(int session_id) {
+    if (session_id <= 0) {  // 会话ID应该是正数
+        return nullptr;
+    }
+    
     std::lock_guard<std::mutex> lock(sessions_mutex_);
     auto it = sessions_.find(session_id);
     if (it != sessions_.end()) {
-        return it->second.lock();
+        auto session = it->second.lock();
+        if (session) {
+            return session;
+        } else {
+            // 弱引用已失效，从映射中移除
+            sessions_.erase(it);
+        }
     }
     return nullptr;
 }
@@ -83,6 +99,16 @@ void SessionManager::DestroySession(int session_id) {
 
 bool SessionManager::Authenticate(int session_id, const std::string& username, 
                                 const std::string& password) {
+    // 更严格的认证逻辑，防止特殊字符导致的问题
+    if (username.empty() || password.empty()) {
+        return false;
+    }
+    
+    // 检查用户名和密码长度限制
+    if (username.length() > 255 || password.length() > 255) {
+        return false;
+    }
+    
     // 简单的身份验证逻辑
     if (username == "admin" && password == "password") {
         auto session = GetSession(session_id);
@@ -314,17 +340,79 @@ bool ClientNetworkManager::IsConnected() const {
 bool ClientNetworkManager::SendRequest(const std::vector<char>& request) {
     // 在客户端侧，仅对消息体进行加密并追加HMAC
     if (IsAESEncryptionEnabled()) {
+        // 添加输入大小检查，防止过大的数据导致内存分配失败
+        if (request.size() > 1024 * 1024) { // 限制为1MB
+            std::cerr << "Request too large for encryption: " << request.size() << " bytes" << std::endl;
+            return false;
+        }
+        
+        // 检查请求大小是否足够包含消息头
+        if (request.size() < sizeof(MessageHeader)) {
+            std::cerr << "Request too small to contain message header: " << request.size() << " bytes" << std::endl;
+            return false;
+        }
+        
         std::vector<char> msg = request;
         // 使用结构体绑定避免raw pointer
         auto& header_ref = *reinterpret_cast<MessageHeader*>(msg.data());
         std::span<char> msg_span(msg);
         std::span<char> body_span = msg_span.subspan(sizeof(MessageHeader));
+
         auto aes = GetAESEncryptor();
         std::vector<uint8_t> ct = aes->Encrypt(std::vector<uint8_t>(body_span.begin(), body_span.end()));
+        
+        // 检查加密结果大小
+        if (ct.size() > 1024 * 1024) { // 限制为1MB
+            std::cerr << "Encrypted data too large: " << ct.size() << " bytes" << std::endl;
+            return false;
+        }
+        
         std::vector<uint8_t> mac = HMACSHA256::Compute(aes->GetKeyBytes(), ct);
-        std::vector<char> new_body(ct.begin(), ct.end());
+        
+        // 检查MAC大小
+        if (mac.size() != 32) { // HMAC-SHA256应该总是32字节
+            std::cerr << "Invalid MAC size: " << mac.size() << " bytes" << std::endl;
+            return false;
+        }
+        
+        // 检查新消息体大小是否会超出限制
+        if (ct.size() + mac.size() > 1024 * 1024) { // 限制为1MB
+            std::cerr << "Combined encrypted data and MAC too large: " << (ct.size() + mac.size()) << " bytes" << std::endl;
+            return false;
+        }
+        
+        // 检查新消息体大小是否会超出vector的最大大小
+        if (ct.size() + mac.size() > std::vector<char>().max_size()) {
+            std::cerr << "Combined encrypted data and MAC would exceed max_size()" << std::endl;
+            return false;
+        }
+        
+        std::vector<char> new_body;
+        // 预留空间以避免多次重新分配
+        new_body.reserve(ct.size() + mac.size());
+        new_body.insert(new_body.end(), ct.begin(), ct.end());
         new_body.insert(new_body.end(), mac.begin(), mac.end());
+        
+        // 检查新消息体大小
+        if (new_body.size() != ct.size() + mac.size()) {
+            std::cerr << "Failed to create new message body" << std::endl;
+            return false;
+        }
+        
         header_ref.length = static_cast<uint32_t>(new_body.size());
+        
+        // 检查新消息大小是否会超出限制
+        if (sizeof(MessageHeader) + new_body.size() > 1024 * 1024) { // 限制为1MB
+            std::cerr << "New message too large: " << (sizeof(MessageHeader) + new_body.size()) << " bytes" << std::endl;
+            return false;
+        }
+        
+        // 检查新消息大小是否会超出vector的最大大小
+        if (sizeof(MessageHeader) + new_body.size() > std::vector<char>().max_size()) {
+            std::cerr << "New message would exceed max_size()" << std::endl;
+            return false;
+        }
+        
         msg.resize(sizeof(MessageHeader) + new_body.size());
         std::memcpy(msg.data(), &header_ref, sizeof(MessageHeader));
         std::memcpy(msg.data() + sizeof(MessageHeader), new_body.data(), new_body.size());
@@ -375,13 +463,12 @@ bool ClientNetworkManager::SendAuthMessage(const std::string& username, const st
     header_ref.flags = 0;
     header_ref.sequence_id = 1;
 
-    // 填充消息体 - 使用span避免raw pointer运算
-    std::span<char> message_span(message);
-    std::span<char> body_span = message_span.subspan(sizeof(MessageHeader));
-    *reinterpret_cast<uint32_t*>(body_span.data()) = username_len;
-    *reinterpret_cast<uint32_t*>(body_span.data() + sizeof(uint32_t)) = password_len;
-    std::memcpy(body_span.data() + 2 * sizeof(uint32_t), username.c_str(), username_len);
-    std::memcpy(body_span.data() + 2 * sizeof(uint32_t) + username_len, password.c_str(), password_len);
+    // 填充消息体 - 使用传统方式避免raw pointer运算
+    char* body_start = message.data() + sizeof(MessageHeader);
+    *reinterpret_cast<uint32_t*>(body_start) = username_len;
+    *reinterpret_cast<uint32_t*>(body_start + sizeof(uint32_t)) = password_len;
+    std::memcpy(body_start + 2 * sizeof(uint32_t), username.c_str(), username_len);
+    std::memcpy(body_start + 2 * sizeof(uint32_t) + username_len, password.c_str(), password_len);
 
     return SendRequest(message);
 }
@@ -464,16 +551,78 @@ std::vector<char> ClientNetworkManager::EncryptMessage(const std::vector<char>& 
     if (!aes_encryptor_) {
         return message;
     }
+    
+    // 添加输入大小检查，防止过大的数据导致内存分配失败
+    std::cerr << "EncryptMessage called with message.size()=" << message.size() << std::endl;
+    if (message.size() > 1024 * 1024) { // 限制为1MB
+        std::cerr << "Message too large for encryption: " << message.size() << " bytes" << std::endl;
+        return message;
+    }
+    
     try {
+        std::cerr << "Converting message to uint8_t vector" << std::endl;
         std::vector<uint8_t> data(message.begin(), message.end());
+        std::cerr << "data.size()=" << data.size() << std::endl;
+        
+        // 检查转换后的数据大小
+        if (data.size() > 1024 * 1024) { // 限制为1MB
+            std::cerr << "Converted data too large: " << data.size() << " bytes" << std::endl;
+            return message;
+        }
+        
+        std::cerr << "Calling aes_encryptor_->Encrypt" << std::endl;
         std::vector<uint8_t> ciphertext = aes_encryptor_->Encrypt(data);
+        std::cerr << "Encryption succeeded, ciphertext.size()=" << ciphertext.size() << std::endl;
+        
+        // 检查加密结果大小
+        if (ciphertext.size() > 1024 * 1024) { // 限制为1MB
+            std::cerr << "Encrypted data too large: " << ciphertext.size() << " bytes" << std::endl;
+            return message;
+        }
+        
+        std::cerr << "Calling HMACSHA256::Compute" << std::endl;
         // 计算HMAC-SHA256并追加
         std::vector<uint8_t> mac = HMACSHA256::Compute(aes_encryptor_->GetKeyBytes(), ciphertext);
-        std::vector<char> out(ciphertext.begin(), ciphertext.end());
+        std::cerr << "HMAC computation succeeded, mac.size()=" << mac.size() << std::endl;
+        
+        // 检查MAC大小
+        if (mac.size() != 32) { // HMAC-SHA256应该总是32字节
+            std::cerr << "Invalid MAC size: " << mac.size() << " bytes" << std::endl;
+            return message;
+        }
+        
+        // 检查最终结果大小
+        if (ciphertext.size() + mac.size() > 1024 * 1024) { // 限制为1MB
+            std::cerr << "Combined encrypted data and MAC too large: " << (ciphertext.size() + mac.size()) << " bytes" << std::endl;
+            return message;
+        }
+        
+        std::cerr << "Creating output vector" << std::endl;
+        // 检查输出向量大小是否会超出限制
+        if (ciphertext.size() + mac.size() > std::vector<char>().max_size()) {
+            std::cerr << "Output vector size would exceed max_size()" << std::endl;
+            return message;
+        }
+        
+        std::vector<char> out;
+        // 预留空间以避免多次重新分配
+        out.reserve(ciphertext.size() + mac.size());
+        out.insert(out.end(), ciphertext.begin(), ciphertext.end());
+        std::cerr << "out.size() after copying ciphertext=" << out.size() << std::endl;
+        
+        std::cerr << "Inserting MAC into output vector" << std::endl;
         out.insert(out.end(), mac.begin(), mac.end());
+        std::cerr << "out.size() after inserting MAC=" << out.size() << std::endl;
+        
         return out;
+    } catch (const std::bad_alloc& e) {
+        std::cerr << "Memory allocation failed during encryption: " << e.what() << std::endl;
+        return message;
     } catch (const std::exception& e) {
         std::cerr << "Encryption failed: " << e.what() << std::endl;
+        return message;
+    } catch (...) {
+        std::cerr << "Unknown error during encryption" << std::endl;
         return message;
     }
 }
@@ -482,28 +631,69 @@ std::vector<char> ClientNetworkManager::DecryptMessage(const std::vector<char>& 
     if (!aes_encryptor_) {
         return message;
     }
+    
+    std::cerr << "DecryptMessage called with message.size()=" << message.size() << std::endl;
+    
+    // 添加输入大小检查
+    if (message.size() > 1024 * 1024) { // 限制为1MB
+        std::cerr << "Message too large for decryption: " << message.size() << " bytes" << std::endl;
+        return message;
+    }
+    
     try {
-        if (message.size() < 32) {
+        if (message.size() < 32) { // 至少需要32字节的MAC
+            std::cerr << "Message too small for decryption: " << message.size() << " bytes" << std::endl;
             return message;
         }
+        
+        std::cerr << "Splitting MAC and ciphertext" << std::endl;
         // 分离MAC
         std::vector<uint8_t> mac(message.end() - 32, message.end());
         std::vector<uint8_t> ciphertext(message.begin(), message.end() - 32);
+        std::cerr << "mac.size()=" << mac.size() << ", ciphertext.size()=" << ciphertext.size() << std::endl;
+        
+        // 检查分离后的数据大小
+        if (ciphertext.size() > 1024 * 1024 || mac.size() > 1024 * 1024) { // 限制为1MB
+            std::cerr << "Separated data too large for decryption" << std::endl;
+            return message;
+        }
+        
+        std::cerr << "Verifying HMAC" << std::endl;
         // 验证HMAC
         if (!HMACSHA256::Verify(aes_encryptor_->GetKeyBytes(), ciphertext, mac)) {
             std::cerr << "HMAC verification failed" << std::endl;
             return message;
         }
+        
+        std::cerr << "Decrypting ciphertext" << std::endl;
         std::vector<uint8_t> plaintext = aes_encryptor_->Decrypt(ciphertext);
+        std::cerr << "Decryption succeeded, plaintext.size()=" << plaintext.size() << std::endl;
+        
+        // 检查解密后的数据大小
+        if (plaintext.size() > 1024 * 1024) { // 限制为1MB
+            std::cerr << "Decrypted data too large: " << plaintext.size() << " bytes" << std::endl;
+            return message;
+        }
+        
+        std::cerr << "Creating output vector" << std::endl;
+        // 检查输出向量大小是否会超出限制
+        if (plaintext.size() > std::vector<char>().max_size()) {
+            std::cerr << "Output vector size would exceed max_size()" << std::endl;
+            return message;
+        }
+        
         return std::vector<char>(plaintext.begin(), plaintext.end());
+    } catch (const std::bad_alloc& e) {
+        std::cerr << "Memory allocation failed during decryption: " << e.what() << std::endl;
+        return message;
     } catch (const std::exception& e) {
         std::cerr << "Decryption failed: " << e.what() << std::endl;
         return message;
+    } catch (...) {
+        std::cerr << "Unknown error during decryption" << std::endl;
+        return message;
     }
-}
-
-
-// ConnectionHandler实现
+}// ConnectionHandler实现
 ConnectionHandler::ConnectionHandler(sqlcc::FileDescriptor&& fd, std::shared_ptr<SessionManager> session_manager, std::shared_ptr<sqlcc::SqlExecutor> sql_executor)
     : fd_(std::move(fd)), session_manager_(std::move(session_manager)), sql_executor_(std::move(sql_executor)),
       session_(nullptr), closed_(false)
@@ -635,10 +825,20 @@ void ConnectionHandler::SendMessage(const std::vector<char>& message) {
         std::memcpy(to_send.data() + sizeof(MessageHeader), new_body.data(), new_body.size());
     }
 
+    // 对于重要的消息（查询结果、错误），尝试同步发送
+    bool is_important = (msg_header->type == QUERY_RESULT || msg_header->type == ERROR ||
+                        msg_header->type == CONN_ACK || msg_header->type == AUTH_ACK);
+
+    if (is_important && TrySendImmediately(to_send)) {
+        // 成功同步发送，无需排队
+        return;
+    }
+
+    // 否则排队异步发送
     std::lock_guard<std::mutex> lock(write_mutex_);
     bool queue_was_empty = write_queue_.empty();
     write_queue_.push(to_send);
-    
+
     // 如果队列之前为空，尝试立即发送，否则等待 EPOLLOUT 事件
     if (queue_was_empty) {
         // 释放锁后调用 HandleWrite 避免死锁
@@ -646,6 +846,42 @@ void ConnectionHandler::SendMessage(const std::vector<char>& message) {
         HandleWrite();
         write_mutex_.lock();
     }
+#endif
+}
+
+bool ConnectionHandler::TrySendImmediately(const std::vector<char>& data) {
+#ifdef __linux__
+    if (closed_ || !fd_.valid()) {
+        return false;
+    }
+
+    // 设置为阻塞模式进行同步发送
+    int original_flags = fcntl(fd_.get(), F_GETFL, 0);
+    fcntl(fd_.get(), F_SETFL, original_flags & ~O_NONBLOCK);
+
+    ssize_t bytes_sent = 0;
+    if (tls_enabled_ && ssl_.is_valid()) {
+        bytes_sent = SSL_write(ssl_.get(), data.data(), static_cast<int>(data.size()));
+    } else {
+        bytes_sent = send(fd_.get(), data.data(), data.size(), MSG_NOSIGNAL);
+    }
+
+    // 恢复非阻塞模式
+    fcntl(fd_.get(), F_SETFL, original_flags);
+
+    if (bytes_sent == static_cast<ssize_t>(data.size())) {
+        return true;  // 成功发送
+    } else if (bytes_sent < 0) {
+        if (errno == EPIPE || errno == ECONNRESET) {
+            Close();  // 连接已断开
+        }
+        return false;
+    } else {
+        // 部分发送，不应该发生，因为我们设置为阻塞模式
+        return false;
+    }
+#else
+    return false;
 #endif
 }
 
@@ -659,40 +895,77 @@ void ConnectionHandler::Close() {
 }
 
 void ConnectionHandler::ProcessMessage(const std::vector<char>& data) {
+    std::cout << "[SERVER] ProcessMessage called, data size: " << data.size() << std::endl;
+
     // 处理接收到的消息
-    if (data.size() < sizeof(MessageHeader)) {
+    if (data.empty() || data.size() < sizeof(MessageHeader)) {
+        std::cout << "[SERVER] Message too small, ignoring" << std::endl;
         return;
     }
 
-    MessageHeader* header = reinterpret_cast<MessageHeader*>(const_cast<char*>(data.data()));
-    
-    if (header->magic != 0x53514C43) {
+    // 使用常量引用避免const_cast
+    const MessageHeader& header = *reinterpret_cast<const MessageHeader*>(data.data());
+    std::cout << "[SERVER] Message header - magic: " << std::hex << header.magic
+              << ", length: " << header.length
+              << ", type: " << (int)header.type
+              << ", flags: " << (int)header.flags
+              << ", seq: " << header.sequence_id << std::dec << std::endl;
+
+    if (header.magic != 0x53514C43) {
+        std::cout << "[SERVER] Invalid magic number: " << std::hex << header.magic << std::dec << std::endl;
         return;
     }
     
     // 若启用AES，则尝试将消息体解密（除密钥交换外）
     std::vector<char> working = data;
-    if (session_ && session_->IsAESEncryptionEnabled() && header->type != KEY_EXCHANGE && header->length >= 32) {
+    const MessageHeader* current_header = &header;
+    
+    if (session_ && session_->IsAESEncryptionEnabled() && current_header->type != KEY_EXCHANGE && current_header->length >= 32) {
+        // 检查消息总长度是否足够
+        if (working.size() < sizeof(MessageHeader) + current_header->length) {
+            SendErrorMessage("Incomplete encrypted message");
+            return;
+        }
+        
         const char* body_ptr = working.data() + sizeof(MessageHeader);
-        std::vector<uint8_t> ciphertext(body_ptr, body_ptr + header->length - 32);
-        std::vector<uint8_t> mac(body_ptr + header->length - 32, body_ptr + header->length);
+        
+        // 确保消息长度足够包含MAC
+        if (current_header->length < 32) {
+            SendErrorMessage("Encrypted message too short for MAC verification");
+            return;
+        }
+        
+        std::vector<uint8_t> ciphertext(body_ptr, body_ptr + current_header->length - 32);
+        std::vector<uint8_t> mac(body_ptr + current_header->length - 32, body_ptr + current_header->length);
+        
         auto aes = session_->GetAESEncryptor();
+        if (!aes) {
+            SendErrorMessage("Encryption service not available");
+            return;
+        }
+        
         if (!HMACSHA256::Verify(aes->GetKeyBytes(), ciphertext, mac)) {
             SendErrorMessage("HMAC verification failed");
             return;
         }
-        std::vector<uint8_t> plaintext = aes->Decrypt(ciphertext);
-        // 重建消息，将明文作为新体
-        MessageHeader new_header = *header;
-        new_header.length = static_cast<uint32_t>(plaintext.size());
-        working.resize(sizeof(MessageHeader) + plaintext.size());
-        std::memcpy(working.data(), &new_header, sizeof(MessageHeader));
-        std::memcpy(working.data() + sizeof(MessageHeader), plaintext.data(), plaintext.size());
-        header = reinterpret_cast<MessageHeader*>(working.data());
+        
+        try {
+            std::vector<uint8_t> plaintext = aes->Decrypt(ciphertext);
+            // 重建消息，将明文作为新体
+            MessageHeader new_header = *current_header;
+            new_header.length = static_cast<uint32_t>(plaintext.size());
+            working.resize(sizeof(MessageHeader) + plaintext.size());
+            std::memcpy(working.data(), &new_header, sizeof(MessageHeader));
+            std::memcpy(working.data() + sizeof(MessageHeader), plaintext.data(), plaintext.size());
+            current_header = reinterpret_cast<const MessageHeader*>(working.data());
+        } catch (const std::exception& e) {
+            SendErrorMessage(std::string("Decryption failed: ") + e.what());
+            return;
+        }
     }
     
     // 根据消息类型处理
-    switch (header->type) {
+    switch (current_header->type) {
         case CONNECT:
             HandleConnectMessage(working);
             break;
@@ -706,25 +979,30 @@ void ConnectionHandler::ProcessMessage(const std::vector<char>& data) {
             HandleKeyExchangeMessage(working);
             break;
         default:
+            std::cout << "[SERVER] Unknown message type: " << (int)current_header->type << std::endl;
             break;
     }
 }
 
 void ConnectionHandler::HandleConnectMessage(const std::vector<char>& data) {
+    std::cout << "[SERVER] Handling CONNECT message, data size: " << data.size() << std::endl;
+
     // 创建会话
     session_ = session_manager_->CreateSession();
-    
+    std::cout << "[SERVER] Created session" << std::endl;
+
     // 检查客户端连接消息中的标志
     uint32_t client_flags = 0;
     if (data.size() >= sizeof(MessageHeader)) {
         MessageHeader* header = reinterpret_cast<MessageHeader*>(const_cast<char*>(data.data()));
         client_flags = header->flags;
-        
+        std::cout << "[SERVER] Client flags: " << client_flags << std::endl;
+
         // 如果客户端请求禁用加密，记录到会话中
         if (client_flags & 0x01) {
             session_->SetEncryptionDisabled(true);
         }
-        
+
         // 如果客户端请求禁用认证，记录到会话中
         if (client_flags & 0x02) {
             session_->SetAuthenticationDisabled(true);
@@ -732,7 +1010,7 @@ void ConnectionHandler::HandleConnectMessage(const std::vector<char>& data) {
             session_->SetAuthenticated("anonymous");
         }
     }
-    
+
     // 发送连接确认消息，包含相同的标志
     MessageHeader ack_header;
     ack_header.magic = 0x53514C43; // 'SQLC'
@@ -743,7 +1021,9 @@ void ConnectionHandler::HandleConnectMessage(const std::vector<char>& data) {
 
     std::vector<char> ack_msg(sizeof(MessageHeader));
     std::memcpy(ack_msg.data(), &ack_header, sizeof(MessageHeader));
+    std::cout << "[SERVER] Sending CONN_ACK message, type: " << (int)ack_header.type << std::endl;
     SendMessage(ack_msg);
+    std::cout << "[SERVER] CONN_ACK message sent" << std::endl;
 }
 
 void ConnectionHandler::HandleAuthMessage(const std::vector<char>& data) {
@@ -794,7 +1074,7 @@ void ConnectionHandler::HandleQueryMessage(const std::vector<char>& data) {
         SendErrorMessage("Session not found");
         return;
     }
-    
+
     // 检查是否需要认证（只有在未禁用认证的情况下才要求认证）
     if (!session_->IsAuthenticationDisabled() && !session_->IsAuthenticated()) {
         // 未禁用认证但用户未认证，拒绝请求
@@ -803,33 +1083,43 @@ void ConnectionHandler::HandleQueryMessage(const std::vector<char>& data) {
     }
 
     MessageHeader* header = reinterpret_cast<MessageHeader*>(const_cast<char*>(data.data()));
-    
+
     // 确保有足够的数据
     if (data.size() < sizeof(MessageHeader) + header->length) {
         SendErrorMessage("Invalid query message");
         return;
     }
-    
+
     // 获取查询语句
     std::string query(data.data() + sizeof(MessageHeader), header->length);
-    
-    // 执行SQL查询（在最小化构建下，直接回显查询）
-    std::string result;
-    bool success = true;
-    result = std::string("ECHO: ") + query;
-    
-    // 构造查询结果消息
-    MessageHeader result_header;
-    result_header.magic = 0x53514C43; // 'SQLC'
-    result_header.length = result.length();
-    result_header.type = QUERY_RESULT;
-    result_header.flags = success ? 0 : 1; // 使用flags表示执行结果
-    result_header.sequence_id = header->sequence_id;
 
-    std::vector<char> result_msg(sizeof(MessageHeader) + result.length());
-    std::memcpy(result_msg.data(), &result_header, sizeof(MessageHeader));
-    std::memcpy(result_msg.data() + sizeof(MessageHeader), result.c_str(), result.length());
-    SendMessage(result_msg);
+    // 执行SQL查询 - 使用实际的SQL执行器而不是回显
+    std::string result;
+    try {
+        result = sql_executor_->Execute(query);
+        // 检查结果是否以"Error:"开头来判断执行是否成功
+        bool success = (result.find("Error:") != 0);
+        if (!success) {
+            // 如果执行失败，从错误信息中提取实际错误
+            result = result.substr(6); // 去掉"Error:"前缀
+        }
+
+        // 构造查询结果消息
+        MessageHeader result_header;
+        result_header.magic = 0x53514C43; // 'SQLC'
+        result_header.length = static_cast<uint32_t>(result.length());
+        result_header.type = QUERY_RESULT;
+        result_header.flags = success ? 0 : 1; // 使用flags表示执行结果
+        result_header.sequence_id = header->sequence_id;
+
+        std::vector<char> result_msg(sizeof(MessageHeader) + result.length());
+        std::memcpy(result_msg.data(), &result_header, sizeof(MessageHeader));
+        std::memcpy(result_msg.data() + sizeof(MessageHeader), result.c_str(), result.length());
+        SendMessage(result_msg);
+    } catch (const std::exception& e) {
+        // 处理执行过程中的异常
+        SendErrorMessage(std::string("Query execution failed: ") + e.what());
+    }
 }
 
 void ConnectionHandler::HandleKeyExchangeMessage(const std::vector<char>& data) {
@@ -889,13 +1179,13 @@ std::vector<char> ConnectionHandler::EncryptMessage(const std::vector<char>& mes
         return message;
     }
     try {
-        auto aes_encryptor = session_->GetAESEncryptor();
-        if (!aes_encryptor) {
+        auto aes_encryptor_ = session_->GetAESEncryptor();
+        if (!aes_encryptor_) {
             return message;
         }
         std::vector<uint8_t> data(message.begin(), message.end());
-        std::vector<uint8_t> ciphertext = aes_encryptor->Encrypt(data);
-        std::vector<uint8_t> mac = HMACSHA256::Compute(aes_encryptor->GetKeyBytes(), ciphertext);
+        std::vector<uint8_t> ciphertext = aes_encryptor_->Encrypt(data);
+        std::vector<uint8_t> mac = HMACSHA256::Compute(aes_encryptor_->GetKeyBytes(), ciphertext);
         std::vector<char> out(ciphertext.begin(), ciphertext.end());
         out.insert(out.end(), mac.begin(), mac.end());
         return out;
@@ -910,8 +1200,8 @@ std::vector<char> ConnectionHandler::DecryptMessage(const std::vector<char>& mes
         return message;
     }
     try {
-        auto aes_encryptor = session_->GetAESEncryptor();
-        if (!aes_encryptor) {
+        auto aes_encryptor_ = session_->GetAESEncryptor();
+        if (!aes_encryptor_) {
             return message;
         }
         if (message.size() < 32) {
@@ -919,11 +1209,11 @@ std::vector<char> ConnectionHandler::DecryptMessage(const std::vector<char>& mes
         }
         std::vector<uint8_t> mac(message.end() - 32, message.end());
         std::vector<uint8_t> ciphertext(message.begin(), message.end() - 32);
-        if (!HMACSHA256::Verify(aes_encryptor->GetKeyBytes(), ciphertext, mac)) {
+        if (!HMACSHA256::Verify(aes_encryptor_->GetKeyBytes(), ciphertext, mac)) {
             std::cerr << "HMAC verification failed" << std::endl;
             return message;
         }
-        std::vector<uint8_t> plaintext = aes_encryptor->Decrypt(ciphertext);
+        std::vector<uint8_t> plaintext = aes_encryptor_->Decrypt(ciphertext);
         return std::vector<char>(plaintext.begin(), plaintext.end());
     } catch (const std::exception& e) {
         std::cerr << "Decryption failed: " << e.what() << std::endl;
@@ -954,7 +1244,10 @@ bool ServerNetworkManager::Start() {
 
     // 设置socket选项
     int opt = 1;
-    setsockopt(listen_fd_.get(), SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));
+    if (setsockopt(listen_fd_.get(), SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) < 0) {
+        listen_fd_.reset();
+        return false;
+    }
 
     // 绑定地址
     struct sockaddr_in addr;
@@ -983,6 +1276,7 @@ bool ServerNetworkManager::Start() {
 
     // 添加监听socket到epoll
     struct epoll_event ev;
+    std::memset(&ev, 0, sizeof(ev)); // 初始化事件结构
     ev.events = EPOLLIN;
     ev.data.ptr = nullptr;
     if (epoll_ctl(epoll_fd_.get(), EPOLL_CTL_ADD, listen_fd_.get(), &ev) < 0) {
@@ -1015,16 +1309,22 @@ void ServerNetworkManager::ProcessEvents() {
 
     struct epoll_event events[64];
     int nfds = epoll_wait(epoll_fd_.get(), events, 64, 0);
-    
+
+    if (nfds > 0) {
+        std::cout << "[SERVER] Processing " << nfds << " events" << std::endl;
+    }
+
     for (int i = 0; i < nfds; i++) {
         if (events[i].data.ptr == nullptr) {
             // 监听socket有事件，接受新连接
+            std::cout << "[SERVER] Accepting new connection" << std::endl;
             AcceptConnection();
         } else {
             // 客户端连接有事件
+            std::cout << "[SERVER] Handling client event on fd" << std::endl;
             ConnectionHandler* handler = static_cast<ConnectionHandler*>(events[i].data.ptr);
             handler->HandleEvent(events[i].events);
-            
+
             if (handler->IsClosed()) {
                 // 从epoll中移除并删除连接处理器
                 int fd = handler->GetFd();
