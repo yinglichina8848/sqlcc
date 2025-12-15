@@ -3,6 +3,8 @@
 #include "core/execution_result.h"
 #include <map>
 #include <algorithm>
+#include <limits>
+#include <stdexcept>
 
 // ==================== DMLExecutionStrategy 实现 ====================
 
@@ -221,18 +223,29 @@ ExecutionResult DMLExecutionStrategy::executeAggregateSelect(const sql_parser::S
   std::map<std::string, AggregateEngine::AggregateType> aggregate_functions;
 
   for (const auto& col : select_columns) {
-    std::string upper_col = col;
-    std::transform(upper_col.begin(), upper_col.end(), upper_col.begin(), ::toupper);
+    if (col.empty()) {
+      continue; // 跳过空列名
+    }
 
-    if (upper_col.find("COUNT(*)") == 0) {
+    std::string upper_col = col;
+    // 安全地转换为大写
+    try {
+      std::transform(upper_col.begin(), upper_col.end(), upper_col.begin(), ::toupper);
+    } catch (const std::exception& e) {
+      // 如果转换失败，跳过此列
+      continue;
+    }
+
+    // 安全地检查聚合函数前缀
+    if (upper_col.length() >= 8 && upper_col.substr(0, 8) == "COUNT(*)") {
       aggregate_functions["COUNT"] = AggregateEngine::COUNT;
-    } else if (upper_col.find("SUM(") == 0) {
+    } else if (upper_col.length() >= 4 && upper_col.substr(0, 4) == "SUM(") {
       aggregate_functions["SUM"] = AggregateEngine::SUM;
-    } else if (upper_col.find("AVG(") == 0) {
+    } else if (upper_col.length() >= 4 && upper_col.substr(0, 4) == "AVG(") {
       aggregate_functions["AVG"] = AggregateEngine::AVG;
-    } else if (upper_col.find("MIN(") == 0) {
+    } else if (upper_col.length() >= 4 && upper_col.substr(0, 4) == "MIN(") {
       aggregate_functions["MIN"] = AggregateEngine::MIN;
-    } else if (upper_col.find("MAX(") == 0) {
+    } else if (upper_col.length() >= 4 && upper_col.substr(0, 4) == "MAX(") {
       aggregate_functions["MAX"] = AggregateEngine::MAX;
     }
   }
@@ -256,21 +269,47 @@ ExecutionResult DMLExecutionStrategy::executeAggregateSelect(const sql_parser::S
       } else {
         // 从SELECT列中提取列名
         for (const auto& select_col : select_columns) {
-          std::string upper_select = select_col;
-          std::transform(upper_select.begin(), upper_select.end(), upper_select.begin(), ::toupper);
+          if (select_col.empty()) {
+            continue; // 跳过空列
+          }
 
-          if (upper_select.find(func_name + "(") == 0) {
-            // 提取括号内的列名
+          std::string upper_select = select_col;
+          try {
+            std::transform(upper_select.begin(), upper_select.end(), upper_select.begin(), ::toupper);
+          } catch (const std::exception& e) {
+            continue; // 如果转换失败，跳过此列
+          }
+
+          std::string func_prefix = func_name + "(";
+          if (upper_select.length() > func_prefix.length() &&
+              upper_select.substr(0, func_prefix.length()) == func_prefix) {
+            // 安全地提取括号内的列名
             size_t start = upper_select.find('(');
             size_t end = upper_select.find(')', start);
-            if (start != std::string::npos && end != std::string::npos && end > start + 1) {
-              std::string col_name = select_col.substr(start + 1, end - start - 1);
-              // 移除空格
-              col_name.erase(std::remove_if(col_name.begin(), col_name.end(), ::isspace), col_name.end());
 
-              std::string value = getColumnValue(record, col_name, metadata);
-              engine.addValue(group_key, value, func_type);
-              break;
+            if (start != std::string::npos && end != std::string::npos &&
+                end > start + 1 && end < upper_select.length()) {
+              try {
+                std::string col_name = select_col.substr(start + 1, end - start - 1);
+
+                // 安全地移除空格
+                if (!col_name.empty()) {
+                  col_name.erase(std::remove_if(col_name.begin(), col_name.end(), ::isspace), col_name.end());
+                }
+
+                // 验证列名不为空
+                if (!col_name.empty()) {
+                  std::string value = getColumnValue(record, col_name, metadata);
+                  engine.addValue(group_key, value, func_type);
+                  break; // 找到匹配后退出循环
+                }
+              } catch (const std::out_of_range& e) {
+                // substr超出范围，跳过此列
+                continue;
+              } catch (const std::exception& e) {
+                // 其他异常，跳过此列
+                continue;
+              }
             }
           }
         }
@@ -427,4 +466,40 @@ ExecutionResult DMLExecutionStrategy::executeSimpleSelect(const sql_parser::Sele
   context.records_affected = 1;
   updateExecutionStats(context, context.records_affected);
   return {true, result_msg};
+}
+
+// ==================== 辅助函数实现 ====================
+
+std::string DMLExecutionStrategy::getColumnValue(const std::vector<std::string>& record,
+                                                 const std::string& column_name,
+                                                 std::shared_ptr<TableMetadata> metadata) {
+  if (!metadata) {
+    throw std::runtime_error("Table metadata is null");
+  }
+
+  if (column_name.empty()) {
+    throw std::runtime_error("Column name is empty");
+  }
+
+  const auto& columns = metadata->getColumns();
+
+  // 查找列的索引
+  size_t col_index = std::numeric_limits<size_t>::max();
+  for (size_t i = 0; i < columns.size(); ++i) {
+    if (columns[i].name == column_name) {
+      col_index = i;
+      break;
+    }
+  }
+
+  if (col_index == std::numeric_limits<size_t>::max()) {
+    throw std::runtime_error("Column not found: " + column_name);
+  }
+
+  // 安全地检查记录是否包含足够的列
+  if (col_index >= record.size()) {
+    throw std::runtime_error("Record does not have enough columns for column: " + column_name);
+  }
+
+  return record[col_index];
 }

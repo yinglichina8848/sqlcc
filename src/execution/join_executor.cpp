@@ -179,7 +179,7 @@ bool JoinExecutor::match_join_condition(
   }
 
   // 查找左列的索引
-  size_t left_col_idx = -1;
+  size_t left_col_idx = std::numeric_limits<size_t>::max();
   for (size_t i = 0; i < left_meta.size(); ++i) {
     if (left_meta[i].name == left_column_name) {
       left_col_idx = i;
@@ -187,12 +187,12 @@ bool JoinExecutor::match_join_condition(
     }
   }
 
-  if (left_col_idx == -1) {
+  if (left_col_idx == std::numeric_limits<size_t>::max()) {
     throw Exception("Left column not found: " + left_column_name);
   }
 
   // 查找右列的索引
-  size_t right_col_idx = -1;
+  size_t right_col_idx = std::numeric_limits<size_t>::max();
   for (size_t i = 0; i < right_meta.size(); ++i) {
     if (right_meta[i].name == right_column_name) {
       right_col_idx = i;
@@ -200,7 +200,7 @@ bool JoinExecutor::match_join_condition(
     }
   }
 
-  if (right_col_idx == -1) {
+  if (right_col_idx == std::numeric_limits<size_t>::max()) {
     throw Exception("Right column not found: " + right_column_name);
   }
 
