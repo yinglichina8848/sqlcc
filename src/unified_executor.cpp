@@ -2,6 +2,7 @@
 #include "core/unified_executor.h"
 #include "core/execution_result.h"
 #include <map>
+#include <algorithm>
 
 // ==================== DMLExecutionStrategy 实现 ====================
 

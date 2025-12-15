@@ -169,17 +169,17 @@ TEST_F(InnerJoinTest, InnerJoinWithAggregate) {
 TEST_F(InnerJoinTest, SelfJoin) {
     // Create test tables
     CreateTestTables();
-    
+
     // Create employee table with manager_id for self-join test
-    std::string create_manager_sql = 
+    std::string create_manager_sql =
         "CREATE TABLE employee_manager ("
         "id INT PRIMARY KEY,"
         "name VARCHAR(100),"
         "manager_id INT"
         ")";
-    
+
     ASSERT_TRUE(db_manager->Execute(create_manager_sql));
-    
+
     // Insert data for self-join test
     std::vector<std::string> inserts = {
         "INSERT INTO employee_manager VALUES (1, 'John Doe', NULL)",
@@ -187,17 +187,178 @@ TEST_F(InnerJoinTest, SelfJoin) {
         "INSERT INTO employee_manager VALUES (3, 'Bob Johnson', 1)",
         "INSERT INTO employee_manager VALUES (4, 'Alice Brown', 2)"
     };
-    
+
     for (const auto& sql : inserts) {
         ASSERT_TRUE(db_manager->Execute(sql));
     }
-    
+
     // Test self-join
-    std::string sql = 
+    std::string sql =
         "SELECT e.name as employee_name, m.name as manager_name "
         "FROM employee_manager e "
         "LEFT JOIN employee_manager m ON e.manager_id = m.id "
         "ORDER BY e.name";
-    
+
+    EXPECT_TRUE(db_manager->Execute(sql));
+}
+
+TEST_F(InnerJoinTest, LeftJoin) {
+    // Create test tables
+    CreateTestTables();
+
+    // Add an employee without department
+    ASSERT_TRUE(db_manager->Execute("INSERT INTO employee VALUES (6, 'No Department', NULL, 30000.0)"));
+
+    // Test LEFT JOIN
+    std::string sql =
+        "SELECT employee.name, department.name "
+        "FROM employee "
+        "LEFT JOIN department ON employee.department_id = department.id "
+        "ORDER BY employee.name";
+
+    EXPECT_TRUE(db_manager->Execute(sql));
+}
+
+TEST_F(InnerJoinTest, RightJoin) {
+    // Create test tables
+    CreateTestTables();
+
+    // Add a department without employees
+    ASSERT_TRUE(db_manager->Execute("INSERT INTO department VALUES (4, 'HR', 'Building D')"));
+
+    // Test RIGHT JOIN
+    std::string sql =
+        "SELECT employee.name, department.name "
+        "FROM employee "
+        "RIGHT JOIN department ON employee.department_id = department.id "
+        "ORDER BY department.name";
+
+    EXPECT_TRUE(db_manager->Execute(sql));
+}
+
+TEST_F(InnerJoinTest, FullJoin) {
+    // Create test tables
+    CreateTestTables();
+
+    // Add an employee without department
+    ASSERT_TRUE(db_manager->Execute("INSERT INTO employee VALUES (6, 'No Department', NULL, 30000.0)"));
+
+    // Add a department without employees
+    ASSERT_TRUE(db_manager->Execute("INSERT INTO department VALUES (4, 'HR', 'Building D')"));
+
+    // Test FULL JOIN (simplified - may not be supported in all databases)
+    std::string sql =
+        "SELECT employee.name as employee_name, department.name as department_name "
+        "FROM employee "
+        "FULL OUTER JOIN department ON employee.department_id = department.id "
+        "ORDER BY employee.name, department.name";
+
+    // Note: FULL OUTER JOIN might not be supported, so we expect it to fail gracefully
+    // or be handled as LEFT JOIN + RIGHT JOIN
+    EXPECT_TRUE(db_manager->Execute(sql));
+}
+
+TEST_F(InnerJoinTest, JoinWithMultipleConditions) {
+    // Create test tables
+    CreateTestTables();
+
+    // Create a more complex scenario
+    std::string create_location_sql =
+        "CREATE TABLE location ("
+        "dept_id INT PRIMARY KEY,"
+        "building VARCHAR(50),"
+        "floor INT"
+        ")";
+
+    ASSERT_TRUE(db_manager->Execute(create_location_sql));
+
+    std::vector<std::string> location_inserts = {
+        "INSERT INTO location VALUES (1, 'Building A', 1)",
+        "INSERT INTO location VALUES (2, 'Building B', 2)",
+        "INSERT INTO location VALUES (3, 'Building C', 3)"
+    };
+
+    for (const auto& sql : location_inserts) {
+        ASSERT_TRUE(db_manager->Execute(sql));
+    }
+
+    // Test JOIN with multiple conditions (simplified)
+    std::string sql =
+        "SELECT employee.name, department.name, location.building "
+        "FROM employee "
+        "INNER JOIN department ON employee.department_id = department.id "
+        "INNER JOIN location ON department.id = location.dept_id "
+        "WHERE location.floor > 1";
+
+    EXPECT_TRUE(db_manager->Execute(sql));
+}
+
+TEST_F(InnerJoinTest, JoinWithAlias) {
+    // Create test tables
+    CreateTestTables();
+
+    // Test JOIN with table aliases
+    std::string sql =
+        "SELECT e.name as employee_name, d.name as department_name, e.salary "
+        "FROM employee e "
+        "INNER JOIN department d ON e.department_id = d.id "
+        "ORDER BY e.salary DESC";
+
+    EXPECT_TRUE(db_manager->Execute(sql));
+}
+
+TEST_F(InnerJoinTest, JoinPerformanceTest) {
+    // Create larger test tables for performance testing
+    CreateTestTables();
+
+    // Add more employees for performance test
+    for (int i = 7; i <= 50; ++i) {
+        std::string dept_id = std::to_string((i % 3) + 1); // Distribute across departments
+        std::string salary = std::to_string(30000 + (i * 1000));
+        std::string sql = "INSERT INTO employee VALUES (" +
+                          std::to_string(i) + ", 'Employee" + std::to_string(i) +
+                          "', " + dept_id + ", " + salary + ".0)";
+        ASSERT_TRUE(db_manager->Execute(sql));
+    }
+
+    // Test JOIN performance with larger dataset
+    std::string sql =
+        "SELECT employee.name, department.name "
+        "FROM employee "
+        "INNER JOIN department ON employee.department_id = department.id "
+        "ORDER BY employee.salary DESC "
+        "LIMIT 10";
+
+    EXPECT_TRUE(db_manager->Execute(sql));
+}
+
+TEST_F(InnerJoinTest, JoinWithComplexWhere) {
+    // Create test tables
+    CreateTestTables();
+
+    // Test JOIN with complex WHERE conditions
+    std::string sql =
+        "SELECT employee.name, department.name, employee.salary "
+        "FROM employee "
+        "INNER JOIN department ON employee.department_id = department.id "
+        "WHERE employee.salary > 50000 AND department.location LIKE 'Building A%' "
+        "ORDER BY employee.salary DESC";
+
+    EXPECT_TRUE(db_manager->Execute(sql));
+}
+
+TEST_F(InnerJoinTest, JoinWithGroupBy) {
+    // Create test tables
+    CreateTestTables();
+
+    // Test JOIN with GROUP BY and aggregate functions
+    std::string sql =
+        "SELECT department.name, COUNT(employee.id) as employee_count, AVG(employee.salary) as avg_salary "
+        "FROM employee "
+        "INNER JOIN department ON employee.department_id = department.id "
+        "GROUP BY department.id, department.name "
+        "HAVING COUNT(employee.id) > 1 "
+        "ORDER BY avg_salary DESC";
+
     EXPECT_TRUE(db_manager->Execute(sql));
 }
