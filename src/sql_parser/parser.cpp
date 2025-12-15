@@ -169,6 +169,18 @@ std::unique_ptr<Statement> Parser::parseStatement() {
               << std::endl;
     return parseShowStatement();
   }
+  
+  if (check(Token::KEYWORD_GRANT)) {
+    std::cout << "[PARSER DEBUG] 检测到GRANT关键字，调用parseGrantStatement()"
+              << std::endl;
+    return parseGrantStatement();
+  }
+  
+  if (check(Token::KEYWORD_REVOKE)) {
+    std::cout << "[PARSER DEBUG] 检测到REVOKE关键字，调用parseRevokeStatement()"
+              << std::endl;
+    return parseRevokeStatement();
+  }
 
   // If we reach here, we have an unknown statement
   std::cout << "[PARSER DEBUG] 未知语句类型，抛出异常" << std::endl;
@@ -259,6 +271,8 @@ void Parser::synchronize() {
     case Token::KEYWORD_DELETE:
     case Token::KEYWORD_USE:
     case Token::KEYWORD_SHOW:
+    case Token::KEYWORD_GRANT:
+    case Token::KEYWORD_REVOKE:
       return;
 
     default:
@@ -273,7 +287,8 @@ void Parser::initializeSyncTokens() {
   syncTokens_ = {
       Token::KEYWORD_CREATE, Token::KEYWORD_DROP,   Token::KEYWORD_ALTER,
       Token::KEYWORD_SELECT, Token::KEYWORD_INSERT, Token::KEYWORD_UPDATE,
-      Token::KEYWORD_DELETE, Token::KEYWORD_USE,    Token::KEYWORD_SHOW};
+      Token::KEYWORD_DELETE, Token::KEYWORD_USE,    Token::KEYWORD_SHOW,
+      Token::KEYWORD_GRANT,  Token::KEYWORD_REVOKE};
 }
 
 // Add implementations for all other methods declared in parser.h
@@ -767,8 +782,8 @@ std::unique_ptr<SelectStatement> Parser::parseSelectStatement() {
     std::cout << "[PARSER DEBUG] 解析SELECT *" << std::endl;
     stmt->setSelectAll(true);
   } else {
-    // 解析具体的列名列表
-    std::cout << "[PARSER DEBUG] 解析具体的列名列表" << std::endl;
+    // 解析具体的列名列表或函数调用（支持简单的聚合函数识别，例如 COUNT(*) / SUM(col)）
+    std::cout << "[PARSER DEBUG] 解析具体的列名列表或函数调用" << std::endl;
     bool first = true;
     while (!check(Token::KEYWORD_FROM) && !isAtEnd()) {
       if (!first) {
@@ -777,11 +792,46 @@ std::unique_ptr<SelectStatement> Parser::parseSelectStatement() {
         }
       }
       first = false;
-      
-      // 解析列名（简化处理，实际应该支持表达式）
-      std::string column = parseIdentifier();
-      stmt->addSelectColumn(column);
-      std::cout << "[PARSER DEBUG] 添加列: " << column << std::endl;
+
+      // 如果是函数调用形式: identifier '(' ... ')'
+      if (check(Token::IDENTIFIER) && peek().getType() == Token::IDENTIFIER) {
+        // lookahead to detect '(' after identifier
+      }
+
+      if (check(Token::IDENTIFIER) && (/* lookahead for '(' */ false)) {
+        // placeholder - unreachable due to limitations of simple lookahead
+      }
+
+      // 简单函数调用检测：如果当前token是标识符且下一个字符是左括号，则解析为函数调用文本
+      if (check(Token::IDENTIFIER) && lexer_.peek() == '(') {
+        std::string funcName = currentToken_.getLexeme();
+        advance(); // consume function name
+        consume(Token::LPAREN);
+
+        // 解析函数参数（简化：只支持单个标识符或 '*'）
+        std::string inner;
+        if (check(Token::OPERATOR_MULTIPLY)) {
+          inner = "*";
+          advance();
+        } else if (check(Token::IDENTIFIER)) {
+          inner = parseIdentifier();
+        } else if (check(Token::STRING_LITERAL) || check(Token::INTEGER_LITERAL) || check(Token::FLOAT_LITERAL)) {
+          inner = currentToken_.getLexeme();
+          advance();
+        } else {
+          inner = "";
+        }
+
+        consume(Token::RPAREN);
+        std::string funcExpr = funcName + "(" + inner + ")";
+        stmt->addSelectColumn(funcExpr);
+        std::cout << "[PARSER DEBUG] 添加函数列: " << funcExpr << std::endl;
+      } else {
+        // 解析普通列名
+        std::string column = parseIdentifier();
+        stmt->addSelectColumn(column);
+        std::cout << "[PARSER DEBUG] 添加列: " << column << std::endl;
+      }
     }
   }
   
@@ -790,7 +840,21 @@ std::unique_ptr<SelectStatement> Parser::parseSelectStatement() {
     std::cout << "[PARSER DEBUG] 解析FROM子句" << std::endl;
     std::string table = parseIdentifier();
     stmt->setTableName(table);
+    stmt->addFromTable(table);
     std::cout << "[PARSER DEBUG] 表名: " << table << std::endl;
+
+    // 解析JOIN子句（支持多个JOIN）
+    while (true) {
+      if (check(Token::KEYWORD_JOIN) || check(Token::KEYWORD_INNER)) {
+        std::cout << "[PARSER DEBUG] 检测到JOIN子句" << std::endl;
+        auto joinClause = parseJoinClause();
+        if (joinClause) {
+          stmt->addJoinClause(std::move(joinClause));
+        }
+      } else {
+        break;
+      }
+    }
   } else {
     std::stringstream ss;
     ss << "Expected FROM clause in SELECT statement";
@@ -811,6 +875,41 @@ std::unique_ptr<SelectStatement> Parser::parseSelectStatement() {
     WhereClause whereClause(column, op, value);
     stmt->setWhereClause(whereClause);
     std::cout << "[PARSER DEBUG] WHERE条件: " << column << " " << op << " " << value << std::endl;
+  }
+  
+  // 解析GROUP BY子句（可选）
+  if (match(Token::KEYWORD_GROUP)) {
+    consume(Token::KEYWORD_BY);
+    std::cout << "[PARSER DEBUG] 解析GROUP BY子句" << std::endl;
+    
+    // 解析GROUP BY列列表
+    bool first = true;
+    while (!check(Token::KEYWORD_HAVING) && !check(Token::KEYWORD_ORDER) && 
+           !check(Token::KEYWORD_LIMIT) && !check(Token::SEMICOLON) && !isAtEnd()) {
+      if (!first) {
+        if (!match(Token::COMMA)) {
+          break;
+        }
+      }
+      first = false;
+      
+      std::string column = parseIdentifier();
+      stmt->addGroupByColumn(column);
+      std::cout << "[PARSER DEBUG] GROUP BY列: " << column << std::endl;
+    }
+  }
+  
+  // 解析HAVING子句（可选）
+  if (match(Token::KEYWORD_HAVING)) {
+    std::cout << "[PARSER DEBUG] 解析HAVING子句" << std::endl;
+    // 简化处理，只解析简单的条件表达式
+    // 实际实现中需要更复杂的表达式解析
+    // 这里我们只是跳过这部分内容以避免解析错误
+    while (!check(Token::KEYWORD_ORDER) && !check(Token::KEYWORD_LIMIT) && 
+           !check(Token::SEMICOLON) && !isAtEnd()) {
+      advance();
+    }
+    std::cout << "[PARSER DEBUG] HAVING子句（简化处理）" << std::endl;
   }
   
   std::cout << "[PARSER DEBUG] SELECT语句解析完成" << std::endl;
@@ -957,19 +1056,181 @@ std::unique_ptr<DropStatement> Parser::parseDropStatement() {
 }
 
 std::unique_ptr<CreateUserStatement> Parser::parseCreateUserStatement() {
-  throw std::runtime_error("parseCreateUserStatement not yet implemented");
+  std::cout << "[PARSER DEBUG] 进入parseCreateUserStatement()方法" << std::endl;
+  
+  // 消费CREATE关键字
+  consume(Token::KEYWORD_CREATE);
+  
+  // 消费USER关键字
+  consume(Token::KEYWORD_USER);
+  
+  // 解析用户名
+  std::string username = parseIdentifier();
+  
+  // 解析密码部分
+  std::string password;
+  bool withPassword = false;
+  if (match(Token::KEYWORD_IDENTIFIED)) {
+    consume(Token::KEYWORD_BY);
+    password = parseIdentifier();
+    withPassword = false;  // IDENTIFIED BY格式
+  } else if (match(Token::KEYWORD_WITH)) {
+    consume(Token::KEYWORD_PASSWORD);
+    password = parseIdentifier();
+    withPassword = true;   // WITH PASSWORD格式
+  }
+  
+  // 创建CreateUserStatement对象
+  auto stmt = std::make_unique<CreateUserStatement>(username, password);
+  stmt->setWithPassword(withPassword);
+  
+  std::cout << "[PARSER DEBUG] CREATE USER语句解析完成" << std::endl;
+  return stmt;
 }
 
 std::unique_ptr<DropUserStatement> Parser::parseDropUserStatement() {
-  throw std::runtime_error("parseDropUserStatement not yet implemented");
+  std::cout << "[PARSER DEBUG] 进入parseDropUserStatement()方法" << std::endl;
+  
+  // 消费DROP关键字
+  consume(Token::KEYWORD_DROP);
+  
+  // 消费USER关键字
+  consume(Token::KEYWORD_USER);
+  
+  // 检查是否有IF EXISTS子句
+  bool ifExists = false;
+  if (match(Token::KEYWORD_IF)) {
+    consume(Token::KEYWORD_EXISTS);
+    ifExists = true;
+  }
+  
+  // 解析用户名
+  std::string username = parseIdentifier();
+  
+  // 创建DropUserStatement对象
+  auto stmt = std::make_unique<DropUserStatement>(username);
+  stmt->setIfExists(ifExists);
+  
+  std::cout << "[PARSER DEBUG] DROP USER语句解析完成" << std::endl;
+  return stmt;
 }
 
 std::unique_ptr<GrantStatement> Parser::parseGrantStatement() {
-  throw std::runtime_error("parseGrantStatement not yet implemented");
+  std::cout << "[PARSER DEBUG] 进入parseGrantStatement()方法" << std::endl;
+  
+  // 消费GRANT关键字
+  consume(Token::KEYWORD_GRANT);
+  
+  // 创建GrantStatement对象
+  auto stmt = std::make_unique<GrantStatement>();
+  
+  // 解析权限列表
+  if (match(Token::KEYWORD_ALL)) {
+    // 处理ALL [PRIVILEGES]情况
+    if (match(Token::KEYWORD_PRIVILEGES)) {
+      stmt->addPrivilege("ALL PRIVILEGES");
+    } else {
+      stmt->addPrivilege("ALL");
+    }
+  } else {
+    // 解析具体权限列表
+    std::string privilege = parseIdentifier();
+    stmt->addPrivilege(privilege);
+    
+    while (match(Token::COMMA)) {
+      privilege = parseIdentifier();
+      stmt->addPrivilege(privilege);
+    }
+  }
+  
+  // 可选的PRIVILEGES关键字
+  if (check(Token::KEYWORD_PRIVILEGES)) {
+    advance();
+  }
+  
+  // 消费ON关键字
+  consume(Token::KEYWORD_ON);
+  
+  // 解析对象类型和名称
+  if (match(Token::KEYWORD_TABLE)) {
+    stmt->setObjectType("TABLE");
+    std::string tableName = parseIdentifier();
+    stmt->setObjectName(tableName);
+  } else {
+    // 默认为TABLE类型
+    stmt->setObjectType("TABLE");
+    std::string objectName = parseIdentifier();
+    stmt->setObjectName(objectName);
+  }
+  
+  // 消费TO关键字
+  consume(Token::KEYWORD_TO);
+  
+  // 解析被授权用户
+  std::string grantee = parseIdentifier();
+  stmt->setGrantee(grantee);
+  
+  std::cout << "[PARSER DEBUG] GRANT语句解析完成" << std::endl;
+  return stmt;
 }
 
 std::unique_ptr<RevokeStatement> Parser::parseRevokeStatement() {
-  throw std::runtime_error("parseRevokeStatement not yet implemented");
+  std::cout << "[PARSER DEBUG] 进入parseRevokeStatement()方法" << std::endl;
+  
+  // 消费REVOKE关键字
+  consume(Token::KEYWORD_REVOKE);
+  
+  // 创建RevokeStatement对象
+  auto stmt = std::make_unique<RevokeStatement>();
+  
+  // 解析权限列表
+  if (match(Token::KEYWORD_ALL)) {
+    // 处理ALL [PRIVILEGES]情况
+    if (match(Token::KEYWORD_PRIVILEGES)) {
+      stmt->addPrivilege("ALL PRIVILEGES");
+    } else {
+      stmt->addPrivilege("ALL");
+    }
+  } else {
+    // 解析具体权限列表
+    std::string privilege = parseIdentifier();
+    stmt->addPrivilege(privilege);
+    
+    while (match(Token::COMMA)) {
+      privilege = parseIdentifier();
+      stmt->addPrivilege(privilege);
+    }
+  }
+  
+  // 可选的PRIVILEGES关键字
+  if (check(Token::KEYWORD_PRIVILEGES)) {
+    advance();
+  }
+  
+  // 消费ON关键字
+  consume(Token::KEYWORD_ON);
+  
+  // 解析对象类型和名称
+  if (match(Token::KEYWORD_TABLE)) {
+    stmt->setObjectType("TABLE");
+    std::string tableName = parseIdentifier();
+    stmt->setObjectName(tableName);
+  } else {
+    // 默认为TABLE类型
+    stmt->setObjectType("TABLE");
+    std::string objectName = parseIdentifier();
+    stmt->setObjectName(objectName);
+  }
+  
+  // 消费FROM关键字
+  consume(Token::KEYWORD_FROM);
+  
+  // 解析被撤销权限的用户
+  std::string grantee = parseIdentifier();
+  stmt->setGrantee(grantee);
+  
+  std::cout << "[PARSER DEBUG] REVOKE语句解析完成" << std::endl;
+  return stmt;
 }
 
 std::vector<std::string> Parser::parseColumnNames() {
@@ -1083,6 +1344,115 @@ std::unique_ptr<SetOperation> Parser::parseIntersect() {
 
 std::unique_ptr<SetOperation> Parser::parseExcept() {
   throw std::runtime_error("parseExcept not yet implemented");
+}
+
+// JOIN clause parsing
+std::unique_ptr<JoinClause> Parser::parseJoinClause() {
+  std::cout << "[PARSER DEBUG] 进入parseJoinClause()方法" << std::endl;
+
+  // 确定JOIN类型
+  JoinClause::JoinType joinType = JoinClause::INNER_JOIN;
+
+  // 检查JOIN类型
+  if (match(Token::KEYWORD_INNER)) {
+    joinType = JoinClause::INNER_JOIN;
+    std::cout << "[PARSER DEBUG] 检测到INNER JOIN" << std::endl;
+  } else if (match(Token::KEYWORD_LEFT)) {
+    if (match(Token::KEYWORD_OUTER)) {
+      joinType = JoinClause::LEFT_JOIN;
+      std::cout << "[PARSER DEBUG] 检测到LEFT OUTER JOIN" << std::endl;
+    } else {
+      joinType = JoinClause::LEFT_JOIN;
+      std::cout << "[PARSER DEBUG] 检测到LEFT JOIN" << std::endl;
+    }
+  } else if (match(Token::KEYWORD_RIGHT)) {
+    if (match(Token::KEYWORD_OUTER)) {
+      joinType = JoinClause::RIGHT_JOIN;
+      std::cout << "[PARSER DEBUG] 检测到RIGHT OUTER JOIN" << std::endl;
+    } else {
+      joinType = JoinClause::RIGHT_JOIN;
+      std::cout << "[PARSER DEBUG] 检测到RIGHT JOIN" << std::endl;
+    }
+  } else if (match(Token::KEYWORD_FULL)) {
+    if (match(Token::KEYWORD_OUTER)) {
+      joinType = JoinClause::FULL_JOIN;
+      std::cout << "[PARSER DEBUG] 检测到FULL OUTER JOIN" << std::endl;
+    } else {
+      joinType = JoinClause::FULL_JOIN;
+      std::cout << "[PARSER DEBUG] 检测到FULL JOIN" << std::endl;
+    }
+  } else if (match(Token::KEYWORD_JOIN)) {
+    // 默认为INNER JOIN
+    joinType = JoinClause::INNER_JOIN;
+    std::cout << "[PARSER DEBUG] 检测到默认JOIN (INNER)" << std::endl;
+  }
+
+  // 如果还没有消费JOIN关键字，现在消费
+  if (!match(Token::KEYWORD_JOIN)) {
+    std::stringstream ss;
+    ss << "Expected JOIN keyword, but got " << currentToken_.getLexeme();
+    reportError(ss.str());
+    return nullptr;
+  }
+
+  // 解析表名
+  std::string tableName = parseIdentifier();
+  std::cout << "[PARSER DEBUG] JOIN表名: " << tableName << std::endl;
+
+  // 解析ON条件
+  std::unique_ptr<Expression> condition = nullptr;
+  if (match(Token::KEYWORD_ON)) {
+    std::cout << "[PARSER DEBUG] 解析JOIN ON条件" << std::endl;
+
+    // 简化实现：解析形如 "table1.column = table2.column" 的条件
+    // 实际实现中应该使用完整的表达式解析器
+
+    // 解析左边列名（可能带表前缀）
+    std::string leftColumn = parseIdentifier();
+    if (match(Token::DOT)) {
+      leftColumn += "." + parseIdentifier();
+    }
+
+    // 解析操作符（应该等于号）
+    if (!match(Token::OPERATOR_EQUAL)) {
+      std::stringstream ss;
+      ss << "Expected '=' in JOIN condition, but got " << currentToken_.getLexeme();
+      reportError(ss.str());
+      return nullptr;
+    }
+
+    // 解析右边列名（可能带表前缀）
+    std::string rightColumn = parseIdentifier();
+    if (match(Token::DOT)) {
+      rightColumn += "." + parseIdentifier();
+    }
+
+    // 创建二元表达式作为JOIN条件
+    auto leftExpr = std::make_unique<IdentifierExpression>(leftColumn);
+    auto rightExpr = std::make_unique<IdentifierExpression>(rightColumn);
+    condition = std::make_unique<BinaryExpression>(
+        std::move(leftExpr), std::move(rightExpr), Token::OPERATOR_EQUAL);
+
+    std::cout << "[PARSER DEBUG] JOIN条件: " << leftColumn << " = " << rightColumn << std::endl;
+  } else if (match(Token::KEYWORD_USING)) {
+    // USING子句的简化处理
+    std::cout << "[PARSER DEBUG] 检测到USING子句（简化处理）" << std::endl;
+    consume(Token::LPAREN);
+    std::string usingColumn = parseIdentifier();
+    consume(Token::RPAREN);
+    std::cout << "[PARSER DEBUG] USING列: " << usingColumn << std::endl;
+    // TODO: 将USING转换为ON条件
+  } else {
+    std::stringstream ss;
+    ss << "Expected ON or USING clause in JOIN, but got " << currentToken_.getLexeme();
+    reportError(ss.str());
+    return nullptr;
+  }
+
+  // 创建并返回JoinClause
+  auto joinClause = std::make_unique<JoinClause>(joinType, tableName, std::move(condition));
+  std::cout << "[PARSER DEBUG] JOIN子句解析完成" << std::endl;
+  return joinClause;
 }
 
 } // namespace sql_parser

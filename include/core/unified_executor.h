@@ -7,6 +7,7 @@
 #include "system_database.h"
 #include "user_manager.h"
 #include <functional>
+#include <map>
 #include <memory>
 #include <unordered_map>
 
@@ -275,6 +276,68 @@ private:
 
   std::string formatDatabases(const std::vector<std::string> &databases);
   std::string formatTables(const std::vector<std::string> &tables);
+};
+
+/**
+ * @brief 聚合引擎
+ * 处理各种聚合函数的计算
+ */
+class AggregateEngine {
+public:
+  enum AggregateType { COUNT, SUM, AVG, MIN, MAX };
+
+  AggregateEngine();
+
+  // 添加值到聚合计算中
+  void addValue(const std::string& group_key, const std::string& value, AggregateType type);
+
+  // 获取聚合结果
+  std::string getResult(const std::string& group_key, AggregateType type) const;
+
+  // 获取所有分组的结果
+  std::map<std::string, std::string> getAllResults(AggregateType type) const;
+
+  // 清空聚合数据
+  void clear();
+
+private:
+  struct AggregateData {
+    int count = 0;
+    double sum = 0.0;
+    int count_for_avg = 0;
+    std::vector<double> min_values;
+    std::vector<std::string> min_strings;
+    std::vector<double> max_values;
+    std::vector<std::string> max_strings;
+  };
+
+  std::map<std::string, std::map<AggregateType, AggregateData>> aggregates_;
+};
+
+/**
+ * @brief 分组执行器
+ * 处理GROUP BY查询的执行逻辑
+ */
+class GroupByExecutor {
+public:
+  GroupByExecutor();
+
+  // 执行GROUP BY查询
+  ExecutionResult executeGroupBy(const sql_parser::SelectStatement& stmt,
+                                 const std::vector<std::vector<std::string>>& records,
+                                 std::shared_ptr<TableMetadata> metadata,
+                                 ExecutionContext& context);
+
+private:
+  // 创建分组
+  std::map<std::string, std::vector<size_t>> createGroups(
+      const std::vector<std::vector<std::string>>& records,
+      const std::vector<std::string>& group_columns,
+      std::shared_ptr<TableMetadata> metadata);
+
+  // 评估HAVING条件
+  bool evaluateHavingCondition(const std::map<std::string, std::string>& group_aggregates,
+                               const std::string& having_condition);
 };
 
 /**

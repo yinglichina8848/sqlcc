@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include "sql_parser/lexer.h"
+#include "sql_parser/lexer_new.h"
 #include "sql_parser/token_new.h"
 
 using namespace sqlcc;
@@ -13,7 +13,7 @@ int main() {
     std::cout << "测试冒号解析..." << std::endl;
     std::cout << "输入: '" << test_input << "'" << std::endl;
     
-    LexerNew lexer(test_input);
+    Lexer lexer(test_input);
     
     int token_count = 0;
     while (!lexer.isAtEnd()) {

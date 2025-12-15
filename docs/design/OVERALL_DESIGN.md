@@ -127,25 +127,68 @@ SQLCC采用多层架构设计，将系统划分为清晰的功能层次，实现
 ### 3.3 SQL解析器
 
 #### 3.3.1 设计目标
-将SQL文本解析为结构化的抽象语法树(AST)，为查询执行提供结构化表示。
+将SQL文本解析为结构化的抽象语法树(AST)，为查询执行提供结构化表示。在v1.1.5版本中，SQL解析器功能得到重大完善，支持5种核心SQL语句的完整解析。
 
 #### 3.3.2 关键组件
 - **词法分析器**：将SQL文本分解为标记(tokens)
 - **语法分析器**：根据语法规则构建AST
 - **语义分析器**：检查SQL语句的语义正确性
 - **AST构建器**：构建和管理抽象语法树
+- **错误处理模块**：完善的语法错误检测和报告机制
 
 #### 3.3.3 数据结构
 - **Token**：词法标记
 - **ASTNode**：AST节点基类
-- **SelectNode**, **InsertNode**, etc.：各类SQL语句的AST节点
+- **SelectNode**, **InsertNode**, **CreateTableNode**, **AlterTableNode**, **DropTableNode**：各类SQL语句的AST节点
 - **ExpressionNode**：表达式节点
+- **ColumnDefinitionNode**：列定义节点
+- **ConstraintNode**：约束定义节点
 
 #### 3.3.4 核心接口
 - `AST* ParseSQL(sql_string)`：解析SQL语句
 - `void ValidateAST(AST*)`：验证AST的语义正确性
 - `std::string PrintAST(AST*)`：打印AST结构
 - `void FreeAST(AST*)`：释放AST资源
+- `bool IsValidSQL(sql_string)`：检查SQL语法正确性
+- `std::string GetParseError()`：获取解析错误信息
+
+#### 3.3.5 v1.1.5版本功能完善
+在v1.1.5版本中，SQL解析器实现了以下重大改进：
+
+**1. CREATE TABLE语句解析**
+- 支持完整的列定义：列名、数据类型、约束
+- 数据类型支持：INT, VARCHAR, DATE, DECIMAL等
+- 约束支持：PRIMARY KEY, NOT NULL, UNIQUE, DEFAULT等
+- 表选项支持：ENGINE, CHARSET, COLLATE等
+
+**2. ALTER TABLE语句解析**
+- ADD COLUMN操作：支持添加新列和约束
+- DROP COLUMN操作：支持删除列和级联操作
+- MODIFY COLUMN操作：支持修改列定义
+- RENAME TO操作：支持表重命名
+
+**3. DROP TABLE语句解析**
+- 多对象支持：TABLE, DATABASE, INDEX, VIEW等
+- IF EXISTS子句：支持条件删除操作
+- CASCADE约束：支持级联删除操作
+- RESTRICT约束：支持限制删除操作
+
+**4. SELECT语句解析**
+- SELECT *语法：支持通配符选择所有列
+- SELECT column_list语法：支持指定列选择
+- FROM子句：支持单表和多表查询
+- WHERE条件：支持各种条件表达式
+
+**5. INSERT语句解析**
+- INSERT INTO语法：完整的插入语句解析
+- 列指定支持：支持指定插入列
+- VALUES子句：支持单行和多行插入
+- SELECT插入：支持从查询结果插入
+
+**6. 错误处理增强**
+- 完善的语法错误检测机制
+- 详细的错误信息报告
+- 错误恢复和继续解析能力
 
 ### 3.4 事务管理器
 

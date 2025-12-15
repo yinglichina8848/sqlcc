@@ -15,7 +15,7 @@ int main() {
         std::string sql = "ALTER TABLE users ADD COLUMN age INT";
         std::cout << "Input SQL: " << sql << std::endl;
         
-        LexerNew lexer(sql);
+        Lexer lexer(sql);
         std::cout << "Lexer created successfully" << std::endl;
         
         // 逐个获取token

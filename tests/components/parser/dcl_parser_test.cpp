@@ -1,4 +1,4 @@
-#include "sql_parser/parser_new.h"
+#include "sql_parser/parser.h"
 #include "../../../include/sql_parser/ast_nodes.h"
 #include <gtest/gtest.h>
 #include <memory>
@@ -14,7 +14,7 @@ protected:
 
 TEST_F(DCLParserTest, ParseCreateUserWithIdentifiedBy) {
     std::string sql = "CREATE USER testuser IDENTIFIED BY 'password123';";
-    ParserNew parser(sql);
+    Parser parser(sql);
     
     auto statements = parser.parse();
     ASSERT_EQ(statements.size(), 1);
@@ -29,7 +29,7 @@ TEST_F(DCLParserTest, ParseCreateUserWithIdentifiedBy) {
 
 TEST_F(DCLParserTest, ParseCreateUserWithPassword) {
     std::string sql = "CREATE USER testuser WITH PASSWORD 'password123';";
-    ParserNew parser(sql);
+    Parser parser(sql);
     
     auto statements = parser.parse();
     ASSERT_EQ(statements.size(), 1);
@@ -44,7 +44,7 @@ TEST_F(DCLParserTest, ParseCreateUserWithPassword) {
 
 TEST_F(DCLParserTest, ParseDropUser) {
     std::string sql = "DROP USER testuser;";
-    ParserNew parser(sql);
+    Parser parser(sql);
     
     auto statements = parser.parse();
     ASSERT_EQ(statements.size(), 1);
@@ -58,7 +58,7 @@ TEST_F(DCLParserTest, ParseDropUser) {
 
 TEST_F(DCLParserTest, ParseDropUserIfExists) {
     std::string sql = "DROP USER IF EXISTS testuser;";
-    ParserNew parser(sql);
+    Parser parser(sql);
     
     auto statements = parser.parse();
     ASSERT_EQ(statements.size(), 1);
@@ -72,7 +72,7 @@ TEST_F(DCLParserTest, ParseDropUserIfExists) {
 
 TEST_F(DCLParserTest, ParseGrantAllPrivileges) {
     std::string sql = "GRANT ALL PRIVILEGES ON TABLE users TO testuser;";
-    ParserNew parser(sql);
+    Parser parser(sql);
     
     auto statements = parser.parse();
     ASSERT_EQ(statements.size(), 1);
@@ -92,7 +92,7 @@ TEST_F(DCLParserTest, ParseGrantAllPrivileges) {
 
 TEST_F(DCLParserTest, ParseGrantMultiplePrivileges) {
     std::string sql = "GRANT SELECT, INSERT, UPDATE ON TABLE users TO testuser;";
-    ParserNew parser(sql);
+    Parser parser(sql);
     
     auto statements = parser.parse();
     ASSERT_EQ(statements.size(), 1);
@@ -114,7 +114,7 @@ TEST_F(DCLParserTest, ParseGrantMultiplePrivileges) {
 
 TEST_F(DCLParserTest, ParseRevokeSinglePrivilege) {
     std::string sql = "REVOKE SELECT ON TABLE users FROM testuser;";
-    ParserNew parser(sql);
+    Parser parser(sql);
     
     auto statements = parser.parse();
     ASSERT_EQ(statements.size(), 1);
@@ -131,7 +131,7 @@ TEST_F(DCLParserTest, ParseRevokeSinglePrivilege) {
 
 TEST_F(DCLParserTest, ParseRevokeMultiplePrivileges) {
     std::string sql = "REVOKE SELECT, INSERT, UPDATE ON TABLE users FROM testuser;";
-    ParserNew parser(sql);
+    Parser parser(sql);
     
     auto statements = parser.parse();
     ASSERT_EQ(statements.size(), 1);
@@ -150,7 +150,7 @@ TEST_F(DCLParserTest, ParseRevokeMultiplePrivileges) {
 
 TEST_F(DCLParserTest, ParseRevokeAllPrivileges) {
     std::string sql = "REVOKE ALL PRIVILEGES ON TABLE users FROM testuser;";
-    ParserNew parser(sql);
+    Parser parser(sql);
     
     auto statements = parser.parse();
     ASSERT_EQ(statements.size(), 1);

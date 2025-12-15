@@ -84,6 +84,10 @@ private:
   std::unique_ptr<Expression> parseUnary();
   std::unique_ptr<Expression> parsePrimary();
   std::unique_ptr<Expression> parseIdentifierExpression();
+
+  // JOIN clause parsing
+  std::unique_ptr<JoinClause> parseJoinClause();
+
   std::vector<std::unique_ptr<ColumnDefinition>> parseColumnDefinitions();
   std::unique_ptr<ColumnDefinition> parseColumnDefinition();
   std::string parseDataType();

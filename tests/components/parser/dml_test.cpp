@@ -3,7 +3,7 @@
 #include "execution_engine.h"
 #include "database_manager.h"
 #include "../../../include/sql_parser/ast_nodes.h"
-#include "sql_parser/parser_new.h"
+#include "sql_parser/parser.h"
 #include <iostream>
 #include <memory>
 #include <filesystem>

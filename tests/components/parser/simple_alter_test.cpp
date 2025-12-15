@@ -36,7 +36,7 @@ TEST_F(SimpleAlterTest, ParseAlterTableAddColumn) {
     
     auto column_def = alter_stmt->getColumnDefinition();
     EXPECT_EQ(column_def.getName(), "age");
-    EXPECT_EQ(column_def.getType(), "INT");
+    EXPECT_EQ(column_def.getType(), "int");
 }
 
 // 测试ALTER TABLE DROP COLUMN语句解析

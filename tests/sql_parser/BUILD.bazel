@@ -284,3 +284,13 @@ test_suite(
         ":select_parser_comprehensive_test",  # 新增的高覆盖率SELECT测试
     ],
 )
+
+# 聚合函数单元测试
+cc_test(
+    name = "aggregate_functions_unit_test",
+    srcs = ["aggregate_functions_unit_test.cpp"],
+    deps = [
+        "//include/sql_parser:sql_parser",
+        "@com_google_googletest//:gtest_main",
+    ],
+)

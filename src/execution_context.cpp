@@ -253,12 +253,16 @@ ExecutionContext::get_permission_validator() const {
 // ==== 上下文操作 ====
 
 void ExecutionContext::reset() {
-  // 重置执行上下文，保留当前用户、数据库信息和管理器指针
+  // 重置执行上下文，包括当前用户、数据库信息
+  current_user_ = "";
+  current_database_ = "";
   is_transactional_ = false;
   transaction_id_.clear();
   read_only_ = false;
 
   // 重置兼容旧代码的公共成员变量
+  current_user = "";
+  current_database = "";
   records_affected = 0;
   used_index = false;
   execution_plan = "未优化";

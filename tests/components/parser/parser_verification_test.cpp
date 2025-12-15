@@ -28,8 +28,8 @@ int main() {
             auto alterStmt = dynamic_cast<AlterStatement*>(statements2[0].get());
             if (alterStmt) {
                 std::cout << "Parsed ALTER statement successfully\n";
-                std::cout << "   Object type: " << static_cast<int>(alterStmt->getObjectType()) << "\n";
-                std::cout << "   Object name: " << alterStmt->getObjectName() << "\n";
+                std::cout << "   Target: " << static_cast<int>(alterStmt->getTarget()) << "\n";
+                std::cout << "   Database name: " << alterStmt->getDatabaseName() << "\n";
             }
         }
 

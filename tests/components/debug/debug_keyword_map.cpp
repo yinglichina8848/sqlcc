@@ -1,11 +1,11 @@
-#include "sql_parser/lexer.h"
+#include "sql_parser/lexer_new.h"
 #include <iostream>
 
 int main() {
     std::cout << "Testing keyword map initialization..." << std::endl;
     
     // 创建一个 lexer 实例来触发 keywordMap 的初始化
-    sqlcc::sql_parser::LexerNew lexer("insert into users (id, name) values (1, 'Alice');");
+    sqlcc::sql_parser::Lexer lexer("insert into users (id, name) values (1, 'Alice');");
     
     // 通过nextToken来测试关键字映射
     sqlcc::sql_parser::Token token = lexer.nextToken();
