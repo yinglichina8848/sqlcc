@@ -168,6 +168,35 @@ private:
 
 // ==================== SelectStatement ====================
 
+// ==================== JoinClause ====================
+
+class JoinClause {
+public:
+  enum JoinType {
+    INNER_JOIN,
+    LEFT_JOIN,
+    RIGHT_JOIN,
+    FULL_JOIN,
+    CROSS_JOIN
+  };
+
+  JoinClause(JoinType type, const std::string &tableName,
+             std::unique_ptr<Expression> condition = nullptr);
+  ~JoinClause();
+
+  JoinType getJoinType() const;
+  const std::string &getTableName() const;
+  const Expression *getCondition() const;
+  std::unique_ptr<Expression> takeCondition(); // Transfer ownership
+
+  void setCondition(std::unique_ptr<Expression> condition);
+
+private:
+  JoinType joinType_;
+  std::string tableName_;
+  std::unique_ptr<Expression> condition_;
+};
+
 class SelectStatement : public Statement {
 public:
   SelectStatement();
@@ -177,9 +206,12 @@ public:
   void addSelectItem(const std::string &column);
   void setTableName(const std::string &table);
   void addFromTable(const std::string &table);
+  void addJoinClause(std::unique_ptr<JoinClause> join);
   void setWhereClause(const WhereClause &where);
   void setWhereExpression(std::unique_ptr<Expression> expr);
   void setGroupByColumn(const std::string &column);
+  void addGroupByColumn(const std::string &column); // New method for multiple GROUP BY columns
+  void setHavingClause(std::unique_ptr<Expression> expr); // New method for HAVING clause
   bool isDistinct() const { return false; } // 默认非distinct
   void setOrderByColumn(const std::string &column);
   void setOrderDirection(const std::string &direction);
@@ -193,10 +225,13 @@ public:
     return selectColumns_;
   }
   const std::vector<std::string> &getFromTables() const { return fromTables_; }
+  const std::vector<std::unique_ptr<JoinClause>> &getJoinClauses() const { return joinClauses_; }
   const std::string &getTableName() const;
   const WhereClause &getWhereClause() const;
   const Expression *getWhereExpression() const;
   const std::string &getGroupByColumn() const;
+  const std::vector<std::string> &getGroupByColumns() const; // New method for multiple GROUP BY columns
+  const Expression *getHavingClause() const; // New method for HAVING clause
   const std::string &getOrderByColumn() const;
   const std::string &getOrderDirection() const;
   const std::string &getJoinCondition() const;
@@ -206,8 +241,10 @@ public:
   bool hasWhereClause() const;
   bool hasWhereExpression() const;
   bool hasGroupBy() const;
+  bool hasHavingClause() const; // New method
   bool hasOrderBy() const;
   bool hasJoinCondition() const;
+  bool hasJoins() const { return !joinClauses_.empty(); }
   bool hasLimit() const;
   bool hasOffset() const;
 
@@ -216,10 +253,13 @@ public:
 private:
   std::vector<std::string> selectColumns_;
   std::vector<std::string> fromTables_;
+  std::vector<std::unique_ptr<JoinClause>> joinClauses_;
   std::string tableName_;
   WhereClause whereClause_{"", "", ""}; // 初始化空的WhereClause
   std::unique_ptr<Expression> whereExpression_; // 完整的WHERE表达式
   std::string groupByColumn_;
+  std::vector<std::string> groupByColumns_; // Support for multiple GROUP BY columns
+  std::unique_ptr<Expression> havingClause_; // HAVING clause expression
   std::string orderByColumn_;
   std::string orderDirection_;
   std::string joinCondition_;

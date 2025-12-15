@@ -514,6 +514,21 @@ cc_test(
     includes = ["../../../include"],
 )
 
+# 聚合查询测试
+cc_test(
+    name = "aggregate_query_test",
+    srcs = ["aggregate_query_test.cpp"],
+    deps = [
+        "//src:unified_executor",
+        "//src/core:sqlcc_core_lib",
+        "//src/sql_executor:sqlcc_executor",
+        "//src/storage_engine:sqlcc_storage_engine",
+        "//src/sql_parser:sqlcc_parser",
+        "@com_google_googletest//:gtest_main",
+    ],
+    includes = ["../../../include"],
+)
+
 # 调试测试套件
 test_suite(
     name = "debug_tests",
@@ -527,6 +542,7 @@ test_suite(
         ":minimal_debug_test_unit",
         ":minimal_crash_test_unit",
         ":debug_index_test_unit",
+        ":aggregate_query_test",
     ],
 )
 
@@ -544,5 +560,6 @@ test_suite(
         ":minimal_debug_test_unit",
         ":minimal_crash_test_unit",
         ":debug_index_test_unit",
+        ":aggregate_query_test",
     ],
 )

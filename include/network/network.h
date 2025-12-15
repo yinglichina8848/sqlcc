@@ -40,6 +40,68 @@ enum MessageType {
     KEY_EXCHANGE_ACK = 9 // 密钥交换确认
 };
 
+// 连接状态枚举 - 严格状态机控制
+enum ConnectionState {
+    DISCONNECTED = 0,       // 未连接
+    CONNECTING = 1,         // 正在连接
+    CONNECTED = 2,          // 已连接但未认证
+    AUTHENTICATING = 3,     // 正在认证
+    AUTHENTICATED = 4,      // 已认证可以正常通信
+    KEY_EXCHANGING = 5,     // 正在进行密钥交换
+    ENCRYPTED = 6,          // 已加密可以安全通信
+    CLOSING = 7,           // 正在关闭
+    CLOSED = 8,            // 已关闭
+    ERROR = 9              // 错误状态
+};
+
+// 连接状态机类 - 严格验证连接状态转换安全性
+class ConnectionStateMachine {
+public:
+    ConnectionStateMachine();
+    ~ConnectionStateMachine() = default;
+
+    // 状态查询
+    ConnectionState GetCurrentState() const;
+    bool IsInState(ConnectionState state) const;
+    std::string GetStateName(ConnectionState state) const;
+
+    // 状态转换 - 带验证的安全转换
+    bool TransitionTo(ConnectionState new_state);
+    bool CanTransitionTo(ConnectionState new_state) const;
+
+    // 便捷状态检查方法
+    bool IsDisconnected() const { return state_ == DISCONNECTED; }
+    bool IsConnecting() const { return state_ == CONNECTING; }
+    bool IsConnected() const { return state_ == CONNECTED || state_ == AUTHENTICATED || state_ == ENCRYPTED; }
+    bool IsAuthenticated() const { return state_ == AUTHENTICATED || state_ == ENCRYPTED; }
+    bool IsEncrypted() const { return state_ == ENCRYPTED; }
+    bool IsClosed() const { return state_ == CLOSED || state_ == CLOSING; }
+    bool IsError() const { return state_ == ERROR; }
+
+    // 允许的操作检查
+    bool CanConnect() const;
+    bool CanAuthenticate() const;
+    bool CanSendQuery() const;
+    bool CanEncrypt() const;
+    bool CanClose() const;
+
+    // 重置状态机
+    void Reset();
+    void ForceError();
+
+    // 状态变更回调（可选）
+    using StateChangeCallback = std::function<void(ConnectionState old_state, ConnectionState new_state)>;
+    void SetStateChangeCallback(StateChangeCallback callback);
+
+private:
+    ConnectionState state_;
+    mutable std::mutex mutex_;  // 线程安全
+    StateChangeCallback state_change_callback_;
+
+    // 验证状态转换的私有方法
+    bool IsValidTransition(ConnectionState from, ConnectionState to) const;
+};
+
 // 消息头结构
 struct MessageHeader {
     uint32_t magic;        // 魔数 'SQLC'

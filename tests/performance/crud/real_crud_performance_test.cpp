@@ -13,17 +13,34 @@
 namespace sqlcc {
 namespace test {
 
-CRUDPerformanceTest::CRUDPerformanceTest() 
+CRUDPerformanceTest::CRUDPerformanceTest(const std::string& scale) 
     : next_record_id_(1), rng_(std::random_device{}()) {
-  // 初始化测试配置 - 包含小规模和中等规模测试
-  test_configs_ = {
-    {1000, 100, 1, "Small", "1000 records, 100 bytes each, 1 thread"},
-    {10000, 200, 2, "Medium", "10000 records, 200 bytes each, 2 threads"}
-    // 大规模测试需要更多资源，暂时注释掉
-    /*
-    {50000, 500, 4, "Large", "50000 records, 500 bytes each, 4 threads"}
-    */
-  };
+  // 根据测试规模初始化测试配置
+  if (scale == "small") {
+    test_configs_ = {
+      {1000, 100, 1, "Small", "1000 records, 100 bytes each, 1 thread"}
+    };
+  } else if (scale == "medium") {
+    test_configs_ = {
+      {10000, 200, 2, "Medium", "10000 records, 200 bytes each, 2 threads"}
+    };
+  } else if (scale == "large") {
+    test_configs_ = {
+      {50000, 500, 4, "Large", "50000 records, 500 bytes each, 4 threads"}
+    };
+  } else if (scale == "xlarge") {
+    test_configs_ = {
+      {100000, 1000, 8, "XLarge", "100000 records, 1000 bytes each, 8 threads"}
+    };
+  } else {
+    // 默认运行所有规模测试
+    test_configs_ = {
+      {1000, 100, 1, "Small", "1000 records, 100 bytes each, 1 thread"},
+      {10000, 200, 2, "Medium", "10000 records, 200 bytes each, 2 threads"},
+      {50000, 500, 4, "Large", "50000 records, 500 bytes each, 4 threads"},
+      {100000, 1000, 8, "XLarge", "100000 records, 1000 bytes each, 8 threads"}
+    };
+  }
 }
 
 CRUDPerformanceTest::~CRUDPerformanceTest() {
@@ -140,11 +157,7 @@ void CRUDPerformanceTest::PrepopulateTestData(size_t data_size) {
 }
 
 void CRUDPerformanceTest::RunInsertPerformanceTest(const CRUDTestConfig &config) {
-  // 创建输出文件流
-  std::ofstream output_file("crud_performance_output.txt", std::ios::app);
-  output_file << "Running INSERT performance test..." << std::endl;
-  output_file.close();
-  
+  // 静默执行测试，避免控制台输出影响性能
   auto start_time = std::chrono::high_resolution_clock::now();
   size_t operations_completed = 0;
   std::vector<double> latencies;
@@ -196,6 +209,7 @@ void CRUDPerformanceTest::RunInsertPerformanceTest(const CRUDTestConfig &config)
   double throughput = (operations_completed * 1000.0) / total_duration.count();
   
   TestResult result;
+  result.test_scale = config.name;  // 设置测试规模
   result.test_name = "INSERT_" + config.name;
   result.duration = total_duration;
   result.operations_completed = operations_completed;
@@ -205,7 +219,6 @@ void CRUDPerformanceTest::RunInsertPerformanceTest(const CRUDTestConfig &config)
   result.p99_latency = p99_latency;
   
   test_results_.push_back(result);
-  PrintResult(result);
 }
 
 void CRUDPerformanceTest::RunSelectPointPerformanceTest(const CRUDTestConfig &config) {
@@ -251,6 +264,7 @@ void CRUDPerformanceTest::RunSelectPointPerformanceTest(const CRUDTestConfig &co
   double throughput = (operations_completed * 1000.0) / total_duration.count();
   
   TestResult result;
+  result.test_scale = config.name;  // 设置测试规模
   result.test_name = "SELECT_POINT_" + config.name;
   result.duration = total_duration;
   result.operations_completed = operations_completed;
@@ -260,15 +274,10 @@ void CRUDPerformanceTest::RunSelectPointPerformanceTest(const CRUDTestConfig &co
   result.p99_latency = p99_latency;
   
   test_results_.push_back(result);
-  PrintResult(result);
 }
 
 void CRUDPerformanceTest::RunSelectRangePerformanceTest(const CRUDTestConfig &config) {
-  // 创建输出文件流
-  std::ofstream output_file("crud_performance_output.txt", std::ios::app);
-  output_file << "Running SELECT (range query) performance test..." << std::endl;
-  output_file.close();
-  
+  // 静默执行测试，避免控制台输出影响性能
   auto start_time = std::chrono::high_resolution_clock::now();
   size_t operations_completed = 0;
   std::vector<double> latencies;
@@ -308,6 +317,7 @@ void CRUDPerformanceTest::RunSelectRangePerformanceTest(const CRUDTestConfig &co
   double throughput = (operations_completed * 1000.0) / total_duration.count();
   
   TestResult result;
+  result.test_scale = config.name;  // 设置测试规模
   result.test_name = "SELECT_RANGE_" + config.name;
   result.duration = total_duration;
   result.operations_completed = operations_completed;
@@ -317,15 +327,10 @@ void CRUDPerformanceTest::RunSelectRangePerformanceTest(const CRUDTestConfig &co
   result.p99_latency = p99_latency;
   
   test_results_.push_back(result);
-  PrintResult(result);
 }
 
 void CRUDPerformanceTest::RunUpdatePerformanceTest(const CRUDTestConfig &config) {
-  // 创建输出文件流
-  std::ofstream output_file("crud_performance_output.txt", std::ios::app);
-  output_file << "Running UPDATE performance test..." << std::endl;
-  output_file.close();
-  
+  // 静默执行测试，避免控制台输出影响性能
   auto start_time = std::chrono::high_resolution_clock::now();
   size_t operations_completed = 0;
   std::vector<double> latencies;
@@ -365,6 +370,7 @@ void CRUDPerformanceTest::RunUpdatePerformanceTest(const CRUDTestConfig &config)
   double throughput = (operations_completed * 1000.0) / total_duration.count();
   
   TestResult result;
+  result.test_scale = config.name;  // 设置测试规模
   result.test_name = "UPDATE_" + config.name;
   result.duration = total_duration;
   result.operations_completed = operations_completed;
@@ -374,15 +380,10 @@ void CRUDPerformanceTest::RunUpdatePerformanceTest(const CRUDTestConfig &config)
   result.p99_latency = p99_latency;
   
   test_results_.push_back(result);
-  PrintResult(result);
 }
 
 void CRUDPerformanceTest::RunDeletePerformanceTest(const CRUDTestConfig &config) {
-  // 创建输出文件流
-  std::ofstream output_file("crud_performance_output.txt", std::ios::app);
-  output_file << "Running DELETE performance test..." << std::endl;
-  output_file.close();
-  
+  // 静默执行测试，避免控制台输出影响性能
   auto start_time = std::chrono::high_resolution_clock::now();
   size_t operations_completed = 0;
   std::vector<double> latencies;
@@ -420,6 +421,7 @@ void CRUDPerformanceTest::RunDeletePerformanceTest(const CRUDTestConfig &config)
   double throughput = (operations_completed * 1000.0) / total_duration.count();
   
   TestResult result;
+  result.test_scale = config.name;  // 设置测试规模
   result.test_name = "DELETE_" + config.name;
   result.duration = total_duration;
   result.operations_completed = operations_completed;

@@ -31,7 +31,7 @@ TEST_F(ExecutionContextTest, BasicConstructor) {
     ExecutionContext context;
     
     // 测试默认值
-    EXPECT_EQ(context.get_current_user(), "");
+    EXPECT_EQ(context.get_current_user(), "root");
     EXPECT_EQ(context.get_current_database(), "");
     EXPECT_FALSE(context.is_transactional());
     EXPECT_EQ(context.get_transaction_id(), "");

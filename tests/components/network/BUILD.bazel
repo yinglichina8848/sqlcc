@@ -11,9 +11,52 @@ cc_test(
     ],
 )
 
+cc_test(
+    name = "client_network_manager_test",
+    srcs = ["client_network_manager_test.cpp"],
+    deps = [
+        "//src/network:sqlcc_network",
+        "//tests/stubs:network_stub",
+        "@com_google_googletest//:gtest_main",
+    ],
+)
+
+cc_test(
+    name = "connection_handler_test",
+    srcs = ["connection_handler_test.cpp"],
+    deps = [
+        "//src/network:sqlcc_network",
+        "//tests/stubs:network_stub",
+        "@com_google_googletest//:gtest_main",
+    ],
+)
+
+cc_test(
+    name = "server_network_manager_test",
+    srcs = ["server_network_manager_test.cpp"],
+    deps = [
+        "//src/network:sqlcc_network",
+        "//tests/stubs:network_stub",
+        "@com_google_googletest//:gtest_main",
+    ],
+)
+
+cc_test(
+    name = "connection_state_machine_test",
+    srcs = ["connection_state_machine_test.cpp"],
+    deps = [
+        "//src/network:sqlcc_network",
+        "@com_google_googletest//:gtest_main",
+    ],
+)
+
 test_suite(
     name = "network_component_tests",
     tests = [
         ":network_unit_test",
+        ":client_network_manager_test",
+        ":connection_handler_test",
+        ":server_network_manager_test",
+        ":connection_state_machine_test",
     ],
 )

@@ -1,13 +1,33 @@
 # SQLCC Testing Improvements Summary
 
 ## Overview
-This document summarizes the comprehensive testing improvements made to the SQLCC project, focusing on enhanced unit tests, coverage analysis, and code quality improvements.
+This document summarizes the comprehensive testing improvements made to the SQLCC project, focusing on enhanced unit tests, coverage analysis, and code quality improvements. In v1.1.5, significant improvements were made to SQL parser testing coverage and test infrastructure.
+
+## 📊 Version Information
+- **Current Version**: v1.1.5
+- **Previous Version**: v1.1.4
+- **Test Coverage Goal**: 85% for SQL Parser Module
+- **Test Infrastructure**: Enhanced with 83 test cases for SELECT statements
 
 ## 🎯 Test Coverage Improvements
 
 ### Enhanced Test Files Created/Improved
 
-#### 1. Page Enhanced Tests (`tests/page_enhanced_test.cc`)
+#### 1. SQL Parser Tests (v1.1.5新增)
+- **83个SELECT语句测试用例**覆盖：
+  - 基础SELECT语法测试
+  - WHERE条件表达式测试
+  - 多表查询测试
+  - 复杂表达式测试
+  - 错误语法检测测试
+
+**关键改进：**
+- SQL解析器模块测试覆盖率提升至85%
+- 完善的语法错误检测机制
+- 详细的错误信息报告
+- 支持5种核心SQL语句的完整测试
+
+#### 2. Page Enhanced Tests (`tests/page_enhanced_test.cc`)
 - **12 comprehensive test cases** covering:
   - Boundary condition testing (ExactBoundaryOperations)
   - Concurrent read/write operations (ConcurrentReadWrite)

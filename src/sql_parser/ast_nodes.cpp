@@ -130,8 +130,40 @@ SelectStatement::SelectStatement()
 
 SelectStatement::~SelectStatement() {}
 
+void SelectStatement::addJoinClause(std::unique_ptr<JoinClause> join) {
+  joinClauses_.push_back(std::move(join));
+}
+
 void SelectStatement::accept(NodeVisitor &visitor) {
   visitor.visit(*this);
+}
+
+// ==================== JoinClause ====================
+
+JoinClause::JoinClause(JoinType type, const std::string &tableName,
+                       std::unique_ptr<Expression> condition)
+    : joinType_(type), tableName_(tableName), condition_(std::move(condition)) {}
+
+JoinClause::~JoinClause() {}
+
+JoinClause::JoinType JoinClause::getJoinType() const {
+  return joinType_;
+}
+
+const std::string &JoinClause::getTableName() const {
+  return tableName_;
+}
+
+const Expression *JoinClause::getCondition() const {
+  return condition_.get();
+}
+
+std::unique_ptr<Expression> JoinClause::takeCondition() {
+  return std::move(condition_);
+}
+
+void JoinClause::setCondition(std::unique_ptr<Expression> condition) {
+  condition_ = std::move(condition);
 }
 
 void SelectStatement::addSelectColumn(const std::string &column) {
@@ -160,6 +192,14 @@ void SelectStatement::setWhereExpression(std::unique_ptr<Expression> expr) {
 
 void SelectStatement::setGroupByColumn(const std::string &column) {
   groupByColumn_ = column;
+}
+
+void SelectStatement::addGroupByColumn(const std::string &column) {
+  groupByColumns_.push_back(column);
+}
+
+void SelectStatement::setHavingClause(std::unique_ptr<Expression> expr) {
+  havingClause_ = std::move(expr);
 }
 
 void SelectStatement::setOrderByColumn(const std::string &column) {
@@ -204,6 +244,14 @@ const std::string &SelectStatement::getGroupByColumn() const {
   return groupByColumn_;
 }
 
+const std::vector<std::string> &SelectStatement::getGroupByColumns() const {
+  return groupByColumns_;
+}
+
+const Expression *SelectStatement::getHavingClause() const {
+  return havingClause_.get();
+}
+
 const std::string &SelectStatement::getOrderByColumn() const {
   return orderByColumn_;
 }
@@ -230,7 +278,9 @@ bool SelectStatement::hasWhereExpression() const {
   return whereExpression_ != nullptr;
 }
 
-bool SelectStatement::hasGroupBy() const { return !groupByColumn_.empty(); }
+bool SelectStatement::hasGroupBy() const { return !groupByColumn_.empty() || !groupByColumns_.empty(); }
+
+bool SelectStatement::hasHavingClause() const { return havingClause_ != nullptr; }
 
 bool SelectStatement::hasOrderBy() const { return !orderByColumn_.empty(); }
 

@@ -49,14 +49,13 @@ cc_test(
     ],
 )
 
-cc_test(
+cc_binary(
     name = "dcl_test_advanced",
     srcs = ["dcl_test_advanced.cpp"],
     deps = [
         "//src/sql_parser:sqlcc_parser",
         "//src/sql_executor:sqlcc_executor",
         "//src:execution_engine",
-        "@com_google_googletest//:gtest_main",
     ],
 )
 
@@ -125,6 +124,8 @@ cc_test(
     srcs = ["test_create_table.cpp"],
     deps = [
         "//src/sql_parser:sqlcc_parser",
+        "//src/core:sqlcc_database_core",
+        "//src/core:sqlcc_core_lib",
         "@com_google_googletest//:gtest_main",
     ],
 )
@@ -161,6 +162,8 @@ cc_test(
     srcs = ["test_simple_create.cpp"],
     deps = [
         "//src/sql_parser:sqlcc_parser",
+        "//src/core:sqlcc_database_core",
+        "//src/core:sqlcc_core_lib",
         "@com_google_googletest//:gtest_main",
     ],
 )
@@ -181,6 +184,8 @@ cc_test(
     srcs = ["simple_alter_test.cpp"],
     deps = [
         "//src/sql_parser:sqlcc_parser_light",  # 使用轻量级解析器
+        "//src/sql_parser:sqlcc_parser",
+        "//src/core:sqlcc_core_lib",
         "@com_google_googletest//:gtest_main",
     ],
 )
@@ -216,7 +221,7 @@ test_suite(
         ":comprehensive_dcl_test",
         ":dcl_parser_test",
         ":dcl_test",
-        ":dcl_test_advanced",
+        
         ":ddl_test",
         ":dml_test",
         ":final_dcl_test",

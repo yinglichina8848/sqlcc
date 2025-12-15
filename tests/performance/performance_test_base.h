@@ -17,6 +17,7 @@ public:
      * 测试结果结构
      */
     struct TestResult {
+        std::string test_scale;  // 测试规模: small, medium, large, xlarge
         std::string test_name;  // 测试名称
         std::chrono::milliseconds duration;  // 测试持续时间
         size_t operations_completed;  // 完成的操作数
@@ -89,6 +90,12 @@ protected:
      * 生成测试报告
      */
     void GenerateReport(const std::vector<TestResult>& results) const;
+
+    /**
+     * 生成CSV格式的报告
+     */
+    void GenerateCSVReport(const std::vector<TestResult>& results, 
+                          const std::string& filename) const;
 
     /**
      * 清理测试环境

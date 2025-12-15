@@ -33,7 +33,7 @@ struct CRUDTestConfig {
 
 class CRUDPerformanceTest : public PerformanceTestBase {
 public:
-  CRUDPerformanceTest();
+  explicit CRUDPerformanceTest(const std::string& scale = "all");
   ~CRUDPerformanceTest() override;
 
   // 重写基类方法
