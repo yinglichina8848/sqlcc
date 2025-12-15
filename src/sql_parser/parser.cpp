@@ -1409,8 +1409,16 @@ std::unique_ptr<JoinClause> Parser::parseJoinClause() {
 
     // 解析左边列名（可能带表前缀）
     std::string leftColumn = parseIdentifier();
+    if (leftColumn.empty()) {
+      reportError("Expected column name in JOIN condition");
+      return nullptr;
+    }
+
     if (match(Token::DOT)) {
-      leftColumn += "." + parseIdentifier();
+      std::string columnPart = parseIdentifier();
+      if (!columnPart.empty()) {
+        leftColumn += "." + columnPart;
+      }
     }
 
     // 解析操作符（应该等于号）
@@ -1423,23 +1431,49 @@ std::unique_ptr<JoinClause> Parser::parseJoinClause() {
 
     // 解析右边列名（可能带表前缀）
     std::string rightColumn = parseIdentifier();
+    if (rightColumn.empty()) {
+      reportError("Expected column name in JOIN condition");
+      return nullptr;
+    }
+
     if (match(Token::DOT)) {
-      rightColumn += "." + parseIdentifier();
+      std::string columnPart = parseIdentifier();
+      if (!columnPart.empty()) {
+        rightColumn += "." + columnPart;
+      }
     }
 
     // 创建二元表达式作为JOIN条件
-    auto leftExpr = std::make_unique<IdentifierExpression>(leftColumn);
-    auto rightExpr = std::make_unique<IdentifierExpression>(rightColumn);
-    condition = std::make_unique<BinaryExpression>(
-        std::move(leftExpr), std::move(rightExpr), Token::OPERATOR_EQUAL);
+    try {
+      auto leftExpr = std::make_unique<IdentifierExpression>(leftColumn);
+      auto rightExpr = std::make_unique<IdentifierExpression>(rightColumn);
+      condition = std::make_unique<BinaryExpression>(
+          std::move(leftExpr), std::move(rightExpr), Token::OPERATOR_EQUAL);
+    } catch (const std::exception& e) {
+      reportError(std::string("Failed to create JOIN condition: ") + e.what());
+      return nullptr;
+    }
 
     std::cout << "[PARSER DEBUG] JOIN条件: " << leftColumn << " = " << rightColumn << std::endl;
   } else if (match(Token::KEYWORD_USING)) {
     // USING子句的简化处理
     std::cout << "[PARSER DEBUG] 检测到USING子句（简化处理）" << std::endl;
-    consume(Token::LPAREN);
+    if (!match(Token::LPAREN)) {
+      reportError("Expected '(' after USING");
+      return nullptr;
+    }
+
     std::string usingColumn = parseIdentifier();
-    consume(Token::RPAREN);
+    if (usingColumn.empty()) {
+      reportError("Expected column name in USING clause");
+      return nullptr;
+    }
+
+    if (!match(Token::RPAREN)) {
+      reportError("Expected ')' after USING column");
+      return nullptr;
+    }
+
     std::cout << "[PARSER DEBUG] USING列: " << usingColumn << std::endl;
     // TODO: 将USING转换为ON条件
   } else {
