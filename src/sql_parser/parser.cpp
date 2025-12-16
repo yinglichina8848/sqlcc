@@ -325,10 +325,14 @@ std::unique_ptr<CreateStatement> Parser::parseCreateStatement() {
 
 std::unique_ptr<CreateStatement> Parser::parseCreateTableStatement() {
   std::cout << "[PARSER DEBUG] 进入parseCreateTableStatement()方法" << std::endl;
-  
+
   // 创建一个TABLE类型的CreateStatement
   auto stmt = std::make_unique<CreateStatement>(CreateStatement::TABLE);
-  
+  if (!stmt) {
+    std::cerr << "Failed to create CreateStatement object" << std::endl;
+    return nullptr;
+  }
+
   // 解析表名
   std::string tableName = parseIdentifier();
   stmt->setObjectName(tableName);
@@ -773,7 +777,7 @@ std::unique_ptr<SelectStatement> Parser::parseSelectStatement() {
   // 检查是否有DISTINCT关键字
   if (match(Token::KEYWORD_DISTINCT)) {
     std::cout << "[PARSER DEBUG] 检测到DISTINCT关键字" << std::endl;
-    // 当前SelectStatement不支持DISTINCT，暂不处理
+    stmt->setDistinct(true);
   }
   
   // 解析选择列表
@@ -802,8 +806,10 @@ std::unique_ptr<SelectStatement> Parser::parseSelectStatement() {
         // placeholder - unreachable due to limitations of simple lookahead
       }
 
-      // 简单函数调用检测：如果当前token是标识符且下一个字符是左括号，则解析为函数调用文本
+      // 解析列名或函数调用
+      std::string columnExpr;
       if (check(Token::IDENTIFIER) && lexer_.peek() == '(') {
+        // 函数调用
         std::string funcName = currentToken_.getLexeme();
         advance(); // consume function name
         consume(Token::LPAREN);
@@ -823,15 +829,23 @@ std::unique_ptr<SelectStatement> Parser::parseSelectStatement() {
         }
 
         consume(Token::RPAREN);
-        std::string funcExpr = funcName + "(" + inner + ")";
-        stmt->addSelectColumn(funcExpr);
-        std::cout << "[PARSER DEBUG] 添加函数列: " << funcExpr << std::endl;
+        columnExpr = funcName + "(" + inner + ")";
+        std::cout << "[PARSER DEBUG] 解析函数调用: " << columnExpr << std::endl;
       } else {
         // 解析普通列名
-        std::string column = parseIdentifier();
-        stmt->addSelectColumn(column);
-        std::cout << "[PARSER DEBUG] 添加列: " << column << std::endl;
+        columnExpr = parseIdentifier();
+        std::cout << "[PARSER DEBUG] 解析列名: " << columnExpr << std::endl;
       }
+
+      // 检查是否有AS别名
+      if (match(Token::KEYWORD_AS)) {
+        std::string alias = parseIdentifier();
+        columnExpr += " AS " + alias;
+        std::cout << "[PARSER DEBUG] 添加别名: " << alias << std::endl;
+      }
+
+      stmt->addSelectColumn(columnExpr);
+      std::cout << "[PARSER DEBUG] 添加选择列: " << columnExpr << std::endl;
     }
   }
   
@@ -881,10 +895,10 @@ std::unique_ptr<SelectStatement> Parser::parseSelectStatement() {
   if (match(Token::KEYWORD_GROUP)) {
     consume(Token::KEYWORD_BY);
     std::cout << "[PARSER DEBUG] 解析GROUP BY子句" << std::endl;
-    
+
     // 解析GROUP BY列列表
     bool first = true;
-    while (!check(Token::KEYWORD_HAVING) && !check(Token::KEYWORD_ORDER) && 
+    while (!check(Token::KEYWORD_HAVING) && !check(Token::KEYWORD_ORDER) &&
            !check(Token::KEYWORD_LIMIT) && !check(Token::SEMICOLON) && !isAtEnd()) {
       if (!first) {
         if (!match(Token::COMMA)) {
@@ -892,24 +906,80 @@ std::unique_ptr<SelectStatement> Parser::parseSelectStatement() {
         }
       }
       first = false;
-      
+
       std::string column = parseIdentifier();
       stmt->addGroupByColumn(column);
       std::cout << "[PARSER DEBUG] GROUP BY列: " << column << std::endl;
     }
   }
+
+  // 解析ORDER BY子句（可选）
+  if (match(Token::KEYWORD_ORDER)) {
+    consume(Token::KEYWORD_BY);
+    std::cout << "[PARSER DEBUG] 解析ORDER BY子句" << std::endl;
+
+    // 解析ORDER BY列
+    std::string orderByColumn = parseIdentifier();
+    stmt->setOrderByColumn(orderByColumn);
+
+    // 检查是否有排序方向（ASC/DESC）
+    if (match(Token::KEYWORD_ASC)) {
+      stmt->setOrderDirection("ASC");
+      std::cout << "[PARSER DEBUG] ORDER BY方向: ASC" << std::endl;
+    } else if (match(Token::KEYWORD_DESC)) {
+      stmt->setOrderDirection("DESC");
+      std::cout << "[PARSER DEBUG] ORDER BY方向: DESC" << std::endl;
+    } else {
+      // 默认升序
+      stmt->setOrderDirection("ASC");
+      std::cout << "[PARSER DEBUG] ORDER BY方向: 默认ASC" << std::endl;
+    }
+
+    std::cout << "[PARSER DEBUG] ORDER BY列: " << orderByColumn << std::endl;
+  }
   
   // 解析HAVING子句（可选）
   if (match(Token::KEYWORD_HAVING)) {
     std::cout << "[PARSER DEBUG] 解析HAVING子句" << std::endl;
-    // 简化处理，只解析简单的条件表达式
-    // 实际实现中需要更复杂的表达式解析
-    // 这里我们只是跳过这部分内容以避免解析错误
-    while (!check(Token::KEYWORD_ORDER) && !check(Token::KEYWORD_LIMIT) && 
-           !check(Token::SEMICOLON) && !isAtEnd()) {
-      advance();
+    // 简化实现：解析简单的HAVING条件表达式
+    // 这里可以解析聚合函数相关的条件，如 COUNT(*) > 5 等
+    // 暂时实现为简单的字符串存储，实际应该解析为表达式树
+
+    std::stringstream having_expr;
+    int paren_depth = 0;
+
+    while (!isAtEnd()) {
+      if (check(Token::LPAREN)) {
+        paren_depth++;
+        having_expr << currentToken_.getLexeme();
+        advance();
+      } else if (check(Token::RPAREN)) {
+        paren_depth--;
+        having_expr << currentToken_.getLexeme();
+        advance();
+        if (paren_depth == 0) {
+          break; // 括号匹配完成
+        }
+      } else if (paren_depth == 0 &&
+                 (check(Token::KEYWORD_ORDER) || check(Token::KEYWORD_LIMIT) ||
+                  check(Token::KEYWORD_UNION) || check(Token::SEMICOLON))) {
+        break; // 遇到下一个子句或语句结束
+      } else {
+        having_expr << currentToken_.getLexeme() << " ";
+        advance();
+      }
     }
-    std::cout << "[PARSER DEBUG] HAVING子句（简化处理）" << std::endl;
+
+    std::string having_condition = having_expr.str();
+    // 移除末尾空格
+    while (!having_condition.empty() && having_condition.back() == ' ') {
+      having_condition.pop_back();
+    }
+
+    std::cout << "[PARSER DEBUG] HAVING条件: " << having_condition << std::endl;
+
+    // 暂时不设置HAVING表达式，因为需要表达式解析器支持
+    // stmt->setHavingClause(...);
   }
   
   std::cout << "[PARSER DEBUG] SELECT语句解析完成" << std::endl;

@@ -405,6 +405,12 @@ bool DatabaseManager::ReadPage(TransactionId txn_id, int32_t page_id,
     return false;
   (void)txn_id; // 标记参数为已使用
   
+  // 检查buffer_pool_是否已初始化
+  if (!buffer_pool_) {
+    *page = nullptr;
+    return false;
+  }
+
   // 获取页面的智能指针
   auto page_ptr = buffer_pool_->FetchPage(page_id);
   if (!page_ptr) {
@@ -427,6 +433,12 @@ bool DatabaseManager::WritePage(TransactionId txn_id, int32_t page_id,
     return false;
   (void)txn_id; // 标记参数为已使用
   (void)page;   // 标记参数为已使用
+
+  // 再次检查buffer_pool_是否有效，避免空指针解引用
+  if (!buffer_pool_) {
+    return false;
+  }
+
   buffer_pool_->UnpinPage(page_id, true);
   return true;
 }

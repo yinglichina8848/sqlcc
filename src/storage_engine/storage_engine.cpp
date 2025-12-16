@@ -31,6 +31,8 @@ StorageEngine::~StorageEngine() {
     // 析构函数实现 - 刷新所有页面到磁盘
     if (buffer_pool_) {
         buffer_pool_->FlushAllPages();
+    } else {
+        // 确保buffer_pool_为空时的安全处理
     }
 }
 

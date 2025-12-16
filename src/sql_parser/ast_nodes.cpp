@@ -10,10 +10,28 @@ namespace sql_parser {
 
 ColumnDefinition::ColumnDefinition(const std::string &name,
                                    const std::string &type)
-    : name_(name), type_(type), isPrimaryKey_(false), isNullable_(true),
-      isUnique_(false), isAutoIncrement_(false) {}
+    : name_(name), type_(type), dataType_(DataType::UNKNOWN),
+      isPrimaryKey_(false), isNullable_(true), isUnique_(false),
+      isAutoIncrement_(false), precision_(18), scale_(0) {
+  setType(type);  // 解析类型字符串并设置dataType_
+}
 
 ColumnDefinition::~ColumnDefinition() {}
+
+void ColumnDefinition::setType(const std::string &type) {
+  type_ = type;
+  DataTypeManager& manager = DataTypeManager::getInstance();
+
+  // 解析DECIMAL类型
+  int precision, scale;
+  if (manager.parseDecimalType(type, precision, scale)) {
+    dataType_ = DataType::DECIMAL;
+    precision_ = precision;
+    scale_ = scale;
+  } else {
+    dataType_ = manager.getTypeFromName(type);
+  }
+}
 
 void ColumnDefinition::setDefaultValue(const std::string &defaultValue) {
   defaultValue_ = defaultValue;
@@ -126,7 +144,7 @@ const std::vector<TableConstraint> &CreateStatement::getConstraints() const {
 
 SelectStatement::SelectStatement()
     : Statement(SELECT), joinCondition_(""), limit_(-1), offset_(0),
-      selectAll_(false), hasLimit_(false), hasOffset_(false) {}
+      selectAll_(false), distinct_(false), hasLimit_(false), hasOffset_(false) {}
 
 SelectStatement::~SelectStatement() {}
 
@@ -200,6 +218,14 @@ void SelectStatement::addGroupByColumn(const std::string &column) {
 
 void SelectStatement::setHavingClause(std::unique_ptr<Expression> expr) {
   havingClause_ = std::move(expr);
+}
+
+void SelectStatement::setDistinct(bool distinct) {
+  distinct_ = distinct;
+}
+
+bool SelectStatement::isDistinct() const {
+  return distinct_;
 }
 
 void SelectStatement::setOrderByColumn(const std::string &column) {

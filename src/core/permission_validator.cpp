@@ -61,16 +61,16 @@ PermissionResult PermissionValidator::validateStatement(std::unique_ptr<sql_pars
     
     // 根据语句类型进行权限验证
     if (auto create_stmt = dynamic_cast<sql_parser::CreateStatement*>(stmt.get())) {
-        if (create_stmt->getObjectType() == sql_parser::CreateStatement::DATABASE) {
-            return validate(PermissionOperation::CREATE_DATABASE, create_stmt->getObjectName(), user, database);
-        } else if (create_stmt->getObjectType() == sql_parser::CreateStatement::TABLE) {
-            return validate(PermissionOperation::CREATE_TABLE, create_stmt->getObjectName(), user, database);
-        }
+  if (create_stmt && create_stmt->getObjectType() == sql_parser::CreateStatement::DATABASE) {
+    return validate(PermissionOperation::CREATE_DATABASE, create_stmt->getObjectName(), user, database);
+  } else if (create_stmt && create_stmt->getObjectType() == sql_parser::CreateStatement::TABLE) {
+    return validate(PermissionOperation::CREATE_TABLE, create_stmt->getObjectName(), user, database);
+  }
     }
     else if (auto drop_stmt = dynamic_cast<sql_parser::DropStatement*>(stmt.get())) {
-        if (drop_stmt->getObjectType() == sql_parser::DropStatement::DATABASE) {
+        if (drop_stmt && drop_stmt->getObjectType() == sql_parser::DropStatement::DATABASE) {
             return validate(PermissionOperation::DROP_DATABASE, drop_stmt->getObjectName(), user, database);
-        } else if (drop_stmt->getObjectType() == sql_parser::DropStatement::TABLE) {
+        } else if (drop_stmt && drop_stmt->getObjectType() == sql_parser::DropStatement::TABLE) {
             return validate(PermissionOperation::DROP_TABLE, drop_stmt->getObjectName(), user, database);
         }
     }

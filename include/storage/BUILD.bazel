@@ -19,3 +19,11 @@ filegroup(
     name = "storage_headers",
     srcs = glob(["*.h"]),
 )
+
+# 存储引擎头文件库（供其他模块使用）
+cc_library(
+    name = "storage_headers_lib",
+    hdrs = glob(["*.h"]),
+    includes = ["."],
+    visibility = ["//visibility:public"],
+)

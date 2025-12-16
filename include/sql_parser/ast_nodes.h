@@ -2,9 +2,12 @@
 #define SQLCC_SQL_PARSER_AST_NODES_H
 
 #include "ast_node.h"
+#include "ast_node.h"
 #include "constraint.h"
 #include "set_operation.h"
 #include "window_function.h"
+#include "data_types.h"
+#include "storage/table_storage.h"
 #include <memory>
 #include <string>
 #include <unordered_map>
@@ -41,7 +44,8 @@ public:
 
   // Getters
   const std::string &getName() const { return name_; }
-  const std::string &getType() const { return type_; }
+  DataType getDataType() const { return dataType_; }
+  const std::string &getTypeString() const { return type_; }
   bool isPrimaryKey() const { return isPrimaryKey_; }
   bool isNullable() const { return isNullable_; }
   bool isUnique() const { return isUnique_; }
@@ -49,9 +53,13 @@ public:
   bool isForeignKey() const { return isForeignKey_; }
   const std::string &getDefaultValue() const { return defaultValue_; }
 
+  // DECIMAL相关
+  int getPrecision() const { return precision_; }
+  int getScale() const { return scale_; }
+
   // Setters
   void setName(const std::string &name) { name_ = name; }
-  void setType(const std::string &type) { type_ = type; }
+  void setType(const std::string &type);
   void setPrimaryKey(bool primaryKey = true) { isPrimaryKey_ = primaryKey; }
   void setNullable(bool nullable = true) { isNullable_ = nullable; }
   void setUnique(bool unique = true) { isUnique_ = unique; }
@@ -60,6 +68,10 @@ public:
     isAutoIncrement_ = autoIncrement;
   }
   void setDefaultValue(const std::string &defaultValue);
+
+  // DECIMAL设置
+  void setPrecision(int precision) { precision_ = precision; }
+  void setScale(int scale) { scale_ = scale; }
 
   // 兼容旧方法名
   void setIsPrimaryKey(bool isPrimaryKey) { setPrimaryKey(isPrimaryKey); }
@@ -72,12 +84,180 @@ public:
 private:
   std::string name_;
   std::string type_;
+  DataType dataType_;
   bool isPrimaryKey_;
   bool isNullable_;
   bool isUnique_;
   bool isForeignKey_;
   bool isAutoIncrement_;
   std::string defaultValue_;
+
+  // DECIMAL相关属性
+  int precision_;
+  int scale_;
+};
+
+// ==================== ConstraintValidator ====================
+
+/**
+ * @brief 约束验证器接口
+ */
+class ConstraintValidator {
+public:
+  virtual ~ConstraintValidator() = default;
+
+  /**
+   * 验证记录是否满足约束条件
+   * @param record 要验证的记录
+   * @param metadata 表元数据
+   * @param table_name 表名
+   * @return 验证结果
+   */
+  virtual bool validate(const std::vector<std::string>& record,
+                       std::shared_ptr<TableMetadata> metadata,
+                       const std::string& table_name) const = 0;
+
+  /**
+   * 获取约束名称
+   */
+  virtual std::string getConstraintName() const = 0;
+
+  /**
+   * 获取约束类型
+   */
+  virtual std::string getConstraintType() const = 0;
+};
+
+/**
+ * @brief 主键约束验证器
+ */
+class PrimaryKeyValidator : public ConstraintValidator {
+public:
+  PrimaryKeyValidator(const std::vector<std::string>& columns, const std::string& constraint_name = "");
+  ~PrimaryKeyValidator() override;
+
+  bool validate(const std::vector<std::string>& record,
+               std::shared_ptr<TableMetadata> metadata,
+               const std::string& table_name) const override;
+
+  std::string getConstraintName() const override;
+  std::string getConstraintType() const override { return "PRIMARY KEY"; }
+
+private:
+  std::vector<std::string> columns_;
+  std::string constraint_name_;
+};
+
+/**
+ * @brief 唯一约束验证器
+ */
+class UniqueKeyValidator : public ConstraintValidator {
+public:
+  UniqueKeyValidator(const std::vector<std::string>& columns, const std::string& constraint_name = "");
+  ~UniqueKeyValidator() override;
+
+  bool validate(const std::vector<std::string>& record,
+               std::shared_ptr<TableMetadata> metadata,
+               const std::string& table_name) const override;
+
+  std::string getConstraintName() const override;
+  std::string getConstraintType() const override { return "UNIQUE"; }
+
+private:
+  std::vector<std::string> columns_;
+  std::string constraint_name_;
+};
+
+/**
+ * @brief 外键约束验证器
+ */
+class ForeignKeyValidator : public ConstraintValidator {
+public:
+  ForeignKeyValidator(const std::vector<std::string>& columns,
+                     const std::string& referenced_table,
+                     const std::vector<std::string>& referenced_columns,
+                     const std::string& constraint_name = "");
+  ~ForeignKeyValidator() override;
+
+  bool validate(const std::vector<std::string>& record,
+               std::shared_ptr<TableMetadata> metadata,
+               const std::string& table_name) const override;
+
+  std::string getConstraintName() const override;
+  std::string getConstraintType() const override { return "FOREIGN KEY"; }
+
+  // 级联操作支持
+  enum CascadeAction { RESTRICT, CASCADE, SET_NULL };
+  void setOnDeleteAction(CascadeAction action);
+  void setOnUpdateAction(CascadeAction action);
+  CascadeAction getOnDeleteAction() const;
+  CascadeAction getOnUpdateAction() const;
+
+private:
+  std::vector<std::string> columns_;
+  std::string referenced_table_;
+  std::vector<std::string> referenced_columns_;
+  std::string constraint_name_;
+  CascadeAction on_delete_action_;
+  CascadeAction on_update_action_;
+
+  bool checkReferenceExists(const std::vector<std::string>& values,
+                           const std::string& ref_table) const;
+};
+
+/**
+ * @brief 检查约束验证器
+ */
+class CheckConstraintValidator : public ConstraintValidator {
+public:
+  CheckConstraintValidator(const std::string& expression, const std::string& constraint_name = "");
+  ~CheckConstraintValidator() override;
+
+  bool validate(const std::vector<std::string>& record,
+               std::shared_ptr<TableMetadata> metadata,
+               const std::string& table_name) const override;
+
+  std::string getConstraintName() const override;
+  std::string getConstraintType() const override { return "CHECK"; }
+
+private:
+  std::string expression_;
+  std::string constraint_name_;
+
+  bool evaluateExpression(const std::string& expression,
+                         const std::vector<std::string>& record,
+                         std::shared_ptr<TableMetadata> metadata) const;
+};
+
+/**
+ * @brief 约束管理器
+ */
+class ConstraintManager {
+public:
+  static ConstraintManager& getInstance();
+
+  // 添加约束验证器
+  void addValidator(const std::string& table_name,
+                   std::unique_ptr<ConstraintValidator> validator);
+
+  // 移除约束验证器
+  void removeValidator(const std::string& table_name,
+                      const std::string& constraint_name);
+
+  // 验证记录
+  bool validateRecord(const std::vector<std::string>& record,
+                     std::shared_ptr<TableMetadata> metadata,
+                     const std::string& table_name) const;
+
+  // 获取表的所有约束
+  std::vector<const ConstraintValidator*> getValidators(const std::string& table_name) const;
+
+  // 清空表的所有约束
+  void clearValidators(const std::string& table_name);
+
+private:
+  ConstraintManager();
+  std::unordered_map<std::string, std::vector<std::unique_ptr<ConstraintValidator>>> validators_;
 };
 
 // ==================== TableConstraint ====================
@@ -212,7 +392,8 @@ public:
   void setGroupByColumn(const std::string &column);
   void addGroupByColumn(const std::string &column); // New method for multiple GROUP BY columns
   void setHavingClause(std::unique_ptr<Expression> expr); // New method for HAVING clause
-  bool isDistinct() const { return false; } // 默认非distinct
+  void setDistinct(bool distinct = true);
+  bool isDistinct() const;
   void setOrderByColumn(const std::string &column);
   void setOrderDirection(const std::string &direction);
   void setSelectAll(bool selectAll);
@@ -266,6 +447,7 @@ private:
   int limit_;
   int offset_;
   bool selectAll_;
+  bool distinct_; // 是否使用DISTINCT
   bool hasLimit_;
   bool hasOffset_;
 };

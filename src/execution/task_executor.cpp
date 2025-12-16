@@ -36,7 +36,7 @@ std::shared_ptr<TaskResult> NetworkTask::execute() {
     ss << "Processed network request: " << request_data_;
     result->setResultData(ss.str());
     result->setSuccess(true);
-    
+
     auto end_time = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
     result->setExecutionTime(duration);
@@ -317,7 +317,15 @@ size_t TaskExecutor::getPendingTaskCount() const {
 }
 
 size_t TaskExecutor::getActiveThreadCount() const {
-    return thread_pool_->getActiveThreadCount();
+    // 确保thread_pool_存在且有效
+    if (!thread_pool_) {
+        return 0;
+    }
+    try {
+        return thread_pool_->getActiveThreadCount();
+    } catch (...) {
+        return 0; // 如果调用失败，返回0
+    }
 }
 
 void TaskExecutor::dispatchTask(std::unique_ptr<Task> task) {
