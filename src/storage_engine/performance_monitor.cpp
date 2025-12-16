@@ -162,7 +162,9 @@ PerformanceMonitor &PerformanceMonitor::GetInstance() {
 
 void PerformanceMonitor::RegisterMetric(std::shared_ptr<Metric> metric) {
   std::lock_guard<std::mutex> lock(metrics_mutex_);
-  metrics_[metric->GetName()] = metric;
+  if (metric) {
+    metrics_[metric->GetName()] = metric;
+  }
 }
 
 std::shared_ptr<Metric>
@@ -190,7 +192,9 @@ std::vector<std::shared_ptr<Metric>> PerformanceMonitor::GetAllMetrics() const {
 void PerformanceMonitor::ResetAllMetrics() {
   std::lock_guard<std::mutex> lock(metrics_mutex_);
   for (auto &pair : metrics_) {
-    pair.second->Reset();
+    if (pair.second) {
+      pair.second->Reset();
+    }
   }
 }
 
@@ -208,6 +212,7 @@ std::string PerformanceMonitor::ExportMetrics(const std::string &format) const {
       }
 
       const auto &metric = pair.second;
+      if (!metric) continue;
       oss << "  \"" << metric->GetName() << "\": {";
       oss << "\"type\":\"";
 

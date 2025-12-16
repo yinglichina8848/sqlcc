@@ -42,9 +42,12 @@ namespace sqlcc {
  *
  * @par 示例用法
  * @code
- * BPlusTreeNode *node = new BPlusTreeNode(storage_engine, page_id, is_leaf);
- * node->Insert(entry);
- * std::vector<IndexEntry> results = node->Search(key);
+    auto node = std::make_unique<BPlusTreeNode>(storage_engine, page_id, is_leaf);
+    if (!node) {
+        return results; // 内存分配失败
+    }
+    node->Insert(entry);
+    results = node->Search(key);
  * @endcode
  */
 // BPlusTreeNode 实现
@@ -73,17 +76,22 @@ BPlusTreeNode::BPlusTreeNode(std::shared_ptr<StorageEngine> storage_engine, int3
   if (storage_engine_) {
     Page* raw_page = storage_engine_->FetchPage(page_id);
     if (raw_page) {
-      // 使用弱引用或原始指针，避免与StorageEngine的页面管理冲突
+      // 使用智能指针管理页面生命周期，避免与StorageEngine的页面管理冲突
       // 注意：这里我们不接管所有权，只是保存引用
       // 实际的页面管理由StorageEngine负责
       page_ = std::shared_ptr<Page>(raw_page, [this](Page* p) {
         // 自定义删除器，将页面返回给StorageEngine
-        if (storage_engine_) {
+        if (storage_engine_ && p) {
           storage_engine_->UnpinPage(page_id_, true); // 标记为脏页并释放
         }
       });
+    } else {
+      SQLCC_LOG_ERROR("Failed to fetch page " + std::to_string(page_id) + " from storage engine");
+      throw std::runtime_error("Failed to fetch page from storage engine");
     }
-    // 新页面的初始化在Create方法中完成，这里不做初始化
+  } else {
+    SQLCC_LOG_ERROR("Storage engine is null in BPlusTreeNode constructor");
+    throw std::invalid_argument("Storage engine cannot be null");
   }
 
   SQLCC_LOG_DEBUG(std::string("Created B+Tree ") +
@@ -437,8 +445,17 @@ void BPlusTreeInternalNode::Split(std::unique_ptr<BPlusTreeInternalNode>& new_no
     return;
 
   int32_t new_page_id;
-  storage_engine_->NewPage(&new_page_id);
+  if (!storage_engine_->NewPage(&new_page_id)) {
+    SQLCC_LOG_ERROR("Failed to allocate new page for B+Tree internal node split");
+    return;
+  }
+
   new_node = std::make_unique<BPlusTreeInternalNode>(storage_engine_, new_page_id);
+  if (!new_node) {
+    SQLCC_LOG_ERROR("Failed to create new B+Tree internal node");
+    storage_engine_->DeletePage(new_page_id);
+    return;
+  }
 
   // 计算中间位置
   size_t mid = keys_.size() / 2;
@@ -456,7 +473,9 @@ void BPlusTreeInternalNode::Split(std::unique_ptr<BPlusTreeInternalNode>& new_no
 
   // 序列化两个节点
   SerializeToPage();
-  new_node->SerializeToPage();
+  if (new_node) {
+    new_node->SerializeToPage();
+  }
 }
 
 void BPlusTreeInternalNode::Merge(std::unique_ptr<BPlusTreeInternalNode> right_node,
@@ -889,8 +908,17 @@ void BPlusTreeLeafNode::Split(std::unique_ptr<BPlusTreeLeafNode>& new_node) {
     return;
 
   int32_t new_page_id;
-  storage_engine_->NewPage(&new_page_id);
+  if (!storage_engine_->NewPage(&new_page_id)) {
+    SQLCC_LOG_ERROR("Failed to allocate new page for B+Tree leaf node split");
+    return;
+  }
+
   new_node = std::make_unique<BPlusTreeLeafNode>(storage_engine_, new_page_id);
+  if (!new_node) {
+    SQLCC_LOG_ERROR("Failed to create new B+Tree leaf node");
+    storage_engine_->DeletePage(new_page_id);
+    return;
+  }
 
   // 计算中间位置
   size_t mid = entries_.size() / 2;
@@ -908,7 +936,9 @@ void BPlusTreeLeafNode::Split(std::unique_ptr<BPlusTreeLeafNode>& new_node) {
 
   // 序列化两个节点
   SerializeToPage();
-  new_node->SerializeToPage();
+  if (new_node) {
+    new_node->SerializeToPage();
+  }
 }
 
 /**
@@ -1166,7 +1196,9 @@ bool BPlusTreeIndex::Insert(const std::string& key, int32_t page_id, size_t offs
   bool result = Insert(key, page_id, offset, root_node);
 
   // 保存根节点的状态
-  root_node->SerializeToPage();
+  if (root_node) {
+    root_node->SerializeToPage();
+  }
 
   return result;
 }

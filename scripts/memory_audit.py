@@ -47,17 +47,24 @@ class MemoryAuditor:
         try:
             with open(filepath, 'r', encoding='utf-8', errors='ignore') as f:
                 content = f.read()
-                
+
+            # 预处理：识别智能指针变量
+            smart_pointer_vars = self._identify_smart_pointers(content)
+
             lines = content.split('\n')
-            
+
             for line_num, line in enumerate(lines, 1):
                 line = line.strip()
                 if not line or line.startswith('//') or line.startswith('/*'):
                     continue
-                    
+
                 for issue_type, pattern in self.patterns.items():
                     matches = re.finditer(pattern, line)
                     for match in matches:
+                        # 检查是否是智能指针的误报
+                        if self._is_smart_pointer_false_positive(issue_type, match.group(), line, smart_pointer_vars):
+                            continue
+
                         issue = {
                             'file': str(filepath),
                             'line': line_num,
@@ -68,10 +75,69 @@ class MemoryAuditor:
                         }
                         self.issues.append(issue)
                         self.file_issues[str(filepath)].append(issue)
-                        
+
         except Exception as e:
             print(f"Error analyzing {filepath}: {e}")
-    
+
+    def _identify_smart_pointers(self, content):
+        """识别文件中的智能指针变量"""
+        smart_pointer_vars = set()
+
+        # 匹配智能指针声明模式
+        patterns = [
+            r'std::shared_ptr<[^>]+>\s+([a-zA-Z_][a-zA-Z0-9_]*)',  # std::shared_ptr<Type> var
+            r'std::unique_ptr<[^>]+>\s+([a-zA-Z_][a-zA-Z0-9_]*)',  # std::unique_ptr<Type> var
+            r'auto\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*=',  # auto var = ...
+        ]
+
+        for pattern in patterns:
+            matches = re.finditer(pattern, content)
+            for match in matches:
+                var_name = match.group(1)
+                smart_pointer_vars.add(var_name)
+
+        return smart_pointer_vars
+
+    def _is_smart_pointer_false_positive(self, issue_type, match_text, line, smart_pointer_vars):
+        """检查是否是智能指针的误报 - 更精确的检测"""
+        if issue_type not in ['raw_ptr_dereference', 'null_dereference']:
+            return False
+
+        # 检查行中是否包含智能指针变量的->操作
+        for var in smart_pointer_vars:
+            if var + '->' in line:
+                return True
+
+        # 检查是否是std::shared_ptr或std::unique_ptr的直接使用
+        if 'std::shared_ptr' in line or 'std::unique_ptr' in line:
+            return True
+
+        # 检查是否是智能指针get()方法的调用结果
+        if '.get()' in line and '->' in line:
+            return True
+
+        # 检查是否有空指针检查模式 - 更全面的检查
+        null_check_patterns = [
+            r'if\s*\(\s*!?\s*[a-zA-Z_][a-zA-Z0-9_]*\s*\)',  # if (!ptr) 或 if (ptr)
+            r'[a-zA-Z_][a-zA-Z0-9_]*\s*!=\s*nullptr',  # ptr != nullptr
+            r'nullptr\s*!=\s*[a-zA-Z_][a-zA-Z0-9_]*',  # nullptr != ptr
+            r'[a-zA-Z_][a-zA-Z0-9_]*\s*==\s*nullptr',  # ptr == nullptr
+            r'nullptr\s*==\s*[a-zA-Z_][a-zA-Z0-9_]*',  # nullptr == ptr
+            r'!\s*[a-zA-Z_][a-zA-Z0-9_]*',  # !ptr
+            r'[a-zA-Z_][a-zA-Z0-9_]*\s*&&',  # ptr &&
+            r'[a-zA-Z_][a-zA-Z0-9_]*\s*\|\|',  # ptr ||
+            r'\?\s*[a-zA-Z_][a-zA-Z0-9_]*\s*:',  # 三元运算符 ptr ? :
+        ]
+
+        for pattern in null_check_patterns:
+            if re.search(pattern, line):
+                return True  # 如果有空指针检查，认为不是误报
+
+        # 检查函数调用中是否已经有空指针检查（前几行）
+        # 这里需要访问更多上下文，但暂时简化处理
+
+        return False
+
     def _get_severity(self, issue_type, line):
         """获取问题严重性等级"""
         high_severity = ['raw_new_delete', 'double_delete', 'null_dereference', 

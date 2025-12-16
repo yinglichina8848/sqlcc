@@ -164,6 +164,9 @@ protected:
  */
 class DDLExecutionStrategy : public ExecutionStrategy {
 public:
+  DDLExecutionStrategy();
+  ~DDLExecutionStrategy();
+
   ExecutionResult execute(std::unique_ptr<sql_parser::Statement> stmt,
                           ExecutionContext &context) override;
 
@@ -223,6 +226,22 @@ private:
 
   ExecutionResult executeSelect(const sql_parser::SelectStatement& stmt,
                                 ExecutionContext &context);
+
+  ExecutionResult executeGroupBySelect(const sql_parser::SelectStatement& stmt,
+                                       ExecutionContext &context);
+
+  ExecutionResult executeAggregateSelect(const sql_parser::SelectStatement& stmt,
+                                         ExecutionContext &context);
+
+  ExecutionResult executeJoinSelect(const sql_parser::SelectStatement& stmt,
+                                    ExecutionContext &context);
+
+  ExecutionResult executeSimpleSelect(const sql_parser::SelectStatement& stmt,
+                                      ExecutionContext &context);
+
+  std::string getColumnValue(const std::vector<std::string>& record,
+                             const std::string& column_name,
+                             std::shared_ptr<TableMetadata> metadata);
 };
 
 /**
@@ -337,7 +356,7 @@ private:
 
   // 评估HAVING条件
   bool evaluateHavingCondition(const std::map<std::string, std::string>& group_aggregates,
-                               const std::string& having_condition);
+                               const sql_parser::Expression* having_expr);
 };
 
 /**
@@ -476,6 +495,9 @@ public:
                   std::shared_ptr<UserManager> user_manager,
                   std::shared_ptr<SystemDatabase> system_db);
 
+  // 获取DatabaseManager
+  std::shared_ptr<DatabaseManager> getDatabaseManager() const { return db_manager_; }
+
   ~UnifiedExecutor() override;
 
   ExecutionResult execute(std::unique_ptr<sql_parser::Statement> stmt) override;
@@ -495,6 +517,15 @@ public:
   }
 
 private:
+  // 数据库管理器
+  std::shared_ptr<DatabaseManager> db_manager_;
+
+  // 用户管理器
+  std::shared_ptr<UserManager> user_manager_;
+
+  // 系统数据库
+  std::shared_ptr<SystemDatabase> system_db_;
+
   // 策略映射
   std::unordered_map<sql_parser::Statement::Type,
                      std::unique_ptr<ExecutionStrategy>>

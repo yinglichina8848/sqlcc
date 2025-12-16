@@ -62,7 +62,7 @@ DDLExecutor::execute(std::unique_ptr<sqlcc::sql_parser::Statement> stmt) {
       // 获取列定义
       std::vector<std::pair<std::string, std::string>> columns;
       for (const auto &col : create_stmt->getColumns()) {
-        columns.emplace_back(col.getName(), col.getType());
+        columns.emplace_back(col.getName(), col.getTypeString());
       }
 
       // 创建表

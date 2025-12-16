@@ -166,7 +166,7 @@ bool ClientConnection::Connect() {
     std::memset(&server_addr, 0, sizeof(server_addr));
     server_addr.sin_family = AF_INET;
     server_addr.sin_port = htons(port_);
-    
+
     // 转换IP地址或解析主机名
     if (inet_pton(AF_INET, host_.c_str(), &server_addr.sin_addr) <= 0) {
         // 使用 getaddrinfo 替代 gethostbyname 以避免 raw pointer 返回
@@ -179,7 +179,14 @@ bool ClientConnection::Connect() {
             socket_fd_.reset();
             return false;
         }
-        std::memcpy(&server_addr.sin_addr, &((struct sockaddr_in*)result->ai_addr)->sin_addr, sizeof(struct in_addr));
+        // 安全检查：确保result->ai_addr不为null
+        if (result->ai_addr != nullptr) {
+            std::memcpy(&server_addr.sin_addr, &((struct sockaddr_in*)result->ai_addr)->sin_addr, sizeof(struct in_addr));
+        } else {
+            freeaddrinfo(result);
+            socket_fd_.reset();
+            return false;
+        }
         freeaddrinfo(result);
     }
 
@@ -195,7 +202,10 @@ bool ClientConnection::Connect() {
     if (tls_enabled_) {
         SSL_library_init();
         SSL_load_error_strings();
-        const SSL_METHOD* method = TLS_client_method();
+        const SSL_METHOD* method = nullptr;
+        if (TLS_client_method()) {
+            method = TLS_client_method();
+        }
         ssl_ctx_ = sqlcc::utils::SSLContext::create(method);
         if (!ssl_ctx_.is_valid()) {
             Disconnect();
@@ -242,6 +252,11 @@ bool ClientConnection::IsConnected() const {
 bool ClientConnection::SendData(const std::vector<char>& data) {
 #ifdef __linux__
     if (!connected_ || !socket_fd_.valid()) {
+        return false;
+    }
+
+    // 检查TLS上下文是否存在
+    if (tls_enabled_ && (!ssl_ctx_.is_valid() || !ssl_.is_valid())) {
         return false;
     }
     if (tls_enabled_ && ssl_.is_valid()) {
@@ -316,6 +331,9 @@ ClientNetworkManager::ClientNetworkManager(const std::string& host, int port)
 ClientNetworkManager::~ClientNetworkManager() = default;
 
 bool ClientNetworkManager::Connect() {
+    if (!connection_) {
+        return false;
+    }
     return connection_->Connect();
 }
 
@@ -464,11 +482,13 @@ bool ClientNetworkManager::SendAuthMessage(const std::string& username, const st
     header_ref.sequence_id = 1;
 
     // 填充消息体 - 使用传统方式避免raw pointer运算
-    char* body_start = message.data() + sizeof(MessageHeader);
-    *reinterpret_cast<uint32_t*>(body_start) = username_len;
-    *reinterpret_cast<uint32_t*>(body_start + sizeof(uint32_t)) = password_len;
-    std::memcpy(body_start + 2 * sizeof(uint32_t), username.c_str(), username_len);
-    std::memcpy(body_start + 2 * sizeof(uint32_t) + username_len, password.c_str(), password_len);
+    if (!message.empty()) {
+        char* body_start = message.data() + sizeof(MessageHeader);
+        *reinterpret_cast<uint32_t*>(body_start) = username_len;
+        *reinterpret_cast<uint32_t*>(body_start + sizeof(uint32_t)) = password_len;
+        std::memcpy(body_start + 2 * sizeof(uint32_t), username.c_str(), username_len);
+        std::memcpy(body_start + 2 * sizeof(uint32_t) + username_len, password.c_str(), password_len);
+    }
 
     return SendRequest(message);
 }
@@ -809,9 +829,15 @@ void ConnectionHandler::SendMessage(const std::vector<char>& message) {
 #ifdef __linux__
     std::vector<char> to_send = message;
     // 如果AES已启用，则仅对消息体进行加密并追加HMAC（除 KEY_EXCHANGE_ACK 外）
-    MessageHeader* msg_header = reinterpret_cast<MessageHeader*>(to_send.data());
-    if (session_ && session_->IsAESEncryptionEnabled() && msg_header->type != KEY_EXCHANGE_ACK) {
-        MessageHeader* header = reinterpret_cast<MessageHeader*>(to_send.data());
+    MessageHeader* msg_header = nullptr;
+    if (!to_send.empty()) {
+        msg_header = reinterpret_cast<MessageHeader*>(to_send.data());
+    }
+    if (session_ && session_->IsAESEncryptionEnabled() && msg_header && msg_header->type != KEY_EXCHANGE_ACK) {
+        MessageHeader* header = nullptr;
+        if (!to_send.empty()) {
+            header = reinterpret_cast<MessageHeader*>(to_send.data());
+        }
         std::vector<char> body(to_send.begin() + sizeof(MessageHeader), to_send.end());
         // 加密体并追加MAC
         auto aes = session_->GetAESEncryptor();
@@ -1355,7 +1381,10 @@ bool ServerNetworkManager::ConfigureTLSServer(const std::string& cert_path,
 #ifdef __linux__
     SSL_library_init();
     SSL_load_error_strings();
-    const SSL_METHOD* method = TLS_server_method();
+    const SSL_METHOD* method = nullptr;
+    if (TLS_server_method()) {
+        method = TLS_server_method();
+    }
     ssl_ctx_ = sqlcc::utils::SSLContext::create(method);
     if (!ssl_ctx_.is_valid()) return false;
     if (SSL_CTX_use_certificate_file(ssl_ctx_.get(), cert_path.c_str(), SSL_FILETYPE_PEM) != 1) return false;

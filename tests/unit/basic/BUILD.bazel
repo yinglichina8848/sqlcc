@@ -29,10 +29,20 @@ cc_test(
     ],
 )
 
+cc_test(
+    name = "data_types_test",
+    srcs = ["data_types_test.cpp"],
+    deps = [
+        "//src/sql_parser:sqlcc_parser",
+        "@com_google_googletest//:gtest_main",
+    ],
+)
+
 test_suite(
     name = "basic_unit_tests",
     tests = [
         ":execution_context_test",
         ":permission_validator_test",
+        ":data_types_test",
     ],
 )
