@@ -20,7 +20,7 @@ Task::Task(const std::string& task_id, TaskType type, int priority)
 
 // NetworkTask implementation
 NetworkTask::NetworkTask(const std::string& task_id, const std::string& request_data)
-    : Task(task_id, TaskType::NETWORK), request_data_(request_data) {
+    : Task(task_id, TaskType::NETWORK_IO), request_data_(request_data) {
 }
 
 std::shared_ptr<TaskResult> NetworkTask::execute() {
@@ -74,7 +74,7 @@ std::shared_ptr<TaskResult> SQLTask::execute() {
 
 // WALTask implementation
 WALTask::WALTask(const std::string& task_id, const std::string& log_data)
-    : Task(task_id, TaskType::WAL_LOG), log_data_(log_data), flush_required_(false) {
+    : Task(task_id, TaskType::WAL_WRITE), log_data_(log_data), flush_required_(false) {
 }
 
 std::shared_ptr<TaskResult> WALTask::execute() {
@@ -263,17 +263,179 @@ void ThreadPool::workerThread() {
     }
 }
 
-// TaskExecutor implementation
+// TaskScheduler implementation
+TaskScheduler::TaskScheduler(const ThreadPoolConfig& config)
+    : config_(config), running_(false) {
+    // 初始化任务队列
+    task_queues_[TaskType::NETWORK_IO] = std::make_unique<TaskQueue>();
+    task_queues_[TaskType::SQL_PARSE] = std::make_unique<TaskQueue>();
+    task_queues_[TaskType::SQL_EXECUTE] = std::make_unique<TaskQueue>();
+    task_queues_[TaskType::PROCEDURE_CALL] = std::make_unique<TaskQueue>();
+    task_queues_[TaskType::TRIGGER_EXECUTE] = std::make_unique<TaskQueue>();
+    task_queues_[TaskType::STORAGE_IO] = std::make_unique<TaskQueue>();
+    task_queues_[TaskType::WAL_WRITE] = std::make_unique<TaskQueue>();
+    task_queues_[TaskType::MAINTENANCE] = std::make_unique<TaskQueue>();
+
+    // 初始化线程池
+    thread_pools_[TaskType::NETWORK_IO] = std::make_unique<ThreadPool>(config_.network_threads);
+    thread_pools_[TaskType::SQL_PARSE] = std::make_unique<ThreadPool>(config_.query_threads);
+    thread_pools_[TaskType::SQL_EXECUTE] = std::make_unique<ThreadPool>(config_.query_threads);
+    thread_pools_[TaskType::PROCEDURE_CALL] = std::make_unique<ThreadPool>(config_.query_threads);
+    thread_pools_[TaskType::TRIGGER_EXECUTE] = std::make_unique<ThreadPool>(config_.query_threads);
+    thread_pools_[TaskType::STORAGE_IO] = std::make_unique<ThreadPool>(config_.storage_threads);
+    thread_pools_[TaskType::WAL_WRITE] = std::make_unique<ThreadPool>(config_.wal_threads);
+    thread_pools_[TaskType::MAINTENANCE] = std::make_unique<ThreadPool>(config_.maintenance_threads);
+
+    // 设置任务到线程池的映射
+    task_to_pool_mapping_[TaskType::NETWORK_IO] = TaskType::NETWORK_IO;
+    task_to_pool_mapping_[TaskType::SQL_PARSE] = TaskType::SQL_PARSE;
+    task_to_pool_mapping_[TaskType::SQL_EXECUTE] = TaskType::SQL_EXECUTE;
+    task_to_pool_mapping_[TaskType::PROCEDURE_CALL] = TaskType::PROCEDURE_CALL;
+    task_to_pool_mapping_[TaskType::TRIGGER_EXECUTE] = TaskType::TRIGGER_EXECUTE;
+    task_to_pool_mapping_[TaskType::STORAGE_IO] = TaskType::STORAGE_IO;
+    task_to_pool_mapping_[TaskType::WAL_WRITE] = TaskType::WAL_WRITE;
+    task_to_pool_mapping_[TaskType::MAINTENANCE] = TaskType::MAINTENANCE;
+}
+
+TaskScheduler::~TaskScheduler() {
+    stop();
+}
+
+void TaskScheduler::start() {
+    if (running_.exchange(true)) {
+        return; // 已经在运行
+    }
+
+    // 启动各个线程池的工作线程
+    for (const auto& pair : thread_pools_) {
+        TaskType pool_type = pair.first;
+        size_t pool_size = 0;
+        switch (pool_type) {
+            case TaskType::NETWORK_IO: pool_size = config_.network_threads; break;
+            case TaskType::SQL_PARSE:
+            case TaskType::SQL_EXECUTE:
+            case TaskType::PROCEDURE_CALL:
+            case TaskType::TRIGGER_EXECUTE: pool_size = config_.query_threads; break;
+            case TaskType::STORAGE_IO: pool_size = config_.storage_threads; break;
+            case TaskType::WAL_WRITE: pool_size = config_.wal_threads; break;
+            case TaskType::MAINTENANCE: pool_size = config_.maintenance_threads; break;
+            default: pool_size = 1; break;
+        }
+
+        for (size_t i = 0; i < pool_size; ++i) {
+            pair.second->execute([this, pool_type]() { workerThread(pool_type); });
+        }
+    }
+}
+
+void TaskScheduler::stop() {
+    running_.store(false);
+
+    // 停止所有线程池 - 通过设置stop标志让工作线程退出
+    // 线程池会在析构函数中正确停止
+}
+
+bool TaskScheduler::submitTask(std::unique_ptr<Task> task) {
+    if (!running_.load()) {
+        return false;
+    }
+
+    std::lock_guard<std::mutex> lock(stats_mutex_);
+    stats_.total_tasks_submitted++;
+    stats_.queued_tasks++;
+
+    dispatchTask(std::move(task));
+    return true;
+}
+
+TaskStats TaskScheduler::getStats() const {
+    std::lock_guard<std::mutex> lock(stats_mutex_);
+    return stats_;
+}
+
+size_t TaskScheduler::getPendingTaskCount(TaskType type) const {
+    auto it = task_queues_.find(type);
+    return (it != task_queues_.end()) ? it->second->size() : 0;
+}
+
+size_t TaskScheduler::getActiveThreadCount(TaskType type) const {
+    auto it = thread_pools_.find(type);
+    return (it != thread_pools_.end()) ? it->second->getActiveThreadCount() : 0;
+}
+
+void TaskScheduler::dispatchTask(std::unique_ptr<Task> task) {
+    TaskType type = task->getTaskType();
+    auto it = task_queues_.find(type);
+    if (it != task_queues_.end()) {
+        it->second->push(std::move(task));
+    }
+}
+
+void TaskScheduler::workerThread(TaskType type) {
+    while (running_.load()) {
+        auto queue_it = task_queues_.find(type);
+        if (queue_it == task_queues_.end()) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(1));
+            continue;
+        }
+
+        std::unique_ptr<Task> task = queue_it->second->pop();
+        if (!task) {
+            continue;
+        }
+
+        {
+            std::lock_guard<std::mutex> lock(stats_mutex_);
+            stats_.queued_tasks--;
+            stats_.active_threads++;
+        }
+
+        auto start_time = std::chrono::high_resolution_clock::now();
+        try {
+            auto result = task->execute();
+            auto end_time = std::chrono::high_resolution_clock::now();
+            auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
+
+            // 更新统计信息
+            {
+                std::lock_guard<std::mutex> lock(stats_mutex_);
+                stats_.total_tasks_completed++;
+                stats_.average_execution_time_ms =
+                    (stats_.average_execution_time_ms + duration.count()) / 2;
+                if (static_cast<uint64_t>(duration.count()) > stats_.max_execution_time_ms) {
+                    stats_.max_execution_time_ms = duration.count();
+                }
+
+                if (result && !result->isSuccess()) {
+                    stats_.total_tasks_failed++;
+                }
+            }
+
+        } catch (...) {
+            std::lock_guard<std::mutex> lock(stats_mutex_);
+            stats_.total_tasks_failed++;
+        }
+
+        {
+            std::lock_guard<std::mutex> lock(stats_mutex_);
+            stats_.active_threads--;
+        }
+    }
+}
+
+
+
+// TaskExecutor implementation (legacy compatibility)
 TaskExecutor::TaskExecutor(size_t num_threads)
     : is_running_(false) {
     thread_pool_ = std::make_unique<ThreadPool>(num_threads);
-    
+
     // 初始化不同类型的任务队列
-    task_queues_[TaskType::NETWORK] = std::make_unique<TaskQueue>();
+    task_queues_[TaskType::NETWORK_IO] = std::make_unique<TaskQueue>();
     task_queues_[TaskType::SQL_PARSE] = std::make_unique<TaskQueue>();
     task_queues_[TaskType::SQL_EXECUTE] = std::make_unique<TaskQueue>();
-    task_queues_[TaskType::WAL_LOG] = std::make_unique<TaskQueue>();
-    task_queues_[TaskType::TRANSACTION] = std::make_unique<TaskQueue>();
+    task_queues_[TaskType::WAL_WRITE] = std::make_unique<TaskQueue>();
+    task_queues_[TaskType::MAINTENANCE] = std::make_unique<TaskQueue>();
 }
 
 TaskExecutor::~TaskExecutor() {

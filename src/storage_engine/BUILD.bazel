@@ -28,6 +28,18 @@ cc_library(
 )
 
 cc_library(
+    name = "lazy_writer",
+    srcs = ["lazy_writer.cpp"],
+    hdrs = ["//include/storage:lazy_writer_hdr"],
+    includes = ["../../include"],
+    deps = [
+        "//src/core:sqlcc_config_manager",
+        "//src/storage_engine:sqlcc_storage_engine",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+cc_library(
     name = "sqlcc_index_manager",
     srcs = [
         "index_manager/index_manager.cpp",
