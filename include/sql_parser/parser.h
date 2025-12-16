@@ -56,6 +56,8 @@ private:
   std::unique_ptr<CreateStatement> parseCreateStatement();
   std::unique_ptr<CreateStatement> parseCreateTableStatement();
   std::unique_ptr<CreateStatement> parseCreateDatabaseStatement();
+  std::unique_ptr<CreateStatement> parseCreateProcedureStatement();
+  std::unique_ptr<CreateStatement> parseCreateTriggerStatement();
   std::unique_ptr<DropStatement> parseDropStatement();
   std::unique_ptr<AlterStatement> parseAlterStatement();
   std::unique_ptr<SelectStatement> parseSelectStatement();

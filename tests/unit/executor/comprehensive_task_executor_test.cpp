@@ -86,7 +86,7 @@ TEST(NetworkTaskTest, EdgeCases) {
     
     // 测试初始状态
     EXPECT_EQ(task.getTaskId(), "network_task");
-    EXPECT_EQ(task.getTaskType(), TaskType::NETWORK);
+    EXPECT_EQ(task.getTaskType(), TaskType::NETWORK_IO);
     EXPECT_EQ(task.getConnectionData(), "");
     
     // 设置连接数据
@@ -139,7 +139,7 @@ TEST(WALTaskTest, EdgeCases) {
     
     // 测试初始状态
     EXPECT_EQ(task.getTaskId(), "wal_task");
-    EXPECT_EQ(task.getTaskType(), TaskType::WAL_LOG);
+    EXPECT_EQ(task.getTaskType(), TaskType::WAL_WRITE);
     EXPECT_FALSE(task.isFlushRequired());
     
     // 设置刷新标志

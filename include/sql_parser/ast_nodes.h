@@ -166,6 +166,8 @@ public:
 private:
   std::vector<std::string> columns_;
   std::string constraint_name_;
+
+  bool checkUniqueness(const std::vector<std::string>& key_values) const;
 };
 
 /**
@@ -312,7 +314,7 @@ private:
 
 class CreateStatement : public Statement {
 public:
-  enum ObjectType { DATABASE, TABLE, INDEX };
+  enum ObjectType { DATABASE, TABLE, INDEX, PROCEDURE, TRIGGER };
 
   CreateStatement(ObjectType objectType, const std::string &objectName);
   CreateStatement(ObjectType objectType); // 兼容旧用法：后续通过setter设置名称
@@ -365,6 +367,7 @@ public:
   ~JoinClause();
 
   JoinType getJoinType() const;
+  void setJoinType(JoinType type);
   const std::string &getTableName() const;
   const Expression *getCondition() const;
   std::unique_ptr<Expression> takeCondition(); // Transfer ownership
@@ -963,7 +966,7 @@ private:
 
 // ==================== CreateProcedureStatement ====================
 
-class CreateProcedureStatement : public Statement {
+class CreateProcedureStatement : public CreateStatement {
 public:
   CreateProcedureStatement(const std::string &name);
   ~CreateProcedureStatement();
@@ -1062,7 +1065,7 @@ private:
 
 // ==================== CreateTriggerStatement ====================
 
-class CreateTriggerStatement : public Statement {
+class CreateTriggerStatement : public CreateStatement {
 public:
   CreateTriggerStatement(const TriggerDefinition &triggerDef);
   ~CreateTriggerStatement();

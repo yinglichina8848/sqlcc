@@ -557,22 +557,22 @@ ExecutionResult DMLExecutionStrategy::executeJoinSelect(const sql_parser::Select
   }
 
   // 确定JOIN类型
-  JoinType join_type = JoinType::INNER_JOIN;
+  sql_parser::JoinClause::JoinType join_type = sql_parser::JoinClause::JoinType::INNER_JOIN;
   switch (join_clause->getJoinType()) {
     case sql_parser::JoinClause::JoinType::INNER_JOIN:
-      join_type = JoinType::INNER_JOIN;
+      join_type = sql_parser::JoinClause::JoinType::INNER_JOIN;
       break;
     case sql_parser::JoinClause::JoinType::LEFT_JOIN:
-      join_type = JoinType::LEFT_JOIN;
+      join_type = sql_parser::JoinClause::JoinType::LEFT_JOIN;
       break;
     case sql_parser::JoinClause::JoinType::RIGHT_JOIN:
-      join_type = JoinType::RIGHT_JOIN;
+      join_type = sql_parser::JoinClause::JoinType::RIGHT_JOIN;
       break;
     case sql_parser::JoinClause::JoinType::FULL_JOIN:
-      join_type = JoinType::FULL_JOIN;
+      join_type = sql_parser::JoinClause::JoinType::FULL_JOIN;
       break;
     default:
-      join_type = JoinType::INNER_JOIN;
+      join_type = sql_parser::JoinClause::JoinType::INNER_JOIN;
       break;
   }
 
@@ -584,14 +584,19 @@ ExecutionResult DMLExecutionStrategy::executeJoinSelect(const sql_parser::Select
     join_condition_str = "employee.id = department.id"; // 硬编码示例条件
   }
 
-  // 执行JOIN
-  JoinExecutor join_executor(nullptr); // 暂时使用nullptr，实际应该获取SqlExecutor
-  auto join_result = join_executor.execute(left_exec_result, right_exec_result,
-                                          join_type, join_condition_str);
-
-  if (!join_result.success) {
-    return join_result;
+  // 准备列映射
+  std::unordered_map<std::string, size_t> left_columns, right_columns;
+  for (size_t i = 0; i < left_metadata->columns.size(); ++i) {
+    left_columns[left_metadata->columns[i].name] = i;
   }
+  for (size_t i = 0; i < right_metadata->columns.size(); ++i) {
+    right_columns[right_metadata->columns[i].name] = i;
+  }
+
+  // 执行JOIN
+  execution::JoinExecutor join_executor; // 创建JoinExecutor实例
+  auto join_result_rows = join_executor.executeJoin(left_records, right_records,
+                                                    *join_clause, left_columns, right_columns);
 
   // 构建结果消息
   std::string result_msg = "JOIN query executed successfully.\n";
@@ -599,40 +604,23 @@ ExecutionResult DMLExecutionStrategy::executeJoinSelect(const sql_parser::Select
                 std::to_string(left_records.size()) + " rows\n";
   result_msg += "Right table '" + right_table + "': " +
                 std::to_string(right_records.size()) + " rows\n";
-  result_msg += "Result: " + std::to_string(join_result.rows.size()) + " rows\n";
+  result_msg += "Result: " + std::to_string(join_result_rows.size()) + " rows\n";
 
   // 显示前几行结果（简化）
-  if (!join_result.rows.empty()) {
+  if (!join_result_rows.empty()) {
     result_msg += "Sample results:\n";
-    size_t max_rows = std::min(size_t(5), join_result.rows.size());
+    size_t max_rows = std::min(size_t(5), join_result_rows.size());
     for (size_t i = 0; i < max_rows; ++i) {
       result_msg += "Row " + std::to_string(i + 1) + ": ";
-      for (size_t j = 0; j < join_result.rows[i].values.size(); ++j) {
+      for (size_t j = 0; j < join_result_rows[i].size(); ++j) {
         if (j > 0) result_msg += ", ";
-        // 根据Value类型转换字符串
-        const Value& val = join_result.rows[i].values[j];
-        std::string value_str;
-        switch (val.type) {
-          case Value::Type::INT:
-            value_str = std::to_string(val.int_val);
-            break;
-          case Value::Type::DOUBLE:
-            value_str = std::to_string(val.double_val);
-            break;
-          case Value::Type::STRING:
-            value_str = val.str_val;
-            break;
-          default:
-            value_str = "UNKNOWN";
-            break;
-        }
-        result_msg += value_str;
+        result_msg += join_result_rows[i][j];
       }
       result_msg += "\n";
     }
   }
 
-  context.records_affected = join_result.rows.size();
+  context.records_affected = join_result_rows.size();
   updateExecutionStats(context, context.records_affected);
   return {true, result_msg};
 }

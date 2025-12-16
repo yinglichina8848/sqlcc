@@ -104,3 +104,13 @@ cc_test(
         "@com_google_googletest//:gtest_main",
     ],
 )
+
+# 全面测试套件
+test_suite(
+    name = "comprehensive_tests",
+    tests = [
+        ":parser_alter_table_test_run",
+        ":parser_alter_table_comprehensive_test_run",
+        ":parser_drop_table_test_run",
+    ],
+)

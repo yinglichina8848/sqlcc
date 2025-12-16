@@ -23,6 +23,10 @@ public:
   // 索引管理
   bool CreateIndex(const std::string &index_name, const std::string &table_name,
                    const std::string &column_name, bool unique = false);
+  bool CreateCompositeIndex(const std::string &index_name,
+                           const std::string &table_name,
+                           const std::vector<std::string> &columns,
+                           bool unique = false);
   bool DropIndex(const std::string &index_name, const std::string &table_name);
   bool IndexExists(const std::string &index_name,
                    const std::string &table_name) const;
@@ -36,10 +40,14 @@ public:
   // 获取表的索引列
   std::vector<std::string>
   GetIndexedColumns(const std::string &table_name) const;
+  std::vector<std::vector<std::string>>
+  GetCompositeIndexedColumns(const std::string &table_name) const;
 
   // 索引名称生成
   std::string GetIndexName(const std::string &table_name,
                            const std::string &column_name) const;
+  std::string GetCompositeIndexName(const std::string &table_name,
+                                   const std::vector<std::string> &columns) const;
 
 private:
   std::shared_ptr<StorageEngine> storage_engine_; // 存储引擎智能指针

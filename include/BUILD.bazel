@@ -75,3 +75,31 @@ filegroup(
     name = "transaction_manager_headers",
     srcs = ["transaction_manager.h"],
 )
+
+# 执行引擎头文件库
+cc_library(
+    name = "execution_engine",
+    hdrs = ["execution_engine.h"],
+    includes = ["."],
+    visibility = ["//visibility:public"],
+)
+
+# 数据库管理器头文件库
+cc_library(
+    name = "database_manager",
+    hdrs = ["database_manager.h"],
+    includes = ["."],
+    visibility = ["//visibility:public"],
+)
+
+# 约束执行器头文件库
+cc_library(
+    name = "constraint_executor",
+    hdrs = ["constraint_executor.h"],
+    includes = ["."],
+    deps = [
+        ":execution_engine",
+        ":database_manager",
+    ],
+    visibility = ["//visibility:public"],
+)

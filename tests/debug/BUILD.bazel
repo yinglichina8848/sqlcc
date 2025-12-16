@@ -7,5 +7,32 @@ cc_binary(
     linkopts = ["-pthread"],
 )
 
+cc_binary(
+    name = "debug_keyword_check",
+    srcs = ["debug_keyword_check.cpp"],
+    copts = ["-std=c++17"],
+    deps = [
+        "//include/sql_parser:sqlcc_parser_headers",
+    ],
+)
+
+cc_binary(
+    name = "debug_lexer_test",
+    srcs = ["debug_lexer_test.cpp"],
+    copts = ["-std=c++17"],
+    deps = [
+        "//include/sql_parser:sqlcc_parser_headers",
+    ],
+)
+
+cc_binary(
+    name = "debug_token_enum_values",
+    srcs = ["debug_token_enum_values.cpp"],
+    copts = ["-std=c++17"],
+    deps = [
+        "//include/sql_parser:sqlcc_parser_headers",
+    ],
+)
+
 # Include all debug source tests
 exports_files(glob(["src/*"]))

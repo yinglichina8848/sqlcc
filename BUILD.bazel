@@ -169,11 +169,11 @@ cc_binary(
         "//src/network:sqlcc_network",
         "//src/core:sqlcc_core_lib",
         "//src/sql_executor:sqlcc_executor",
-        ":unified_executor",
+        # ":unified_executor",  # 暂时注释掉，因为有未实现的依赖
         "//src/sql_parser:sqlcc_parser",
         "//src/storage_engine:sqlcc_storage_engine",
         "//src/storage_engine:sqlcc_index_manager",
-        "//src/transaction_manager:sqlcc_transaction_manager",
+        # "//src/transaction_manager:sqlcc_transaction_manager",  # 暂时注释掉
     ],
     includes = ["include", "include/core", "include/storage"],
     linkopts = ["-lssl", "-lcrypto"],
@@ -188,6 +188,7 @@ cc_binary(
         "//src/network:sqlcc_network",
         "//src/core:sqlcc_core_lib",
         "//src/sql_executor:sqlcc_executor",
+        # ":unified_executor",  # 暂时注释掉，因为有未实现的依赖
         # "@com_google_absl//absl/strings",
     ],
     includes = ["include", "include/core", "include/network"],

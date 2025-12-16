@@ -92,9 +92,9 @@ public:
 
   /**
    * @brief 获取检查点统计信息
-   * @return 统计信息
+   * @return 统计信息引用
    */
-  CheckpointStats GetStats() const;
+  const CheckpointStats& GetStats() const;
 
   /**
    * @brief 重置统计信息

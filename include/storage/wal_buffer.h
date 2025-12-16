@@ -12,6 +12,9 @@
 
 namespace sqlcc {
 
+// Forward declaration for WALWriter
+class WALWriter;
+
 /**
  * @brief WAL缓冲区类
  *
@@ -84,9 +87,9 @@ public:
 
   /**
    * @brief 获取缓冲区统计信息
-   * @return 统计信息
+   * @return 统计信息引用
    */
-  WALBufferStats GetStats() const;
+  const WALBufferStats& GetStats() const;
 
   /**
    * @brief 重置统计信息
@@ -105,7 +108,15 @@ public:
    */
   double GetUtilization() const;
 
+  /**
+   * @brief 设置WAL写入器
+   * @param wal_writer WAL写入器指针
+   */
+  void SetWALWriter(WALWriter* wal_writer) { wal_writer_ = wal_writer; }
+
 private:
+  // WAL写入器引用（需要在运行时设置）
+  WALWriter* wal_writer_;
   /**
    * @brief 检查是否需要刷新
    * @return 是否需要刷新

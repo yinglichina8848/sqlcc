@@ -168,6 +168,10 @@ JoinClause::JoinType JoinClause::getJoinType() const {
   return joinType_;
 }
 
+void JoinClause::setJoinType(JoinType type) {
+  joinType_ = type;
+}
+
 const std::string &JoinClause::getTableName() const {
   return tableName_;
 }
@@ -888,7 +892,7 @@ std::string ProcedureParameter::getModeString() const {
 // ==================== CreateProcedureStatement ====================
 
 CreateProcedureStatement::CreateProcedureStatement(const std::string &name)
-    : Statement(CREATE_PROCEDURE), name_(name) {}
+    : CreateStatement(CreateStatement::PROCEDURE, name), name_(name) {}
 
 CreateProcedureStatement::~CreateProcedureStatement() {}
 
@@ -1031,7 +1035,7 @@ const std::string &TriggerDefinition::getBody() const { return body_; }
 
 CreateTriggerStatement::CreateTriggerStatement(
     const TriggerDefinition &triggerDef)
-    : Statement(CREATE_TRIGGER), triggerDef_(triggerDef) {}
+    : CreateStatement(CreateStatement::TRIGGER, triggerDef.getName()), triggerDef_(triggerDef) {}
 
 CreateTriggerStatement::~CreateTriggerStatement() {}
 

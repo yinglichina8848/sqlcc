@@ -75,9 +75,9 @@ public:
 
   /**
    * @brief 获取WAL写入器统计信息
-   * @return 统计信息
+   * @return 统计信息引用
    */
-  WALWriterStats GetStats() const;
+  const WALWriterStats& GetStats() const;
 
   /**
    * @brief 重置统计信息

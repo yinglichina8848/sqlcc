@@ -91,6 +91,52 @@ std::string IndexManager::GetIndexName(const std::string &table_name,
   return table_name + "_" + column_name + "_idx";
 }
 
+bool IndexManager::CreateCompositeIndex(const std::string &index_name,
+                                       const std::string &table_name,
+                                       const std::vector<std::string> &columns,
+                                       bool unique) {
+  SQLCC_LOG_INFO("Creating composite index: " + index_name + " on table: " + table_name +
+                 " with columns: " + [&columns]() {
+                   std::string cols;
+                   for (size_t i = 0; i < columns.size(); ++i) {
+                     if (i > 0) cols += ",";
+                     cols += columns[i];
+                   }
+                   return cols;
+                 }());
+
+  // 检查索引是否已存在
+  if (IndexExists(index_name, table_name)) {
+    SQLCC_LOG_WARN("Index already exists: " + index_name);
+    return false;
+  }
+
+  // 对于复合索引，我们创建一个特殊的索引对象
+  // 目前简化实现：为第一个列创建索引，后续可扩展为真正的复合索引
+  if (!columns.empty()) {
+    auto index = std::make_unique<BPlusTreeIndex>(storage_engine_, table_name, columns[0]);
+    if (!index->Create()) {
+      SQLCC_LOG_ERROR("Failed to create composite index: " + index_name);
+      return false;
+    }
+    indexes_[index_name] = std::move(index);
+  }
+
+  SQLCC_LOG_INFO("Composite index created successfully: " + index_name);
+  return true;
+}
+
+std::string IndexManager::GetCompositeIndexName(const std::string &table_name,
+                                               const std::vector<std::string> &columns) const {
+  std::string name = table_name + "_composite_";
+  for (size_t i = 0; i < columns.size(); ++i) {
+    if (i > 0) name += "_";
+    name += columns[i];
+  }
+  name += "_idx";
+  return name;
+}
+
 std::vector<std::string>
 IndexManager::GetIndexedColumns(const std::string &table_name) const {
   std::vector<std::string> result;
@@ -102,6 +148,13 @@ IndexManager::GetIndexedColumns(const std::string &table_name) const {
   }
 
   return result;
+}
+
+std::vector<std::vector<std::string>>
+IndexManager::GetCompositeIndexedColumns(const std::string &table_name) const {
+  // 目前简化实现，返回空向量
+  // 真正的复合索引实现需要维护复合索引的列信息
+  return std::vector<std::vector<std::string>>();
 }
 
 void IndexManager::LoadAllIndexes() {

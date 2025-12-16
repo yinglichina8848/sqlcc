@@ -142,6 +142,21 @@ public:
     KEYWORD_PROCEDURE,
     KEYWORD_FUNCTION,
 
+    // Keywords - Trigger specific
+    KEYWORD_BEFORE,
+    KEYWORD_AFTER,
+    KEYWORD_INSTEAD,
+    KEYWORD_OF,
+    KEYWORD_EACH,
+    KEYWORD_ROW,
+    KEYWORD_STATEMENT,
+
+    // Keywords - Procedure specific
+    KEYWORD_OUT,
+    KEYWORD_INOUT,
+    KEYWORD_RETURNS,
+    KEYWORD_RETURN,
+
     // Keywords - Constraints
     KEYWORD_PRIMARY,
     KEYWORD_KEY,

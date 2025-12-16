@@ -51,7 +51,7 @@ enum ConnectionState {
     ENCRYPTED = 6,          // 已加密可以安全通信
     CLOSING = 7,           // 正在关闭
     CLOSED = 8,            // 已关闭
-    ERROR = 9              // 错误状态
+    CONNECTION_ERROR = 9   // 连接错误状态
 };
 
 // 连接状态机类 - 严格验证连接状态转换安全性
@@ -76,7 +76,7 @@ public:
     bool IsAuthenticated() const { return state_ == AUTHENTICATED || state_ == ENCRYPTED; }
     bool IsEncrypted() const { return state_ == ENCRYPTED; }
     bool IsClosed() const { return state_ == CLOSED || state_ == CLOSING; }
-    bool IsError() const { return state_ == ERROR; }
+    bool IsError() const { return state_ == CONNECTION_ERROR; }
 
     // 允许的操作检查
     bool CanConnect() const;
@@ -93,10 +93,49 @@ public:
     using StateChangeCallback = std::function<void(ConnectionState old_state, ConnectionState new_state)>;
     void SetStateChangeCallback(StateChangeCallback callback);
 
+    // 超时和重连机制
+    void SetTimeouts(std::chrono::milliseconds connect_timeout = std::chrono::seconds(30),
+                    std::chrono::milliseconds reconnect_delay = std::chrono::seconds(5),
+                    std::chrono::milliseconds keep_alive_interval = std::chrono::seconds(60));
+
+    void StartConnectionTimer();
+    void StopConnectionTimer();
+    bool IsConnectionTimedOut() const;
+    void ResetConnectionTimer();
+
+    // 重连机制
+    void EnableAutoReconnect(bool enabled, int max_retry_attempts = 3);
+    bool IsAutoReconnectEnabled() const;
+    int GetMaxRetryAttempts() const;
+    int GetCurrentRetryCount() const;
+    void IncrementRetryCount();
+    void ResetRetryCount();
+    bool ShouldAttemptReconnect() const;
+    std::chrono::milliseconds GetReconnectDelay() const;
+
+    // 保活机制
+    void EnableKeepAlive(bool enabled);
+    bool IsKeepAliveEnabled() const;
+    void UpdateLastActivity();
+    bool IsKeepAliveTimeout() const;
+
 private:
     ConnectionState state_;
     mutable std::mutex mutex_;  // 线程安全
     StateChangeCallback state_change_callback_;
+
+    // 超时和重连相关成员变量
+    std::chrono::milliseconds connect_timeout_;
+    std::chrono::milliseconds reconnect_delay_;
+    std::chrono::milliseconds keep_alive_interval_;
+
+    std::chrono::steady_clock::time_point connection_start_time_;
+    std::chrono::steady_clock::time_point last_activity_time_;
+    bool connection_timer_active_;
+    bool auto_reconnect_enabled_;
+    bool keep_alive_enabled_;
+    int max_retry_attempts_;
+    int current_retry_count_;
 
     // 验证状态转换的私有方法
     bool IsValidTransition(ConnectionState from, ConnectionState to) const;
@@ -297,6 +336,312 @@ public:
     bool ShouldRotate(size_t messages_sent) const { return interval_ > 0 && (messages_sent % interval_) == 0; }
 private:
     size_t interval_;
+};
+
+// 数据传输边界检查器 - 防止缓冲区溢出和数据包完整性问题
+class DataTransmissionValidator {
+public:
+    DataTransmissionValidator();
+    ~DataTransmissionValidator() = default;
+
+    // 数据包完整性验证
+    bool ValidateMessageHeader(const MessageHeader& header) const;
+    bool ValidateMessageLength(size_t declared_length, size_t actual_length) const;
+    bool ValidateMessageMagic(uint32_t magic) const;
+    bool ValidateMessageType(uint16_t type) const;
+
+    // 缓冲区边界检查
+    bool IsBufferSizeValid(size_t buffer_size) const;
+    bool IsMessageSizeWithinLimits(size_t message_size) const;
+    size_t GetMaxMessageSize() const;
+    size_t GetMaxBufferSize() const;
+
+    // 大数据包分片处理
+    bool ShouldFragmentMessage(size_t message_size) const;
+    std::vector<std::vector<char>> FragmentMessage(const std::vector<char>& message);
+    bool ValidateFragment(const std::vector<char>& fragment) const;
+    std::vector<char> ReassembleFragments(const std::vector<std::vector<char>>& fragments);
+
+    // 流量控制
+    bool CanAcceptMessage(size_t message_size, std::chrono::milliseconds time_window);
+    void RecordMessageSent(size_t message_size);
+    void RecordMessageReceived(size_t message_size);
+    double GetCurrentThroughput() const; // 字节/秒
+    bool IsRateLimited() const;
+
+    // 配置参数
+    void SetMaxMessageSize(size_t max_size);
+    void SetMaxBufferSize(size_t max_size);
+    void SetFragmentSize(size_t fragment_size);
+    void SetRateLimit(size_t bytes_per_second);
+
+private:
+    // 配置参数
+    size_t max_message_size_;      // 最大消息大小 (默认64MB)
+    size_t max_buffer_size_;       // 最大缓冲区大小 (默认128MB)
+    size_t fragment_size_;         // 分片大小 (默认1MB)
+    size_t rate_limit_bytes_per_sec_; // 速率限制 (默认100MB/s)
+
+    // 流量控制状态
+    mutable std::mutex traffic_mutex_;
+    std::deque<std::pair<std::chrono::steady_clock::time_point, size_t>> sent_messages_;
+    std::deque<std::pair<std::chrono::steady_clock::time_point, size_t>> received_messages_;
+    size_t total_bytes_sent_;
+    size_t total_bytes_received_;
+
+    // 魔数验证
+    static constexpr uint32_t EXPECTED_MAGIC = 0x53434C53; // 'SQLC'
+
+    // 辅助方法
+    void CleanupOldRecords();
+    size_t CalculateThroughput(const std::deque<std::pair<std::chrono::steady_clock::time_point, size_t>>& records) const;
+};
+
+// 网络异常分类和处理系统 - 异常安全保证
+enum NetworkExceptionType {
+    CONNECTION_LOST = 0,           // 连接丢失
+    CONNECTION_TIMEOUT = 1,        // 连接超时
+    AUTHENTICATION_FAILED = 2,     // 认证失败
+    PROTOCOL_VIOLATION = 3,        // 协议违规
+    RESOURCE_EXHAUSTED = 4,        // 资源耗尽
+    DATA_CORRUPTION = 5,           // 数据损坏
+    RATE_LIMIT_EXCEEDED = 6,       // 速率限制超限
+    SYSTEM_OVERLOAD = 7,           // 系统过载
+    NETWORK_UNAVAILABLE = 8,       // 网络不可用
+    UNKNOWN_ERROR = 9             // 未知错误
+};
+
+class NetworkException : public std::runtime_error {
+public:
+    NetworkException(NetworkExceptionType type, const std::string& message,
+                    const std::string& details = "", bool recoverable = true);
+    ~NetworkException() override = default;
+
+    NetworkExceptionType GetType() const { return type_; }
+    const std::string& GetDetails() const { return details_; }
+    bool IsRecoverable() const { return recoverable_; }
+    std::string GetFullMessage() const;
+
+private:
+    NetworkExceptionType type_;
+    std::string details_;
+    bool recoverable_;
+};
+
+// 网络异常处理器 - 优雅降级和恢复
+class NetworkExceptionHandler {
+public:
+    NetworkExceptionHandler();
+    ~NetworkExceptionHandler() = default;
+
+    // 异常处理策略
+    enum RecoveryStrategy {
+        IMMEDIATE_RETRY = 0,        // 立即重试
+        DELAYED_RETRY = 1,          // 延迟重试
+        GRACEFUL_DEGRADATION = 2,   // 优雅降级
+        CIRCUIT_BREAKER = 3,        // 断路器
+        SYSTEM_SHUTDOWN = 4         // 系统关闭
+    };
+
+    // 处理异常
+    RecoveryStrategy HandleException(const NetworkException& exception,
+                                   std::chrono::milliseconds time_since_last_failure);
+
+    // 恢复策略管理
+    void SetMaxRetries(NetworkExceptionType type, int max_retries);
+    void SetRetryDelay(NetworkExceptionType type, std::chrono::milliseconds delay);
+    void SetCircuitBreakerThreshold(NetworkExceptionType type, int threshold);
+    void SetCircuitBreakerTimeout(NetworkExceptionType type, std::chrono::milliseconds timeout);
+
+    // 断路器状态查询
+    bool IsCircuitBreakerOpen(NetworkExceptionType type) const;
+    std::chrono::milliseconds GetRemainingCircuitBreakerTimeout(NetworkExceptionType type) const;
+
+    // 统计信息
+    int GetExceptionCount(NetworkExceptionType type) const;
+    int GetRecoveryCount(NetworkExceptionType type) const;
+    double GetExceptionRate(NetworkExceptionType type, std::chrono::milliseconds window) const;
+
+    // 重置统计
+    void ResetStatistics(NetworkExceptionType type);
+    void ResetAllStatistics();
+
+private:
+    struct ExceptionStats {
+        int exception_count = 0;
+        int recovery_count = 0;
+        std::chrono::steady_clock::time_point last_exception_time;
+        std::chrono::steady_clock::time_point circuit_breaker_opened_time;
+        bool circuit_breaker_open = false;
+        int max_retries = 3;
+        std::chrono::milliseconds retry_delay = std::chrono::seconds(1);
+        int circuit_breaker_threshold = 5;
+        std::chrono::milliseconds circuit_breaker_timeout = std::chrono::minutes(1);
+    };
+
+    std::unordered_map<NetworkExceptionType, ExceptionStats> exception_stats_;
+    mutable std::mutex stats_mutex_;
+
+    // 辅助方法
+    RecoveryStrategy DetermineStrategy(NetworkExceptionType type, const ExceptionStats& stats,
+                                     std::chrono::milliseconds time_since_last_failure);
+    void UpdateExceptionStats(NetworkExceptionType type, bool recovery_success);
+    void OpenCircuitBreaker(NetworkExceptionType type);
+    void CloseCircuitBreaker(NetworkExceptionType type);
+};
+
+// 网络监控和日志系统 - 日志记录和监控
+class NetworkMonitor {
+public:
+    NetworkMonitor();
+    ~NetworkMonitor() = default;
+
+    // 监控级别
+    enum MonitorLevel {
+        DEBUG = 0,
+        INFO = 1,
+        WARNING = 2,
+        ERROR = 3,
+        CRITICAL = 4
+    };
+
+    // 日志记录
+    void LogEvent(MonitorLevel level, const std::string& component,
+                 const std::string& event, const std::string& details = "");
+
+    void LogException(const NetworkException& exception, const std::string& context = "");
+
+    void LogPerformance(const std::string& metric, double value,
+                       const std::string& unit = "");
+
+    // 监控指标
+    void RecordConnectionEstablished();
+    void RecordConnectionLost();
+    void RecordMessageSent(size_t size);
+    void RecordMessageReceived(size_t size);
+    void RecordAuthenticationSuccess();
+    void RecordAuthenticationFailure();
+    void RecordException(NetworkExceptionType type);
+
+    // 统计查询
+    int GetActiveConnections() const;
+    size_t GetTotalMessagesSent() const;
+    size_t GetTotalMessagesReceived() const;
+    size_t GetTotalBytesSent() const;
+    size_t GetTotalBytesReceived() const;
+    double GetUptime() const; // 秒
+    double GetMessagesPerSecond() const;
+    double GetBytesPerSecond() const;
+
+    // 健康检查
+    bool IsSystemHealthy() const;
+    std::string GetHealthReport() const;
+    std::vector<std::string> GetActiveAlerts() const;
+
+    // 配置
+    void SetLogLevel(MonitorLevel level);
+    void SetMaxLogEntries(size_t max_entries);
+    void EnablePerformanceMonitoring(bool enable);
+
+private:
+    struct LogEntry {
+        std::chrono::system_clock::time_point timestamp;
+        MonitorLevel level;
+        std::string component;
+        std::string event;
+        std::string details;
+    };
+
+    MonitorLevel log_level_;
+    size_t max_log_entries_;
+    bool performance_monitoring_enabled_;
+    std::vector<LogEntry> log_entries_;
+    std::chrono::steady_clock::time_point start_time_;
+
+    // 统计数据
+    mutable std::mutex stats_mutex_;
+    int active_connections_;
+    size_t total_messages_sent_;
+    size_t total_messages_received_;
+    size_t total_bytes_sent_;
+    size_t total_bytes_received_;
+    int authentication_successes_;
+    int authentication_failures_;
+    std::unordered_map<NetworkExceptionType, int> exception_counts_;
+    std::chrono::steady_clock::time_point last_message_time_;
+
+    // 健康检查阈值
+    int max_consecutive_failures_ = 10;
+    double max_exception_rate_ = 0.1; // 10% per minute
+    size_t min_throughput_ = 1000; // 1KB/s minimum
+
+    // 辅助方法
+    void CleanupOldLogs();
+    bool IsWithinHealthThresholds() const;
+    std::string FormatLogEntry(const LogEntry& entry) const;
+    void CheckHealthAlerts(std::vector<std::string>& alerts) const;
+};
+
+// 网络稳定性保证器 - 系统稳定性保证
+class NetworkStabilityGuard {
+public:
+    NetworkStabilityGuard();
+    ~NetworkStabilityGuard() = default;
+
+    // 稳定性策略
+    enum StabilityAction {
+        NO_ACTION = 0,              // 无操作
+        REDUCE_LOAD = 1,           // 减少负载
+        THROTTLE_CONNECTIONS = 2,  // 限制连接
+        ENABLE_CIRCUIT_BREAKER = 3, // 启用断路器
+        GRACEFUL_SHUTDOWN = 4      // 优雅关闭
+    };
+
+    // 稳定性评估
+    StabilityAction AssessStability(const NetworkMonitor& monitor,
+                                  const NetworkExceptionHandler& exception_handler);
+
+    // 负载管理
+    void SetMaxConnections(int max_connections);
+    void SetMaxThroughput(size_t bytes_per_second);
+    void SetMaxExceptionRate(double exceptions_per_minute);
+
+    // 稳定性控制
+    bool ShouldAcceptNewConnection() const;
+    bool ShouldThrottleRequests() const;
+    std::chrono::milliseconds GetRecommendedDelay() const;
+
+    // 自适应调整
+    void AdjustParameters(const NetworkMonitor& monitor);
+    void ResetToDefaults();
+
+    // 统计信息
+    int GetCurrentLoadLevel() const; // 0-100
+    std::string GetStabilityReport() const;
+
+private:
+    // 配置参数
+    int max_connections_;
+    size_t max_throughput_;
+    double max_exception_rate_;
+
+    // 当前状态
+    mutable std::mutex stability_mutex_;
+    int current_connections_;
+    size_t current_throughput_;
+    double current_exception_rate_;
+    StabilityAction last_action_;
+    std::chrono::steady_clock::time_point last_assessment_time_;
+
+    // 自适应参数
+    double load_reduction_factor_ = 0.8;
+    int connection_throttle_threshold_ = 80; // 80% of max
+    double exception_rate_threshold_ = 0.05; // 5% per minute
+
+    // 辅助方法
+    int CalculateLoadLevel(const NetworkMonitor& monitor) const;
+    double CalculateExceptionRate(const NetworkExceptionHandler& exception_handler) const;
+    StabilityAction DetermineAction(int load_level, double exception_rate, size_t throughput) const;
 };
 
 // 服务器网络管理器

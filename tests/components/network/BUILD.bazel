@@ -50,6 +50,15 @@ cc_test(
     ],
 )
 
+cc_test(
+    name = "data_transmission_validator_test",
+    srcs = ["data_transmission_validator_test.cpp"],
+    deps = [
+        "//src/network:sqlcc_network",
+        "@com_google_googletest//:gtest_main",
+    ],
+)
+
 test_suite(
     name = "network_component_tests",
     tests = [
@@ -58,5 +67,6 @@ test_suite(
         ":connection_handler_test",
         ":server_network_manager_test",
         ":connection_state_machine_test",
+        ":data_transmission_validator_test",
     ],
 )

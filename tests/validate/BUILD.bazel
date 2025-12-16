@@ -1,0 +1,88 @@
+cc_test(
+    name = "constraint_system_test",
+    srcs = ["constraint_system_test.cpp"],
+    deps = [
+        "@com_google_googletest//:gtest_main",
+        "//include/sql_parser:sqlcc_parser_headers",
+    ],
+    copts = ["-std=c++17"],
+)
+
+cc_test(
+    name = "constraint_validation_test",
+    srcs = ["constraint_validation_test.cpp"],
+    deps = [
+        "@com_google_googletest//:gtest_main",
+        "//include:constraint_executor",
+        "//include:execution_engine",
+        "//include:database_manager",
+        "//include/sql_parser:sqlcc_parser_headers",
+        "//src/core:sqlcc_core_lib",  # 添加核心实现库
+        "//src/core:sqlcc_parser",  # 添加SQL解析器实现库
+        "//src/execution:execution",  # 添加执行引擎实现库
+    ],
+    copts = ["-std=c++17"],
+)
+
+cc_test(
+    name = "permission_check_test",
+    srcs = ["permission_check_test.cpp"],
+    deps = [
+        "@com_google_googletest//:gtest_main",
+    ],
+    copts = ["-std=c++17"],
+)
+
+cc_test(
+    name = "permission_validation_test",
+    srcs = ["permission_validation_test.cpp"],
+    deps = [
+        "@com_google_googletest//:gtest_main",
+    ],
+    copts = ["-std=c++17"],
+)
+
+cc_test(
+    name = "permission_validator_test",
+    srcs = ["permission_validator_test.cpp"],
+    deps = [
+        "@com_google_googletest//:gtest_main",
+    ],
+    copts = ["-std=c++17"],
+)
+
+cc_test(
+    name = "revoke_persistence_test",
+    srcs = ["revoke_persistence_test.cpp"],
+    deps = [
+        "@com_google_googletest//:gtest_main",
+    ],
+    copts = ["-std=c++17"],
+)
+
+cc_test(
+    name = "test_grant_revoke",
+    srcs = ["test_grant_revoke.cpp"],
+    deps = [
+        "@com_google_googletest//:gtest_main",
+    ],
+    copts = ["-std=c++17"],
+)
+
+cc_test(
+    name = "test_revoke_persistence",
+    srcs = ["test_revoke_persistence.cpp"],
+    deps = [
+        "@com_google_googletest//:gtest_main",
+    ],
+    copts = ["-std=c++17"],
+)
+
+cc_test(
+    name = "user_manager_test",
+    srcs = ["user_manager_test.cpp"],
+    deps = [
+        "@com_google_googletest//:gtest_main",
+    ],
+    copts = ["-std=c++17"],
+)

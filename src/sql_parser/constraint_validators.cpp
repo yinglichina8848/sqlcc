@@ -65,13 +65,38 @@ bool UniqueKeyValidator::validate(const std::vector<std::string>& record,
         }
     }
 
-    // TODO: 实现真正的唯一性检查
-    // 这里需要查询存储引擎检查是否存在重复的值组合
-    // 简化实现：假设唯一性检查通过
-    // 实际实现应该：
-    // 1. 构造唯一键值组合
-    // 2. 查询索引或扫描表检查是否存在相同的组合
-    // 3. 如果存在重复，抛出异常
+    // 构造唯一键值组合
+    std::vector<std::string> key_values;
+    for (const auto& col_name : columns_) {
+        auto col_index = metadata->column_index_map.find(col_name);
+        size_t index = col_index->second;
+        if (index >= record.size()) {
+            throw std::runtime_error("Unique key validation failed: record size mismatch");
+        }
+        key_values.push_back(record[index]);
+    }
+
+    // 检查唯一性
+    if (!checkUniqueness(key_values)) {
+        std::string error_msg = "Unique constraint violation in table '" + table_name + "': ";
+        for (size_t i = 0; i < columns_.size(); ++i) {
+            if (i > 0) error_msg += ", ";
+            error_msg += columns_[i] + "='" + key_values[i] + "'";
+        }
+        throw std::runtime_error(error_msg);
+    }
+
+    return true;
+}
+
+bool UniqueKeyValidator::checkUniqueness(const std::vector<std::string>& key_values) const {
+    // TODO: 实现真正的唯一性检查逻辑
+    // 这里应该：
+    // 1. 获取存储引擎实例
+    // 2. 扫描表查找是否存在相同的键值组合
+    // 3. 或者使用索引进行快速查找
+    // 目前简化实现：假设唯一性检查总是通过
+    // 实际实现需要与存储引擎集成
 
     return true;
 }

@@ -8,7 +8,7 @@
 #include <unordered_map>
 #include <vector>
 
-#include "disk_manager.h"
+#include "../disk_manager.h"
 #include "page.h"
 #include "storage/concurrency_control.h"
 #include "storage/replace_strategy.h"

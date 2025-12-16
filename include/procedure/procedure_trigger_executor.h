@@ -102,6 +102,8 @@ public:
      */
     void setTriggerExecutor(std::unique_ptr<trigger::TriggerExecutor> executor);
 
+
+
 private:
     ProcedureTriggerExecutor();
     ~ProcedureTriggerExecutor();
@@ -119,10 +121,12 @@ private:
      * @param new_rows 新行数据
      * @return 是否成功
      */
+public:
     bool fireDMLEvent(trigger::TriggerTiming timing, trigger::TriggerEvent event,
                      const std::string& table_name,
                      const std::vector<trigger::RowData>& old_rows,
                      const std::vector<trigger::RowData>& new_rows);
+private:
 
     /**
      * 将SQL行数据转换为触发器行数据

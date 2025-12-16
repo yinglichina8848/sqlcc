@@ -1,22 +1,130 @@
-"""Bazel构建配置 for SQLCC集成测试"""
+"""高级SQL测试构建配置"""
 
-# 集成测试套件
+load("@rules_cc//cc:defs.bzl", "cc_test")
+
+# 分组查询测试
 cc_test(
-    name = "comprehensive_sales_test",
-    srcs = ["comprehensive_sales_test.cpp"],
+    name = "grouping_having_clause_test",
+    srcs = ["grouping/having_clause_test.cpp"],
     deps = [
+        "//src/core:sqlcc_core_lib",
+        "//src/core:sqlcc_database_core",
+        "//src/execution:execution",
+        "//src/sql_parser:sqlcc_parser",
         "//src/sql_executor:sqlcc_executor",
+        "//src/storage_engine:sqlcc_storage_engine",
+        "//src:unified_executor",
         "@com_google_googletest//:gtest_main",
-    ],
-    includes = [
-        "../include",
     ],
 )
 
+# GROUP BY测试
+cc_test(
+    name = "grouping_group_by_test",
+    srcs = ["grouping/group_by_test.cpp"],
+    deps = [
+        "//src/core:sqlcc_core_lib",
+        "//src/core:sqlcc_database_core",
+        "//src/execution:execution",
+        "//src/sql_parser:sqlcc_parser",
+        "//src/sql_executor:sqlcc_executor",
+        "//src/storage_engine:sqlcc_storage_engine",
+        "//src:unified_executor",
+        "@com_google_googletest//:gtest_main",
+    ],
+)
+
+# SELECT DISTINCT测试
+cc_test(
+    name = "distinct_select_distinct_test",
+    srcs = ["distinct/select_distinct_test.cpp"],
+    deps = [
+        "//src/core:sqlcc_core_lib",
+        "//src/core:sqlcc_database_core",
+        "//src/execution:execution",
+        "//src/sql_parser:sqlcc_parser",
+        "//src/sql_executor:sqlcc_executor",
+        "//src/storage_engine:sqlcc_storage_engine",
+        "//src:unified_executor",
+        "@com_google_googletest//:gtest_main",
+    ],
+)
+
+# 连接查询测试
+cc_test(
+    name = "join_inner_join_test",
+    srcs = ["join/inner_join_test.cpp"],
+    deps = [
+        "//src/core:sqlcc_core_lib",
+        "//src/core:sqlcc_database_core",
+        "//src/execution:execution",
+        "//src/sql_parser:sqlcc_parser",
+        "//src/sql_executor:sqlcc_executor",
+        "//src/storage_engine:sqlcc_storage_engine",
+        "//src:unified_executor",
+        "@com_google_googletest//:gtest_main",
+    ],
+)
+
+# 存储过程和触发器集成测试
+cc_test(
+    name = "procedure_trigger_integration_test",
+    srcs = ["procedure_trigger_integration_test.cpp"],
+    deps = [
+        "//src/core:sqlcc_core_lib",
+        "//src/core:sqlcc_database_core",
+        "//src/execution:execution",
+        "//src/procedure:procedure",
+        "//src/sql_parser:sqlcc_parser",
+        "//src/sql_executor:sqlcc_executor",
+        "//src/storage_engine:sqlcc_storage_engine",
+        "//src:unified_executor",
+        "@com_google_googletest//:gtest_main",
+    ],
+)
+
+# 子查询测试
+cc_test(
+    name = "subquery_scalar_subquery_test",
+    srcs = ["subquery/scalar_subquery_test.cpp"],
+    deps = [
+        "//src/core:sqlcc_core_lib",
+        "//src/core:sqlcc_database_core",
+        "//src/execution:execution",
+        "//src/sql_parser:sqlcc_parser",
+        "//src/sql_executor:sqlcc_executor",
+        "//src/storage_engine:sqlcc_storage_engine",
+        "//src:unified_executor",
+        "@com_google_googletest//:gtest_main",
+    ],
+)
+
+# 窗口函数测试
+cc_test(
+    name = "window_row_number_test",
+    srcs = ["window/row_number_test.cpp"],
+    deps = [
+        "//src/core:sqlcc_core_lib",
+        "//src/core:sqlcc_database_core",
+        "//src/execution:execution",
+        "//src/sql_parser:sqlcc_parser",
+        "//src/sql_executor:sqlcc_executor",
+        "//src/storage_engine:sqlcc_storage_engine",
+        "//src:unified_executor",
+        "@com_google_googletest//:gtest_main",
+    ],
+)
+
+# 高级SQL测试套件
 test_suite(
-    name = "integration_tests",
+    name = "advanced_sql_test",
     tests = [
-        ":comprehensive_sales_test",
-        # 这里可以添加具体的集成测试
+        ":grouping_having_clause_test",
+        ":grouping_group_by_test",
+        ":distinct_select_distinct_test",
+        ":join_inner_join_test",
+        ":subquery_scalar_subquery_test",
+        ":window_row_number_test",
+        ":procedure_trigger_integration_test",
     ],
 )

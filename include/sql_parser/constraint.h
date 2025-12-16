@@ -14,21 +14,36 @@ namespace sql_parser {
  */
 class ForeignKeyConstraint {
 public:
+  // 级联操作类型
+  enum CascadeAction {
+    RESTRICT,
+    CASCADE,
+    SET_NULL,
+    SET_DEFAULT,
+    NO_ACTION
+  };
+
   ForeignKeyConstraint(const std::vector<std::string> &columns,
                        const std::string &referenced_table,
-                       const std::string &referenced_column,
-                       const std::string &name = "");
+                       const std::vector<std::string> &referenced_columns,
+                       const std::string &name = "",
+                       CascadeAction on_delete = RESTRICT,
+                       CascadeAction on_update = RESTRICT);
 
   const std::vector<std::string> &getColumns() const;
   const std::string &getReferencedTable() const;
-  const std::string &getReferencedColumn() const;
+  const std::vector<std::string> &getReferencedColumns() const;
   const std::string &getName() const;
+  CascadeAction getOnDeleteAction() const;
+  CascadeAction getOnUpdateAction() const;
 
 private:
   std::vector<std::string> columns_;
   std::string referenced_table_;
-  std::string referenced_column_;
+  std::vector<std::string> referenced_columns_;
   std::string name_;
+  CascadeAction on_delete_;
+  CascadeAction on_update_;
 };
 
 /**

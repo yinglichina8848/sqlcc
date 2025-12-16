@@ -10,10 +10,13 @@ namespace sql_parser {
 ForeignKeyConstraint::ForeignKeyConstraint(
     const std::vector<std::string> &columns,
     const std::string &referenced_table,
-    const std::string &referenced_column,
-    const std::string &name)
+    const std::vector<std::string> &referenced_columns,
+    const std::string &name,
+    CascadeAction on_delete,
+    CascadeAction on_update)
     : columns_(columns), referenced_table_(referenced_table),
-      referenced_column_(referenced_column), name_(name) {}
+      referenced_columns_(referenced_columns), name_(name),
+      on_delete_(on_delete), on_update_(on_update) {}
 
 const std::vector<std::string> &ForeignKeyConstraint::getColumns() const {
   return columns_;
@@ -23,11 +26,19 @@ const std::string &ForeignKeyConstraint::getReferencedTable() const {
   return referenced_table_;
 }
 
-const std::string &ForeignKeyConstraint::getReferencedColumn() const {
-  return referenced_column_;
+const std::vector<std::string> &ForeignKeyConstraint::getReferencedColumns() const {
+  return referenced_columns_;
 }
 
 const std::string &ForeignKeyConstraint::getName() const { return name_; }
+
+ForeignKeyConstraint::CascadeAction ForeignKeyConstraint::getOnDeleteAction() const {
+  return on_delete_;
+}
+
+ForeignKeyConstraint::CascadeAction ForeignKeyConstraint::getOnUpdateAction() const {
+  return on_update_;
+}
 
 // CheckConstraint implementation
 CheckConstraint::CheckConstraint(std::unique_ptr<Expression> condition,

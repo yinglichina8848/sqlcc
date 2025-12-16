@@ -313,10 +313,16 @@ std::unique_ptr<CreateStatement> Parser::parseCreateStatement() {
     // 为简化处理，我们将CreateIndexStatement转换为CreateStatement
     // 实际应用中应该有专门的处理逻辑
     return nullptr;
+  } else if (match(Token::KEYWORD_PROCEDURE)) {
+    std::cout << "[PARSER DEBUG] 解析CREATE PROCEDURE语句" << std::endl;
+    return parseCreateProcedureStatement();
+  } else if (match(Token::KEYWORD_TRIGGER)) {
+    std::cout << "[PARSER DEBUG] 解析CREATE TRIGGER语句" << std::endl;
+    return parseCreateTriggerStatement();
   } else {
     // 如果不是已知的对象类型，抛出错误
     std::stringstream ss;
-    ss << "Expected TABLE, DATABASE, or INDEX after CREATE, but got " 
+    ss << "Expected TABLE, DATABASE, INDEX, PROCEDURE, or TRIGGER after CREATE, but got "
        << currentToken_.getLexeme();
     reportError(ss.str());
     return nullptr;
@@ -1557,6 +1563,231 @@ std::unique_ptr<JoinClause> Parser::parseJoinClause() {
   auto joinClause = std::make_unique<JoinClause>(joinType, tableName, std::move(condition));
   std::cout << "[PARSER DEBUG] JOIN子句解析完成" << std::endl;
   return joinClause;
+}
+
+// ==================== Procedure and Trigger Parsing ====================
+
+std::unique_ptr<CreateStatement> Parser::parseCreateProcedureStatement() {
+  std::cout << "[PARSER DEBUG] 进入parseCreateProcedureStatement()方法" << std::endl;
+
+  // 解析过程名
+  std::string procedureName = parseIdentifier();
+  std::cout << "[PARSER DEBUG] 过程名: " << procedureName << std::endl;
+
+  // 解析参数列表（可选）
+  std::vector<ProcedureParameter> parameters;
+  if (match(Token::LPAREN)) {
+    std::cout << "[PARSER DEBUG] 解析过程参数列表" << std::endl;
+    bool first = true;
+    while (!check(Token::RPAREN) && !isAtEnd()) {
+      if (!first) {
+        if (!match(Token::COMMA)) {
+          break;
+        }
+      }
+      first = false;
+
+      // 解析参数模式 (IN, OUT, INOUT)
+      ProcedureParameter::Mode mode = ProcedureParameter::IN;
+      if (match(Token::KEYWORD_IN)) {
+        mode = ProcedureParameter::IN;
+      } else if (match(Token::KEYWORD_OUT)) {
+        mode = ProcedureParameter::OUT;
+      } else if (match(Token::KEYWORD_INOUT)) {
+        mode = ProcedureParameter::INOUT;
+      }
+
+      // 解析参数名
+      std::string paramName = parseIdentifier();
+      if (paramName.empty()) {
+        reportError("Expected parameter name");
+        return nullptr;
+      }
+
+      // 解析参数类型
+      std::string paramType = parseIdentifier();
+      if (paramType.empty()) {
+        reportError("Expected parameter type");
+        return nullptr;
+      }
+
+      parameters.emplace_back(paramName, paramType, mode);
+      std::cout << "[PARSER DEBUG] 添加参数: " << ProcedureParameter(paramName, paramType, mode).getModeString()
+                << " " << paramName << " " << paramType << std::endl;
+    }
+    consume(Token::RPAREN);
+  }
+
+  // 消费AS关键字
+  consume(Token::KEYWORD_AS);
+
+  // 解析过程体
+  std::stringstream bodyStream;
+  consume(Token::KEYWORD_BEGIN);
+
+  int braceLevel = 1;
+  while (!isAtEnd() && braceLevel > 0) {
+    if (match(Token::KEYWORD_BEGIN)) {
+      braceLevel++;
+      bodyStream << "BEGIN ";
+    } else if (match(Token::KEYWORD_END)) {
+      braceLevel--;
+      if (braceLevel > 0) {
+        bodyStream << "END ";
+      }
+    } else {
+      bodyStream << currentToken_.getLexeme() << " ";
+      advance();
+    }
+  }
+
+  std::string body = bodyStream.str();
+  // 移除末尾空格
+  while (!body.empty() && body.back() == ' ') {
+    body.pop_back();
+  }
+
+  std::cout << "[PARSER DEBUG] 过程体: " << body << std::endl;
+
+  // 创建CreateProcedureStatement对象
+  auto stmt = std::make_unique<CreateProcedureStatement>(procedureName);
+  for (const auto& param : parameters) {
+    stmt->addParameter(param);
+  }
+  stmt->setBody(body);
+
+  std::cout << "[PARSER DEBUG] CREATE PROCEDURE语句解析完成" << std::endl;
+  return stmt;
+}
+
+std::unique_ptr<CreateStatement> Parser::parseCreateTriggerStatement() {
+  std::cout << "[PARSER DEBUG] 进入parseCreateTriggerStatement()方法" << std::endl;
+
+  // 解析触发器名
+  std::string triggerName = parseIdentifier();
+  std::cout << "[PARSER DEBUG] 触发器名: " << triggerName << std::endl;
+
+  // 解析触发时机 (BEFORE/AFTER)
+  TriggerDefinition::Timing timing;
+  if (match(Token::KEYWORD_BEFORE)) {
+    timing = TriggerDefinition::BEFORE;
+    std::cout << "[PARSER DEBUG] 触发时机: BEFORE" << std::endl;
+  } else if (match(Token::KEYWORD_AFTER)) {
+    timing = TriggerDefinition::AFTER;
+    std::cout << "[PARSER DEBUG] 触发时机: AFTER" << std::endl;
+  } else {
+    reportError("Expected BEFORE or AFTER for trigger timing");
+    return nullptr;
+  }
+
+  // 解析触发事件 (INSERT/UPDATE/DELETE)
+  TriggerDefinition::Event event;
+  if (match(Token::KEYWORD_INSERT)) {
+    event = TriggerDefinition::INSERT;
+    std::cout << "[PARSER DEBUG] 触发事件: INSERT" << std::endl;
+  } else if (match(Token::KEYWORD_UPDATE)) {
+    event = TriggerDefinition::UPDATE;
+    std::cout << "[PARSER DEBUG] 触发事件: UPDATE" << std::endl;
+  } else if (match(Token::KEYWORD_DELETE)) {
+    event = TriggerDefinition::DELETE;
+    std::cout << "[PARSER DEBUG] 触发事件: DELETE" << std::endl;
+  } else {
+    reportError("Expected INSERT, UPDATE, or DELETE for trigger event");
+    return nullptr;
+  }
+
+  // 消费ON关键字
+  consume(Token::KEYWORD_ON);
+
+  // 解析表名
+  std::string tableName = parseIdentifier();
+  std::cout << "[PARSER DEBUG] 目标表名: " << tableName << std::endl;
+
+  // 解析触发级别 (ROW/STATEMENT) - 可选，默认为ROW
+  TriggerDefinition::Level level = TriggerDefinition::ROW;
+  if (match(Token::KEYWORD_FOR)) {
+    if (match(Token::KEYWORD_EACH)) {
+      consume(Token::KEYWORD_ROW);
+      level = TriggerDefinition::ROW;
+      std::cout << "[PARSER DEBUG] 触发级别: ROW" << std::endl;
+    } else {
+      // 默认为STATEMENT级别（简化处理）
+      level = TriggerDefinition::STATEMENT;
+      std::cout << "[PARSER DEBUG] 触发级别: STATEMENT" << std::endl;
+    }
+  }
+
+  // 解析触发条件 (WHEN子句) - 可选
+  std::string condition;
+  if (match(Token::KEYWORD_WHEN)) {
+    consume(Token::LPAREN);
+    std::stringstream conditionStream;
+    int parenLevel = 1;
+    while (!isAtEnd() && parenLevel > 0) {
+      if (match(Token::LPAREN)) {
+        parenLevel++;
+        conditionStream << "(";
+      } else if (match(Token::RPAREN)) {
+        parenLevel--;
+        if (parenLevel > 0) {
+          conditionStream << ")";
+        }
+      } else {
+        conditionStream << currentToken_.getLexeme() << " ";
+        advance();
+      }
+    }
+    condition = conditionStream.str();
+    // 移除末尾空格
+    while (!condition.empty() && condition.back() == ' ') {
+      condition.pop_back();
+    }
+    std::cout << "[PARSER DEBUG] 触发条件: " << condition << std::endl;
+  }
+
+  // 消费AS关键字（可选）
+  if (match(Token::KEYWORD_AS)) {
+    std::cout << "[PARSER DEBUG] 消费AS关键字" << std::endl;
+  }
+
+  // 解析触发器体
+  std::stringstream bodyStream;
+  consume(Token::KEYWORD_BEGIN);
+
+  int braceLevel = 1;
+  while (!isAtEnd() && braceLevel > 0) {
+    if (match(Token::KEYWORD_BEGIN)) {
+      braceLevel++;
+      bodyStream << "BEGIN ";
+    } else if (match(Token::KEYWORD_END)) {
+      braceLevel--;
+      if (braceLevel > 0) {
+        bodyStream << "END ";
+      }
+    } else {
+      bodyStream << currentToken_.getLexeme() << " ";
+      advance();
+    }
+  }
+
+  std::string body = bodyStream.str();
+  // 移除末尾空格
+  while (!body.empty() && body.back() == ' ') {
+    body.pop_back();
+  }
+
+  std::cout << "[PARSER DEBUG] 触发器体: " << body << std::endl;
+
+  // 创建TriggerDefinition对象
+  TriggerDefinition triggerDef(triggerName, timing, event, level, tableName);
+  triggerDef.setCondition(condition);
+  triggerDef.setBody(body);
+
+  // 创建CreateTriggerStatement对象
+  auto stmt = std::make_unique<CreateTriggerStatement>(triggerDef);
+
+  std::cout << "[PARSER DEBUG] CREATE TRIGGER语句解析完成" << std::endl;
+  return stmt;
 }
 
 } // namespace sql_parser
