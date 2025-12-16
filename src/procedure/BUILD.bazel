@@ -1,0 +1,76 @@
+# SQLCC存储过程模块构建配置
+
+package(default_visibility = ["//visibility:public"])
+
+load("@rules_cc//cc:defs.bzl", "cc_library", "cc_test")
+
+# 存储过程解析器库
+cc_library(
+    name = "procedure_parser",
+    srcs = ["procedure_parser.cpp"],
+    hdrs = ["//include/procedure:procedure_parser.h"],
+    includes = ["../../include"],
+    deps = [
+        "//src/sql_parser:sqlcc_parser",
+        "//include/sql_parser:sqlcc_parser_headers",
+    ],
+)
+
+# 存储过程虚拟机库
+cc_library(
+    name = "procedure_vm",
+    srcs = ["procedure_vm.cpp"],
+    hdrs = ["//include/procedure:procedure_vm.h"],
+    includes = ["../../include"],
+    deps = [
+        ":procedure_parser",
+        "//src/core:sqlcc_core_lib",
+        "//src/sql_executor:sqlcc_executor",
+    ],
+)
+
+# 存储过程触发器执行器库
+cc_library(
+    name = "procedure_trigger_executor",
+    srcs = ["procedure_trigger_executor.cpp"],
+    hdrs = ["//include/procedure:procedure_trigger_executor.h"],
+    includes = ["../../include"],
+    deps = [
+        ":procedure_parser",
+        ":procedure_vm",
+        "//src/trigger:trigger_manager",
+        "//src/core:sqlcc_core_lib",
+        "//src/sql_executor:sqlcc_executor",
+        "//include/sql_parser:sqlcc_parser_headers",
+    ],
+)
+
+# 存储过程模块聚合库
+cc_library(
+    name = "procedure",
+    deps = [
+        ":procedure_parser",
+        ":procedure_vm",
+        ":procedure_trigger_executor",
+    ],
+)
+
+# 存储过程解析器单元测试
+cc_test(
+    name = "procedure_parser_test",
+    srcs = ["procedure_parser_test.cpp"],
+    deps = [
+        ":procedure_parser",
+        "@com_google_googletest//:gtest_main",
+    ],
+)
+
+# 存储过程虚拟机单元测试
+cc_test(
+    name = "procedure_vm_test",
+    srcs = ["procedure_vm_test.cpp"],
+    deps = [
+        ":procedure_vm",
+        "@com_google_googletest//:gtest_main",
+    ],
+)
