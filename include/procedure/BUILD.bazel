@@ -1,0 +1,16 @@
+# SQLCC存储过程模块头文件构建配置
+
+package(default_visibility = ["//visibility:public"])
+
+load("@rules_cc//cc:defs.bzl", "cc_library")
+
+# 存储过程模块头文件库
+cc_library(
+    name = "procedure_headers",
+    hdrs = [
+        "procedure_parser.h",
+        "procedure_vm.h",
+        "procedure_trigger_executor.h",
+    ],
+    includes = ["."],
+)

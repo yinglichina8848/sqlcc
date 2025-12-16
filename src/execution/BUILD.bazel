@@ -6,12 +6,14 @@ cc_library(
     name = "execution",
     srcs = [
         "join_executor.cpp",
+        "procedure_trigger_task.cpp",  # 添加存储过程触发器任务实现文件
         "set_operation_executor.cpp",
         "subquery_executor.cpp",
         "task_executor.cpp",  # 添加任务执行器实现文件
     ],
     hdrs = [
         "//include/execution:join_executor_hdr",
+        "//include/execution:procedure_trigger_task_hdr",  # 添加存储过程触发器任务头文件
         "//include/execution:set_operation_executor_hdr",
         "//include/execution:subquery_executor_hdr",
         "//include/execution:task_executor_hdr",  # 添加任务执行器头文件
