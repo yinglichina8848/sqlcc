@@ -16,13 +16,37 @@
 namespace sqlcc {
 namespace execution {
 
+// 线程池配置结构体
+struct ThreadPoolConfig {
+    int network_threads = 32;      // 网络处理线程
+    int query_threads = 64;        // 查询执行线程
+    int storage_threads = 16;      // 存储操作线程
+    int wal_threads = 8;           // WAL写入线程
+    int maintenance_threads = 4;   // 维护线程
+};
+
+// 任务统计信息
+struct TaskStats {
+    uint64_t total_tasks_submitted{0};
+    uint64_t total_tasks_completed{0};
+    uint64_t total_tasks_failed{0};
+    uint64_t average_execution_time_ms{0};
+    uint64_t max_execution_time_ms{0};
+    uint64_t active_threads{0};
+    uint64_t queued_tasks{0};
+};
+
 // 任务类型枚举
 enum class TaskType {
-    NETWORK,
-    SQL_PARSE,
-    SQL_EXECUTE,
-    WAL_LOG,
-    TRANSACTION,
+    NETWORK_IO,      // 网络I/O处理
+    SQL_PARSE,       // SQL解析
+    SQL_EXECUTE,     // SQL执行
+    PROCEDURE_CALL,  // 存储过程调用
+    TRIGGER_EXECUTE, // 触发器执行
+    STORAGE_IO,      // 存储I/O操作
+    WAL_WRITE,       // WAL日志写入
+    MAINTENANCE,     // 系统维护
+    TRANSACTION,     // 事务处理
     UNKNOWN
 };
 
@@ -170,20 +194,49 @@ class ThreadPool {
 public:
     explicit ThreadPool(size_t num_threads = std::thread::hardware_concurrency());
     ~ThreadPool();
-    
+
     void execute(std::function<void()> task);
     void resize(size_t num_threads);
     size_t getActiveThreadCount() const { return active_threads_.load(); }
-    
+
 private:
     void workerThread();
-    
+
     std::vector<std::thread> threads_;
     std::queue<std::function<void()>> tasks_;
     std::mutex queue_mutex_;
     std::condition_variable condition_;
     std::atomic<bool> stop_;
     std::atomic<size_t> active_threads_;
+};
+
+// 任务调度器类
+class TaskScheduler {
+public:
+    TaskScheduler(const ThreadPoolConfig& config = ThreadPoolConfig());
+    ~TaskScheduler();
+
+    void start();
+    void stop();
+    bool submitTask(std::unique_ptr<Task> task);
+
+    TaskStats getStats() const;
+    size_t getPendingTaskCount(TaskType type) const;
+    size_t getActiveThreadCount(TaskType type) const;
+
+private:
+    void dispatchTask(std::unique_ptr<Task> task);
+    void workerThread(TaskType type);
+
+    ThreadPoolConfig config_;
+    std::map<TaskType, std::unique_ptr<TaskQueue>> task_queues_;
+    std::map<TaskType, std::unique_ptr<ThreadPool>> thread_pools_;
+    std::atomic<bool> running_;
+    TaskStats stats_;
+    mutable std::mutex stats_mutex_;
+
+    // 线程池映射
+    std::map<TaskType, TaskType> task_to_pool_mapping_;
 };
 
 // 任务执行器类
