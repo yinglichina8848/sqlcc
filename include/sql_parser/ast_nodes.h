@@ -314,7 +314,7 @@ private:
 
 class CreateStatement : public Statement {
 public:
-  enum ObjectType { DATABASE, TABLE, INDEX, PROCEDURE, TRIGGER };
+  enum ObjectType { DATABASE, TABLE, INDEX, VIEW, PROCEDURE, TRIGGER };
 
   CreateStatement(ObjectType objectType, const std::string &objectName);
   CreateStatement(ObjectType objectType); // 兼容旧用法：后续通过setter设置名称
@@ -346,6 +346,78 @@ private:
   std::string objectName_;
   std::vector<ColumnDefinition> columns_;
   std::vector<TableConstraint> constraints_;
+};
+
+// ==================== CreateViewStatement ====================
+
+class CreateViewStatement : public Statement {
+public:
+  CreateViewStatement(const std::string &viewName);
+  ~CreateViewStatement();
+
+  const std::string &getViewName() const;
+  const std::vector<std::string> &getColumnNames() const;
+  const SelectStatement &getSelectStatement() const;
+
+  void addColumnName(const std::string &columnName);
+  void setSelectStatement(std::unique_ptr<SelectStatement> selectStmt);
+
+  bool hasColumnNames() const;
+
+  void accept(NodeVisitor &visitor) override;
+
+private:
+  std::string viewName_;
+  std::vector<std::string> columnNames_;
+  std::unique_ptr<SelectStatement> selectStatement_;
+};
+
+// ==================== AlterViewStatement ====================
+
+class AlterViewStatement : public Statement {
+public:
+  AlterViewStatement(const std::string &viewName);
+  ~AlterViewStatement();
+
+  const std::string &getViewName() const;
+  const std::vector<std::string> &getColumnNames() const;
+  const SelectStatement &getSelectStatement() const;
+
+  void addColumnName(const std::string &columnName);
+  void setSelectStatement(std::unique_ptr<SelectStatement> selectStmt);
+
+  bool hasColumnNames() const;
+
+  void accept(NodeVisitor &visitor) override;
+
+private:
+  std::string viewName_;
+  std::vector<std::string> columnNames_;
+  std::unique_ptr<SelectStatement> selectStatement_;
+};
+
+// ==================== DropViewStatement ====================
+
+class DropViewStatement : public Statement {
+public:
+  enum DropBehavior { RESTRICT, CASCADE };
+
+  DropViewStatement(const std::string &viewName);
+  ~DropViewStatement();
+
+  const std::string &getViewName() const;
+  DropBehavior getDropBehavior() const;
+  void setDropBehavior(DropBehavior behavior);
+
+  bool isIfExists() const;
+  void setIfExists(bool ifExists);
+
+  void accept(NodeVisitor &visitor) override;
+
+private:
+  std::string viewName_;
+  DropBehavior dropBehavior_;
+  bool ifExists_;
 };
 
 // ==================== SelectStatement ====================
