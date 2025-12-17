@@ -78,7 +78,7 @@ public:
     ~CheckConstraintParser() = default;
 
     // 表达式解析
-    bool ParseExpression(const std::string& expression, std::function<bool(const std::vector<std::string>&)>& validator);
+    bool ParseExpression(const std::string& expression, std::function<bool(const std::vector<std::string>&)>& validator) const;
     bool ValidateExpressionSyntax(const std::string& expression) const;
 
     // 表达式执行
@@ -256,8 +256,8 @@ private:
 
     // 统计信息
     mutable std::mutex stats_mutex_;
-    IntegrityStats stats_;
-    std::vector<double> validation_times_; // 验证时间记录
+    mutable IntegrityStats stats_;
+    mutable std::vector<double> validation_times_; // 验证时间记录
 
     // 私有辅助方法
     ConstraintValidationResult ValidateNotNullConstraints(const std::string& table_name,
@@ -274,7 +274,7 @@ private:
                                                       const std::vector<std::string>& column_names,
                                                       const std::vector<std::string>& values) const;
 
-    void UpdateIntegrityStats(ConstraintValidationResult result, std::chrono::microseconds duration);
+    void UpdateIntegrityStats(ConstraintValidationResult result, std::chrono::microseconds duration) const;
     std::string GenerateConstraintKey(const std::string& table_name, const std::string& constraint_name) const;
 };
 

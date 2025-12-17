@@ -155,6 +155,27 @@ bool DeadlockDetector::HasCycleDFS(int32_t current, std::unordered_set<int32_t>&
     return false;
 }
 
+// 辅助函数：更新锁计数器
+inline void UpdateLockCounts(PageLockState& state, LockMode mode, int delta) {
+    switch (mode) {
+        case SHARED:
+            state.shared_count += delta;
+            break;
+        case EXCLUSIVE:
+            state.exclusive_count += delta;
+            break;
+        case INTENTION_SHARED:
+            state.intention_shared_count += delta;
+            break;
+        case INTENTION_EXCLUSIVE:
+            state.intention_exclusive_count += delta;
+            break;
+        case SHARED_INTENTION_EXCLUSIVE:
+            state.shared_intention_exclusive_count += delta;
+            break;
+    }
+}
+
 // 锁升级/降级管理器实现
 LockUpgradeManager::LockUpgradeManager() {
     // 初始化锁升级兼容性矩阵
@@ -332,13 +353,15 @@ LockRequestStatus AdvancedLockManager::AcquireLock(int32_t page_id, LockMode mod
             // 超时，从等待队列中移除
             {
                 std::unique_lock<std::shared_mutex> lock(lock_table_mutex_);
-                auto queue_it = std::find_if(state.waiting_queue.begin(), state.waiting_queue.end(),
-                                           [transaction_id](const LockRequest& req) {
-                                               return req.transaction_id == transaction_id;
-                                           });
-                if (queue_it != state.waiting_queue.end()) {
-                    state.waiting_queue.erase(queue_it);
+                std::queue<LockRequest> new_queue;
+                while (!state.waiting_queue.empty()) {
+                    LockRequest req = state.waiting_queue.front();
+                    state.waiting_queue.pop();
+                    if (req.transaction_id != transaction_id) {
+                        new_queue.push(req);
+                    }
                 }
+                state.waiting_queue = std::move(new_queue);
             }
 
             std::lock_guard<std::mutex> stats_lock(stats_mutex_);
@@ -583,7 +606,12 @@ bool AdvancedLockManager::DetectAndResolveDeadlock(std::vector<int32_t>& victims
     for (const auto& pair : lock_table_) {
         const PageLockState& state = pair.second;
 
-        for (const LockRequest& request : state.waiting_queue) {
+        // 复制队列内容到临时vector进行遍历
+        std::queue<LockRequest> temp_queue = state.waiting_queue;
+        while (!temp_queue.empty()) {
+            const LockRequest& request = temp_queue.front();
+            temp_queue.pop();
+            
             std::vector<int32_t> chain;
             if (deadlock_detector_.DetectDeadlock(lock_table_, request.transaction_id, chain)) {
                 has_deadlock = true;

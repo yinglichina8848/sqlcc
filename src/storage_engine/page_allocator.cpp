@@ -10,6 +10,7 @@
  */
 
 #include "storage/page_allocator.h"
+#include "page.h"
 #include "exception.h"
 #include "utils/logger.h"
 #include <algorithm>
@@ -52,10 +53,12 @@ PageAllocator::~PageAllocator() {
     }
     page_pool_.clear();
 
-    SQLCC_LOG_INFO("PageAllocator destroyed, final stats: " +
-                   "allocations=" + std::to_string(allocation_stats_.total_allocations) +
-                   ", deallocations=" + std::to_string(allocation_stats_.total_deallocations) +
-                   ", failures=" + std::to_string(allocation_stats_.allocation_failures));
+    std::stringstream ss;
+    ss << "PageAllocator destroyed, final stats: "
+       << "allocations=" << allocation_stats_.total_allocations
+       << ", deallocations=" << allocation_stats_.total_deallocations
+       << ", failures=" << allocation_stats_.allocation_failures;
+    SQLCC_LOG_INFO(ss.str());
 }
 
 // 分配新页面
@@ -399,13 +402,13 @@ void PageAllocator::OptimizeMemoryUsage() {
 }
 
 // 访问模式分析器实现
-AccessPatternAnalyzer::AccessPatternAnalyzer()
+PageAllocator::AccessPatternAnalyzer::AccessPatternAnalyzer()
     : access_window_size_(1000),
       sequential_threshold_(0.8),
       predictability_threshold_(0.6) {
 }
 
-void AccessPatternAnalyzer::RecordAllocation(int32_t page_id, PageType type) {
+void PageAllocator::AccessPatternAnalyzer::RecordAllocation(int32_t page_id, PageType type) {
     std::lock_guard<std::mutex> lock(pattern_mutex_);
 
     AllocationRecord record;
@@ -421,7 +424,7 @@ void AccessPatternAnalyzer::RecordAllocation(int32_t page_id, PageType type) {
     }
 }
 
-void AccessPatternAnalyzer::RecordAccess(int32_t page_id) {
+void PageAllocator::AccessPatternAnalyzer::RecordAccess(int32_t page_id) {
     std::lock_guard<std::mutex> lock(pattern_mutex_);
 
     AccessRecord record;
@@ -436,7 +439,7 @@ void AccessPatternAnalyzer::RecordAccess(int32_t page_id) {
     }
 }
 
-void AccessPatternAnalyzer::RecordDeallocation(int32_t page_id) {
+void PageAllocator::AccessPatternAnalyzer::RecordDeallocation(int32_t page_id) {
     std::lock_guard<std::mutex> lock(pattern_mutex_);
 
     // 从历史记录中移除
@@ -448,7 +451,7 @@ void AccessPatternAnalyzer::RecordDeallocation(int32_t page_id) {
         allocation_history_.end());
 }
 
-int32_t AccessPatternAnalyzer::PredictNextPageId(int32_t current_page_id) const {
+int32_t PageAllocator::AccessPatternAnalyzer::PredictNextPageId(int32_t current_page_id) const {
     std::lock_guard<std::mutex> lock(pattern_mutex_);
 
     if (access_history_.size() < 2) {
@@ -477,7 +480,7 @@ int32_t AccessPatternAnalyzer::PredictNextPageId(int32_t current_page_id) const 
     return -1; // 没有后续访问记录
 }
 
-AccessPatternAnalysis AccessPatternAnalyzer::AnalyzePatterns() const {
+AccessPatternAnalysis PageAllocator::AccessPatternAnalyzer::AnalyzePatterns() const {
     std::lock_guard<std::mutex> lock(pattern_mutex_);
 
     AccessPatternAnalysis analysis;
@@ -498,7 +501,7 @@ AccessPatternAnalysis AccessPatternAnalyzer::AnalyzePatterns() const {
         }
     }
 
-    analysis.has_sequential_access =
+    analysis.has_sequential_access = 
         static_cast<double>(sequential_count) / (analysis.total_accesses - 1) > sequential_threshold_;
 
     // 分析可预测访问模式
@@ -519,7 +522,7 @@ AccessPatternAnalysis AccessPatternAnalyzer::AnalyzePatterns() const {
         }
     }
 
-    analysis.has_predictable_access =
+    analysis.has_predictable_access = 
         static_cast<double>(predictable_transitions) / analysis.total_accesses > predictability_threshold_;
 
     // 计算访问频率
@@ -541,7 +544,7 @@ AccessPatternAnalysis AccessPatternAnalyzer::AnalyzePatterns() const {
 }
 
 // 内存监视器实现
-MemoryStats MemoryMonitor::GetMemoryStats() const {
+MemoryStats PageAllocator::MemoryMonitor::GetMemoryStats() const {
     MemoryStats stats;
 
     // 在实际实现中，这里应该获取系统的内存信息

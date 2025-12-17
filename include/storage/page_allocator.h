@@ -124,65 +124,59 @@ private:
     mutable std::mutex allocator_mutex_;
 
     // 访问模式分析器
-    class AccessPatternAnalyzer;
+    class AccessPatternAnalyzer {
+    public:
+        AccessPatternAnalyzer();
+        ~AccessPatternAnalyzer() = default;
+
+        // 记录访问模式
+        void RecordAllocation(int32_t page_id, PageType type);
+        void RecordAccess(int32_t page_id);
+        void RecordDeallocation(int32_t page_id);
+
+        // 预测和分析
+        int32_t PredictNextPageId(int32_t current_page_id) const;
+        AccessPatternAnalysis AnalyzePatterns() const;
+
+    private:
+        struct AllocationRecord {
+            int32_t page_id;
+            PageType page_type;
+            std::chrono::steady_clock::time_point allocation_time;
+        };
+
+        struct AccessRecord {
+            int32_t page_id;
+            std::chrono::steady_clock::time_point access_time;
+        };
+
+        struct PairHash {
+            template <class T1, class T2>
+            size_t operator()(const std::pair<T1, T2>& pair) const {
+                return std::hash<T1>()(pair.first) ^ std::hash<T2>()(pair.second);
+            }
+        };
+
+        size_t access_window_size_;
+        double sequential_threshold_;
+        double predictability_threshold_;
+
+        std::vector<AllocationRecord> allocation_history_;
+        std::vector<AccessRecord> access_history_;
+
+        mutable std::mutex pattern_mutex_;
+    };
     std::unique_ptr<AccessPatternAnalyzer> access_pattern_analyzer_;
 
     // 内存监视器
-    class MemoryMonitor;
+    class MemoryMonitor {
+    public:
+        MemoryMonitor() = default;
+        ~MemoryMonitor() = default;
+
+        MemoryStats GetMemoryStats() const;
+    };
     std::unique_ptr<MemoryMonitor> memory_monitor_;
-};
-
-// 访问模式分析器类
-class AccessPatternAnalyzer {
-public:
-    AccessPatternAnalyzer();
-    ~AccessPatternAnalyzer() = default;
-
-    // 记录访问模式
-    void RecordAllocation(int32_t page_id, PageType type);
-    void RecordAccess(int32_t page_id);
-    void RecordDeallocation(int32_t page_id);
-
-    // 预测和分析
-    int32_t PredictNextPageId(int32_t current_page_id) const;
-    AccessPatternAnalysis AnalyzePatterns() const;
-
-private:
-    struct AllocationRecord {
-        int32_t page_id;
-        PageType page_type;
-        std::chrono::steady_clock::time_point allocation_time;
-    };
-
-    struct AccessRecord {
-        int32_t page_id;
-        std::chrono::steady_clock::time_point access_time;
-    };
-
-    struct PairHash {
-        template <class T1, class T2>
-        size_t operator()(const std::pair<T1, T2>& pair) const {
-            return std::hash<T1>()(pair.first) ^ std::hash<T2>()(pair.second);
-        }
-    };
-
-    size_t access_window_size_;
-    double sequential_threshold_;
-    double predictability_threshold_;
-
-    std::vector<AllocationRecord> allocation_history_;
-    std::vector<AccessRecord> access_history_;
-
-    mutable std::mutex pattern_mutex_;
-};
-
-// 内存监视器类
-class MemoryMonitor {
-public:
-    MemoryMonitor() = default;
-    ~MemoryMonitor() = default;
-
-    MemoryStats GetMemoryStats() const;
 };
 
 } // namespace sqlcc

@@ -17,10 +17,10 @@
 #include <functional>
 #include <system_error>
 
-namespace sqlcc {
+// 包含头文件
+#include "../disk_manager.h"
 
-// 前向声明
-class DiskManager;
+namespace sqlcc {
 
 // 磁盘I/O错误类型枚举
 enum DiskErrorType {
@@ -89,6 +89,11 @@ struct PageChecksum {
     int32_t page_id;
     uint64_t checksum;
     std::chrono::steady_clock::time_point last_verified;
+
+    // 默认构造函数
+    PageChecksum()
+        : page_id(-1), checksum(0),
+          last_verified(std::chrono::steady_clock::now()) {}
 
     PageChecksum(int32_t pid, uint64_t cs)
         : page_id(pid), checksum(cs),

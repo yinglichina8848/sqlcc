@@ -26,7 +26,7 @@ namespace sqlcc {
 CheckConstraintParser::CheckConstraintParser() = default;
 
 bool CheckConstraintParser::ParseExpression(const std::string& expression,
-                                          std::function<bool(const std::vector<std::string>&)>& validator) {
+                                          std::function<bool(const std::vector<std::string>&)>& validator) const {
     std::lock_guard<std::mutex> lock(parser_mutex_);
 
     if (!ValidateExpressionSyntax(expression)) {
@@ -118,7 +118,7 @@ std::function<bool(const std::vector<std::string>&)> CheckConstraintParser::Pars
             value = value.substr(1, value.length() - 2);
         }
 
-        return [column, op, value](const std::vector<std::string>& vals) {
+        return [this, column, op, value](const std::vector<std::string>& vals) {
             // 简化实现：假设第一个值就是我们要比较的列
             if (vals.empty()) return false;
             return CompareValues(vals[0], value, op);
@@ -183,7 +183,7 @@ std::function<bool(const std::vector<std::string>&)> CheckConstraintParser::Pars
 
             try {
                 int expected_len = std::stoi(value_str);
-                return [op, expected_len](const std::vector<std::string>& vals) {
+                return [this, op, expected_len](const std::vector<std::string>& vals) {
                     if (vals.empty()) return false;
                     int actual_len = static_cast<int>(vals[0].length());
                     return CompareNumeric(std::to_string(actual_len), std::to_string(expected_len), op);
@@ -578,8 +578,8 @@ std::string DefaultValueHandler::GenerateBooleanDefault(const std::string& colum
 // 数据完整性约束验证器主类实现
 DataIntegrityValidator::DataIntegrityValidator(std::shared_ptr<StorageEngine> storage_engine,
                                              std::shared_ptr<TransactionManager> transaction_manager)
-    : storage_engine_(std::move(storage_engine)),
-      transaction_manager_(std::move(transaction_manager)) {
+    : fk_validator_(storage_engine),
+      unique_validator_(storage_engine) {
 
     // 初始化统计信息
     stats_.last_validation_time = std::chrono::steady_clock::now();

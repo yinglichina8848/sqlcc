@@ -11,7 +11,8 @@
  */
 
 #include "storage/disk_error_handler.h"
-#include "storage/disk_manager.h"
+#include "storage/disk_error_handler.h"
+#include "disk_manager.h"
 #include "exception.h"
 #include "utils/logger.h"
 #include <algorithm>
@@ -52,7 +53,7 @@ RecoveryStrategy DiskErrorHandler::HandleDiskError(const DiskErrorInfo& error_in
         }
 
         if (recovery_success) {
-            health_stats_.consistency_repairs++;
+            health_stats_.successful_operations++;
         }
     }
 
