@@ -51,6 +51,9 @@ private:
   void synchronize();
   bool hadError() const;
 
+  // Helper method to check if current statement is CREATE VIEW
+  bool isCreateViewStatement() const;
+
   // Statement parsing (strict BNF compliance)
   std::unique_ptr<Statement> parseStatement();
   std::unique_ptr<CreateStatement> parseCreateStatement();
@@ -58,6 +61,7 @@ private:
   std::unique_ptr<CreateStatement> parseCreateDatabaseStatement();
   std::unique_ptr<CreateStatement> parseCreateProcedureStatement();
   std::unique_ptr<CreateStatement> parseCreateTriggerStatement();
+  std::unique_ptr<Statement> parseCreateViewStatement();
   std::unique_ptr<DropStatement> parseDropStatement();
   std::unique_ptr<AlterStatement> parseAlterStatement();
   std::unique_ptr<SelectStatement> parseSelectStatement();

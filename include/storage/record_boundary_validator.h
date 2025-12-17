@@ -337,6 +337,10 @@ private:
     FieldTypeBoundaryValidator type_validator_;
     DataIntegrityConstraintValidator constraint_validator_;
     ConcurrentAccessControlValidator access_validator_;
+    
+    // 存储引擎和事务管理器
+    std::shared_ptr<StorageEngine> storage_engine_;
+    std::shared_ptr<TransactionManager> transaction_manager_;
 
     // 配置
     RecordValidationConfig config_;
@@ -361,7 +365,7 @@ private:
                                                 int32_t record_id, int32_t transaction_id,
                                                 bool is_write) const;
 
-    void UpdateValidationStats(ValidationResult result, std::chrono::microseconds duration);
+    void UpdateValidationStats(ValidationResult result, std::chrono::microseconds duration) const;  // 添加const
     std::shared_ptr<TableMetadata> GetTableMetadata(const std::string& table_name) const;
 };
 

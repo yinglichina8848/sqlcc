@@ -207,6 +207,27 @@ LockUpgradeManager::LockUpgradeManager() {
     upgrade_matrix_[EXCLUSIVE][EXCLUSIVE] = false;
 }
 
+// 新增的UpdateLockCounts函数实现
+void UpdateLockCounts(PageLockState& state, LockMode mode, int delta) {
+    switch (mode) {
+        case SHARED:
+            state.shared_count += delta;
+            break;
+        case EXCLUSIVE:
+            state.exclusive_count += delta;
+            break;
+        case INTENTION_SHARED:
+            state.intention_shared_count += delta;
+            break;
+        case INTENTION_EXCLUSIVE:
+            state.intention_exclusive_count += delta;
+            break;
+        case SHARED_INTENTION_EXCLUSIVE:
+            state.shared_intention_exclusive_count += delta;
+            break;
+    }
+}
+
 LockUpgradeManager::UpgradeStrategy LockUpgradeManager::CanUpgrade(LockMode current, LockMode requested) const {
     if (upgrade_matrix_[current][requested]) {
         // 检查是否可以立即升级
@@ -343,7 +364,7 @@ LockRequestStatus AdvancedLockManager::AcquireLock(int32_t page_id, LockMode mod
         // 需要等待，添加到等待队列
         PageLockState& state = GetOrCreatePageLockState(page_id);
         LockRequest request(transaction_id, mode, page_id, timeout);
-        state.waiting_queue.push(request);
+        state.waiting_queue.push_back(request);
 
         // 等待锁或超时
         std::unique_lock<std::mutex> wait_lock(async_mutex_);
@@ -660,14 +681,14 @@ void AdvancedLockManager::CleanupExpiredLocks() {
         PageLockState& state = pair.second;
 
         // 清理过期的等待请求
-        std::queue<LockRequest> new_queue;
+        std::deque<LockRequest> new_queue;
         while (!state.waiting_queue.empty()) {
             LockRequest request = state.waiting_queue.front();
-            state.waiting_queue.pop();
+            state.waiting_queue.pop_front();
 
             auto elapsed = now - request.request_time;
             if (elapsed < request.timeout) {
-                new_queue.push(request);
+                new_queue.push_back(request);
             } else {
                 // 超时请求
                 if (request.callback) {
@@ -756,7 +777,7 @@ void AdvancedLockManager::GrantWaitingRequests(int32_t page_id) {
 
         if (IsLockCompatible(state, request.mode)) {
             // 可以授予锁
-            state.waiting_queue.pop();
+            state.waiting_queue.pop_front();
             state.holders.emplace_back(request.transaction_id, request.mode);
             UpdateLockCounts(state, request.mode, 1);
             state.transaction_locks[request.transaction_id] = request.mode;

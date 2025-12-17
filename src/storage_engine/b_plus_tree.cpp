@@ -74,12 +74,12 @@ BPlusTreeNode::BPlusTreeNode(std::shared_ptr<StorageEngine> storage_engine, int3
 
   // 获取页面对象用于数据存储
   if (storage_engine_) {
-    Page* raw_page = storage_engine_->FetchPage(page_id);
-    if (raw_page) {
+    auto page_ptr = storage_engine_->FetchPage(page_id);
+    if (page_ptr) {
       // 使用智能指针管理页面生命周期，避免与StorageEngine的页面管理冲突
       // 注意：这里我们不接管所有权，只是保存引用
       // 实际的页面管理由StorageEngine负责
-      page_ = std::shared_ptr<Page>(raw_page, [this](Page* p) {
+      page_ = std::shared_ptr<Page>(page_ptr.get(), [this](Page* p) {
         // 自定义删除器，将页面返回给StorageEngine
         if (storage_engine_ && p) {
           storage_engine_->UnpinPage(page_id_, true); // 标记为脏页并释放

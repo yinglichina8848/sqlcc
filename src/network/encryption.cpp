@@ -103,7 +103,8 @@ std::vector<uint8_t> AESEncryptor::Encrypt(const std::vector<uint8_t>& data) con
         throw std::runtime_error("Invalid encryption key size for AES-256");
     }
     
-    EVP_CIPHER_CTX* ctx = EVP_CIPHER_CTX_new();
+    // 使用智能指针管理EVP上下文，避免裸指针
+    std::unique_ptr<EVP_CIPHER_CTX, decltype(&EVP_CIPHER_CTX_free)> ctx(EVP_CIPHER_CTX_new(), EVP_CIPHER_CTX_free);
     if (!ctx) {
         throw std::runtime_error("Failed to create EVP cipher context");
     }
@@ -114,20 +115,20 @@ std::vector<uint8_t> AESEncryptor::Encrypt(const std::vector<uint8_t>& data) con
     
     try {
         // 初始化加密上下文（AES-256-CBC）
-        if (EVP_EncryptInit_ex(ctx, EVP_aes_256_cbc(), nullptr, 
+        if (EVP_EncryptInit_ex(ctx.get(), EVP_aes_256_cbc(), nullptr, 
                                encryption_key_->GetKey().data(), 
                                encryption_key_->GetIV().data()) != 1) {
             throw std::runtime_error("Failed to initialize AES encryption");
         }
         
         // 加密数据
-        if (EVP_EncryptUpdate(ctx, encrypted_data.data(), &len, data.data(), data.size()) != 1) {
+        if (EVP_EncryptUpdate(ctx.get(), encrypted_data.data(), &len, data.data(), data.size()) != 1) {
             throw std::runtime_error("Failed to encrypt data");
         }
         ciphertext_len = len;
         
         // 处理最后的块
-        if (EVP_EncryptFinal_ex(ctx, encrypted_data.data() + len, &len) != 1) {
+        if (EVP_EncryptFinal_ex(ctx.get(), encrypted_data.data() + len, &len) != 1) {
             throw std::runtime_error("Failed to finalize encryption");
         }
         ciphertext_len += len;
@@ -135,7 +136,7 @@ std::vector<uint8_t> AESEncryptor::Encrypt(const std::vector<uint8_t>& data) con
         encrypted_data.resize(ciphertext_len);
         return encrypted_data;
     } catch (const std::exception&) {
-        EVP_CIPHER_CTX_free(ctx);
+        // 智能指针会自动释放资源，无需手动释放
         throw;
     }
 #else
@@ -149,7 +150,8 @@ std::vector<uint8_t> AESEncryptor::Decrypt(const std::vector<uint8_t>& data) con
         throw std::runtime_error("Invalid encryption key size for AES-256");
     }
     
-    EVP_CIPHER_CTX* ctx = EVP_CIPHER_CTX_new();
+    // 使用智能指针管理EVP上下文，避免裸指针
+    std::unique_ptr<EVP_CIPHER_CTX, decltype(&EVP_CIPHER_CTX_free)> ctx(EVP_CIPHER_CTX_new(), EVP_CIPHER_CTX_free);
     if (!ctx) {
         throw std::runtime_error("Failed to create EVP cipher context");
     }
@@ -160,20 +162,20 @@ std::vector<uint8_t> AESEncryptor::Decrypt(const std::vector<uint8_t>& data) con
     
     try {
         // 初始化解密上下文（AES-256-CBC）
-        if (EVP_DecryptInit_ex(ctx, EVP_aes_256_cbc(), nullptr, 
+        if (EVP_DecryptInit_ex(ctx.get(), EVP_aes_256_cbc(), nullptr, 
                                encryption_key_->GetKey().data(), 
                                encryption_key_->GetIV().data()) != 1) {
             throw std::runtime_error("Failed to initialize AES decryption");
         }
         
         // 解密数据
-        if (EVP_DecryptUpdate(ctx, decrypted_data.data(), &len, data.data(), data.size()) != 1) {
+        if (EVP_DecryptUpdate(ctx.get(), decrypted_data.data(), &len, data.data(), data.size()) != 1) {
             throw std::runtime_error("Failed to decrypt data");
         }
         plaintext_len = len;
         
         // 处理最后的块
-        if (EVP_DecryptFinal_ex(ctx, decrypted_data.data() + len, &len) != 1) {
+        if (EVP_DecryptFinal_ex(ctx.get(), decrypted_data.data() + len, &len) != 1) {
             throw std::runtime_error("Failed to finalize decryption");
         }
         plaintext_len += len;
@@ -181,7 +183,7 @@ std::vector<uint8_t> AESEncryptor::Decrypt(const std::vector<uint8_t>& data) con
         decrypted_data.resize(plaintext_len);
         return decrypted_data;
     } catch (const std::exception&) {
-        EVP_CIPHER_CTX_free(ctx);
+        // 智能指针会自动释放资源，无需手动释放
         throw;
     }
 #else

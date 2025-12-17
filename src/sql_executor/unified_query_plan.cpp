@@ -221,6 +221,7 @@ QueryPlanFactory::createPlan(std::unique_ptr<sql_parser::Statement> stmt,
   // 根据语句类型创建相应的查询计划
   switch (stmt->getType()) {
   case sql_parser::Statement::CREATE:
+  case sql_parser::Statement::CREATE_VIEW:
   case sql_parser::Statement::DROP:
   case sql_parser::Statement::ALTER:
   case sql_parser::Statement::CREATE_INDEX:

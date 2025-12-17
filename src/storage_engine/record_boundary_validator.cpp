@@ -845,7 +845,9 @@ ValidationResult ConcurrentAccessControlValidator::ValidateOptimisticLock(
 RecordBoundaryValidator::RecordBoundaryValidator(std::shared_ptr<StorageEngine> storage_engine,
                                                std::shared_ptr<TransactionManager> transaction_manager)
     : storage_engine_(std::move(storage_engine)),
-      transaction_manager_(std::move(transaction_manager)) {
+      transaction_manager_(std::move(transaction_manager)),
+      constraint_validator_(storage_engine_),  // 正确调用DataIntegrityConstraintValidator构造函数
+      access_validator_(transaction_manager_) {
 
     // 初始化统计信息
     stats_.last_validation_time = std::chrono::steady_clock::now();

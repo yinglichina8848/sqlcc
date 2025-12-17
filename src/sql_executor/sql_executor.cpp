@@ -1,4 +1,5 @@
 #include "sql_executor.h"
+#include "view_manager.h"
 #include "core/permission_validator.h"
 #include "core/system_database.h"
 #include "core/user_manager.h"
@@ -16,6 +17,7 @@ namespace sqlcc {
 SqlExecutor::SqlExecutor() {
   db_manager_ = std::make_shared<DatabaseManager>("./data", 1024, 16, 64);
   user_manager_ = std::make_shared<UserManager>();
+  view_manager_ = std::make_unique<ViewManager>();
   InitializeSystemDatabase();
   InitializePermissionValidator();
 }
@@ -24,6 +26,7 @@ SqlExecutor::SqlExecutor() {
 SqlExecutor::SqlExecutor(std::shared_ptr<DatabaseManager> db_manager)
     : db_manager_(db_manager) {
   user_manager_ = std::make_shared<UserManager>();
+  view_manager_ = std::make_unique<ViewManager>();
   InitializeSystemDatabase();
   InitializePermissionValidator();
 }

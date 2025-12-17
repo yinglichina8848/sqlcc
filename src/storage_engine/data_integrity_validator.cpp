@@ -100,93 +100,103 @@ bool CheckConstraintParser::EvaluateExpression(const std::string& expression,
 
 std::function<bool(const std::vector<std::string>&)> CheckConstraintParser::ParseComparisonExpression(
     const std::string& expr, const std::vector<std::string>& column_names) const {
-
+    
     // 简化的比较表达式解析
     // 支持: column_name > value, column_name < value, column_name = value 等
-
+    
     std::regex comparison_pattern(R"((\w+)\s*([<>=!]+)\s*(.+))");
     std::smatch matches;
-
+    
     if (std::regex_match(expr, matches, comparison_pattern)) {
         std::string column = matches[1].str();
         std::string op = matches[2].str();
         std::string value = matches[3].str();
-
+        
         // 移除值周围的引号
         if ((value.front() == '"' && value.back() == '"') ||
             (value.front() == '\'' && value.back() == '\'')) {
             value = value.substr(1, value.length() - 2);
         }
+<<<<<<< Updated upstream
 
         return [this, column, op, value](const std::vector<std::string>& vals) {
+=======
+        
+        // 使用shared_from_this来捕获this指针
+        return [this, column, op, value](const std::vector<std::string>& vals) {  // 添加this捕获
+>>>>>>> Stashed changes
             // 简化实现：假设第一个值就是我们要比较的列
             if (vals.empty()) return false;
-            return CompareValues(vals[0], value, op);
+            return this->CompareValues(vals[0], value, op);  // 显式使用this指针
         };
     }
-
+    
     return nullptr;
 }
 
 std::function<bool(const std::vector<std::string>&)> CheckConstraintParser::ParseLogicalExpression(
     const std::string& expr, const std::vector<std::string>& column_names) const {
-
+    
     // 简化的逻辑表达式解析
     // 支持: expr1 AND expr2, expr1 OR expr2
-
+    
     size_t and_pos = expr.find(" AND ");
     size_t or_pos = expr.find(" OR ");
-
+    
     if (and_pos != std::string::npos) {
         std::string left = expr.substr(0, and_pos);
         std::string right = expr.substr(and_pos + 5);
-
+        
         auto left_validator = ParseComparisonExpression(left, column_names);
         auto right_validator = ParseComparisonExpression(right, column_names);
-
+        
         if (left_validator && right_validator) {
-            return [left_validator, right_validator](const std::vector<std::string>& vals) {
+            return [left_validator, right_validator](const std::vector<std::string>& vals) {  // 添加this捕获
                 return left_validator(vals) && right_validator(vals);
             };
         }
     } else if (or_pos != std::string::npos) {
         std::string left = expr.substr(0, or_pos);
         std::string right = expr.substr(or_pos + 4);
-
+        
         auto left_validator = ParseComparisonExpression(left, column_names);
         auto right_validator = ParseComparisonExpression(right, column_names);
-
+        
         if (left_validator && right_validator) {
             return [left_validator, right_validator](const std::vector<std::string>& vals) {
                 return left_validator(vals) || right_validator(vals);
             };
         }
     }
-
+    
     return nullptr;
 }
 
 std::function<bool(const std::vector<std::string>&)> CheckConstraintParser::ParseFunctionExpression(
     const std::string& expr, const std::vector<std::string>& column_names) const {
-
+    
     // 简化的函数表达式解析
     // 支持: LEN(column) > value, ISNULL(column)
-
+    
     if (expr.find("LEN(") != std::string::npos) {
         std::regex len_pattern(R"(LEN\((\w+)\)\s*([<>=!]+)\s*(.+))");
         std::smatch matches;
-
+        
         if (std::regex_match(expr, matches, len_pattern)) {
             std::string column = matches[1].str();
             std::string op = matches[2].str();
             std::string value_str = matches[3].str();
-
+            
             try {
                 int expected_len = std::stoi(value_str);
+<<<<<<< Updated upstream
                 return [this, op, expected_len](const std::vector<std::string>& vals) {
+=======
+                return [this, op, expected_len](const std::vector<std::string>& vals) {  // 添加this捕获
+>>>>>>> Stashed changes
                     if (vals.empty()) return false;
                     int actual_len = static_cast<int>(vals[0].length());
-                    return CompareNumeric(std::to_string(actual_len), std::to_string(expected_len), op);
+                    return this->CompareNumeric(std::to_string(actual_len), std::to_string(expected_len), op);  // 显式使用this指针
                 };
             } catch (...) {
                 return nullptr;
@@ -198,7 +208,7 @@ std::function<bool(const std::vector<std::string>&)> CheckConstraintParser::Pars
             return vals[0].empty();
         };
     }
-
+    
     return nullptr;
 }
 
@@ -578,8 +588,15 @@ std::string DefaultValueHandler::GenerateBooleanDefault(const std::string& colum
 // 数据完整性约束验证器主类实现
 DataIntegrityValidator::DataIntegrityValidator(std::shared_ptr<StorageEngine> storage_engine,
                                              std::shared_ptr<TransactionManager> transaction_manager)
+<<<<<<< Updated upstream
     : fk_validator_(storage_engine),
       unique_validator_(storage_engine) {
+=======
+    : storage_engine_(std::move(storage_engine)),
+      transaction_manager_(std::move(transaction_manager)),
+      fk_validator_(storage_engine_),  // 正确调用ForeignKeyValidator构造函数
+      unique_validator_(storage_engine_) {  // 正确调用UniqueConstraintValidator构造函数
+>>>>>>> Stashed changes
 
     // 初始化统计信息
     stats_.last_validation_time = std::chrono::steady_clock::now();
@@ -785,25 +802,28 @@ ConstraintValidationResult DataIntegrityValidator::ValidateNotNullConstraints(
     const std::string& table_name,
     const std::vector<std::string>& column_names,
     const std::vector<std::string>& values) const {
-
+    
+    // 获取表的约束规则
     auto constraints = GetTableConstraints(table_name);
-
-    for (size_t i = 0; i < values.size() && i < column_names.size(); ++i) {
-        // 检查是否有NOT NULL约束
-        for (const auto& rule : constraints) {
-            if (rule.constraint_type == NOT_NULL_CONSTRAINT &&
-                rule.enabled &&
-                std::find(rule.column_names.begin(), rule.column_names.end(), column_names[i]) !=
-                rule.column_names.end()) {
-
-                if (values[i].empty()) {
-                    stats_.not_null_violations++;
+    
+    for (const auto& rule : constraints) {
+        // 检查是否是非空约束并且启用
+        if (rule.constraint_type == NOT_NULL_CONSTRAINT && rule.enabled) {
+            // 查找对应的列索引
+            auto column_it = std::find(column_names.begin(), column_names.end(), rule.column_names[0]);
+            if (column_it != column_names.end()) {
+                size_t index = std::distance(column_names.begin(), column_it);
+                
+                // 检查值是否为空
+                if (index < values.size() && values[index].empty()) {
+                    // 创建一个非const的副本来进行统计更新
+                    const_cast<DataIntegrityValidator*>(this)->UpdateIntegrityStats(CONSTRAINT_VIOLATED, std::chrono::microseconds(0));
                     return CONSTRAINT_VIOLATED;
                 }
             }
         }
     }
-
+    
     return CONSTRAINT_VALID;
 }
 
@@ -812,34 +832,47 @@ ConstraintValidationResult DataIntegrityValidator::ValidateUniqueConstraints(
     const std::vector<std::string>& column_names,
     const std::vector<std::string>& values,
     int32_t record_id) const {
-
+    
+    // 获取表的约束规则
     auto constraints = GetTableConstraints(table_name);
-
+    
     for (const auto& rule : constraints) {
+        // 检查是否是唯一约束并且启用
         if (rule.constraint_type == UNIQUE_CONSTRAINT && rule.enabled) {
-            // 检查唯一约束
-            std::vector<std::string> unique_values;
-            for (const auto& col : rule.column_names) {
-                auto it = std::find(column_names.begin(), column_names.end(), col);
-                if (it != column_names.end()) {
-                    size_t idx = it - column_names.begin();
-                    if (idx < values.size()) {
-                        unique_values.push_back(values[idx]);
+            // 检查所有涉及的列是否都在输入中
+            bool all_columns_present = true;
+            std::vector<std::string> constraint_values;
+            
+            for (const auto& column_name : rule.column_names) {
+                auto column_it = std::find(column_names.begin(), column_names.end(), column_name);
+                if (column_it != column_names.end()) {
+                    size_t index = std::distance(column_names.begin(), column_it);
+                    if (index < values.size()) {
+                        constraint_values.push_back(values[index]);
+                    } else {
+                        all_columns_present = false;
+                        break;
                     }
+                } else {
+                    all_columns_present = false;
+                    break;
                 }
             }
-
-            if (!unique_values.empty()) {
-                auto result = unique_validator_.ValidateUniqueConstraint(
-                    table_name, rule.column_names, unique_values, record_id);
-                if (result == CONSTRAINT_VIOLATED) {
-                    stats_.unique_violations++;
-                    return CONSTRAINT_VIOLATED;
+            
+            // 如果所有列都存在，检查唯一性
+            if (all_columns_present) {
+                ConstraintValidationResult result = unique_validator_.ValidateUniqueConstraint(
+                    table_name, rule.column_names, constraint_values, record_id);
+                
+                if (result != CONSTRAINT_VALID) {
+                    // 创建一个非const的副本来进行统计更新
+                    const_cast<DataIntegrityValidator*>(this)->UpdateIntegrityStats(result, std::chrono::microseconds(0));
+                    return result;
                 }
             }
         }
     }
-
+    
     return CONSTRAINT_VALID;
 }
 
@@ -847,28 +880,34 @@ ConstraintValidationResult DataIntegrityValidator::ValidateForeignKeyConstraints
     const std::string& table_name,
     const std::vector<std::string>& column_names,
     const std::vector<std::string>& values) const {
-
+    
+    // 获取表的约束规则
     auto constraints = GetTableConstraints(table_name);
-
-    for (size_t i = 0; i < values.size() && i < column_names.size(); ++i) {
-        for (const auto& rule : constraints) {
-            if (rule.constraint_type == FOREIGN_KEY_CONSTRAINT &&
-                rule.enabled &&
-                rule.column_names.size() == 1 &&
-                rule.column_names[0] == column_names[i]) {
-
-                auto result = fk_validator_.ValidateForeignKey(
-                    table_name, column_names[i], values[i],
-                    rule.referenced_table, rule.referenced_columns[0]);
-
-                if (result == CONSTRAINT_VIOLATED) {
-                    stats_.foreign_key_violations++;
-                    return CONSTRAINT_VIOLATED;
+    
+    for (const auto& rule : constraints) {
+        // 检查是否是外键约束并且启用
+        if (rule.constraint_type == FOREIGN_KEY_CONSTRAINT && rule.enabled) {
+            // 查找对应的列索引
+            auto column_it = std::find(column_names.begin(), column_names.end(), rule.column_names[0]);
+            if (column_it != column_names.end()) {
+                size_t index = std::distance(column_names.begin(), column_it);
+                
+                // 检查值是否存在
+                if (index < values.size() && !values[index].empty()) {
+                    ConstraintValidationResult result = fk_validator_.ValidateForeignKey(
+                        table_name, rule.column_names[0], values[index], 
+                        rule.referenced_table, rule.referenced_columns[0]);
+                    
+                    if (result != CONSTRAINT_VALID) {
+                        // 创建一个非const的副本来进行统计更新
+                        const_cast<DataIntegrityValidator*>(this)->UpdateIntegrityStats(result, std::chrono::microseconds(0));
+                        return result;
+                    }
                 }
             }
         }
     }
-
+    
     return CONSTRAINT_VALID;
 }
 
@@ -876,41 +915,38 @@ ConstraintValidationResult DataIntegrityValidator::ValidateCheckConstraints(
     const std::string& table_name,
     const std::vector<std::string>& column_names,
     const std::vector<std::string>& values) const {
-
+    
+    // 获取表的约束规则
     auto constraints = GetTableConstraints(table_name);
-
+    
     for (const auto& rule : constraints) {
-        if (rule.constraint_type == CHECK_CONSTRAINT &&
-            rule.enabled &&
-            !rule.expression.empty()) {
-
-            // 执行检查约束
-            if (check_parser_.EvaluateExpression(rule.expression, values, column_names)) {
-                continue; // 检查通过
-            } else {
-                stats_.check_constraint_violations++;
+        // 检查是否是检查约束并且启用
+        if (rule.constraint_type == CHECK_CONSTRAINT && rule.enabled) {
+            bool valid = check_parser_.EvaluateExpression(rule.expression, values, column_names);
+            if (!valid) {
+                // 创建一个非const的副本来进行统计更新
+                const_cast<DataIntegrityValidator*>(this)->UpdateIntegrityStats(CONSTRAINT_VIOLATED, std::chrono::microseconds(0));
                 return CONSTRAINT_VIOLATED;
             }
         }
     }
-
+    
     return CONSTRAINT_VALID;
 }
 
-void DataIntegrityValidator::UpdateIntegrityStats(ConstraintValidationResult result,
-                                                std::chrono::microseconds duration) const {
-
+void DataIntegrityValidator::UpdateIntegrityStats(ConstraintValidationResult result, 
+                                                std::chrono::microseconds duration) {
     std::lock_guard<std::mutex> lock(stats_mutex_);
-
+    
     stats_.total_validations++;
-    validation_times_.push_back(duration.count());
-
-    if (result == CONSTRAINT_VALID) {
-        stats_.successful_validations++;
-    } else {
-        stats_.constraint_violations++;
+    stats_.last_validation_time = std::chrono::steady_clock::now();
+    
+    // 更新验证时间统计
+    validation_times_.push_back(static_cast<double>(duration.count()));
+    if (validation_times_.size() > 1000) {  // 限制记录数量
+        validation_times_.erase(validation_times_.begin());
     }
-
+    
     // 计算平均验证时间
     if (!validation_times_.empty()) {
         double sum = 0.0;
@@ -919,13 +955,23 @@ void DataIntegrityValidator::UpdateIntegrityStats(ConstraintValidationResult res
         }
         stats_.average_validation_time_us = sum / validation_times_.size();
     }
-
-    // 限制时间记录数量
-    if (validation_times_.size() > 1000) {
-        validation_times_.erase(validation_times_.begin());
+    
+    // 根据验证结果更新相应的计数器
+    switch (result) {
+        case CONSTRAINT_VALID:
+            stats_.successful_validations++;
+            break;
+        case CONSTRAINT_VIOLATED:
+        case CONSTRAINT_INVALID:
+            stats_.constraint_violations++;
+            break;
+        case CONSTRAINT_NOT_FOUND:
+            // 不增加任何计数器
+            break;
+        case REFERENCE_ERROR:
+            stats_.foreign_key_violations++;
+            break;
     }
-
-    stats_.last_validation_time = std::chrono::steady_clock::now();
 }
 
 std::string DataIntegrityValidator::GenerateConstraintKey(const std::string& table_name,

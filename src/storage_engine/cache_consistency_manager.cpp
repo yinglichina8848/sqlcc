@@ -97,6 +97,7 @@ bool CacheConsistencyManager::AcquireReadLock(int32_t page_id, int32_t transacti
     auto start_time = std::chrono::steady_clock::now();
     bool locked = false;
 
+<<<<<<< Updated upstream
     // 尝试获取读锁，直到超时
     while (!locked && (std::chrono::steady_clock::now() - start_time) < timeout) {
         if (page_lock.mutex.try_lock_shared()) {
@@ -121,9 +122,33 @@ bool CacheConsistencyManager::AcquireReadLock(int32_t page_id, int32_t transacti
         }
 
         return true;
+=======
+    // 尝试获取读锁
+    // 使用标准的lock_shared方法，不支持超时
+    page_lock.mutex.lock_shared();
+    
+    // 检查是否超时（简化实现，实际应用中可能需要更复杂的超时处理）
+    auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::steady_clock::now() - start_time);
+    
+    if (elapsed > timeout) {
+        page_lock.mutex.unlock_shared();
+        return false;
+>>>>>>> Stashed changes
     }
 
-    return false;
+    // 记录锁信息
+    page_lock.shared_owners.push_back(transaction_id);
+    page_lock.lock_time = std::chrono::steady_clock::now();
+
+    // 更新统计信息
+    {
+        std::lock_guard<std::mutex> stats_lock(stats_mutex_);
+        stats_.locked_pages++;
+        UpdateLockWaitTime(elapsed);
+    }
+
+    return true;
 }
 
 bool CacheConsistencyManager::AcquireWriteLock(int32_t page_id, int32_t transaction_id,
@@ -133,6 +158,7 @@ bool CacheConsistencyManager::AcquireWriteLock(int32_t page_id, int32_t transact
     auto start_time = std::chrono::steady_clock::now();
     bool locked = false;
 
+<<<<<<< Updated upstream
     // 尝试获取写锁，直到超时
     while (!locked && (std::chrono::steady_clock::now() - start_time) < timeout) {
         if (page_lock.mutex.try_lock()) {
@@ -157,9 +183,33 @@ bool CacheConsistencyManager::AcquireWriteLock(int32_t page_id, int32_t transact
         }
 
         return true;
+=======
+    // 尝试获取写锁
+    // 使用标准的lock方法，不支持超时
+    page_lock.mutex.lock();
+    
+    // 检查是否超时（简化实现，实际应用中可能需要更复杂的超时处理）
+    auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::steady_clock::now() - start_time);
+    
+    if (elapsed > timeout) {
+        page_lock.mutex.unlock();
+        return false;
+>>>>>>> Stashed changes
     }
 
-    return false;
+    // 记录锁信息
+    page_lock.exclusive_owner = transaction_id;
+    page_lock.lock_time = std::chrono::steady_clock::now();
+
+    // 更新统计信息
+    {
+        std::lock_guard<std::mutex> stats_lock(stats_mutex_);
+        stats_.locked_pages++;
+        UpdateLockWaitTime(elapsed);
+    }
+
+    return true;
 }
 
 void CacheConsistencyManager::ReleaseReadLock(int32_t page_id, int32_t transaction_id) {
@@ -483,10 +533,9 @@ CacheConsistencyManager::PageLock& CacheConsistencyManager::GetOrCreatePageLock(
 }
 
 bool CacheConsistencyManager::TryUpgradeLock(int32_t page_id, int32_t transaction_id) {
-    // 尝试将读锁升级为写锁
     PageLock& page_lock = GetOrCreatePageLock(page_id);
 
-    // 检查是否是唯一的读取者
+    // 检查是否可以升级：只有一个读锁且属于当前事务
     if (page_lock.shared_owners.size() == 1 &&
         page_lock.shared_owners[0] == transaction_id &&
         page_lock.exclusive_owner == -1) {
@@ -495,6 +544,7 @@ bool CacheConsistencyManager::TryUpgradeLock(int32_t page_id, int32_t transactio
         page_lock.mutex.unlock_shared();
 
         // 获取写锁
+<<<<<<< Updated upstream
     // 使用简单的try_lock，因为lock_timeout_可能已经包含在之前的超时逻辑中
     if (page_lock.mutex.try_lock()) {
         page_lock.exclusive_owner = transaction_id;
@@ -505,6 +555,12 @@ bool CacheConsistencyManager::TryUpgradeLock(int32_t page_id, int32_t transactio
         page_lock.mutex.lock_shared();
         return false;
     }
+=======
+        page_lock.mutex.lock();
+        page_lock.exclusive_owner = transaction_id;
+        page_lock.shared_owners.clear();
+        return true;
+>>>>>>> Stashed changes
     }
 
     return false;
@@ -619,6 +675,7 @@ uint64_t AtomicVersionManager::IncrementVersion(int32_t page_id) {
     auto it = page_versions_.find(page_id);
     if (it == page_versions_.end()) {
         std::unique_lock<std::shared_mutex> upgrade_lock(versions_mutex_);
+<<<<<<< Updated upstream
         // 确保在升级锁后再次检查，避免竞态条件
         it = page_versions_.find(page_id);
         if (it == page_versions_.end()) {
@@ -628,6 +685,17 @@ uint64_t AtomicVersionManager::IncrementVersion(int32_t page_id) {
             total_operations_++;
             return 1;
         }
+=======
+        // 使用operator[]来创建新的std::atomic对象，而不是emplace
+        uint64_t new_version = 1;
+        page_versions_[page_id].store(new_version);
+        total_operations_++;
+        return new_version;
+    } else {
+        uint64_t new_version = it->second.fetch_add(1) + 1;
+        total_operations_++;
+        return new_version;
+>>>>>>> Stashed changes
     }
     uint64_t new_version = it->second.fetch_add(1) + 1;
     total_operations_++;
@@ -641,9 +709,14 @@ bool AtomicVersionManager::CompareAndSetVersion(int32_t page_id, uint64_t expect
     if (it == page_versions_.end()) {
         if (expected == 0) {
             std::unique_lock<std::shared_mutex> upgrade_lock(versions_mutex_);
+<<<<<<< Updated upstream
             // 使用[]操作符默认构造，然后store设置值
             std::atomic<uint64_t>& version = page_versions_[page_id];
             version.store(desired);
+=======
+            // 使用operator[]来创建新的std::atomic对象，而不是emplace
+            page_versions_[page_id].store(desired);
+>>>>>>> Stashed changes
             total_operations_++;
             return true;
         }
@@ -689,9 +762,14 @@ void AtomicVersionManager::UpdateVersions(const std::unordered_map<int32_t, uint
         auto it = page_versions_.find(page_id);
         if (it == page_versions_.end()) {
             std::unique_lock<std::shared_mutex> upgrade_lock(versions_mutex_);
+<<<<<<< Updated upstream
             // 使用[]操作符默认构造，然后store设置值
             std::atomic<uint64_t>& version = page_versions_[page_id];
             version.store(new_version);
+=======
+            // 使用operator[]来创建新的std::atomic对象，而不是直接赋值
+            page_versions_[page_id].store(new_version);
+>>>>>>> Stashed changes
         } else {
             it->second.store(new_version);
         }

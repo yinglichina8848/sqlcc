@@ -96,13 +96,13 @@ public:
   /**
    * @brief 获取页面
    * @param page_id 页面ID
-   * @return 页面指针，如果失败返回nullptr
+   * @return 页面智能指针，如果失败返回nullptr
    *
    * Why: 需要访问存储在磁盘上的页面数据，例如查询记录或更新数据
    * What: FetchPage方法根据页面ID获取页面对象，如果页面不在内存中则从磁盘加载
    * How: 通过缓冲池获取页面，如果页面不在内存中则通过磁盘管理器从磁盘加载
    */
-  Page* FetchPage(int32_t page_id);
+  std::shared_ptr<Page> FetchPage(int32_t page_id);
 
   /**
    * @brief 取消固定页面

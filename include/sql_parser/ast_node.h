@@ -73,6 +73,7 @@ class Statement : public Node {
 public:
   enum Type {
     CREATE,
+    CREATE_VIEW,
     SELECT,
     COMPOSITE_SELECT,
     INSERT,

@@ -59,6 +59,24 @@ cc_test(
     ],
 )
 
+cc_test(
+    name = "smart_pointer_fix_validation_test",
+    srcs = ["smart_pointer_fix_validation_test.cpp"],
+    deps = [
+        "//src/network:sqlcc_network",
+        "@com_google_googletest//:gtest_main",
+    ],
+    linkopts = ["-lssl", "-lcrypto"],
+)
+
+cc_test(
+    name = "smart_pointer_basic_test",
+    srcs = ["smart_pointer_basic_test.cpp"],
+    deps = [
+        "@com_google_googletest//:gtest_main",
+    ],
+)
+
 test_suite(
     name = "network_component_tests",
     tests = [
@@ -68,5 +86,7 @@ test_suite(
         ":server_network_manager_test",
         ":connection_state_machine_test",
         ":data_transmission_validator_test",
+        ":smart_pointer_fix_validation_test",
+        ":smart_pointer_basic_test",
     ],
 )

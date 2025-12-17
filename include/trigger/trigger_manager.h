@@ -192,7 +192,7 @@ public:
      * 初始化管理器
      * @param executor SQL执行器
      */
-    void initialize(SqlExecutor* executor);
+    void initialize(std::shared_ptr<SqlExecutor> executor);
 
     /**
      * 创建触发器
@@ -225,16 +225,16 @@ public:
     /**
      * 获取触发器
      * @param trigger_name 触发器名称
-     * @return 触发器定义指针，如果不存在返回nullptr
+     * @return 触发器定义的智能指针，如果不存在返回nullptr
      */
-    const TriggerDefinition* getTrigger(const std::string& trigger_name) const;
+    std::shared_ptr<const TriggerDefinition> getTrigger(const std::string& trigger_name) const;
 
     /**
      * 获取表的所有触发器
      * @param table_name 表名
-     * @return 触发器列表
+     * @return 触发器智能指针列表
      */
-    std::vector<const TriggerDefinition*> getTriggersForTable(const std::string& table_name) const;
+    std::vector<std::shared_ptr<const TriggerDefinition>> getTriggersForTable(const std::string& table_name) const;
 
     /**
      * 触发事件处理
@@ -276,8 +276,8 @@ private:
      * @param new_row 新行数据
      * @return 执行结果
      */
-    bool executeTrigger(const TriggerDefinition* trigger,
-                       const RowData* old_row, const RowData* new_row);
+    bool executeTrigger(std::shared_ptr<const TriggerDefinition> trigger,
+                       std::shared_ptr<const RowData> old_row, std::shared_ptr<const RowData> new_row);
 
     /**
      * 检查触发条件
@@ -286,8 +286,8 @@ private:
      * @param new_row 新行数据
      * @return 是否满足条件
      */
-    bool checkTriggerCondition(const TriggerDefinition* trigger,
-                              const RowData* old_row, const RowData* new_row);
+    bool checkTriggerCondition(std::shared_ptr<const TriggerDefinition> trigger,
+                              std::shared_ptr<const RowData> old_row, std::shared_ptr<const RowData> new_row);
 
     /**
      * 执行触发器SQL（默认实现）
@@ -296,10 +296,10 @@ private:
      * @param new_row 新行数据
      * @return 执行结果
      */
-    bool executeTriggerSql(const TriggerDefinition* trigger,
-                          const RowData* old_row, const RowData* new_row);
+    bool executeTriggerSql(std::shared_ptr<const TriggerDefinition> trigger,
+                          std::shared_ptr<const RowData> old_row, std::shared_ptr<const RowData> new_row);
 
-    SqlExecutor* sql_executor_;
+    std::shared_ptr<SqlExecutor> sql_executor_;
     std::unordered_map<std::string, std::unique_ptr<TriggerDefinition>> triggers_;
     std::unique_ptr<TriggerExecutor> trigger_executor_;
     RecursionGuard recursion_guard_;

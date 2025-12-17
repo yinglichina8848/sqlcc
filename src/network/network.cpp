@@ -1020,7 +1020,9 @@ void ConnectionHandler::HandleConnectMessage(const std::vector<char>& data) {
     // 检查客户端连接消息中的标志
     uint32_t client_flags = 0;
     if (data.size() >= sizeof(MessageHeader)) {
-        MessageHeader* header = reinterpret_cast<MessageHeader*>(const_cast<char*>(data.data()));
+        // 使用智能指针管理消息头，避免裸指针
+    auto header = std::make_shared<MessageHeader>();
+    std::memcpy(header.get(), data.data(), sizeof(MessageHeader));
         client_flags = header->flags;
         std::cout << "[SERVER] Client flags: " << client_flags << std::endl;
 
@@ -1057,7 +1059,9 @@ void ConnectionHandler::HandleAuthMessage(const std::vector<char>& data) {
         return;
     }
 
-    MessageHeader* header = reinterpret_cast<MessageHeader*>(const_cast<char*>(data.data()));
+    // 使用智能指针管理消息头，避免裸指针
+    auto header = std::make_shared<MessageHeader>();
+    std::memcpy(header.get(), data.data(), sizeof(MessageHeader));
     if (data.size() < sizeof(MessageHeader) + header->length) {
         return;
     }
@@ -1108,7 +1112,9 @@ void ConnectionHandler::HandleQueryMessage(const std::vector<char>& data) {
         return;
     }
 
-    MessageHeader* header = reinterpret_cast<MessageHeader*>(const_cast<char*>(data.data()));
+    // 使用智能指针管理消息头，避免裸指针
+    auto header = std::make_shared<MessageHeader>();
+    std::memcpy(header.get(), data.data(), sizeof(MessageHeader));
 
     // 确保有足够的数据
     if (data.size() < sizeof(MessageHeader) + header->length) {
@@ -1150,7 +1156,9 @@ void ConnectionHandler::HandleQueryMessage(const std::vector<char>& data) {
 
 void ConnectionHandler::HandleKeyExchangeMessage(const std::vector<char>& data) {
     // 处理密钥交换消息
-    MessageHeader* header = reinterpret_cast<MessageHeader*>(const_cast<char*>(data.data()));
+    // 使用智能指针管理消息头，避免裸指针
+    auto header = std::make_shared<MessageHeader>();
+    std::memcpy(header.get(), data.data(), sizeof(MessageHeader));
     
     // 检查是否有session
     if (!session_) {
@@ -1348,15 +1356,19 @@ void ServerNetworkManager::ProcessEvents() {
         } else {
             // 客户端连接有事件
             std::cout << "[SERVER] Handling client event on fd" << std::endl;
-            ConnectionHandler* handler = static_cast<ConnectionHandler*>(events[i].data.ptr);
-            handler->HandleEvent(events[i].events);
-
-            if (handler->IsClosed()) {
-                // 从epoll中移除并删除连接处理器
-                int fd = handler->GetFd();
-                epoll_ctl(epoll_fd_.get(), EPOLL_CTL_DEL, fd, nullptr);
-                // 从智能指针容器中移除并自动释放资源
-                connections_.erase(fd);
+            // 使用智能指针管理连接处理器，避免裸指针
+            auto handler_ptr = static_cast<std::shared_ptr<ConnectionHandler>*>(events[i].data.ptr);
+            if (handler_ptr && *handler_ptr) {
+                (*handler_ptr)->HandleEvent(events[i].events);
+                
+                if ((*handler_ptr)->IsClosed()) {
+                    // 从epoll中移除并删除连接处理器
+                    int fd = (*handler_ptr)->GetFd();
+                    epoll_ctl(epoll_fd_.get(), EPOLL_CTL_DEL, fd, nullptr);
+                    // 从智能指针容器中移除并自动释放资源
+                    connections_.erase(fd);
+                    delete handler_ptr; // 删除包装智能指针的裸指针
+                }
             }
         }
     }
@@ -1437,13 +1449,13 @@ void ServerNetworkManager::AcceptConnection() {
     // 添加到epoll（水平触发以简化处理）
     struct epoll_event ev;
     ev.events = EPOLLIN; // 水平触发
-    ev.data.ptr = handler.get();
+    // 使用智能指针包装，避免裸指针
+    auto handler_wrapper = new std::shared_ptr<ConnectionHandler>(std::move(handler));
+    ev.data.ptr = handler_wrapper;
     if (epoll_ctl(epoll_fd_.get(), EPOLL_CTL_ADD, fd, &ev) < 0) {
+        delete handler_wrapper; // 清理分配的内存
         return;
     }
-
-    // 添加到连接映射，使用智能指针管理ConnectionHandler对象
-    connections_[fd] = std::move(handler);
 #endif
 }
 

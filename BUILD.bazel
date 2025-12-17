@@ -10,7 +10,7 @@ load("@rules_cc//cc:defs.bzl", "cc_binary", "cc_library", "cc_test")
 cc_library(
     name = "execution_context",
     srcs = ["//src:execution_context.cpp"],
-    hdrs = ["//include:core/execution_context.h"],
+    hdrs = ["//include/core:execution_context.h"],
     includes = ["include", "include/core"],
     deps = [
         "//src/core:sqlcc_core_lib",
@@ -36,7 +36,7 @@ cc_library(
 cc_library(
     name = "unified_executor",
     srcs = ["//src:unified_executor.cpp"],
-    hdrs = ["//include:core/unified_executor.h"],
+    hdrs = ["//include/core:unified_executor.h"],
     includes = ["include", "include/core", "include/storage"],
     deps = [
         "//src/core:sqlcc_core_lib",

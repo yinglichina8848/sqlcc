@@ -8,6 +8,7 @@
 #include "sql_parser/parser.h"
 #include "sql_parser/parser_new.h"
 #include "unified_query_plan.h"
+#include "view_manager.h"
 #include <memory>
 #include <string>
 
@@ -56,6 +57,7 @@ private:
   std::shared_ptr<DatabaseManager> db_manager_;
   std::shared_ptr<UserManager> user_manager_;
   std::shared_ptr<SystemDatabase> system_db_;
+  std::unique_ptr<ViewManager> view_manager_;
   std::unique_ptr<PermissionValidator> permission_validator_;
   std::string last_error_;
   std::string execution_stats_;

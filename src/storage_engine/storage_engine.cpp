@@ -59,14 +59,13 @@ std::unique_ptr<Page> StorageEngine::NewPage(int32_t *page_id) {
     return page_ptr;
 }
 
-Page* StorageEngine::FetchPage(int32_t page_id) {
+std::shared_ptr<Page> StorageEngine::FetchPage(int32_t page_id) {
     // 获取页面的实现
     if (!buffer_pool_) {
         return nullptr;
     }
     
-    std::unique_ptr<Page> page = buffer_pool_->FetchPage(page_id);
-    return page.release();
+    return buffer_pool_->FetchPage(page_id);
 }
 
 bool StorageEngine::UnpinPage(int32_t page_id, bool is_dirty) {

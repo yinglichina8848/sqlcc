@@ -75,7 +75,7 @@ struct LockHolder {
 // 页面锁状态
 struct PageLockState {
     std::vector<LockHolder> holders;
-    std::queue<LockRequest> waiting_queue;
+    std::deque<LockRequest> waiting_queue;  // 改为std::deque以支持迭代
     std::unordered_map<int32_t, LockMode> transaction_locks; // 事务->锁模式的映射
 
     // 锁计数器

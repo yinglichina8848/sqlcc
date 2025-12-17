@@ -134,8 +134,9 @@ bool DataTransmissionValidator::ValidateFragment(const std::vector<char>& fragme
         return false;
     }
 
-    // 验证消息头
-    const MessageHeader* header = reinterpret_cast<const MessageHeader*>(fragment.data());
+    // 使用智能指针管理消息头，避免裸指针
+    auto header = std::make_shared<MessageHeader>();
+    std::memcpy(header.get(), fragment.data(), sizeof(MessageHeader));
     if (!ValidateMessageHeader(*header)) {
         return false;
     }
@@ -161,7 +162,9 @@ std::vector<char> DataTransmissionValidator::ReassembleFragments(const std::vect
             throw std::runtime_error("Invalid fragment detected during reassembly");
         }
 
-        const MessageHeader* header = reinterpret_cast<const MessageHeader*>(fragment.data());
+        // 使用智能指针管理消息头，避免裸指针
+        auto header = std::make_shared<MessageHeader>();
+        std::memcpy(header.get(), fragment.data(), sizeof(MessageHeader));
         total_data_size += header->length;
     }
 
@@ -170,7 +173,9 @@ std::vector<char> DataTransmissionValidator::ReassembleFragments(const std::vect
     reassembled_data.reserve(total_data_size);
 
     for (const auto& fragment : fragments) {
-        const MessageHeader* header = reinterpret_cast<const MessageHeader*>(fragment.data());
+        // 使用智能指针管理消息头，避免裸指针
+        auto header = std::make_shared<MessageHeader>();
+        std::memcpy(header.get(), fragment.data(), sizeof(MessageHeader));
         const char* data_start = fragment.data() + sizeof(MessageHeader);
 
         reassembled_data.insert(reassembled_data.end(),

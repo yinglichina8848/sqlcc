@@ -88,11 +88,11 @@ public:
 private:
     // 表达式解析辅助方法
     std::function<bool(const std::vector<std::string>&)> ParseComparisonExpression(const std::string& expr,
-                                                                                   const std::vector<std::string>& column_names) const;
+                                                                               const std::vector<std::string>& column_names) const;
     std::function<bool(const std::vector<std::string>&)> ParseLogicalExpression(const std::string& expr,
-                                                                                const std::vector<std::string>& column_names) const;
+                                                                            const std::vector<std::string>& column_names) const;
     std::function<bool(const std::vector<std::string>&)> ParseFunctionExpression(const std::string& expr,
-                                                                                 const std::vector<std::string>& column_names) const;
+                                                                             const std::vector<std::string>& column_names) const;
 
     // 值比较方法
     bool CompareValues(const std::string& left, const std::string& right, const std::string& op) const;
@@ -247,6 +247,10 @@ private:
     ForeignKeyValidator fk_validator_;
     UniqueConstraintValidator unique_validator_;
     DefaultValueHandler default_handler_;
+    
+    // 存储引擎和事务管理器
+    std::shared_ptr<StorageEngine> storage_engine_;
+    std::shared_ptr<TransactionManager> transaction_manager_;
 
     // 约束存储
     std::unordered_map<std::string, std::vector<ConstraintRule>> table_constraints_;

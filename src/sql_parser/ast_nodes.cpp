@@ -142,6 +142,41 @@ const std::vector<TableConstraint> &CreateStatement::getConstraints() const {
   return constraints_;
 }
 
+// ==================== CreateViewStatement ====================
+
+CreateViewStatement::CreateViewStatement(const std::string &viewName)
+    : Statement(CREATE_VIEW), viewName_(viewName) {}
+
+CreateViewStatement::~CreateViewStatement() {}
+
+void CreateViewStatement::accept(NodeVisitor &visitor) {
+  visitor.visit(*this);
+}
+
+const std::string &CreateViewStatement::getViewName() const {
+  return viewName_;
+}
+
+const std::vector<std::string> &CreateViewStatement::getColumnNames() const {
+  return columnNames_;
+}
+
+const SelectStatement &CreateViewStatement::getSelectStatement() const {
+  return *selectStatement_;
+}
+
+void CreateViewStatement::addColumnName(const std::string &columnName) {
+  columnNames_.push_back(columnName);
+}
+
+void CreateViewStatement::setSelectStatement(std::unique_ptr<SelectStatement> selectStmt) {
+  selectStatement_ = std::move(selectStmt);
+}
+
+bool CreateViewStatement::hasColumnNames() const {
+  return !columnNames_.empty();
+}
+
 SelectStatement::SelectStatement()
     : Statement(SELECT), joinCondition_(""), limit_(-1), offset_(0),
       selectAll_(false), distinct_(false), hasLimit_(false), hasOffset_(false) {}
@@ -1116,6 +1151,9 @@ namespace {
     sqlcc::sql_parser::NumericLiteralExpression dummy_numeric(0.0);
     sqlcc::sql_parser::BooleanLiteralExpression dummy_boolean(true);
     sqlcc::sql_parser::NullLiteralExpression dummy_null;
+
+    // CreateViewStatement class
+    sqlcc::sql_parser::CreateViewStatement dummy_create_view("");
 
     // Statement classes
     sqlcc::sql_parser::CreateStatement dummy_create(sqlcc::sql_parser::CreateStatement::TABLE, "");

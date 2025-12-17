@@ -12,6 +12,7 @@ namespace sql_parser {
 
 // Forward declarations for all AST node classes
 class CreateStatement;
+class CreateViewStatement;
 class SelectStatement;
 class InsertStatement;
 class UpdateStatement;
@@ -52,6 +53,7 @@ public:
 
   // 为每种具体的AST节点类型提供visit方法
   virtual void visit(CreateStatement &node) = 0;
+  virtual void visit(CreateViewStatement &node) = 0;
   virtual void visit(SelectStatement &node) = 0;
   virtual void visit(InsertStatement &node) = 0;
   virtual void visit(UpdateStatement &node) = 0;

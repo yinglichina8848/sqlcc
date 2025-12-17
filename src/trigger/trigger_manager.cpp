@@ -110,9 +110,9 @@ TriggerManager::TriggerManager()
 
 TriggerManager::~TriggerManager() {}
 
-void TriggerManager::initialize(SqlExecutor* executor) {
+void TriggerManager::initialize(std::shared_ptr<SqlExecutor> executor) {
     std::lock_guard<std::mutex> lock(mutex_);
-    sql_executor_ = executor;
+    sql_executor_ = std::move(executor);
 }
 
 bool TriggerManager::createTrigger(std::unique_ptr<TriggerDefinition> trigger) {
@@ -172,24 +172,24 @@ bool TriggerManager::disableTrigger(const std::string& trigger_name) {
     return true;
 }
 
-const TriggerDefinition* TriggerManager::getTrigger(const std::string& trigger_name) const {
+std::shared_ptr<const TriggerDefinition> TriggerManager::getTrigger(const std::string& trigger_name) const {
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto it = triggers_.find(trigger_name);
     if (it != triggers_.end()) {
-        return it->second.get();
+        return it->second;  // 智能指针会自动转换
     }
     return nullptr;
 }
 
-std::vector<const TriggerDefinition*> TriggerManager::getTriggersForTable(const std::string& table_name) const {
+std::vector<std::shared_ptr<const TriggerDefinition>> TriggerManager::getTriggersForTable(const std::string& table_name) const {
     std::lock_guard<std::mutex> lock(mutex_);
 
-    std::vector<const TriggerDefinition*> result;
+    std::vector<std::shared_ptr<const TriggerDefinition>> result;
     for (const auto& pair : triggers_) {
         if (pair.second->getTableName() == table_name &&
             pair.second->getStatus() == TriggerStatus::ENABLED) {
-            result.push_back(pair.second.get());
+            result.push_back(pair.second);
         }
     }
     return result;
@@ -202,9 +202,9 @@ bool TriggerManager::fireTriggers(TriggerTiming timing, TriggerEvent event,
     std::lock_guard<std::mutex> lock(mutex_);
 
     // 获取匹配的触发器
-    std::vector<const TriggerDefinition*> matching_triggers;
+    std::vector<std::shared_ptr<const TriggerDefinition>> matching_triggers;
     for (const auto& pair : triggers_) {
-        const TriggerDefinition* trigger = pair.second.get();
+        std::shared_ptr<const TriggerDefinition> trigger = pair.second;
         if (trigger->getTiming() == timing &&
             trigger->getEvent() == event &&
             trigger->getTableName() == table_name &&
@@ -219,13 +219,15 @@ bool TriggerManager::fireTriggers(TriggerTiming timing, TriggerEvent event,
 
     // 执行触发器
     bool success = true;
-    for (const TriggerDefinition* trigger : matching_triggers) {
+    for (std::shared_ptr<const TriggerDefinition> trigger : matching_triggers) {
         if (trigger->getLevel() == TriggerLevel::ROW) {
             // 行级触发器 - 为每一行执行
             size_t max_rows = std::max(old_rows.size(), new_rows.size());
             for (size_t i = 0; i < max_rows; ++i) {
-                const RowData* old_row = (i < old_rows.size()) ? &old_rows[i] : nullptr;
-                const RowData* new_row = (i < new_rows.size()) ? &new_rows[i] : nullptr;
+                std::shared_ptr<const RowData> old_row = (i < old_rows.size()) ? 
+                    std::make_shared<RowData>(old_rows[i]) : nullptr;
+                std::shared_ptr<const RowData> new_row = (i < new_rows.size()) ? 
+                    std::make_shared<RowData>(new_rows[i]) : nullptr;
 
                 if (!executeTrigger(trigger, old_row, new_row)) {
                     success = false;
@@ -253,8 +255,8 @@ void TriggerManager::setTriggerExecutor(std::unique_ptr<TriggerExecutor> executo
     trigger_executor_ = std::move(executor);
 }
 
-bool TriggerManager::executeTrigger(const TriggerDefinition* trigger,
-                                   const RowData* old_row, const RowData* new_row) {
+bool TriggerManager::executeTrigger(std::shared_ptr<const TriggerDefinition> trigger,
+                                   std::shared_ptr<const RowData> old_row, std::shared_ptr<const RowData> new_row) {
     if (!trigger) {
         last_error_ = "Null trigger";
         return false;
@@ -274,7 +276,7 @@ bool TriggerManager::executeTrigger(const TriggerDefinition* trigger,
             success = true; // 条件不满足，认为是成功的（不执行）
         } else if (trigger_executor_) {
             // 执行触发器
-            success = trigger_executor_->executeTrigger(trigger, old_row, new_row);
+            success = trigger_executor_->executeTrigger(trigger.get(), old_row.get(), new_row.get());
             if (!success) {
                 last_error_ = "Trigger execution failed for '" + trigger->getName() + "'";
             }
@@ -291,8 +293,8 @@ bool TriggerManager::executeTrigger(const TriggerDefinition* trigger,
     return success;
 }
 
-bool TriggerManager::checkTriggerCondition(const TriggerDefinition* trigger,
-                                          const RowData* old_row, const RowData* new_row) {
+bool TriggerManager::checkTriggerCondition(std::shared_ptr<const TriggerDefinition> trigger,
+                                          std::shared_ptr<const RowData> old_row, std::shared_ptr<const RowData> new_row) {
     if (!trigger) {
         return false;
     }
@@ -313,8 +315,8 @@ bool TriggerManager::checkTriggerCondition(const TriggerDefinition* trigger,
     return trigger_executor_->evaluateCondition(condition, old_row, new_row);
 }
 
-bool TriggerManager::executeTriggerSql(const TriggerDefinition* trigger,
-                                      const RowData* old_row, const RowData* new_row) {
+bool TriggerManager::executeTriggerSql(std::shared_ptr<const TriggerDefinition> trigger,
+                                      std::shared_ptr<const RowData> old_row, std::shared_ptr<const RowData> new_row) {
     if (!trigger || !sql_executor_) {
         return false;
     }

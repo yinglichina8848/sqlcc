@@ -212,6 +212,15 @@ cc_test(
     ],
 )
 
+# CREATE VIEW功能测试
+cc_binary(
+    name = "test_create_view",
+    srcs = ["test_create_view.cpp"],
+    deps = [
+        "//src/sql_parser:sqlcc_parser",
+    ],
+)
+
 # 更新测试套件以包含所有测试
 test_suite(
     name = "parser_component_tests",

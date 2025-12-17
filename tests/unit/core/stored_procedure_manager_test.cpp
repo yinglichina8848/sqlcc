@@ -1,6 +1,6 @@
-#include "core/stored_procedure_manager.h"
+#include "include/core/stored_procedure_manager.h"
 #include "utils/config_manager.h"
-#include "core/database_manager.h"
+#include "include/database_manager.h"
 #include <gtest/gtest.h>
 #include <memory>
 #include <thread>

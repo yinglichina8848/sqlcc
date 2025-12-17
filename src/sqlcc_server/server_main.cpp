@@ -15,8 +15,8 @@
 
 using namespace sqlcc::network;
 
-// 全局服务器指针，用于信号处理
-static ServerNetworkManager* g_server = nullptr;
+// 全局服务器智能指针，用于信号处理
+static std::shared_ptr<ServerNetworkManager> g_server = nullptr;
 
 // 信号处理函数
 void signalHandler(int signal) {
@@ -60,11 +60,10 @@ int main(int argc, char* argv[]) {
     auto sql_executor = std::make_shared<sqlcc::SqlExecutor>();
     
     // 创建服务器网络管理器
-    ServerNetworkManager server(port);
-    g_server = &server;
+    g_server = std::make_shared<ServerNetworkManager>(port);
     
     // 设置SQL执行器到服务器网络管理器
-    server.SetSqlExecutor(sql_executor);
+    g_server->SetSqlExecutor(sql_executor);
     
     // 注册信号处理函数
     std::signal(SIGINT, signalHandler);
@@ -87,12 +86,12 @@ int main(int argc, char* argv[]) {
         if (loop_count % 100 == 0) {  // 每100次循环输出一次
             std::cout << "[SERVER] Event loop iteration " << loop_count << std::endl;
         }
-        server.ProcessEvents();
+        g_server->ProcessEvents();
         std::this_thread::sleep_for(std::chrono::milliseconds(10));
     }
     
     // 停止服务器
-    server.Stop();
+    g_server->Stop();
     std::cout << "Server stopped" << std::endl;
     
     return 0;
