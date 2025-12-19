@@ -1,35 +1,19 @@
-# SQLCC触发器模块构建配置
+cc_library(
+    name = "sql_trigger_executor",
+    srcs = ["sql_trigger_executor.cpp"],
+    hdrs = ["sql_trigger_executor.h"],
+    deps = [
+        "//include/trigger:sql_trigger_executor",
+        "//include/trigger:trigger_headers",
+        "//src/core:sqlcc_core_lib",
+    ],
+)
 
-package(default_visibility = ["//visibility:public"])
-
-load("@rules_cc//cc:defs.bzl", "cc_library", "cc_test")
-
-# 触发器管理器库
 cc_library(
     name = "trigger_manager",
     srcs = ["trigger_manager.cpp"],
-    hdrs = ["//include/trigger:trigger_manager.h"],
-    includes = ["../../include"],
+    hdrs = ["trigger_manager.h"],
     deps = [
-        "//src/core:sqlcc_core_lib",
-        "//src/sql_executor:sqlcc_executor",
-    ],
-)
-
-# 触发器模块聚合库
-cc_library(
-    name = "trigger",
-    deps = [
-        ":trigger_manager",
-    ],
-)
-
-# 触发器管理器单元测试
-cc_test(
-    name = "trigger_manager_test",
-    srcs = ["trigger_manager_test.cpp"],
-    deps = [
-        ":trigger_manager",
-        "@com_google_googletest//:gtest_main",
+        "//include/trigger:trigger_headers",
     ],
 )

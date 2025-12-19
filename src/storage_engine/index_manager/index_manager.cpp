@@ -61,11 +61,13 @@ bool IndexManager::DropIndex(const std::string &index_name,
 
 bool IndexManager::IndexExists(const std::string &index_name,
                                const std::string &table_name) const {
+  (void)table_name; // 避免未使用参数警告
   return indexes_.find(index_name) != indexes_.end();
 }
 
 BPlusTreeIndex *IndexManager::GetIndex(const std::string &index_name,
                                        const std::string &table_name) {
+  (void)table_name; // 避免未使用参数警告
   auto it = indexes_.find(index_name);
   if (it != indexes_.end()) {
     return it->second.get();
@@ -95,6 +97,7 @@ bool IndexManager::CreateCompositeIndex(const std::string &index_name,
                                        const std::string &table_name,
                                        const std::vector<std::string> &columns,
                                        bool unique) {
+  (void)unique; // 避免未使用参数警告
   SQLCC_LOG_INFO("Creating composite index: " + index_name + " on table: " + table_name +
                  " with columns: " + [&columns]() {
                    std::string cols;
@@ -152,6 +155,7 @@ IndexManager::GetIndexedColumns(const std::string &table_name) const {
 
 std::vector<std::vector<std::string>>
 IndexManager::GetCompositeIndexedColumns(const std::string &table_name) const {
+  (void)table_name; // 避免未使用参数警告
   // 目前简化实现，返回空向量
   // 真正的复合索引实现需要维护复合索引的列信息
   return std::vector<std::vector<std::string>>();

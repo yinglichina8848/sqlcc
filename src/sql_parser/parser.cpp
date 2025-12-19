@@ -189,6 +189,13 @@ std::unique_ptr<Statement> Parser::parseStatement() {
     return parseRevokeStatement();
   }
 
+  if (match(Token::KEYWORD_LOAD)) {
+    consume(Token::KEYWORD_DATA);
+    std::cout << "[PARSER DEBUG] 检测到LOAD DATA语句，调用parseLoadDataStatement()"
+              << std::endl;
+    return parseLoadDataStatement();
+  }
+
   // If we reach here, we have an unknown statement
   std::cout << "[PARSER DEBUG] 未知语句类型，抛出异常" << std::endl;
   std::stringstream ss;
@@ -1862,6 +1869,265 @@ std::unique_ptr<CreateStatement> Parser::parseCreateTriggerStatement() {
   auto stmt = std::make_unique<CreateTriggerStatement>(triggerDef);
 
   std::cout << "[PARSER DEBUG] CREATE TRIGGER语句解析完成" << std::endl;
+  return stmt;
+}
+
+// ==================== LOAD DATA Statement Parsing ====================
+
+std::unique_ptr<Statement> Parser::parseLoadDataStatement() {
+  std::cout << "[PARSER DEBUG] 进入parseLoadDataStatement()方法" << std::endl;
+
+  // 创建LoadDataStatement对象
+  auto stmt = std::make_unique<LoadDataStatement>();
+  if (!stmt) {
+    std::cerr << "Failed to create LoadDataStatement object" << std::endl;
+    return nullptr;
+  }
+
+  // 解析可选的LOW_PRIORITY或CONCURRENT
+  if (match(Token::KEYWORD_LOW_PRIORITY)) {
+    stmt->low_priority = true;
+    std::cout << "[PARSER DEBUG] 检测到LOW_PRIORITY" << std::endl;
+  } else if (match(Token::KEYWORD_CONCURRENT)) {
+    stmt->concurrent = true;
+    std::cout << "[PARSER DEBUG] 检测到CONCURRENT" << std::endl;
+  }
+
+  // 解析可选的LOCAL
+  if (match(Token::KEYWORD_LOCAL)) {
+    stmt->is_local = true;
+    std::cout << "[PARSER DEBUG] 检测到LOCAL" << std::endl;
+  }
+
+  // 消费INFILE关键字
+  consume(Token::KEYWORD_INFILE);
+
+  // 解析文件路径
+  if (check(Token::STRING_LITERAL)) {
+    stmt->file_name = currentToken_.getLexeme();
+    // 移除引号
+    if (stmt->file_name.size() >= 2 && stmt->file_name.front() == '"' && stmt->file_name.back() == '"') {
+      stmt->file_name = stmt->file_name.substr(1, stmt->file_name.size() - 2);
+    } else if (stmt->file_name.size() >= 2 && stmt->file_name.front() == '\'' && stmt->file_name.back() == '\'') {
+      stmt->file_name = stmt->file_name.substr(1, stmt->file_name.size() - 2);
+    }
+    advance();
+    std::cout << "[PARSER DEBUG] 文件名: " << stmt->file_name << std::endl;
+  } else {
+    reportError("Expected string literal for file name");
+    return nullptr;
+  }
+
+  // 解析可选的REPLACE或IGNORE
+  if (match(Token::KEYWORD_REPLACE)) {
+    stmt->replace_or_ignore = "REPLACE";
+    std::cout << "[PARSER DEBUG] 检测到REPLACE" << std::endl;
+  } else if (match(Token::KEYWORD_IGNORE)) {
+    stmt->replace_or_ignore = "IGNORE";
+    std::cout << "[PARSER DEBUG] 检测到IGNORE" << std::endl;
+  }
+
+  // 消费INTO TABLE关键字
+  consume(Token::KEYWORD_INTO);
+  consume(Token::KEYWORD_TABLE);
+
+  // 解析表名
+  stmt->table_name = parseIdentifier();
+  std::cout << "[PARSER DEBUG] 表名: " << stmt->table_name << std::endl;
+
+  // 解析可选的分区子句
+  if (match(Token::KEYWORD_PARTITION)) {
+    consume(Token::LPAREN);
+    bool first = true;
+    while (!check(Token::RPAREN) && !isAtEnd()) {
+      if (!first) {
+        if (!match(Token::COMMA)) {
+          break;
+        }
+      }
+      first = false;
+
+      std::string partition = parseIdentifier();
+      stmt->partitions.push_back(partition);
+      std::cout << "[PARSER DEBUG] 分区: " << partition << std::endl;
+    }
+    consume(Token::RPAREN);
+  }
+
+  // 解析可选的CHARACTER SET子句
+  if (match(Token::KEYWORD_CHARACTER)) {
+    consume(Token::KEYWORD_SET);
+    stmt->charset_name = parseIdentifier();
+    std::cout << "[PARSER DEBUG] 字符集: " << stmt->charset_name << std::endl;
+  }
+
+  // 解析可选的FIELDS/COLUMNS选项
+  if (match(Token::KEYWORD_FIELDS) || match(Token::KEYWORD_COLUMNS)) {
+    // 解析字段终止符
+    if (match(Token::KEYWORD_TERMINATED)) {
+      consume(Token::KEYWORD_BY);
+      if (check(Token::STRING_LITERAL)) {
+        stmt->fields_terminated_by = currentToken_.getLexeme();
+        // 移除引号
+        if (stmt->fields_terminated_by.size() >= 2 &&
+            stmt->fields_terminated_by.front() == '\'' &&
+            stmt->fields_terminated_by.back() == '\'') {
+          stmt->fields_terminated_by = stmt->fields_terminated_by.substr(1, stmt->fields_terminated_by.size() - 2);
+        }
+        advance();
+        std::cout << "[PARSER DEBUG] 字段终止符: " << stmt->fields_terminated_by << std::endl;
+      }
+    }
+
+    // 解析字段包围符
+    if (match(Token::KEYWORD_OPTIONALLY)) {
+      stmt->fields_optionally_enclosed = true;
+    }
+    if (match(Token::KEYWORD_ENCLOSED)) {
+      consume(Token::KEYWORD_BY);
+      if (check(Token::STRING_LITERAL)) {
+        stmt->fields_enclosed_by = currentToken_.getLexeme();
+        // 移除引号
+        if (stmt->fields_enclosed_by.size() >= 2 &&
+            stmt->fields_enclosed_by.front() == '\'' &&
+            stmt->fields_enclosed_by.back() == '\'') {
+          stmt->fields_enclosed_by = stmt->fields_enclosed_by.substr(1, stmt->fields_enclosed_by.size() - 2);
+        }
+        advance();
+        std::cout << "[PARSER DEBUG] 字段包围符: " << stmt->fields_enclosed_by << std::endl;
+      }
+    }
+
+    // 解析字段转义符
+    if (match(Token::KEYWORD_ESCAPED)) {
+      consume(Token::KEYWORD_BY);
+      if (check(Token::STRING_LITERAL)) {
+        stmt->fields_escaped_by = currentToken_.getLexeme();
+        // 移除引号
+        if (stmt->fields_escaped_by.size() >= 2 &&
+            stmt->fields_escaped_by.front() == '\'' &&
+            stmt->fields_escaped_by.back() == '\'') {
+          stmt->fields_escaped_by = stmt->fields_escaped_by.substr(1, stmt->fields_escaped_by.size() - 2);
+        }
+        advance();
+        std::cout << "[PARSER DEBUG] 字段转义符: " << stmt->fields_escaped_by << std::endl;
+      }
+    }
+  }
+
+  // 解析可选的LINES选项
+  if (match(Token::KEYWORD_LINES)) {
+    // 解析行起始符
+    if (match(Token::KEYWORD_STARTING)) {
+      consume(Token::KEYWORD_BY);
+      if (check(Token::STRING_LITERAL)) {
+        stmt->lines_starting_by = currentToken_.getLexeme();
+        // 移除引号
+        if (stmt->lines_starting_by.size() >= 2 &&
+            stmt->lines_starting_by.front() == '\'' &&
+            stmt->lines_starting_by.back() == '\'') {
+          stmt->lines_starting_by = stmt->lines_starting_by.substr(1, stmt->lines_starting_by.size() - 2);
+        }
+        advance();
+        std::cout << "[PARSER DEBUG] 行起始符: " << stmt->lines_starting_by << std::endl;
+      }
+    }
+
+    // 解析行终止符
+    if (match(Token::KEYWORD_TERMINATED)) {
+      consume(Token::KEYWORD_BY);
+      if (check(Token::STRING_LITERAL)) {
+        stmt->lines_terminated_by = currentToken_.getLexeme();
+        // 移除引号
+        if (stmt->lines_terminated_by.size() >= 2 &&
+            stmt->lines_terminated_by.front() == '\'' &&
+            stmt->lines_terminated_by.back() == '\'') {
+          stmt->lines_terminated_by = stmt->lines_terminated_by.substr(1, stmt->lines_terminated_by.size() - 2);
+        }
+        advance();
+        std::cout << "[PARSER DEBUG] 行终止符: " << stmt->lines_terminated_by << std::endl;
+      }
+    }
+  }
+
+  // 解析可选的IGNORE子句
+  if (match(Token::KEYWORD_IGNORE)) {
+    if (check(Token::INTEGER_LITERAL)) {
+      stmt->ignore_lines = std::stoi(currentToken_.getLexeme());
+      advance();
+    }
+    consume(Token::KEYWORD_LINES);
+    std::cout << "[PARSER DEBUG] 忽略行数: " << stmt->ignore_lines << std::endl;
+  }
+
+  // 解析可选的列列表
+  if (match(Token::LPAREN)) {
+    bool first = true;
+    while (!check(Token::RPAREN) && !isAtEnd()) {
+      if (!first) {
+        if (!match(Token::COMMA)) {
+          break;
+        }
+      }
+      first = false;
+
+      std::string column = parseIdentifier();
+      stmt->column_list.push_back(column);
+      std::cout << "[PARSER DEBUG] 列映射: " << column << std::endl;
+    }
+    consume(Token::RPAREN);
+  }
+
+  // 解析可选的SET子句
+  if (match(Token::KEYWORD_SET)) {
+    bool first = true;
+    while (!isAtEnd()) {
+      if (!first) {
+        if (!match(Token::COMMA)) {
+          break;
+        }
+      }
+      first = false;
+
+      std::string column = parseIdentifier();
+      consume(Token::OPERATOR_EQUAL);
+
+      // 简化处理：解析表达式为字符串
+      std::stringstream exprStream;
+      int parenDepth = 0;
+      while (!isAtEnd()) {
+        if (check(Token::LPAREN)) {
+          parenDepth++;
+          exprStream << currentToken_.getLexeme();
+          advance();
+        } else if (check(Token::RPAREN)) {
+          parenDepth--;
+          exprStream << currentToken_.getLexeme();
+          advance();
+          if (parenDepth == 0) {
+            break;
+          }
+        } else if (parenDepth == 0 &&
+                   (check(Token::COMMA) || check(Token::SEMICOLON))) {
+          break;
+        } else {
+          exprStream << currentToken_.getLexeme() << " ";
+          advance();
+        }
+      }
+
+      std::string expression = exprStream.str();
+      // 移除末尾空格
+      while (!expression.empty() && expression.back() == ' ') {
+        expression.pop_back();
+      }
+
+      stmt->set_expressions.emplace_back(column, expression);
+      std::cout << "[PARSER DEBUG] SET表达式: " << column << " = " << expression << std::endl;
+    }
+  }
+
+  std::cout << "[PARSER DEBUG] LOAD DATA语句解析完成" << std::endl;
   return stmt;
 }
 

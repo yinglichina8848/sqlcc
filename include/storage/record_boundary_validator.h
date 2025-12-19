@@ -287,7 +287,7 @@ public:
                                   const std::vector<std::string>& field_types,
                                   const std::vector<std::string>& values,
                                   int32_t transaction_id = -1,
-                                  int32_t record_id = -1) const;
+                                  int32_t record_id = -1);
 
     // 记录更新验证
     ValidationResult ValidateRecordUpdate(const std::string& table_name,
@@ -295,7 +295,7 @@ public:
                                         const std::vector<std::string>& old_values,
                                         const std::vector<std::string>& new_values,
                                         int32_t transaction_id = -1,
-                                        int32_t record_id = -1) const;
+                                        int32_t record_id = -1);
 
     // 记录删除验证
     ValidationResult ValidateRecordDeletion(const std::string& table_name,
@@ -305,7 +305,7 @@ public:
     // 批量验证
     std::vector<ValidationResult> ValidateRecords(const std::string& table_name,
                                                 const std::vector<std::vector<std::string>>& record_batch,
-                                                int32_t transaction_id = -1) const;
+                                                int32_t transaction_id = -1);
 
     // 配置管理
     void SetValidationConfig(const RecordValidationConfig& config);
@@ -365,7 +365,7 @@ private:
                                                 int32_t record_id, int32_t transaction_id,
                                                 bool is_write) const;
 
-    void UpdateValidationStats(ValidationResult result, std::chrono::microseconds duration) const;  // 添加const
+    void UpdateValidationStats(ValidationResult result, std::chrono::microseconds duration);  // 移除const
     std::shared_ptr<TableMetadata> GetTableMetadata(const std::string& table_name) const;
 };
 

@@ -105,6 +105,46 @@ cc_test(
     ],
 )
 
+cc_test(
+    name = "advanced_sql92_test_suite",
+    srcs = ["advanced_sql92_test_suite.cpp"],
+    deps = [
+        "//src/execution:function_executor",
+        "//src/trigger:sql_trigger_executor",
+        "//src/transaction:savepoint_manager",
+        "//src/types:domain_manager",
+        "//src/procedure:procedure_vm",
+        "//src/sql_parser:function_ast",
+        "//src/trigger:trigger_manager",
+        "@com_google_googletest//:gtest_main",
+    ],
+)
+
+cc_test(
+    name = "query_features_test",
+    srcs = ["query_features_test.cpp"],
+    deps = [
+        "//src/execution:set_operation_executor",
+        "//src/execution:window_function_executor",
+        "//src/execution:recursive_query_executor",
+        "//src/core:sqlcc_database_core",
+        "//src/sql_parser:set_operation",
+        "//src/sql_parser:window_function",
+        "//src/sql_parser:recursive_query",
+        "@com_google_googletest//:gtest_main",
+    ],
+)
+
+cc_test(
+    name = "simple_network_test",
+    srcs = ["unit/simple_network_test.cpp"],
+    deps = [
+        "@com_google_googletest//:gtest_main",
+    ],
+)
+
+# 从tests/BUILD.bazel中移除有问题的标签引用，这些测试在其他BUILD文件中定义
+
 # 全面测试套件
 test_suite(
     name = "comprehensive_tests",
@@ -112,5 +152,7 @@ test_suite(
         ":parser_alter_table_test_run",
         ":parser_alter_table_comprehensive_test_run",
         ":parser_drop_table_test_run",
+        ":advanced_sql92_test_suite",
+        ":query_features_test",
     ],
 )

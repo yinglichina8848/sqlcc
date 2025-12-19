@@ -29,6 +29,9 @@ public:
     // 序列化和反序列化方法
     virtual void SerializeToPage() = 0;
     virtual void DeserializeFromPage() = 0;
+    
+    // 清空节点数据方法
+    virtual void Clear() = 0;
 
 protected:
     std::shared_ptr<StorageEngine> storage_engine_;
@@ -47,8 +50,12 @@ public:
     // 序列化和反序列化方法
     void SerializeToPage() override;
     void DeserializeFromPage() override;
+    
+    // 清空节点数据方法
+    void Clear() override;
 
     // 节点操作方法
+    void InsertChild(int32_t child_page_id);
     void InsertChild(int32_t child_page_id, const std::string& key);
     void RemoveChild(int32_t child_page_id);
     int32_t FindChildPageId(const std::string& key) const;
@@ -66,8 +73,8 @@ private:
     std::vector<std::string> keys_;
     std::vector<int32_t> child_page_ids_;
 
-    static const size_t BPLUS_TREE_MAX_KEYS = 100;  // 最大键数量
-    static const size_t BPLUS_TREE_MIN_KEYS = 50;   // 最小键数量
+    static const size_t BPLUS_TREE_MAX_KEYS = 250;  // 最大键数量
+    static const size_t BPLUS_TREE_MIN_KEYS = 125;   // 最小键数量
 };
 
 // 索引条目结构
@@ -95,6 +102,9 @@ public:
     // 序列化和反序列化方法
     void SerializeToPage() override;
     void DeserializeFromPage() override;
+    
+    // 清空节点数据方法
+    void Clear() override;
 
     // 节点操作方法
     bool Insert(const IndexEntry& entry);
@@ -104,9 +114,10 @@ public:
     void Split(std::unique_ptr<BPlusTreeLeafNode>& new_node);
     void Merge(std::unique_ptr<BPlusTreeLeafNode> right_node);
 
-    // Getter方法
+    // Getter和Setter方法
     const std::vector<IndexEntry>& GetEntries() const { return entries_; }
     int32_t GetNextPageId() const { return next_page_id_; }
+    void SetNextPageId(int32_t next_page_id) { next_page_id_ = next_page_id; }
 
     // 检查节点是否已满
     bool IsFull() const { return entries_.size() >= BPLUS_TREE_LEAF_MAX_KEYS; }
@@ -115,8 +126,8 @@ private:
     std::vector<IndexEntry> entries_;
     int32_t next_page_id_;
 
-    static const size_t BPLUS_TREE_LEAF_MAX_KEYS = 100;  // 最大条目数量
-    static const size_t BPLUS_TREE_LEAF_MIN_KEYS = 50;   // 最小条目数量
+    static const size_t BPLUS_TREE_LEAF_MAX_KEYS = 250;  // 最大条目数量
+    static const size_t BPLUS_TREE_LEAF_MIN_KEYS = 125;   // 最小条目数量
 };
 
 } // namespace sqlcc

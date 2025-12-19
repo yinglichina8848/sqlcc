@@ -7,7 +7,9 @@
 #include "set_operation.h"
 #include "window_function.h"
 #include "data_types.h"
+#include "function_ast.h"
 #include "storage/table_storage.h"
+#include "../src/sql_parser/load_data_ast.h"
 #include <memory>
 #include <string>
 #include <unordered_map>
@@ -1184,6 +1186,9 @@ private:
   std::string name_;
   Action action_;
 };
+
+// ==================== Function AST Nodes ====================
+// Function-related classes are defined in function_ast.h
 
 } // namespace sql_parser
 } // namespace sqlcc

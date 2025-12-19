@@ -6,6 +6,7 @@
 #include <chrono>
 #include <atomic>
 #include <thread>
+#include <memory>
 #include "performance_test_base.h"
 #include "sql_executor.h"
 
@@ -54,7 +55,7 @@ private:
     static constexpr double kMaxErrorRate = 0.01; // 1% error rate
     
     // SQL执行器
-    SqlExecutor* sql_executor_;
+    std::unique_ptr<SqlExecutor> sql_executor_;
 
     std::atomic<bool> test_running_;
     std::atomic<size_t> total_operations_;

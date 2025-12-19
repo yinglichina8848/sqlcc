@@ -24,6 +24,7 @@ namespace sqlcc {
 DeadlockDetector::DeadlockDetector() = default;
 
 bool DeadlockDetector::DetectDeadlock(int32_t transaction_id, std::vector<int32_t>& deadlock_chain) {
+    (void)deadlock_chain; // 避免未使用参数警告
     std::lock_guard<std::mutex> lock(graph_mutex_);
     std::unordered_set<int32_t> visited;
     std::vector<int32_t> path;
@@ -340,6 +341,8 @@ void LockManager::CleanupExpiredLocks() {
 }
 
 void LockManager::NotifyWaitingTransactions(const std::string& table_name, int32_t record_id) {
+    (void)table_name; // 避免未使用参数警告
+    (void)record_id; // 避免未使用参数警告
     // 简化实现：实际应该通知等待队列中的事务
     // 这里暂时为空实现
 }
@@ -355,6 +358,9 @@ uint64_t MVCCVersionManager::GetNextVersion() {
 
 bool MVCCVersionManager::IsVersionVisible(uint64_t version, int32_t transaction_id,
                                         IsolationLevel isolation_level) const {
+    (void)version; // 避免未使用参数警告
+    (void)transaction_id; // 避免未使用参数警告
+    (void)isolation_level; // 避免未使用参数警告
     // 简化的MVCC可见性检查
     // 实际实现应该考虑事务的开始时间、提交时间等
 
@@ -391,6 +397,7 @@ std::vector<uint64_t> MVCCVersionManager::GetVisibleVersions(int32_t transaction
 }
 
 void MVCCVersionManager::CleanupOldVersions(uint64_t min_active_version) {
+    (void)min_active_version; // 避免未使用参数警告
     // 简化的版本清理
     // 实际应该清理不再需要的旧版本
 }
@@ -421,6 +428,7 @@ LockState ConcurrentAccessValidator::ValidateConcurrentAccess(
 
     // 获取事务隔离级别
     IsolationLevel isolation_level = GetTransactionIsolationLevel(transaction_id);
+    (void)isolation_level; // 避免未使用变量警告
 
     // 根据访问类型确定需要的锁模式
     LockMode required_mode;
@@ -503,6 +511,8 @@ bool ConcurrentAccessValidator::ValidateMVCCVersion(const std::string& table_nam
                                                   int32_t record_id,
                                                   int32_t transaction_id,
                                                   uint64_t expected_version) {
+    (void)table_name; // 避免未使用参数警告
+    (void)record_id; // 避免未使用参数警告
 
     IsolationLevel isolation_level = GetTransactionIsolationLevel(transaction_id);
     return mvcc_manager_.IsVersionVisible(expected_version, transaction_id, isolation_level);
@@ -538,6 +548,10 @@ bool ConcurrentAccessValidator::IsAccessAllowed(int32_t transaction_id,
                                               const std::string& table_name,
                                               int32_t record_id,
                                               AccessControlType access_type) const {
+    (void)transaction_id; // 避免未使用参数警告
+    (void)table_name; // 避免未使用参数警告
+    (void)record_id; // 避免未使用参数警告
+    (void)access_type; // 避免未使用参数警告
 
     // 简化的访问控制检查
     // 实际应该根据事务隔离级别和锁状态进行检查

@@ -9,11 +9,21 @@
 namespace sqlcc {
 
 WALBuffer::WALBuffer(ConfigManager& config_manager, size_t buffer_size)
-    : config_manager_(config_manager),
+    : wal_writer_(nullptr),
+      config_manager_(config_manager),
       max_buffer_size_(buffer_size),
+      buffer_(),
+      buffer_mutex_(),
+      flush_thread_(),
       running_(true),
-      next_lsn_(1),
-      wal_writer_(nullptr) {
+      flush_cv_(),
+      flush_mutex_(),
+      stats_mutex_(),
+      stats_(),
+      flush_interval_(std::chrono::milliseconds(1000)),  // 默认1秒
+      flush_threshold_(80),                              // 默认80%
+      max_records_per_flush_(1000),                      // 默认1000条记录
+      next_lsn_(1) {
 
   // 从配置管理器获取参数，设置默认值
   flush_interval_ = std::chrono::milliseconds(1000);  // 默认1秒
@@ -97,6 +107,7 @@ bool WALBuffer::Flush() {
     buffer_.clear();
 
     size_t flushed_size = stats_.current_buffer_size.load();
+    (void)flushed_size; // 避免未使用变量警告
     stats_.current_buffer_size = 0;
     stats_.total_flushes.fetch_add(1);
 

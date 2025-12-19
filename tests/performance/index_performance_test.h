@@ -50,7 +50,7 @@ private:
     std::string db_file_path_;
     ConfigManager config_manager_;
     std::unique_ptr<StorageEngine> storage_engine_;
-    IndexManager* index_manager_;
+    std::unique_ptr<IndexManager> index_manager_;
     std::vector<TestResult> results_;
     std::unordered_map<std::string, std::string> data_store_; // 用于存储测试数据
 };

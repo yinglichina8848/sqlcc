@@ -6,7 +6,8 @@ cc_test(
     name = "b_plus_tree_test",
     srcs = ["b_plus_tree_test.cpp"],
     deps = [
-        "//src/storage_engine:sqlcc_storage_engine",
+        "//src/storage_engine:storage_engine",
+        "//src/config_manager:sqlcc_config_manager",
         "@com_google_googletest//:gtest_main",
     ],
 )
@@ -15,7 +16,7 @@ cc_test(
     name = "buffer_pool_test",
     srcs = ["buffer_pool_test.cpp"],
     deps = [
-        "//src/storage_engine:sqlcc_storage_engine",
+        "//src/storage_engine:storage_engine",
         "@com_google_googletest//:gtest_main",
     ],
 )
@@ -24,19 +25,17 @@ cc_test(
     name = "buffer_pool_smart_pointer_test",
     srcs = ["buffer_pool_smart_pointer_test.cpp"],
     deps = [
-        "//src/storage_engine:sqlcc_storage_engine",
+        "//src/storage_engine:storage_engine",
         "//src/core:sqlcc_core_lib",
         "@com_google_googletest//:gtest_main",
     ],
-    includes = ["../../../include"],
 )
 
 cc_test(
     name = "disk_manager_test",
     srcs = ["disk_manager_test.cpp"],
     deps = [
-        "//src/storage_engine:sqlcc_storage_engine",
-        "//src/storage_engine:sqlcc_index_manager",
+        "//src/storage_engine:storage_engine",
         "@com_google_googletest//:gtest_main",
     ],
 )
@@ -45,7 +44,7 @@ cc_test(
     name = "index_maintenance_test",
     srcs = ["index_maintenance_test.cpp"],
     deps = [
-        "//src/storage_engine:sqlcc_storage_engine",
+        "//src/storage_engine:storage_engine",
         "@com_google_googletest//:gtest_main",
     ],
 )
@@ -54,7 +53,7 @@ cc_test(
     name = "index_system_integration_test",
     srcs = ["index_system_integration_test.cpp"],
     deps = [
-        "//src/storage_engine:sqlcc_storage_engine",
+        "//src/storage_engine:storage_engine",
         "//src:execution_engine",
         "//src/sql_executor:sqlcc_executor",
         "//src/core:sqlcc_core_lib",
@@ -80,6 +79,15 @@ cc_test(
     name = "simple_network_test",
     srcs = ["simple_network_test.cpp"],
     deps = [
+        "@com_google_googletest//:gtest_main",
+    ],
+)
+
+cc_test(
+    name = "simple_create_test",
+    srcs = ["simple_create_test.cpp"],
+    deps = [
+        "//src/storage_engine:storage_engine",
         "@com_google_googletest//:gtest_main",
     ],
 )

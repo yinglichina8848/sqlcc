@@ -1,0 +1,16 @@
+# Utils头文件库定义
+
+package(default_visibility = ["//visibility:public"])
+
+# Utils头文件库
+filegroup(
+    name = "utils_headers",
+    srcs = glob(["*.h"]),
+)
+
+cc_library(
+    name = "utils_lib",
+    hdrs = glob(["*.h"]),
+    includes = ["."],
+    visibility = ["//visibility:public"],
+)

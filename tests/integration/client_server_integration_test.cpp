@@ -2,14 +2,15 @@
 #include "server_manager.h"
 #include <gtest/gtest.h>
 #include <string>
+#include <memory>
 
 namespace sqlcc {
 namespace test {
 
 class ClientServerIntegrationTest : public ::testing::Test {
 protected:
-  static ServerManager *server_manager_;
-  static ClientTest *client_test_;
+  static std::unique_ptr<ServerManager> server_manager_;
+  static std::unique_ptr<ClientTest> client_test_;
   static std::string server_path_;
   static std::string client_path_;
   static int port_;
@@ -45,7 +46,7 @@ protected:
     bool server_started = false;
     for (int i = 0; i < 5 && !server_started; ++i) {
       // 创建服务器管理器并启动服务器
-      server_manager_ = new ServerManager(server_path_, port_);
+      server_manager_ = std::make_unique<ServerManager>(server_path_, port_);
       if (server_manager_->Start()) {
         std::cout << "Server started successfully on port " << port_
                   << std::endl;
@@ -53,8 +54,7 @@ protected:
       } else {
         std::cerr << "Failed to start server on port " << port_
                   << ", trying next port..." << std::endl;
-        delete server_manager_;
-        server_manager_ = nullptr;
+        server_manager_.reset();
         port_++;
       }
     }
@@ -62,7 +62,7 @@ protected:
     ASSERT_TRUE(server_started) << "Failed to start server on any port";
 
     // 创建客户端测试对象
-    client_test_ = new ClientTest(client_path_, "127.0.0.1", port_);
+    client_test_ = std::make_unique<ClientTest>(client_path_, "127.0.0.1", port_);
   }
 
   // 所有测试结束后执行
@@ -71,22 +71,20 @@ protected:
     if (server_manager_) {
       std::cout << "Stopping server..." << std::endl;
       server_manager_->Stop();
-      delete server_manager_;
-      server_manager_ = nullptr;
+      server_manager_.reset();
       std::cout << "Server stopped" << std::endl;
     }
 
     // 清理客户端测试对象
     if (client_test_) {
-      delete client_test_;
-      client_test_ = nullptr;
+      client_test_.reset();
     }
   }
 };
 
 // 静态成员初始化
-ServerManager *ClientServerIntegrationTest::server_manager_ = nullptr;
-ClientTest *ClientServerIntegrationTest::client_test_ = nullptr;
+std::unique_ptr<ServerManager> ClientServerIntegrationTest::server_manager_ = nullptr;
+std::unique_ptr<ClientTest> ClientServerIntegrationTest::client_test_ = nullptr;
 std::string ClientServerIntegrationTest::server_path_ = "";
 std::string ClientServerIntegrationTest::client_path_ = "";
 int ClientServerIntegrationTest::port_ = 18647;

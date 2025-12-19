@@ -68,11 +68,31 @@ public:
   bool UnpinPage(int32_t page_id, int32_t transaction_id = -1);
 
   /**
+   * @brief 获取页面共享指针（线程安全版本）
+   * @param page_id 页面ID
+   * @return 页面共享指针，如果不存在返回nullptr
+   */
+  std::shared_ptr<BufferPage> FetchPageShared(int32_t page_id);
+
+  /**
    * @brief 创建新页面
    * @param transaction_id 事务ID（用于并发控制）
    * @return 新页面ID，如果失败返回-1
    */
   int32_t NewPage(int32_t transaction_id = -1);
+
+  /**
+   * @brief 检查页面是否在缓冲池中
+   * @param page_id 页面ID
+   * @return 是否在缓冲池中
+   */
+  bool IsPageInBuffer(int32_t page_id) const;
+
+  /**
+   * @brief 获取已使用的页面数
+   * @return 已使用的页面数
+   */
+  size_t GetUsedPages() const;
 
   /**
    * @brief 刷新页面到磁盘

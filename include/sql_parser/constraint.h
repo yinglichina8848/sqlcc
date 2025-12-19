@@ -23,12 +23,21 @@ public:
     NO_ACTION
   };
 
+  // 约束检查时机
+  enum DeferrableMode {
+    NOT_DEFERRABLE,     // 立即检查 (默认)
+    DEFERRABLE,         // 可延迟检查
+    INITIALLY_DEFERRED, // 初始延迟检查
+    INITIALLY_IMMEDIATE // 初始立即检查
+  };
+
   ForeignKeyConstraint(const std::vector<std::string> &columns,
                        const std::string &referenced_table,
                        const std::vector<std::string> &referenced_columns,
                        const std::string &name = "",
                        CascadeAction on_delete = RESTRICT,
-                       CascadeAction on_update = RESTRICT);
+                       CascadeAction on_update = RESTRICT,
+                       DeferrableMode deferrable = NOT_DEFERRABLE);
 
   const std::vector<std::string> &getColumns() const;
   const std::string &getReferencedTable() const;
@@ -36,6 +45,7 @@ public:
   const std::string &getName() const;
   CascadeAction getOnDeleteAction() const;
   CascadeAction getOnUpdateAction() const;
+  DeferrableMode getDeferrableMode() const;
 
 private:
   std::vector<std::string> columns_;
@@ -44,6 +54,7 @@ private:
   std::string name_;
   CascadeAction on_delete_;
   CascadeAction on_update_;
+  DeferrableMode deferrable_;
 };
 
 /**
@@ -106,6 +117,22 @@ public:
 
 private:
   std::string column_;
+  std::string name_;
+};
+
+/**
+ * 断言约束类 (表间约束)
+ */
+class AssertionConstraint {
+public:
+  AssertionConstraint(std::unique_ptr<Expression> condition,
+                      const std::string &name = "");
+
+  const Expression *getCondition() const;
+  const std::string &getName() const;
+
+private:
+  std::unique_ptr<Expression> condition_;
   std::string name_;
 };
 

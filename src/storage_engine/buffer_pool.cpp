@@ -14,10 +14,14 @@ namespace sqlcc {
 // 使用成员初始化列表初始化disk_manager_、pool_size_和config_manager_，并记录日志
 BufferPool::BufferPool(std::shared_ptr<DiskManager> disk_manager,
                        ConfigManager &config_manager, size_t pool_size)
-    : disk_manager_(std::move(disk_manager)), config_manager_(config_manager),
-      pool_size_(pool_size), simulate_flush_failure_(false),
-      read_lock_timeout_ms_(0), write_lock_timeout_ms_(0), lock_timeout_ms_(0) {
-  // 从配置管理器获取不同操作的锁超时时间
+    : config_manager_(config_manager), disk_manager_(std::move(disk_manager)),
+      pool_size_(pool_size), page_table_(), page_table_mutex_(),
+      replace_strategy_(), lock_manager_(), prefetcher_(),
+      stats_mutex_(), stats_(), latch_(), page_refs_(), dirty_pages_(),
+      access_stats_(), lru_list_(), lru_map_(), batch_buffer_(),
+      simulate_flush_failure_(false), read_lock_timeout_ms_(0),
+      write_lock_timeout_ms_(0), lock_timeout_ms_(0), next_page_id_(0),
+      shutdown_(false) {  // 从配置管理器获取不同操作的锁超时时间
   // 读取操作使用较短的超时时间
   read_lock_timeout_ms_ =
       config_manager_.GetInt("buffer_pool.read_lock_timeout_ms", 2000);
@@ -63,11 +67,26 @@ BufferPool::~BufferPool() {
   FlushAllPages();
 }
 
+// 检查页面是否在缓冲池中
+bool BufferPool::IsPageInBuffer(int32_t page_id) const {
+  // 加锁保护并发访问
+  std::shared_lock<std::shared_mutex> lock(page_table_mutex_);
+  return page_table_.find(page_id) != page_table_.end();
+}
+
+// 获取已使用的页面数
+size_t BufferPool::GetUsedPages() const {
+  // 加锁保护并发访问
+  std::shared_lock<std::shared_mutex> lock(page_table_mutex_);
+  return page_table_.size();
+}
+
 // 获取页面实现
 // Why: 数据库操作需要访问特定页面ID的数据，这是缓冲池最核心的功能
 // What: FetchPage方法根据页面ID获取对应的页面智能指针
 // How: 检查页面是否在缓冲池中，如果不在则从磁盘加载，如果缓冲池已满则替换页面
 std::shared_ptr<BufferPage> BufferPool::FetchPage(int32_t page_id, int32_t transaction_id) {
+  (void)transaction_id; // 避免未使用参数警告
   // 加锁保护并发访问 - 使用带超时的unique_lock以支持临时解锁避免死锁
   std::unique_lock<std::timed_mutex> lock(latch_, std::defer_lock);
   if (!lock.try_lock_for(std::chrono::milliseconds(read_lock_timeout_ms_))) {
@@ -113,10 +132,8 @@ std::shared_ptr<BufferPage> BufferPool::FetchPage(int32_t page_id, int32_t trans
 
   // 创建新页面智能指针
   auto page = std::make_shared<BufferPage>(page_id);
-  char* page_data = static_cast<char*>(page->data.GetData());
-  int32_t current_page_id = page_id;
-
-  // 释放锁，进行磁盘读取操作 - 修复死锁问题
+  char* page_data = page->data.GetDataSpan().data;
+  int32_t current_page_id = page_id;  // 释放锁，进行磁盘读取操作 - 修复死锁问题
   lock.unlock();
 
   // 现在在锁外进行磁盘读取操作
@@ -188,7 +205,14 @@ std::shared_ptr<BufferPage> BufferPool::FetchPage(int32_t page_id, int32_t trans
   return page;
 }
 
+// 获取页面的共享智能指针实现
+std::shared_ptr<BufferPage> BufferPool::FetchPageShared(int32_t page_id) {
+  // 直接调用FetchPage方法，因为它们的功能基本相同
+  return FetchPage(page_id, -1);
+}
+
 bool BufferPool::UnpinPage(int32_t page_id, int32_t transaction_id) {
+  (void)transaction_id; // 避免未使用参数警告
   // 加锁保护并发访问
   std::unique_lock<std::timed_mutex> lock(latch_, std::defer_lock);
   if (!lock.try_lock_for(std::chrono::milliseconds(read_lock_timeout_ms_))) {
@@ -196,9 +220,7 @@ bool BufferPool::UnpinPage(int32_t page_id, int32_t transaction_id) {
                    std::to_string(page_id) + ", timeout after " +
                    std::to_string(read_lock_timeout_ms_) + "ms");
     return false;
-  }
-
-  // 查找页面
+  }  // 查找页面
   auto it = page_table_.find(page_id);
   if (it == page_table_.end()) {
     // 页面不在缓冲池中
@@ -224,6 +246,55 @@ bool BufferPool::UnpinPage(int32_t page_id, int32_t transaction_id) {
   }
 
   return true;
+}
+
+// 创建新页面实现
+int32_t BufferPool::NewPage(int32_t transaction_id) {
+  (void)transaction_id; // 避免未使用参数警告
+  // 加锁保护并发访问
+  std::unique_lock<std::timed_mutex> lock(latch_, std::defer_lock);
+  if (!lock.try_lock_for(std::chrono::milliseconds(write_lock_timeout_ms_))) {
+    SQLCC_LOG_WARN("Failed to acquire buffer pool lock for creating new page, timeout after " +
+                   std::to_string(write_lock_timeout_ms_) + "ms");
+    return -1;
+  }
+
+  // 检查缓冲池是否已满
+  if (page_table_.size() >= pool_size_) {
+    // 尝试替换一个页面
+    int32_t replaced_page_id = ReplacePage();
+    if (replaced_page_id == -1) {
+      SQLCC_LOG_ERROR("Failed to replace page when creating new page, buffer pool is full");
+      return -1;
+    }
+  }
+
+  // 从磁盘管理器分配新页面ID
+  int32_t new_page_id = disk_manager_->AllocatePage();
+  if (new_page_id < 0) {
+    SQLCC_LOG_ERROR("Failed to allocate new page ID from disk manager");
+    return -1;
+  }
+
+  // 创建新页面
+  auto page = std::make_shared<BufferPage>(new_page_id);
+
+  // 初始化页面数据
+  memset(page->data.GetDataSpan().data, 0, PAGE_SIZE);
+
+  // 添加到页面表
+  page_table_[new_page_id] = page;
+  page_refs_[new_page_id] = 1;  // 新创建的页面引用计数为1
+  dirty_pages_[new_page_id] = false;
+
+  // 添加到LRU链表头部
+  lru_list_.push_front(new_page_id);
+  lru_map_[new_page_id] = lru_list_.begin();
+
+  SQLCC_LOG_DEBUG("New page created with ID: " + std::to_string(new_page_id));
+
+  // 返回页面ID
+  return new_page_id;
 }
 
 bool BufferPool::FlushPage(int32_t page_id) {
@@ -255,8 +326,7 @@ bool BufferPool::FlushPage(int32_t page_id) {
 
   // 写回页面到磁盘
   bool write_success =
-      disk_manager_->WritePage(page_id, it->second->data.GetData());
-
+      disk_manager_->WritePage(page_id, it->second->data.GetDataSpan().data);
   if (write_success) {
     // 清除脏页标记
     dirty_pages_[page_id] = false;
@@ -290,8 +360,7 @@ bool BufferPool::FlushAllPages() {
     if (dirty_pages_[page_id]) {
       // 写回页面到磁盘
       bool write_success =
-          disk_manager_->WritePage(page_id, buffer_page->data.GetData());
-
+          disk_manager_->WritePage(page_id, buffer_page->data.GetDataSpan().data);
       if (write_success) {
         // 清除脏页标记
         dirty_pages_[page_id] = false;
@@ -332,7 +401,7 @@ int32_t BufferPool::ReplacePage() {
         // 如果是脏页，先写回磁盘
         if (dirty_pages_[page_id]) {
           bool write_success =
-              disk_manager_->WritePage(page_id, buffer_page_it->second->data.GetData());
+              disk_manager_->WritePage(page_id, buffer_page_it->second->data.GetDataSpan().data);
           if (!write_success) {
             SQLCC_LOG_ERROR("Failed to write dirty page " + std::to_string(page_id) +
                             " to disk during replacement");

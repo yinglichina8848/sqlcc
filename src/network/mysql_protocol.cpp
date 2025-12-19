@@ -20,9 +20,11 @@ MySQLProtocolHandler::MySQLProtocolHandler(sqlcc::FileDescriptor&& client_fd)
   handshake_.thread_id = getpid(); // 使用进程ID替代线程ID
   handshake_.server_capabilities = CAPABILITIES;
   handshake_.generate_scramble();
-  // 设置认证插件为mysql_native_password
-  std::strcpy(reinterpret_cast<char *>(handshake_.auth_plugin_name),
-              "mysql_native_password");
+  // 设置认证插件为mysql_native_password（安全复制，避免缓冲区溢出）
+  const char* plugin_name = "mysql_native_password";
+  size_t copy_len = std::min(strlen(plugin_name), sizeof(handshake_.auth_plugin_name) - 1);
+  std::memcpy(handshake_.auth_plugin_name, plugin_name, copy_len);
+  handshake_.auth_plugin_name[copy_len] = '\0';
 }
 
 void MySQLProtocolHandler::send_handshake() {

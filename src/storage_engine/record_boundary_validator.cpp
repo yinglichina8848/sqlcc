@@ -232,7 +232,7 @@ ValidationResult FieldTypeBoundaryValidator::ValidateNumeric(const std::string& 
     }
 
     try {
-        double numeric_value = std::stod(value);
+        (void)std::stod(value);
 
         // 检查精度
         if (precision > 0) {
@@ -410,9 +410,10 @@ ValidationResult FieldTypeBoundaryValidator::ValidateJSON(const std::string& val
 }
 
 ValidationResult FieldTypeBoundaryValidator::ValidateFieldValue(const std::string& field_name,
-                                                               const std::string& field_type,
-                                                               const std::string& value,
-                                                               const FieldValidationRule* rule) const {
+                                      const std::string& field_type,
+                                      const std::string& value,
+                                      const FieldValidationRule* rule) const {
+    (void)field_name; // 避免未使用参数警告
 
     // 检查空值约束
     if (rule && !rule->nullable && value.empty()) {
@@ -570,6 +571,7 @@ DataIntegrityConstraintValidator::DataIntegrityConstraintValidator(std::shared_p
 ValidationResult DataIntegrityConstraintValidator::ValidateNotNull(const std::string& field_name,
                                                                   const std::string& value,
                                                                   bool nullable) const {
+    (void)field_name; // 避免未使用参数警告
     if (!nullable && value.empty()) {
         return NULL_VIOLATION;
     }
@@ -581,6 +583,7 @@ ValidationResult DataIntegrityConstraintValidator::ValidateUnique(const std::str
                                                                  const std::string& field_name,
                                                                  const std::string& value,
                                                                  int32_t exclude_record_id) const {
+    (void)field_name; // 避免未使用参数警告
     // 检查唯一性约束
     // 这里需要查询数据库中是否已存在相同值的记录
     // 简化实现：假设有一个唯一性索引可以快速检查
@@ -609,7 +612,7 @@ ValidationResult DataIntegrityConstraintValidator::ValidateUnique(const std::str
     // 更新缓存
     {
         std::lock_guard<std::mutex> lock(validator_mutex_);
-        unique_value_cache_[cache_key].insert(value);
+        const_cast<DataIntegrityConstraintValidator*>(this)->unique_value_cache_[cache_key].insert(value);
     }
 
     return VALID;
@@ -618,38 +621,18 @@ ValidationResult DataIntegrityConstraintValidator::ValidateUnique(const std::str
 ValidationResult DataIntegrityConstraintValidator::ValidateCheckConstraint(const std::string& field_name,
                                                                           const std::string& value,
                                                                           const std::string& constraint_expr) const {
-    std::lock_guard<std::mutex> lock(validator_mutex_);
-
-    // 查找或创建约束函数
-    auto it = check_constraint_cache_.find(constraint_expr);
-    if (it == check_constraint_cache_.end()) {
-        // 解析约束表达式并创建验证函数
-        // 这里是简化实现，实际需要解析SQL表达式
-        auto constraint_func = [constraint_expr](const std::string& val) -> bool {
-            // 简单的示例：检查长度约束
-            if (constraint_expr.find("LEN(") != std::string::npos) {
-                // 解析 LEN(field) > N 这样的表达式
-                // 简化实现：假设约束总是通过
-                return true;
-            }
-            return true;
-        };
-
-        check_constraint_cache_[constraint_expr] = constraint_func;
-        it = check_constraint_cache_.find(constraint_expr);
-    }
-
-    if (it->second(value)) {
-        return VALID;
-    } else {
-        return CHECK_CONSTRAINT_VIOLATION;
-    }
+    (void)field_name; // 避免未使用参数警告
+    (void)value; // 避免未使用参数警告
+    (void)constraint_expr; // 避免未使用参数警告
+    // 简化实现：假设约束总是有效
+    return VALID;  // 添加返回语句
 }
 
 ValidationResult DataIntegrityConstraintValidator::ValidateForeignKey(const std::string& field_name,
                                                                      const std::string& value,
                                                                      const std::string& foreign_table,
                                                                      const std::string& foreign_column) const {
+    (void)field_name; // 避免未使用参数警告
     // 检查外键约束
     if (ForeignKeyExists(foreign_table, foreign_column, value)) {
         return VALID;
@@ -661,6 +644,7 @@ ValidationResult DataIntegrityConstraintValidator::ValidateForeignKey(const std:
 std::string DataIntegrityConstraintValidator::ApplyDefaultValue(const std::string& field_name,
                                                                const std::string& value,
                                                                const std::string& default_value) const {
+    (void)field_name; // 避免未使用参数警告
     if (value.empty() && !default_value.empty()) {
         return default_value;
     }
@@ -761,21 +745,19 @@ ValidationResult DataIntegrityConstraintValidator::ValidateRecordConstraints(
 // 私有辅助方法实现
 bool DataIntegrityConstraintValidator::EvaluateCheckConstraint(const std::string& constraint_expr,
                                                              const std::string& value) const {
+    (void)constraint_expr; // 避免未使用参数警告
+    (void)value; // 避免未使用参数警告
     // 简化实现：解析简单的约束表达式
     // 实际实现应该使用完整的SQL表达式解析器
-
-    // 示例：LEN(field) > 5
-    if (constraint_expr.find("LEN(") != std::string::npos) {
-        // 解析 LEN(field) > N 这样的表达式
-        // 简化实现：假设约束总是通过
-        return true;
-    }
-    return true;
+    return true;  // 添加返回语句
 }
 
 bool DataIntegrityConstraintValidator::ForeignKeyExists(const std::string& foreign_table,
                                                       const std::string& foreign_column,
                                                       const std::string& value) const {
+    (void)foreign_table; // 避免未使用参数警告
+    (void)foreign_column; // 避免未使用参数警告
+    (void)value; // 避免未使用参数警告
     // 简化实现：假设外键总是存在
     // 实际实现应该查询外键表
     return true;
@@ -803,12 +785,17 @@ ConcurrentAccessControlValidator::ConcurrentAccessControlValidator(
 }
 
 ValidationResult ConcurrentAccessControlValidator::ValidateIsolationLevel(int32_t transaction_id) const {
+    (void)transaction_id; // 避免未使用参数警告
     // 简化实现：假设隔离级别总是有效的
     return VALID;
 }
 
 ValidationResult ConcurrentAccessControlValidator::ValidateConcurrentAccess(
     const std::string& table_name, int32_t record_id, int32_t transaction_id, bool is_write) const {
+    (void)table_name; // 避免未使用参数警告
+    (void)record_id; // 避免未使用参数警告
+    (void)transaction_id; // 避免未使用参数警告
+    (void)is_write; // 避免未使用参数警告
 
     // 简化实现：假设并发访问总是允许的
     // 实际实现应该检查锁状态和事务冲突
@@ -817,17 +804,24 @@ ValidationResult ConcurrentAccessControlValidator::ValidateConcurrentAccess(
 
 ValidationResult ConcurrentAccessControlValidator::ValidateLockWait(int32_t transaction_id,
                                                                    std::chrono::milliseconds max_wait_time) const {
+    (void)transaction_id; // 避免未使用参数警告
+    (void)max_wait_time; // 避免未使用参数警告
     // 简化实现：假设锁等待总是有效的
     return VALID;
 }
 
 ValidationResult ConcurrentAccessControlValidator::ValidateDeadlockFreedom(int32_t transaction_id) const {
+    (void)transaction_id; // 避免未使用参数警告
     // 简化实现：假设没有死锁
     return VALID;
 }
 
 ValidationResult ConcurrentAccessControlValidator::ValidateMVCCVersion(
     const std::string& table_name, int32_t record_id, int32_t transaction_id, uint64_t expected_version) const {
+    (void)table_name; // 避免未使用参数警告
+    (void)record_id; // 避免未使用参数警告
+    (void)transaction_id; // 避免未使用参数警告
+    (void)expected_version; // 避免未使用参数警告
 
     // 简化实现：假设版本总是匹配的
     return VALID;
@@ -836,6 +830,10 @@ ValidationResult ConcurrentAccessControlValidator::ValidateMVCCVersion(
 ValidationResult ConcurrentAccessControlValidator::ValidateOptimisticLock(
     const std::string& table_name, int32_t record_id, const std::string& version_field,
     const std::string& expected_version) const {
+    (void)table_name; // 避免未使用参数警告
+    (void)record_id; // 避免未使用参数警告
+    (void)version_field; // 避免未使用参数警告
+    (void)expected_version; // 避免未使用参数警告
 
     // 简化实现：假设乐观锁总是成功的
     return VALID;
@@ -844,431 +842,24 @@ ValidationResult ConcurrentAccessControlValidator::ValidateOptimisticLock(
 // 记录边界验证器主类实现
 RecordBoundaryValidator::RecordBoundaryValidator(std::shared_ptr<StorageEngine> storage_engine,
                                                std::shared_ptr<TransactionManager> transaction_manager)
-    : storage_engine_(std::move(storage_engine)),
-      transaction_manager_(std::move(transaction_manager)),
-      constraint_validator_(storage_engine_),  // 正确调用DataIntegrityConstraintValidator构造函数
-      access_validator_(transaction_manager_) {
-
-    // 初始化统计信息
-    stats_.last_validation_time = std::chrono::steady_clock::now();
-}
-
-ValidationResult RecordBoundaryValidator::ValidateRecord(const std::string& table_name,
-                                                       const std::vector<std::string>& field_names,
-                                                       const std::vector<std::string>& field_types,
-                                                       const std::vector<std::string>& values,
-                                                       int32_t transaction_id,
-                                                       int32_t record_id) const {
-
-    auto start_time = std::chrono::steady_clock::now();
-
-    ValidationResult result = VALID;
-
-    // 1. 大小验证
-    result = PerformSizeValidation(values, GetTableMetadata(table_name));
-    if (result != VALID && config_.strict_mode) {
-        UpdateValidationStats(result, std::chrono::duration_cast<std::chrono::microseconds>(
-            std::chrono::steady_clock::now() - start_time));
-        return result;
-    }
-
-    // 2. 类型验证
-    result = PerformTypeValidation(field_names, field_types, values, {});
-    if (result != VALID && config_.strict_mode) {
-        UpdateValidationStats(result, std::chrono::duration_cast<std::chrono::microseconds>(
-            std::chrono::steady_clock::now() - start_time));
-        return result;
-    }
-
-    // 3. 约束验证
-    if (config_.enable_constraint_checking) {
-        result = PerformConstraintValidation(table_name, field_names, values, record_id);
-        if (result != VALID && config_.strict_mode) {
-            UpdateValidationStats(result, std::chrono::duration_cast<std::chrono::microseconds>(
-                std::chrono::steady_clock::now() - start_time));
-            return result;
-        }
-    }
-
-    // 4. 并发验证
-    result = PerformConcurrencyValidation(table_name, record_id, transaction_id, false);
-    if (result != VALID && config_.strict_mode) {
-        UpdateValidationStats(result, std::chrono::duration_cast<std::chrono::microseconds>(
-            std::chrono::steady_clock::now() - start_time));
-        return result;
-    }
-
-    UpdateValidationStats(VALID, std::chrono::duration_cast<std::chrono::microseconds>(
-        std::chrono::steady_clock::now() - start_time));
-
-    return VALID;
-}
-
-ValidationResult RecordBoundaryValidator::ValidateRecordUpdate(const std::string& table_name,
-                                                             const std::vector<std::string>& field_names,
-                                                             const std::vector<std::string>& old_values,
-                                                             const std::vector<std::string>& new_values,
-                                                             int32_t transaction_id,
-                                                             int32_t record_id) const {
-
-    // 对于更新操作，我们需要验证新值，但也可能需要检查某些业务规则
-    return ValidateRecord(table_name, field_names, {}, new_values, transaction_id, record_id);
-}
-
-ValidationResult RecordBoundaryValidator::ValidateRecordDeletion(const std::string& table_name,
-                                                               int32_t record_id,
-                                                               int32_t transaction_id) const {
-
-    // 删除操作主要关注并发控制
-    return PerformConcurrencyValidation(table_name, record_id, transaction_id, true);
-}
-
-std::vector<ValidationResult> RecordBoundaryValidator::ValidateRecords(const std::string& table_name,
-                                                                     const std::vector<std::vector<std::string>>& record_batch,
-                                                                     int32_t transaction_id) const {
-
-    std::vector<ValidationResult> results;
-
-    for (const auto& record : record_batch) {
-        // 简化实现：假设所有记录都有相同的字段结构
-        std::vector<std::string> field_names;
-        std::vector<std::string> field_types;
-
-        auto metadata = GetTableMetadata(table_name);
-        if (metadata) {
-            for (const auto& column : metadata->columns) {
-                field_names.push_back(column.name);
-                field_types.push_back(column.type);
-            }
-        }
-
-        ValidationResult result = ValidateRecord(table_name, field_names, field_types,
-                                               record, transaction_id, -1);
-        results.push_back(result);
-    }
-
-    return results;
-}
-
-void RecordBoundaryValidator::SetValidationConfig(const RecordValidationConfig& config) {
-    std::lock_guard<std::mutex> lock(stats_mutex_);
-    config_ = config;
-}
-
-const RecordValidationConfig& RecordBoundaryValidator::GetValidationConfig() const {
-    return config_;
-}
-
-RecordBoundaryValidator::ValidationStats RecordBoundaryValidator::GetValidationStats() const {
-    std::lock_guard<std::mutex> lock(stats_mutex_);
-    return stats_;
-}
-
-void RecordBoundaryValidator::AddFieldValidationRule(const std::string& table_name,
-                                                   const FieldValidationRule& rule) {
-    constraint_validator_.AddValidationRule(table_name, rule);
-}
-
-void RecordBoundaryValidator::RemoveFieldValidationRule(const std::string& table_name,
-                                                      const std::string& field_name) {
-    constraint_validator_.RemoveValidationRule(table_name, field_name);
-}
-
-void RecordBoundaryValidator::ClearValidationRules(const std::string& table_name) {
-    // 简化实现：重新创建空的规则列表
-    // 实际实现应该在DataIntegrityConstraintValidator中添加Clear方法
-}
-
-// 私有辅助方法实现
-ValidationResult RecordBoundaryValidator::PerformSizeValidation(const std::vector<std::string>& values,
-                                                              const std::shared_ptr<TableMetadata>& metadata) const {
-    if (!metadata) {
-        return INVALID_VALUE;
-    }
-
-    // 计算记录大小
-    size_t record_size = size_validator_.CalculateRecordSize({}, metadata);
-
-    return size_validator_.ValidateRecordSize(record_size, config_.max_record_size);
-}
-
-ValidationResult RecordBoundaryValidator::PerformTypeValidation(
-    const std::vector<std::string>& field_names,
-    const std::vector<std::string>& field_types,
-    const std::vector<std::string>& values,
-    const std::vector<FieldValidationRule>& rules) const {
-
-    auto results = type_validator_.ValidateFields(field_names, field_types, values, rules);
-
-    // 返回第一个失败的结果
-    for (ValidationResult result : results) {
-        if (result != VALID) {
-            return result;
-        }
-    }
-
-    return VALID;
-}
-
-ValidationResult RecordBoundaryValidator::PerformConstraintValidation(
-    const std::string& table_name,
-    const std::vector<std::string>& field_names,
-    const std::vector<std::string>& values,
-    int32_t record_id) const {
-
-    return constraint_validator_.ValidateRecordConstraints(table_name, field_names, values, record_id);
-}
-
-ValidationResult RecordBoundaryValidator::PerformConcurrencyValidation(
-    const std::string& table_name,
-    int32_t record_id,
-    int32_t transaction_id,
-    bool is_write) const {
-
-    return access_validator_.ValidateConcurrentAccess(table_name, record_id, transaction_id, is_write);
-}
-
-void RecordBoundaryValidator::UpdateValidationStats(ValidationResult result,
-                                                  std::chrono::microseconds duration) const {
-    std::lock_guard<std::mutex> lock(stats_mutex_);
-
-    stats_.total_validations++;
-    validation_times_.push_back(duration.count());
-
-    if (result == VALID) {
-        stats_.successful_validations++;
-    } else {
-        stats_.failed_validations++;
-
-        // 分类统计失败原因
-        switch (result) {
-            case INVALID_SIZE:
-                stats_.size_validation_failures++;
-                break;
-            case INVALID_TYPE:
-            case INVALID_VALUE:
-            case INVALID_FORMAT:
-            case ENCODING_ERROR:
-                stats_.type_validation_failures++;
-                break;
-            case NULL_VIOLATION:
-            case UNIQUE_VIOLATION:
-            case FOREIGN_KEY_VIOLATION:
-            case CHECK_CONSTRAINT_VIOLATION:
-                stats_.constraint_violations++;
-                break;
-            default:
-                stats_.concurrency_conflicts++;
-                break;
-        }
-    }
-
-    // 计算平均验证时间
-    if (!validation_times_.empty()) {
-        double sum = 0.0;
-        for (double time : validation_times_) {
-            sum += time;
-        }
-        stats_.average_validation_time_us = sum / validation_times_.size();
-    }
-
-    // 限制时间记录数量
-    if (validation_times_.size() > 1000) {
-        validation_times_.erase(validation_times_.begin());
-    }
-
-    stats_.last_validation_time = std::chrono::steady_clock::now();
-}
-
-std::shared_ptr<TableMetadata> RecordBoundaryValidator::GetTableMetadata(const std::string& table_name) const {
-    // 简化实现：假设有一个全局的表元数据管理器
-    // 实际实现应该通过StorageEngine获取
-    return nullptr;
-}
-
-// 验证器工厂实现
-std::shared_ptr<RecordBoundaryValidator> RecordBoundaryValidatorFactory::CreateBasicValidator(
-    std::shared_ptr<StorageEngine> storage_engine) {
-
-    return std::make_shared<RecordBoundaryValidator>(storage_engine);
-}
-
-std::shared_ptr<RecordBoundaryValidator> RecordBoundaryValidatorFactory::CreateStrictValidator(
-    std::shared_ptr<StorageEngine> storage_engine,
-    std::shared_ptr<TransactionManager> transaction_manager) {
-
-    auto validator = std::make_shared<RecordBoundaryValidator>(storage_engine, transaction_manager);
-
-    RecordValidationConfig config;
-    config.strict_mode = true;
-    config.enable_constraint_checking = true;
-    config.enable_foreign_key_checking = true;
-    config.enable_format_validation = true;
-    config.enable_encoding_validation = true;
-
-    validator->SetValidationConfig(config);
-
-    return validator;
-}
-
-std::shared_ptr<RecordBoundaryValidator> RecordBoundaryValidatorFactory::CreateEnterpriseValidator(
-    std::shared_ptr<StorageEngine> storage_engine,
-    std::shared_ptr<TransactionManager> transaction_manager,
-    const RecordValidationConfig& config) {
-
-    auto validator = std::make_shared<RecordBoundaryValidator>(storage_engine, transaction_manager);
-    validator->SetValidationConfig(config);
-
-    return validator;
-}
-
-// 验证结果格式化器实现
-std::string ValidationResultFormatter::FormatResult(ValidationResult result) {
-    switch (result) {
-        case VALID: return "VALID";
-        case INVALID_SIZE: return "INVALID_SIZE";
-        case INVALID_TYPE: return "INVALID_TYPE";
-        case INVALID_VALUE: return "INVALID_VALUE";
-        case NULL_VIOLATION: return "NULL_VIOLATION";
-        case UNIQUE_VIOLATION: return "UNIQUE_VIOLATION";
-        case FOREIGN_KEY_VIOLATION: return "FOREIGN_KEY_VIOLATION";
-        case CHECK_CONSTRAINT_VIOLATION: return "CHECK_CONSTRAINT_VIOLATION";
-        case INVALID_FORMAT: return "INVALID_FORMAT";
-        case ENCODING_ERROR: return "ENCODING_ERROR";
-        case BOUNDARY_VIOLATION: return "BOUNDARY_VIOLATION";
-        default: return "UNKNOWN";
-    }
-}
-
-std::string ValidationResultFormatter::FormatDetailedResult(ValidationResult result,
-                                                          const std::string& field_name,
-                                                          const std::string& details) {
-    std::string message = FormatResult(result);
-
-    if (!field_name.empty()) {
-        message += " in field '" + field_name + "'";
-    }
-
-    if (!details.empty()) {
-        message += ": " + details;
-    }
-
-    return message;
-}
-
-std::string ValidationResultFormatter::GetResultSeverity(ValidationResult result) {
-    switch (result) {
-        case VALID:
-            return "INFO";
-        case INVALID_SIZE:
-        case INVALID_TYPE:
-        case INVALID_VALUE:
-        case INVALID_FORMAT:
-        case ENCODING_ERROR:
-        case BOUNDARY_VIOLATION:
-            return "WARNING";
-        case NULL_VIOLATION:
-        case UNIQUE_VIOLATION:
-        case FOREIGN_KEY_VIOLATION:
-        case CHECK_CONSTRAINT_VIOLATION:
-            return "ERROR";
-        default:
-            return "UNKNOWN";
-    }
-}
-
-bool ValidationResultFormatter::IsCriticalError(ValidationResult result) {
-    return result == NULL_VIOLATION || result == UNIQUE_VIOLATION ||
-           result == FOREIGN_KEY_VIOLATION || result == CHECK_CONSTRAINT_VIOLATION;
-}
-
-} // namespace sqlcc
-}
-
-bool DataIntegrityConstraintValidator::ForeignKeyExists(const std::string& foreign_table,
-                                                      const std::string& foreign_column,
-                                                      const std::string& value) const {
-    // 简化实现：假设外键总是存在
-    // 实际实现应该查询外键表
-    return true;
-}
-
-void DataIntegrityConstraintValidator::UpdateUniqueValueCache(const std::string& table_name,
-                                                            const std::string& field_name,
-                                                            const std::string& old_value,
-                                                            const std::string& new_value) {
-    std::string cache_key = table_name + "." + field_name;
-
-    if (!old_value.empty()) {
-        unique_value_cache_[cache_key].erase(old_value);
-    }
-
-    if (!new_value.empty()) {
-        unique_value_cache_[cache_key].insert(new_value);
-    }
-}
-
-// 并发访问控制验证器实现
-ConcurrentAccessControlValidator::ConcurrentAccessControlValidator(
-    std::shared_ptr<TransactionManager> transaction_manager)
-    : transaction_manager_(std::move(transaction_manager)) {
-}
-
-ValidationResult ConcurrentAccessControlValidator::ValidateIsolationLevel(int32_t transaction_id) const {
-    // 简化实现：假设隔离级别总是有效的
-    return VALID;
-}
-
-ValidationResult ConcurrentAccessControlValidator::ValidateConcurrentAccess(
-    const std::string& table_name, int32_t record_id, int32_t transaction_id, bool is_write) const {
-
-    // 简化实现：假设并发访问总是允许的
-    // 实际实现应该检查锁状态和事务冲突
-    return VALID;
-}
-
-ValidationResult ConcurrentAccessControlValidator::ValidateLockWait(int32_t transaction_id,
-                                                                   std::chrono::milliseconds max_wait_time) const {
-    // 简化实现：假设锁等待总是有效的
-    return VALID;
-}
-
-ValidationResult ConcurrentAccessControlValidator::ValidateDeadlockFreedom(int32_t transaction_id) const {
-    // 简化实现：假设没有死锁
-    return VALID;
-}
-
-ValidationResult ConcurrentAccessControlValidator::ValidateMVCCVersion(
-    const std::string& table_name, int32_t record_id, int32_t transaction_id, uint64_t expected_version) const {
-
-    // 简化实现：假设版本总是匹配的
-    return VALID;
-}
-
-ValidationResult ConcurrentAccessControlValidator::ValidateOptimisticLock(
-    const std::string& table_name, int32_t record_id, const std::string& version_field,
-    const std::string& expected_version) const {
-
-    // 简化实现：假设乐观锁总是成功的
-    return VALID;
-}
-
-// 记录边界验证器主类实现
-RecordBoundaryValidator::RecordBoundaryValidator(std::shared_ptr<StorageEngine> storage_engine,
-                                               std::shared_ptr<TransactionManager> transaction_manager)
-    : storage_engine_(std::move(storage_engine)),
+    : size_validator_(),
+      type_validator_(),
+      constraint_validator_(storage_engine),  // 正确调用DataIntegrityConstraintValidator构造函数
+      access_validator_(transaction_manager),
+      storage_engine_(std::move(storage_engine)),
       transaction_manager_(std::move(transaction_manager)) {
 
     // 初始化统计信息
     stats_.last_validation_time = std::chrono::steady_clock::now();
 }
 
+
 ValidationResult RecordBoundaryValidator::ValidateRecord(const std::string& table_name,
                                                        const std::vector<std::string>& field_names,
                                                        const std::vector<std::string>& field_types,
                                                        const std::vector<std::string>& values,
                                                        int32_t transaction_id,
-                                                       int32_t record_id) const {
+                                                       int32_t record_id) {
 
     auto start_time = std::chrono::steady_clock::now();
 
@@ -1319,7 +910,8 @@ ValidationResult RecordBoundaryValidator::ValidateRecordUpdate(const std::string
                                                              const std::vector<std::string>& old_values,
                                                              const std::vector<std::string>& new_values,
                                                              int32_t transaction_id,
-                                                             int32_t record_id) const {
+                                                             int32_t record_id) {
+    (void)old_values; // 避免未使用参数警告
 
     // 对于更新操作，我们需要验证新值，但也可能需要检查某些业务规则
     return ValidateRecord(table_name, field_names, {}, new_values, transaction_id, record_id);
@@ -1335,7 +927,7 @@ ValidationResult RecordBoundaryValidator::ValidateRecordDeletion(const std::stri
 
 std::vector<ValidationResult> RecordBoundaryValidator::ValidateRecords(const std::string& table_name,
                                                                      const std::vector<std::vector<std::string>>& record_batch,
-                                                                     int32_t transaction_id) const {
+                                                                     int32_t transaction_id) {
 
     std::vector<ValidationResult> results;
 
@@ -1385,6 +977,7 @@ void RecordBoundaryValidator::RemoveFieldValidationRule(const std::string& table
 }
 
 void RecordBoundaryValidator::ClearValidationRules(const std::string& table_name) {
+    (void)table_name; // 避免未使用参数警告
     // 简化实现：重新创建空的规则列表
     // 实际实现应该在DataIntegrityConstraintValidator中添加Clear方法
 }
@@ -1392,6 +985,7 @@ void RecordBoundaryValidator::ClearValidationRules(const std::string& table_name
 // 私有辅助方法实现
 ValidationResult RecordBoundaryValidator::PerformSizeValidation(const std::vector<std::string>& values,
                                                               const std::shared_ptr<TableMetadata>& metadata) const {
+    (void)values; // 避免未使用参数警告
     if (!metadata) {
         return INVALID_VALUE;
     }
@@ -1439,7 +1033,7 @@ ValidationResult RecordBoundaryValidator::PerformConcurrencyValidation(
 }
 
 void RecordBoundaryValidator::UpdateValidationStats(ValidationResult result,
-                                                  std::chrono::microseconds duration) const {
+                                                   std::chrono::microseconds duration) {
     std::lock_guard<std::mutex> lock(stats_mutex_);
 
     stats_.total_validations++;
@@ -1490,26 +1084,27 @@ void RecordBoundaryValidator::UpdateValidationStats(ValidationResult result,
     stats_.last_validation_time = std::chrono::steady_clock::now();
 }
 
-std::shared_ptr<TableMetadata> RecordBoundaryValidator::GetTableMetadata(const std::string& table_name) const {
+std::shared_ptr<sqlcc::TableMetadata> RecordBoundaryValidator::GetTableMetadata(const std::string& table_name) const {
+    (void)table_name; // 避免未使用参数警告
     // 简化实现：假设有一个全局的表元数据管理器
     // 实际实现应该通过StorageEngine获取
     return nullptr;
 }
 
 // 验证器工厂实现
-std::shared_ptr<RecordBoundaryValidator> RecordBoundaryValidatorFactory::CreateBasicValidator(
-    std::shared_ptr<StorageEngine> storage_engine) {
+std::shared_ptr<sqlcc::RecordBoundaryValidator> sqlcc::RecordBoundaryValidatorFactory::CreateBasicValidator(
+    std::shared_ptr<sqlcc::StorageEngine> storage_engine) {
 
-    return std::make_shared<RecordBoundaryValidator>(storage_engine);
+    return std::make_shared<sqlcc::RecordBoundaryValidator>(storage_engine);
 }
 
-std::shared_ptr<RecordBoundaryValidator> RecordBoundaryValidatorFactory::CreateStrictValidator(
-    std::shared_ptr<StorageEngine> storage_engine,
-    std::shared_ptr<TransactionManager> transaction_manager) {
+std::shared_ptr<sqlcc::RecordBoundaryValidator> sqlcc::RecordBoundaryValidatorFactory::CreateStrictValidator(
+    std::shared_ptr<sqlcc::StorageEngine> storage_engine,
+    std::shared_ptr<sqlcc::TransactionManager> transaction_manager) {
 
-    auto validator = std::make_shared<RecordBoundaryValidator>(storage_engine, transaction_manager);
+    auto validator = std::make_shared<sqlcc::RecordBoundaryValidator>(storage_engine, transaction_manager);
 
-    RecordValidationConfig config;
+    sqlcc::RecordValidationConfig config;
     config.strict_mode = true;
     config.enable_constraint_checking = true;
     config.enable_foreign_key_checking = true;
@@ -1521,36 +1116,36 @@ std::shared_ptr<RecordBoundaryValidator> RecordBoundaryValidatorFactory::CreateS
     return validator;
 }
 
-std::shared_ptr<RecordBoundaryValidator> RecordBoundaryValidatorFactory::CreateEnterpriseValidator(
-    std::shared_ptr<StorageEngine> storage_engine,
-    std::shared_ptr<TransactionManager> transaction_manager,
-    const RecordValidationConfig& config) {
+std::shared_ptr<sqlcc::RecordBoundaryValidator> sqlcc::RecordBoundaryValidatorFactory::CreateEnterpriseValidator(
+    std::shared_ptr<sqlcc::StorageEngine> storage_engine,
+    std::shared_ptr<sqlcc::TransactionManager> transaction_manager,
+    const sqlcc::RecordValidationConfig& config) {
 
-    auto validator = std::make_shared<RecordBoundaryValidator>(storage_engine, transaction_manager);
+    auto validator = std::make_shared<sqlcc::RecordBoundaryValidator>(storage_engine, transaction_manager);
     validator->SetValidationConfig(config);
 
     return validator;
 }
 
 // 验证结果格式化器实现
-std::string ValidationResultFormatter::FormatResult(ValidationResult result) {
+std::string sqlcc::ValidationResultFormatter::FormatResult(sqlcc::ValidationResult result) {
     switch (result) {
-        case VALID: return "VALID";
-        case INVALID_SIZE: return "INVALID_SIZE";
-        case INVALID_TYPE: return "INVALID_TYPE";
-        case INVALID_VALUE: return "INVALID_VALUE";
-        case NULL_VIOLATION: return "NULL_VIOLATION";
-        case UNIQUE_VIOLATION: return "UNIQUE_VIOLATION";
-        case FOREIGN_KEY_VIOLATION: return "FOREIGN_KEY_VIOLATION";
-        case CHECK_CONSTRAINT_VIOLATION: return "CHECK_CONSTRAINT_VIOLATION";
-        case INVALID_FORMAT: return "INVALID_FORMAT";
-        case ENCODING_ERROR: return "ENCODING_ERROR";
-        case BOUNDARY_VIOLATION: return "BOUNDARY_VIOLATION";
+        case sqlcc::VALID: return "VALID";
+        case sqlcc::INVALID_SIZE: return "INVALID_SIZE";
+        case sqlcc::INVALID_TYPE: return "INVALID_TYPE";
+        case sqlcc::INVALID_VALUE: return "INVALID_VALUE";
+        case sqlcc::NULL_VIOLATION: return "NULL_VIOLATION";
+        case sqlcc::UNIQUE_VIOLATION: return "UNIQUE_VIOLATION";
+        case sqlcc::FOREIGN_KEY_VIOLATION: return "FOREIGN_KEY_VIOLATION";
+        case sqlcc::CHECK_CONSTRAINT_VIOLATION: return "CHECK_CONSTRAINT_VIOLATION";
+        case sqlcc::INVALID_FORMAT: return "INVALID_FORMAT";
+        case sqlcc::ENCODING_ERROR: return "ENCODING_ERROR";
+        case sqlcc::BOUNDARY_VIOLATION: return "BOUNDARY_VIOLATION";
         default: return "UNKNOWN";
     }
 }
 
-std::string ValidationResultFormatter::FormatDetailedResult(ValidationResult result,
+std::string sqlcc::ValidationResultFormatter::FormatDetailedResult(sqlcc::ValidationResult result,
                                                           const std::string& field_name,
                                                           const std::string& details) {
     std::string message = FormatResult(result);
@@ -1566,30 +1161,30 @@ std::string ValidationResultFormatter::FormatDetailedResult(ValidationResult res
     return message;
 }
 
-std::string ValidationResultFormatter::GetResultSeverity(ValidationResult result) {
+std::string sqlcc::ValidationResultFormatter::GetResultSeverity(sqlcc::ValidationResult result) {
     switch (result) {
-        case VALID:
+        case sqlcc::VALID:
             return "INFO";
-        case INVALID_SIZE:
-        case INVALID_TYPE:
-        case INVALID_VALUE:
-        case INVALID_FORMAT:
-        case ENCODING_ERROR:
-        case BOUNDARY_VIOLATION:
+        case sqlcc::INVALID_SIZE:
+        case sqlcc::INVALID_TYPE:
+        case sqlcc::INVALID_VALUE:
+        case sqlcc::INVALID_FORMAT:
+        case sqlcc::ENCODING_ERROR:
+        case sqlcc::BOUNDARY_VIOLATION:
             return "WARNING";
-        case NULL_VIOLATION:
-        case UNIQUE_VIOLATION:
-        case FOREIGN_KEY_VIOLATION:
-        case CHECK_CONSTRAINT_VIOLATION:
+        case sqlcc::NULL_VIOLATION:
+        case sqlcc::UNIQUE_VIOLATION:
+        case sqlcc::FOREIGN_KEY_VIOLATION:
+        case sqlcc::CHECK_CONSTRAINT_VIOLATION:
             return "ERROR";
         default:
             return "UNKNOWN";
     }
 }
 
-bool ValidationResultFormatter::IsCriticalError(ValidationResult result) {
-    return result == NULL_VIOLATION || result == UNIQUE_VIOLATION ||
-           result == FOREIGN_KEY_VIOLATION || result == CHECK_CONSTRAINT_VIOLATION;
+bool sqlcc::ValidationResultFormatter::IsCriticalError(sqlcc::ValidationResult result) {
+    return result == sqlcc::NULL_VIOLATION || result == sqlcc::UNIQUE_VIOLATION ||
+           result == sqlcc::FOREIGN_KEY_VIOLATION || result == sqlcc::CHECK_CONSTRAINT_VIOLATION;
 }
 
 } // namespace sqlcc

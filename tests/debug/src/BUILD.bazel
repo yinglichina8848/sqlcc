@@ -8,7 +8,6 @@ cc_binary(
     srcs = ["debug_lexer.cpp"],
     copts = ["-std=c++17"],
     deps = [
-        "//include/sql_parser:sqlcc_parser_headers",
         "//src/sql_parser:sqlcc_parser",
     ],
 )
@@ -18,7 +17,6 @@ cc_binary(
     srcs = ["debug_lexer2.cpp"],
     copts = ["-std=c++17"],
     deps = [
-        "//include/sql_parser:sqlcc_parser_headers",
         "//src/sql_parser:sqlcc_parser",
     ],
 )
@@ -28,7 +26,6 @@ cc_binary(
     srcs = ["debug_simple.cpp"],
     copts = ["-std=c++17"],
     deps = [
-        "//include/sql_parser:sqlcc_parser_headers",
         "//src/sql_parser:sqlcc_parser",
     ],
 )
@@ -40,11 +37,19 @@ cc_binary(
 )
 
 cc_binary(
+    name = "simple_test",
+    srcs = ["simple_test.cpp"],
+    copts = ["-std=c++17"],
+    deps = [
+        "//src/sql_parser:sqlcc_parser",
+    ],
+)
+
+cc_binary(
     name = "trace_test",
     srcs = ["trace_test.cpp"],
     copts = ["-std=c++17"],
     deps = [
-        "//include/sql_parser:sqlcc_parser_headers",
         "//src/sql_parser:sqlcc_parser",
     ],
 )
@@ -66,4 +71,13 @@ cc_binary(
     name = "debug_setup2",
     srcs = ["debug_setup2.cpp"],
     copts = ["-std=c++17"],
+)
+
+cc_binary(
+    name = "debug_parser",
+    srcs = ["debug_parser.cpp"],
+    copts = ["-std=c++17"],
+    deps = [
+        "//src/sql_parser:sqlcc_parser",
+    ],
 )

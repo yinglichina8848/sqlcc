@@ -1,0 +1,19 @@
+# Demo tests BUILD file
+
+cc_binary(
+    name = "expression_test",
+    srcs = ["expression_test.cpp"],
+    copts = ["-std=c++17"],
+    deps = [
+        "//src/sql_parser:sqlcc_parser",
+    ],
+)
+
+cc_binary(
+    name = "parser_integration_test",
+    srcs = ["parser_integration_test.cpp"],
+    copts = ["-std=c++17"],
+    deps = [
+        "//src/sql_parser:sqlcc_parser",
+    ],
+)

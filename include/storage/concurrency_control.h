@@ -35,6 +35,8 @@ public:
         int32_t transaction_id;
         std::chrono::steady_clock::time_point acquire_time;
         
+        LockInfo() : type(LockType::SHARED), transaction_id(0), acquire_time(std::chrono::steady_clock::now()) {}
+        
         LockInfo(LockType t, int32_t txn_id) 
             : type(t), transaction_id(txn_id), acquire_time(std::chrono::steady_clock::now()) {}
     };
@@ -81,22 +83,22 @@ public:
 
     /**
      * @brief 获取表锁
-     * @param table_name 表名
+     * @param table_id 表ID
      * @param lock_type 锁类型
      * @param transaction_id 事务ID
      * @param timeout_ms 超时时间（毫秒）
      * @return 是否成功获取锁
      */
-    bool AcquireTableLock(const std::string& table_name, LockType lock_type,
+    bool AcquireTableLock(int32_t table_id, LockType lock_type,
                          int32_t transaction_id, size_t timeout_ms = 5000);
 
     /**
      * @brief 释放表锁
-     * @param table_name 表名
+     * @param table_id 表ID
      * @param transaction_id 事务ID
      * @return 是否成功释放锁
      */
-    bool ReleaseTableLock(const std::string& table_name, int32_t transaction_id);
+    bool ReleaseTableLock(int32_t table_id, int32_t transaction_id);
 
     /**
      * @brief 获取锁统计信息
@@ -119,12 +121,12 @@ private:
     /**
      * @brief 页面锁映射：page_id -> 锁信息列表
      */
-    std::unordered_map<int32_t, std::vector<LockInfo>> page_locks_;
+    std::unordered_map<int32_t, std::vector<std::pair<LockType, int32_t>>> page_locks_;
     
     /**
-     * @brief 表锁映射：table_name -> 锁信息列表
+     * @brief 表锁映射：table_id -> 锁信息列表
      */
-    std::unordered_map<std::string, std::vector<LockInfo>> table_locks_;
+    std::unordered_map<int32_t, std::vector<std::pair<LockType, int32_t>>> table_locks_;
     
     /**
      * @brief 页面锁的互斥锁

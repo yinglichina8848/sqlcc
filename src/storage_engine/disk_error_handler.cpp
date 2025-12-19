@@ -544,6 +544,7 @@ bool DiskRedundancyManager::ReadWithRedundancy(int32_t page_id, char* data) {
 }
 
 bool DiskRedundancyManager::DetectAndRecoverFromFailure(int32_t page_id) {
+    (void)page_id; // 避免未使用参数警告
     // TODO: 实现故障检测和恢复逻辑
     return false;
 }
@@ -585,7 +586,7 @@ size_t DiskSpaceManager::GetAvailableSpace() const {
 
 size_t DiskSpaceManager::GetTotalSpace() const {
     // TODO: 实现总空间查询逻辑
-    return 10 * 1024 * 1024 * 1024; // 模拟10GB总空间
+    return 10ULL * 1024 * 1024 * 1024; // 模拟10GB总空间
 }
 
 double DiskSpaceManager::GetSpaceUtilization() const {
@@ -604,11 +605,13 @@ size_t DiskSpaceManager::ReclaimSpace(size_t target_bytes) {
 }
 
 bool DiskSpaceManager::PreallocateSpace(size_t bytes) {
+    (void)bytes; // 避免未使用参数警告
     // TODO: 实现空间预分配逻辑
     return true;
 }
 
 bool DiskSpaceManager::ShrinkFile(size_t target_size) {
+    (void)target_size; // 避免未使用参数警告
     // TODO: 实现文件收缩逻辑
     return true;
 }
@@ -644,16 +647,19 @@ DiskIOMonitor::DiskIOMonitor(std::shared_ptr<DiskManager> disk_manager)
 }
 
 void DiskIOMonitor::RecordReadOperation(int32_t page_id, std::chrono::microseconds duration) {
+    (void)page_id; // 避免未使用参数警告
     std::lock_guard<std::mutex> lock(monitor_mutex_);
     read_times_.push_back(duration);
 }
 
 void DiskIOMonitor::RecordWriteOperation(int32_t page_id, std::chrono::microseconds duration) {
+    (void)page_id; // 避免未使用参数警告
     std::lock_guard<std::mutex> lock(monitor_mutex_);
     write_times_.push_back(duration);
 }
 
 void DiskIOMonitor::RecordSeekOperation(int32_t page_id, std::chrono::microseconds duration) {
+    (void)page_id; // 避免未使用参数警告
     std::lock_guard<std::mutex> lock(monitor_mutex_);
     seek_times_.push_back(duration);
 }
@@ -756,6 +762,7 @@ std::shared_ptr<DiskErrorHandler> DiskErrorHandlerFactory::CreateBasicErrorHandl
 std::shared_ptr<DiskErrorHandler> DiskErrorHandlerFactory::CreateResilientErrorHandler(
     std::shared_ptr<DiskManager> disk_manager,
     std::vector<std::shared_ptr<DiskManager>> backup_disks) {
+    (void)backup_disks; // 避免未使用参数警告
 
     auto handler = CreateBasicErrorHandler(disk_manager);
     handler->SetMaxRetries(5);

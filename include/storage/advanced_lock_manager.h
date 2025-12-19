@@ -103,11 +103,14 @@ private:
     bool compatibility_matrix_[5][5];
 };
 
+// 辅助函数：更新锁计数器
+void UpdateLockCounts(PageLockState& state, LockMode mode, int delta);
+
 // 死锁检测器
-class DeadlockDetector {
+class AdvancedDeadlockDetector {
 public:
-    DeadlockDetector();
-    ~DeadlockDetector() = default;
+    AdvancedDeadlockDetector();
+    ~AdvancedDeadlockDetector() = default;
 
     // 检测死锁
     bool DetectDeadlock(const std::unordered_map<int32_t, PageLockState>& lock_table,
@@ -131,9 +134,7 @@ private:
     bool HasCycleDFS(int32_t start, std::unordered_set<int32_t>& visited,
                     std::unordered_set<int32_t>& recursion_stack,
                     std::vector<int32_t>& path) const;
-};
-
-// 锁升级/降级管理器
+};// 锁升级/降级管理器
 class LockUpgradeManager {
 public:
     LockUpgradeManager();
@@ -235,10 +236,8 @@ private:
 
     // 组件
     LockCompatibilityMatrix compatibility_matrix_;
-    DeadlockDetector deadlock_detector_;
-    LockUpgradeManager upgrade_manager_;
-
-    // 配置参数
+    AdvancedDeadlockDetector deadlock_detector_;
+    LockUpgradeManager upgrade_manager_;    // 配置参数
     size_t max_locks_;
     std::chrono::milliseconds default_timeout_;
     bool deadlock_detection_enabled_;

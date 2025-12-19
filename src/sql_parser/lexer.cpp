@@ -430,6 +430,25 @@ Token Lexer::createKeywordToken(const std::string &lexeme) {
     keywordMap["grants"] = Token::KEYWORD_GRANTS;
     keywordMap["databases"] = Token::KEYWORD_DATABASES;
     keywordMap["tables"] = Token::KEYWORD_TABLES;
+    
+    // LOAD DATA Statement Keywords
+    keywordMap["load"] = Token::KEYWORD_LOAD;
+    keywordMap["data"] = Token::KEYWORD_DATA;
+    keywordMap["infile"] = Token::KEYWORD_INFILE;
+    keywordMap["replace"] = Token::KEYWORD_REPLACE;
+    keywordMap["ignore"] = Token::KEYWORD_IGNORE;
+    keywordMap["low_priority"] = Token::KEYWORD_LOW_PRIORITY;
+    keywordMap["concurrent"] = Token::KEYWORD_CONCURRENT;
+    keywordMap["local"] = Token::KEYWORD_LOCAL;
+    keywordMap["partition"] = Token::KEYWORD_PARTITION;
+    keywordMap["character"] = Token::KEYWORD_CHARACTER;
+    keywordMap["fields"] = Token::KEYWORD_FIELDS;
+    keywordMap["terminated"] = Token::KEYWORD_TERMINATED;
+    keywordMap["optionally"] = Token::KEYWORD_OPTIONALLY;
+    keywordMap["enclosed"] = Token::KEYWORD_ENCLOSED;
+    keywordMap["escaped"] = Token::KEYWORD_ESCAPED;
+    keywordMap["lines"] = Token::KEYWORD_LINES;
+    keywordMap["starting"] = Token::KEYWORD_STARTING;
   }
 
   auto it = keywordMap.find(lexeme);

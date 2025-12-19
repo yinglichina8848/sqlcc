@@ -49,7 +49,7 @@ private:
  */
 class ProcedureContext {
 public:
-    ProcedureContext(SqlExecutor* executor);
+    ProcedureContext(std::unique_ptr<SqlExecutor> executor);
     ~ProcedureContext();
 
     // 变量管理
@@ -72,10 +72,10 @@ public:
     const std::vector<std::string>& getCallStack() const;
 
     // SQL执行器访问
-    SqlExecutor* getSqlExecutor() const { return sql_executor_; }
+    SqlExecutor* getSqlExecutor() const { return sql_executor_.get(); }
 
 private:
-    SqlExecutor* sql_executor_;
+    std::unique_ptr<SqlExecutor> sql_executor_;
     std::unordered_map<std::string, Value> variables_;
     std::unordered_map<std::string, Value> parameters_;
     Value return_value_;
@@ -93,7 +93,7 @@ private:
  */
 class ProcedureVM {
 public:
-    ProcedureVM(SqlExecutor* executor);
+    ProcedureVM(std::unique_ptr<SqlExecutor> executor);
     ~ProcedureVM();
 
     /**
@@ -118,7 +118,7 @@ public:
     const std::string& getLastError() const;
 
 private:
-    SqlExecutor* sql_executor_;
+    std::unique_ptr<SqlExecutor> sql_executor_;
     std::string last_error_;
 
     // 语句执行方法

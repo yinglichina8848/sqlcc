@@ -55,7 +55,7 @@ private:
     std::unique_ptr<LRUCache> lru_cache_;
 
     // 磁盘管理器指针
-    DiskManager* disk_manager_;
+    std::unique_ptr<DiskManager> disk_manager_;
 
     // 缓冲池大小
     size_t pool_size_;

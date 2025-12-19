@@ -197,6 +197,7 @@ std::shared_ptr<Page> PageAllocator::GetPage(int32_t page_id) {
 
 // 顺序分配策略
 std::shared_ptr<Page> PageAllocator::AllocateSequential(PageType type) {
+    (void)type; // 避免未使用参数警告
     // 使用递增的页面ID
     static int32_t next_page_id = 0;
     int32_t page_id = next_page_id++;
@@ -209,6 +210,7 @@ std::shared_ptr<Page> PageAllocator::AllocateSequential(PageType type) {
 
 // 随机分配策略
 std::shared_ptr<Page> PageAllocator::AllocateRandom(PageType type) {
+    (void)type; // 避免未使用参数警告
     static std::random_device rd;
     static std::mt19937 gen(rd());
     static std::uniform_int_distribution<int32_t> dis(0, INT32_MAX);

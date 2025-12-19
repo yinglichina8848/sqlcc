@@ -1357,7 +1357,7 @@ void ServerNetworkManager::ProcessEvents() {
             // 客户端连接有事件
             std::cout << "[SERVER] Handling client event on fd" << std::endl;
             // 使用智能指针管理连接处理器，避免裸指针
-            auto handler_ptr = static_cast<std::shared_ptr<ConnectionHandler>*>(events[i].data.ptr);
+            auto handler_ptr = static_cast<std::unique_ptr<ConnectionHandler>*>(events[i].data.ptr);
             if (handler_ptr && *handler_ptr) {
                 (*handler_ptr)->HandleEvent(events[i].events);
                 
@@ -1367,7 +1367,8 @@ void ServerNetworkManager::ProcessEvents() {
                     epoll_ctl(epoll_fd_.get(), EPOLL_CTL_DEL, fd, nullptr);
                     // 从智能指针容器中移除并自动释放资源
                     connections_.erase(fd);
-                    delete handler_ptr; // 删除包装智能指针的裸指针
+                    // 使用智能指针自动管理内存，避免手动delete
+                    std::unique_ptr<std::unique_ptr<ConnectionHandler>> handler_wrapper(handler_ptr);
                 }
             }
         }
@@ -1450,12 +1451,14 @@ void ServerNetworkManager::AcceptConnection() {
     struct epoll_event ev;
     ev.events = EPOLLIN; // 水平触发
     // 使用智能指针包装，避免裸指针
-    auto handler_wrapper = new std::shared_ptr<ConnectionHandler>(std::move(handler));
-    ev.data.ptr = handler_wrapper;
+    auto handler_wrapper = std::make_unique<std::unique_ptr<ConnectionHandler>>(std::move(handler));
+    ev.data.ptr = handler_wrapper.get();
     if (epoll_ctl(epoll_fd_.get(), EPOLL_CTL_ADD, fd, &ev) < 0) {
-        delete handler_wrapper; // 清理分配的内存
+        // handler_wrapper会在作用域结束时自动释放，无需手动delete
         return;
     }
+    // 将所有权转移到连接容器中
+    connections_[fd] = std::move(*handler_wrapper);
 #endif
 }
 

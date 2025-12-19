@@ -1,5 +1,6 @@
 #include "long_term_stability_test.h"
 #include "sql_executor.h"
+#include <memory>
 
 namespace sqlcc {
 namespace test {
@@ -7,7 +8,7 @@ namespace test {
 // 实现稳定性测试中的方法
 void LongTermStabilityTest::SetUp() {
     // 直接初始化SQL执行器
-    sql_executor_ = new SqlExecutor();
+    sql_executor_ = std::make_unique<SqlExecutor>();
     
     // 创建测试数据库和表
     sql_executor_->Execute("CREATE DATABASE IF NOT EXISTS stability_test_db");
@@ -26,8 +27,7 @@ void LongTermStabilityTest::TearDown() {
     // 清理测试数据
     if (sql_executor_) {
         sql_executor_->Execute("DROP DATABASE IF EXISTS stability_test_db");
-        delete sql_executor_;
-        sql_executor_ = nullptr;
+        sql_executor_.reset();
     }
 }
 

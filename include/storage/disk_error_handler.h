@@ -91,13 +91,7 @@ struct PageChecksum {
     std::chrono::steady_clock::time_point last_verified;
 
     // 默认构造函数
-<<<<<<< Updated upstream
-    PageChecksum()
-        : page_id(-1), checksum(0),
-          last_verified(std::chrono::steady_clock::now()) {}
-=======
     PageChecksum() : page_id(0), checksum(0), last_verified(std::chrono::steady_clock::now()) {}
->>>>>>> Stashed changes
 
     PageChecksum(int32_t pid, uint64_t cs)
         : page_id(pid), checksum(cs),

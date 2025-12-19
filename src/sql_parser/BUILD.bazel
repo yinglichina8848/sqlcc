@@ -21,8 +21,54 @@ cc_library(
     ],
     deps = [
         # parser does not depend on core to avoid dependency cycles
-        "//include/sql_parser:sqlcc_parser_headers",
+        "//include/sql_parser:ast_node",
+        "//include/sql_parser:ast_nodes",
+        "//include/sql_parser:node_visitor",
         "//include/storage:storage_headers_lib",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+cc_library(
+    name = "function_ast",
+    srcs = ["function_ast.cpp"],
+    hdrs = ["function_ast.h"],
+    deps = [
+        "//include/sql_parser:function_ast",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+cc_library(
+    name = "set_operation",
+    srcs = ["set_operation.cpp"],
+    hdrs = ["set_operation.h"],
+    deps = [
+        "//include/sql_parser:set_operation",
+        "//include/sql_parser:ast_nodes",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+cc_library(
+    name = "window_function",
+    srcs = ["window_function.cpp"],
+    hdrs = ["window_function.h"],
+    deps = [
+        "//include/sql_parser:window_function",
+        "//include/sql_parser:ast_node",
+        "//include/sql_parser:node_visitor",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+cc_library(
+    name = "recursive_query",
+    srcs = ["recursive_query.cpp"],
+    hdrs = ["recursive_query.h"],
+    deps = [
+        "//include/sql_parser:recursive_query",
+        "//include/sql_parser:ast_node",
     ],
     visibility = ["//visibility:public"],
 )
@@ -47,7 +93,9 @@ cc_library(
     ],
     deps = [
         # light parser variant has no direct core dependency
-        "//include/sql_parser:sqlcc_parser_headers",
+        "//include/sql_parser:ast_node",
+        "//include/sql_parser:ast_nodes",
+        "//include/sql_parser:node_visitor",
     ],
     visibility = ["//visibility:public"],
 )

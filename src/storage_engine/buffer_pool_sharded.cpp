@@ -89,7 +89,12 @@ std::unique_ptr<Page> BufferPoolSharded::FetchPage(int32_t page_id, bool exclusi
 
     // 创建新页面
     auto page = std::make_unique<Page>(page_id);
-    memcpy(page->GetData(), page_data, PAGE_SIZE);
+    #ifdef __cpp_lib_span
+        memcpy(page->GetDataSpan().data(), page_data, PAGE_SIZE);
+    #else
+        // C++17兼容模式下直接访问数据指针
+        memcpy(page->GetDataSpan().data, page_data, PAGE_SIZE);
+    #endif
 
     auto page_wrapper = std::make_shared<PageWrapper>(std::move(page));
     page_wrapper->ref_count = 1;
@@ -130,7 +135,12 @@ bool BufferPoolSharded::FlushPage(int32_t page_id) {
   }
 
   bool write_success = disk_manager_->WritePage(
-      page_id, static_cast<char *>(page_wrapper->page->GetData()));
+#ifdef __cpp_lib_span
+      page_id, static_cast<char *>(page_wrapper->page->GetDataSpan().data()));
+#else
+      // C++17兼容模式下直接访问数据指针
+      page_id, static_cast<char *>(page_wrapper->page->GetDataSpan().data));
+#endif
 
   if (write_success) {
     page_wrapper->is_dirty = false;
@@ -151,7 +161,12 @@ void BufferPoolSharded::FlushAllPages() {
 
       if (page_wrapper->is_dirty) {
         disk_manager_->WritePage(
-            page_id, static_cast<char *>(page_wrapper->page->GetData()));
+#ifdef __cpp_lib_span
+            page_id, static_cast<char *>(page_wrapper->page->GetDataSpan().data()));
+#else
+            // C++17兼容模式下直接访问数据指针
+            page_id, static_cast<char *>(page_wrapper->page->GetDataSpan().data));
+#endif
         page_wrapper->is_dirty = false;
       }
     }
@@ -274,7 +289,12 @@ int32_t BufferPoolSharded::ReplacePage(Shard &shard) {
 
         if (page_wrapper->is_dirty) {
           disk_manager_->WritePage(
-              page_id, static_cast<char *>(page_wrapper->page->GetData()));
+              #ifdef __cpp_lib_span
+                            page_id, static_cast<char *>(page_wrapper->page->GetDataSpan().data()));
+              #else
+                            // C++17兼容模式下直接访问数据指针
+                            page_id, static_cast<char *>(page_wrapper->page->GetDataSpan().data));
+              #endif
         }
 
         // 重新获取锁

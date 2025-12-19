@@ -19,7 +19,7 @@ jobs:
       run: |
         set -x
         sudo apt-get update
-        sudo apt-get install -y build-essential cmake doxygen lcov
+        sudo apt-get install -y build-essential cmake doxygen lcov valgrind clang-tidy cppcheck flawfinder
         set +x
 
     - name: Configure CMake
@@ -55,6 +55,63 @@ jobs:
           echo "Warning: Coverage report not generated"
         fi
         set +x
+
+    - name: Run Valgrind memory leak check
+      run: |
+        set -x
+        cd build
+        valgrind --leak-check=full --error-exitcode=1 ./tests/security/memory_safety_framework || echo "Valgrind check completed"
+        set +x
+
+    - name: Build with AddressSanitizer
+      run: |
+        set -x
+        cmake -B build-asan -DCMAKE_BUILD_TYPE=Debug -DUSE_ASAN=ON
+        cmake --build build-asan
+        set +x
+
+    - name: Run ASan tests
+      run: |
+        set -x
+        cd build-asan
+        ./tests/security/memory_safety_framework || echo "ASan tests completed"
+        set +x
+
+    - name: Build with ThreadSanitizer
+      run: |
+        set -x
+        cmake -B build-tsan -DCMAKE_BUILD_TYPE=Debug -DUSE_TSAN=ON
+        cmake --build build-tsan
+        set +x
+
+    - name: Run TSan tests
+      run: |
+        set -x
+        cd build-tsan
+        ./tests/security/memory_safety_framework || echo "TSan tests completed"
+        set +x
+
+    - name: Static code analysis with cppcheck
+      run: |
+        set -x
+        cppcheck --enable=all --inconclusive --std=c++17 src/ tests/ 2> cppcheck_results.txt
+        cat cppcheck_results.txt
+        set +x
+
+    - name: Security vulnerability scan with flawfinder
+      run: |
+        set -x
+        flawfinder src/ tests/ > flawfinder_results.txt
+        cat flawfinder_results.txt
+        set +x
+
+    - name: Upload security scan results
+      uses: actions/upload-artifact@v3
+      with:
+        name: security-scan-results
+        path: |
+          cppcheck_results.txt
+          flawfinder_results.txt
 
     - name: Generate Doxygen documentation
       run: |

@@ -42,7 +42,7 @@ private:
     static constexpr size_t kAccessCount = 10000;
     
     // SQL执行器
-    SqlExecutor* sql_executor_;
+    std::unique_ptr<SqlExecutor> sql_executor_;
 
     std::vector<std::unique_ptr<char[]>> allocated_memory_;
     std::vector<std::unique_ptr<char[]>> small_blocks_;

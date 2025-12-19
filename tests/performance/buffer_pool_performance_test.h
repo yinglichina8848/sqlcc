@@ -112,7 +112,7 @@ private:
     std::vector<bool> dirty_flags_;
     
     // SQL执行器
-    sqlcc::SqlExecutor* sql_executor_; // SQL执行器指针
+    std::unique_ptr<sqlcc::SqlExecutor> sql_executor_; // SQL执行器智能指针
     std::vector<std::chrono::high_resolution_clock::time_point> access_times_;
     
     // LRU相关成员

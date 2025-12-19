@@ -61,7 +61,7 @@ protected:
 
     // Create BufferPool instance
     buffer_pool_ = std::make_unique<BufferPool>(
-        test_disk_manager_, 1024, *config_manager_);
+        test_disk_manager_, *config_manager_, 1024);
   }
 
   void TearDown() override {
@@ -107,7 +107,7 @@ protected:
 
     // Create BufferPoolNew instance
     buffer_pool_new_ = std::make_unique<sqlcc::BufferPool>(
-        test_disk_manager_, 1024, *config_manager_);
+        test_disk_manager_, *config_manager_, 1024);
   }
 
   void TearDown() override {
@@ -128,7 +128,7 @@ protected:
 
     // Create BufferPoolV3 instance
     buffer_pool_v3_ = std::make_unique<sqlcc::BufferPool>(
-        test_disk_manager_, 1024, *config_manager_);
+        test_disk_manager_, *config_manager_, 1024);
   }
 
   void TearDown() override {
@@ -309,16 +309,16 @@ protected:
 
     // Create all buffer pool implementations
     buffer_pool_main_ = std::make_unique<BufferPool>(
-        test_disk_manager_, 256, *config_manager_);
+        test_disk_manager_, *config_manager_, 256);
 
     buffer_pool_sharded_ = std::make_unique<BufferPoolSharded>(
         test_disk_manager_, *config_manager_, 256, 16);
 
     buffer_pool_new_ = std::make_unique<sqlcc::BufferPool>(
-        test_disk_manager_, 256, *config_manager_);
+        test_disk_manager_, *config_manager_, 256);
 
     buffer_pool_v3_ = std::make_unique<sqlcc::BufferPool>(
-        test_disk_manager_, 256, *config_manager_);
+        test_disk_manager_, *config_manager_, 256);
   }
 
   void TearDown() override {
@@ -431,7 +431,7 @@ TEST_F(BufferPoolComparisonTest, MemorySafetyAcrossImplementations) {
 TEST_F(BufferPoolSmartPointerTest, PerformanceRegressionTest) {
   // Test that smart pointer implementation doesn't cause significant performance regression
   auto buffer_pool = std::make_unique<BufferPool>(
-      test_disk_manager_, 1024, *config_manager_);
+      test_disk_manager_, *config_manager_, 1024);
 
   const int num_operations = 1000;
 
@@ -521,7 +521,7 @@ TEST_F(BufferPoolSmartPointerTest, ErrorHandlingTest) {
 
   auto failing_disk_manager = std::make_shared<FailingDiskManager>("./test_failing_buffer_pool.db");
   auto buffer_pool = std::make_unique<BufferPool>(
-      failing_disk_manager, 1024, *config_manager_);
+      failing_disk_manager, *config_manager_, 1024);
 
   // Create a page
   int32_t page_id;

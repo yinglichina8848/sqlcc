@@ -9,14 +9,17 @@
 #include "server_manager.h"
 #include <gtest/gtest.h>
 #include <string>
-#include <iostream>
+#include <array>
+#include <vector>
+#include <cstdio>
+#include <memory>
 
 namespace sqlcc {
 namespace test {
 
 class EncryptedClientServerTest : public ::testing::Test {
 protected:
-  static ServerManager *server_manager_;
+  static std::unique_ptr<ServerManager> server_manager_;
   static std::string server_path_;
   static std::string client_path_;
   static int port_;
@@ -56,7 +59,7 @@ protected:
     bool server_started = false;
     for (int i = 0; i < 5 && !server_started; ++i) {
       // 创建服务器管理器并启动带加密的服务器
-      server_manager_ = new ServerManager(server_path_, port_);
+      server_manager_ = std::make_unique<ServerManager>(server_path_, port_);
       
       // 为服务器添加 -e 参数以启用加密
       std::string cmd = server_path_ + " -p " + std::to_string(port_) + " -e";
@@ -68,8 +71,7 @@ protected:
         server_started = true;
       } else {
         std::cerr << "✗ 加密服务器启动失败，尝试下一个端口..." << std::endl;
-        delete server_manager_;
-        server_manager_ = nullptr;
+        server_manager_.reset();
         port_++;
       }
     }
@@ -83,8 +85,7 @@ protected:
     if (server_manager_) {
       std::cout << "\n停止加密服务器..." << std::endl;
       server_manager_->Stop();
-      delete server_manager_;
-      server_manager_ = nullptr;
+      server_manager_.reset();
       std::cout << "✓ 加密服务器已停止" << std::endl;
     }
   }
@@ -125,7 +126,7 @@ protected:
 };
 
 // 静态成员初始化
-ServerManager *EncryptedClientServerTest::server_manager_ = nullptr;
+std::unique_ptr<ServerManager> EncryptedClientServerTest::server_manager_ = nullptr;
 std::string EncryptedClientServerTest::server_path_ = "";
 std::string EncryptedClientServerTest::client_path_ = "";
 int EncryptedClientServerTest::port_ = 18648;

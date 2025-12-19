@@ -134,7 +134,7 @@ private:
 public:  // 添加公共接口用于查询优化
     
     // 递归操作方法
-    bool Insert(const std::string& key, int32_t page_id, size_t offset, std::unique_ptr<BPlusTreeNode>& node);
+    bool Insert(const std::string& key, int32_t page_id, size_t offset, std::unique_ptr<BPlusTreeNode>& node, int recursion_depth = 0);
     bool Delete(const std::string& key, std::unique_ptr<BPlusTreeNode>& node);
     bool Lookup(const std::string& key, int32_t& page_id, size_t& offset, std::unique_ptr<BPlusTreeNode>& node) const;
     std::vector<IndexEntry> Search(const std::string& key, std::unique_ptr<BPlusTreeNode>& node) const;

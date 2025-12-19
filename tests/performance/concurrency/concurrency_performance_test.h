@@ -168,7 +168,7 @@ private:
     std::vector<std::unique_ptr<std::mutex>> lock_table_;
 
     // 同步原语
-    SimpleBarrier* start_barrier_;
+    std::unique_ptr<SimpleBarrier> start_barrier_;
     std::atomic<bool> test_running_;
 
     // 随机数生成器

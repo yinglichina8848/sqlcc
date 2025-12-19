@@ -46,6 +46,7 @@ class SetOperation;
 class CompositeSelectStatement;
 class WindowFunction;
 class WindowSpecification;
+class WithRecursiveClause;
 
 class NodeVisitor {
 public:
@@ -92,6 +93,7 @@ public:
   // 窗口函数访问方法
   virtual void visit(WindowFunction &node) = 0;
   virtual void visit(WindowSpecification &node) = 0;
+  virtual void visit(WithRecursiveClause &node) = 0;
 };
 
 } // namespace sql_parser

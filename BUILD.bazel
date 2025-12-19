@@ -41,7 +41,7 @@ cc_library(
     deps = [
         "//src/core:sqlcc_core_lib",
         "//src/sql_parser:sqlcc_parser",
-        "//src/storage_engine:sqlcc_storage_engine",
+        "//src/storage_engine:storage_engine",
         ":execution_engine",
         ":execution_context",
         # "@com_google_absl//absl/strings",
@@ -171,8 +171,8 @@ cc_binary(
         "//src/sql_executor:sqlcc_executor",
         # ":unified_executor",  # 暂时注释掉，因为有未实现的依赖
         "//src/sql_parser:sqlcc_parser",
-        "//src/storage_engine:sqlcc_storage_engine",
-        "//src/storage_engine:sqlcc_index_manager",
+        "//src/storage_engine:storage_engine",
+        "//src/storage_engine:index_manager",
         # "//src/transaction_manager:sqlcc_transaction_manager",  # 暂时注释掉
     ],
     includes = ["include", "include/core", "include/storage"],
@@ -205,9 +205,18 @@ cc_library(
         "//src/config_manager:sqlcc_config_manager",
         "//src/core:sqlcc_database_core",
         "//src/transaction_manager:sqlcc_transaction_manager",
-        "//src/storage_engine:sqlcc_storage_engine",
+        "//src/storage_engine:storage_engine",
         "//src/sql_parser:sqlcc_parser",
         "//src/network:sqlcc_network",
         "//src/execution:execution",  # 修复对新执行模块的依赖
+    ],
+)
+
+# 调试B+树程序
+cc_binary(
+    name = "debug_bplus_tree",
+    srcs = ["debug_bplus_tree.cpp"],
+    deps = [
+        "//src/storage_engine:storage_engine",
     ],
 )

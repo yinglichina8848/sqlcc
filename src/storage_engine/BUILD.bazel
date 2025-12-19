@@ -1,89 +1,116 @@
-# 存储引擎组件Bazel构建配置
+load("@rules_cc//cc:defs.bzl", "cc_library", "cc_test")
 
-package(default_visibility = ["//visibility:public"])
+package(
+    default_visibility = ["//visibility:public"],
+    features = ["-parse_headers"],
+)
 
 cc_library(
-    name = "sqlcc_storage_engine",
+    name = "storage_engine",
     srcs = [
-        "advanced_lock_manager.cpp",
+        "storage_engine.cpp",
         "b_plus_tree.cpp",
-        "buffer_pool.cpp",
+        "table_storage_complete.cpp",
         "cache_consistency_manager.cpp",
-        "concurrent_access_validator.cpp",
-        "concurrency_control.cpp",
         "data_integrity_validator.cpp",
-        "disk_error_handler.cpp",
+        "record_boundary_validator.cpp",
+        "replace_strategy.cpp",
+        "partition_manager.cpp",
+        "buffer_pool.cpp",
+        "buffer_pool_sharded.cpp",
         "disk_manager.cpp",
-        "lazy_writer.cpp",
         "page.cpp",
         "page_allocator.cpp",
+        "wal_buffer.cpp",
+        "wal_writer.cpp",
+        "lazy_writer.cpp",
+        "checkpoint.cpp",
         "performance_monitor.cpp",
-        "record_boundary_validator.cpp",
-        "storage_engine.cpp",
-        "table_storage.cpp",
-    ],
-    hdrs = [
-        "//include:storage_engine_headers",
-    ],
-    includes = ["../../include"],
-    deps = [
-        "//src/core:error_handler",
-        "//src/core:sqlcc_config_manager",
-    ],
-    visibility = ["//visibility:public"],
-    linkopts = ["-latomic"],
-)
-
-cc_library(
-    name = "lazy_writer",
-    srcs = ["lazy_writer.cpp"],
-    hdrs = ["//include/storage:lazy_writer_hdr"],
-    includes = ["../../include"],
-    deps = [
-        "//src/core:sqlcc_config_manager",
-        "//src/storage_engine:sqlcc_storage_engine",
-    ],
-    visibility = ["//visibility:public"],
-)
-
-cc_library(
-    name = "sqlcc_index_manager",
-    srcs = [
+        "disk_error_handler.cpp",
+        "concurrency_control.cpp",
+        "concurrent_access_validator.cpp",
+        "advanced_lock_manager.cpp",
         "index_manager/index_manager.cpp",
+        "index_manager/index_manager_smart_ptr_enhancement.cpp",
     ],
     hdrs = [
-        "//include:index_manager_headers",
+        "//include/storage:storage_headers_lib",
     ],
-    includes = ["../../include"],
+    copts = [
+        "-Iinclude",
+        "-std=c++17",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+    ],
+    linkopts = [
+        "-latomic",
+    ],
     deps = [
-        "//src/storage_engine:sqlcc_storage_engine",
-        "//src/core:error_handler",
+        "//src/sql_parser:sqlcc_parser",
+        "//include/utils:utils_lib",
+        "//src/config_manager:sqlcc_config_manager",
+        "//include:root_headers_lib",
     ],
-    visibility = ["//visibility:public"],
+)
+
+cc_test(
+    name = "storage_engine_test",
+    size = "small",
+    srcs = [
+        "storage_engine_test.cpp",
+        "b_plus_tree_test.cpp",
+        "table_storage_test.cpp",
+        "partition_manager_test.cpp",
+    ],
+    copts = [
+        "-Iinclude",
+        "-Itests",
+        "-std=c++17",
+    ],
+    deps = [
+        ":storage_engine",
+        "//src/sql_parser:sqlcc_parser",
+        "//include/utils:utils_lib",
+        "@gtest//:gtest",
+    ],
 )
 
 cc_library(
-    name = "sqlcc_concurrency_control",
-    srcs = ["concurrency_control.cpp"],
+    name = "partition_manager_lib",
+    srcs = [
+        "partition_manager.cpp",
+    ],
     hdrs = [
-        "//include/storage:concurrency_control_headers",
+        "//include/storage:partition_manager",
     ],
-    includes = ["../../include"],
+    copts = [
+        "-Iinclude",
+        "-std=c++17",
+    ],
     deps = [
-        "//src/core:error_handler",
+        "//src/sql_parser:sqlcc_parser",
+        "//include/utils:utils_lib",
+        "//include/storage:storage_headers_lib",
+        "//include:root_headers_lib",
     ],
-    visibility = ["//visibility:public"],
 )
 
-cc_library(
-    name = "sqlcc_replace_strategy",
-    srcs = ["replace_strategy.cpp"],
-    hdrs = [
-        "//include/storage:replace_strategy_headers",
+cc_test(
+    name = "partition_manager_test",
+    size = "small",
+    srcs = [
+        "partition_manager_test.cpp",
     ],
-    includes = ["../../include"],
+    copts = [
+        "-Iinclude",
+        "-Itests",
+        "-std=c++17",
+    ],
     deps = [
-        "//src/core:error_handler",
+        ":partition_manager_lib",
+        "//src/sql_parser:sqlcc_parser",
+        "//include/utils:utils_lib",
+        "@gtest//:gtest",
     ],
-    visibility = ["//visibility:public"],
 )

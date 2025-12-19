@@ -294,3 +294,14 @@ cc_test(
         "@com_google_googletest//:gtest_main",
     ],
 )
+
+# 词法分析器调试测试
+cc_test(
+    name = "debug_lexer_test",
+    srcs = ["debug_lexer_test.cpp"],
+    includes = ["../../include"],
+    deps = [
+        "//src/sql_parser:sqlcc_parser",
+        "@com_google_googletest//:gtest_main",
+    ],
+)

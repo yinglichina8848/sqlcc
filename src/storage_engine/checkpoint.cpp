@@ -1,5 +1,5 @@
 #include "storage/checkpoint.h"
-#include "storage/storage_engine.h"
+#include "storage_engine.h"
 #include "storage/wal_writer.h"
 #include "utils/config_manager.h"
 #include <algorithm>
@@ -78,7 +78,12 @@ const CheckpointManager::CheckpointStats& CheckpointManager::GetStats() const {
 
 void CheckpointManager::ResetStats() {
   std::unique_lock<std::mutex> lock(stats_mutex_);
-  stats_ = CheckpointStats{};
+  stats_.total_checkpoints.store(0);
+  stats_.total_pages_flushed.store(0);
+  stats_.total_bytes_flushed.store(0);
+  stats_.wal_logs_cleaned.store(0);
+  stats_.avg_checkpoint_time = std::chrono::microseconds{0};
+  stats_.max_checkpoint_time = std::chrono::microseconds{0};
   stats_.last_checkpoint = std::chrono::steady_clock::now();
 }
 
@@ -108,8 +113,8 @@ bool CheckpointManager::ShouldCheckpoint() const {
   }
 
   // 检查WAL文件大小
-  auto wal_stats = wal_writer_.GetStats();
-  if (wal_stats.current_log_size >= config_.max_wal_size) {
+  // 注意：由于WALWriterStats包含原子类型，不能直接复制，我们直接访问需要的字段
+  if (wal_writer_.GetStats().current_log_size.load() >= config_.max_wal_size) {
     return true;
   }
 
@@ -229,6 +234,7 @@ size_t CheckpointManager::CleanupWALLogs(uint64_t min_lsn) {
 }
 
 bool CheckpointManager::UpdateCheckpointMetadata(uint64_t checkpoint_lsn) {
+  (void)checkpoint_lsn; // 避免未使用参数警告
   // 更新检查点元数据
   // 在实际系统中，这应该：
   // 1. 将检查点信息写入专门的检查点文件

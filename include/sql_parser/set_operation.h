@@ -48,7 +48,18 @@ public:
     SelectStatement* getLeftOperand() const;
     SelectStatement* getRightOperand() const;
     bool isAll() const;
-    
+
+    // ORDER BY support
+    void setOrderBy(std::vector<std::string> columns, std::vector<bool> ascending);
+    const std::vector<std::string>& getOrderByColumns() const;
+    const std::vector<bool>& getOrderByAscending() const;
+    bool hasOrderBy() const;
+
+    // LIMIT support
+    void setLimit(size_t limit);
+    size_t getLimit() const;
+    bool hasLimit() const;
+
     // Node interface
     void accept(NodeVisitor& visitor) override;
 
@@ -58,6 +69,14 @@ private:
     std::unique_ptr<SelectStatement> rightOperand_;
     bool allFlag_;
     std::string operationName_;
+    
+    // ORDER BY support
+    std::vector<std::string> orderByColumns_;
+    std::vector<bool> orderByAscending_;
+    
+    // LIMIT support
+    size_t limit_;
+    bool hasLimit_;
 };
 
 } // namespace sql_parser

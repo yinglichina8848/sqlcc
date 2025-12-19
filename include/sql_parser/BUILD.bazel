@@ -1,39 +1,44 @@
+# SQL解析器头文件库定义
+
 package(default_visibility = ["//visibility:public"])
 
-exports_files([
-    "ast_constraint.cpp",
-    "ast_node.h",
-    "ast_nodes.h",
-    "constraint.h",
-    "lexer.h",
-    "lexer_new.h",
-    "node_visitor.h",
-    "parser.h",
-    "parser_new.h",
-    "set_operation.h",
-    "token.h",
-    "token_new.h",
-    "window_function.h",
-    "window_function_node.h",
-])
+# SQL解析器头文件库
+filegroup(
+    name = "sqlcc_parser_headers",
+    srcs = glob(["*.h"]),
+)
 
 cc_library(
-    name = "sqlcc_parser_headers",
-    hdrs = [
-        "ast_node.h",
-        "ast_nodes.h",
-        "constraint.h",
-        "lexer.h",
-        "lexer_new.h",
-        "node_visitor.h",
-        "parser.h",
-        "parser_new.h",
-        "set_operation.h",
-        "token.h",
-        "token_new.h",
-        "window_function.h",
-        "window_function_node.h",
-    ],
-    includes = ["."],
-    visibility = ["//visibility:public"],
+    name = "ast_node",
+    hdrs = ["ast_node.h"],
+)
+
+cc_library(
+    name = "ast_nodes",
+    hdrs = ["ast_nodes.h"],
+)
+
+cc_library(
+    name = "node_visitor",
+    hdrs = ["node_visitor.h"],
+)
+
+cc_library(
+    name = "function_ast",
+    hdrs = ["function_ast.h"],
+)
+
+cc_library(
+    name = "set_operation",
+    hdrs = ["set_operation.h"],
+)
+
+cc_library(
+    name = "window_function",
+    hdrs = ["window_function.h"],
+)
+
+cc_library(
+    name = "recursive_query",
+    hdrs = ["recursive_query.h"],
 )

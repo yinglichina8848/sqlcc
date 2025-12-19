@@ -8,11 +8,11 @@ using namespace sqlcc::network;
 // 测试Session类
 class SessionTest : public ::testing::Test {
 protected:
-  Session *session_;
+  std::unique_ptr<Session> session_;
 
-  void SetUp() override { session_ = new Session(1); }
+  void SetUp() override { session_ = std::make_unique<Session>(1); }
 
-  void TearDown() override { delete session_; }
+  void TearDown() override {}
 };
 
 TEST_F(SessionTest, Constructor) {

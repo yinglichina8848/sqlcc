@@ -17,13 +17,13 @@ namespace execution {
  */
 class ProcedureCallTask : public Task {
 public:
-    ProcedureCallTask(const std::string& task_id, sql_parser::CallProcedureStatement* stmt);
+    ProcedureCallTask(const std::string& task_id, std::unique_ptr<sql_parser::CallProcedureStatement> stmt);
     virtual ~ProcedureCallTask() = default;
 
     std::shared_ptr<TaskResult> execute() override;
 
 private:
-    sql_parser::CallProcedureStatement* stmt_;
+    std::unique_ptr<sql_parser::CallProcedureStatement> stmt_;
 };
 
 /**

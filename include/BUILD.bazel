@@ -44,7 +44,7 @@ filegroup(
 # 工具类库
 cc_library(
     name = "utils_lib",
-    hdrs = ["utils/file_descriptor.h"],
+    hdrs = ["//include/utils:file_descriptor.h"],
     includes = ["."],
     visibility = ["//visibility:public"],
 )
@@ -104,5 +104,13 @@ cc_library(
         ":execution_engine",
         ":database_manager",
     ],
+    visibility = ["//visibility:public"],
+)
+
+# 根目录头文件库
+cc_library(
+    name = "root_headers_lib",
+    hdrs = glob(["*.h"]),
+    includes = ["."],
     visibility = ["//visibility:public"],
 )

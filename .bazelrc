@@ -23,9 +23,10 @@ test --test_output=all
 test --test_timeout=300
 test --test_strategy=exclusive
 
-# 覆盖率配置
+# 覆盖率配置 - 只统计SQLCC核心组件（排除系统库和测试代码）
 coverage --combined_report=lcov
-coverage --coverage_report_generator=@bazel_tools//tools/test/CoverageOutputGenerator/java/com/google/devtools/coverageoutputgenerator:Main
+coverage --instrumentation_filter="//src/.*"
+coverage --instrumentation_filter="//include/.*"
 
 # 远程缓存配置（如果使用）
 # build --remote_cache=http://cache.example.com:8080

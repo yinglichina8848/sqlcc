@@ -1,28 +1,64 @@
-# 执行引擎组件Bazel构建配置
-
-package(default_visibility = ["//visibility:public"])
+cc_library(
+    name = "function_executor",
+    srcs = ["function_executor.cpp"],
+    hdrs = ["function_executor.h"],
+    deps = [
+        "//include/execution:task_executor_hdr",
+        "//include/procedure:procedure_headers",
+        "//include/sql_parser:function_ast",
+    ],
+)
 
 cc_library(
-    name = "execution",
-    srcs = [
-        "join_executor.cpp",
-        "procedure_trigger_task.cpp",  # 添加存储过程触发器任务实现文件
-        "set_operation_executor.cpp",
-        "subquery_executor.cpp",
-        "task_executor.cpp",  # 添加任务执行器实现文件
-    ],
-    hdrs = [
-        "//include/execution:join_executor_hdr",
-        "//include/execution:procedure_trigger_task_hdr",  # 添加存储过程触发器任务头文件
-        "//include/execution:set_operation_executor_hdr",
-        "//include/execution:subquery_executor_hdr",
-        "//include/execution:task_executor_hdr",  # 添加任务执行器头文件
-    ],
-    includes = ["../include"],
+    name = "join_executor",
+    srcs = ["join_executor.cpp"],
+    hdrs = ["join_executor.h"],
     deps = [
+        "//src/core:sqlcc_core_lib"
+    ],
+)
+
+cc_library(
+    name = "set_operation_executor",
+    srcs = ["set_operation_executor.cpp"],
+    hdrs = ["set_operation_executor.h"],
+    deps = [
+        "//include/execution:set_operation_executor_hdr",
+        "//src/sql_parser:set_operation",
         "//src/core:sqlcc_core_lib",
-        "//src/sql_parser:sqlcc_parser",
-        "//src/storage_engine:sqlcc_storage_engine",
-        "//src:execution_context",
+    ],
+)
+
+cc_library(
+    name = "window_function_executor",
+    srcs = ["window_function_executor.cpp"],
+    hdrs = ["window_function_executor.h"],
+    deps = [
+        "//include/execution:window_function_executor_hdr",
+        "//src/sql_parser:window_function",
+        "//src/core:sqlcc_core_lib",
+    ],
+)
+
+cc_library(
+    name = "recursive_query_executor",
+    srcs = ["recursive_query_executor.cpp"],
+    hdrs = ["recursive_query_executor.h"],
+    deps = [
+        "//include/execution:recursive_query_executor_hdr",
+        "//src/sql_parser:recursive_query",
+        "//src/core:sqlcc_core_lib",
+    ],
+)
+
+# 执行模块聚合库
+cc_library(
+    name = "execution",
+    deps = [
+        ":function_executor",
+        ":join_executor",
+        ":set_operation_executor",
+        ":window_function_executor",
+        ":recursive_query_executor",
     ],
 )

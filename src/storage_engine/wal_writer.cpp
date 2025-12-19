@@ -125,6 +125,7 @@ uint64_t WALWriter::GetCurrentLSN() const {
 }
 
 bool WALWriter::TruncateToLSN(uint64_t target_lsn) {
+  (void)target_lsn; // 避免未使用参数警告
   // 简单的日志截断实现
   // 在实际系统中，这需要更复杂的逻辑来确保数据一致性
   std::unique_lock<std::mutex> lock(file_mutex_);

@@ -96,7 +96,9 @@ public:
     CALL_PROCEDURE,
     CREATE_TRIGGER,
     DROP_TRIGGER,
-    ALTER_TRIGGER
+    ALTER_TRIGGER,
+    LOAD_DATA,
+    WITH_RECURSIVE
   };
 
   Statement(Type type) : type_(type) {}
@@ -109,7 +111,6 @@ public:
 private:
   Type type_;
 };
-
 
 } // namespace sqlcc::sql_parser
 

@@ -5,6 +5,7 @@
 #include <string>
 #include <map>
 #include <chrono>
+#include <memory>
 #include "performance_test_base.h"
 #include "sql_executor.h"
 
@@ -49,7 +50,7 @@ private:
     std::string output_directory_;
     
     // SQL执行器
-    SqlExecutor* sql_executor_;
+    std::unique_ptr<SqlExecutor> sql_executor_;
 
     void GenerateTestData();
     void Cleanup();

@@ -1,0 +1,23 @@
+cc_library(
+    name = "stored_procedure_manager",
+    hdrs = ["stored_procedure_manager.h"],
+    visibility = ["//visibility:public"],
+    deps = [
+        "//include:database_manager",
+        "//include:execution_engine",
+    ],
+)
+
+cc_library(
+    name = "unified_executor",
+    hdrs = ["unified_executor.h"],
+    visibility = ["//visibility:public"],
+)
+
+cc_library(
+    name = "execution_context",
+    hdrs = ["execution_context.h"],
+    visibility = ["//visibility:public"],
+)
+
+exports_files(["execution_context.h", "unified_executor.h"])

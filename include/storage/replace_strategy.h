@@ -7,6 +7,7 @@
 #include <functional>
 #include <list>
 #include <mutex>
+#include <string>
 
 namespace sqlcc {
 

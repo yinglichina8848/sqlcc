@@ -77,6 +77,9 @@ private:
   std::unique_ptr<GrantStatement> parseGrantStatement();
   std::unique_ptr<RevokeStatement> parseRevokeStatement();
 
+  // LOAD DATA statement parsing
+  std::unique_ptr<Statement> parseLoadDataStatement();
+
   // Clause parsing
   std::vector<std::string> parseColumnNames();
   std::vector<std::unique_ptr<Expression>> parseExpressions();

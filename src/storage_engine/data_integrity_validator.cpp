@@ -89,6 +89,7 @@ bool CheckConstraintParser::ValidateExpressionSyntax(const std::string& expressi
 bool CheckConstraintParser::EvaluateExpression(const std::string& expression,
                                              const std::vector<std::string>& values,
                                              const std::vector<std::string>& column_names) const {
+    (void)column_names; // 避免未使用参数警告
 
     std::function<bool(const std::vector<std::string>&)> validator;
     if (!ParseExpression(expression, validator)) {
@@ -100,6 +101,7 @@ bool CheckConstraintParser::EvaluateExpression(const std::string& expression,
 
 std::function<bool(const std::vector<std::string>&)> CheckConstraintParser::ParseComparisonExpression(
     const std::string& expr, const std::vector<std::string>& column_names) const {
+    (void)column_names; // 避免未使用参数警告
     
     // 简化的比较表达式解析
     // 支持: column_name > value, column_name < value, column_name = value 等
@@ -117,17 +119,11 @@ std::function<bool(const std::vector<std::string>&)> CheckConstraintParser::Pars
             (value.front() == '\'' && value.back() == '\'')) {
             value = value.substr(1, value.length() - 2);
         }
-<<<<<<< Updated upstream
 
         return [this, column, op, value](const std::vector<std::string>& vals) {
-=======
-        
-        // 使用shared_from_this来捕获this指针
-        return [this, column, op, value](const std::vector<std::string>& vals) {  // 添加this捕获
->>>>>>> Stashed changes
             // 简化实现：假设第一个值就是我们要比较的列
             if (vals.empty()) return false;
-            return this->CompareValues(vals[0], value, op);  // 显式使用this指针
+            return this->CompareValues(vals[0], value, op);
         };
     }
     
@@ -174,6 +170,7 @@ std::function<bool(const std::vector<std::string>&)> CheckConstraintParser::Pars
 
 std::function<bool(const std::vector<std::string>&)> CheckConstraintParser::ParseFunctionExpression(
     const std::string& expr, const std::vector<std::string>& column_names) const {
+    (void)column_names; // 避免未使用参数警告
     
     // 简化的函数表达式解析
     // 支持: LEN(column) > value, ISNULL(column)
@@ -189,14 +186,10 @@ std::function<bool(const std::vector<std::string>&)> CheckConstraintParser::Pars
             
             try {
                 int expected_len = std::stoi(value_str);
-<<<<<<< Updated upstream
                 return [this, op, expected_len](const std::vector<std::string>& vals) {
-=======
-                return [this, op, expected_len](const std::vector<std::string>& vals) {  // 添加this捕获
->>>>>>> Stashed changes
                     if (vals.empty()) return false;
                     int actual_len = static_cast<int>(vals[0].length());
-                    return this->CompareNumeric(std::to_string(actual_len), std::to_string(expected_len), op);  // 显式使用this指针
+                    return this->CompareNumeric(std::to_string(actual_len), std::to_string(expected_len), op);
                 };
             } catch (...) {
                 return nullptr;
@@ -211,13 +204,14 @@ std::function<bool(const std::vector<std::string>&)> CheckConstraintParser::Pars
     
     return nullptr;
 }
-
 bool CheckConstraintParser::CompareValues(const std::string& left, const std::string& right,
                                         const std::string& op) const {
     // 尝试数字比较
     try {
         double left_num = std::stod(left);
         double right_num = std::stod(right);
+        (void)left_num; // 避免未使用变量警告
+        (void)right_num; // 避免未使用变量警告
         return CompareNumeric(left, right, op);
     } catch (...) {
         // 如果不是数字，当作字符串比较
@@ -269,6 +263,10 @@ ConstraintValidationResult ForeignKeyValidator::ValidateForeignKey(const std::st
                                                                  const std::string& value,
                                                                  const std::string& referenced_table,
                                                                  const std::string& referenced_column) const {
+    (void)table_name; // 避免未使用参数警告
+    (void)column_name; // 避免未使用参数警告
+    (void)referenced_table; // 避免未使用参数警告
+    (void)referenced_column; // 避免未使用参数警告
 
     // 简化实现：假设外键总是有效的
     // 实际应该查询被引用表检查值是否存在
@@ -286,7 +284,11 @@ bool ForeignKeyValidator::ExecuteCascadeDelete(const std::string& table_name,
                                              const std::string& column_name,
                                              const std::string& value,
                                              const std::string& referenced_table) const {
-
+    // 避免未使用参数警告
+    (void)table_name;
+    (void)column_name;
+    (void)value;
+    (void)referenced_table;
     // 级联删除实现
     // DELETE FROM table_name WHERE column_name = value
     SQLCC_LOG_INFO("Executing cascade delete on " + table_name + " where " +
@@ -300,8 +302,12 @@ bool ForeignKeyValidator::ExecuteCascadeUpdate(const std::string& table_name,
                                              const std::string& old_value,
                                              const std::string& new_value,
                                              const std::string& referenced_table) const {
-
-    // 级联更新实现
+    // 避免未使用参数警告
+    (void)table_name;
+    (void)column_name;
+    (void)old_value;
+    (void)new_value;
+    (void)referenced_table;    // 级联更新实现
     // UPDATE table_name SET column_name = new_value WHERE column_name = old_value
     SQLCC_LOG_INFO("Executing cascade update on " + table_name + " setting " +
                    column_name + " from " + old_value + " to " + new_value);
@@ -312,7 +318,10 @@ bool ForeignKeyValidator::ExecuteCascadeUpdate(const std::string& table_name,
 bool ForeignKeyValidator::HasReferencingRecords(const std::string& table_name,
                                               const std::string& column_name,
                                               const std::string& value) const {
-
+    // 避免未使用参数警告
+    (void)table_name;
+    (void)column_name;
+    (void)value;
     // 检查是否存在引用记录
     // SELECT COUNT(*) FROM table_name WHERE column_name = value
     return false; // 简化实现
@@ -322,8 +331,10 @@ std::vector<std::pair<std::string, std::string>> ForeignKeyValidator::GetReferen
     const std::string& table_name,
     const std::string& column_name,
     const std::string& value) const {
-
-    // 获取引用记录列表
+    // 避免未使用参数警告
+    (void)table_name;
+    (void)column_name;
+    (void)value;    // 获取引用记录列表
     return {}; // 简化实现
 }
 
@@ -565,14 +576,17 @@ std::string DefaultValueHandler::GenerateDefaultValue(const std::string& column_
 }
 
 std::string DefaultValueHandler::GenerateNumericDefault(const std::string& column_type) const {
+    (void)column_type; // 避免未使用参数警告
     return "0";
 }
 
 std::string DefaultValueHandler::GenerateStringDefault(const std::string& column_type) const {
+    (void)column_type; // 避免未使用参数警告
     return "";
 }
 
 std::string DefaultValueHandler::GenerateDateTimeDefault(const std::string& column_type) const {
+    (void)column_type; // 避免未使用参数警告
     auto now = std::chrono::system_clock::now();
     auto time_t = std::chrono::system_clock::to_time_t(now);
 
@@ -582,21 +596,23 @@ std::string DefaultValueHandler::GenerateDateTimeDefault(const std::string& colu
 }
 
 std::string DefaultValueHandler::GenerateBooleanDefault(const std::string& column_type) const {
+    (void)column_type; // 避免未使用参数警告
     return "FALSE";
 }
 
 // 数据完整性约束验证器主类实现
 DataIntegrityValidator::DataIntegrityValidator(std::shared_ptr<StorageEngine> storage_engine,
                                              std::shared_ptr<TransactionManager> transaction_manager)
-<<<<<<< Updated upstream
-    : fk_validator_(storage_engine),
-      unique_validator_(storage_engine) {
-=======
-    : storage_engine_(std::move(storage_engine)),
+    : check_parser_(),
+      fk_validator_(storage_engine),  // 正确调用ForeignKeyValidator构造函数
+      unique_validator_(storage_engine),  // 正确调用UniqueConstraintValidator构造函数
+      default_handler_(),
+      storage_engine_(std::move(storage_engine)),
       transaction_manager_(std::move(transaction_manager)),
-      fk_validator_(storage_engine_),  // 正确调用ForeignKeyValidator构造函数
-      unique_validator_(storage_engine_) {  // 正确调用UniqueConstraintValidator构造函数
->>>>>>> Stashed changes
+      table_constraints_(),
+      config_(),
+      stats_(),
+      validation_times_() {
 
     // 初始化统计信息
     stats_.last_validation_time = std::chrono::steady_clock::now();
@@ -608,6 +624,7 @@ ConstraintValidationResult DataIntegrityValidator::ValidateConstraints(
     const std::vector<std::string>& column_types,
     const std::vector<std::string>& values,
     int32_t record_id) const {
+    (void)column_types; // 避免未使用参数警告
 
     auto start_time = std::chrono::steady_clock::now();
 
@@ -617,7 +634,7 @@ ConstraintValidationResult DataIntegrityValidator::ValidateConstraints(
     if (config_.enable_not_null_checking) {
         result = ValidateNotNullConstraints(table_name, column_names, values);
         if (result != CONSTRAINT_VALID && config_.strict_mode) {
-            UpdateIntegrityStats(result, std::chrono::duration_cast<std::chrono::microseconds>(
+            const_cast<DataIntegrityValidator*>(this)->UpdateIntegrityStats(result, std::chrono::duration_cast<std::chrono::microseconds>(
                 std::chrono::steady_clock::now() - start_time));
             return result;
         }
@@ -627,7 +644,7 @@ ConstraintValidationResult DataIntegrityValidator::ValidateConstraints(
     if (config_.enable_unique_checking) {
         result = ValidateUniqueConstraints(table_name, column_names, values, record_id);
         if (result != CONSTRAINT_VALID && config_.strict_mode) {
-            UpdateIntegrityStats(result, std::chrono::duration_cast<std::chrono::microseconds>(
+            const_cast<DataIntegrityValidator*>(this)->UpdateIntegrityStats(result, std::chrono::duration_cast<std::chrono::microseconds>(
                 std::chrono::steady_clock::now() - start_time));
             return result;
         }
@@ -637,7 +654,7 @@ ConstraintValidationResult DataIntegrityValidator::ValidateConstraints(
     if (config_.enable_foreign_key_checking) {
         result = ValidateForeignKeyConstraints(table_name, column_names, values);
         if (result != CONSTRAINT_VALID && config_.strict_mode) {
-            UpdateIntegrityStats(result, std::chrono::duration_cast<std::chrono::microseconds>(
+            const_cast<DataIntegrityValidator*>(this)->UpdateIntegrityStats(result, std::chrono::duration_cast<std::chrono::microseconds>(
                 std::chrono::steady_clock::now() - start_time));
             return result;
         }
@@ -647,13 +664,13 @@ ConstraintValidationResult DataIntegrityValidator::ValidateConstraints(
     if (config_.enable_check_constraint_checking) {
         result = ValidateCheckConstraints(table_name, column_names, values);
         if (result != CONSTRAINT_VALID && config_.strict_mode) {
-            UpdateIntegrityStats(result, std::chrono::duration_cast<std::chrono::microseconds>(
+            const_cast<DataIntegrityValidator*>(this)->UpdateIntegrityStats(result, std::chrono::duration_cast<std::chrono::microseconds>(
                 std::chrono::steady_clock::now() - start_time));
             return result;
         }
     }
 
-    UpdateIntegrityStats(CONSTRAINT_VALID, std::chrono::duration_cast<std::chrono::microseconds>(
+    const_cast<DataIntegrityValidator*>(this)->UpdateIntegrityStats(CONSTRAINT_VALID, std::chrono::duration_cast<std::chrono::microseconds>(
         std::chrono::steady_clock::now() - start_time));
 
     return CONSTRAINT_VALID;
@@ -935,7 +952,7 @@ ConstraintValidationResult DataIntegrityValidator::ValidateCheckConstraints(
 }
 
 void DataIntegrityValidator::UpdateIntegrityStats(ConstraintValidationResult result, 
-                                                std::chrono::microseconds duration) {
+                                                std::chrono::microseconds duration) const {
     std::lock_guard<std::mutex> lock(stats_mutex_);
     
     stats_.total_validations++;
@@ -980,16 +997,14 @@ std::string DataIntegrityValidator::GenerateConstraintKey(const std::string& tab
 }
 
 // 约束验证器工厂实现
-std::shared_ptr<DataIntegrityValidator> DataIntegrityValidatorFactory::CreateBasicValidator(
+std::shared_ptr<sqlcc::DataIntegrityValidator> sqlcc::DataIntegrityValidatorFactory::CreateBasicValidator(
     std::shared_ptr<StorageEngine> storage_engine) {
-
     return std::make_shared<DataIntegrityValidator>(storage_engine);
 }
 
-std::shared_ptr<DataIntegrityValidator> DataIntegrityValidatorFactory::CreateStrictValidator(
+std::shared_ptr<sqlcc::DataIntegrityValidator> sqlcc::DataIntegrityValidatorFactory::CreateStrictValidator(
     std::shared_ptr<StorageEngine> storage_engine,
     std::shared_ptr<TransactionManager> transaction_manager) {
-
     auto validator = std::make_shared<DataIntegrityValidator>(storage_engine, transaction_manager);
 
     IntegrityValidationConfig config;
@@ -1017,7 +1032,7 @@ std::shared_ptr<DataIntegrityValidator> DataIntegrityValidatorFactory::CreateEnt
 }
 
 // 约束验证结果格式化器实现
-std::string ConstraintValidationResultFormatter::FormatResult(ConstraintValidationResult result) {
+std::string sqlcc::ConstraintValidationResultFormatter::FormatResult(sqlcc::ConstraintValidationResult result) {
     switch (result) {
         case CONSTRAINT_VALID: return "CONSTRAINT_VALID";
         case CONSTRAINT_VIOLATED: return "CONSTRAINT_VIOLATED";
@@ -1028,8 +1043,8 @@ std::string ConstraintValidationResultFormatter::FormatResult(ConstraintValidati
     }
 }
 
-std::string ConstraintValidationResultFormatter::FormatDetailedResult(
-    ConstraintValidationResult result,
+std::string sqlcc::ConstraintValidationResultFormatter::FormatDetailedResult(
+    sqlcc::ConstraintValidationResult result,
     const std::string& table_name,
     const std::string& constraint_name,
     const std::string& details) {
@@ -1051,7 +1066,7 @@ std::string ConstraintValidationResultFormatter::FormatDetailedResult(
     return message;
 }
 
-std::string ConstraintValidationResultFormatter::GetResultSeverity(ConstraintValidationResult result) {
+std::string sqlcc::ConstraintValidationResultFormatter::GetResultSeverity(sqlcc::ConstraintValidationResult result) {
     switch (result) {
         case CONSTRAINT_VALID:
             return "INFO";
@@ -1066,7 +1081,7 @@ std::string ConstraintValidationResultFormatter::GetResultSeverity(ConstraintVal
     }
 }
 
-bool ConstraintValidationResultFormatter::IsCriticalError(ConstraintValidationResult result) {
+bool sqlcc::ConstraintValidationResultFormatter::IsCriticalError(sqlcc::ConstraintValidationResult result) {
     return result == CONSTRAINT_VIOLATED;
 }
 

@@ -12,7 +12,7 @@
 #include "storage/index_manager.h"
 #include "storage/b_plus_tree.h"
 #include "storage_engine.h"
-#include "core/transaction_manager.h"
+#include "transaction_manager.h"
 #include "utils/config_manager.h"
 #include "utils/logger.h"
 #include <memory>
@@ -24,6 +24,8 @@
 #include <mutex>
 #include <atomic>
 #include <chrono>
+#include <queue>
+#include <algorithm>
 
 namespace sqlcc {
 
@@ -50,7 +52,7 @@ public:
         auto expiry_time = std::chrono::steady_clock::now() + actual_ttl;
 
         CacheEntry entry{std::move(index), priority, std::chrono::steady_clock::now(),
-                        expiry_time, 0, 0, 0.0};
+                        expiry_time, 0, 0, std::chrono::steady_clock::time_point{}};
 
         index_cache_[index_name] = std::move(entry);
         access_times_[index_name] = std::chrono::steady_clock::now();
@@ -196,6 +198,16 @@ public:
         std::chrono::steady_clock::time_point newest_access;
         std::unordered_map<int, size_t> priority_distribution;
     };
+    
+    // 基础缓存统计信息
+    struct CacheStats {
+        size_t total_indexes = 0;
+        size_t total_hits = 0;
+        size_t total_misses = 0;
+        double hit_rate = 0.0;
+        size_t expired_entries = 0;
+        size_t high_priority_entries = 0;
+    };
 
     EnhancedCacheStats GetEnhancedCacheStats() const {
         std::lock_guard<std::mutex> lock(cache_mutex_);
@@ -303,6 +315,32 @@ private:
             RemoveIndex(access_counts[i].first);
         }
     }
+
+    // 清理过期缓存
+public:
+    void CleanupExpiredCache(std::chrono::minutes max_age = std::chrono::minutes(30)) {
+        std::lock_guard<std::mutex> lock(cache_mutex_);
+        auto now = std::chrono::steady_clock::now();
+        std::vector<std::string> to_remove;
+        (void)max_age; // 避免未使用参数警告
+
+        for (const auto& pair : index_cache_) {
+            if (now > pair.second.expiry_time) {
+                to_remove.push_back(pair.first);
+            }
+        }
+
+        for (const auto& index_name : to_remove) {
+            index_cache_.erase(index_name);
+            access_times_.erase(index_name);
+        }
+
+        if (!to_remove.empty()) {
+            SQLCC_LOG_INFO("Cleaned up " + std::to_string(to_remove.size()) + " expired cache entries");
+        }
+    }
+
+private:
 };
 
 // 事务性索引操作管理器
@@ -360,8 +398,9 @@ public:
         }
 
         // 标记为待删除
+        // 标记为待删除 - 使用原始指针，但不实际拥有所有权
         pending_deletions_[index_name] = std::unique_ptr<BPlusTreeIndex>(
-            const_cast<BPlusTreeIndex*>(index), [](BPlusTreeIndex*){} // 空删除器
+            const_cast<BPlusTreeIndex*>(index)
         );
 
         index_cache_.RemoveIndex(index_name);
@@ -542,6 +581,7 @@ public:
 
         // 这里需要遍历所有缓存的索引，检查是否属于指定表
         // 这是一个简化的实现，实际应该维护表到索引的映射
+        (void)table_name; // 避免未使用参数警告
 
         SQLCC_LOG_WARN("GetTableIndexes not fully implemented in enhanced version");
         return result;
@@ -558,8 +598,8 @@ public:
     }
 
     // 获取缓存统计信息
-    SmartIndexCache::CacheStats GetCacheStats() const {
-        return smart_cache_->GetCacheStats();
+    SmartIndexCache::EnhancedCacheStats GetCacheStats() const {
+        return smart_cache_->GetEnhancedCacheStats();
     }
 
     // 手动清理过期缓存
@@ -654,8 +694,8 @@ public:
         // 注意：这不是真正的转移，而是创建一个新的unique_ptr
         // 实际使用中应该避免这种模式
         SQLCC_LOG_WARN("Transferring ownership from shared_ptr to unique_ptr - potential double deletion risk");
-        return std::unique_ptr<BPlusTreeIndex>(shared_index.get(),
-            [](BPlusTreeIndex*){ /* 空删除器，避免双重删除 */ });
+        // 创建一个unique_ptr，使用原始指针但不实际拥有所有权
+        return std::unique_ptr<BPlusTreeIndex>(shared_index.get());
     }
 
     // 安全释放助手

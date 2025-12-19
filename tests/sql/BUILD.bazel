@@ -2,7 +2,74 @@
 
 package(default_visibility = ["//visibility:public"])
 
+load("@rules_cc//cc:defs.bzl", "cc_test")
+
+# 约束系统测试
+cc_test(
+    name = "simple_constraint_test",
+    srcs = ["simple_constraint_test.cpp"],
+    deps = [
+        "//src/sql_parser:sqlcc_parser",
+        "//src/storage_engine:storage_engine",
+        "@com_google_googletest//:gtest_main",
+    ],
+)
+
+# 约束演示测试
+cc_test(
+    name = "test_constraint_demo",
+    srcs = ["test_constraint_demo.cpp"],
+    deps = [
+        "//src/sql_parser:sqlcc_parser",
+        "//src/storage_engine:storage_engine",
+        "@com_google_googletest//:gtest_main",
+    ],
+)
+
+# 存储过程测试
+cc_test(
+    name = "simple_procedure_test",
+    srcs = ["simple_procedure_test.cpp"],
+    deps = [
+        "//src/procedure:procedure_parser",
+        "//src/procedure:procedure_vm",
+        "//src/trigger:trigger_manager",
+        "@com_google_googletest//:gtest_main",
+    ],
+)
+
+# DCL解析测试
+cc_test(
+    name = "test_dcl_parsing",
+    srcs = ["test_dcl_parsing.cpp"],
+    deps = [
+        "//src/sql_parser:sqlcc_parser",
+        "@com_google_googletest//:gtest_main",
+    ],
+)
+
+# JOIN功能测试
+cc_test(
+    name = "test_join_functionality",
+    srcs = ["test_join_functionality.cpp"],
+    deps = [
+        "//src/execution:join_executor",
+        "@com_google_googletest//:gtest_main",
+    ],
+)
+
 exports_files([
     "comprehensive_test.sql",
     "simple_test.sql",
 ])
+
+test_suite(
+    name = "sql_tests",
+    tests = [
+        ":simple_constraint_test",
+        ":test_constraint_demo",
+        ":simple_procedure_test",
+        ":test_dcl_parsing",
+        ":test_join_functionality",
+    ],
+)

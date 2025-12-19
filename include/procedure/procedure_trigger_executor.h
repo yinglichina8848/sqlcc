@@ -145,7 +145,7 @@ private:
      */
     std::string executeRawSQL(const std::string& sql);
 
-    SqlExecutor* sql_executor_;
+    std::unique_ptr<SqlExecutor> sql_executor_;
     ProcedureParser procedure_parser_;
     ProcedureVM procedure_vm_;
     std::unordered_map<std::string, std::unique_ptr<ProcedureDefinition>> stored_procedures_;

@@ -8,7 +8,8 @@ cc_test(
     srcs = ["buffer_pool_v3_test.cpp"],
     includes = ["../../include"],
     deps = [
-        "//src/storage_engine:sqlcc_storage_engine",
+        "//src/storage_engine:storage_engine",
+        "//src/config_manager:sqlcc_config_manager",
         "@com_google_googletest//:gtest_main",
     ],
 )
@@ -19,7 +20,62 @@ cc_test(
     srcs = ["index_insert_test.cpp"],
     includes = ["../../include"],
     deps = [
-        "//src/storage_engine:sqlcc_storage_engine",
+        "//src/storage_engine:storage_engine",
+        "@com_google_googletest//:gtest_main",
+    ],
+)
+
+# B+树综合测试
+cc_test(
+    name = "comprehensive_bplus_tree_test",
+    srcs = ["comprehensive_bplus_tree_test.cpp"],
+    includes = ["../../include"],
+    deps = [
+        "//src/storage_engine:storage_engine",
+        "@com_google_googletest//:gtest_main",
+    ],
+)
+
+# B+树最终测试
+cc_test(
+    name = "final_bplus_tree_test",
+    srcs = ["final_bplus_tree_test.cpp"],
+    includes = ["../../include"],
+    deps = [
+        "//src/storage_engine:storage_engine",
+        "@com_google_googletest//:gtest_main",
+    ],
+)
+
+# B+树最小测试
+cc_test(
+    name = "minimal_bplus_tree_test",
+    srcs = ["minimal_bplus_tree_test.cpp"],
+    includes = ["../../include"],
+    deps = [
+        "//src/storage_engine:storage_engine",
+        "@com_google_googletest//:gtest_main",
+    ],
+)
+
+# B+树简单测试
+cc_test(
+    name = "simple_bplus_tree_test",
+    srcs = ["simple_bplus_tree_test.cpp"],
+    includes = ["../../include"],
+    deps = [
+        "//src/storage_engine:storage_engine",
+        "@com_google_googletest//:gtest_main",
+    ],
+)
+
+# B+树修复测试
+cc_test(
+    name = "test_bplus_tree_fix",
+    srcs = ["test_bplus_tree_fix.cpp"],
+    includes = ["../../include"],
+    deps = [
+        "//src/storage_engine:storage_engine",
         "@com_google_googletest//:gtest_main",
     ],
 )
@@ -30,6 +86,11 @@ test_suite(
     tests = [
         ":buffer_pool_test",
         ":bplus_tree_test",
+        ":comprehensive_bplus_tree_test",
+        ":final_bplus_tree_test",
+        ":minimal_bplus_tree_test",
+        ":simple_bplus_tree_test",
+        ":test_bplus_tree_fix",
     ],
 )
 

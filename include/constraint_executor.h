@@ -42,10 +42,42 @@ public:
     bool ValidateCheck(const std::string& table_name,
                       const std::vector<std::string>& record);
 
-private:
-    std::shared_ptr<DatabaseManager> db_manager_;
-};
+    /**
+     * @brief 验证断言约束
+     */
+    bool ValidateAssertion(const std::string& assertion_name);
 
-} // namespace sqlcc
+    /**
+     * @brief 设置约束延迟模式
+     */
+    void SetDeferrableMode(const std::string& constraint_name,
+                          bool deferred);
 
-#endif // SQLCC_CONSTRAINT_EXECUTOR_H
+    /**
+     * @brief 检查约束是否被延迟
+     */
+    bool IsConstraintDeferred(const std::string& constraint_name) const;
+
+    /**
+     * @brief 提交事务时检查所有延迟约束
+     */
+    bool ValidateDeferredConstraints();
+
+    /**
+     * @brief 验证断言约束
+     */
+    bool ValidateAssertion(const std::string& assertion_name);
+
+    /**
+     * @brief 设置约束延迟模式
+     */
+    void SetDeferrableMode(const std::string& constraint_name,
+                          bool deferred);
+
+    /**
+     * @brief 检查约束是否被延迟
+     */
+    bool IsConstraintDeferred(const std::string& constraint_name) const;
+
+    /**
+     * @brief 提交事务时检查所有延迟约束
