@@ -19,4 +19,50 @@ cc_test(
     ],
 )
 
+cc_test(
+    name = "join_executor_boundary_test",
+    srcs = ["join_executor_boundary_test.cpp"],
+    deps = [
+        "@com_google_googletest//:gtest_main",
+        "//include/execution:join_executor_hdr",
+        "//src/sql_parser:sqlcc_parser",
+        "//src/core:sqlcc_database_core",
+        "//src/sql_executor:sqlcc_executor",
+    ],
+)
 
+cc_test(
+    name = "set_operation_boundary_test",
+    srcs = ["set_operation_boundary_test.cpp"],
+    deps = [
+        "@com_google_googletest//:gtest_main",
+        "//include/execution:set_operation_executor_hdr",
+        "//src/sql_parser:sqlcc_parser",
+        "//src/core:sqlcc_database_core",
+        "//src/sql_executor:sqlcc_executor",
+    ],
+)
+
+cc_test(
+    name = "load_data_boundary_test",
+    srcs = ["load_data_boundary_test.cpp"],
+    deps = [
+        "@com_google_googletest//:gtest_main",
+        "//include/execution:load_data_executor_hdr",
+        "//src/sql_parser:sqlcc_parser",
+        "//src/core:sqlcc_database_core",
+        "//src/sql_executor:sqlcc_executor",
+    ],
+)
+
+cc_test(
+    name = "window_function_boundary_test",
+    srcs = ["window_function_boundary_test.cpp"],
+    deps = [
+        "@com_google_googletest//:gtest_main",
+        "//include/execution:window_function_executor_hdr",
+        "//src/sql_parser:sqlcc_parser",
+        "//src/core:sqlcc_database_core",
+        "//src/sql_executor:sqlcc_executor",
+    ],
+)

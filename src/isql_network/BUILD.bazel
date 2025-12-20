@@ -1,39 +1,35 @@
-# ISQL网络客户端组件Bazel构建配置
+# src/isql_network/BUILD.bazel - ISQL网络客户端组件
+# 遵循设计文档的包层次结构
 
-package(default_visibility = ["//visibility:public"])
+load("@rules_cc//cc:defs.bzl", "cc_library")
 
+# ISQL网络客户端库
 cc_library(
     name = "isql_network_lib",
-    srcs = [
-        "client_main.cpp",
-    ],
-    hdrs = [
-        # 如果有头文件，可以在这里添加
-    ],
+    srcs = ["client_main.cpp"],
     includes = ["../../include"],
     deps = [
-        "//src/network:sqlcc_network",
-        "//src/core:sqlcc_core_lib",
-        "//src/sql_parser:sqlcc_parser",
-        # "@com_google_absl//absl/strings",
+        "//src/network:network",
+        "//src/core:core",
+        "//src/sql_executor:sql_executor",
+        "//src/logger:logger",
+    ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+        "-Wall",
+        "-Wextra",
+        "-Wno-error=maybe-uninitialized",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+        "-lssl",
+        "-lcrypto",
+    ],
+    defines = [
+        "SQLCC_MODERN_CPP=1",
+        "SQLCC_CLANG18_FEATURES=1",
     ],
     visibility = ["//visibility:public"],
-    linkopts = ["-lssl", "-lcrypto"],
-)
-
-cc_binary(
-    name = "isql",
-    srcs = [
-        "client_main.cpp",
-    ],
-    includes = ["../../include"],
-    deps = [
-        "//src/network:sqlcc_network",
-        "//src/core:sqlcc_core_lib",
-        "//src/sql_parser:sqlcc_parser",
-        "//src/sql_executor:sqlcc_executor",
-        # "@com_google_absl//absl/strings",
-    ],
-    visibility = ["//visibility:public"],
-    linkopts = ["-lssl", "-lcrypto"],
 )

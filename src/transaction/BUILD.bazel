@@ -1,8 +1,66 @@
+load("@rules_cc//cc:defs.bzl", "cc_library", "cc_test")
+
+package(
+    default_visibility = ["//visibility:public"],
+    features = ["-parse_headers"],
+)
+
 cc_library(
-    name = "savepoint_manager",
-    srcs = ["savepoint_manager.cpp"],
-    hdrs = ["savepoint_manager.h"],
+    name = "transaction",
+    srcs = [
+        "savepoint_manager.cpp",
+    ],
+    hdrs = [
+        "//include/transaction:headers",
+    ],
+    includes = ["../../include"],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+        "-Wall",
+        "-Wextra",
+        "-Wno-error=maybe-uninitialized",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+    defines = [
+        "SQLCC_MODERN_CPP=1",
+        "SQLCC_CLANG18_FEATURES=1",
+    ],
     deps = [
-        "//include/transaction:savepoint_manager",
+        "//include/utils:headers",
+        "//include/storage:headers",
+    ],
+)
+
+cc_test(
+    name = "transaction_test",
+    size = "small",
+    srcs = [
+        "savepoint_manager_test.cpp",
+        "transaction_test.cpp",
+    ],
+    includes = ["../../include"],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+        "-Wall",
+        "-Wextra",
+        "-Wno-error=maybe-uninitialized",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+    defines = [
+        "SQLCC_MODERN_CPP=1",
+        "SQLCC_CLANG18_FEATURES=1",
+    ],
+    deps = [
+        ":transaction",
+        "//include/utils:headers",
+        "@gtest//:gtest",
     ],
 )

@@ -1,116 +1,237 @@
-# 头文件库定义
+# ==============================================================================
+# SQLCC 头文件包定义 - 采用清晰的分层标签格式
+# ==============================================================================
 
-package(default_visibility = ["//visibility:public"])
+load("@rules_cc//cc:defs.bzl", "cc_library")
 
-# 导出核心头文件
-exports_files(glob(["core/*.h"]))
 
-# 核心头文件库
-filegroup(
+
+# -----------------------------------------------------------------------------
+# 2. 核心库头文件 - 使用子包引用
+# -----------------------------------------------------------------------------
+
+cc_library(
     name = "core_headers",
-    srcs = glob(["core/*.h"]),
+    deps = ["//include/core:headers"],
+    visibility = ["//visibility:public"],
 )
 
-# SQL解析器头文件库
-filegroup(
+# -----------------------------------------------------------------------------
+# 3. 存储引擎头文件 - 使用子包引用
+# -----------------------------------------------------------------------------
+
+cc_library(
+    name = "storage_headers",
+    deps = ["//include/storage:headers"],
+    visibility = ["//visibility:public"],
+)
+
+# -----------------------------------------------------------------------------
+# 4. SQL解析器头文件 - 使用子包引用
+# -----------------------------------------------------------------------------
+
+cc_library(
     name = "sql_parser_headers",
-    srcs = glob(["sql_parser/*.h"]),
-)
-
-# 网络头文件库
-filegroup(
-    name = "network_headers",
-    srcs = glob(["network/*.h"]),
-)
-
-# 存储引擎头文件库
-filegroup(
-    name = "storage_engine_headers",
-    srcs = glob(["storage/*.h"]),
-)
-
-# SQL执行器头文件库
-filegroup(
-    name = "sql_executor_headers",
-    srcs = glob(["sql_executor/*.h"]),
-)
-
-# 配置管理器头文件库
-filegroup(
-    name = "config_manager_headers",
-    srcs = glob(["utils/config_manager.h"]),
-)
-
-# 工具类库
-cc_library(
-    name = "utils_lib",
-    hdrs = ["//include/utils:file_descriptor.h"],
-    includes = ["."],
+    deps = ["//include/sql_parser:headers"],
     visibility = ["//visibility:public"],
 )
 
-# Execution头文件库
-filegroup(
+# -----------------------------------------------------------------------------
+# 5. 执行引擎头文件 - 使用子包引用
+# -----------------------------------------------------------------------------
+
+cc_library(
     name = "execution_headers",
-    srcs = glob(["execution/*.h"]),
-)
-
-# 索引管理器头文件库
-filegroup(
-    name = "index_manager_headers",
-    srcs = glob(["storage/index_manager.h"]),
-)
-
-# 根目录头文件库（包含不在子目录中的头文件）
-filegroup(
-    name = "root_headers",
-    srcs = glob(["*.h"]),
-)
-
-# 错误处理头文件
-filegroup(
-    name = "error_handler_header",
-    srcs = ["error_handler.h"],
-)
-
-# 事务管理器头文件
-filegroup(
-    name = "transaction_manager_headers",
-    srcs = ["transaction_manager.h"],
-)
-
-# 执行引擎头文件库
-cc_library(
-    name = "execution_engine",
-    hdrs = ["execution_engine.h"],
-    includes = ["."],
+    deps = ["//include/execution:headers"],
     visibility = ["//visibility:public"],
 )
 
-# 数据库管理器头文件库
+# -----------------------------------------------------------------------------
+# 6. 网络库头文件 - 使用子包引用
+# -----------------------------------------------------------------------------
+
 cc_library(
-    name = "database_manager",
-    hdrs = ["database_manager.h"],
-    includes = ["."],
+    name = "network_headers",
+    deps = ["//include/network:headers"],
     visibility = ["//visibility:public"],
 )
 
-# 约束执行器头文件库
+# -----------------------------------------------------------------------------
+# 7. 工具库头文件 - 使用子包引用
+# -----------------------------------------------------------------------------
+
+cc_library(
+    name = "utils_headers",
+    deps = ["//include/utils:headers"],
+    visibility = ["//visibility:public"],
+)
+
+# -----------------------------------------------------------------------------
+# 8. 存储过程和触发器头文件 - 使用子包引用
+# -----------------------------------------------------------------------------
+
+cc_library(
+    name = "procedure_headers",
+    deps = ["//include/procedure:headers"],
+    visibility = ["//visibility:public"],
+)
+
+cc_library(
+    name = "trigger_headers",
+    deps = ["//include/trigger:headers"],
+    visibility = ["//visibility:public"],
+)
+
+# -----------------------------------------------------------------------------
+# 9. 事务管理头文件 - 使用子包引用
+# -----------------------------------------------------------------------------
+
+cc_library(
+    name = "transaction_headers",
+    deps = ["//include/transaction:headers"],
+    visibility = ["//visibility:public"],
+)
+
+# -----------------------------------------------------------------------------
+# 10. 类型系统头文件 - 使用子包引用
+# -----------------------------------------------------------------------------
+
+cc_library(
+    name = "types_headers",
+    deps = ["//include/types:headers"],
+    visibility = ["//visibility:public"],
+)
+
+# -----------------------------------------------------------------------------
+# 11. 安全模块头文件 - 使用子包引用
+# -----------------------------------------------------------------------------
+
+cc_library(
+    name = "security_headers",
+    deps = ["//include/security:headers"],
+    visibility = ["//visibility:public"],
+)
+
+# -----------------------------------------------------------------------------
+# 12. 主要接口头文件 - 直接定义（根级）
+# -----------------------------------------------------------------------------
+
+cc_library(
+    name = "storage_engine",
+    hdrs = ["storage_engine.h"],
+    visibility = ["//visibility:public"],
+)
+
+cc_library(
+    name = "sql_executor",
+    hdrs = ["sql_executor.h"],
+    visibility = ["//visibility:public"],
+)
+
+cc_library(
+    name = "config_manager",
+    hdrs = ["config_manager.h"],
+    visibility = ["//visibility:public"],
+)
+
+cc_library(
+    name = "wal_manager",
+    hdrs = ["wal_manager.h"],
+    visibility = ["//visibility:public"],
+)
+
 cc_library(
     name = "constraint_executor",
     hdrs = ["constraint_executor.h"],
-    includes = ["."],
+    visibility = ["//visibility:public"],
+)
+
+cc_library(
+    name = "database_manager",
+    hdrs = ["database_manager.h"],
+    visibility = ["//visibility:public"],
+)
+
+cc_library(
+    name = "execution_engine",
+    hdrs = ["execution_engine.h"],
+    visibility = ["//visibility:public"],
+)
+
+cc_library(
+    name = "disk_manager",
+    hdrs = ["disk_manager.h"],
+    visibility = ["//visibility:public"],
+)
+
+cc_library(
+    name = "error_handler",
+    hdrs = ["error_handler.h"],
+    visibility = ["//visibility:public"],
+)
+
+cc_library(
+    name = "exception",
+    hdrs = ["exception.h"],
+    visibility = ["//visibility:public"],
+)
+
+cc_library(
+    name = "page",
+    hdrs = ["page.h"],
+    visibility = ["//visibility:public"],
+)
+
+cc_library(
+    name = "transaction_manager",
+    hdrs = ["transaction_manager.h"],
+    visibility = ["//visibility:public"],
+)
+
+# -----------------------------------------------------------------------------
+# 13. 综合头文件库 - 所有头文件的集合
+# -----------------------------------------------------------------------------
+
+cc_library(
+    name = "all_headers",
     deps = [
-        ":execution_engine",
+        # 工具模块
+        "//include/utils:logger",
+
+        # 子包模块
+        ":core_headers",
+        ":storage_headers",
+        ":sql_parser_headers",
+        ":execution_headers",
+        ":network_headers",
+        ":utils_headers",
+        ":procedure_headers",
+        ":trigger_headers",
+        ":transaction_headers",
+        ":types_headers",
+        ":security_headers",
+
+        # 主要接口
+        ":storage_engine",
+        ":sql_executor",
+        ":config_manager",
+        ":wal_manager",
+        ":constraint_executor",
         ":database_manager",
+        ":execution_engine",
+        ":disk_manager",
+        ":error_handler",
+        ":exception",
+        ":page",
+        ":transaction_manager",
     ],
     visibility = ["//visibility:public"],
 )
 
-# 根目录头文件库
-cc_library(
-    name = "root_headers_lib",
-    hdrs = glob(["*.h"]),
-    includes = ["."],
-    visibility = ["//visibility:public"],
-)
+# 导出主要头文件以供其他包使用
+exports_files([
+    "database_manager.h",
+    "sql_executor.h",
+    "error_handler.h",
+    "exception.h",
+])

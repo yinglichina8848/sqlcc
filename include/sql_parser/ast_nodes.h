@@ -2,18 +2,56 @@
 #define SQLCC_SQL_PARSER_AST_NODES_H
 
 #include "ast_node.h"
-#include "ast_node.h"
-#include "constraint.h"
-#include "set_operation.h"
-#include "window_function.h"
 #include "data_types.h"
-#include "function_ast.h"
-#include "storage/table_storage.h"
-#include "../src/sql_parser/load_data_ast.h"
+#include "set_operation.h"
+#include "../storage/table_storage.h"
 #include <memory>
 #include <string>
 #include <unordered_map>
 #include <vector>
+
+// Forward declarations to avoid circular includes
+namespace sqlcc {
+namespace sql_parser {
+class ConstraintValidator;
+class TableConstraint;
+class WhereClause;
+class Expression;
+class IdentifierExpression;
+class StringLiteralExpression;
+class NumericLiteralExpression;
+class BooleanLiteralExpression;
+class NullLiteralExpression;
+class JoinClause;
+class SelectStatement;
+class CompositeSelectStatement;
+class InsertStatement;
+class UpdateStatement;
+class DeleteStatement;
+class DropStatement;
+class AlterStatement;
+class UseStatement;
+class CreateIndexStatement;
+class DropIndexStatement;
+class CreateUserStatement;
+class DropUserStatement;
+class GrantStatement;
+class RevokeStatement;
+class ShowStatement;
+class CreateViewStatement;
+class AlterViewStatement;
+class DropViewStatement;
+class CreateProcedureStatement;
+class CallProcedureStatement;
+class DropProcedureStatement;
+class CreateTriggerStatement;
+class DropTriggerStatement;
+class AlterTriggerStatement;
+}
+}
+
+// Forward declaration for TableMetadata
+class TableMetadata;
 
 namespace sqlcc {
 namespace sql_parser {

@@ -38,7 +38,7 @@ TEST_F(AlterTableParserTest, ParseAlterTableAddColumn) {
     
     auto column_def = alter_stmt->getColumnDefinition();
     EXPECT_EQ(column_def.getName(), "age");
-    EXPECT_EQ(column_def.getType(), "INT");
+    EXPECT_EQ(column_def.getTypeString(), "INT");
 }
 
 // 测试ALTER TABLE DROP COLUMN语句解析
@@ -77,7 +77,7 @@ TEST_F(AlterTableParserTest, ParseAlterTableModifyColumn) {
     
     auto column_def = alter_stmt->getColumnDefinition();
     EXPECT_EQ(column_def.getName(), "age");
-    EXPECT_EQ(column_def.getType(), "BIGINT");
+    EXPECT_EQ(column_def.getTypeString(), "BIGINT");
 }
 
 // 测试ALTER TABLE RENAME TO语句解析
@@ -116,7 +116,7 @@ TEST_F(AlterTableParserTest, ParseAlterTableAddColumnWithComplexDefinition) {
     
     auto column_def = alter_stmt->getColumnDefinition();
     EXPECT_EQ(column_def.getName(), "description");
-    EXPECT_EQ(column_def.getType(), "VARCHAR(255)");
+    EXPECT_EQ(column_def.getTypeString(), "VARCHAR(255)");
     // 注意：当前解析器可能不会完整解析NOT NULL和DEFAULT子句，这部分可以在后续完善
 }
 

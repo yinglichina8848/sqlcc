@@ -1,15 +1,39 @@
+/**
+ * SQLCC Storage Engine Interface - Clang 18 + C++20 Modernization
+ * Stage 4: storage_engine模块迁移 - 缓冲池、B树、页面管理现代化
+ * Migration Phase: Traditional Header with C++20 Features
+ *
+ * Key improvements:
+ * - Smart pointers for memory safety (std::unique_ptr, std::shared_ptr)
+ * - Modern C++ patterns and RAII
+ * - Thread-safe operations preparation
+ * - Performance optimizations
+ * - Clang 18 + C++20 compilation support
+ *
+ * Future enhancements:
+ * - Asynchronous I/O operations
+ * - Memory-mapped file support
+ * - NUMA-aware buffer pool
+ * - Predictive prefetching
+ */
+
 #pragma once
 
+// Include required headers for StorageEngine functionality
+// Note: For complex classes like StorageEngine, we need complete type definitions
+// for smart pointers to work properly. Forward declarations alone are insufficient.
+#include <memory>          // std::unique_ptr, std::shared_ptr
+#include <string>          // std::string
+
+// Storage subsystem headers
 #include "disk_manager.h"
 #include "page.h"
 #include "storage/buffer_pool.h"
 #include "storage/buffer_pool_sharded.h"
 #include "storage/table_storage.h"
 #include "utils/config_manager.h"
-#include <memory>
-#include <unordered_map>
 
-// 前向声明
+// Forward declarations for components that may have circular dependencies
 namespace sqlcc {
 class IndexManager;
 }

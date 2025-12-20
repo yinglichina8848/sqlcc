@@ -1,6 +1,6 @@
 #include "sql_executor.h"
 #include "database_manager.h"
-#include "user_manager.h"
+#include "core/user_manager.h"
 #include <iostream>
 #include <fstream>
 #include <sstream>

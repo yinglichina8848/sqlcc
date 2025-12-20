@@ -4,6 +4,8 @@
 #include "execution_engine.h"
 #include <memory>
 #include <string>
+#include <map>
+#include <vector>
 
 namespace sqlcc {
 
@@ -63,21 +65,14 @@ public:
      */
     bool ValidateDeferredConstraints();
 
-    /**
-     * @brief 验证断言约束
-     */
-    bool ValidateAssertion(const std::string& assertion_name);
+private:
+    std::shared_ptr<DatabaseManager> db_manager_;
+    std::map<std::string, bool> deferred_constraints_;
+};
 
-    /**
-     * @brief 设置约束延迟模式
-     */
-    void SetDeferrableMode(const std::string& constraint_name,
-                          bool deferred);
+} // namespace sqlcc
 
-    /**
-     * @brief 检查约束是否被延迟
-     */
-    bool IsConstraintDeferred(const std::string& constraint_name) const;
-
-    /**
-     * @brief 提交事务时检查所有延迟约束
+#endif // SQLCC_CONSTRAINT_EXECUTOR_H
+</content>
+</invoke>
+</tool_call>

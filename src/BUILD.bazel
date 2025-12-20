@@ -1,145 +1,599 @@
-# SQLCC核心组件Bazel构建配置
+# src/BUILD.bazel - 源代码包定义
+# 包含所有源代码库的目标定义
 
-package(default_visibility = ["//visibility:public"])
+load("@rules_cc//cc:defs.bzl", "cc_library", "cc_test")
 
-# 核心库聚合（链接所有子库）
-cc_library(
-    name = "sqlcc_core",
-    deps = [
-        "//src/core:sqlcc_core_lib",
-        "//src/sql_parser:sqlcc_parser",
-        "//src/config_manager:sqlcc_config_manager",
-        "//src/storage_engine:storage_engine",
-        "//src/transaction_manager:sqlcc_transaction_manager",
-        "//src/network:sqlcc_network",
-        "//src/sql_executor:sqlcc_executor",
-        "//src/execution:execution",
-        ":unified_executor",
-        ":dcl_executor",
-    ],
-)
-# Execution Context库
-cc_library(
-    name = "execution_context",
-    srcs = ["execution_context.cpp"],
-    hdrs = ["//include:core_headers"],
-    includes = ["../include", "../include/core"],
-    deps = [
-        "//src/core:sqlcc_core_lib",
-        "//src/storage_engine:storage_engine",
-        "//src/config_manager:sqlcc_config_manager",
-        # "@com_google_absl//absl/strings",
-    ],
-)
+# ==================== 工具库 ====================
 
-# Execution Engine库
+# Logger库 - 现代化日志系统
 cc_library(
-    name = "execution_engine",
+    name = "logger",
     srcs = [
-        "execution_engine.cpp",
+        "logger/logger.cpp",
+        "logger/logger_module.cppm",  # 实验性Modules支持
+        "logger/logger_module_impl.cpp",
+    ],
+    hdrs = ["//include/utils:logger.h"],
+    includes = ["../include"],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+        "-Wall",
+        "-Wextra",
+        "-Wno-error=maybe-uninitialized",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+    defines = [
+        "SQLCC_MODERN_CPP=1",
+        "SQLCC_CLANG18_FEATURES=1",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+# Utils库 - 工具库
+cc_library(
+    name = "utils",
+    srcs = [
+        "utils/config_snapshot.cpp",
+        "utils/config_lifecycle.cpp",
+        "utils/smart_config_manager.cpp",
     ],
     hdrs = [
-        "//include:execution_headers",
+        "//include/utils:config_snapshot.h",
+        "//include/utils:config_lifecycle.h",
+        "//include/utils:smart_config_manager.h",
+        "//include/utils:ssl_wrapper.h",
     ],
     includes = ["../include"],
     deps = [
-        "//src/core:sqlcc_core_lib",
-        "//src/execution:execution",  # 添加对新执行模块的依赖
-        # "@com_google_absl//absl/strings",
+        ":logger",
     ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+        "-Wall",
+        "-Wextra",
+        "-Wno-error=maybe-uninitialized",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+    defines = [
+        "SQLCC_MODERN_CPP=1",
+        "SQLCC_CLANG18_FEATURES=1",
+    ],
+    visibility = ["//visibility:public"],
 )
 
-# Unified Executor库
+# ==================== 核心库 ====================
+
+# Core库 - 核心组件
 cc_library(
-    name = "unified_executor",
-    srcs = ["unified_executor.cpp"],
-    hdrs = ["//include:core_headers"],
-    includes = ["../include", "../include/core", "../include/storage"],
-    deps = [
-        "//src/core:sqlcc_core_lib",
-        "//src/core:sqlcc_database_core",
-        "//src/sql_parser:sqlcc_parser",
-        "//src/sql_executor:sqlcc_executor",
-        "//src/storage_engine:storage_engine",
-        "//src/config_manager:sqlcc_config_manager",
-        ":execution_engine",
-        # "@com_google_absl//absl/strings",
+    name = "core",
+    srcs = [
+        "core/user_manager.cpp",
+        "core/execution_context.cpp",
+        "core/unified_executor.cpp",
     ],
+    hdrs = [
+        "//include/core:user_manager.h",
+        "//include/core:execution_context.h",
+        "//include/core:unified_executor.h",
+    ],
+    includes = ["../include"],
+    deps = [
+        ":logger",
+        ":utils",
+    ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+        "-Wall",
+        "-Wextra",
+        "-Wno-error=maybe-uninitialized",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+    defines = [
+        "SQLCC_MODERN_CPP=1",
+        "SQLCC_CLANG18_FEATURES=1",
+    ],
+    visibility = ["//visibility:public"],
 )
 
-# DCL Executor库
+# UserManager库 - RBAC权限管理系统
 cc_library(
-    name = "dcl_executor",
-    srcs = ["dcl_executor.cpp"],
-    hdrs = ["//include:core_headers"],
-    includes = ["../include", "../include/core"],
+    name = "user_manager",
+    srcs = ["core/user_manager.cpp"],
+    hdrs = ["//include/core:user_manager.h"],
+    includes = ["../include"],
     deps = [
-        "//src/core:sqlcc_core_lib",
-        "//src/core:sqlcc_database_core",
-        "//src/sql_parser:sqlcc_parser",
-        "//src/sql_executor:sqlcc_executor",
-        "//src/config_manager:sqlcc_config_manager",
-        ":execution_engine",
-        # "@com_google_absl//absl/strings",
+        ":logger",
+        ":utils",
     ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+        "-Wall",
+        "-Wextra",
+        "-Wno-error=maybe-uninitialized",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+    defines = [
+        "SQLCC_MODERN_CPP=1",
+        "SQLCC_CLANG18_FEATURES=1",
+    ],
+    visibility = ["//visibility:public"],
 )
 
-# Debug lexer program
-cc_binary(
-    name = "debug_lexer",
-    srcs = ["debug_lexer.cpp"],
-    deps = [
-        "//src/sql_parser:sqlcc_parser",
-        # "@com_google_absl//absl/strings",
+# ==================== 存储引擎库 ====================
+
+# StorageEngine库 - 智能指针存储引擎
+cc_library(
+    name = "storage_engine",
+    srcs = [
+        "storage_engine/storage_engine.cpp",
+        "storage_engine/b_plus_tree.cpp",
+        "storage_engine/buffer_pool.cpp",
+        "storage_engine/wal_buffer.cpp",
+        "storage_engine/wal_writer.cpp",
+        "storage_engine/checkpoint.cpp",
+        "storage_engine/page_allocator.cpp",
+        "storage_engine/concurrent_access_validator.cpp",
+        "storage_engine/disk_error_handler.cpp",
+        "storage_engine/partition_manager.cpp",
+        "storage_engine/record_boundary_validator.cpp",
+        "storage_engine/replace_strategy.cpp",
+        "storage_engine/cache_consistency_manager.cpp",
+        "storage_engine/advanced_lock_manager.cpp",
+        "storage_engine/data_integrity_validator.cpp",
+        "storage_engine/buffer_pool_sharded.cpp",
+        "storage_engine/concurrency_control.cpp",
+        "storage_engine/table_storage_complete.cpp",
     ],
+    hdrs = [
+        "//include/storage_engine:storage_engine.h",
+        "//include/storage:b_plus_tree.h",
+        "//include/storage:buffer_pool.h",
+        "//include/storage:wal_buffer.h",
+        "//include/storage:wal_writer.h",
+        "//include/storage:checkpoint.h",
+        "//include/storage:page_allocator.h",
+        "//include/storage:concurrent_access_validator.h",
+        "//include/storage:disk_error_handler.h",
+        "//include/storage:partition_manager.h",
+        "//include/storage:record_boundary_validator.h",
+        "//include/storage:replace_strategy.h",
+        "//include/storage:cache_consistency_manager.h",
+        "//include/storage:advanced_lock_manager.h",
+        "//include/storage:data_integrity_validator.h",
+        "//include/storage:buffer_pool_sharded.h",
+        "//include/storage:concurrency_control.h",
+        "//include/storage:b_plus_tree_nodes.h",
+        "//include/storage:buffer_pool_fixed.h",
+        "//include/storage:buffer_pool_v2.h",
+        "//include/storage:disk_manager.h",
+    ],
+    includes = ["../include"],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+        "-Wall",
+        "-Wextra",
+        "-Wno-error=maybe-uninitialized",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+    defines = [
+        "SQLCC_MODERN_CPP=1",
+        "SQLCC_CLANG18_FEATURES=1",
+    ],
+    visibility = ["//visibility:public"],
 )
 
-# Simple debug program
-cc_binary(
-    name = "simple_debug",
-    srcs = ["simple_debug.cpp"],
-    deps = [
-        "//src/sql_parser:sqlcc_parser",
-        # "@com_google_absl//absl/strings",
+# ==================== 索引管理器 ====================
+
+# IndexManager库
+cc_library(
+    name = "index_manager",
+    srcs = [
+        "storage_engine/index_manager/index_manager.cpp",
+        "storage_engine/index_manager/index_manager_smart_ptr_enhancement.cpp",
     ],
+    hdrs = [
+        "//include/storage:index_manager.h",
+    ],
+    includes = ["../include"],
+    deps = [
+        ":storage_engine",
+    ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+        "-Wall",
+        "-Wextra",
+        "-Wno-error=maybe-uninitialized",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+    defines = [
+        "SQLCC_MODERN_CPP=1",
+        "SQLCC_CLANG18_FEATURES=1",
+    ],
+    visibility = ["//visibility:public"],
 )
 
-# Token debug program
-cc_binary(
-    name = "token_debug",
-    srcs = ["token_debug.cpp"],
-    deps = [
-        "//src/sql_parser:sqlcc_parser",
-        # "@com_google_absl//absl/strings",
+# ==================== SQL解析器 ====================
+
+# SQL Parser库
+cc_library(
+    name = "sql_parser",
+    srcs = [
+        "sql_parser/parser.cpp",
+        "sql_parser/lexer.cpp",
+        "sql_parser/token.cpp",
+        "sql_parser/ast_node.cpp",
+        "sql_parser/ast_nodes.cpp",
+        "sql_parser/constraint.cpp",
+        "sql_parser/set_operation.cpp",
+        "sql_parser/window_function.cpp",
+        "sql_parser/recursive_query.cpp",
+        "sql_parser/decimal.cpp",
+        "sql_parser/json.cpp",
+        "sql_parser/datetime.cpp",
+        "sql_parser/function_ast.cpp",
     ],
+    hdrs = [
+        "//include/sql_parser:parser.h",
+        "//include/sql_parser:lexer.h",
+        "//include/sql_parser:token.h",
+        "//include/sql_parser:ast_node.h",
+        "//include/sql_parser:ast_nodes.h",
+        "//include/sql_parser:constraint.h",
+        "//include/sql_parser:set_operation.h",
+        "//include/sql_parser:window_function.h",
+        "//include/sql_parser:recursive_query.h",
+        "//include/sql_parser:decimal.h",
+        "//include/sql_parser:json.h",
+        "//include/sql_parser:datetime.h",
+        "//include/sql_parser:function_ast.h",
+        "//include/sql_parser:node_visitor.h",
+        "//include/sql_parser:load_data_ast.h",
+    ],
+    includes = ["../include"],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+        "-Wall",
+        "-Wextra",
+        "-Wno-error=maybe-uninitialized",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+    defines = [
+        "SQLCC_MODERN_CPP=1",
+        "SQLCC_CLANG18_FEATURES=1",
+    ],
+    visibility = ["//visibility:public"],
 )
 
-# String debug program
-cc_binary(
-    name = "string_debug",
-    srcs = ["string_debug.cpp"],
-    deps = [
-        "//src/sql_parser:sqlcc_parser",
-        # "@com_google_absl//absl/strings",
+# ==================== 执行引擎 ====================
+
+# Execution库
+cc_library(
+    name = "execution",
+    srcs = [
+        "execution/function_executor.cpp",
+        "execution/set_operation_executor.cpp",
+        "execution/window_function_executor.cpp",
+        "execution/recursive_query_executor.cpp",
+        "execution/load_data_executor.cpp",
     ],
+    hdrs = [
+        "//include/execution:function_executor.h",
+        "//include/execution:set_operation_executor.h",
+        "//include/execution:window_function_executor.h",
+        "//include/execution:recursive_query_executor.h",
+        "//include/execution:load_data_executor.h",
+        "//include/execution:join_executor.h",
+        "//include/execution:procedure_trigger_task.h",
+    ],
+    includes = ["../include"],
+    deps = [
+        ":sql_parser",
+        ":storage_engine",
+    ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+        "-Wall",
+        "-Wextra",
+        "-Wno-error=maybe-uninitialized",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+    defines = [
+        "SQLCC_MODERN_CPP=1",
+        "SQLCC_CLANG18_FEATURES=1",
+    ],
+    visibility = ["//visibility:public"],
 )
 
-# Basic token test
-cc_binary(
-    name = "basic_token_test",
-    srcs = ["basic_token_test.cpp"],
+# ==================== SQL执行器 ====================
+
+# SQL Executor库
+cc_library(
+    name = "sql_executor",
+    srcs = ["sql_executor/sql_executor.cpp"],
+    hdrs = ["//include/sql_executor:sql_executor.h"],
+    includes = ["../include"],
     deps = [
-        "//src/sql_parser:sqlcc_parser",
-        # "@com_google_absl//absl/strings",
+        ":sql_parser",
+        ":execution",
+        ":storage_engine",
+        ":user_manager",
     ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+        "-Wall",
+        "-Wextra",
+        "-Wno-error=maybe-uninitialized",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+    defines = [
+        "SQLCC_MODERN_CPP=1",
+        "SQLCC_CLANG18_FEATURES=1",
+    ],
+    visibility = ["//visibility:public"],
 )
 
-# Lexer string test
-cc_binary(
-    name = "lexer_string_test",
-    srcs = ["lexer_string_test.cpp"],
-    deps = [
-        "//src/sql_parser:sqlcc_parser",
-        # "@com_google_absl//absl/strings",
+# ==================== 网络库 ====================
+
+# Network库
+cc_library(
+    name = "network",
+    srcs = [
+        "network/network.cpp",
+        "network/connection_state_machine.cpp",
+        "network/encryption.cpp",
+        "network/data_transmission_validator.cpp",
+        "network/mysql_protocol.cpp",
     ],
+    hdrs = [
+        "//include/network:network.h",
+        "//include/network:connection_state.h",
+        "//include/network:connection_state_machine.h",
+        "//include/network:encryption.h",
+        "//include/network:data_transmission_validator.h",
+        "//include/network:mysql_protocol.h",
+    ],
+    includes = ["../include"],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+        "-Wall",
+        "-Wextra",
+        "-Wno-error=maybe-uninitialized",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+        "-lssl",
+        "-lcrypto",
+    ],
+    defines = [
+        "SQLCC_MODERN_CPP=1",
+        "SQLCC_CLANG18_FEATURES=1",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+# ==================== 配置管理 ====================
+
+# Config Manager库
+cc_library(
+    name = "config_manager",
+    srcs = ["config_manager.cpp"],
+    hdrs = ["//include/config_manager:config_manager.h"],
+    includes = ["../include"],
+    deps = [
+        ":logger",
+    ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+        "-Wall",
+        "-Wextra",
+        "-Wno-error=maybe-uninitialized",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+    defines = [
+        "SQLCC_MODERN_CPP=1",
+        "SQLCC_CLANG18_FEATURES=1",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+
+
+# ==================== 存储过程和触发器 ====================
+
+# Procedure库
+cc_library(
+    name = "procedure",
+    srcs = [
+        "procedure/procedure_parser.cpp",
+        "procedure/procedure_vm.cpp",
+        "procedure/procedure_trigger_executor.cpp",
+    ],
+    hdrs = [
+        "//include/procedure:procedure_parser.h",
+        "//include/procedure:procedure_vm.h",
+        "//include/procedure:procedure_trigger_executor.h",
+    ],
+    includes = ["../include"],
+    deps = [
+        ":sql_parser",
+        ":execution",
+    ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+        "-Wall",
+        "-Wextra",
+        "-Wno-error=maybe-uninitialized",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+    defines = [
+        "SQLCC_MODERN_CPP=1",
+        "SQLCC_CLANG18_FEATURES=1",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+# Trigger库
+cc_library(
+    name = "trigger",
+    srcs = ["trigger/trigger_manager.cpp"],
+    hdrs = ["//include/trigger:trigger_manager.h"],
+    includes = ["../include"],
+    deps = [
+        ":procedure",
+        ":execution",
+    ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+        "-Wall",
+        "-Wextra",
+        "-Wno-error=maybe-uninitialized",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+    defines = [
+        "SQLCC_MODERN_CPP=1",
+        "SQLCC_CLANG18_FEATURES=1",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+# ==================== 事务管理 ====================
+
+# Transaction库
+cc_library(
+    name = "transaction",
+    srcs = ["transaction/savepoint_manager.cpp"],
+    hdrs = ["//include/transaction:savepoint_manager.h"],
+    includes = ["../include"],
+    deps = [
+        ":storage_engine",
+        ":logger",
+    ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+        "-Wall",
+        "-Wextra",
+        "-Wno-error=maybe-uninitialized",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+    defines = [
+        "SQLCC_MODERN_CPP=1",
+        "SQLCC_CLANG18_FEATURES=1",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+# ==================== 类型系统 ====================
+
+# Types库
+cc_library(
+    name = "types",
+    srcs = ["types/domain_manager.cpp"],
+    hdrs = ["//include/types:domain_manager.h"],
+    includes = ["../include"],
+    deps = [
+        ":logger",
+    ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+        "-Wall",
+        "-Wextra",
+        "-Wno-error=maybe-uninitialized",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+    defines = [
+        "SQLCC_MODERN_CPP=1",
+        "SQLCC_CLANG18_FEATURES=1",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+# ==================== 安全模块 ====================
+
+# Security库
+cc_library(
+    name = "security",
+    srcs = [
+        "security/memory_monitor.cpp",
+    ],
+    hdrs = [
+        "//include/security:memory_monitor.h",
+    ],
+    includes = ["../include"],
+    deps = [
+        ":logger",
+    ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+        "-Wall",
+        "-Wextra",
+        "-Wno-error=maybe-uninitialized",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+    defines = [
+        "SQLCC_MODERN_CPP=1",
+        "SQLCC_CLANG18_FEATURES=1",
+    ],
+    visibility = ["//visibility:public"],
 )

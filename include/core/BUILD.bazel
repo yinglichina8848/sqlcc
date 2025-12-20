@@ -20,4 +20,62 @@ cc_library(
     visibility = ["//visibility:public"],
 )
 
-exports_files(["execution_context.h", "unified_executor.h"])
+cc_library(
+    name = "permission_validator",
+    hdrs = ["permission_validator.h"],
+    visibility = ["//visibility:public"],
+)
+
+cc_library(
+    name = "schema_manager",
+    hdrs = ["schema_manager.h"],
+    visibility = ["//visibility:public"],
+)
+
+cc_library(
+    name = "system_database",
+    hdrs = ["system_database.h"],
+    visibility = ["//visibility:public"],
+)
+
+cc_library(
+    name = "user_manager",
+    hdrs = ["user_manager.h"],
+    visibility = ["//visibility:public"],
+)
+
+cc_library(
+    name = "execution_result",
+    hdrs = ["execution_result.h"],
+    visibility = ["//visibility:public"],
+)
+
+# -----------------------------------------------------------------------------
+# 综合头文件库 - 所有 core 头文件的集合
+# -----------------------------------------------------------------------------
+
+cc_library(
+    name = "headers",
+    deps = [
+        ":stored_procedure_manager",
+        ":unified_executor",
+        ":execution_context",
+        ":permission_validator",
+        ":schema_manager",
+        ":system_database",
+        ":user_manager",
+        ":execution_result",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+exports_files([
+    "execution_context.h",
+    "unified_executor.h",
+    "user_manager.h",
+    "permission_validator.h",
+    "schema_manager.h",
+    "system_database.h",
+    "execution_result.h",
+    "stored_procedure_manager.h",
+])

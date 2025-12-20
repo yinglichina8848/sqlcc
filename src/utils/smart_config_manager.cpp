@@ -114,11 +114,7 @@ T SmartConfigManager::GetConfig(const std::string& key, const T& default_value) 
     }
 }
 
-// 显式实例化模板（在源文件中定义）
-template int SmartConfigManager::GetConfig<int>(const std::string& key, const int& default_value) const;
-template bool SmartConfigManager::GetConfig<bool>(const std::string& key, const bool& default_value) const;
-template double SmartConfigManager::GetConfig<double>(const std::string& key, const double& default_value) const;
-template std::string SmartConfigManager::GetConfig<std::string>(const std::string& key, const std::string& default_value) const;
+
 
 std::string SmartConfigManager::GetStringConfig(const std::string& key, const std::string& default_value) const {
     return GetConfig<std::string>(key, default_value);
@@ -294,11 +290,7 @@ bool SmartConfigManager::UpdateConfig(const std::string& key, const T& value) {
     }
 }
 
-// 显式实例化更新模板
-template bool SmartConfigManager::UpdateConfig<int>(const std::string&, const int&);
-template bool SmartConfigManager::UpdateConfig<bool>(const std::string&, const bool&);
-template bool SmartConfigManager::UpdateConfig<double>(const std::string&, const double&);
-template bool SmartConfigManager::UpdateConfig<std::string>(const std::string&, const std::string&);
+
 
 bool SmartConfigManager::BatchUpdateConfigs(const std::unordered_map<std::string, ConfigValue>& configs) {
     if (!initialized_.load() || !lifecycle_manager_) {
@@ -367,7 +359,8 @@ void SmartConfigManager::OnShutdown() {
 }
 
 void SmartConfigManager::OnConfigChange(const std::string& version_id) {
-    // 配置变更逻辑
+    // 配置变更逻辑 - 记录版本变更信息
+    (void)version_id;  // 消除未使用参数警告，未来可扩展为记录变更历史
 }
 
 }  // namespace sqlcc

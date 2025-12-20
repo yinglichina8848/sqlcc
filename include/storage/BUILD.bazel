@@ -41,3 +41,13 @@ cc_library(
     includes = ["."],
     visibility = ["//visibility:public"],
 )
+
+# -----------------------------------------------------------------------------
+# 综合头文件库 - 所有 storage 头文件的集合
+# -----------------------------------------------------------------------------
+
+cc_library(
+    name = "headers",
+    hdrs = glob(["*.h"]),
+    visibility = ["//visibility:public"],
+)

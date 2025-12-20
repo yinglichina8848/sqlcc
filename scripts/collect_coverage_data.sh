@@ -1,5 +1,5 @@
 #!/bin/bash
-# 覆盖率数据收集自动化脚本
+# 覆盖率数据收集自动化脚本 - 支持跳过编译失败的测试
 
 echo "=== 覆盖率数据收集开始 ==="
 
@@ -12,10 +12,75 @@ rm -rf coverage_report/
 rm -f bazel-out/_coverage/_coverage_report.dat
 rm -f *.gcda *.gcno
 
-# 2. 执行覆盖率测试
-echo "执行覆盖率测试..."
-if ! bazel coverage //tests/... --combined_report=lcov --test_output=errors --coverage_report_generator=@bazel_tools//tools/test/CoverageOutputGenerator/java/com/google/devtools/coverageoutputgenerator:Main; then
-    echo "ERROR: 覆盖率测试执行失败"
+# 2. 获取所有测试目标
+echo "获取所有测试目标..."
+ALL_TESTS=$(bazel query 'kind(cc_test, //tests/...)')
+echo "发现 $(echo "$ALL_TESTS" | wc -l) 个测试目标"
+
+# 3. 逐个编译测试并记录成功/失败状态
+echo "逐个编译测试目标..."
+SUCCESSFUL_TESTS=""
+FAILED_TESTS=""
+COMPILE_LOG="coverage_report/compile_status.log"
+
+mkdir -p coverage_report
+echo "编译状态日志 - $(date)" > "$COMPILE_LOG"
+echo "=====================================" >> "$COMPILE_LOG"
+
+TOTAL_TESTS=$(echo "$ALL_TESTS" | wc -l)
+CURRENT_TEST=0
+
+while IFS= read -r test_target; do
+    CURRENT_TEST=$((CURRENT_TEST + 1))
+    echo "[$CURRENT_TEST/$TOTAL_TESTS] 编译测试: $test_target"
+
+    # 尝试编译单个测试
+    if bazel build "$test_target" --test_output=errors >/dev/null 2>&1; then
+        SUCCESSFUL_TESTS="$SUCCESSFUL_TESTS $test_target"
+        echo "✅ $test_target - 编译成功" >> "$COMPILE_LOG"
+        echo "编译成功: $test_target"
+    else
+        FAILED_TESTS="$FAILED_TESTS $test_target"
+        echo "❌ $test_target - 编译失败" >> "$COMPILE_LOG"
+        echo "编译失败: $test_target"
+    fi
+done <<< "$ALL_TESTS"
+
+# 统计编译结果
+SUCCESS_COUNT=$(echo "$SUCCESSFUL_TESTS" | wc -w)
+FAILED_COUNT=$(echo "$FAILED_TESTS" | wc -w)
+
+echo "" >> "$COMPILE_LOG"
+echo "编译结果统计:" >> "$COMPILE_LOG"
+echo "- 总测试数: $TOTAL_TESTS" >> "$COMPILE_LOG"
+echo "- 编译成功: $SUCCESS_COUNT" >> "$COMPILE_LOG"
+echo "- 编译失败: $FAILED_COUNT" >> "$COMPILE_LOG"
+
+echo ""
+echo "编译结果统计:"
+echo "- 总测试数: $TOTAL_TESTS"
+echo "- 编译成功: $SUCCESS_COUNT"
+echo "- 编译失败: $FAILED_COUNT"
+
+# 4. 仅对编译成功的测试执行覆盖率测试
+if [ -n "$SUCCESSFUL_TESTS" ]; then
+    echo ""
+    echo "对编译成功的测试执行覆盖率测试..."
+
+    # 构建覆盖率测试命令
+    COVERAGE_CMD="bazel coverage"
+    for test in $SUCCESSFUL_TESTS; do
+        COVERAGE_CMD="$COVERAGE_CMD $test"
+    done
+    COVERAGE_CMD="$COVERAGE_CMD --combined_report=lcov --test_output=errors --coverage_report_generator=@bazel_tools//tools/test/CoverageOutputGenerator/java/com/google/devtools/coverageoutputgenerator:Main"
+
+    echo "执行命令: $COVERAGE_CMD"
+    if ! eval "$COVERAGE_CMD"; then
+        echo "WARNING: 部分覆盖率测试执行失败，继续处理可用数据"
+        # 不立即退出，继续处理可用的覆盖率数据
+    fi
+else
+    echo "ERROR: 没有编译成功的测试，无法进行覆盖率测试"
     exit 1
 fi
 

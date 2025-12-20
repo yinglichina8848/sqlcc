@@ -63,10 +63,63 @@ struct Value {
                 return false;
         }
     }
-    
+
     // 重载!=操作符，用于比较两个Value对象是否不相等
     bool operator!=(const Value& other) const {
         return !(*this == other);
+    }
+
+    // 重载<操作符，用于比较两个Value对象
+    bool operator<(const Value& other) const {
+        if (type != other.type) {
+            return static_cast<int>(type) < static_cast<int>(other.type);
+        }
+        switch (type) {
+            case Type::INT:
+                return int_val < other.int_val;
+            case Type::DOUBLE:
+                return double_val < other.double_val;
+            case Type::STRING:
+                return str_val < other.str_val;
+            default:
+                return false;
+        }
+    }
+
+    // 重载>操作符，用于比较两个Value对象
+    bool operator>(const Value& other) const {
+        return other < *this;
+    }
+
+    // 转换为字符串
+    std::string toString() const {
+        switch (type) {
+            case Type::INT:
+                return std::to_string(int_val);
+            case Type::DOUBLE:
+                return std::to_string(double_val);
+            case Type::STRING:
+                return str_val;
+            default:
+                return "";
+        }
+    }
+
+    // 比较方法（用于排序）
+    int compare(const Value& other) const {
+        if (type != other.type) {
+            return static_cast<int>(type) - static_cast<int>(other.type);
+        }
+        switch (type) {
+            case Type::INT:
+                return (int_val < other.int_val) ? -1 : (int_val > other.int_val) ? 1 : 0;
+            case Type::DOUBLE:
+                return (double_val < other.double_val) ? -1 : (double_val > other.double_val) ? 1 : 0;
+            case Type::STRING:
+                return str_val.compare(other.str_val);
+            default:
+                return 0;
+        }
     }
 };
 

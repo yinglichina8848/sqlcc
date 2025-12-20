@@ -42,3 +42,28 @@ cc_library(
     name = "recursive_query",
     hdrs = ["recursive_query.h"],
 )
+
+cc_library(
+    name = "token",
+    hdrs = ["token.h"],
+)
+
+cc_library(
+    name = "constraint",
+    hdrs = ["constraint.h"],
+)
+
+cc_library(
+    name = "data_types",
+    hdrs = ["data_types.h"],
+)
+
+# -----------------------------------------------------------------------------
+# 综合头文件库 - 所有 sql_parser 头文件的集合
+# -----------------------------------------------------------------------------
+
+cc_library(
+    name = "headers",
+    hdrs = glob(["*.h"]),
+    visibility = ["//visibility:public"],
+)

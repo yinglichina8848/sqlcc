@@ -1,6 +1,11 @@
 package(default_visibility = ["//visibility:public"])
 
 cc_library(
+    name = "function_executor",
+    hdrs = ["function_executor.h"],
+)
+
+cc_library(
     name = "join_executor_hdr",
     hdrs = ["join_executor.h"],
 )
@@ -33,4 +38,19 @@ cc_library(
 cc_library(
     name = "recursive_query_executor_hdr",
     hdrs = ["recursive_query_executor.h"],
+)
+
+cc_library(
+    name = "load_data_executor_hdr",
+    hdrs = ["load_data_executor.h"],
+)
+
+# -----------------------------------------------------------------------------
+# 综合头文件库 - 所有 execution 头文件的集合
+# -----------------------------------------------------------------------------
+
+cc_library(
+    name = "headers",
+    hdrs = glob(["*.h"]),
+    visibility = ["//visibility:public"],
 )

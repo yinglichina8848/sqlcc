@@ -1,8 +1,13 @@
 #include "utils/config_manager.h"
 #include <algorithm>
 #include <cctype>
+#include <mutex>
 
 namespace sqlcc {
+
+// ConfigManager 单例实例
+std::unique_ptr<ConfigManager> ConfigManager::instance_;
+std::once_flag ConfigManager::init_flag_;
 
 // ConfigManager构造函数使用默认实现，已在头文件中声明为 = default
 
@@ -100,6 +105,14 @@ double ConfigManager::GetDouble(const std::string &key,
     }
   }
   return default_value;
+}
+
+// GetInstance 单例模式实现
+ConfigManager& ConfigManager::GetInstance() {
+  std::call_once(init_flag_, []() {
+    instance_ = std::unique_ptr<ConfigManager>(new ConfigManager());
+  });
+  return *instance_;
 }
 
 } // namespace sqlcc

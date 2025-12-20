@@ -54,7 +54,7 @@ TEST_F(ConnectionStateMachineTest, StateNameLookup) {
     EXPECT_EQ(state_machine_->GetStateName(AUTHENTICATED), "AUTHENTICATED");
     EXPECT_EQ(state_machine_->GetStateName(ENCRYPTED), "ENCRYPTED");
     EXPECT_EQ(state_machine_->GetStateName(CLOSED), "CLOSED");
-    EXPECT_EQ(state_machine_->GetStateName(sqlcc::network::ERROR), "ERROR");
+    EXPECT_EQ(state_machine_->GetStateName(CONNECTION_ERROR), "CONNECTION_ERROR");
 
     // 测试无效状态
     EXPECT_EQ(state_machine_->GetStateName(static_cast<ConnectionState>(999)), "UNKNOWN");
@@ -162,7 +162,7 @@ TEST_F(ConnectionStateMachineTest, ValidTransitions_ClosingToClosed) {
 TEST_F(ConnectionStateMachineTest, ValidTransitions_ErrorToDisconnected) {
     // ERROR -> DISCONNECTED (有效，重置)
     state_machine_->ForceError();
-    EXPECT_EQ(state_machine_->GetCurrentState(), ERROR);
+    EXPECT_EQ(state_machine_->GetCurrentState(), CONNECTION_ERROR);
     EXPECT_TRUE(state_machine_->CanTransitionTo(DISCONNECTED));
     EXPECT_TRUE(state_machine_->TransitionTo(DISCONNECTED));
     EXPECT_EQ(state_machine_->GetCurrentState(), DISCONNECTED);
@@ -305,7 +305,7 @@ TEST_F(ConnectionStateMachineTest, ForceError) {
     state_machine_->TransitionTo(CONNECTED);
 
     state_machine_->ForceError();
-    EXPECT_EQ(state_machine_->GetCurrentState(), ERROR);
+    EXPECT_EQ(state_machine_->GetCurrentState(), CONNECTION_ERROR);
     EXPECT_TRUE(state_machine_->IsError());
 }
 
@@ -435,7 +435,7 @@ TEST_F(ConnectionStateMachineTest, ErrorRecovery_FromErrorState) {
     state_machine_->TransitionTo(CONNECTING);
     state_machine_->ForceError();
 
-    EXPECT_EQ(state_machine_->GetCurrentState(), ERROR);
+    EXPECT_EQ(state_machine_->GetCurrentState(), CONNECTION_ERROR);
 
     // 应该能够重置到初始状态
     state_machine_->Reset();

@@ -63,11 +63,22 @@ public:
      * @brief 构造函数（私有，实现单例模式）
      */
     ConfigManager() = default;
-    
+
     /**
      * @brief 析构函数
      */
     ~ConfigManager() = default;
+
+private:
+    /**
+     * @brief 单例实例指针
+     */
+    static std::unique_ptr<ConfigManager> instance_;
+
+    /**
+     * @brief 初始化标志，用于线程安全的单例初始化
+     */
+    static std::once_flag init_flag_;
     
     /**
      * @brief 禁用拷贝构造函数

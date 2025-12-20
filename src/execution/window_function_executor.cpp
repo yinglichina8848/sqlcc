@@ -22,37 +22,36 @@ ExecutionResult WindowFunctionExecutor::execute(const sql_parser::WindowFunction
         // 这里应该从更大的查询上下文中获取基础数据
         // 暂时返回模拟结果用于测试
         result.success = true;
-        result.rows_affected = 0;
         result.message = "Window function executed successfully";
 
         // 模拟窗口函数结果
         switch (stmt.getFunctionType()) {
-            case sql_parser::FunctionType::ROW_NUMBER:
-                result.rows = {{"1"}, {"2"}, {"3"}};
+            case sql_parser::WindowFunction::FunctionType::ROW_NUMBER:
+                result.rows = {Row{{Value("1")}}, Row{{Value("2")}}, Row{{Value("3")}}};
                 break;
-            case sql_parser::FunctionType::RANK:
-                result.rows = {{"1"}, {"1"}, {"3"}};
+            case sql_parser::WindowFunction::FunctionType::RANK:
+                result.rows = {Row{{Value("1")}}, Row{{Value("1")}}, Row{{Value("3")}}};
                 break;
-            case sql_parser::FunctionType::DENSE_RANK:
-                result.rows = {{"1"}, {"1"}, {"2"}};
+            case sql_parser::WindowFunction::FunctionType::DENSE_RANK:
+                result.rows = {Row{{Value("1")}}, Row{{Value("1")}}, Row{{Value("2")}}};
                 break;
-            case sql_parser::FunctionType::SUM:
-                result.rows = {{"150000"}, {"150000"}, {"150000"}};
+            case sql_parser::WindowFunction::FunctionType::SUM:
+                result.rows = {Row{{Value("150000")}}, Row{{Value("150000")}}, Row{{Value("150000")}}};
                 break;
-            case sql_parser::FunctionType::AVG:
-                result.rows = {{"50000"}, {"50000"}, {"50000"}};
+            case sql_parser::WindowFunction::FunctionType::AVG:
+                result.rows = {Row{{Value("50000")}}, Row{{Value("50000")}}, Row{{Value("50000")}}};
                 break;
-            case sql_parser::FunctionType::COUNT:
-                result.rows = {{"3"}, {"3"}, {"3"}};
+            case sql_parser::WindowFunction::FunctionType::COUNT:
+                result.rows = {Row{{Value("3")}}, Row{{Value("3")}}, Row{{Value("3")}}};
                 break;
-            case sql_parser::FunctionType::MIN:
-                result.rows = {{"45000"}, {"45000"}, {"45000"}};
+            case sql_parser::WindowFunction::FunctionType::MIN:
+                result.rows = {Row{{Value("45000")}}, Row{{Value("45000")}}, Row{{Value("45000")}}};
                 break;
-            case sql_parser::FunctionType::MAX:
-                result.rows = {{"55000"}, {"55000"}, {"55000"}};
+            case sql_parser::WindowFunction::FunctionType::MAX:
+                result.rows = {Row{{Value("55000")}}, Row{{Value("55000")}}, Row{{Value("55000")}}};
                 break;
             default:
-                result.rows = {{"0"}, {"0"}, {"0"}};
+                result.rows = {Row{{Value("0")}}, Row{{Value("0")}}, Row{{Value("0")}}};
                 break;
         }
 
@@ -60,11 +59,10 @@ ExecutionResult WindowFunctionExecutor::execute(const sql_parser::WindowFunction
             {stmt.getFunctionName(), "INTEGER", false, false, false, ""}
         };
 
-        result.rows_affected = result.rows.size();
-        context.records_affected = result.rows_affected;
+        context.records_affected = result.rows.size();
 
     } catch (const std::exception& e) {
-        result.error_message = "Window function execution failed: " + std::string(e.what());
+        result.message = "Window function execution failed: " + std::string(e.what());
         result.success = false;
     }
 
@@ -101,7 +99,7 @@ ExecutionResult WindowFunctionExecutor::executeWindowFunctions(
 
             // 添加到结果中
             for (size_t i = 0; i < result.rows.size() && i < window_values.size(); ++i) {
-                result.rows[i].values.push_back(window_values[i]);
+                result.rows[i].values.push_back(Value(window_values[i]));
             }
 
             // 添加列元数据
@@ -112,11 +110,10 @@ ExecutionResult WindowFunctionExecutor::executeWindowFunctions(
             });
         }
 
-        result.rows_affected = result.rows.size();
-        context.records_affected = result.rows_affected;
+        context.records_affected = result.rows.size();
 
     } catch (const std::exception& e) {
-        result.error_message = "Window functions execution failed: " + std::string(e.what());
+        result.message = "Window functions execution failed: " + std::string(e.what());
         result.success = false;
     }
 
@@ -147,7 +144,7 @@ std::vector<std::vector<Row>> WindowFunctionExecutor::partitionAndSortData(
                 size_t col_idx = findColumnIndex(data.column_metadata, partition_col);
                 if (col_idx < row.values.size()) {
                     if (!partition_key.empty()) partition_key += "|";
-                    partition_key += row.values[col_idx];
+                    partition_key += row.values[col_idx].toString();
                 }
             }
             partition_map[partition_key].push_back(row);
@@ -201,20 +198,20 @@ void WindowFunctionExecutor::calculateWindowFunction(
 
     // 计算窗口函数
     switch (window_func.getFunctionType()) {
-        case sql_parser::FunctionType::ROW_NUMBER:
+        case sql_parser::WindowFunction::FunctionType::ROW_NUMBER:
             calculateRowNumber(all_rows, results);
             break;
-        case sql_parser::FunctionType::RANK:
+        case sql_parser::WindowFunction::FunctionType::RANK:
             calculateRank(partitions, results);
             break;
-        case sql_parser::FunctionType::DENSE_RANK:
+        case sql_parser::WindowFunction::FunctionType::DENSE_RANK:
             calculateDenseRank(partitions, results);
             break;
-        case sql_parser::FunctionType::SUM:
-        case sql_parser::FunctionType::AVG:
-        case sql_parser::FunctionType::COUNT:
-        case sql_parser::FunctionType::MIN:
-        case sql_parser::FunctionType::MAX:
+        case sql_parser::WindowFunction::FunctionType::SUM:
+        case sql_parser::WindowFunction::FunctionType::AVG:
+        case sql_parser::WindowFunction::FunctionType::COUNT:
+        case sql_parser::WindowFunction::FunctionType::MIN:
+        case sql_parser::WindowFunction::FunctionType::MAX:
             calculateAggregateWindowFunction(window_func, partitions, results);
             break;
         default:
@@ -315,19 +312,19 @@ void WindowFunctionExecutor::calculateAggregateWindowFunction(
             std::string value = "0"; // 默认值
 
             switch (window_func.getFunctionType()) {
-                case sql_parser::FunctionType::SUM:
+                case sql_parser::WindowFunction::FunctionType::SUM:
                     value = calculateSum(partition);
                     break;
-                case sql_parser::FunctionType::AVG:
+                case sql_parser::WindowFunction::FunctionType::AVG:
                     value = calculateAvg(partition);
                     break;
-                case sql_parser::FunctionType::COUNT:
+                case sql_parser::WindowFunction::FunctionType::COUNT:
                     value = std::to_string(partition.size());
                     break;
-                case sql_parser::FunctionType::MIN:
+                case sql_parser::WindowFunction::FunctionType::MIN:
                     value = calculateMin(partition);
                     break;
-                case sql_parser::FunctionType::MAX:
+                case sql_parser::WindowFunction::FunctionType::MAX:
                     value = calculateMax(partition);
                     break;
                 default:
@@ -346,7 +343,7 @@ std::string WindowFunctionExecutor::calculateSum(const std::vector<Row>& rows) {
         // 假设第一列是数值列
         if (!row.values.empty()) {
             try {
-                sum += std::stod(row.values[0]);
+                sum += std::stod(row.values[0].toString());
             } catch (...) {
                 // 忽略转换错误
             }
@@ -363,10 +360,13 @@ std::string WindowFunctionExecutor::calculateAvg(const std::vector<Row>& rows) {
 
 std::string WindowFunctionExecutor::calculateMin(const std::vector<Row>& rows) {
     if (rows.empty()) return "0";
-    std::string min_val = rows[0].values.empty() ? "0" : rows[0].values[0];
+    std::string min_val = rows[0].values.empty() ? "0" : rows[0].values[0].toString();
     for (const auto& row : rows) {
-        if (!row.values.empty() && row.values[0] < min_val) {
-            min_val = row.values[0];
+        if (!row.values.empty()) {
+            std::string current_val = row.values[0].toString();
+            if (current_val < min_val) {
+                min_val = current_val;
+            }
         }
     }
     return min_val;
@@ -374,10 +374,13 @@ std::string WindowFunctionExecutor::calculateMin(const std::vector<Row>& rows) {
 
 std::string WindowFunctionExecutor::calculateMax(const std::vector<Row>& rows) {
     if (rows.empty()) return "0";
-    std::string max_val = rows[0].values.empty() ? "0" : rows[0].values[0];
+    std::string max_val = rows[0].values.empty() ? "0" : rows[0].values[0].toString();
     for (const auto& row : rows) {
-        if (!row.values.empty() && row.values[0] > max_val) {
-            max_val = row.values[0];
+        if (!row.values.empty()) {
+            std::string current_val = row.values[0].toString();
+            if (current_val > max_val) {
+                max_val = current_val;
+            }
         }
     }
     return max_val;

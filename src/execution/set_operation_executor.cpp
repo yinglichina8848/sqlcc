@@ -22,7 +22,7 @@ ExecutionResult SetOperationExecutor::execute(const sql_parser::SetOperation& st
         // 执行左操作数
         ExecutionResult left_result = executeSelect(*stmt.getLeftOperand(), context);
         if (!left_result.success) {
-            result.error_message = "Failed to execute left operand: " + left_result.error_message;
+            result.message = "Failed to execute left operand: " + left_result.message;
             return result;
         }
 

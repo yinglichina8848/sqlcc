@@ -1,216 +1,76 @@
-# 根目录BUILD.bazel文件 - 定义整个项目的构建规则
+# SQLCC根目录BUILD.bazel - 主应用和测试套件定义
+# 遵循设计文档的包层次结构，引用子包目标
 
 package(default_visibility = ["//visibility:public"])
 
-load("@rules_cc//cc:defs.bzl", "cc_binary", "cc_library", "cc_test")
+load("@rules_cc//cc:defs.bzl", "cc_binary", "cc_test")
 
-# ==================== 库定义 ====================
+# ==================== 主应用程序 ====================
 
-# 执行上下文库
-cc_library(
-    name = "execution_context",
-    srcs = ["//src:execution_context.cpp"],
-    hdrs = ["//include/core:execution_context.h"],
-    includes = ["include", "include/core"],
-    deps = [
-        "//src/core:sqlcc_core_lib",
-        # "@com_google_absl//absl/strings",
-    ],
-)
-
-# 执行引擎库
-cc_library(
-    name = "execution_engine",
-    srcs = ["//src:execution_engine.cpp"],
-    hdrs = ["//include:execution_engine.h"],
-    includes = ["include", "include/core", "include/storage"],
-    deps = [
-        "//src/core:sqlcc_core_lib",
-        "//src/sql_parser:sqlcc_parser",
-        ":execution_context",
-        # "@com_google_absl//absl/strings",
-    ],
-)
-
-# 统一执行器库
-cc_library(
-    name = "unified_executor",
-    srcs = ["//src:unified_executor.cpp"],
-    hdrs = ["//include/core:unified_executor.h"],
-    includes = ["include", "include/core", "include/storage"],
-    deps = [
-        "//src/core:sqlcc_core_lib",
-        "//src/sql_parser:sqlcc_parser",
-        "//src/storage_engine:storage_engine",
-        ":execution_engine",
-        ":execution_context",
-        # "@com_google_absl//absl/strings",
-    ],
-)
-
-# ==================== 测试定义 ====================
-
-# 核心组件测试套件
-cc_test(
-    name = "core_component_tests",
-    size = "medium",
-    srcs = [],
-    deps = [
-        "//src:sqlcc_core",
-        "@com_google_googletest//:gtest_main",
-    ],
-)
-
-# ==================== 测试套件 ====================
-# 核心组件测试套件
-test_suite(
-    name = "core_tests",
-    tests = [
-        "//tests/components/core:core_component_tests",
-    ],
-)
-
-# 解析器组件测试套件
-test_suite(
-    name = "parser_tests",
-    tests = [
-        "//tests/components/parser:parser_component_tests",
-    ],
-)
-
-# 执行器组件测试套件
-test_suite(
-    name = "executor_tests",
-    tests = [
-        "//tests/components/executor:executor_component_tests",
-    ],
-)
-
-# 存储组件测试套件
-test_suite(
-    name = "storage_tests",
-    tests = [
-        "//tests/components/storage:storage_component_tests",
-    ],
-)
-
-# 网络组件测试套件
-test_suite(
-    name = "network_tests",
-    tests = [
-        "//tests/components/network:network_component_tests",
-    ],
-)
-
-# 安全组件测试套件
-test_suite(
-    name = "security_tests",
-    tests = [
-        "//tests/components/security:security_component_tests",
-    ],
-)
-
-# 事务组件测试套件
-test_suite(
-    name = "transaction_tests",
-    tests = [
-        "//tests/components/transaction:transaction_component_tests",
-    ],
-)
-
-# 主测试套件
-test_suite(
-    name = "main_tests",
-    tests = [
-        "//tests:main_tests",
-    ],
-)
-
-# 调试组件测试套件
-test_suite(
-    name = "debug_tests",
-    tests = [
-        "//tests/components/debug:debug_tests",
-    ],
-)
-
-# 性能测试套件
-test_suite(
-    name = "performance_tests",
-    tests = [
-        "//tests/performance:performance_tests",
-    ],
-)
-
-# 所有测试套件
-test_suite(
-    name = "all_tests",
-    tests = [
-        ":core_tests",
-        ":parser_tests",
-        ":executor_tests",
-        ":storage_tests",
-        ":network_tests",
-        ":security_tests",
-        ":transaction_tests",
-        ":debug_tests",
-        ":performance_tests",
-        ":main_tests",
-    ],
-)
-
-# ==================== 主要可执行程序 ====================
-
-# SQLCC服务器端程序
+# SQLCC服务器端程序 - 引用子包目标
 cc_binary(
     name = "sqlcc",
     srcs = ["//src/sqlcc_server:server_main.cpp"],
     deps = [
-        "//src/network:sqlcc_network",
-        "//src/core:sqlcc_core_lib",
-        "//src/sql_executor:sqlcc_executor",
-        # ":unified_executor",  # 暂时注释掉，因为有未实现的依赖
+        "//src/network:network",
+        "//src/core:core",
+        "//src/sql_executor:sql_executor",
         "//src/sql_parser:sqlcc_parser",
         "//src/storage_engine:storage_engine",
-        "//src/storage_engine:index_manager",
-        # "//src/transaction_manager:sqlcc_transaction_manager",  # 暂时注释掉
+        "//src/logger:logger",
     ],
-    includes = ["include", "include/core", "include/storage"],
-    linkopts = ["-lssl", "-lcrypto"],
+    includes = ["include"],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+        "-Wall",
+        "-Wextra",
+        "-Wno-error=maybe-uninitialized",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+        "-lssl",
+        "-lcrypto",
+    ],
+    defines = [
+        "SQLCC_MODERN_CPP=1",
+        "SQLCC_CLANG18_FEATURES=1",
+    ],
 )
 
-# ISQL客户端程序
+# ISQL客户端程序 - 引用子包目标
 cc_binary(
     name = "isql",
     srcs = ["//src/isql_network:client_main.cpp"],
     deps = [
         "//src/isql_network:isql_network_lib",
-        "//src/network:sqlcc_network",
-        "//src/core:sqlcc_core_lib",
-        "//src/sql_executor:sqlcc_executor",
-        # ":unified_executor",  # 暂时注释掉，因为有未实现的依赖
-        # "@com_google_absl//absl/strings",
+        "//src/network:network",
+        "//src/core:core",
+        "//src/sql_executor:sql_executor",
+        "//src/logger:logger",
     ],
-    includes = ["include", "include/core", "include/network"],
-    linkopts = ["-lssl", "-lcrypto"],
+    includes = ["include"],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+        "-Wall",
+        "-Wextra",
+        "-Wno-error=maybe-uninitialized",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+        "-lssl",
+        "-lcrypto",
+    ],
+    defines = [
+        "SQLCC_MODERN_CPP=1",
+        "SQLCC_CLANG18_FEATURES=1",
+    ],
 )
 
-# SQLCC库
-cc_library(
-    name = "sqlcc_lib",
-    deps = [
-        "//src:sqlcc_core",
-        "//src:execution_engine",
-        "//src:unified_executor",
-        "//src/config_manager:sqlcc_config_manager",
-        "//src/core:sqlcc_database_core",
-        "//src/transaction_manager:sqlcc_transaction_manager",
-        "//src/storage_engine:storage_engine",
-        "//src/sql_parser:sqlcc_parser",
-        "//src/network:sqlcc_network",
-        "//src/execution:execution",  # 修复对新执行模块的依赖
-    ],
-)
+# ==================== 调试工具 ====================
 
 # 调试B+树程序
 cc_binary(
@@ -218,5 +78,41 @@ cc_binary(
     srcs = ["debug_bplus_tree.cpp"],
     deps = [
         "//src/storage_engine:storage_engine",
+        "//src/logger:logger",
     ],
+    includes = ["include"],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+        "-Wall",
+        "-Wextra",
+        "-Wno-error=maybe-uninitialized",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+    defines = [
+        "SQLCC_MODERN_CPP=1",
+        "SQLCC_CLANG18_FEATURES=1",
+    ],
+)
+
+# ==================== C++20 Modules 测试 ====================
+
+# C++20 Logger模块测试
+cc_binary(
+    name = "test_logger_module",
+    srcs = [
+        "test_logger_module.cpp",
+    ],
+    data = [
+        "//include/utils:logger.cppm",
+        "//src/utils:logger_module.cpp",
+    ],
+    copts = [
+        "-std=c++20",
+        "-fmodules-ts",  # GCC/Clang modules标志
+    ],
+    features = ["cpp20_modules"],
 )

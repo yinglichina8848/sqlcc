@@ -56,7 +56,7 @@ BPlusTreeInternalNode::BPlusTreeInternalNode(std::shared_ptr<StorageEngine> stor
                                              int32_t page_id)
     : BPlusTreeNode(storage_engine, page_id, false) {
   if (page_) {
-    char* data = page_->GetDataSpan().data;
+    char* data = page_->GetDataSpan().data();
     SQLCC_LOG_DEBUG("Creating BPlusTreeInternalNode with page_id=" + std::to_string(page_id_) + ", data[0]=" + std::to_string(static_cast<int>(data[0])));
 
     // 无论页面之前的状态如何，都要确保它是内部节点格式
@@ -113,7 +113,7 @@ void BPlusTreeInternalNode::SerializeToPage() {
   if (!page_)
     return;
 
-  char *data = page_->GetDataSpan().data;
+  char *data = page_->GetDataSpan().data();
   data[0] = 0; // 标记为内部节点
   *reinterpret_cast<int32_t *>(data + 1) =
       static_cast<int32_t>(keys_.size());                   // 键数量
@@ -162,7 +162,7 @@ void BPlusTreeInternalNode::DeserializeFromPage() {
   if (!page_)
     return;
 
-  char *data = page_->GetDataSpan().data;
+  char *data = page_->GetDataSpan().data();
   
   // 检查页面数据是否足够存储头部信息
   if (PAGE_SIZE < PAGE_HEADER_SIZE) {
@@ -481,7 +481,7 @@ BPlusTreeLeafNode::BPlusTreeLeafNode(std::shared_ptr<StorageEngine> storage_engi
   // 叶子节点构造函数
   if (page_) {
     // 检查页面是否是新页面（通过检查节点类型字节是否为0或其他无效值）
-    char* data = page_->GetDataSpan().data;
+    char* data = page_->GetDataSpan().data();
     SQLCC_LOG_DEBUG("Creating BPlusTreeLeafNode with page_id=" + std::to_string(page_id_) + ", data[0]=" + std::to_string(static_cast<int>(data[0])));
     if (data[0] != 0 && data[0] != 1) {
       // 新页面或未初始化页面，初始化为B+树叶子节点格式
@@ -535,7 +535,7 @@ void BPlusTreeLeafNode::SerializeToPage() {
   if (!page_)
     return;
 
-  char *data = page_->GetDataSpan().data;
+  char *data = page_->GetDataSpan().data();
   data[0] = 1; // 标记为叶子节点
   *reinterpret_cast<int32_t *>(data + 1) =
       static_cast<int32_t>(entries_.size());                // 条目数量
@@ -571,7 +571,7 @@ void BPlusTreeLeafNode::DeserializeFromPage() {
   if (!page_)
     return;
 
-  char *data = page_->GetDataSpan().data;
+  char *data = page_->GetDataSpan().data();
   
   // 检查页面数据是否足够存储头部信息
   if (PAGE_SIZE < PAGE_HEADER_SIZE) {

@@ -524,6 +524,13 @@ public:
     }
 };
 
+/**
+ * @brief 生成版本ID
+ * @param prefix 前缀
+ * @return std::string 版本ID
+ */
+std::string GenerateVersionId(const std::string& prefix = "v");
+
 }  // namespace sqlcc
 
 #endif  // SQLCC_CONFIG_SNAPSHOT_H_

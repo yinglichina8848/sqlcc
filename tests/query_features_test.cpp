@@ -2,7 +2,7 @@
 #include "execution/set_operation_executor.h"
 #include "execution/window_function_executor.h"
 #include "execution/recursive_query_executor.h"
-#include "core/database_manager.h"
+#include "database_manager.h"
 #include "core/execution_context.h"
 #include "sql_parser/set_operation.h"
 #include "sql_parser/window_function.h"

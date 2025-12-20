@@ -1,16 +1,44 @@
-#ifndef USER_MANAGER_H
-#define USER_MANAGER_H
+// SQLCC Core User Manager Module Interface
+// Stage 2 Migration Ready - C++20 Module preparation
+// Migration Phase: Traditional Header with Module Enhancement
+//
+// This file defines the UserManager class for SQLCC user authentication,
+// authorization, and role-based access control (RBAC) system.
+// Features modern C++ patterns while maintaining backward compatibility.
+//
+// Key improvements:
+// - Smart pointers for memory safety
+// - Forward declarations to reduce compilation dependencies
+// - Thread-safe operations with mutex protection
+// - Modern C++ data structures and algorithms
+//
+// Future enhancements:
+// - Asynchronous permission checking
+// - Hierarchical role inheritance
+// - Audit logging integration
+// - Performance metrics collection
 
-#include <chrono>
-#include <memory>
-#include <mutex>
-#include <string>
-#include <unordered_map>
-#include <vector>
+#pragma once
+
+// Standard library includes - minimized for faster compilation
+// Only essential headers included to reduce transitive dependencies
+#include <string>           // std::string
+#include <memory>           // std::shared_ptr, std::unique_ptr
+#include <vector>           // std::vector
+#include <unordered_map>    // std::unordered_map
+#include <mutex>            // std::mutex for thread safety
+
+// Forward declarations for faster compilation
+// Reduces header inclusion cascade and compilation time
+// Note: std::mutex is now included via <memory> header, no forward declaration needed
+
+// Future C++20 Modules declaration
+// TODO: Enable when Clang 18+ modules are stable
+// export module sqlcc.core.user_manager;
 
 namespace sqlcc {
 
-// 前向声明
+// Forward declarations for SystemDatabase
 class SystemDatabase;
 
 // 角色数据结构
@@ -179,4 +207,15 @@ private:
 
 } // namespace sqlcc
 
-#endif // USER_MANAGER_H
+// Future module interface preparation
+// When modules are enabled, these will become:
+// export namespace sqlcc {
+//     export struct Role;
+//     export struct User;
+//     export struct Permission;
+//     export struct PermissionKey;
+//     export struct PermissionKeyHash;
+//     export struct PermissionValue;
+//     export using UserRoleMap;
+//     export class UserManager;
+// }

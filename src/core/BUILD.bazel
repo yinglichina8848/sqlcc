@@ -1,115 +1,54 @@
-"""重构后的Bazel构建配置 - SQLCC统一核心组件库（最终解决方案）"""
+"""重构后的Bazel构建配置 - SQLCC核心组件库"""
 
 package(default_visibility = ["//visibility:public"])
 
 # ==============================================================================
-# 最基础的错误处理组件
+# Core库 - 核心组件（简化版本）
 # ==============================================================================
 cc_library(
-    name = "error_handler",
-    srcs = ["error_handler.cpp"],
-    hdrs = ["//include:error_handler_header"],
-    copts = [
-    ],
-    includes = ["../../include"],
-    deps = [
-    ],
-    visibility = ["//visibility:public"],
-)
-
-# ==============================================================================
-# 基础配置管理器组件
-# ==============================================================================
-cc_library(
-    name = "sqlcc_config_manager",
-    srcs = ["config_manager.cpp"],
-    hdrs = ["//include:config_manager_headers"],
-    copts = [
-    ],
-    includes = ["../../include"],
-    deps = [
-        ":error_handler",
-    ],
-    visibility = ["//visibility:public"],
-)
-
-# ==============================================================================
-# 核心数据库组件（不依赖解析器）
-# ==============================================================================
-cc_library(
-    name = "sqlcc_database_core",
-    srcs = [
-        "database_manager.cpp",
-        "permission_validator.cpp",
-    ],
-    hdrs = [
-        "//include:core_headers",
-    ],
-    copts = [
-    ],
-    includes = ["../../include"],
-    deps = [
-        ":sqlcc_config_manager",
-        "//src/storage_engine:storage_engine",
-    ],
-    visibility = ["//visibility:public"],
-)
-
-# ==============================================================================
-# 完整解析器组件
-# ==============================================================================
-cc_library(
-    name = "sqlcc_parser",
-    srcs = glob([
-        "sql_parser/*.cpp",
-    ]),
-    hdrs = [
-        "//include:sql_parser_headers",
-    ],
-    copts = [
-    ],
-    includes = [
-        "../../include",
-        "../../include/core",
-        "../../include/sql_parser",
-    ],
-    deps = [
-        ":error_handler",
-    ],
-    visibility = ["//visibility:public"],
-)
-
-# ==============================================================================
-# 统一核心组件库 - 包含所有核心功能
-# ==============================================================================
-cc_library(
-    name = "sqlcc_core_lib",
+    name = "core",
     srcs = [
         "user_manager.cpp",
+        "error_handler.cpp",
+        "config_manager.cpp",
+        "database_manager.cpp",
+        "permission_validator.cpp",
         "sql_executor.cpp",
     ],
     hdrs = [
-        "//include:core_headers",
-        "//include:storage_engine_headers",
-        "//include:sql_parser_headers",
-        "//include:execution_headers",
+        "//include/core:user_manager.h",
+        "//include/core:execution_context.h",
+        "//include/core:unified_executor.h",
+        "//include/core:permission_validator.h",
+        "//include/core:schema_manager.h",
+        "//include/core:system_database.h",
+        "//include/core:execution_result.h",
+        "//include/core:stored_procedure_manager.h",
+        "//include:database_manager.h",
+        "//include:sql_executor.h",
+        "//include:error_handler.h",
+        "//include:exception.h",
+    ],
+    includes = ["../../include"],
+    deps = [
+        "//src/logger:logger",
+        "//src/utils:utils",
+        "//include:error_handler",
     ],
     copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+        "-Wall",
+        "-Wextra",
+        "-Wno-error=maybe-uninitialized",
     ],
-    includes = [
-        "../../include",
-        "../../include/storage",
-        "../../include/sql_parser",
-        "../../include/core",
-        "../../include/execution",
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
     ],
-    deps = [
-        # 基础组件
-        ":sqlcc_database_core",
-        "//src/sql_parser:sqlcc_parser",
-
-        # 工具库
-        "//include:utils_lib",
+    defines = [
+        "SQLCC_MODERN_CPP=1",
+        "SQLCC_CLANG18_FEATURES=1",
     ],
     visibility = ["//visibility:public"],
 )

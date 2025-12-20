@@ -6,3 +6,14 @@ cc_test(
         "@com_google_googletest//:gtest_main",
     ],
 )
+
+cc_test(
+    name = "network_boundary_test",
+    srcs = ["network_boundary_test.cpp"],
+    deps = [
+        "@com_google_googletest//:gtest_main",
+        "//include/network:network",
+        "//src/core:sqlcc_database_core",
+        "//src/sql_executor:sqlcc_executor",
+    ],
+)

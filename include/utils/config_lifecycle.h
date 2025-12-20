@@ -636,6 +636,8 @@ private:
     }
 };
 
+
+
 }  // namespace sqlcc
 
 #endif  // SQLCC_CONFIG_LIFECYCLE_H_

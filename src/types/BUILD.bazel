@@ -1,8 +1,66 @@
+load("@rules_cc//cc:defs.bzl", "cc_library", "cc_test")
+
+package(
+    default_visibility = ["//visibility:public"],
+    features = ["-parse_headers"],
+)
+
 cc_library(
-    name = "domain_manager",
-    srcs = ["domain_manager.cpp"],
-    hdrs = ["domain_manager.h"],
+    name = "types",
+    srcs = [
+        "domain_manager.cpp",
+    ],
+    hdrs = [
+        "//include/types:headers",
+    ],
+    includes = ["../../include"],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+        "-Wall",
+        "-Wextra",
+        "-Wno-error=maybe-uninitialized",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+    defines = [
+        "SQLCC_MODERN_CPP=1",
+        "SQLCC_CLANG18_FEATURES=1",
+    ],
     deps = [
-        "//include/types:domain_manager",
+        "//include/utils:headers",
+        "//include/core:headers",
+    ],
+)
+
+cc_test(
+    name = "types_test",
+    size = "small",
+    srcs = [
+        "domain_manager_test.cpp",
+        "types_test.cpp",
+    ],
+    includes = ["../../include"],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+        "-Wall",
+        "-Wextra",
+        "-Wno-error=maybe-uninitialized",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+    defines = [
+        "SQLCC_MODERN_CPP=1",
+        "SQLCC_CLANG18_FEATURES=1",
+    ],
+    deps = [
+        ":types",
+        "//include/utils:headers",
+        "@gtest//:gtest",
     ],
 )

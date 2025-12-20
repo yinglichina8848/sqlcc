@@ -1,7 +1,8 @@
 cc_library(
     name = "function_executor",
     srcs = ["function_executor.cpp"],
-    hdrs = ["function_executor.h"],
+    hdrs = ["//include/execution:function_executor.h"],
+    visibility = ["//visibility:public"],
     deps = [
         "//include/execution:task_executor_hdr",
         "//include/procedure:procedure_headers",
@@ -12,7 +13,7 @@ cc_library(
 cc_library(
     name = "join_executor",
     srcs = ["join_executor.cpp"],
-    hdrs = ["join_executor.h"],
+    visibility = ["//visibility:public"],
     deps = [
         "//src/core:sqlcc_core_lib"
     ],
@@ -21,7 +22,7 @@ cc_library(
 cc_library(
     name = "set_operation_executor",
     srcs = ["set_operation_executor.cpp"],
-    hdrs = ["set_operation_executor.h"],
+    visibility = ["//visibility:public"],
     deps = [
         "//include/execution:set_operation_executor_hdr",
         "//src/sql_parser:set_operation",
@@ -32,7 +33,7 @@ cc_library(
 cc_library(
     name = "window_function_executor",
     srcs = ["window_function_executor.cpp"],
-    hdrs = ["window_function_executor.h"],
+    visibility = ["//visibility:public"],
     deps = [
         "//include/execution:window_function_executor_hdr",
         "//src/sql_parser:window_function",
@@ -43,7 +44,7 @@ cc_library(
 cc_library(
     name = "recursive_query_executor",
     srcs = ["recursive_query_executor.cpp"],
-    hdrs = ["recursive_query_executor.h"],
+    visibility = ["//visibility:public"],
     deps = [
         "//include/execution:recursive_query_executor_hdr",
         "//src/sql_parser:recursive_query",
@@ -54,6 +55,7 @@ cc_library(
 # 执行模块聚合库
 cc_library(
     name = "execution",
+    visibility = ["//visibility:public"],
     deps = [
         ":function_executor",
         ":join_executor",

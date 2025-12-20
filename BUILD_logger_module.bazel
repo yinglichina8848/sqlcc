@@ -1,0 +1,17 @@
+# Test BUILD file for C++20 modules logger example
+
+load("@rules_cc//cc:defs.bzl", "cc_binary")
+
+cc_binary(
+    name = "test_logger_module",
+    srcs = [
+        "include/utils/logger.cppm",
+        "src/utils/logger_module.cpp",
+        "test_logger_module.cpp",
+    ],
+    copts = [
+        "-std=c++20",
+        "-fmodules-ts",  # Enable modules for GCC/Clang
+    ],
+    features = ["cpp20_modules"],
+)

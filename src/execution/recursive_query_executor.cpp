@@ -1,3 +1,7 @@
+// Copyright 2025 SQLCC Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 #include "execution/recursive_query_executor.h"
 #include "core/execution_context.h"
 #include "core/execution_result.h"
@@ -25,9 +29,14 @@ ExecutionResult RecursiveQueryExecutor::execute(const sql_parser::WithRecursiveC
         recursive_ctx.current_iteration = 0;
 
         // 执行非递归部分（基础情况）
-        ExecutionResult base_result = executeBaseCase(stmt.getBaseQuery(), context);
+        auto base_query = stmt.getBaseQuery();
+        if (!base_query) {
+            result.message = "Base query is null";
+            return result;
+        }
+        ExecutionResult base_result = executeBaseCase(*base_query, context);
         if (!base_result.success) {
-            result.error_message = "Failed to execute base case: " + base_result.error_message;
+            result.message = "Failed to execute base case: " + base_result.message;
             return result;
         }
 
@@ -41,13 +50,17 @@ ExecutionResult RecursiveQueryExecutor::execute(const sql_parser::WithRecursiveC
             recursive_ctx.current_iteration++;
 
             // 执行递归部分
-            ExecutionResult recursive_result = executeRecursiveCase(
-                stmt.getRecursiveQuery(), recursive_ctx, context);
+            auto recursive_query = stmt.getRecursiveQuery();
+            if (!recursive_query) {
+                result.message = "Recursive query is null";
+                return result;
+            }
+            ExecutionResult recursive_result = executeRecursiveCase(*recursive_query, recursive_ctx, context);
 
             if (!recursive_result.success) {
-                result.error_message = "Failed to execute recursive case at iteration " +
+                result.message = "Failed to execute recursive case at iteration " +
                                      std::to_string(recursive_ctx.current_iteration) +
-                                     ": " + recursive_result.error_message;
+                                     ": " + recursive_result.message;
                 return result;
             }
 
@@ -61,7 +74,7 @@ ExecutionResult RecursiveQueryExecutor::execute(const sql_parser::WithRecursiveC
         }
 
         if (recursive_ctx.current_iteration >= recursive_ctx.max_iterations) {
-            result.error_message = "Recursive query exceeded maximum iterations (" +
+            result.message = "Recursive query exceeded maximum iterations (" +
                                  std::to_string(recursive_ctx.max_iterations) + ")";
             return result;
         }
@@ -70,14 +83,13 @@ ExecutionResult RecursiveQueryExecutor::execute(const sql_parser::WithRecursiveC
         result.success = true;
         result.rows = std::move(recursive_ctx.final_result);
         result.column_metadata = base_result.column_metadata;
-        result.rows_affected = result.rows.size();
         result.message = "Recursive query executed successfully in " +
                         std::to_string(recursive_ctx.current_iteration) + " iterations";
 
-        context.records_affected = result.rows_affected;
+        context.records_affected = result.rows.size();
 
     } catch (const std::exception& e) {
-        result.error_message = "Recursive query execution failed: " + std::string(e.what());
+        result.message = "Recursive query execution failed: " + std::string(e.what());
         result.success = false;
     }
 
@@ -93,12 +105,12 @@ ExecutionResult RecursiveQueryExecutor::executeBaseCase(const sql_parser::Select
 
     // 模拟基础情况数据（比如组织层级结构的根节点）
     result.rows = {
-        {"1", "CEO", "0"}  // id, title, parent_id
+        Row{{Value("1"), Value("CEO"), Value("0")}}  // id, title, parent_id
     };
     result.column_metadata = {
-        {"id", "INTEGER", true, true, false, ""},
-        {"title", "VARCHAR", false, false, false, ""},
-        {"parent_id", "INTEGER", false, false, false, ""}
+        ColumnMeta{"id", "INTEGER", true, true, false, ""},
+        ColumnMeta{"title", "VARCHAR", false, false, false, ""},
+        ColumnMeta{"parent_id", "INTEGER", false, false, false, ""}
     };
 
     return result;
@@ -117,25 +129,25 @@ ExecutionResult RecursiveQueryExecutor::executeRecursiveCase(const sql_parser::S
     if (recursive_ctx.working_table.size() == 1) {
         // 第一轮递归：查找CEO的下属
         result.rows = {
-            {"2", "CTO", "1"},
-            {"3", "CFO", "1"}
+            Row{{Value("2"), Value("CTO"), Value("1")}},
+            Row{{Value("3"), Value("CFO"), Value("1")}}
         };
     } else if (recursive_ctx.working_table.size() == 3) {
         // 第二轮递归：查找下属的下属
         result.rows = {
-            {"4", "Senior Engineer", "2"},
-            {"5", "Tech Lead", "2"},
-            {"6", "Accountant", "3"}
+            Row{{Value("4"), Value("Senior Engineer"), Value("2")}},
+            Row{{Value("5"), Value("Tech Lead"), Value("2")}},
+            Row{{Value("6"), Value("Accountant"), Value("3")}}
         };
     } else {
         // 没有更多层级
-        result.rows = {};
+        result.rows.clear();
     }
 
     result.column_metadata = {
-        {"id", "INTEGER", true, true, false, ""},
-        {"title", "VARCHAR", false, false, false, ""},
-        {"parent_id", "INTEGER", false, false, false, ""}
+        ColumnMeta{"id", "INTEGER", true, true, false, ""},
+        ColumnMeta{"title", "VARCHAR", false, false, false, ""},
+        ColumnMeta{"parent_id", "INTEGER", false, false, false, ""}
     };
 
     return result;
@@ -153,7 +165,7 @@ bool RecursiveQueryExecutor::mergeNewRows(RecursiveContext& recursive_ctx,
         std::string key;
         for (const auto& value : row.values) {
             if (!key.empty()) key += "|";
-            key += value;
+            key += value.toString();
         }
         existing_rows.insert(key);
     }
@@ -164,7 +176,7 @@ bool RecursiveQueryExecutor::mergeNewRows(RecursiveContext& recursive_ctx,
         std::string key;
         for (const auto& value : new_row.values) {
             if (!key.empty()) key += "|";
-            key += value;
+            key += value.toString();
         }
 
         if (existing_rows.find(key) == existing_rows.end()) {
@@ -185,7 +197,7 @@ bool RecursiveQueryExecutor::detectCycle(const RecursiveContext& recursive_ctx) 
         std::string key;
         for (const auto& value : row.values) {
             if (!key.empty()) key += "|";
-            key += value;
+            key += value.toString();
         }
 
         if (seen_rows.find(key) != seen_rows.end()) {
@@ -207,9 +219,15 @@ ExecutionResult RecursiveQueryExecutor::executeBreadthFirst(const sql_parser::Wi
         std::queue<std::vector<Row>> level_queue;
 
         // 基础情况入队
-        ExecutionResult base_result = executeBaseCase(stmt.getBaseQuery(), context);
+        auto base_query = stmt.getBaseQuery();
+        if (!base_query) {
+            result.message = "Base query is null";
+            result.success = false;
+            return result;
+        }
+        ExecutionResult base_result = executeBaseCase(*base_query, context);
         if (!base_result.success) {
-            result.error_message = "Failed to execute base case: " + base_result.error_message;
+            result.message = "Failed to execute base case: " + base_result.message;
             result.success = false;
             return result;
         }
@@ -230,8 +248,13 @@ ExecutionResult RecursiveQueryExecutor::executeBreadthFirst(const sql_parser::Wi
             recursive_ctx.working_table = current_level;
 
             // 执行递归查询
-            ExecutionResult recursive_result = executeRecursiveCase(
-                stmt.getRecursiveQuery(), recursive_ctx, context);
+            auto recursive_query = stmt.getRecursiveQuery();
+            if (!recursive_query) {
+                result.message = "Recursive query is null";
+                result.success = false;
+                return result;
+            }
+            ExecutionResult recursive_result = executeRecursiveCase(*recursive_query, recursive_ctx, context);
 
             if (recursive_result.success && !recursive_result.rows.empty()) {
                 // 检查新行是否已存在于结果中
@@ -243,7 +266,7 @@ ExecutionResult RecursiveQueryExecutor::executeBreadthFirst(const sql_parser::Wi
                     std::string key;
                     for (const auto& value : row.values) {
                         if (!key.empty()) key += "|";
-                        key += value;
+                        key += value.toString();
                     }
                     existing_keys.insert(key);
                 }
@@ -253,7 +276,7 @@ ExecutionResult RecursiveQueryExecutor::executeBreadthFirst(const sql_parser::Wi
                     std::string key;
                     for (const auto& value : row.values) {
                         if (!key.empty()) key += "|";
-                        key += value;
+                        key += value.toString();
                     }
 
                     if (existing_keys.find(key) == existing_keys.end()) {
@@ -271,13 +294,12 @@ ExecutionResult RecursiveQueryExecutor::executeBreadthFirst(const sql_parser::Wi
             }
         }
 
-        result.rows_affected = result.rows.size();
         result.message = "Breadth-first recursive query executed successfully";
 
-        context.records_affected = result.rows_affected;
+        context.records_affected = result.rows.size();
 
     } catch (const std::exception& e) {
-        result.error_message = "Breadth-first recursive execution failed: " + std::string(e.what());
+        result.message = "Breadth-first recursive execution failed: " + std::string(e.what());
         result.success = false;
     }
 
@@ -294,9 +316,15 @@ ExecutionResult RecursiveQueryExecutor::executeDepthFirst(const sql_parser::With
         std::vector<std::vector<Row>> result_stack;
 
         // 基础情况入栈
-        ExecutionResult base_result = executeBaseCase(stmt.getBaseQuery(), context);
+        auto base_query = stmt.getBaseQuery();
+        if (!base_query) {
+            result.message = "Base query is null";
+            result.success = false;
+            return result;
+        }
+        ExecutionResult base_result = executeBaseCase(*base_query, context);
         if (!base_result.success) {
-            result.error_message = "Failed to execute base case: " + base_result.error_message;
+            result.message = "Failed to execute base case: " + base_result.message;
             result.success = false;
             return result;
         }
@@ -312,7 +340,7 @@ ExecutionResult RecursiveQueryExecutor::executeDepthFirst(const sql_parser::With
             std::string key;
             for (const auto& value : row.values) {
                 if (!key.empty()) key += "|";
-                key += value;
+                key += value.toString();
             }
             visited_keys.insert(key);
         }
@@ -320,7 +348,7 @@ ExecutionResult RecursiveQueryExecutor::executeDepthFirst(const sql_parser::With
         // 深度优先遍历
         while (!result_stack.empty()) {
             auto current_level = result_stack.back();
-            result_stack.pop();
+            result_stack.pop_back();
 
             if (current_level.empty()) continue;
 
@@ -329,8 +357,13 @@ ExecutionResult RecursiveQueryExecutor::executeDepthFirst(const sql_parser::With
             recursive_ctx.working_table = current_level;
 
             // 执行递归查询
-            ExecutionResult recursive_result = executeRecursiveCase(
-                stmt.getRecursiveQuery(), recursive_ctx, context);
+            auto recursive_query = stmt.getRecursiveQuery();
+            if (!recursive_query) {
+                result.message = "Recursive query is null";
+                result.success = false;
+                return result;
+            }
+            ExecutionResult recursive_result = executeRecursiveCase(*recursive_query, recursive_ctx, context);
 
             if (recursive_result.success && !recursive_result.rows.empty()) {
                 // 深度优先：立即处理子节点
@@ -340,7 +373,7 @@ ExecutionResult RecursiveQueryExecutor::executeDepthFirst(const sql_parser::With
                     std::string key;
                     for (const auto& value : row.values) {
                         if (!key.empty()) key += "|";
-                        key += value;
+                        key += value.toString();
                     }
 
                     if (visited_keys.find(key) == visited_keys.end()) {
@@ -358,13 +391,12 @@ ExecutionResult RecursiveQueryExecutor::executeDepthFirst(const sql_parser::With
             }
         }
 
-        result.rows_affected = result.rows.size();
         result.message = "Depth-first recursive query executed successfully";
 
-        context.records_affected = result.rows_affected;
+        context.records_affected = result.rows.size();
 
     } catch (const std::exception& e) {
-        result.error_message = "Depth-first recursive execution failed: " + std::string(e.what());
+        result.message = "Depth-first recursive execution failed: " + std::string(e.what());
         result.success = false;
     }
 

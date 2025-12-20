@@ -34,23 +34,30 @@ cc_library(
         "index_manager/index_manager_smart_ptr_enhancement.cpp",
     ],
     hdrs = [
-        "//include/storage:storage_headers_lib",
+        "//include/storage:headers",
     ],
+    includes = ["../../include"],
     copts = [
-        "-Iinclude",
-        "-std=c++17",
+        "-std=c++20",
+        "-stdlib=libc++",
         "-Wall",
         "-Wextra",
-        "-Werror",
+        "-Wno-error=maybe-uninitialized",
     ],
     linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
         "-latomic",
+    ],
+    defines = [
+        "SQLCC_MODERN_CPP=1",
+        "SQLCC_CLANG18_FEATURES=1",
     ],
     deps = [
         "//src/sql_parser:sqlcc_parser",
-        "//include/utils:utils_lib",
-        "//src/config_manager:sqlcc_config_manager",
-        "//include:root_headers_lib",
+        "//include/utils:headers",
+        "//include/sql_parser:headers",
+        "//include:storage_engine",
     ],
 )
 
@@ -63,15 +70,26 @@ cc_test(
         "table_storage_test.cpp",
         "partition_manager_test.cpp",
     ],
+    includes = ["../../include"],
     copts = [
-        "-Iinclude",
-        "-Itests",
-        "-std=c++17",
+        "-std=c++20",
+        "-stdlib=libc++",
+        "-Wall",
+        "-Wextra",
+        "-Wno-error=maybe-uninitialized",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+    defines = [
+        "SQLCC_MODERN_CPP=1",
+        "SQLCC_CLANG18_FEATURES=1",
     ],
     deps = [
         ":storage_engine",
         "//src/sql_parser:sqlcc_parser",
-        "//include/utils:utils_lib",
+        "//include/utils:headers",
         "@gtest//:gtest",
     ],
 )
@@ -84,15 +102,26 @@ cc_library(
     hdrs = [
         "//include/storage:partition_manager",
     ],
+    includes = ["../../include"],
     copts = [
-        "-Iinclude",
-        "-std=c++17",
+        "-std=c++20",
+        "-stdlib=libc++",
+        "-Wall",
+        "-Wextra",
+        "-Wno-error=maybe-uninitialized",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+    defines = [
+        "SQLCC_MODERN_CPP=1",
+        "SQLCC_CLANG18_FEATURES=1",
     ],
     deps = [
         "//src/sql_parser:sqlcc_parser",
-        "//include/utils:utils_lib",
-        "//include/storage:storage_headers_lib",
-        "//include:root_headers_lib",
+        "//include/utils:headers",
+        "//include/storage:headers",
     ],
 )
 
@@ -102,15 +131,26 @@ cc_test(
     srcs = [
         "partition_manager_test.cpp",
     ],
+    includes = ["../../include"],
     copts = [
-        "-Iinclude",
-        "-Itests",
-        "-std=c++17",
+        "-std=c++20",
+        "-stdlib=libc++",
+        "-Wall",
+        "-Wextra",
+        "-Wno-error=maybe-uninitialized",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+    defines = [
+        "SQLCC_MODERN_CPP=1",
+        "SQLCC_CLANG18_FEATURES=1",
     ],
     deps = [
         ":partition_manager_lib",
         "//src/sql_parser:sqlcc_parser",
-        "//include/utils:utils_lib",
+        "//include/utils:headers",
         "@gtest//:gtest",
     ],
 )

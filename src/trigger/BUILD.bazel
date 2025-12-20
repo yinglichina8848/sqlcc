@@ -2,8 +2,8 @@ cc_library(
     name = "sql_trigger_executor",
     srcs = ["sql_trigger_executor.cpp"],
     hdrs = ["sql_trigger_executor.h"],
+    visibility = ["//visibility:public"],
     deps = [
-        "//include/trigger:sql_trigger_executor",
         "//include/trigger:trigger_headers",
         "//src/core:sqlcc_core_lib",
     ],
@@ -13,6 +13,7 @@ cc_library(
     name = "trigger_manager",
     srcs = ["trigger_manager.cpp"],
     hdrs = ["trigger_manager.h"],
+    visibility = ["//visibility:public"],
     deps = [
         "//include/trigger:trigger_headers",
     ],
