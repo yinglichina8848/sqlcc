@@ -1,0 +1,37 @@
+# src/utils/BUILD.bazel - Utils模块
+# 遵循设计文档的包层次结构
+
+load("@rules_cc//cc:defs.bzl", "cc_library")
+
+# Utils库 - 工具库
+cc_library(
+    name = "utils",
+    srcs = [
+        "config_snapshot.cpp",
+        "config_lifecycle.cpp",
+        "smart_config_manager.cpp",
+    ],
+    hdrs = [
+        "//include/utils:config_snapshot.h",
+        "//include/utils:config_lifecycle.h",
+        "//include/utils:smart_config_manager.h",
+        "//include/utils:ssl_wrapper.h",
+    ],
+    includes = ["../../include"],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+        "-Wall",
+        "-Wextra",
+        "-Wno-error=maybe-uninitialized",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+    defines = [
+        "SQLCC_MODERN_CPP=1",
+        "SQLCC_CLANG18_FEATURES=1",
+    ],
+    visibility = ["//visibility:public"],
+)

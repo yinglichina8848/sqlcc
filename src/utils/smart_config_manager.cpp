@@ -114,12 +114,11 @@ T SmartConfigManager::GetConfig(const std::string& key, const T& default_value) 
     }
 }
 
-// 显式实例化模板
-// 注意：在实际项目中，这些应该放在头文件中或单独的模板实现文件中
-template int SmartConfigManager::GetConfig<int>(const std::string&, const int&) const;
-template bool SmartConfigManager::GetConfig<bool>(const std::string&, const bool&) const;
-template double SmartConfigManager::GetConfig<double>(const std::string&, const double&) const;
-template std::string SmartConfigManager::GetConfig<std::string>(const std::string&, const std::string&) const;
+// 显式实例化模板（在源文件中定义）
+template int SmartConfigManager::GetConfig<int>(const std::string& key, const int& default_value) const;
+template bool SmartConfigManager::GetConfig<bool>(const std::string& key, const bool& default_value) const;
+template double SmartConfigManager::GetConfig<double>(const std::string& key, const double& default_value) const;
+template std::string SmartConfigManager::GetConfig<std::string>(const std::string& key, const std::string& default_value) const;
 
 std::string SmartConfigManager::GetStringConfig(const std::string& key, const std::string& default_value) const {
     return GetConfig<std::string>(key, default_value);
@@ -137,24 +136,13 @@ double SmartConfigManager::GetDoubleConfig(const std::string& key, double defaul
     return GetConfig<double>(key, default_value);
 }
 
-template<typename T>
-std::future<bool> SmartConfigManager::UpdateConfigAsync(const std::string& key, const T& value) {
-    return std::async(std::launch::async, [this, key, value]() {
-        return UpdateConfig(key, value);
-    });
-}
-
-// 显式实例化异步更新模板
-template std::future<bool> SmartConfigManager::UpdateConfigAsync<int>(const std::string&, const int&);
-template std::future<bool> SmartConfigManager::UpdateConfigAsync<bool>(const std::string&, const bool&);
-template std::future<bool> SmartConfigManager::UpdateConfigAsync<double>(const std::string&, const double&);
-template std::future<bool> SmartConfigManager::UpdateConfigAsync<std::string>(const std::string&, const std::string&);
-
 std::future<bool> SmartConfigManager::BatchUpdateConfigsAsync(const std::unordered_map<std::string, ConfigValue>& configs) {
     return std::async(std::launch::async, [this, configs]() {
         return BatchUpdateConfigs(configs);
     });
 }
+
+
 
 bool SmartConfigManager::EnableHotReload(std::chrono::milliseconds check_interval) {
     if (!initialized_.load() || hot_reload_enabled_.exchange(true)) {
