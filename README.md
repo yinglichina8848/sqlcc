@@ -29,7 +29,7 @@ bazel build //src:sqlcc_server
 
 ## 🎯 项目概述
 
-SQLCC是一个企业级内存安全的云原生数据库系统，实现了完整的SQL-92标准支持和高性能存储引擎。v1.2.3版本实现了内存安全革命性改进，建立了95%+的智能指针生态系统，提供了强异常安全保证机制，标志着从学术项目向企业级产品的关键转型。
+SQLCC是一个企业级内存安全的云原生数据库系统，实现了完整的SQL-92标准支持和高性能存储引擎。v1.2.6版本完成了大规模头文件重构改进，将9个大型头文件重构为74个专用头文件，实现了8.22倍的代码组织改善，显著提升了代码可维护性、编译效率和开发体验。
 
 ### ✨ 核心成就
 - **🛡️ 内存安全A++等级**: 157个高风险问题完全消除，95%+智能指针化
@@ -413,6 +413,18 @@ bazel coverage //...
 
 # 运行性能测试
 bazel run //test_performance_real
+```
+
+#### 使用增强版BUILD文件依赖修复工具
+```bash
+# 查看需要修复的文件（不实际修改）
+python3 tools/bazel_dep_fixer_enhanced.py . --dry-run
+
+# 修复所有BUILD文件中的依赖问题
+python3 tools/bazel_dep_fixer_enhanced.py .
+
+# 修复特定目录中的BUILD文件
+python3 tools/bazel_dep_fixer_enhanced.py src/core
 ```
 
 #### 查看覆盖率报告

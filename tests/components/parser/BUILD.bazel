@@ -6,8 +6,10 @@ cc_test(
     name = "ast_nodes_test",
     srcs = ["ast_nodes_test.cpp"],
     deps = [
-        "//src/sql_parser:sqlcc_parser",
         "@com_google_googletest//:gtest_main",
+        "//src/sql_parser:sql_parser",
+        "//src/sql_parser:sql_parser",
+        "//src/execution:execution",
     ],
 )
 
@@ -15,8 +17,10 @@ cc_test(
     name = "compare_values_test",
     srcs = ["compare_values_test.cpp"],
     deps = [
-        "//src/sql_parser:sqlcc_parser",
         "@com_google_googletest//:gtest_main",
+        "//src/sql_parser:sql_parser",
+        "//src/sql_parser:sql_parser",
+        "//src/execution:execution",
     ],
 )
 
@@ -24,8 +28,10 @@ cc_test(
     name = "comprehensive_dcl_test",
     srcs = ["comprehensive_dcl_test.cpp"],
     deps = [
-        "//src/sql_parser:sqlcc_parser",
         "@com_google_googletest//:gtest_main",
+        "//src/sql_parser:sql_parser",
+        "//src/sql_parser:sql_parser",
+        "//src/execution:execution",
     ],
 )
 
@@ -33,8 +39,10 @@ cc_test(
     name = "dcl_parser_test",
     srcs = ["dcl_parser_test.cpp"],
     deps = [
-        "//src/sql_parser:sqlcc_parser",
         "@com_google_googletest//:gtest_main",
+        "//src/sql_parser:sql_parser",
+        "//src/sql_parser:sql_parser",
+        "//src/execution:execution",
     ],
 )
 
@@ -42,7 +50,7 @@ cc_test(
     name = "dcl_test",
     srcs = ["dcl_test.cpp"],
     deps = [
-        "//src/sql_parser:sqlcc_parser",
+        "//src/sql_parser:sql_parser",
         "//src/sql_executor:sqlcc_executor",
         "//src:execution_engine",
         "@com_google_googletest//:gtest_main",
@@ -53,7 +61,7 @@ cc_binary(
     name = "dcl_test_advanced",
     srcs = ["dcl_test_advanced.cpp"],
     deps = [
-        "//src/sql_parser:sqlcc_parser",
+        "//src/sql_parser:sql_parser",
         "//src/sql_executor:sqlcc_executor",
         "//src:execution_engine",
     ],
@@ -63,7 +71,7 @@ cc_test(
     name = "ddl_test",
     srcs = ["ddl_test.cpp"],
     deps = [
-        "//src/sql_parser:sqlcc_parser",
+        "//src/sql_parser:sql_parser",
         "//src/sql_executor:sqlcc_executor",
         "//src:execution_engine",
         "@com_google_googletest//:gtest_main",
@@ -73,9 +81,9 @@ cc_test(
 cc_test(
     name = "dml_test",
     srcs = ["dml_test.cpp"],
-    includes = ["../../../include"],
+    includes = ["//include"],
     deps = [
-        "//src/sql_parser:sqlcc_parser",
+        "//src/sql_parser:sql_parser",
         "//src:execution_engine",
         "//src:unified_executor",
         "//src/sql_executor:sqlcc_executor",
@@ -87,8 +95,10 @@ cc_test(
     name = "final_dcl_test",
     srcs = ["final_dcl_test.cpp"],
     deps = [
-        "//src/sql_parser:sqlcc_parser",
         "@com_google_googletest//:gtest_main",
+        "//src/sql_parser:sql_parser",
+        "//src/sql_parser:sql_parser",
+        "//src/execution:execution",
     ],
 )
 
@@ -96,8 +106,10 @@ cc_test(
     name = "parser_verification_test",
     srcs = ["parser_verification_test.cpp"],
     deps = [
-        "//src/sql_parser:sqlcc_parser",
         "@com_google_googletest//:gtest_main",
+        "//src/sql_parser:sql_parser",
+        "//src/sql_parser:sql_parser",
+        "//src/execution:execution",
     ],
 )
 
@@ -105,8 +117,10 @@ cc_test(
     name = "test_colon_parsing",
     srcs = ["test_colon_parsing.cpp"],
     deps = [
-        "//src/sql_parser:sqlcc_parser",
         "@com_google_googletest//:gtest_main",
+        "//src/sql_parser:sql_parser",
+        "//src/sql_parser:sql_parser",
+        "//src/execution:execution",
     ],
 )
 
@@ -114,8 +128,10 @@ cc_test(
     name = "test_colon_simple",
     srcs = ["test_colon_simple.cpp"],
     deps = [
-        "//src/sql_parser:sqlcc_parser",
         "@com_google_googletest//:gtest_main",
+        "//src/sql_parser:sql_parser",
+        "//src/sql_parser:sql_parser",
+        "//src/execution:execution",
     ],
 )
 
@@ -123,7 +139,7 @@ cc_test(
     name = "test_create_table",
     srcs = ["test_create_table.cpp"],
     deps = [
-        "//src/sql_parser:sqlcc_parser",
+        "//src/sql_parser:sql_parser",
         "//src/core:sqlcc_database_core",
         "//src/core:sqlcc_core_lib",
         "@com_google_googletest//:gtest_main",
@@ -134,8 +150,10 @@ cc_test(
     name = "test_percent_operator",
     srcs = ["test_percent_operator.cpp"],
     deps = [
-        "//src/sql_parser:sqlcc_parser",
         "@com_google_googletest//:gtest_main",
+        "//src/sql_parser:sql_parser",
+        "//src/sql_parser:sql_parser",
+        "//src/execution:execution",
     ],
 )
 
@@ -143,8 +161,10 @@ cc_test(
     name = "test_percent_simple",
     srcs = ["test_percent_simple.cpp"],
     deps = [
-        "//src/sql_parser:sqlcc_parser",
         "@com_google_googletest//:gtest_main",
+        "//src/sql_parser:sql_parser",
+        "//src/sql_parser:sql_parser",
+        "//src/execution:execution",
     ],
 )
 
@@ -152,8 +172,10 @@ cc_test(
     name = "test_show_grants",
     srcs = ["test_show_grants.cpp"],
     deps = [
-        "//src/sql_parser:sqlcc_parser",
         "@com_google_googletest//:gtest_main",
+        "//src/sql_parser:sql_parser",
+        "//src/sql_parser:sql_parser",
+        "//src/execution:execution",
     ],
 )
 
@@ -161,7 +183,7 @@ cc_test(
     name = "test_simple_create",
     srcs = ["test_simple_create.cpp"],
     deps = [
-        "//src/sql_parser:sqlcc_parser",
+        "//src/sql_parser:sql_parser",
         "//src/core:sqlcc_database_core",
         "//src/core:sqlcc_core_lib",
         "@com_google_googletest//:gtest_main",
@@ -173,8 +195,10 @@ cc_test(
     name = "alter_table_parser_test",
     srcs = ["alter_table_parser_test.cpp"],
     deps = [
-        "//src/sql_parser:sqlcc_parser",
         "@com_google_googletest//:gtest_main",
+        "//src/sql_parser:sql_parser",
+        "//src/sql_parser:sql_parser",
+        "//src/execution:execution",
     ],
 )
 
@@ -183,8 +207,8 @@ cc_test(
     name = "simple_alter_test",
     srcs = ["simple_alter_test.cpp"],
     deps = [
-        "//src/sql_parser:sqlcc_parser_light",  # 使用轻量级解析器
-        "//src/sql_parser:sqlcc_parser",
+        "//src/sql_parser:sql_parser_light",  # 使用轻量级解析器
+        "//src/sql_parser:sql_parser",
         "//src/core:sqlcc_core_lib",
         "@com_google_googletest//:gtest_main",
     ],
@@ -195,8 +219,10 @@ cc_test(
     name = "set_operation_parser_test",
     srcs = ["set_operation_parser_test.cpp"],
     deps = [
-        "//src/sql_parser:sqlcc_parser",
         "@com_google_googletest//:gtest_main",
+        "//src/sql_parser:sql_parser",
+        "//src/sql_parser:sql_parser",
+        "//src/execution:execution",
     ],
 )
 
@@ -204,7 +230,7 @@ cc_test(
     name = "test_show_commands",
     srcs = ["test_show_commands.cpp"],
     deps = [
-        "//src/sql_parser:sqlcc_parser",
+        "//src/sql_parser:sql_parser",
         "//src/sql_executor:sqlcc_executor",
         "//src:execution_engine",
         "//src:unified_executor",
@@ -217,7 +243,7 @@ cc_binary(
     name = "test_create_view",
     srcs = ["test_create_view.cpp"],
     deps = [
-        "//src/sql_parser:sqlcc_parser",
+        "//src/sql_parser:sql_parser",
     ],
 )
 

@@ -3,12 +3,24 @@
 
 load("@rules_cc//cc:defs.bzl", "cc_library")
 
+# 导出源文件以供其他包使用
+exports_files([
+    "logger.cpp",
+    "logger_module.cpp",
+    "logger_module.cppm",
+    "logger_module_impl.cpp",
+])
+
 # Logger库 - 现代化日志系统
 cc_library(
     name = "logger",
-    srcs = ["logger.cpp"],
+    srcs = [
+        "logger.cpp",
+        "logger_module.cpp",
+        "logger_module_impl.cpp",
+    ],
     hdrs = ["//include/utils:logger.h"],
-    includes = ["../../include"],
+    includes = ["//include"],
     copts = [
         "-std=c++20",
         "-stdlib=libc++",

@@ -8,10 +8,13 @@ cc_test(
     srcs = ["execution_context_test.cpp"],
     includes = ["include"],
     deps = [
-        "//src/core:sqlcc_core_lib",
-        "//src:execution_context",
-        "//src/sql_parser:sqlcc_parser",
         "@com_google_googletest//:gtest_main",
+        "//src/core:core",
+        "//src/core:sqlcc_core_lib",
+        "//src/sql_parser:sql_parser",
+        "//src/sql_parser:sql_parser",
+        "//src/execution:execution",
+        "//src:execution_context",
     ],
 )
 
@@ -21,7 +24,7 @@ cc_test(
     deps = [
         "//src/core:sqlcc_database_core",
         "//src/core:sqlcc_core_lib",
-        "//src/sql_parser:sqlcc_parser",
+        "//src/sql_parser:sql_parser",
         "//src/sql_executor:sqlcc_executor",
         "//src/storage_engine:storage_engine",
         "//src:unified_executor",
@@ -33,7 +36,7 @@ cc_test(
     name = "data_types_test",
     srcs = ["data_types_test.cpp"],
     deps = [
-        "//src/sql_parser:sqlcc_parser",
+        "//src/sql_parser:sql_parser",
         "@com_google_googletest//:gtest_main",
     ],
 )

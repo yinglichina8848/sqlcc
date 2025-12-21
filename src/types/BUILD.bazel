@@ -11,9 +11,9 @@ cc_library(
         "domain_manager.cpp",
     ],
     hdrs = [
-        "//include/types:headers",
+        "//include/types:domain_manager",
     ],
-    includes = ["../../include"],
+    includes = ["//include"],
     copts = [
         "-std=c++20",
         "-stdlib=libc++",
@@ -30,8 +30,9 @@ cc_library(
         "SQLCC_CLANG18_FEATURES=1",
     ],
     deps = [
-        "//include/utils:headers",
+        "//src/procedure:procedure",
         "//include/core:headers",
+        "//include/utils:headers",
     ],
 )
 
@@ -42,7 +43,7 @@ cc_test(
         "domain_manager_test.cpp",
         "types_test.cpp",
     ],
-    includes = ["../../include"],
+    includes = ["//include"],
     copts = [
         "-std=c++20",
         "-stdlib=libc++",

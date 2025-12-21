@@ -12,7 +12,9 @@ load("@rules_cc//cc:defs.bzl", "cc_library")
 
 cc_library(
     name = "core_headers",
-    deps = ["//include/core:headers"],
+    deps = [
+        "//include/core:headers",
+    ],
     visibility = ["//visibility:public"],
 )
 
@@ -43,6 +45,16 @@ cc_library(
 cc_library(
     name = "execution_headers",
     deps = ["//include/execution:headers"],
+    visibility = ["//visibility:public"],
+)
+
+# -----------------------------------------------------------------------------
+# 6. SQL Executor头文件 - 使用子包引用
+# -----------------------------------------------------------------------------
+
+cc_library(
+    name = "sql_executor_headers",
+    deps = ["//include/sql_executor:headers"],
     visibility = ["//visibility:public"],
 )
 
@@ -203,6 +215,7 @@ cc_library(
         ":storage_headers",
         ":sql_parser_headers",
         ":execution_headers",
+        ":sql_executor_headers",
         ":network_headers",
         ":utils_headers",
         ":procedure_headers",

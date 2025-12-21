@@ -5,20 +5,20 @@ load("@rules_cc//cc:defs.bzl", "cc_test")
 # cc_test(
 #     name = "constraint_validation_test",
 #     srcs = ["constraint_validation_test.cpp"],
-#     includes = ["../../../include", "../../../include/core", "../../../include/storage", "../../../src/sql_executor"],
+#     includes = ["//include", "../../../include/core", "../../../include/storage", "../../../src/sql_executor"],
 #     deps = [
+#         "@com_google_googletest//:gtest_main",
 #         "//src/core:sqlcc_core_lib",
 #         "//src/sql_executor:sqlcc_executor",
 #         "//src:execution_engine",
 #         "//src:unified_executor",
-#         "@com_google_googletest//:gtest_main",
 #     ],
 # )
 
 cc_test(
     name = "manual_test_system_database",
     srcs = ["manual_test_system_database.cpp"],
-    includes = ["../../../include", "../../../include/core"],
+    includes = ["//include", "../../../include/core"],
     deps = [
         "//src/core:sqlcc_core_lib",
         "//src/sql_executor:sqlcc_executor",
@@ -31,7 +31,7 @@ cc_test(
 cc_test(
     name = "simple_test",
     srcs = ["simple_test.cpp"],
-    includes = ["../../../include", "../../../include/core"],
+    includes = ["//include", "../../../include/core"],
     deps = [
         "//src/core:sqlcc_core_lib",
         "//src/sql_executor:sqlcc_executor",
@@ -44,11 +44,11 @@ cc_test(
 cc_test(
     name = "system_database_test",
     srcs = ["system_database_test.cpp"],
-    includes = ["../../../include", "../../../include/core"],
+    includes = ["//include", "../../../include/core"],
     deps = [
         "//src/core:sqlcc_core_lib",
         "//src/sql_executor:sqlcc_executor",
-        "//src/sql_parser:sqlcc_parser",
+        "//src/sql_parser:sql_parser",
         "@com_google_googletest//:gtest_main",
     ],
 )
@@ -56,7 +56,7 @@ cc_test(
 cc_test(
     name = "test_gtest",
     srcs = ["test_gtest.cpp"],
-    includes = ["../../../include", "../../../include/core"],
+    includes = ["//include", "../../../include/core"],
     deps = [
         "//src/core:sqlcc_core_lib",
         "@com_google_googletest//:gtest_main",
