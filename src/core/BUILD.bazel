@@ -23,16 +23,16 @@ cc_library(
         "//include/core:schema_manager.h",
         "//include/core:system_database.h",
         "//include/core:execution_result.h",
-        "//include/core:stored_procedure_manager.h",
-        "//include:database_manager.h",
-        "//include:sql_executor.h",
-        "//include:error_handler.h",
-        "//include:exception.h",
+        "//include/database_manager:database_manager",
+        "//include/sql_executor:headers",
+        "//include/error_handler:error_handler",
+        "//include/exception:exception",
+        # "//include/core:headers",  # 移除包含stored_procedure_manager的headers依赖
     ],
-    includes = ["../../include"],
+    includes = ["//include"],
     deps = [
-        "//src/logger:logger",
         "//src/utils:utils",
+        "//src/logger:logger",
         "//include:error_handler",
     ],
     copts = [

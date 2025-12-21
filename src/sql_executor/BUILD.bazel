@@ -8,12 +8,13 @@ cc_library(
     name = "sql_executor",
     srcs = ["sql_executor.cpp"],
     hdrs = ["//include:sql_executor"],
-    includes = ["../../include"],
+    includes = ["//include"],
     deps = [
-        "//src/sql_parser:sqlcc_parser",
-        "//src/execution:execution",
-        "//src/storage_engine:storage_engine",
         "//src/core:core",
+        "//src/utils:utils",
+        "//src/storage_engine:storage_engine",
+        "//src/sql_parser:sql_parser",
+        "//src/execution:execution",
         "//src/logger:logger",
     ],
     copts = [

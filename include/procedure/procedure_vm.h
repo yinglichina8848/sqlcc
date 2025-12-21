@@ -2,6 +2,7 @@
 #define SQLCC_PROCEDURE_PROCEDURE_VM_H
 
 #include "procedure/procedure_parser.h"
+#include "core/sql_executor_interface.h"
 #include <string>
 #include <unordered_map>
 #include <vector>
@@ -9,8 +10,6 @@
 #include <stack>
 
 namespace sqlcc {
-
-class SqlExecutor;
 
 namespace procedure {
 
@@ -49,7 +48,7 @@ private:
  */
 class ProcedureContext {
 public:
-    ProcedureContext(std::unique_ptr<SqlExecutor> executor);
+    ProcedureContext(std::unique_ptr<SqlExecutorInterface> executor);
     ~ProcedureContext();
 
     // 变量管理
@@ -72,10 +71,10 @@ public:
     const std::vector<std::string>& getCallStack() const;
 
     // SQL执行器访问
-    SqlExecutor* getSqlExecutor() const { return sql_executor_.get(); }
+    SqlExecutorInterface* getSqlExecutor() const { return sql_executor_.get(); }
 
 private:
-    std::unique_ptr<SqlExecutor> sql_executor_;
+    std::unique_ptr<SqlExecutorInterface> sql_executor_;
     std::unordered_map<std::string, Value> variables_;
     std::unordered_map<std::string, Value> parameters_;
     Value return_value_;
@@ -93,7 +92,7 @@ private:
  */
 class ProcedureVM {
 public:
-    ProcedureVM(std::unique_ptr<SqlExecutor> executor);
+    ProcedureVM(std::unique_ptr<SqlExecutorInterface> executor);
     ~ProcedureVM();
 
     /**
@@ -118,7 +117,7 @@ public:
     const std::string& getLastError() const;
 
 private:
-    std::unique_ptr<SqlExecutor> sql_executor_;
+    std::unique_ptr<SqlExecutorInterface> sql_executor_;
     std::string last_error_;
 
     // 语句执行方法

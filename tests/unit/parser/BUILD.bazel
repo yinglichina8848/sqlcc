@@ -4,10 +4,11 @@ package(default_visibility = ["//visibility:public"])
 cc_test(
     name = "sql_parser_high_coverage_test",
     srcs = ["sql_parser_high_coverage_test.cpp"],
-    includes = ["../../../include"],
+    includes = ["//include"],
     deps = [
-        "//src/sql_parser:sqlcc_parser",
         "@com_google_googletest//:gtest_main",
+        "//src/sql_parser:sql_parser",
+        "//src/sql_parser:sql_parser",
     ],
     copts = ["-std=c++20"],
 )

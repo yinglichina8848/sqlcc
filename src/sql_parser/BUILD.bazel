@@ -3,7 +3,7 @@
 package(default_visibility = ["//visibility:public"])
 
 cc_library(
-    name = "sqlcc_parser",
+    name = "sql_parser",
     srcs = glob([
         "*.cpp",
     ]),
@@ -13,10 +13,10 @@ cc_library(
     copts = [
     ],
     includes = [
-        "../../include",
+        "//include",
     ],
     deps = [
-        # parser does not depend on core to avoid dependency cycles
+        "//src/types:types",
         "//include/sql_parser:ast_node",
         "//include/sql_parser:ast_nodes",
         "//include/sql_parser:node_visitor",
@@ -38,7 +38,7 @@ cc_library(
 cc_library(
     name = "set_operation",
     srcs = ["set_operation.cpp"],
-    includes = ["../../include"],
+    includes = ["//include"],
     deps = [
         "//include/sql_parser:set_operation",
         "//include/sql_parser:ast_nodes",
@@ -49,7 +49,7 @@ cc_library(
 cc_library(
     name = "window_function",
     srcs = ["window_function.cpp"],
-    includes = ["../../include"],
+    includes = ["//include"],
     deps = [
         "//include/sql_parser:window_function",
         "//include/sql_parser:ast_node",
@@ -62,7 +62,7 @@ cc_library(
 cc_library(
     name = "recursive_query",
     srcs = ["recursive_query.cpp"],
-    includes = ["../../include"],
+    includes = ["//include"],
     deps = [
         "//include/sql_parser:recursive_query",
         "//include/sql_parser:ast_node",
@@ -100,7 +100,7 @@ cc_library(
     copts = [
     ],
     includes = [
-        "../../include",
+        "//include",
     ],
     deps = [
         # light parser variant has no direct core dependency

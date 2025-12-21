@@ -1,9 +1,29 @@
+# src/execution/BUILD.bazel - Execution模块
+# 遵循设计文档的包层次结构
+
+load("@rules_cc//cc:defs.bzl", "cc_library")
+
+# 导出源文件以供其他包使用
+exports_files([
+    "function_executor.cpp",
+    "join_executor.cpp",
+    "set_operation_executor.cpp",
+    "window_function_executor.cpp",
+    "recursive_query_executor.cpp",
+    "load_data_executor.cpp",
+])
+
 cc_library(
     name = "function_executor",
     srcs = ["function_executor.cpp"],
     hdrs = ["//include/execution:function_executor.h"],
     visibility = ["//visibility:public"],
     deps = [
+        "//src/core:core",
+        "//src/sql_parser:sql_parser",
+        # "//src/execution:execution",  # 移除循环依赖
+        "//src/procedure:procedure",
+        "//src/trigger:trigger",
         "//include/execution:task_executor_hdr",
         "//include/procedure:procedure_headers",
         "//include/sql_parser:function_ast",
@@ -15,7 +35,7 @@ cc_library(
     srcs = ["join_executor.cpp"],
     visibility = ["//visibility:public"],
     deps = [
-        "//src/core:sqlcc_core_lib"
+        "//src/core:core"
     ],
 )
 
@@ -26,7 +46,7 @@ cc_library(
     deps = [
         "//include/execution:set_operation_executor_hdr",
         "//src/sql_parser:set_operation",
-        "//src/core:sqlcc_core_lib",
+        "//src/core:core",
     ],
 )
 
@@ -37,7 +57,7 @@ cc_library(
     deps = [
         "//include/execution:window_function_executor_hdr",
         "//src/sql_parser:window_function",
-        "//src/core:sqlcc_core_lib",
+        "//src/core:core",
     ],
 )
 
@@ -48,7 +68,17 @@ cc_library(
     deps = [
         "//include/execution:recursive_query_executor_hdr",
         "//src/sql_parser:recursive_query",
-        "//src/core:sqlcc_core_lib",
+        "//src/core:core",
+    ],
+)
+
+cc_library(
+    name = "load_data_executor",
+    srcs = ["load_data_executor.cpp"],
+    visibility = ["//visibility:public"],
+    deps = [
+        "//include/execution:load_data_executor_hdr",
+        "//src/core:core",
     ],
 )
 
@@ -62,5 +92,6 @@ cc_library(
         ":set_operation_executor",
         ":window_function_executor",
         ":recursive_query_executor",
+        ":load_data_executor",
     ],
 )

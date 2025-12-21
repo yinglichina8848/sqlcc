@@ -202,38 +202,8 @@ private:
     int next_session_id_;
 };
 
-// 客户端连接类
-class ClientConnection {
-public:
-    ClientConnection(const std::string& host, int port);
-    ~ClientConnection();
-    
-    bool Connect();
-    void Disconnect();
-    bool IsConnected() const;
-    bool SendData(const std::vector<char>& data);
-    std::vector<char> ReceiveData();
-    // Test helper: return associated session id (0 if none)
-    int GetSessionId() const { return 0; }
-
-    // TLS/SSL 支持
-    void EnableTLS(bool enabled);
-#ifdef __linux__
-    bool ConfigureTLSClient(const std::string& ca_cert_path);
-#endif
-
-private:
-    std::string host_;
-    int port_;
-    bool connected_;
-    sqlcc::FileDescriptor socket_fd_;
-#ifdef __linux__
-    bool tls_enabled_ = false;
-    std::string ca_cert_path_;
-    sqlcc::utils::SSLContext ssl_ctx_; // SSL_CTX RAII包装器
-    sqlcc::utils::SSLSocket ssl_;      // SSL RAII包装器
-#endif
-};
+// Forward declaration for ClientConnection
+class ClientConnection;
 
 // 客户端网络管理器
 class ClientNetworkManager {

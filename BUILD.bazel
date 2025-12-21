@@ -12,12 +12,13 @@ cc_binary(
     name = "sqlcc",
     srcs = ["//src/sqlcc_server:server_main.cpp"],
     deps = [
-        "//src/network:network",
         "//src/core:core",
-        "//src/sql_executor:sql_executor",
-        "//src/sql_parser:sqlcc_parser",
+        "//src/utils:utils",
+        "//src/network:network",
         "//src/storage_engine:storage_engine",
+        "//src/sql_parser:sql_parser",
         "//src/logger:logger",
+        "//src/sql_executor:sql_executor",
     ],
     includes = ["include"],
     copts = [

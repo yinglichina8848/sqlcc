@@ -4,11 +4,11 @@ load("@rules_cc//cc:defs.bzl", "cc_test")
 cc_test(
     name = "gtest_sql_executor_tests",
     srcs = ["gtest_sql_executor_tests.cpp"],
-    includes = ["../../include"],
+    includes = ["//include"],
     deps = [
-        "//src/sql_executor:sqlcc_executor",
-        "//src/sql_parser:sqlcc_parser",
         "@com_google_googletest//:gtest_main",
+        "//src/sql_parser:sql_parser",
+        "//src/sql_executor:sqlcc_executor",
     ],
 )
 
@@ -16,10 +16,10 @@ cc_test(
 cc_test(
     name = "sql_executor_comprehensive_test",
     srcs = ["sql_executor_comprehensive_test.cpp"],
-    includes = ["../../include"],
+    includes = ["//include"],
     deps = [
         "//src/sql_executor:sqlcc_executor",
-        "//src/sql_parser:sqlcc_parser",
+        "//src/sql_parser:sql_parser",
         "//src/storage_engine:storage_engine",
         "@com_google_googletest//:gtest_main",
     ],
@@ -29,7 +29,7 @@ cc_test(
 cc_test(
     name = "sql_executor_unit_test",
     srcs = ["sql_executor_unit_test.cpp"],
-    includes = ["../../include"],
+    includes = ["//include"],
     deps = [
         "//src/sql_executor:sqlcc_executor",
         "@com_google_googletest//:gtest_main",
@@ -40,7 +40,7 @@ cc_test(
 cc_test(
     name = "sql_executor_minimal_test",
     srcs = ["sql_executor_minimal_test.cpp"],
-    includes = ["../../include"],
+    includes = ["//include"],
     deps = [
         "//src/sql_executor:sqlcc_executor",
         "@com_google_googletest//:gtest_main",
@@ -51,7 +51,7 @@ cc_test(
 cc_test(
     name = "sql_executor_targeted_test",
     srcs = ["sql_executor_targeted_test.cpp"],
-    includes = ["../../include"],
+    includes = ["//include"],
     deps = [
         "//src/sql_executor:sqlcc_executor",
         "@com_google_googletest//:gtest_main",
@@ -62,7 +62,7 @@ cc_test(
 cc_test(
     name = "record_test",
     srcs = ["record_test.cpp"],
-    includes = ["../../include"],
+    includes = ["//include"],
     deps = [
         "//src/sql_executor:sqlcc_executor",
         "//src/storage_engine:storage_engine",
@@ -74,11 +74,11 @@ cc_test(
 cc_test(
     name = "constraint_executor_test",
     srcs = ["constraint_executor_test.cpp"],
-    includes = ["../../include"],
+    includes = ["//include"],
     deps = [
-        "//src/sql_executor:sqlcc_executor",
-        "//src/sql_parser:sqlcc_parser",
         "@com_google_googletest//:gtest_main",
+        "//src/sql_parser:sql_parser",
+        "//src/sql_executor:sqlcc_executor",
     ],
 )
 

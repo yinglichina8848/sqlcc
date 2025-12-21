@@ -9,9 +9,8 @@ load("@rules_cc//cc:defs.bzl", "cc_library", "cc_test")
 cc_library(
     name = "logger",
     srcs = [
-        "logger/logger.cpp",
-        "logger/logger_module.cppm",  # 实验性Modules支持
-        "logger/logger_module_impl.cpp",
+        "//src/logger:logger.cpp",
+        "//src/logger:logger_module_impl.cpp",
     ],
     hdrs = ["//include/utils:logger.h"],
     includes = ["../include"],
@@ -37,9 +36,9 @@ cc_library(
 cc_library(
     name = "utils",
     srcs = [
-        "utils/config_snapshot.cpp",
-        "utils/config_lifecycle.cpp",
-        "utils/smart_config_manager.cpp",
+        "//src/utils:config_snapshot.cpp",
+        "//src/utils:config_lifecycle.cpp",
+        "//src/utils:smart_config_manager.cpp",
     ],
     hdrs = [
         "//include/utils:config_snapshot.h",
@@ -49,7 +48,10 @@ cc_library(
     ],
     includes = ["../include"],
     deps = [
-        ":logger",
+        "//src/core:core",
+        "//src/storage_engine:storage_engine",
+        "//src/sql_parser:sql_parser",
+        "//src/execution:execution",
     ],
     copts = [
         "-std=c++20",
@@ -75,9 +77,9 @@ cc_library(
 cc_library(
     name = "core",
     srcs = [
-        "core/user_manager.cpp",
-        "core/execution_context.cpp",
-        "core/unified_executor.cpp",
+        "//src/core:user_manager.cpp",
+        "//src/core:execution_context.cpp",
+        "//src/core:unified_executor.cpp",
     ],
     hdrs = [
         "//include/core:user_manager.h",
@@ -110,7 +112,7 @@ cc_library(
 # UserManager库 - RBAC权限管理系统
 cc_library(
     name = "user_manager",
-    srcs = ["core/user_manager.cpp"],
+    srcs = ["//src/core:user_manager.cpp"],
     hdrs = ["//include/core:user_manager.h"],
     includes = ["../include"],
     deps = [
@@ -141,27 +143,27 @@ cc_library(
 cc_library(
     name = "storage_engine",
     srcs = [
-        "storage_engine/storage_engine.cpp",
-        "storage_engine/b_plus_tree.cpp",
-        "storage_engine/buffer_pool.cpp",
-        "storage_engine/wal_buffer.cpp",
-        "storage_engine/wal_writer.cpp",
-        "storage_engine/checkpoint.cpp",
-        "storage_engine/page_allocator.cpp",
-        "storage_engine/concurrent_access_validator.cpp",
-        "storage_engine/disk_error_handler.cpp",
-        "storage_engine/partition_manager.cpp",
-        "storage_engine/record_boundary_validator.cpp",
-        "storage_engine/replace_strategy.cpp",
-        "storage_engine/cache_consistency_manager.cpp",
-        "storage_engine/advanced_lock_manager.cpp",
-        "storage_engine/data_integrity_validator.cpp",
-        "storage_engine/buffer_pool_sharded.cpp",
-        "storage_engine/concurrency_control.cpp",
-        "storage_engine/table_storage_complete.cpp",
+        "//src/storage_engine:storage_engine.cpp",
+        "//src/storage_engine:b_plus_tree.cpp",
+        "//src/storage_engine:buffer_pool.cpp",
+        "//src/storage_engine:wal_buffer.cpp",
+        "//src/storage_engine:wal_writer.cpp",
+        "//src/storage_engine:checkpoint.cpp",
+        "//src/storage_engine:page_allocator.cpp",
+        "//src/storage_engine:concurrent_access_validator.cpp",
+        "//src/storage_engine:disk_error_handler.cpp",
+        "//src/storage_engine:partition_manager.cpp",
+        "//src/storage_engine:record_boundary_validator.cpp",
+        "//src/storage_engine:replace_strategy.cpp",
+        "//src/storage_engine:cache_consistency_manager.cpp",
+        "//src/storage_engine:advanced_lock_manager.cpp",
+        "//src/storage_engine:data_integrity_validator.cpp",
+        "//src/storage_engine:buffer_pool_sharded.cpp",
+        "//src/storage_engine:concurrency_control.cpp",
+        "//src/storage_engine:table_storage_complete.cpp",
     ],
     hdrs = [
-        "//include/storage_engine:storage_engine.h",
+        "//include:storage_engine",
         "//include/storage:b_plus_tree.h",
         "//include/storage:buffer_pool.h",
         "//include/storage:wal_buffer.h",
@@ -208,8 +210,8 @@ cc_library(
 cc_library(
     name = "index_manager",
     srcs = [
-        "storage_engine/index_manager/index_manager.cpp",
-        "storage_engine/index_manager/index_manager_smart_ptr_enhancement.cpp",
+        "//src/storage_engine:index_manager/index_manager.cpp",
+        "//src/storage_engine:index_manager/index_manager_smart_ptr_enhancement.cpp",
     ],
     hdrs = [
         "//include/storage:index_manager.h",
@@ -242,19 +244,19 @@ cc_library(
 cc_library(
     name = "sql_parser",
     srcs = [
-        "sql_parser/parser.cpp",
-        "sql_parser/lexer.cpp",
-        "sql_parser/token.cpp",
-        "sql_parser/ast_node.cpp",
-        "sql_parser/ast_nodes.cpp",
-        "sql_parser/constraint.cpp",
-        "sql_parser/set_operation.cpp",
-        "sql_parser/window_function.cpp",
-        "sql_parser/recursive_query.cpp",
-        "sql_parser/decimal.cpp",
-        "sql_parser/json.cpp",
-        "sql_parser/datetime.cpp",
-        "sql_parser/function_ast.cpp",
+        "//src/sql_parser:parser.cpp",
+        "//src/sql_parser:lexer.cpp",
+        "//src/sql_parser:token.cpp",
+        "//src/sql_parser:ast_node.cpp",
+        "//src/sql_parser:ast_nodes.cpp",
+        "//src/sql_parser:constraint.cpp",
+        "//src/sql_parser:set_operation.cpp",
+        "//src/sql_parser:window_function.cpp",
+        "//src/sql_parser:recursive_query.cpp",
+        "//src/sql_parser:decimal.cpp",
+        "//src/sql_parser:json.cpp",
+        "//src/sql_parser:datetime.cpp",
+        "//src/sql_parser:function_ast.cpp",
     ],
     hdrs = [
         "//include/sql_parser:parser.h",
@@ -298,11 +300,11 @@ cc_library(
 cc_library(
     name = "execution",
     srcs = [
-        "execution/function_executor.cpp",
-        "execution/set_operation_executor.cpp",
-        "execution/window_function_executor.cpp",
-        "execution/recursive_query_executor.cpp",
-        "execution/load_data_executor.cpp",
+        "//src/execution:function_executor.cpp",
+        "//src/execution:set_operation_executor.cpp",
+        "//src/execution:window_function_executor.cpp",
+        "//src/execution:recursive_query_executor.cpp",
+        "//src/execution:load_data_executor.cpp",
     ],
     hdrs = [
         "//include/execution:function_executor.h",
@@ -341,8 +343,8 @@ cc_library(
 # SQL Executor库
 cc_library(
     name = "sql_executor",
-    srcs = ["sql_executor/sql_executor.cpp"],
-    hdrs = ["//include/sql_executor:sql_executor.h"],
+    srcs = ["//src/sql_executor:sql_executor.cpp"],
+    hdrs = ["//include/sql_executor:headers"],
     includes = ["../include"],
     deps = [
         ":sql_parser",
@@ -374,11 +376,11 @@ cc_library(
 cc_library(
     name = "network",
     srcs = [
-        "network/network.cpp",
-        "network/connection_state_machine.cpp",
-        "network/encryption.cpp",
-        "network/data_transmission_validator.cpp",
-        "network/mysql_protocol.cpp",
+        "//src/network:network.cpp",
+        "//src/network:connection_state_machine.cpp",
+        "//src/network:encryption.cpp",
+        "//src/network:data_transmission_validator.cpp",
+        "//src/network:mysql_protocol.cpp",
     ],
     hdrs = [
         "//include/network:network.h",
@@ -414,11 +416,14 @@ cc_library(
 # Config Manager库
 cc_library(
     name = "config_manager",
-    srcs = ["config_manager.cpp"],
+    srcs = ["//src/config_manager:config_manager.cpp"],
     hdrs = ["//include/config_manager:config_manager.h"],
     includes = ["../include"],
     deps = [
-        ":logger",
+        "//src/core:core",
+        "//src/storage_engine:storage_engine",
+        "//src/sql_parser:sql_parser",
+        "//src/execution:execution",
     ],
     copts = [
         "-std=c++20",
@@ -446,9 +451,9 @@ cc_library(
 cc_library(
     name = "procedure",
     srcs = [
-        "procedure/procedure_parser.cpp",
-        "procedure/procedure_vm.cpp",
-        "procedure/procedure_trigger_executor.cpp",
+        "//src/procedure:procedure_parser.cpp",
+        "//src/procedure:procedure_vm.cpp",
+        "//src/procedure:procedure_trigger_executor.cpp",
     ],
     hdrs = [
         "//include/procedure:procedure_parser.h",
@@ -481,7 +486,7 @@ cc_library(
 # Trigger库
 cc_library(
     name = "trigger",
-    srcs = ["trigger/trigger_manager.cpp"],
+    srcs = ["//src/trigger:trigger_manager.cpp"],
     hdrs = ["//include/trigger:trigger_manager.h"],
     includes = ["../include"],
     deps = [
@@ -511,7 +516,7 @@ cc_library(
 # Transaction库
 cc_library(
     name = "transaction",
-    srcs = ["transaction/savepoint_manager.cpp"],
+    srcs = ["//src/transaction:savepoint_manager.cpp"],
     hdrs = ["//include/transaction:savepoint_manager.h"],
     includes = ["../include"],
     deps = [
@@ -541,11 +546,14 @@ cc_library(
 # Types库
 cc_library(
     name = "types",
-    srcs = ["types/domain_manager.cpp"],
+    srcs = ["//src/types:domain_manager.cpp"],
     hdrs = ["//include/types:domain_manager.h"],
     includes = ["../include"],
     deps = [
-        ":logger",
+        "//src/core:core",
+        "//src/storage_engine:storage_engine",
+        "//src/sql_parser:sql_parser",
+        "//src/execution:execution",
     ],
     copts = [
         "-std=c++20",
@@ -571,14 +579,17 @@ cc_library(
 cc_library(
     name = "security",
     srcs = [
-        "security/memory_monitor.cpp",
+        "//src/security:memory_monitor.cpp",
     ],
     hdrs = [
         "//include/security:memory_monitor.h",
     ],
     includes = ["../include"],
     deps = [
-        ":logger",
+        "//src/core:core",
+        "//src/storage_engine:storage_engine",
+        "//src/sql_parser:sql_parser",
+        "//src/execution:execution",
     ],
     copts = [
         "-std=c++20",

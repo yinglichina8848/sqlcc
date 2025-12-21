@@ -1,5 +1,4 @@
 #include "procedure/procedure_vm.h"
-#include "sql_executor.h"
 #include <algorithm>
 #include <cctype>
 #include <regex>
@@ -69,8 +68,8 @@ std::string Value::toString() const {
 
 // ==================== ProcedureContext Implementation ====================
 
-ProcedureContext::ProcedureContext(SqlExecutor* executor)
-    : sql_executor_(executor) {}
+ProcedureContext::ProcedureContext(std::unique_ptr<SqlExecutorInterface> executor)
+    : sql_executor_(std::move(executor)) {}
 
 ProcedureContext::~ProcedureContext() {}
 
@@ -130,8 +129,8 @@ const std::vector<std::string>& ProcedureContext::getCallStack() const {
 
 // ==================== ProcedureVM Implementation ====================
 
-ProcedureVM::ProcedureVM(SqlExecutor* executor)
-    : sql_executor_(executor), last_error_("") {}
+ProcedureVM::ProcedureVM(std::unique_ptr<SqlExecutorInterface> executor)
+    : sql_executor_(std::move(executor)), last_error_("") {}
 
 ProcedureVM::~ProcedureVM() {}
 
@@ -451,9 +450,11 @@ bool ProcedureVM::executeSql(const std::string& sql, ProcedureContext& context) 
     }
 
     try {
-        // 这里应该调用真正的SQL执行器
-        // 暂时返回成功
-        return true;
+        // 调用接口的Execute方法
+        std::string result = sql_executor_->Execute(sql);
+        // 检查执行结果是否表示成功
+        // 这里暂时简单检查结果不为空作为成功标志
+        return !result.empty();
     } catch (const std::exception& e) {
         setError(std::string("SQL execution error: ") + e.what());
         return false;

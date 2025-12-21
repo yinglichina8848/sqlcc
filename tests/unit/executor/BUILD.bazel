@@ -5,6 +5,10 @@ cc_test(
     srcs = ["standalone_test.cpp"],
     deps = [
         "@com_google_googletest//:gtest_main",
+        "//src/core:core",
+        "//src/storage_engine:storage_engine",
+        "//src/sql_parser:sql_parser",
+        "//src/execution:execution",
     ],
 )
 
@@ -25,9 +29,9 @@ cc_test(
     deps = [
         "@com_google_googletest//:gtest_main",
         "//include/execution:join_executor_hdr",
-        "//src/sql_parser:sqlcc_parser",
-        "//src/core:sqlcc_database_core",
-        "//src/sql_executor:sqlcc_executor",
+        "//src/sql_parser:sql_parser",
+        "//src/core:core",
+        "//src/sql_executor:sql_executor",
     ],
 )
 
@@ -37,9 +41,9 @@ cc_test(
     deps = [
         "@com_google_googletest//:gtest_main",
         "//include/execution:set_operation_executor_hdr",
-        "//src/sql_parser:sqlcc_parser",
-        "//src/core:sqlcc_database_core",
-        "//src/sql_executor:sqlcc_executor",
+        "//src/sql_parser:sql_parser",
+        "//src/core:core",
+        "//src/sql_executor:sql_executor",
     ],
 )
 
@@ -49,9 +53,9 @@ cc_test(
     deps = [
         "@com_google_googletest//:gtest_main",
         "//include/execution:load_data_executor_hdr",
-        "//src/sql_parser:sqlcc_parser",
-        "//src/core:sqlcc_database_core",
-        "//src/sql_executor:sqlcc_executor",
+        "//src/sql_parser:sql_parser",
+        "//src/core:core",
+        "//src/sql_executor:sql_executor",
     ],
 )
 
@@ -61,8 +65,8 @@ cc_test(
     deps = [
         "@com_google_googletest//:gtest_main",
         "//include/execution:window_function_executor_hdr",
-        "//src/sql_parser:sqlcc_parser",
-        "//src/core:sqlcc_database_core",
-        "//src/sql_executor:sqlcc_executor",
+        "//src/sql_parser:sql_parser",
+        "//src/core:core",
+        "//src/sql_executor:sql_executor",
     ],
 )

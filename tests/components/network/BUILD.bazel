@@ -6,8 +6,9 @@ cc_test(
     name = "network_unit_test",
     srcs = ["network_unit_test.cpp"],
     deps = [
-        "//src/network:sqlcc_network",
         "@com_google_googletest//:gtest_main",
+        "//src/network:network",
+        "//src/network:sqlcc_network",
     ],
 )
 
@@ -45,8 +46,9 @@ cc_test(
     name = "connection_state_machine_test",
     srcs = ["connection_state_machine_test.cpp"],
     deps = [
-        "//src/network:sqlcc_network",
         "@com_google_googletest//:gtest_main",
+        "//src/network:network",
+        "//src/network:sqlcc_network",
     ],
 )
 
@@ -54,8 +56,9 @@ cc_test(
     name = "data_transmission_validator_test",
     srcs = ["data_transmission_validator_test.cpp"],
     deps = [
-        "//src/network:sqlcc_network",
         "@com_google_googletest//:gtest_main",
+        "//src/network:network",
+        "//src/network:sqlcc_network",
     ],
 )
 
@@ -63,8 +66,9 @@ cc_test(
     name = "smart_pointer_fix_validation_test",
     srcs = ["smart_pointer_fix_validation_test.cpp"],
     deps = [
-        "//src/network:sqlcc_network",
         "@com_google_googletest//:gtest_main",
+        "//src/network:network",
+        "//src/network:sqlcc_network",
     ],
     linkopts = ["-lssl", "-lcrypto"],
 )

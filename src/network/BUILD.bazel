@@ -17,7 +17,7 @@ cc_library(
     hdrs = [
         "//include/network:headers",
     ],
-    includes = ["../../include"],
+    includes = ["//include"],
     copts = [
         "-std=c++20",
         "-stdlib=libc++",
@@ -36,8 +36,10 @@ cc_library(
         "SQLCC_CLANG18_FEATURES=1",
     ],
     deps = [
-        "//include/utils:headers",
+        "//src/network:network",
+        "//src/types:types",
         "//include/core:headers",
+        "//include/utils:headers",
     ],
 )
 
@@ -49,7 +51,7 @@ cc_test(
         "connection_state_machine_test.cpp",
         "encryption_test.cpp",
     ],
-    includes = ["../../include"],
+    includes = ["//include"],
     copts = [
         "-std=c++20",
         "-stdlib=libc++",
