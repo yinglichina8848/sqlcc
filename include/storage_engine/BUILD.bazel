@@ -1,0 +1,114 @@
+load("@rules_cc//cc:defs.bzl", "cc_library")
+
+package(
+    default_visibility = ["//visibility:public"],
+    features = ["-parse_headers"],
+)
+
+cc_library(
+    name = "b_plus_tree_node",
+    hdrs = ["b_plus_tree_node.h"],
+    includes = [".."],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+        "-Wall",
+        "-Wextra",
+        "-Wno-error=maybe-uninitialized",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+        "-latomic",
+    ],
+    defines = [
+        "SQLCC_MODERN_CPP=1",
+        "SQLCC_CLANG18_FEATURES=1",
+    ],
+    deps = [
+        "//include:storage_engine",
+        "//include/utils:headers",
+    ],
+)
+
+cc_library(
+    name = "b_plus_tree_internal_node",
+    hdrs = ["b_plus_tree_internal_node.h"],
+    includes = ["//include"],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+        "-Wall",
+        "-Wextra",
+        "-Wno-error=maybe-uninitialized",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+        "-latomic",
+    ],
+    defines = [
+        "SQLCC_MODERN_CPP=1",
+        "SQLCC_CLANG18_FEATURES=1",
+    ],
+    deps = [
+        ":b_plus_tree_node",
+        "//include:storage_engine",
+        "//include/utils:headers",
+    ],
+)
+
+cc_library(
+    name = "b_plus_tree_leaf_node",
+    hdrs = ["b_plus_tree_leaf_node.h"],
+    includes = ["//include"],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+        "-Wall",
+        "-Wextra",
+        "-Wno-error=maybe-uninitialized",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+        "-latomic",
+    ],
+    defines = [
+        "SQLCC_MODERN_CPP=1",
+        "SQLCC_CLANG18_FEATURES=1",
+    ],
+    deps = [
+        ":b_plus_tree_node",
+        "//include:storage_engine",
+        "//include/utils:headers",
+    ],
+)
+
+cc_library(
+    name = "b_plus_tree_index",
+    hdrs = ["b_plus_tree_index.h"],
+    includes = ["//include"],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+        "-Wall",
+        "-Wextra",
+        "-Wno-error=maybe-uninitialized",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+        "-latomic",
+    ],
+    defines = [
+        "SQLCC_MODERN_CPP=1",
+        "SQLCC_CLANG18_FEATURES=1",
+    ],
+    deps = [
+        ":b_plus_tree_internal_node",
+        ":b_plus_tree_leaf_node",
+        "//include:storage_engine",
+        "//include/utils:headers",
+    ],
+)

@@ -1,0 +1,61 @@
+load("@rules_cc//cc:defs.bzl", "cc_library")
+
+package(
+    default_visibility = ["//visibility:public"],
+    features = ["-parse_headers"],
+)
+
+cc_library(
+    name = "page_raii",
+    hdrs = [
+        "page_raii.h",
+    ],
+    includes = ["//include"],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+        "-Wall",
+        "-Wextra",
+        "-Wno-error=maybe-uninitialized",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+        "-latomic",
+    ],
+    defines = [
+        "SQLCC_MODERN_CPP=1",
+        "SQLCC_CLANG18_FEATURES=1",
+    ],
+    deps = [
+        "//include:storage_engine",
+        "//include/utils:headers",
+    ],
+)
+
+cc_library(
+    name = "record_validator",
+    hdrs = [
+        "record_validator.h",
+    ],
+    includes = ["//include"],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+        "-Wall",
+        "-Wextra",
+        "-Wno-error=maybe-uninitialized",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+        "-latomic",
+    ],
+    defines = [
+        "SQLCC_MODERN_CPP=1",
+        "SQLCC_CLANG18_FEATURES=1",
+    ],
+    deps = [
+        "//include/utils:headers",
+    ],
+)

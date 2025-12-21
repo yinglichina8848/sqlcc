@@ -1,0 +1,15 @@
+cc_library(
+    name = "buffer_pool_components",
+    srcs = [
+        "//src/storage_engine/buffer_pool:buffer_pool_src",
+    ],
+    hdrs = [
+        "lru_manager.h",
+        "statistics_collector.h",
+    ],
+    deps = [
+        "//include/utils:utils_lib",
+        "//include/exception:exception",
+    ],
+    visibility = ["//visibility:public"],
+)

@@ -1,115 +1,106 @@
-/**
- * @file server_network_manager.h
- * @brief 服务器网络管理器头文件
- */
+#pragma once
 
-#ifndef SQLCC_NETWORK_SERVER_NETWORK_MANAGER_H
-#define SQLCC_NETWORK_SERVER_NETWORK_MANAGER_H
-
-#include <string>
-#include <vector>
 #include <memory>
+#include <vector>
 #include <unordered_map>
-#include <thread>
 #include <mutex>
-#include <condition_variable>
-
-#include "network/network_stability_guard.h"
-#include "network/network_monitor.h"
-#include "network/network_exception_handler.h"
 
 namespace sqlcc {
 namespace network {
 
-// 服务器网络管理器 - 服务器端网络管理
+class SessionManager;
+class SqlExecutor;
+class ConnectionHandler;
+
+/**
+ * @brief 服务端网络管理器类
+ *
+ * ServerNetworkManager类负责服务端的网络监听和管理，包括：
+ * - TCP监听socket的管理
+ * - 客户端连接的接受和处理
+ * - epoll事件循环的管理
+ * - TLS/SSL连接的支持
+ * - 连接池的管理
+ */
 class ServerNetworkManager {
 public:
-    ServerNetworkManager();
+    /**
+     * @brief 构造函数
+     * @param port 监听端口
+     * @param max_connections 最大连接数
+     */
+    ServerNetworkManager(int port, int max_connections);
+
+    /**
+     * @brief 析构函数
+     */
     ~ServerNetworkManager();
 
-    // 服务器状态
-    enum ServerState {
-        STOPPED = 0,
-        STARTING = 1,
-        RUNNING = 2,
-        STOPPING = 3,
-        ERROR = 4
-    };
-
-    // 初始化和配置
-    bool Initialize(const std::string& host, int port);
-    void SetMaxConnections(int max_connections);
-    void SetConnectionTimeout(std::chrono::seconds timeout);
-    void SetThreadPoolSize(int num_threads);
-
-    // 服务器控制
+    /**
+     * @brief 启动服务器
+     * @return 启动是否成功
+     */
     bool Start();
-    bool Stop();
-    bool Restart();
 
-    // 连接管理
-    void HandleNewConnection(int client_socket, const std::string& client_address);
-    void HandleConnectionClosed(int client_id);
-    void ForceDisconnectClient(int client_id);
+    /**
+     * @brief 停止服务器
+     */
+    void Stop();
 
-    // 消息处理
-    void HandleMessage(int client_id, const std::vector<uint8_t>& message);
-    void SendMessage(int client_id, const std::vector<uint8_t>& message);
-    void BroadcastMessage(const std::vector<uint8_t>& message);
+    /**
+     * @brief 处理网络事件
+     */
+    void ProcessEvents();
 
-    // 监控和统计
-    ServerState GetServerState() const;
-    int GetActiveConnections() const;
-    std::vector<int> GetClientIds() const;
-    std::string GetServerStats() const;
+    /**
+     * @brief 设置SQL执行器
+     * @param sql_executor SQL执行器智能指针
+     */
+    void SetSqlExecutor(std::shared_ptr<sqlcc::SqlExecutor> sql_executor);
 
-    // 健康检查
-    bool IsHealthy() const;
-    std::vector<std::string> GetHealthIssues() const;
+    /**
+     * @brief 启用TLS
+     * @param enabled 是否启用TLS
+     */
+    void EnableTLS(bool enabled);
+
+    /**
+     * @brief 配置TLS服务端证书
+     * @param cert_path 证书文件路径
+     * @param key_path 私钥文件路径
+     * @param ca_cert_path CA证书文件路径（可选）
+     * @return 配置是否成功
+     */
+#ifdef __linux__
+    bool ConfigureTLSServer(const std::string& cert_path,
+                           const std::string& key_path,
+                           const std::string& ca_cert_path = "");
+#endif
 
 private:
-    // 服务器配置
-    std::string host_;
-    int port_;
-    int max_connections_;
-    std::chrono::seconds connection_timeout_;
-    int thread_pool_size_;
+    /**
+     * @brief 接受新连接
+     */
+    void AcceptConnection();
 
-    // 服务器状态
-    mutable std::mutex server_mutex_;
-    std::condition_variable server_cv_;
-    ServerState server_state_;
-    int server_socket_;
-    std::vector<std::thread> worker_threads_;
-    bool should_stop_;
+    int port_;                                         ///< 监听端口
+    int max_connections_;                              ///< 最大连接数
+    bool running_;                                     ///< 运行状态
+    std::shared_ptr<SessionManager> session_manager_;  ///< 会话管理器
+    std::shared_ptr<sqlcc::SqlExecutor> sql_executor_; ///< SQL执行器
 
-    // 连接管理
-    mutable std::mutex connections_mutex_;
-    std::unordered_map<int, ClientConnection> active_connections_;
-    int next_client_id_;
+    // Linux specific members
+#ifdef __linux__
+    int listen_fd_;                                    ///< 监听socket文件描述符
+    int epoll_fd_;                                     ///< epoll文件描述符
+    bool tls_enabled_;                                 ///< TLS启用标志
+    struct ssl_ctx_st* ssl_ctx_;                       ///< SSL上下文
+#endif
 
-    // 组件依赖
-    std::unique_ptr<NetworkMonitor> monitor_;
-    std::unique_ptr<NetworkExceptionHandler> exception_handler_;
-    std::unique_ptr<NetworkStabilityGuard> stability_guard_;
-
-    // 消息队列
-    mutable std::mutex message_queue_mutex_;
-    std::condition_variable message_cv_;
-    std::vector<std::pair<int, std::vector<uint8_t>>> message_queue_;
-
-    // 辅助方法
-    void AcceptConnections();
-    void ProcessMessages();
-    void CleanupConnections();
-    int CreateServerSocket();
-    void SetupSocketOptions(int socket);
-    bool BindAndListen(int socket);
-    bool IsValidClientId(int client_id) const;
-    void LogServerEvent(const std::string& event, const std::string& details = "");
+    // Connection management
+    std::unordered_map<int, std::unique_ptr<ConnectionHandler>> connections_;  ///< 连接处理器映射
+    std::mutex connections_mutex_;                      ///< 连接映射互斥锁
 };
 
 } // namespace network
 } // namespace sqlcc
-
-#endif // SQLCC_NETWORK_SERVER_NETWORK_MANAGER_H

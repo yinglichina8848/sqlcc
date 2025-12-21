@@ -1,77 +1,19 @@
-load("@rules_cc//cc:defs.bzl", "cc_library", "cc_test")
-
-package(
-    default_visibility = ["//visibility:public"],
-    features = ["-parse_headers"],
+cc_library(
+    name = "session",
+    srcs = ["session.cpp"],
+    hdrs = ["//include/network:session.h"],
+    deps = [
+        "//include/network/encryption:aes_encryptor",
+    ],
+    visibility = ["//visibility:public"],
 )
 
 cc_library(
-    name = "network",
-    srcs = [
-        "network.cpp",
-        "connection_state_machine.cpp",
-        "encryption.cpp",
-        "data_transmission_validator.cpp",
-        "mysql_protocol.cpp",
-    ],
-    hdrs = [
-        "//include/network:headers",
-    ],
-    includes = ["//include"],
-    copts = [
-        "-std=c++20",
-        "-stdlib=libc++",
-        "-Wall",
-        "-Wextra",
-        "-Wno-error=maybe-uninitialized",
-    ],
-    linkopts = [
-        "-stdlib=libc++",
-        "-lc++abi",
-        "-lssl",
-        "-lcrypto",
-    ],
-    defines = [
-        "SQLCC_MODERN_CPP=1",
-        "SQLCC_CLANG18_FEATURES=1",
-    ],
+    name = "session_manager",
+    srcs = ["session_manager.cpp"],
+    hdrs = ["//include/network:session_manager.h"],
     deps = [
-        "//src/network:network",
-        "//src/types:types",
-        "//include/core:headers",
-        "//include/utils:headers",
+        ":session",
     ],
-)
-
-cc_test(
-    name = "network_test",
-    size = "small",
-    srcs = [
-        "network_test.cpp",
-        "connection_state_machine_test.cpp",
-        "encryption_test.cpp",
-    ],
-    includes = ["//include"],
-    copts = [
-        "-std=c++20",
-        "-stdlib=libc++",
-        "-Wall",
-        "-Wextra",
-        "-Wno-error=maybe-uninitialized",
-    ],
-    linkopts = [
-        "-stdlib=libc++",
-        "-lc++abi",
-        "-lssl",
-        "-lcrypto",
-    ],
-    defines = [
-        "SQLCC_MODERN_CPP=1",
-        "SQLCC_CLANG18_FEATURES=1",
-    ],
-    deps = [
-        ":network",
-        "//include/utils:headers",
-        "@gtest//:gtest",
-    ],
+    visibility = ["//visibility:public"],
 )

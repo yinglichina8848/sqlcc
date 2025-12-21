@@ -35,6 +35,10 @@ cc_library(
     ],
     hdrs = [
         "//include/storage:headers",
+        "//include/storage_engine:b_plus_tree_node",
+        "//include/storage_engine:b_plus_tree_internal_node",
+        "//include/storage_engine:b_plus_tree_leaf_node",
+        "//include/storage_engine:b_plus_tree_index",
     ],
     includes = ["//include"],
     copts = [
@@ -55,11 +59,12 @@ cc_library(
     ],
     deps = [
         "//src/utils:utils",
-        "//src/storage_engine:storage_engine",
         "//src/sql_parser:sql_parser",
         "//include/sql_parser:headers",
         "//include/utils:headers",
         "//include:storage_engine",
+        "//include/storage_engine/table_storage:page_raii",
+        "//include/storage_engine/table_storage:record_validator",
     ],
 )
 

@@ -1,5 +1,4 @@
 #include "types/domain_manager.h"
-#include "procedure/procedure_vm.h"
 #include <algorithm>
 #include <regex>
 

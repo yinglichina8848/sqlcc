@@ -1,5 +1,8 @@
 #include "sql_parser/advanced_sql92_features.h"
 #include "sql_executor.h"
+#include "sql_executor/domain_manager.h"
+#include "sql_executor/enhanced_trigger_manager.h"
+#include "sql_executor/enhanced_alter_table_manager.h"
 #include "core/database_manager.h"
 #include "core/user_manager.h"
 #include "core/system_database.h"
@@ -111,48 +114,7 @@ private:
   long next_savepoint_id_ = 1;
 };
 
-// ==================== Domain Manager ====================
 
-/**
- * 域(用户定义类型)管理器
- */
-class DomainManager {
-public:
-  static DomainManager& getInstance();
-
-  // 域管理
-  bool createDomain(const sql_parser::CreateDomainStatement& stmt);
-  bool alterDomain(const sql_parser::AlterDomainStatement& stmt);
-  bool dropDomain(const std::string& domainName, bool ifExists = false);
-  bool domainExists(const std::string& domainName) const;
-
-  // 域验证
-  bool validateValue(const std::string& domainName, const std::string& value) const;
-  std::string getDomainType(const std::string& domainName) const;
-
-  // 域使用统计
-  std::string getDomainInfo(const std::string& domainName) const;
-  std::vector<std::string> listDomains() const;
-
-private:
-  DomainManager() = default;
-
-  struct DomainInfo {
-    std::string name;
-    sql_parser::DomainDefinition::BaseType baseType;
-    int characterLength;
-    int precision;
-    int scale;
-    std::string defaultValue;
-    std::string checkConstraint;
-    bool notNull;
-    std::string owner;
-    long created_time;
-    std::vector<std::string> dependent_columns; // 使用此域的列
-  };
-
-  std::unordered_map<std::string, DomainInfo> domains_;
-};
 
 // ==================== Enhanced Trigger Manager ====================
 
@@ -294,39 +256,7 @@ bool TransactionControlManager::savepointExists(const std::string& savepointName
   return savepoints_.find(savepointName) != savepoints_.end();
 }
 
-// DomainManager 实现
-DomainManager& DomainManager::getInstance() {
-  static DomainManager instance;
-  return instance;
-}
 
-bool DomainManager::createDomain(const sql_parser::CreateDomainStatement& stmt) {
-  const auto& domainDef = stmt.getDomainDefinition();
-  std::string domainName = domainDef.getName();
-  
-  if (domainExists(domainName)) {
-    return false; // 域已存在
-  }
-  
-  DomainInfo info;
-  info.name = domainName;
-  info.baseType = domainDef.getBaseType();
-  info.characterLength = domainDef.getCharacterLength();
-  info.precision = domainDef.getPrecision();
-  info.scale = domainDef.getScale();
-  info.defaultValue = domainDef.getDefaultValue();
-  info.checkConstraint = domainDef.getCheckConstraint();
-  info.notNull = domainDef.isNotNull();
-  info.owner = "current_user"; // TODO: 从上下文获取当前用户
-  info.created_time = time(nullptr);
-  
-  domains_[domainName] = info;
-  return true;
-}
-
-bool DomainManager::domainExists(const std::string& domainName) const {
-  return domains_.find(domainName) != domains_.end();
-}
 
 // EnhancedTriggerManager 实现
 EnhancedTriggerManager& EnhancedTriggerManager::getInstance() {
