@@ -129,8 +129,13 @@ SQLCC是一个企业级内存安全的云原生数据库系统，实现了完整
 - **[📖 第三章PPT：RDBMS设计思想与工程实现](docs/textbook/第三章：RDBMS设计思想与工程实现全景解析（SQLCC）.pptx)**
 - **[📖 第四章PPT：存储引擎-操作系统到数据库的桥梁](docs/textbook/第四章：存储引擎-操作系统到RDBMS的桥梁-思想算法全栈透视.pptx)**
 
+#### 🎯 **教学资源体系 (v1.2.7新增)**
+- **[� 《数据库系统原理与开发实践》学习指南](docs/textbook/learning_guide_database_system.md)** - 8章完整学习路径，500+页教学内容
+- **[📖 数据库系统经典案例分析](docs/textbook/database_system_case_studies.md)** - 5个真实案例深度剖析，包含性能数据
+- **[🔧 注释检查工具](scripts/check_documentation.sh)** - 自动化文档质量检查，701个文档文件验证通过
+
 #### 🛠️ 开发指南
-- **[🛠️ 开发环境安装配置](docs/guides/DEVELOPMENT_ENVIRONMENT_SETUP.md)** - Ubuntu C++环境配置
+- **[�🛠️ 开发环境安装配置](docs/guides/DEVELOPMENT_ENVIRONMENT_SETUP.md)** - Ubuntu C++环境配置
 - **[🤖 AI工具使用指南](docs/guides/AI_TOOLS_USAGE_GUIDE.md)** - 字节Trae最佳实践
 - **[🧪 测试驱动开发指南](docs/guides/TEST_DRIVEN_DEVELOPMENT_GUIDE.md)** - TDD理念与实践
 - **[📚 Doxygen文档配置](docs/guides/DOXYGEN_COVERAGE_CONFIGURATION.md)** - API文档生成
@@ -452,12 +457,12 @@ cat performance_test_real_results.md
 
 ---
 
-**最新版本**: v1.2.4 (2025-12-19) - 企业级特性评估与系统优化增强
+**最新版本**: v1.2.7 (2025-12-24) - 核心组件注释补全项目完成，数据库教育教学资源体系建立
 >>>>>>> Stashed changes
 **项目地址**: https://gitee.com/yinglichina/sqlcc
 **项目状态**: ⭐⭐⭐⭐⭐ 生产就绪 - 企业级内存安全标准
 **版本维护**: SQLCC团队
-**最新版本**: v1.2.5 (2025-12-20) - 系统性测试重构项目完成，AI驱动的测试代码现代化
+**最新版本**: v1.2.7 (2025-12-24) - 核心组件注释补全项目完成，数据库教育教学资源体系建立
 **项目地址**: https://gitee.com/yinglichina/sqlcc
 **项目状态**: ⭐⭐⭐⭐⭐ 生产就绪 - 企业级内存安全标准，现代化编译技术栈
 =======
