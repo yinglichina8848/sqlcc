@@ -1,0 +1,936 @@
+=== SQLCC 自动化测试流水线报告 ===
+开始时间: Wed Dec 17 01:50:58 CST 2025
+测试模式: full
+
+步骤1: 环境准备
+准备测试环境...
+清理旧的测试数据...
+创建测试数据目录...
+设置测试数据库...
+验证系统依赖...
+设置环境变量...
+验证网络端口可用性...
+创建测试配置文件...
+测试环境准备完成
+✅ 环境准备成功
+
+步骤2: 构建验证
+开始构建验证...
+验证Bazel状态...
+Build label: 6.4.0
+Build target: bazel-out/k8-opt/bin/src/main/java/com/google/devtools/build/lib/bazel/BazelServer_deploy.jar
+Build time: Thu Oct 19 17:07:43 2023 (1697735263)
+Build timestamp: 1697735263
+Build timestamp as int: 1697735263
+构建核心库...
+(01:50:58) INFO: Invocation ID: 47378fa5-ea05-4f4d-915c-f20e2f91c989
+(01:50:58) INFO: Current date is 2025-12-17
+(01:50:58) Loading: 
+(01:50:58) Loading: 
+(01:50:58) Loading: 0 packages loaded
+(01:50:58) Analyzing: 3 targets (0 packages loaded, 0 targets configured)
+(01:50:58) WARNING: /home/liying/sqlcc/src/sql_parser/BUILD.bazel:5:11: in includes attribute of cc_library rule //src/sql_parser:sqlcc_parser: '../../include' resolves to 'include' not below the relative path of its package 'src/sql_parser'. This will be an error in the future
+(01:50:58) WARNING: /home/liying/sqlcc/src/core/BUILD.bazel:8:11: in includes attribute of cc_library rule //src/core:error_handler: '../../include' resolves to 'include' not below the relative path of its package 'src/core'. This will be an error in the future
+(01:50:58) WARNING: /home/liying/sqlcc/src/core/BUILD.bazel:23:11: in includes attribute of cc_library rule //src/core:sqlcc_config_manager: '../../include' resolves to 'include' not below the relative path of its package 'src/core'. This will be an error in the future
+(01:50:58) WARNING: /home/liying/sqlcc/src/storage_engine/BUILD.bazel:5:11: in includes attribute of cc_library rule //src/storage_engine:sqlcc_storage_engine: '../../include' resolves to 'include' not below the relative path of its package 'src/storage_engine'. This will be an error in the future
+(01:50:58) WARNING: /home/liying/sqlcc/src/storage_engine/BUILD.bazel:42:11: in includes attribute of cc_library rule //src/storage_engine:sqlcc_index_manager: '../../include' resolves to 'include' not below the relative path of its package 'src/storage_engine'. This will be an error in the future
+(01:50:58) WARNING: /home/liying/sqlcc/src/core/BUILD.bazel:39:11: in includes attribute of cc_library rule //src/core:sqlcc_database_core: '../../include' resolves to 'include' not below the relative path of its package 'src/core'. This will be an error in the future
+(01:50:58) WARNING: /home/liying/sqlcc/src/core/BUILD.bazel:86:11: in includes attribute of cc_library rule //src/core:sqlcc_core_lib: '../../include' resolves to 'include' not below the relative path of its package 'src/core'. This will be an error in the future
+(01:50:58) WARNING: /home/liying/sqlcc/src/core/BUILD.bazel:86:11: in includes attribute of cc_library rule //src/core:sqlcc_core_lib: '../../include/storage' resolves to 'include/storage' not below the relative path of its package 'src/core'. This will be an error in the future
+(01:50:58) WARNING: /home/liying/sqlcc/src/core/BUILD.bazel:86:11: in includes attribute of cc_library rule //src/core:sqlcc_core_lib: '../../include/sql_parser' resolves to 'include/sql_parser' not below the relative path of its package 'src/core'. This will be an error in the future
+(01:50:58) WARNING: /home/liying/sqlcc/src/core/BUILD.bazel:86:11: in includes attribute of cc_library rule //src/core:sqlcc_core_lib: '../../include/core' resolves to 'include/core' not below the relative path of its package 'src/core'. This will be an error in the future
+(01:50:58) WARNING: /home/liying/sqlcc/src/core/BUILD.bazel:86:11: in includes attribute of cc_library rule //src/core:sqlcc_core_lib: '../../include/execution' resolves to 'include/execution' not below the relative path of its package 'src/core'. This will be an error in the future
+(01:50:58) INFO: Analyzed 3 targets (0 packages loaded, 0 targets configured).
+(01:50:58) INFO: Found 3 targets...
+(01:50:58) [0 / 1] [Prepa] BazelWorkspaceStatusAction stable-status.txt
+(01:50:58) INFO: Elapsed time: 0.089s, Critical Path: 0.00s
+(01:50:58) INFO: 1 process: 1 internal.
+(01:50:58) INFO: Build completed successfully, 1 total action
+(01:50:58) INFO: Build completed successfully, 1 total action
+(01:50:58) INFO: Build Event Protocol files produced successfully.
+验证关键库文件...
+检查构建产物大小...
+sqlcc_parser 大小: 948448 bytes
+sqlcc_core_lib 大小: 151160 bytes
+构建耗时: 0秒
+构建验证完成
+✅ 构建验证成功
+
+步骤3: 单元测试执行
+开始执行单元测试...
+执行基础单元测试...
+(01:50:58) INFO: Invocation ID: 02c1f6b5-0506-45b5-81ed-9fede8570fa1
+(01:50:58) INFO: Current date is 2025-12-17
+(01:50:58) Loading: 
+(01:50:58) Loading: 
+(01:50:58) Loading: 0 packages loaded
+(01:50:58) Analyzing: 31 targets (8 packages loaded, 0 targets configured)
+(01:50:58) ERROR: /home/liying/sqlcc/tests/unit/network/BUILD.bazel:1:8: no such package 'include/network': BUILD file not found in any of the following directories. Add a BUILD file to a directory to mark it as a package.
+ - /home/liying/sqlcc/include/network and referenced by '//tests/unit/network:multi_threaded_network_manager_test'
+(01:50:58) ERROR: Analysis of target '//tests/unit/network:multi_threaded_network_manager_test' failed; build aborted: Analysis failed
+(01:50:58) INFO: Elapsed time: 0.066s
+(01:50:58) INFO: 0 processes.
+(01:50:58) FAILED: Build did NOT complete successfully (8 packages loaded, 0 targets configured)
+(01:50:58) ERROR: Couldn't start the build. Unable to run tests
+(01:50:58) FAILED: Build did NOT complete successfully (8 packages loaded, 0 targets configured)
+(01:50:59) INFO: Build Event Protocol files produced successfully.
+执行组件单元测试...
+(01:50:59) INFO: Invocation ID: d6643f26-361c-4d63-b555-a11dba14be0f
+(01:50:59) INFO: Current date is 2025-12-17
+(01:50:59) Loading: 
+(01:50:59) Loading: 
+(01:50:59) Loading: 0 packages loaded
+(01:50:59) Analyzing: 97 targets (7 packages loaded, 0 targets configured)
+(01:50:59) WARNING: /home/liying/sqlcc/src/sql_parser/BUILD.bazel:5:11: in includes attribute of cc_library rule //src/sql_parser:sqlcc_parser: '../../include' resolves to 'include' not below the relative path of its package 'src/sql_parser'. This will be an error in the future
+(01:50:59) WARNING: /home/liying/sqlcc/src/config_manager/BUILD.bazel:5:11: in includes attribute of cc_library rule //src/config_manager:sqlcc_config_manager: '../../include' resolves to 'include' not below the relative path of its package 'src/config_manager'. This will be an error in the future
+(01:50:59) WARNING: /home/liying/sqlcc/src/storage_engine/BUILD.bazel:5:11: in includes attribute of cc_library rule //src/storage_engine:sqlcc_storage_engine: '../../include' resolves to 'include' not below the relative path of its package 'src/storage_engine'. This will be an error in the future
+(01:50:59) WARNING: /home/liying/sqlcc/src/BUILD.bazel:22:11: in includes attribute of cc_library rule //src:execution_context: '../include' resolves to 'include' not below the relative path of its package 'src'. This will be an error in the future
+(01:50:59) WARNING: /home/liying/sqlcc/src/BUILD.bazel:22:11: in includes attribute of cc_library rule //src:execution_context: '../include/core' resolves to 'include/core' not below the relative path of its package 'src'. This will be an error in the future
+(01:50:59) WARNING: /home/liying/sqlcc/src/core/BUILD.bazel:8:11: in includes attribute of cc_library rule //src/core:error_handler: '../../include' resolves to 'include' not below the relative path of its package 'src/core'. This will be an error in the future
+(01:50:59) WARNING: /home/liying/sqlcc/src/core/BUILD.bazel:23:11: in includes attribute of cc_library rule //src/core:sqlcc_config_manager: '../../include' resolves to 'include' not below the relative path of its package 'src/core'. This will be an error in the future
+(01:50:59) WARNING: /home/liying/sqlcc/src/storage_engine/BUILD.bazel:42:11: in includes attribute of cc_library rule //src/storage_engine:sqlcc_index_manager: '../../include' resolves to 'include' not below the relative path of its package 'src/storage_engine'. This will be an error in the future
+(01:50:59) WARNING: /home/liying/sqlcc/src/core/BUILD.bazel:39:11: in includes attribute of cc_library rule //src/core:sqlcc_database_core: '../../include' resolves to 'include' not below the relative path of its package 'src/core'. This will be an error in the future
+(01:50:59) WARNING: /home/liying/sqlcc/src/core/BUILD.bazel:86:11: in includes attribute of cc_library rule //src/core:sqlcc_core_lib: '../../include' resolves to 'include' not below the relative path of its package 'src/core'. This will be an error in the future
+(01:50:59) WARNING: /home/liying/sqlcc/src/core/BUILD.bazel:86:11: in includes attribute of cc_library rule //src/core:sqlcc_core_lib: '../../include/storage' resolves to 'include/storage' not below the relative path of its package 'src/core'. This will be an error in the future
+(01:50:59) WARNING: /home/liying/sqlcc/src/core/BUILD.bazel:86:11: in includes attribute of cc_library rule //src/core:sqlcc_core_lib: '../../include/sql_parser' resolves to 'include/sql_parser' not below the relative path of its package 'src/core'. This will be an error in the future
+(01:50:59) WARNING: /home/liying/sqlcc/src/core/BUILD.bazel:86:11: in includes attribute of cc_library rule //src/core:sqlcc_core_lib: '../../include/core' resolves to 'include/core' not below the relative path of its package 'src/core'. This will be an error in the future
+(01:50:59) WARNING: /home/liying/sqlcc/src/core/BUILD.bazel:86:11: in includes attribute of cc_library rule //src/core:sqlcc_core_lib: '../../include/execution' resolves to 'include/execution' not below the relative path of its package 'src/core'. This will be an error in the future
+(01:50:59) WARNING: /home/liying/sqlcc/tests/components/core/BUILD.bazel:56:8: in includes attribute of cc_test rule //tests/components/core:test_gtest: '../../../include' resolves to 'include' not below the relative path of its package 'tests/components/core'. This will be an error in the future. Since this rule was created by the macro 'cc_test', the error might have been caused by the macro implementation
+(01:50:59) WARNING: /home/liying/sqlcc/tests/components/core/BUILD.bazel:56:8: in includes attribute of cc_test rule //tests/components/core:test_gtest: '../../../include/core' resolves to 'include/core' not below the relative path of its package 'tests/components/core'. This will be an error in the future. Since this rule was created by the macro 'cc_test', the error might have been caused by the macro implementation
+(01:50:59) WARNING: /home/liying/sqlcc/tests/components/debug/BUILD.bazel:491:8: in includes attribute of cc_test rule //tests/components/debug:minimal_crash_test_unit: '../../../include' resolves to 'include' not below the relative path of its package 'tests/components/debug'. This will be an error in the future. Since this rule was created by the macro 'cc_test', the error might have been caused by the macro implementation
+(01:50:59) WARNING: /home/liying/sqlcc/src/sql_executor/BUILD.bazel:5:11: in includes attribute of cc_library rule //src/sql_executor:sqlcc_executor: '../../include' resolves to 'include' not below the relative path of its package 'src/sql_executor'. This will be an error in the future
+(01:50:59) WARNING: /home/liying/sqlcc/tests/components/core/BUILD.bazel:44:8: in includes attribute of cc_test rule //tests/components/core:system_database_test: '../../../include' resolves to 'include' not below the relative path of its package 'tests/components/core'. This will be an error in the future. Since this rule was created by the macro 'cc_test', the error might have been caused by the macro implementation
+(01:50:59) WARNING: /home/liying/sqlcc/tests/components/core/BUILD.bazel:44:8: in includes attribute of cc_test rule //tests/components/core:system_database_test: '../../../include/core' resolves to 'include/core' not below the relative path of its package 'tests/components/core'. This will be an error in the future. Since this rule was created by the macro 'cc_test', the error might have been caused by the macro implementation
+(01:50:59) WARNING: /home/liying/sqlcc/src/sql_parser/BUILD.bazel:30:11: in includes attribute of cc_library rule //src/sql_parser:sqlcc_parser_light: '../../include' resolves to 'include' not below the relative path of its package 'src/sql_parser'. This will be an error in the future
+(01:50:59) WARNING: /home/liying/sqlcc/tests/components/debug/BUILD.bazel:416:8: in includes attribute of cc_test rule //tests/components/debug:file_descriptor_test: '../../../include' resolves to 'include' not below the relative path of its package 'tests/components/debug'. This will be an error in the future. Since this rule was created by the macro 'cc_test', the error might have been caused by the macro implementation
+(01:50:59) WARNING: /home/liying/sqlcc/tests/components/debug/BUILD.bazel:504:8: in includes attribute of cc_test rule //tests/components/debug:debug_index_test_unit: '../../../include' resolves to 'include' not below the relative path of its package 'tests/components/debug'. This will be an error in the future. Since this rule was created by the macro 'cc_test', the error might have been caused by the macro implementation
+(01:50:59) WARNING: /home/liying/sqlcc/tests/components/debug/BUILD.bazel:427:8: in includes attribute of cc_test rule //tests/components/debug:comprehensive_test: '../../../include' resolves to 'include' not below the relative path of its package 'tests/components/debug'. This will be an error in the future. Since this rule was created by the macro 'cc_test', the error might have been caused by the macro implementation
+(01:50:59) WARNING: /home/liying/sqlcc/tests/components/debug/BUILD.bazel:451:8: in includes attribute of cc_test rule //tests/components/debug:simple_bplus_tree_test_unit: '../../../include' resolves to 'include' not below the relative path of its package 'tests/components/debug'. This will be an error in the future. Since this rule was created by the macro 'cc_test', the error might have been caused by the macro implementation
+(01:50:59) WARNING: /home/liying/sqlcc/tests/components/debug/BUILD.bazel:465:8: in includes attribute of cc_test rule //tests/components/debug:simple_debug_test_unit: '../../../include' resolves to 'include' not below the relative path of its package 'tests/components/debug'. This will be an error in the future. Since this rule was created by the macro 'cc_test', the error might have been caused by the macro implementation
+(01:50:59) WARNING: /home/liying/sqlcc/tests/components/debug/BUILD.bazel:403:8: in includes attribute of cc_test rule //tests/components/debug:memory_safety_test: '../../../include' resolves to 'include' not below the relative path of its package 'tests/components/debug'. This will be an error in the future. Since this rule was created by the macro 'cc_test', the error might have been caused by the macro implementation
+(01:50:59) WARNING: /home/liying/sqlcc/tests/components/debug/BUILD.bazel:126:10: in includes attribute of cc_binary rule //tests/components/debug:test_window_function: '../../../include' resolves to 'include' not below the relative path of its package 'tests/components/debug'. This will be an error in the future. Since this rule was created by the macro 'cc_binary', the error might have been caused by the macro implementation
+(01:50:59) WARNING: /home/liying/sqlcc/tests/components/debug/BUILD.bazel:478:8: in includes attribute of cc_test rule //tests/components/debug:minimal_debug_test_unit: '../../../include' resolves to 'include' not below the relative path of its package 'tests/components/debug'. This will be an error in the future. Since this rule was created by the macro 'cc_test', the error might have been caused by the macro implementation
+(01:50:59) WARNING: /home/liying/sqlcc/tests/components/debug/BUILD.bazel:145:10: in includes attribute of cc_binary rule //tests/components/debug:test_window_function_integration: '../../../include' resolves to 'include' not below the relative path of its package 'tests/components/debug'. This will be an error in the future. Since this rule was created by the macro 'cc_binary', the error might have been caused by the macro implementation
+(01:50:59) WARNING: /home/liying/sqlcc/tests/components/debug/BUILD.bazel:135:10: in includes attribute of cc_binary rule //tests/components/debug:test_window_function_executor: '../../../include' resolves to 'include' not below the relative path of its package 'tests/components/debug'. This will be an error in the future. Since this rule was created by the macro 'cc_binary', the error might have been caused by the macro implementation
+(01:50:59) WARNING: /home/liying/sqlcc/tests/stubs/BUILD.bazel:1:11: in includes attribute of cc_library rule //tests/stubs:network_stub: '../../include' resolves to 'include' not below the relative path of its package 'tests/stubs'. This will be an error in the future
+(01:50:59) WARNING: /home/liying/sqlcc/tests/components/debug/BUILD.bazel:154:10: in includes attribute of cc_binary rule //tests/components/debug:test_window_function_complete: '../../../include' resolves to 'include' not below the relative path of its package 'tests/components/debug'. This will be an error in the future. Since this rule was created by the macro 'cc_binary', the error might have been caused by the macro implementation
+(01:50:59) WARNING: /home/liying/sqlcc/tests/components/debug/BUILD.bazel:438:8: in includes attribute of cc_test rule //tests/components/debug:index_insert_test_unit: '../../../include' resolves to 'include' not below the relative path of its package 'tests/components/debug'. This will be an error in the future. Since this rule was created by the macro 'cc_test', the error might have been caused by the macro implementation
+(01:50:59) WARNING: /home/liying/sqlcc/src/network/BUILD.bazel:5:11: in includes attribute of cc_library rule //src/network:sqlcc_network: '../../include' resolves to 'include' not below the relative path of its package 'src/network'. This will be an error in the future
+(01:50:59) WARNING: /home/liying/sqlcc/src/execution/BUILD.bazel:5:11: in includes attribute of cc_library rule //src/execution:execution: '../include' resolves to 'src/include' not below the relative path of its package 'src/execution'. This will be an error in the future
+(01:50:59) WARNING: /home/liying/sqlcc/tests/components/storage/BUILD.bazel:23:8: in includes attribute of cc_test rule //tests/components/storage:buffer_pool_smart_pointer_test: '../../../include' resolves to 'include' not below the relative path of its package 'tests/components/storage'. This will be an error in the future. Since this rule was created by the macro 'cc_test', the error might have been caused by the macro implementation
+(01:50:59) WARNING: /home/liying/sqlcc/tests/components/debug/BUILD.bazel:164:10: in includes attribute of cc_binary rule //tests/components/debug:test_metadata_improvement: '../../../include' resolves to 'include' not below the relative path of its package 'tests/components/debug'. This will be an error in the future. Since this rule was created by the macro 'cc_binary', the error might have been caused by the macro implementation
+(01:50:59) WARNING: /home/liying/sqlcc/src/transaction_manager/BUILD.bazel:5:11: in includes attribute of cc_library rule //src/transaction_manager:sqlcc_transaction_manager: '../../include' resolves to 'include' not below the relative path of its package 'src/transaction_manager'. This will be an error in the future
+(01:50:59) WARNING: /home/liying/sqlcc/src/BUILD.bazel:36:11: in includes attribute of cc_library rule //src:execution_engine: '../include' resolves to 'include' not below the relative path of its package 'src'. This will be an error in the future
+(01:50:59) WARNING: /home/liying/sqlcc/src/BUILD.bazel:53:11: in includes attribute of cc_library rule //src:unified_executor: '../include' resolves to 'include' not below the relative path of its package 'src'. This will be an error in the future
+(01:50:59) WARNING: /home/liying/sqlcc/src/BUILD.bazel:53:11: in includes attribute of cc_library rule //src:unified_executor: '../include/core' resolves to 'include/core' not below the relative path of its package 'src'. This will be an error in the future
+(01:50:59) WARNING: /home/liying/sqlcc/src/BUILD.bazel:53:11: in includes attribute of cc_library rule //src:unified_executor: '../include/storage' resolves to 'include/storage' not below the relative path of its package 'src'. This will be an error in the future
+(01:50:59) WARNING: /home/liying/sqlcc/tests/components/executor/BUILD.bazel:5:8: in includes attribute of cc_test rule //tests/components/executor:sql_executor_test: '../../../include' resolves to 'include' not below the relative path of its package 'tests/components/executor'. This will be an error in the future. Since this rule was created by the macro 'cc_test', the error might have been caused by the macro implementation
+(01:50:59) WARNING: /home/liying/sqlcc/tests/components/executor/BUILD.bazel:5:8: in includes attribute of cc_test rule //tests/components/executor:sql_executor_test: '../../../include/core' resolves to 'include/core' not below the relative path of its package 'tests/components/executor'. This will be an error in the future. Since this rule was created by the macro 'cc_test', the error might have been caused by the macro implementation
+(01:50:59) WARNING: /home/liying/sqlcc/tests/components/executor/BUILD.bazel:5:8: in includes attribute of cc_test rule //tests/components/executor:sql_executor_test: '../../../include/executor' resolves to 'include/executor' not below the relative path of its package 'tests/components/executor'. This will be an error in the future. Since this rule was created by the macro 'cc_test', the error might have been caused by the macro implementation
+(01:50:59) WARNING: /home/liying/sqlcc/tests/components/parser/BUILD.bazel:73:8: in includes attribute of cc_test rule //tests/components/parser:dml_test: '../../../include' resolves to 'include' not below the relative path of its package 'tests/components/parser'. This will be an error in the future. Since this rule was created by the macro 'cc_test', the error might have been caused by the macro implementation
+(01:50:59) WARNING: /home/liying/sqlcc/tests/components/core/BUILD.bazel:31:8: in includes attribute of cc_test rule //tests/components/core:simple_test: '../../../include' resolves to 'include' not below the relative path of its package 'tests/components/core'. This will be an error in the future. Since this rule was created by the macro 'cc_test', the error might have been caused by the macro implementation
+(01:50:59) WARNING: /home/liying/sqlcc/tests/components/core/BUILD.bazel:31:8: in includes attribute of cc_test rule //tests/components/core:simple_test: '../../../include/core' resolves to 'include/core' not below the relative path of its package 'tests/components/core'. This will be an error in the future. Since this rule was created by the macro 'cc_test', the error might have been caused by the macro implementation
+(01:50:59) WARNING: /home/liying/sqlcc/tests/components/security/BUILD.bazel:5:8: in includes attribute of cc_test rule //tests/components/security:permission_check_test: '../../../include' resolves to 'include' not below the relative path of its package 'tests/components/security'. This will be an error in the future. Since this rule was created by the macro 'cc_test', the error might have been caused by the macro implementation
+(01:50:59) WARNING: /home/liying/sqlcc/tests/components/security/BUILD.bazel:5:8: in includes attribute of cc_test rule //tests/components/security:permission_check_test: '../../../include/core' resolves to 'include/core' not below the relative path of its package 'tests/components/security'. This will be an error in the future. Since this rule was created by the macro 'cc_test', the error might have been caused by the macro implementation
+(01:50:59) WARNING: /home/liying/sqlcc/tests/components/security/BUILD.bazel:49:8: in includes attribute of cc_test rule //tests/components/security:test_grant_revoke: '../../../include' resolves to 'include' not below the relative path of its package 'tests/components/security'. This will be an error in the future. Since this rule was created by the macro 'cc_test', the error might have been caused by the macro implementation
+(01:50:59) WARNING: /home/liying/sqlcc/tests/components/security/BUILD.bazel:49:8: in includes attribute of cc_test rule //tests/components/security:test_grant_revoke: '../../../include/core' resolves to 'include/core' not below the relative path of its package 'tests/components/security'. This will be an error in the future. Since this rule was created by the macro 'cc_test', the error might have been caused by the macro implementation
+(01:50:59) WARNING: /home/liying/sqlcc/tests/components/debug/BUILD.bazel:518:8: in includes attribute of cc_test rule //tests/components/debug:aggregate_query_test: '../../../include' resolves to 'include' not below the relative path of its package 'tests/components/debug'. This will be an error in the future. Since this rule was created by the macro 'cc_test', the error might have been caused by the macro implementation
+(01:50:59) WARNING: /home/liying/sqlcc/tests/components/core/BUILD.bazel:18:8: in includes attribute of cc_test rule //tests/components/core:manual_test_system_database: '../../../include' resolves to 'include' not below the relative path of its package 'tests/components/core'. This will be an error in the future. Since this rule was created by the macro 'cc_test', the error might have been caused by the macro implementation
+(01:50:59) WARNING: /home/liying/sqlcc/tests/components/core/BUILD.bazel:18:8: in includes attribute of cc_test rule //tests/components/core:manual_test_system_database: '../../../include/core' resolves to 'include/core' not below the relative path of its package 'tests/components/core'. This will be an error in the future. Since this rule was created by the macro 'cc_test', the error might have been caused by the macro implementation
+(01:50:59) WARNING: /home/liying/sqlcc/tests/components/security/BUILD.bazel:16:8: in includes attribute of cc_test rule //tests/components/security:permission_validation_test: '../../../include' resolves to 'include' not below the relative path of its package 'tests/components/security'. This will be an error in the future. Since this rule was created by the macro 'cc_test', the error might have been caused by the macro implementation
+(01:50:59) WARNING: /home/liying/sqlcc/tests/components/security/BUILD.bazel:16:8: in includes attribute of cc_test rule //tests/components/security:permission_validation_test: '../../../include/core' resolves to 'include/core' not below the relative path of its package 'tests/components/security'. This will be an error in the future. Since this rule was created by the macro 'cc_test', the error might have been caused by the macro implementation
+(01:50:59) WARNING: /home/liying/sqlcc/tests/components/core/BUILD.bazel:5:8: in includes attribute of cc_test rule //tests/components/core:constraint_validation_test: '../../../include' resolves to 'include' not below the relative path of its package 'tests/components/core'. This will be an error in the future. Since this rule was created by the macro 'cc_test', the error might have been caused by the macro implementation
+(01:50:59) WARNING: /home/liying/sqlcc/tests/components/core/BUILD.bazel:5:8: in includes attribute of cc_test rule //tests/components/core:constraint_validation_test: '../../../include/core' resolves to 'include/core' not below the relative path of its package 'tests/components/core'. This will be an error in the future. Since this rule was created by the macro 'cc_test', the error might have been caused by the macro implementation
+(01:50:59) WARNING: /home/liying/sqlcc/tests/components/core/BUILD.bazel:5:8: in includes attribute of cc_test rule //tests/components/core:constraint_validation_test: '../../../include/storage' resolves to 'include/storage' not below the relative path of its package 'tests/components/core'. This will be an error in the future. Since this rule was created by the macro 'cc_test', the error might have been caused by the macro implementation
+(01:50:59) WARNING: /home/liying/sqlcc/tests/components/core/BUILD.bazel:5:8: in includes attribute of cc_test rule //tests/components/core:constraint_validation_test: '../../../src/sql_executor' resolves to 'src/sql_executor' not below the relative path of its package 'tests/components/core'. This will be an error in the future. Since this rule was created by the macro 'cc_test', the error might have been caused by the macro implementation
+(01:50:59) WARNING: /home/liying/sqlcc/tests/components/security/BUILD.bazel:38:8: in includes attribute of cc_test rule //tests/components/security:revoke_persistence_test: '../../../include' resolves to 'include' not below the relative path of its package 'tests/components/security'. This will be an error in the future. Since this rule was created by the macro 'cc_test', the error might have been caused by the macro implementation
+(01:50:59) WARNING: /home/liying/sqlcc/tests/components/security/BUILD.bazel:38:8: in includes attribute of cc_test rule //tests/components/security:revoke_persistence_test: '../../../include/core' resolves to 'include/core' not below the relative path of its package 'tests/components/security'. This will be an error in the future. Since this rule was created by the macro 'cc_test', the error might have been caused by the macro implementation
+(01:50:59) WARNING: /home/liying/sqlcc/tests/components/security/BUILD.bazel:27:8: in includes attribute of cc_test rule //tests/components/security:permission_validator_test: '../../../include' resolves to 'include' not below the relative path of its package 'tests/components/security'. This will be an error in the future. Since this rule was created by the macro 'cc_test', the error might have been caused by the macro implementation
+(01:50:59) WARNING: /home/liying/sqlcc/tests/components/security/BUILD.bazel:27:8: in includes attribute of cc_test rule //tests/components/security:permission_validator_test: '../../../include/core' resolves to 'include/core' not below the relative path of its package 'tests/components/security'. This will be an error in the future. Since this rule was created by the macro 'cc_test', the error might have been caused by the macro implementation
+(01:50:59) WARNING: /home/liying/sqlcc/tests/components/security/BUILD.bazel:60:8: in includes attribute of cc_test rule //tests/components/security:test_revoke_persistence: '../../../include' resolves to 'include' not below the relative path of its package 'tests/components/security'. This will be an error in the future. Since this rule was created by the macro 'cc_test', the error might have been caused by the macro implementation
+(01:50:59) WARNING: /home/liying/sqlcc/tests/components/security/BUILD.bazel:60:8: in includes attribute of cc_test rule //tests/components/security:test_revoke_persistence: '../../../include/core' resolves to 'include/core' not below the relative path of its package 'tests/components/security'. This will be an error in the future. Since this rule was created by the macro 'cc_test', the error might have been caused by the macro implementation
+(01:50:59) INFO: Analyzed 97 targets (11 packages loaded, 215 targets configured).
+(01:50:59) INFO: Found 43 targets and 54 test targets...
+(01:50:59) [0 / 87] [Prepa] BazelWorkspaceStatusAction stable-status.txt
+(01:50:59) ERROR: /home/liying/sqlcc/tests/components/core/BUILD.bazel:18:8: Linking tests/components/core/manual_test_system_database failed: (Exit 1): gcc failed: error executing command (from target //tests/components/core:manual_test_system_database) 
+  (cd /home/liying/.cache/bazel/_bazel_liying/68dbc53c53085b82ed46643b8af8ae0d/execroot/sqlcc && \
+  exec env - \
+    PATH=/home/liying/.local/bin:/home/liying/bin:/home/liying/.nvm/versions/node/v25.2.1/bin:/home/liying/.local/bin:/home/liying/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin:/home/liying/.local/bin:/home/liying/.local/bin \
+    PWD=/proc/self/cwd \
+  /usr/bin/gcc @bazel-out/k8-fastbuild/bin/tests/components/core/manual_test_system_database-2.params)
+# Configuration: 33d7955ecd9a2570ff0f0c41df305c2c1235488dba521156495fd882f7c90d87
+# Execution platform: @local_config_platform//:host
+/usr/bin/ld: bazel-out/k8-fastbuild/bin/_solib_k8/libsrc_Sexecution_Slibexecution.so: undefined reference to `sqlcc::procedure::ProcedureTriggerExecutor::fireDMLEvent(sqlcc::trigger::TriggerTiming, sqlcc::trigger::TriggerEvent, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<sqlcc::trigger::RowData, std::allocator<sqlcc::trigger::RowData> > const&, std::vector<sqlcc::trigger::RowData, std::allocator<sqlcc::trigger::RowData> > const&)'
+/usr/bin/ld: bazel-out/k8-fastbuild/bin/_solib_k8/libsrc_Sexecution_Slibexecution.so: undefined reference to `sqlcc::procedure::ProcedureTriggerExecutor::executeCallProcedure[abi:cxx11](sqlcc::sql_parser::CallProcedureStatement*)'
+/usr/bin/ld: bazel-out/k8-fastbuild/bin/_solib_k8/libsrc_Sexecution_Slibexecution.so: undefined reference to `sqlcc::procedure::ProcedureTriggerExecutor::executeDropTrigger[abi:cxx11](sqlcc::sql_parser::DropTriggerStatement*)'
+/usr/bin/ld: bazel-out/k8-fastbuild/bin/_solib_k8/libsrc_Sexecution_Slibexecution.so: undefined reference to `sqlcc::procedure::ProcedureTriggerExecutor::executeInsertWithTriggers[abi:cxx11](sqlcc::sql_parser::InsertStatement*)'
+/usr/bin/ld: bazel-out/k8-fastbuild/bin/_solib_k8/libsrc_Sexecution_Slibexecution.so: undefined reference to `sqlcc::procedure::ProcedureTriggerExecutor::executeDeleteWithTriggers[abi:cxx11](sqlcc::sql_parser::DeleteStatement*)'
+/usr/bin/ld: bazel-out/k8-fastbuild/bin/_solib_k8/libsrc_Sexecution_Slibexecution.so: undefined reference to `sqlcc::procedure::ProcedureTriggerExecutor::executeCreateTrigger[abi:cxx11](sqlcc::sql_parser::CreateTriggerStatement*)'
+/usr/bin/ld: bazel-out/k8-fastbuild/bin/_solib_k8/libsrc_Sexecution_Slibexecution.so: undefined reference to `sqlcc::procedure::ProcedureTriggerExecutor::executeCreateProcedure[abi:cxx11](sqlcc::sql_parser::CreateProcedureStatement*)'
+/usr/bin/ld: bazel-out/k8-fastbuild/bin/_solib_k8/libsrc_Sexecution_Slibexecution.so: undefined reference to `sqlcc::procedure::ProcedureTriggerExecutor::executeUpdateWithTriggers[abi:cxx11](sqlcc::sql_parser::UpdateStatement*)'
+/usr/bin/ld: bazel-out/k8-fastbuild/bin/_solib_k8/libsrc_Sexecution_Slibexecution.so: undefined reference to `sqlcc::procedure::ProcedureTriggerExecutor::getInstance()'
+/usr/bin/ld: bazel-out/k8-fastbuild/bin/_solib_k8/libsrc_Sexecution_Slibexecution.so: undefined reference to `sqlcc::procedure::ProcedureTriggerExecutor::executeDropProcedure[abi:cxx11](sqlcc::sql_parser::DropProcedureStatement*)'
+/usr/bin/ld: bazel-out/k8-fastbuild/bin/_solib_k8/libsrc_Sexecution_Slibexecution.so: undefined reference to `sqlcc::procedure::ProcedureTriggerExecutor::executeAlterTrigger[abi:cxx11](sqlcc::sql_parser::AlterTriggerStatement*)'
+collect2: error: ld returned 1 exit status
+(01:50:59) INFO: Elapsed time: 0.349s, Critical Path: 0.15s
+(01:50:59) INFO: 11 processes: 9 internal, 2 local.
+(01:50:59) FAILED: Build did NOT complete successfully
+//tests/components/core:constraint_validation_test                    NO STATUS
+//tests/components/core:simple_test                                   NO STATUS
+//tests/components/core:system_database_test                          NO STATUS
+//tests/components/core:test_gtest                                    NO STATUS
+//tests/components/debug:aggregate_query_test                         NO STATUS
+//tests/components/debug:comprehensive_test                           NO STATUS
+//tests/components/debug:debug_index_test_unit                        NO STATUS
+//tests/components/debug:file_descriptor_test                         NO STATUS
+//tests/components/debug:index_insert_test_unit                       NO STATUS
+//tests/components/debug:memory_safety_test                           NO STATUS
+//tests/components/debug:minimal_crash_test_unit                      NO STATUS
+//tests/components/debug:minimal_debug_test_unit                      NO STATUS
+//tests/components/debug:simple_bplus_tree_test_unit                  NO STATUS
+//tests/components/debug:simple_debug_test_unit                       NO STATUS
+//tests/components/executor:sql_executor_test                         NO STATUS
+//tests/components/network:client_network_manager_test                NO STATUS
+//tests/components/network:connection_handler_test                    NO STATUS
+//tests/components/network:connection_state_machine_test              NO STATUS
+//tests/components/network:network_unit_test                          NO STATUS
+//tests/components/network:server_network_manager_test                NO STATUS
+//tests/components/parser:alter_table_parser_test                     NO STATUS
+//tests/components/parser:ast_nodes_test                              NO STATUS
+//tests/components/parser:compare_values_test                         NO STATUS
+//tests/components/parser:comprehensive_dcl_test                      NO STATUS
+//tests/components/parser:dcl_parser_test                             NO STATUS
+//tests/components/parser:dcl_test                                    NO STATUS
+//tests/components/parser:ddl_test                                    NO STATUS
+//tests/components/parser:dml_test                                    NO STATUS
+//tests/components/parser:final_dcl_test                              NO STATUS
+//tests/components/parser:parser_verification_test                    NO STATUS
+//tests/components/parser:set_operation_parser_test                   NO STATUS
+//tests/components/parser:simple_alter_test                           NO STATUS
+//tests/components/parser:test_colon_parsing                          NO STATUS
+//tests/components/parser:test_colon_simple                           NO STATUS
+//tests/components/parser:test_create_table                           NO STATUS
+//tests/components/parser:test_percent_operator                       NO STATUS
+//tests/components/parser:test_percent_simple                         NO STATUS
+//tests/components/parser:test_show_commands                          NO STATUS
+//tests/components/parser:test_show_grants                            NO STATUS
+//tests/components/parser:test_simple_create                          NO STATUS
+//tests/components/security:permission_check_test                     NO STATUS
+//tests/components/security:permission_validation_test                NO STATUS
+//tests/components/security:permission_validator_test                 NO STATUS
+//tests/components/security:revoke_persistence_test                   NO STATUS
+//tests/components/security:test_grant_revoke                         NO STATUS
+//tests/components/security:test_revoke_persistence                   NO STATUS
+//tests/components/storage:b_plus_tree_test                           NO STATUS
+//tests/components/storage:buffer_pool_smart_pointer_test             NO STATUS
+//tests/components/storage:buffer_pool_test                           NO STATUS
+//tests/components/storage:disk_manager_test                          NO STATUS
+//tests/components/storage:index_maintenance_test                     NO STATUS
+//tests/components/storage:index_system_integration_test              NO STATUS
+//tests/components/transaction:transaction_manager_test               NO STATUS
+//tests/components/core:manual_test_system_database             FAILED TO BUILD
+
+Executed 0 out of 54 tests: 1 fails to build and 53 were skipped.
+(01:50:59) FAILED: Build did NOT complete successfully
+(01:50:59) INFO: Build Event Protocol files produced successfully.
+执行网络测试...
+(01:50:59) INFO: Invocation ID: c835d090-c0d8-4f49-ac68-c3dc070b6b7e
+(01:50:59) INFO: Current date is 2025-12-17
+(01:50:59) Loading: 
+(01:50:59) Loading: 
+(01:50:59) Loading: 0 packages loaded
+(01:50:59) Analyzing: 11 targets (1 packages loaded, 0 targets configured)
+(01:50:59) WARNING: /home/liying/sqlcc/src/core/BUILD.bazel:8:11: in includes attribute of cc_library rule //src/core:error_handler: '../../include' resolves to 'include' not below the relative path of its package 'src/core'. This will be an error in the future
+(01:50:59) WARNING: /home/liying/sqlcc/src/core/BUILD.bazel:23:11: in includes attribute of cc_library rule //src/core:sqlcc_config_manager: '../../include' resolves to 'include' not below the relative path of its package 'src/core'. This will be an error in the future
+(01:50:59) WARNING: /home/liying/sqlcc/src/storage_engine/BUILD.bazel:5:11: in includes attribute of cc_library rule //src/storage_engine:sqlcc_storage_engine: '../../include' resolves to 'include' not below the relative path of its package 'src/storage_engine'. This will be an error in the future
+(01:50:59) WARNING: /home/liying/sqlcc/src/storage_engine/BUILD.bazel:42:11: in includes attribute of cc_library rule //src/storage_engine:sqlcc_index_manager: '../../include' resolves to 'include' not below the relative path of its package 'src/storage_engine'. This will be an error in the future
+(01:50:59) WARNING: /home/liying/sqlcc/src/core/BUILD.bazel:39:11: in includes attribute of cc_library rule //src/core:sqlcc_database_core: '../../include' resolves to 'include' not below the relative path of its package 'src/core'. This will be an error in the future
+(01:50:59) WARNING: /home/liying/sqlcc/src/sql_parser/BUILD.bazel:5:11: in includes attribute of cc_library rule //src/sql_parser:sqlcc_parser: '../../include' resolves to 'include' not below the relative path of its package 'src/sql_parser'. This will be an error in the future
+(01:50:59) WARNING: /home/liying/sqlcc/src/core/BUILD.bazel:86:11: in includes attribute of cc_library rule //src/core:sqlcc_core_lib: '../../include' resolves to 'include' not below the relative path of its package 'src/core'. This will be an error in the future
+(01:50:59) WARNING: /home/liying/sqlcc/src/core/BUILD.bazel:86:11: in includes attribute of cc_library rule //src/core:sqlcc_core_lib: '../../include/storage' resolves to 'include/storage' not below the relative path of its package 'src/core'. This will be an error in the future
+(01:50:59) WARNING: /home/liying/sqlcc/src/core/BUILD.bazel:86:11: in includes attribute of cc_library rule //src/core:sqlcc_core_lib: '../../include/sql_parser' resolves to 'include/sql_parser' not below the relative path of its package 'src/core'. This will be an error in the future
+(01:50:59) WARNING: /home/liying/sqlcc/src/core/BUILD.bazel:86:11: in includes attribute of cc_library rule //src/core:sqlcc_core_lib: '../../include/core' resolves to 'include/core' not below the relative path of its package 'src/core'. This will be an error in the future
+(01:50:59) WARNING: /home/liying/sqlcc/src/core/BUILD.bazel:86:11: in includes attribute of cc_library rule //src/core:sqlcc_core_lib: '../../include/execution' resolves to 'include/execution' not below the relative path of its package 'src/core'. This will be an error in the future
+(01:50:59) WARNING: /home/liying/sqlcc/src/network/BUILD.bazel:5:11: in includes attribute of cc_library rule //src/network:sqlcc_network: '../../include' resolves to 'include' not below the relative path of its package 'src/network'. This will be an error in the future
+(01:50:59) WARNING: /home/liying/sqlcc/tests/network/BUILD.bazel:94:8: in includes attribute of cc_test rule //tests/network:sql_network_test: '../../include' resolves to 'include' not below the relative path of its package 'tests/network'. This will be an error in the future. Since this rule was created by the macro 'cc_test', the error might have been caused by the macro implementation
+(01:50:59) WARNING: /home/liying/sqlcc/tests/stubs/BUILD.bazel:1:11: in includes attribute of cc_library rule //tests/stubs:network_stub: '../../include' resolves to 'include' not below the relative path of its package 'tests/stubs'. This will be an error in the future
+(01:50:59) WARNING: /home/liying/sqlcc/src/config_manager/BUILD.bazel:5:11: in includes attribute of cc_library rule //src/config_manager:sqlcc_config_manager: '../../include' resolves to 'include' not below the relative path of its package 'src/config_manager'. This will be an error in the future
+(01:50:59) WARNING: /home/liying/sqlcc/src/sql_executor/BUILD.bazel:5:11: in includes attribute of cc_library rule //src/sql_executor:sqlcc_executor: '../../include' resolves to 'include' not below the relative path of its package 'src/sql_executor'. This will be an error in the future
+(01:50:59) WARNING: /home/liying/sqlcc/tests/network/BUILD.bazel:53:8: in includes attribute of cc_test rule //tests/network:connection_handler_test: '../../include' resolves to 'include' not below the relative path of its package 'tests/network'. This will be an error in the future. Since this rule was created by the macro 'cc_test', the error might have been caused by the macro implementation
+(01:50:59) WARNING: /home/liying/sqlcc/tests/network/BUILD.bazel:118:8: in includes attribute of cc_test rule //tests/network:aes_network_integration_test: '../../include' resolves to 'include' not below the relative path of its package 'tests/network'. This will be an error in the future. Since this rule was created by the macro 'cc_test', the error might have been caused by the macro implementation
+(01:50:59) WARNING: /home/liying/sqlcc/tests/network/BUILD.bazel:82:8: in includes attribute of cc_test rule //tests/network:network_edge_cases_test: '../../include' resolves to 'include' not below the relative path of its package 'tests/network'. This will be an error in the future. Since this rule was created by the macro 'cc_test', the error might have been caused by the macro implementation
+(01:50:59) WARNING: /home/liying/sqlcc/tests/network/BUILD.bazel:67:8: in includes attribute of cc_test rule //tests/network:server_network_manager_test: '../../include' resolves to 'include' not below the relative path of its package 'tests/network'. This will be an error in the future. Since this rule was created by the macro 'cc_test', the error might have been caused by the macro implementation
+(01:50:59) WARNING: /home/liying/sqlcc/tests/network/BUILD.bazel:40:8: in includes attribute of cc_test rule //tests/network:client_network_manager_test: '../../include' resolves to 'include' not below the relative path of its package 'tests/network'. This will be an error in the future. Since this rule was created by the macro 'cc_test', the error might have been caused by the macro implementation
+(01:50:59) WARNING: /home/liying/sqlcc/tests/network/BUILD.bazel:28:8: in includes attribute of cc_test rule //tests/network:client_connection_test: '../../include' resolves to 'include' not below the relative path of its package 'tests/network'. This will be an error in the future. Since this rule was created by the macro 'cc_test', the error might have been caused by the macro implementation
+(01:50:59) WARNING: /home/liying/sqlcc/tests/network/BUILD.bazel:130:8: in includes attribute of cc_test rule //tests/network:tls_e2e_test: '../../include' resolves to 'include' not below the relative path of its package 'tests/network'. This will be an error in the future. Since this rule was created by the macro 'cc_test', the error might have been caused by the macro implementation
+(01:50:59) WARNING: /home/liying/sqlcc/tests/network/BUILD.bazel:4:8: in includes attribute of cc_test rule //tests/network:session_test: '../../include' resolves to 'include' not below the relative path of its package 'tests/network'. This will be an error in the future. Since this rule was created by the macro 'cc_test', the error might have been caused by the macro implementation
+(01:50:59) WARNING: /home/liying/sqlcc/tests/network/BUILD.bazel:16:8: in includes attribute of cc_test rule //tests/network:session_manager_test: '../../include' resolves to 'include' not below the relative path of its package 'tests/network'. This will be an error in the future. Since this rule was created by the macro 'cc_test', the error might have been caused by the macro implementation
+(01:50:59) WARNING: /home/liying/sqlcc/tests/network/BUILD.bazel:106:8: in includes attribute of cc_test rule //tests/network:aes_encryption_test: '../../include' resolves to 'include' not below the relative path of its package 'tests/network'. This will be an error in the future. Since this rule was created by the macro 'cc_test', the error might have been caused by the macro implementation
+(01:50:59) INFO: Analyzed 11 targets (1 packages loaded, 22 targets configured).
+(01:50:59) INFO: Found 11 test targets...
+(01:50:59) [0 / 39] [Prepa] BazelWorkspaceStatusAction stable-status.txt
+(01:51:01) [14 / 42] Compiling tests/stubs/network_stub.cpp; 1s local, remote-cache ... (16 actions running)
+(01:51:02) INFO: From Compiling tests/stubs/network_stub.cpp:
+tests/stubs/network_stub.cpp: In member function 'bool sqlcc::network::SessionManager::Authenticate(int, const std::string&, const std::string&)':
+tests/stubs/network_stub.cpp:50:99: warning: unused parameter 'password' [-Wunused-parameter]
+   50 | bool SessionManager::Authenticate(int session_id, const std::string& username, const std::string& password) {
+      |                                                                                ~~~~~~~~~~~~~~~~~~~^~~~~~~~
+(01:51:02) [16 / 42] Compiling tests/network/connection_handler_real_test.cpp; 3s local, remote-cache ... (15 actions, 14 running)
+(01:51:02) INFO: From Compiling tests/network/tls_e2e_test.cc:
+tests/network/tls_e2e_test.cc: In function 'bool GenerateSelfSignedCert(const std::string&, const std::string&)':
+tests/network/tls_e2e_test.cc:19:23: warning: 'RSA* RSA_new()' is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
+   19 |     RSA* rsa = RSA_new();
+      |                ~~~~~~~^~
+In file included from /usr/include/openssl/x509.h:36,
+                 from /usr/include/openssl/ssl.h:32,
+                 from include/utils/ssl_wrapper.h:22,
+                 from include/network/network.h:21,
+                 from tests/network/tls_e2e_test.cc:1:
+/usr/include/openssl/rsa.h:212:28: note: declared here
+  212 | OSSL_DEPRECATEDIN_3_0 RSA *RSA_new(void);
+      |                            ^~~~~~~
+tests/network/tls_e2e_test.cc:22:28: warning: 'int RSA_generate_key_ex(RSA*, int, BIGNUM*, BN_GENCB*)' is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
+   22 |     if (RSA_generate_key_ex(rsa, 2048, e, nullptr) != 1) { BN_free(e); RSA_free(rsa); EVP_PKEY_free(pkey); return false; }
+      |         ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~
+/usr/include/openssl/rsa.h:271:27: note: declared here
+  271 | OSSL_DEPRECATEDIN_3_0 int RSA_generate_key_ex(RSA *rsa, int bits, BIGNUM *e,
+      |                           ^~~~~~~~~~~~~~~~~~~
+tests/network/tls_e2e_test.cc:22:80: warning: 'void RSA_free(RSA*)' is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
+   22 |     if (RSA_generate_key_ex(rsa, 2048, e, nullptr) != 1) { BN_free(e); RSA_free(rsa); EVP_PKEY_free(pkey); return false; }
+      |                                                                        ~~~~~~~~^~~~~
+/usr/include/openssl/rsa.h:304:28: note: declared here
+  304 | OSSL_DEPRECATEDIN_3_0 void RSA_free(RSA *r);
+      |                            ^~~~~~~~
+tests/network/tls_e2e_test.cc:24:56: warning: 'void RSA_free(RSA*)' is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
+   24 |     if (EVP_PKEY_assign_RSA(pkey, rsa) != 1) { RSA_free(rsa); EVP_PKEY_free(pkey); return false; }
+      |                                                ~~~~~~~~^~~~~
+/usr/include/openssl/rsa.h:304:28: note: declared here
+  304 | OSSL_DEPRECATEDIN_3_0 void RSA_free(RSA *r);
+      |                            ^~~~~~~~
+tests/network/tls_e2e_test.cc: At global scope:
+tests/network/tls_e2e_test.cc:17:13: warning: 'bool GenerateSelfSignedCert(const std::string&, const std::string&)' defined but not used [-Wunused-function]
+   17 | static bool GenerateSelfSignedCert(const std::string& cert_path, const std::string& key_path) {
+      |             ^~~~~~~~~~~~~~~~~~~~~~
+(01:51:03) [28 / 55] Compiling tests/network/connection_handler_real_test.cpp; 4s local, remote-cache ... (15 actions, 14 running)
+(01:51:05) [44 / 70] Compiling tests/network/connection_handler_real_test.cpp; 5s local, remote-cache ... (15 actions, 14 running)
+(01:51:06) [53 / 74] Compiling tests/network/connection_handler_real_test.cpp; 6s local, remote-cache ... (10 actions running)
+(01:51:07) [54 / 74] Compiling tests/network/connection_handler_real_test.cpp; 8s local, remote-cache ... (9 actions, 8 running)
+(01:51:07) ERROR: /home/liying/sqlcc/tests/network/BUILD.bazel:53:8: Linking tests/network/connection_handler_test failed: (Exit 1): gcc failed: error executing command (from target //tests/network:connection_handler_test) 
+  (cd /home/liying/.cache/bazel/_bazel_liying/68dbc53c53085b82ed46643b8af8ae0d/execroot/sqlcc && \
+  exec env - \
+    PATH=/home/liying/.local/bin:/home/liying/bin:/home/liying/.nvm/versions/node/v25.2.1/bin:/home/liying/.local/bin:/home/liying/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin:/home/liying/.local/bin:/home/liying/.local/bin \
+    PWD=/proc/self/cwd \
+  /usr/bin/gcc @bazel-out/k8-fastbuild/bin/tests/network/connection_handler_test-2.params)
+# Configuration: 33d7955ecd9a2570ff0f0c41df305c2c1235488dba521156495fd882f7c90d87
+# Execution platform: @local_config_platform//:host
+/usr/bin/ld: bazel-out/k8-fastbuild/bin/_solib_k8/liblibunified_Uexecutor.so: undefined reference to `sqlcc::execution::JoinExecutor::executeJoin(std::vector<std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >, std::allocator<std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > > > const&, std::vector<std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >, std::allocator<std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > > > const&, sqlcc::sql_parser::JoinClause&, std::unordered_map<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, unsigned long, std::hash<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::equal_to<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::allocator<std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, unsigned long> > > const&, std::unordered_map<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, unsigned long, std::hash<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::equal_to<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::allocator<std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, unsigned long> > > const&)'
+/usr/bin/ld: bazel-out/k8-fastbuild/bin/_solib_k8/liblibunified_Uexecutor.so: undefined reference to `sqlcc::execution::JoinExecutor::JoinExecutor()'
+collect2: error: ld returned 1 exit status
+(01:51:07) INFO: Elapsed time: 8.486s, Critical Path: 8.36s
+(01:51:07) INFO: 25 processes: 7 internal, 18 local.
+(01:51:07) FAILED: Build did NOT complete successfully
+//tests/network:aes_encryption_test                                   NO STATUS
+//tests/network:aes_network_integration_test                          NO STATUS
+//tests/network:client_connection_test                                NO STATUS
+//tests/network:client_network_manager_test                           NO STATUS
+//tests/network:network_edge_cases_test                               NO STATUS
+//tests/network:server_network_manager_test                           NO STATUS
+//tests/network:session_manager_test                                  NO STATUS
+//tests/network:session_test                                          NO STATUS
+//tests/network:sql_network_test                                      NO STATUS
+//tests/network:tls_e2e_test                                          NO STATUS
+//tests/network:connection_handler_test                         FAILED TO BUILD
+
+Executed 0 out of 11 tests: 1 fails to build and 10 were skipped.
+(01:51:07) INFO: Build Event Protocol files produced successfully.
+(01:51:07) FAILED: Build did NOT complete successfully
+执行存储引擎测试...
+(01:51:07) INFO: Invocation ID: f28d4606-bf71-4662-8d95-c61b29f1fc88
+(01:51:07) INFO: Current date is 2025-12-17
+(01:51:07) Loading: 
+(01:51:07) Loading: 
+(01:51:07) Loading: 0 packages loaded
+(01:51:07) Analyzing: 2 targets (1 packages loaded, 0 targets configured)
+(01:51:07) WARNING: /home/liying/sqlcc/src/core/BUILD.bazel:8:11: in includes attribute of cc_library rule //src/core:error_handler: '../../include' resolves to 'include' not below the relative path of its package 'src/core'. This will be an error in the future
+(01:51:07) WARNING: /home/liying/sqlcc/src/core/BUILD.bazel:23:11: in includes attribute of cc_library rule //src/core:sqlcc_config_manager: '../../include' resolves to 'include' not below the relative path of its package 'src/core'. This will be an error in the future
+(01:51:07) WARNING: /home/liying/sqlcc/src/storage_engine/BUILD.bazel:5:11: in includes attribute of cc_library rule //src/storage_engine:sqlcc_storage_engine: '../../include' resolves to 'include' not below the relative path of its package 'src/storage_engine'. This will be an error in the future
+(01:51:07) WARNING: /home/liying/sqlcc/tests/storage_engine/BUILD.bazel:17:8: in includes attribute of cc_test rule //tests/storage_engine:bplus_tree_test: '../../include' resolves to 'include' not below the relative path of its package 'tests/storage_engine'. This will be an error in the future. Since this rule was created by the macro 'cc_test', the error might have been caused by the macro implementation
+(01:51:07) WARNING: /home/liying/sqlcc/tests/storage_engine/BUILD.bazel:6:8: in includes attribute of cc_test rule //tests/storage_engine:buffer_pool_test: '../../include' resolves to 'include' not below the relative path of its package 'tests/storage_engine'. This will be an error in the future. Since this rule was created by the macro 'cc_test', the error might have been caused by the macro implementation
+(01:51:07) INFO: Analyzed 2 targets (1 packages loaded, 4 targets configured).
+(01:51:07) INFO: Found 2 test targets...
+(01:51:08) [0 / 13] [Prepa] BazelWorkspaceStatusAction stable-status.txt
+(01:51:09) ERROR: /home/liying/sqlcc/tests/storage_engine/BUILD.bazel:6:8: Compiling tests/storage_engine/buffer_pool_v3_test.cpp failed: (Exit 1): gcc failed: error executing command (from target //tests/storage_engine:buffer_pool_test) 
+  (cd /home/liying/.cache/bazel/_bazel_liying/68dbc53c53085b82ed46643b8af8ae0d/execroot/sqlcc && \
+  exec env - \
+    PATH=/home/liying/.local/bin:/home/liying/bin:/home/liying/.nvm/versions/node/v25.2.1/bin:/home/liying/.local/bin:/home/liying/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin:/home/liying/.local/bin:/home/liying/.local/bin \
+    PWD=/proc/self/cwd \
+  /usr/bin/gcc -U_FORTIFY_SOURCE -fstack-protector -Wall -Wunused-but-set-parameter -Wno-free-nonheap-object -fno-omit-frame-pointer '-std=c++14' -MD -MF bazel-out/k8-fastbuild/bin/tests/storage_engine/_objs/buffer_pool_test/buffer_pool_v3_test.pic.d '-frandom-seed=bazel-out/k8-fastbuild/bin/tests/storage_engine/_objs/buffer_pool_test/buffer_pool_v3_test.pic.o' -fPIC '-DBAZEL_CURRENT_REPOSITORY=""' -iquote . -iquote bazel-out/k8-fastbuild/bin -iquote external/com_google_googletest -iquote bazel-out/k8-fastbuild/bin/external/com_google_googletest -iquote external/bazel_tools -iquote bazel-out/k8-fastbuild/bin/external/bazel_tools -isystem include -isystem bazel-out/k8-fastbuild/bin/include -isystem external/com_google_googletest/googlemock -isystem bazel-out/k8-fastbuild/bin/external/com_google_googletest/googlemock -isystem external/com_google_googletest/googlemock/include -isystem bazel-out/k8-fastbuild/bin/external/com_google_googletest/googlemock/include -isystem external/com_google_googletest/googletest -isystem bazel-out/k8-fastbuild/bin/external/com_google_googletest/googletest -isystem external/com_google_googletest/googletest/include -isystem bazel-out/k8-fastbuild/bin/external/com_google_googletest/googletest/include -Wall -Wextra '-Wno-error=maybe-uninitialized' -O2 '-std=c++20' -fno-canonical-system-headers -Wno-builtin-macro-redefined '-D__DATE__="redacted"' '-D__TIMESTAMP__="redacted"' '-D__TIME__="redacted"' -c tests/storage_engine/buffer_pool_v3_test.cpp -o bazel-out/k8-fastbuild/bin/tests/storage_engine/_objs/buffer_pool_test/buffer_pool_v3_test.pic.o)
+# Configuration: 33d7955ecd9a2570ff0f0c41df305c2c1235488dba521156495fd882f7c90d87
+# Execution platform: @local_config_platform//:host
+tests/storage_engine/buffer_pool_v3_test.cpp: In member function 'bool sqlcc::MockDiskManager::ReadPage(int32_t, char*)':
+tests/storage_engine/buffer_pool_v3_test.cpp:83:46: warning: 'char* sqlcc::Page::GetData()' is deprecated: Use GetDataSpan() for safe access [-Wdeprecated-declarations]
+   83 |     std::memcpy(page_data, it->second.GetData(), PAGE_SIZE);
+      |                            ~~~~~~~~~~~~~~~~~~^~
+In file included from include/storage/disk_manager.h:15,
+                 from include/storage/buffer_pool_v3.h:11,
+                 from tests/storage_engine/buffer_pool_v3_test.cpp:2:
+include/page.h:81:70: note: declared here
+   81 |     [[deprecated("Use GetDataSpan() for safe access")]] inline char* GetData() { return data_; }
+      |                                                                      ^~~~~~~
+tests/storage_engine/buffer_pool_v3_test.cpp: In member function 'bool sqlcc::MockDiskManager::WritePage(int32_t, const char*)':
+tests/storage_engine/buffer_pool_v3_test.cpp:91:29: warning: 'char* sqlcc::Page::GetData()' is deprecated: Use GetDataSpan() for safe access [-Wdeprecated-declarations]
+   91 |     std::memcpy(page.GetData(), page_data, PAGE_SIZE);
+      |                 ~~~~~~~~~~~~^~
+include/page.h:81:70: note: declared here
+   81 |     [[deprecated("Use GetDataSpan() for safe access")]] inline char* GetData() { return data_; }
+      |                                                                      ^~~~~~~
+tests/storage_engine/buffer_pool_v3_test.cpp: In member function 'virtual void sqlcc::BufferPoolTest_LRUReplacement_Test::TestBody()':
+tests/storage_engine/buffer_pool_v3_test.cpp:213:11: warning: unused variable 'page4' [-Wunused-variable]
+  213 |   int32_t page4 = buffer_pool.NewPage(1);
+      |           ^~~~~
+tests/storage_engine/buffer_pool_v3_test.cpp: In member function 'virtual void sqlcc::BufferPoolTest_TwoQReplacement_Test::TestBody()':
+tests/storage_engine/buffer_pool_v3_test.cpp:248:11: warning: unused variable 'page4' [-Wunused-variable]
+  248 |   int32_t page4 = buffer_pool.NewPage(1);
+      |           ^~~~~
+In file included from external/com_google_googletest/googletest/include/gtest/gtest.h:67,
+                 from tests/storage_engine/buffer_pool_v3_test.cpp:8:
+tests/storage_engine/buffer_pool_v3_test.cpp: In member function 'virtual void sqlcc::BufferPoolTest_Prefetching_Test::TestBody()':
+tests/storage_engine/buffer_pool_v3_test.cpp:396:34: error: 'struct sqlcc::Prefetcher::PrefetcherStats' has no member named 'total_prefetches'
+  396 |   EXPECT_GT(stats.prefetch_stats.total_prefetches, 0);
+      |                                  ^~~~~~~~~~~~~~~~
+tests/storage_engine/buffer_pool_v3_test.cpp: In member function 'virtual void sqlcc::BufferPoolTest_Statistics_Test::TestBody()':
+tests/storage_engine/buffer_pool_v3_test.cpp:428:34: error: 'struct sqlcc::AbstractReplaceStrategy::StrategyStats' has no member named 'total_accesses'
+  428 |   EXPECT_EQ(stats.strategy_stats.total_accesses.load(), 3);
+      |                                  ^~~~~~~~~~~~~~
+tests/storage_engine/buffer_pool_v3_test.cpp:429:34: error: 'struct sqlcc::AbstractReplaceStrategy::StrategyStats' has no member named 'strategy_hits'; did you mean 'StrategyStats'?
+  429 |   EXPECT_EQ(stats.strategy_stats.strategy_hits.load(), 3);
+      |                                  ^~~~~~~~~~~~~
+tests/storage_engine/buffer_pool_v3_test.cpp:430:34: error: 'struct sqlcc::Prefetcher::PrefetcherStats' has no member named 'total_prefetches'
+  430 |   EXPECT_EQ(stats.prefetch_stats.total_prefetches, 0);
+      |                                  ^~~~~~~~~~~~~~~~
+In file included from external/com_google_googletest/googletest/include/gtest/gtest-printers.h:114,
+                 from external/com_google_googletest/googletest/include/gtest/gtest-matchers.h:48,
+                 from external/com_google_googletest/googletest/include/gtest/internal/gtest-death-test-internal.h:46,
+                 from external/com_google_googletest/googletest/include/gtest/gtest-death-test.h:43,
+                 from external/com_google_googletest/googletest/include/gtest/gtest.h:60:
+tests/storage_engine/buffer_pool_v3_test.cpp: In member function 'virtual void sqlcc::BufferPoolTest_ChangeReplaceStrategy_Test::TestBody()':
+tests/storage_engine/buffer_pool_v3_test.cpp:482:45: error: 'TWO_Q' is not a member of 'sqlcc::ReplaceStrategyFactory::StrategyType'
+  482 |       ReplaceStrategyFactory::StrategyType::TWO_Q));
+      |                                             ^~~~~
+tests/storage_engine/buffer_pool_v3_test.cpp:486:72: error: 'TWO_Q' is not a member of 'sqlcc::ReplaceStrategyFactory::StrategyType'
+  486 |   EXPECT_EQ(stats.strategy_type, ReplaceStrategyFactory::StrategyType::TWO_Q);
+      |                                                                        ^~~~~
+tests/storage_engine/buffer_pool_v3_test.cpp: In member function 'virtual void sqlcc::BufferPoolTest_DirtyPageFlush_Test::TestBody()':
+tests/storage_engine/buffer_pool_v3_test.cpp:509:21: warning: 'char* sqlcc::Page::GetData()' is deprecated: Use GetDataSpan() for safe access [-Wdeprecated-declarations]
+  509 |   page->data.GetData()[0] = 'X';
+      |   ~~~~~~~~~~~~~~~~~~^~
+include/page.h:81:70: note: declared here
+   81 |     [[deprecated("Use GetDataSpan() for safe access")]] inline char* GetData() { return data_; }
+      |                                                                      ^~~~~~~
+tests/storage_engine/buffer_pool_v3_test.cpp: In member function 'virtual void sqlcc::BufferPoolTest_FlushAllPages_Test::TestBody()':
+tests/storage_engine/buffer_pool_v3_test.cpp:533:23: warning: 'char* sqlcc::Page::GetData()' is deprecated: Use GetDataSpan() for safe access [-Wdeprecated-declarations]
+  533 |     page->data.GetData()[0] = 'X' + i;
+      |     ~~~~~~~~~~~~~~~~~~^~
+include/page.h:81:70: note: declared here
+   81 |     [[deprecated("Use GetDataSpan() for safe access")]] inline char* GetData() { return data_; }
+      |                                                                      ^~~~~~~
+(01:51:09) [10 / 13] 1 / 2 tests, 1 failed; checking cached actions
+(01:51:09) INFO: Elapsed time: 1.348s, Critical Path: 1.27s
+(01:51:09) INFO: 3 processes: 2 internal, 1 local.
+(01:51:09) FAILED: Build did NOT complete successfully
+//tests/storage_engine:bplus_tree_test                                NO STATUS
+//tests/storage_engine:buffer_pool_test                         FAILED TO BUILD
+
+Executed 0 out of 2 tests: 1 fails to build and 1 was skipped.
+(01:51:09) INFO: Build Event Protocol files produced successfully.
+(01:51:09) FAILED: Build did NOT complete successfully
+执行SQL解析器测试...
+(01:51:09) INFO: Invocation ID: 569359e2-0ae9-45c8-9564-2e3ec51d34ed
+(01:51:09) INFO: Current date is 2025-12-17
+(01:51:09) Loading: 
+(01:51:09) Loading: 
+(01:51:09) Loading: 0 packages loaded
+(01:51:09) Analyzing: 24 targets (1 packages loaded, 0 targets configured)
+(01:51:09) ERROR: /home/liying/sqlcc/tests/sql_parser/BUILD.bazel:289:8: no such target '//include/sql_parser:sql_parser': target 'sql_parser' not declared in package 'include/sql_parser' defined by /home/liying/sqlcc/include/sql_parser/BUILD.bazel (Tip: use `query "//include/sql_parser:*"` to see all the targets in that package) and referenced by '//tests/sql_parser:aggregate_functions_unit_test'
+(01:51:09) ERROR: Analysis of target '//tests/sql_parser:aggregate_functions_unit_test' failed; build aborted: Analysis failed
+(01:51:09) INFO: Elapsed time: 0.055s
+(01:51:09) INFO: 0 processes.
+(01:51:09) FAILED: Build did NOT complete successfully (1 packages loaded, 7 targets configured)
+(01:51:09) ERROR: Couldn't start the build. Unable to run tests
+(01:51:09) INFO: Build Event Protocol files produced successfully.
+(01:51:09) FAILED: Build did NOT complete successfully (1 packages loaded, 7 targets configured)
+执行SQL执行器测试...
+(01:51:09) INFO: Invocation ID: fe00ac9f-d06a-4922-9a4a-fd4fda5f6ce8
+(01:51:09) INFO: Current date is 2025-12-17
+(01:51:09) Loading: 
+(01:51:09) Loading: 
+(01:51:09) Loading: 0 packages loaded
+(01:51:09) Analyzing: 7 targets (1 packages loaded, 0 targets configured)
+(01:51:09) WARNING: /home/liying/sqlcc/src/config_manager/BUILD.bazel:5:11: in includes attribute of cc_library rule //src/config_manager:sqlcc_config_manager: '../../include' resolves to 'include' not below the relative path of its package 'src/config_manager'. This will be an error in the future
+(01:51:09) WARNING: /home/liying/sqlcc/src/core/BUILD.bazel:8:11: in includes attribute of cc_library rule //src/core:error_handler: '../../include' resolves to 'include' not below the relative path of its package 'src/core'. This will be an error in the future
+(01:51:09) WARNING: /home/liying/sqlcc/tests/sql_executor/BUILD.bazel:29:8: in includes attribute of cc_test rule //tests/sql_executor:sql_executor_unit_test: '../../include' resolves to 'include' not below the relative path of its package 'tests/sql_executor'. This will be an error in the future. Since this rule was created by the macro 'cc_test', the error might have been caused by the macro implementation
+(01:51:09) WARNING: /home/liying/sqlcc/src/storage_engine/BUILD.bazel:5:11: in includes attribute of cc_library rule //src/storage_engine:sqlcc_storage_engine: '../../include' resolves to 'include' not below the relative path of its package 'src/storage_engine'. This will be an error in the future
+(01:51:09) WARNING: /home/liying/sqlcc/tests/sql_executor/BUILD.bazel:62:8: in includes attribute of cc_test rule //tests/sql_executor:record_test: '../../include' resolves to 'include' not below the relative path of its package 'tests/sql_executor'. This will be an error in the future. Since this rule was created by the macro 'cc_test', the error might have been caused by the macro implementation
+(01:51:09) WARNING: /home/liying/sqlcc/src/core/BUILD.bazel:23:11: in includes attribute of cc_library rule //src/core:sqlcc_config_manager: '../../include' resolves to 'include' not below the relative path of its package 'src/core'. This will be an error in the future
+(01:51:09) WARNING: /home/liying/sqlcc/src/storage_engine/BUILD.bazel:42:11: in includes attribute of cc_library rule //src/storage_engine:sqlcc_index_manager: '../../include' resolves to 'include' not below the relative path of its package 'src/storage_engine'. This will be an error in the future
+(01:51:09) WARNING: /home/liying/sqlcc/src/core/BUILD.bazel:39:11: in includes attribute of cc_library rule //src/core:sqlcc_database_core: '../../include' resolves to 'include' not below the relative path of its package 'src/core'. This will be an error in the future
+(01:51:09) WARNING: /home/liying/sqlcc/src/sql_parser/BUILD.bazel:5:11: in includes attribute of cc_library rule //src/sql_parser:sqlcc_parser: '../../include' resolves to 'include' not below the relative path of its package 'src/sql_parser'. This will be an error in the future
+(01:51:09) WARNING: /home/liying/sqlcc/src/core/BUILD.bazel:86:11: in includes attribute of cc_library rule //src/core:sqlcc_core_lib: '../../include' resolves to 'include' not below the relative path of its package 'src/core'. This will be an error in the future
+(01:51:09) WARNING: /home/liying/sqlcc/src/core/BUILD.bazel:86:11: in includes attribute of cc_library rule //src/core:sqlcc_core_lib: '../../include/storage' resolves to 'include/storage' not below the relative path of its package 'src/core'. This will be an error in the future
+(01:51:09) WARNING: /home/liying/sqlcc/src/core/BUILD.bazel:86:11: in includes attribute of cc_library rule //src/core:sqlcc_core_lib: '../../include/sql_parser' resolves to 'include/sql_parser' not below the relative path of its package 'src/core'. This will be an error in the future
+(01:51:09) WARNING: /home/liying/sqlcc/src/core/BUILD.bazel:86:11: in includes attribute of cc_library rule //src/core:sqlcc_core_lib: '../../include/core' resolves to 'include/core' not below the relative path of its package 'src/core'. This will be an error in the future
+(01:51:09) WARNING: /home/liying/sqlcc/src/core/BUILD.bazel:86:11: in includes attribute of cc_library rule //src/core:sqlcc_core_lib: '../../include/execution' resolves to 'include/execution' not below the relative path of its package 'src/core'. This will be an error in the future
+(01:51:09) WARNING: /home/liying/sqlcc/tests/sql_executor/BUILD.bazel:51:8: in includes attribute of cc_test rule //tests/sql_executor:sql_executor_targeted_test: '../../include' resolves to 'include' not below the relative path of its package 'tests/sql_executor'. This will be an error in the future. Since this rule was created by the macro 'cc_test', the error might have been caused by the macro implementation
+(01:51:09) WARNING: /home/liying/sqlcc/src/sql_executor/BUILD.bazel:5:11: in includes attribute of cc_library rule //src/sql_executor:sqlcc_executor: '../../include' resolves to 'include' not below the relative path of its package 'src/sql_executor'. This will be an error in the future
+(01:51:09) WARNING: /home/liying/sqlcc/tests/sql_executor/BUILD.bazel:74:8: in includes attribute of cc_test rule //tests/sql_executor:constraint_executor_test: '../../include' resolves to 'include' not below the relative path of its package 'tests/sql_executor'. This will be an error in the future. Since this rule was created by the macro 'cc_test', the error might have been caused by the macro implementation
+(01:51:09) WARNING: /home/liying/sqlcc/tests/sql_executor/BUILD.bazel:16:8: in includes attribute of cc_test rule //tests/sql_executor:sql_executor_comprehensive_test: '../../include' resolves to 'include' not below the relative path of its package 'tests/sql_executor'. This will be an error in the future. Since this rule was created by the macro 'cc_test', the error might have been caused by the macro implementation
+(01:51:09) WARNING: /home/liying/sqlcc/tests/sql_executor/BUILD.bazel:4:8: in includes attribute of cc_test rule //tests/sql_executor:gtest_sql_executor_tests: '../../include' resolves to 'include' not below the relative path of its package 'tests/sql_executor'. This will be an error in the future. Since this rule was created by the macro 'cc_test', the error might have been caused by the macro implementation
+(01:51:09) WARNING: /home/liying/sqlcc/tests/sql_executor/BUILD.bazel:40:8: in includes attribute of cc_test rule //tests/sql_executor:sql_executor_minimal_test: '../../include' resolves to 'include' not below the relative path of its package 'tests/sql_executor'. This will be an error in the future. Since this rule was created by the macro 'cc_test', the error might have been caused by the macro implementation
+(01:51:09) INFO: Analyzed 7 targets (1 packages loaded, 14 targets configured).
+(01:51:09) INFO: Found 7 test targets...
+(01:51:09) [0 / 19] [Prepa] BazelWorkspaceStatusAction stable-status.txt
+(01:51:09) ERROR: /home/liying/sqlcc/tests/sql_executor/BUILD.bazel:74:8: Compiling tests/sql_executor/constraint_executor_test.cpp failed: (Exit 1): gcc failed: error executing command (from target //tests/sql_executor:constraint_executor_test) 
+  (cd /home/liying/.cache/bazel/_bazel_liying/68dbc53c53085b82ed46643b8af8ae0d/execroot/sqlcc && \
+  exec env - \
+    PATH=/home/liying/.local/bin:/home/liying/bin:/home/liying/.nvm/versions/node/v25.2.1/bin:/home/liying/.local/bin:/home/liying/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin:/home/liying/.local/bin:/home/liying/.local/bin \
+    PWD=/proc/self/cwd \
+  /usr/bin/gcc -U_FORTIFY_SOURCE -fstack-protector -Wall -Wunused-but-set-parameter -Wno-free-nonheap-object -fno-omit-frame-pointer '-std=c++14' -MD -MF bazel-out/k8-fastbuild/bin/tests/sql_executor/_objs/constraint_executor_test/constraint_executor_test.pic.d '-frandom-seed=bazel-out/k8-fastbuild/bin/tests/sql_executor/_objs/constraint_executor_test/constraint_executor_test.pic.o' -fPIC '-DBAZEL_CURRENT_REPOSITORY=""' -iquote . -iquote bazel-out/k8-fastbuild/bin -iquote external/com_google_googletest -iquote bazel-out/k8-fastbuild/bin/external/com_google_googletest -iquote external/rules_cc -iquote bazel-out/k8-fastbuild/bin/external/rules_cc -iquote external/bazel_tools -iquote bazel-out/k8-fastbuild/bin/external/bazel_tools -isystem include -isystem bazel-out/k8-fastbuild/bin/include -isystem include/storage -isystem bazel-out/k8-fastbuild/bin/include/storage -isystem include/sql_parser -isystem bazel-out/k8-fastbuild/bin/include/sql_parser -isystem include/core -isystem bazel-out/k8-fastbuild/bin/include/core -isystem include/execution -isystem bazel-out/k8-fastbuild/bin/include/execution -isystem external/com_google_googletest/googlemock -isystem bazel-out/k8-fastbuild/bin/external/com_google_googletest/googlemock -isystem external/com_google_googletest/googlemock/include -isystem bazel-out/k8-fastbuild/bin/external/com_google_googletest/googlemock/include -isystem external/com_google_googletest/googletest -isystem bazel-out/k8-fastbuild/bin/external/com_google_googletest/googletest -isystem external/com_google_googletest/googletest/include -isystem bazel-out/k8-fastbuild/bin/external/com_google_googletest/googletest/include -Wall -Wextra '-Wno-error=maybe-uninitialized' -O2 '-std=c++20' -fno-canonical-system-headers -Wno-builtin-macro-redefined '-D__DATE__="redacted"' '-D__TIMESTAMP__="redacted"' '-D__TIME__="redacted"' -c tests/sql_executor/constraint_executor_test.cpp -o bazel-out/k8-fastbuild/bin/tests/sql_executor/_objs/constraint_executor_test/constraint_executor_test.pic.o)
+# Configuration: 33d7955ecd9a2570ff0f0c41df305c2c1235488dba521156495fd882f7c90d87
+# Execution platform: @local_config_platform//:host
+tests/sql_executor/constraint_executor_test.cpp:1:10: fatal error: constraint_executor.h: No such file or directory
+    1 | #include "constraint_executor.h"
+      |          ^~~~~~~~~~~~~~~~~~~~~~~
+compilation terminated.
+(01:51:09) INFO: Elapsed time: 0.099s, Critical Path: 0.02s
+(01:51:09) INFO: 8 processes: 8 internal.
+(01:51:09) FAILED: Build did NOT complete successfully
+//tests/sql_executor:gtest_sql_executor_tests                         NO STATUS
+//tests/sql_executor:record_test                                      NO STATUS
+//tests/sql_executor:sql_executor_comprehensive_test                  NO STATUS
+//tests/sql_executor:sql_executor_minimal_test                        NO STATUS
+//tests/sql_executor:sql_executor_targeted_test                       NO STATUS
+//tests/sql_executor:sql_executor_unit_test                           NO STATUS
+//tests/sql_executor:constraint_executor_test                   FAILED TO BUILD
+
+Executed 0 out of 7 tests: 1 fails to build and 6 were skipped.
+(01:51:09) INFO: Build Event Protocol files produced successfully.
+(01:51:09) FAILED: Build did NOT complete successfully
+统计测试结果...
+(01:51:09) INFO: Invocation ID: ca64f663-e535-4a8e-9b2d-6120c5a61968
+(01:51:09) INFO: Current date is 2025-12-17
+(01:51:09) Loading: 
+(01:51:09) Loading: 
+(01:51:09) Loading: 0 packages loaded
+(01:51:09) Analyzing: 152 targets (0 packages loaded, 0 targets configured)
+(01:51:09) WARNING: /home/liying/sqlcc/src/core/BUILD.bazel:8:11: in includes attribute of cc_library rule //src/core:error_handler: '../../include' resolves to 'include' not below the relative path of its package 'src/core'. This will be an error in the future
+(01:51:09) WARNING: /home/liying/sqlcc/src/core/BUILD.bazel:23:11: in includes attribute of cc_library rule //src/core:sqlcc_config_manager: '../../include' resolves to 'include' not below the relative path of its package 'src/core'. This will be an error in the future
+(01:51:09) WARNING: /home/liying/sqlcc/src/storage_engine/BUILD.bazel:5:11: in includes attribute of cc_library rule //src/storage_engine:sqlcc_storage_engine: '../../include' resolves to 'include' not below the relative path of its package 'src/storage_engine'. This will be an error in the future
+(01:51:09) WARNING: /home/liying/sqlcc/src/storage_engine/BUILD.bazel:42:11: in includes attribute of cc_library rule //src/storage_engine:sqlcc_index_manager: '../../include' resolves to 'include' not below the relative path of its package 'src/storage_engine'. This will be an error in the future
+(01:51:09) WARNING: /home/liying/sqlcc/src/core/BUILD.bazel:39:11: in includes attribute of cc_library rule //src/core:sqlcc_database_core: '../../include' resolves to 'include' not below the relative path of its package 'src/core'. This will be an error in the future
+(01:51:09) WARNING: /home/liying/sqlcc/src/sql_parser/BUILD.bazel:5:11: in includes attribute of cc_library rule //src/sql_parser:sqlcc_parser: '../../include' resolves to 'include' not below the relative path of its package 'src/sql_parser'. This will be an error in the future
+(01:51:09) WARNING: /home/liying/sqlcc/src/core/BUILD.bazel:86:11: in includes attribute of cc_library rule //src/core:sqlcc_core_lib: '../../include' resolves to 'include' not below the relative path of its package 'src/core'. This will be an error in the future
+(01:51:09) WARNING: /home/liying/sqlcc/src/core/BUILD.bazel:86:11: in includes attribute of cc_library rule //src/core:sqlcc_core_lib: '../../include/storage' resolves to 'include/storage' not below the relative path of its package 'src/core'. This will be an error in the future
+(01:51:09) WARNING: /home/liying/sqlcc/src/core/BUILD.bazel:86:11: in includes attribute of cc_library rule //src/core:sqlcc_core_lib: '../../include/sql_parser' resolves to 'include/sql_parser' not below the relative path of its package 'src/core'. This will be an error in the future
+(01:51:09) WARNING: /home/liying/sqlcc/src/core/BUILD.bazel:86:11: in includes attribute of cc_library rule //src/core:sqlcc_core_lib: '../../include/core' resolves to 'include/core' not below the relative path of its package 'src/core'. This will be an error in the future
+(01:51:09) WARNING: /home/liying/sqlcc/src/core/BUILD.bazel:86:11: in includes attribute of cc_library rule //src/core:sqlcc_core_lib: '../../include/execution' resolves to 'include/execution' not below the relative path of its package 'src/core'. This will be an error in the future
+(01:51:09) WARNING: /home/liying/sqlcc/src/config_manager/BUILD.bazel:5:11: in includes attribute of cc_library rule //src/config_manager:sqlcc_config_manager: '../../include' resolves to 'include' not below the relative path of its package 'src/config_manager'. This will be an error in the future
+(01:51:09) WARNING: /home/liying/sqlcc/src/sql_executor/BUILD.bazel:5:11: in includes attribute of cc_library rule //src/sql_executor:sqlcc_executor: '../../include' resolves to 'include' not below the relative path of its package 'src/sql_executor'. This will be an error in the future
+(01:51:09) WARNING: /home/liying/sqlcc/src/BUILD.bazel:22:11: in includes attribute of cc_library rule //src:execution_context: '../include' resolves to 'include' not below the relative path of its package 'src'. This will be an error in the future
+(01:51:09) WARNING: /home/liying/sqlcc/src/BUILD.bazel:22:11: in includes attribute of cc_library rule //src:execution_context: '../include/core' resolves to 'include/core' not below the relative path of its package 'src'. This will be an error in the future
+(01:51:09) WARNING: /home/liying/sqlcc/src/execution/BUILD.bazel:5:11: in includes attribute of cc_library rule //src/execution:execution: '../include' resolves to 'src/include' not below the relative path of its package 'src/execution'. This will be an error in the future
+(01:51:09) WARNING: /home/liying/sqlcc/src/BUILD.bazel:36:11: in includes attribute of cc_library rule //src:execution_engine: '../include' resolves to 'include' not below the relative path of its package 'src'. This will be an error in the future
+(01:51:09) WARNING: /home/liying/sqlcc/src/BUILD.bazel:53:11: in includes attribute of cc_library rule //src:unified_executor: '../include' resolves to 'include' not below the relative path of its package 'src'. This will be an error in the future
+(01:51:09) WARNING: /home/liying/sqlcc/src/BUILD.bazel:53:11: in includes attribute of cc_library rule //src:unified_executor: '../include/core' resolves to 'include/core' not below the relative path of its package 'src'. This will be an error in the future
+(01:51:09) WARNING: /home/liying/sqlcc/src/BUILD.bazel:53:11: in includes attribute of cc_library rule //src:unified_executor: '../include/storage' resolves to 'include/storage' not below the relative path of its package 'src'. This will be an error in the future
+(01:51:09) WARNING: /home/liying/sqlcc/src/sql_parser/BUILD.bazel:30:11: in includes attribute of cc_library rule //src/sql_parser:sqlcc_parser_light: '../../include' resolves to 'include' not below the relative path of its package 'src/sql_parser'. This will be an error in the future
+(01:51:09) WARNING: /home/liying/sqlcc/tests/components/debug/BUILD.bazel:164:10: in includes attribute of cc_binary rule //tests/components/debug:test_metadata_improvement: '../../../include' resolves to 'include' not below the relative path of its package 'tests/components/debug'. This will be an error in the future. Since this rule was created by the macro 'cc_binary', the error might have been caused by the macro implementation
+(01:51:09) WARNING: /home/liying/sqlcc/src/network/BUILD.bazel:5:11: in includes attribute of cc_library rule //src/network:sqlcc_network: '../../include' resolves to 'include' not below the relative path of its package 'src/network'. This will be an error in the future
+(01:51:09) WARNING: /home/liying/sqlcc/tests/components/debug/BUILD.bazel:126:10: in includes attribute of cc_binary rule //tests/components/debug:test_window_function: '../../../include' resolves to 'include' not below the relative path of its package 'tests/components/debug'. This will be an error in the future. Since this rule was created by the macro 'cc_binary', the error might have been caused by the macro implementation
+(01:51:09) WARNING: /home/liying/sqlcc/tests/components/debug/BUILD.bazel:154:10: in includes attribute of cc_binary rule //tests/components/debug:test_window_function_complete: '../../../include' resolves to 'include' not below the relative path of its package 'tests/components/debug'. This will be an error in the future. Since this rule was created by the macro 'cc_binary', the error might have been caused by the macro implementation
+(01:51:09) WARNING: /home/liying/sqlcc/tests/components/debug/BUILD.bazel:135:10: in includes attribute of cc_binary rule //tests/components/debug:test_window_function_executor: '../../../include' resolves to 'include' not below the relative path of its package 'tests/components/debug'. This will be an error in the future. Since this rule was created by the macro 'cc_binary', the error might have been caused by the macro implementation
+(01:51:09) WARNING: /home/liying/sqlcc/tests/components/debug/BUILD.bazel:145:10: in includes attribute of cc_binary rule //tests/components/debug:test_window_function_integration: '../../../include' resolves to 'include' not below the relative path of its package 'tests/components/debug'. This will be an error in the future. Since this rule was created by the macro 'cc_binary', the error might have been caused by the macro implementation
+(01:51:09) ERROR: /home/liying/sqlcc/tests/unit/core/BUILD.bazel:1:8: no such package 'include/core': BUILD file not found in any of the following directories. Add a BUILD file to a directory to mark it as a package.
+ - /home/liying/sqlcc/include/core and referenced by '//tests/unit/core:stored_procedure_manager_test'
+(01:51:09) ERROR: Analysis of target '//tests/unit/core:stored_procedure_manager_test' failed; build aborted: Analysis failed
+(01:51:09) INFO: Elapsed time: 0.062s
+(01:51:09) INFO: 0 processes.
+(01:51:09) FAILED: Build did NOT complete successfully (0 packages loaded, 0 targets configured)
+(01:51:09) ERROR: Couldn't start the build. Unable to run tests
+(01:51:09) INFO: Build Event Protocol files produced successfully.
+(01:51:09) FAILED: Build did NOT complete successfully (0 packages loaded, 0 targets configured)
+单元测试结果:
+- 总测试数: 0
+- 通过测试: 0
+- 失败测试: 0
+- 通过率: 0%
+WARNING: 单元测试通过率过低 (0% < 80%)
+单元测试执行完成
+✅ 单元测试执行成功
+
+步骤4: 集成测试执行
+开始执行集成测试...
+执行集成测试套件...
+(01:51:09) INFO: Invocation ID: 1c3b4f52-0d6d-4b25-8a26-74513d8994f4
+(01:51:09) INFO: Current date is 2025-12-17
+(01:51:09) Loading: 
+(01:51:09) Loading: 
+(01:51:09) Loading: 0 packages loaded
+(01:51:09) Analyzing: target //tests/integration:comprehensive_sales_test (1 packages loaded, 0 targets configured)
+(01:51:09) WARNING: /home/liying/sqlcc/src/config_manager/BUILD.bazel:5:11: in includes attribute of cc_library rule //src/config_manager:sqlcc_config_manager: '../../include' resolves to 'include' not below the relative path of its package 'src/config_manager'. This will be an error in the future
+(01:51:09) WARNING: /home/liying/sqlcc/src/core/BUILD.bazel:8:11: in includes attribute of cc_library rule //src/core:error_handler: '../../include' resolves to 'include' not below the relative path of its package 'src/core'. This will be an error in the future
+(01:51:09) WARNING: /home/liying/sqlcc/src/core/BUILD.bazel:23:11: in includes attribute of cc_library rule //src/core:sqlcc_config_manager: '../../include' resolves to 'include' not below the relative path of its package 'src/core'. This will be an error in the future
+(01:51:09) WARNING: /home/liying/sqlcc/src/storage_engine/BUILD.bazel:5:11: in includes attribute of cc_library rule //src/storage_engine:sqlcc_storage_engine: '../../include' resolves to 'include' not below the relative path of its package 'src/storage_engine'. This will be an error in the future
+(01:51:09) WARNING: /home/liying/sqlcc/src/storage_engine/BUILD.bazel:42:11: in includes attribute of cc_library rule //src/storage_engine:sqlcc_index_manager: '../../include' resolves to 'include' not below the relative path of its package 'src/storage_engine'. This will be an error in the future
+(01:51:09) WARNING: /home/liying/sqlcc/src/core/BUILD.bazel:39:11: in includes attribute of cc_library rule //src/core:sqlcc_database_core: '../../include' resolves to 'include' not below the relative path of its package 'src/core'. This will be an error in the future
+(01:51:09) WARNING: /home/liying/sqlcc/src/sql_parser/BUILD.bazel:5:11: in includes attribute of cc_library rule //src/sql_parser:sqlcc_parser: '../../include' resolves to 'include' not below the relative path of its package 'src/sql_parser'. This will be an error in the future
+(01:51:09) WARNING: /home/liying/sqlcc/src/core/BUILD.bazel:86:11: in includes attribute of cc_library rule //src/core:sqlcc_core_lib: '../../include' resolves to 'include' not below the relative path of its package 'src/core'. This will be an error in the future
+(01:51:09) WARNING: /home/liying/sqlcc/src/core/BUILD.bazel:86:11: in includes attribute of cc_library rule //src/core:sqlcc_core_lib: '../../include/storage' resolves to 'include/storage' not below the relative path of its package 'src/core'. This will be an error in the future
+(01:51:09) WARNING: /home/liying/sqlcc/src/core/BUILD.bazel:86:11: in includes attribute of cc_library rule //src/core:sqlcc_core_lib: '../../include/sql_parser' resolves to 'include/sql_parser' not below the relative path of its package 'src/core'. This will be an error in the future
+(01:51:09) WARNING: /home/liying/sqlcc/src/core/BUILD.bazel:86:11: in includes attribute of cc_library rule //src/core:sqlcc_core_lib: '../../include/core' resolves to 'include/core' not below the relative path of its package 'src/core'. This will be an error in the future
+(01:51:09) WARNING: /home/liying/sqlcc/src/core/BUILD.bazel:86:11: in includes attribute of cc_library rule //src/core:sqlcc_core_lib: '../../include/execution' resolves to 'include/execution' not below the relative path of its package 'src/core'. This will be an error in the future
+(01:51:09) WARNING: /home/liying/sqlcc/src/sql_executor/BUILD.bazel:5:11: in includes attribute of cc_library rule //src/sql_executor:sqlcc_executor: '../../include' resolves to 'include' not below the relative path of its package 'src/sql_executor'. This will be an error in the future
+(01:51:09) WARNING: /home/liying/sqlcc/tests/integration/BUILD.bazel:4:8: in includes attribute of cc_test rule //tests/integration:comprehensive_sales_test: '../include' resolves to 'tests/include' not below the relative path of its package 'tests/integration'. This will be an error in the future. Since this rule was created by the macro 'cc_test', the error might have been caused by the macro implementation
+(01:51:09) INFO: Analyzed target //tests/integration:comprehensive_sales_test (1 packages loaded, 102 targets configured).
+(01:51:09) INFO: Found 1 test target...
+(01:51:09) [0 / 5] [Prepa] BazelWorkspaceStatusAction stable-status.txt
+(01:51:11) [5 / 7] [Prepa] Linking tests/integration/comprehensive_sales_test
+(01:51:11) ERROR: /home/liying/sqlcc/tests/integration/BUILD.bazel:4:8: Linking tests/integration/comprehensive_sales_test failed: (Exit 1): gcc failed: error executing command (from target //tests/integration:comprehensive_sales_test) 
+  (cd /home/liying/.cache/bazel/_bazel_liying/68dbc53c53085b82ed46643b8af8ae0d/execroot/sqlcc && \
+  exec env - \
+    PATH=/home/liying/.local/bin:/home/liying/bin:/home/liying/.nvm/versions/node/v25.2.1/bin:/home/liying/.local/bin:/home/liying/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin:/home/liying/.local/bin:/home/liying/.local/bin \
+    PWD=/proc/self/cwd \
+  /usr/bin/gcc @bazel-out/k8-fastbuild/bin/tests/integration/comprehensive_sales_test-2.params)
+# Configuration: efe2b6b9487bfb5392bc977e5225b5eaccd529a4ff27a710849986af914e0f08
+# Execution platform: @local_config_platform//:host
+/usr/bin/ld: bazel-out/k8-fastbuild/bin/_solib_k8/liblibunified_Uexecutor.so: undefined reference to `sqlcc::execution::JoinExecutor::JoinExecutor()'
+/usr/bin/ld: bazel-out/k8-fastbuild/bin/_solib_k8/liblibunified_Uexecutor.so: undefined reference to `sqlcc::execution::JoinExecutor::executeJoin(std::vector<std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >, std::allocator<std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > > > const&, std::vector<std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >, std::allocator<std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > > > const&, sqlcc::sql_parser::JoinClause&, std::unordered_map<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, unsigned long, std::hash<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::equal_to<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::allocator<std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, unsigned long> > > const&, std::unordered_map<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, unsigned long, std::hash<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::equal_to<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::allocator<std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, unsigned long> > > const&)'
+collect2: error: ld returned 1 exit status
+Target //tests/integration:comprehensive_sales_test failed to build
+(01:51:11) INFO: Elapsed time: 1.776s, Critical Path: 1.68s
+(01:51:11) INFO: 3 processes: 2 internal, 1 local.
+(01:51:11) FAILED: Build did NOT complete successfully
+//tests/integration:comprehensive_sales_test                    FAILED TO BUILD
+
+Executed 0 out of 1 test: 1 fails to build.
+(01:51:11) FAILED: Build did NOT complete successfully
+(01:51:11) INFO: Build Event Protocol files produced successfully.
+执行安全测试...
+(01:51:11) INFO: Invocation ID: 107f834d-3ca4-4269-8e0d-fd6ce45b684f
+(01:51:11) INFO: Current date is 2025-12-17
+(01:51:11) Loading: 
+(01:51:11) Loading: 
+(01:51:11) Loading: 0 packages loaded
+(01:51:11) Analyzing: 6 targets (0 packages loaded, 0 targets configured)
+(01:51:11) WARNING: /home/liying/sqlcc/src/core/BUILD.bazel:8:11: in includes attribute of cc_library rule //src/core:error_handler: '../../include' resolves to 'include' not below the relative path of its package 'src/core'. This will be an error in the future
+(01:51:11) WARNING: /home/liying/sqlcc/src/core/BUILD.bazel:23:11: in includes attribute of cc_library rule //src/core:sqlcc_config_manager: '../../include' resolves to 'include' not below the relative path of its package 'src/core'. This will be an error in the future
+(01:51:11) WARNING: /home/liying/sqlcc/src/storage_engine/BUILD.bazel:5:11: in includes attribute of cc_library rule //src/storage_engine:sqlcc_storage_engine: '../../include' resolves to 'include' not below the relative path of its package 'src/storage_engine'. This will be an error in the future
+(01:51:11) WARNING: /home/liying/sqlcc/src/storage_engine/BUILD.bazel:42:11: in includes attribute of cc_library rule //src/storage_engine:sqlcc_index_manager: '../../include' resolves to 'include' not below the relative path of its package 'src/storage_engine'. This will be an error in the future
+(01:51:11) WARNING: /home/liying/sqlcc/src/core/BUILD.bazel:39:11: in includes attribute of cc_library rule //src/core:sqlcc_database_core: '../../include' resolves to 'include' not below the relative path of its package 'src/core'. This will be an error in the future
+(01:51:11) WARNING: /home/liying/sqlcc/src/sql_parser/BUILD.bazel:5:11: in includes attribute of cc_library rule //src/sql_parser:sqlcc_parser: '../../include' resolves to 'include' not below the relative path of its package 'src/sql_parser'. This will be an error in the future
+(01:51:11) WARNING: /home/liying/sqlcc/src/core/BUILD.bazel:86:11: in includes attribute of cc_library rule //src/core:sqlcc_core_lib: '../../include' resolves to 'include' not below the relative path of its package 'src/core'. This will be an error in the future
+(01:51:11) WARNING: /home/liying/sqlcc/src/core/BUILD.bazel:86:11: in includes attribute of cc_library rule //src/core:sqlcc_core_lib: '../../include/storage' resolves to 'include/storage' not below the relative path of its package 'src/core'. This will be an error in the future
+(01:51:11) WARNING: /home/liying/sqlcc/src/core/BUILD.bazel:86:11: in includes attribute of cc_library rule //src/core:sqlcc_core_lib: '../../include/sql_parser' resolves to 'include/sql_parser' not below the relative path of its package 'src/core'. This will be an error in the future
+(01:51:11) WARNING: /home/liying/sqlcc/src/core/BUILD.bazel:86:11: in includes attribute of cc_library rule //src/core:sqlcc_core_lib: '../../include/core' resolves to 'include/core' not below the relative path of its package 'src/core'. This will be an error in the future
+(01:51:11) WARNING: /home/liying/sqlcc/src/core/BUILD.bazel:86:11: in includes attribute of cc_library rule //src/core:sqlcc_core_lib: '../../include/execution' resolves to 'include/execution' not below the relative path of its package 'src/core'. This will be an error in the future
+(01:51:11) WARNING: /home/liying/sqlcc/src/config_manager/BUILD.bazel:5:11: in includes attribute of cc_library rule //src/config_manager:sqlcc_config_manager: '../../include' resolves to 'include' not below the relative path of its package 'src/config_manager'. This will be an error in the future
+(01:51:11) WARNING: /home/liying/sqlcc/src/sql_executor/BUILD.bazel:5:11: in includes attribute of cc_library rule //src/sql_executor:sqlcc_executor: '../../include' resolves to 'include' not below the relative path of its package 'src/sql_executor'. This will be an error in the future
+(01:51:11) WARNING: /home/liying/sqlcc/src/BUILD.bazel:22:11: in includes attribute of cc_library rule //src:execution_context: '../include' resolves to 'include' not below the relative path of its package 'src'. This will be an error in the future
+(01:51:11) WARNING: /home/liying/sqlcc/src/BUILD.bazel:22:11: in includes attribute of cc_library rule //src:execution_context: '../include/core' resolves to 'include/core' not below the relative path of its package 'src'. This will be an error in the future
+(01:51:11) WARNING: /home/liying/sqlcc/src/execution/BUILD.bazel:5:11: in includes attribute of cc_library rule //src/execution:execution: '../include' resolves to 'src/include' not below the relative path of its package 'src/execution'. This will be an error in the future
+(01:51:11) WARNING: /home/liying/sqlcc/src/BUILD.bazel:36:11: in includes attribute of cc_library rule //src:execution_engine: '../include' resolves to 'include' not below the relative path of its package 'src'. This will be an error in the future
+(01:51:11) WARNING: /home/liying/sqlcc/src/BUILD.bazel:53:11: in includes attribute of cc_library rule //src:unified_executor: '../include' resolves to 'include' not below the relative path of its package 'src'. This will be an error in the future
+(01:51:11) WARNING: /home/liying/sqlcc/src/BUILD.bazel:53:11: in includes attribute of cc_library rule //src:unified_executor: '../include/core' resolves to 'include/core' not below the relative path of its package 'src'. This will be an error in the future
+(01:51:11) WARNING: /home/liying/sqlcc/src/BUILD.bazel:53:11: in includes attribute of cc_library rule //src:unified_executor: '../include/storage' resolves to 'include/storage' not below the relative path of its package 'src'. This will be an error in the future
+(01:51:11) WARNING: /home/liying/sqlcc/tests/components/security/BUILD.bazel:38:8: in includes attribute of cc_test rule //tests/components/security:revoke_persistence_test: '../../../include' resolves to 'include' not below the relative path of its package 'tests/components/security'. This will be an error in the future. Since this rule was created by the macro 'cc_test', the error might have been caused by the macro implementation
+(01:51:11) WARNING: /home/liying/sqlcc/tests/components/security/BUILD.bazel:38:8: in includes attribute of cc_test rule //tests/components/security:revoke_persistence_test: '../../../include/core' resolves to 'include/core' not below the relative path of its package 'tests/components/security'. This will be an error in the future. Since this rule was created by the macro 'cc_test', the error might have been caused by the macro implementation
+(01:51:11) WARNING: /home/liying/sqlcc/tests/components/security/BUILD.bazel:5:8: in includes attribute of cc_test rule //tests/components/security:permission_check_test: '../../../include' resolves to 'include' not below the relative path of its package 'tests/components/security'. This will be an error in the future. Since this rule was created by the macro 'cc_test', the error might have been caused by the macro implementation
+(01:51:11) WARNING: /home/liying/sqlcc/tests/components/security/BUILD.bazel:5:8: in includes attribute of cc_test rule //tests/components/security:permission_check_test: '../../../include/core' resolves to 'include/core' not below the relative path of its package 'tests/components/security'. This will be an error in the future. Since this rule was created by the macro 'cc_test', the error might have been caused by the macro implementation
+(01:51:11) WARNING: /home/liying/sqlcc/tests/components/security/BUILD.bazel:27:8: in includes attribute of cc_test rule //tests/components/security:permission_validator_test: '../../../include' resolves to 'include' not below the relative path of its package 'tests/components/security'. This will be an error in the future. Since this rule was created by the macro 'cc_test', the error might have been caused by the macro implementation
+(01:51:11) WARNING: /home/liying/sqlcc/tests/components/security/BUILD.bazel:27:8: in includes attribute of cc_test rule //tests/components/security:permission_validator_test: '../../../include/core' resolves to 'include/core' not below the relative path of its package 'tests/components/security'. This will be an error in the future. Since this rule was created by the macro 'cc_test', the error might have been caused by the macro implementation
+(01:51:11) WARNING: /home/liying/sqlcc/tests/components/security/BUILD.bazel:49:8: in includes attribute of cc_test rule //tests/components/security:test_grant_revoke: '../../../include' resolves to 'include' not below the relative path of its package 'tests/components/security'. This will be an error in the future. Since this rule was created by the macro 'cc_test', the error might have been caused by the macro implementation
+(01:51:11) WARNING: /home/liying/sqlcc/tests/components/security/BUILD.bazel:49:8: in includes attribute of cc_test rule //tests/components/security:test_grant_revoke: '../../../include/core' resolves to 'include/core' not below the relative path of its package 'tests/components/security'. This will be an error in the future. Since this rule was created by the macro 'cc_test', the error might have been caused by the macro implementation
+(01:51:11) WARNING: /home/liying/sqlcc/tests/components/security/BUILD.bazel:16:8: in includes attribute of cc_test rule //tests/components/security:permission_validation_test: '../../../include' resolves to 'include' not below the relative path of its package 'tests/components/security'. This will be an error in the future. Since this rule was created by the macro 'cc_test', the error might have been caused by the macro implementation
+(01:51:11) WARNING: /home/liying/sqlcc/tests/components/security/BUILD.bazel:16:8: in includes attribute of cc_test rule //tests/components/security:permission_validation_test: '../../../include/core' resolves to 'include/core' not below the relative path of its package 'tests/components/security'. This will be an error in the future. Since this rule was created by the macro 'cc_test', the error might have been caused by the macro implementation
+(01:51:11) WARNING: /home/liying/sqlcc/tests/components/security/BUILD.bazel:60:8: in includes attribute of cc_test rule //tests/components/security:test_revoke_persistence: '../../../include' resolves to 'include' not below the relative path of its package 'tests/components/security'. This will be an error in the future. Since this rule was created by the macro 'cc_test', the error might have been caused by the macro implementation
+(01:51:11) WARNING: /home/liying/sqlcc/tests/components/security/BUILD.bazel:60:8: in includes attribute of cc_test rule //tests/components/security:test_revoke_persistence: '../../../include/core' resolves to 'include/core' not below the relative path of its package 'tests/components/security'. This will be an error in the future. Since this rule was created by the macro 'cc_test', the error might have been caused by the macro implementation
+(01:51:11) INFO: Analyzed 6 targets (0 packages loaded, 6 targets configured).
+(01:51:11) INFO: Found 6 test targets...
+(01:51:11) [0 / 20] [Prepa] BazelWorkspaceStatusAction stable-status.txt
+(01:51:11) ERROR: /home/liying/sqlcc/tests/components/security/BUILD.bazel:16:8: Linking tests/components/security/permission_validation_test failed: (Exit 1): gcc failed: error executing command (from target //tests/components/security:permission_validation_test) 
+  (cd /home/liying/.cache/bazel/_bazel_liying/68dbc53c53085b82ed46643b8af8ae0d/execroot/sqlcc && \
+  exec env - \
+    PATH=/home/liying/.local/bin:/home/liying/bin:/home/liying/.nvm/versions/node/v25.2.1/bin:/home/liying/.local/bin:/home/liying/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin:/home/liying/.local/bin:/home/liying/.local/bin \
+    PWD=/proc/self/cwd \
+  /usr/bin/gcc @bazel-out/k8-fastbuild/bin/tests/components/security/permission_validation_test-2.params)
+# Configuration: efe2b6b9487bfb5392bc977e5225b5eaccd529a4ff27a710849986af914e0f08
+# Execution platform: @local_config_platform//:host
+/usr/bin/ld: bazel-out/k8-fastbuild/bin/_solib_k8/libsrc_Sexecution_Slibexecution.so: undefined reference to `sqlcc::procedure::ProcedureTriggerExecutor::fireDMLEvent(sqlcc::trigger::TriggerTiming, sqlcc::trigger::TriggerEvent, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<sqlcc::trigger::RowData, std::allocator<sqlcc::trigger::RowData> > const&, std::vector<sqlcc::trigger::RowData, std::allocator<sqlcc::trigger::RowData> > const&)'
+/usr/bin/ld: bazel-out/k8-fastbuild/bin/_solib_k8/libsrc_Sexecution_Slibexecution.so: undefined reference to `sqlcc::procedure::ProcedureTriggerExecutor::executeCallProcedure[abi:cxx11](sqlcc::sql_parser::CallProcedureStatement*)'
+/usr/bin/ld: bazel-out/k8-fastbuild/bin/_solib_k8/libsrc_Sexecution_Slibexecution.so: undefined reference to `sqlcc::procedure::ProcedureTriggerExecutor::executeDropTrigger[abi:cxx11](sqlcc::sql_parser::DropTriggerStatement*)'
+/usr/bin/ld: bazel-out/k8-fastbuild/bin/_solib_k8/libsrc_Sexecution_Slibexecution.so: undefined reference to `sqlcc::procedure::ProcedureTriggerExecutor::executeInsertWithTriggers[abi:cxx11](sqlcc::sql_parser::InsertStatement*)'
+/usr/bin/ld: bazel-out/k8-fastbuild/bin/_solib_k8/libsrc_Sexecution_Slibexecution.so: undefined reference to `sqlcc::procedure::ProcedureTriggerExecutor::executeDeleteWithTriggers[abi:cxx11](sqlcc::sql_parser::DeleteStatement*)'
+/usr/bin/ld: bazel-out/k8-fastbuild/bin/_solib_k8/libsrc_Sexecution_Slibexecution.so: undefined reference to `sqlcc::procedure::ProcedureTriggerExecutor::executeCreateTrigger[abi:cxx11](sqlcc::sql_parser::CreateTriggerStatement*)'
+/usr/bin/ld: bazel-out/k8-fastbuild/bin/_solib_k8/libsrc_Sexecution_Slibexecution.so: undefined reference to `sqlcc::procedure::ProcedureTriggerExecutor::executeCreateProcedure[abi:cxx11](sqlcc::sql_parser::CreateProcedureStatement*)'
+/usr/bin/ld: bazel-out/k8-fastbuild/bin/_solib_k8/libsrc_Sexecution_Slibexecution.so: undefined reference to `sqlcc::procedure::ProcedureTriggerExecutor::executeUpdateWithTriggers[abi:cxx11](sqlcc::sql_parser::UpdateStatement*)'
+/usr/bin/ld: bazel-out/k8-fastbuild/bin/_solib_k8/libsrc_Sexecution_Slibexecution.so: undefined reference to `sqlcc::procedure::ProcedureTriggerExecutor::getInstance()'
+/usr/bin/ld: bazel-out/k8-fastbuild/bin/_solib_k8/libsrc_Sexecution_Slibexecution.so: undefined reference to `sqlcc::procedure::ProcedureTriggerExecutor::executeDropProcedure[abi:cxx11](sqlcc::sql_parser::DropProcedureStatement*)'
+/usr/bin/ld: bazel-out/k8-fastbuild/bin/_solib_k8/libsrc_Sexecution_Slibexecution.so: undefined reference to `sqlcc::procedure::ProcedureTriggerExecutor::executeAlterTrigger[abi:cxx11](sqlcc::sql_parser::AlterTriggerStatement*)'
+collect2: error: ld returned 1 exit status
+(01:51:11) INFO: Elapsed time: 0.178s, Critical Path: 0.10s
+(01:51:11) INFO: 7 processes: 7 internal.
+(01:51:11) FAILED: Build did NOT complete successfully
+//tests/components/security:permission_check_test                     NO STATUS
+//tests/components/security:permission_validator_test                 NO STATUS
+//tests/components/security:revoke_persistence_test                   NO STATUS
+//tests/components/security:test_grant_revoke                         NO STATUS
+//tests/components/security:test_revoke_persistence                   NO STATUS
+//tests/components/security:permission_validation_test          FAILED TO BUILD
+
+Executed 0 out of 6 tests: 1 fails to build and 5 were skipped.
+(01:51:11) FAILED: Build did NOT complete successfully
+(01:51:11) INFO: Build Event Protocol files produced successfully.
+执行高级SQL测试...
+(01:51:11) INFO: Invocation ID: 33975631-0edb-4e6d-ae96-c60a31ee8f72
+(01:51:11) INFO: Current date is 2025-12-17
+(01:51:11) Loading: 
+(01:51:11) Loading: 
+(01:51:11) Loading: 0 packages loaded
+(01:51:11) Analyzing: 6 targets (1 packages loaded, 0 targets configured)
+(01:51:11) WARNING: /home/liying/sqlcc/src/core/BUILD.bazel:8:11: in includes attribute of cc_library rule //src/core:error_handler: '../../include' resolves to 'include' not below the relative path of its package 'src/core'. This will be an error in the future
+(01:51:11) WARNING: /home/liying/sqlcc/src/core/BUILD.bazel:23:11: in includes attribute of cc_library rule //src/core:sqlcc_config_manager: '../../include' resolves to 'include' not below the relative path of its package 'src/core'. This will be an error in the future
+(01:51:11) WARNING: /home/liying/sqlcc/src/storage_engine/BUILD.bazel:5:11: in includes attribute of cc_library rule //src/storage_engine:sqlcc_storage_engine: '../../include' resolves to 'include' not below the relative path of its package 'src/storage_engine'. This will be an error in the future
+(01:51:11) WARNING: /home/liying/sqlcc/src/config_manager/BUILD.bazel:5:11: in includes attribute of cc_library rule //src/config_manager:sqlcc_config_manager: '../../include' resolves to 'include' not below the relative path of its package 'src/config_manager'. This will be an error in the future
+(01:51:11) WARNING: /home/liying/sqlcc/src/sql_parser/BUILD.bazel:5:11: in includes attribute of cc_library rule //src/sql_parser:sqlcc_parser: '../../include' resolves to 'include' not below the relative path of its package 'src/sql_parser'. This will be an error in the future
+(01:51:11) WARNING: /home/liying/sqlcc/src/BUILD.bazel:22:11: in includes attribute of cc_library rule //src:execution_context: '../include' resolves to 'include' not below the relative path of its package 'src'. This will be an error in the future
+(01:51:11) WARNING: /home/liying/sqlcc/src/BUILD.bazel:22:11: in includes attribute of cc_library rule //src:execution_context: '../include/core' resolves to 'include/core' not below the relative path of its package 'src'. This will be an error in the future
+(01:51:11) WARNING: /home/liying/sqlcc/src/execution/BUILD.bazel:5:11: in includes attribute of cc_library rule //src/execution:execution: '../include' resolves to 'src/include' not below the relative path of its package 'src/execution'. This will be an error in the future
+(01:51:11) WARNING: /home/liying/sqlcc/src/sql_executor/BUILD.bazel:5:11: in includes attribute of cc_library rule //src/sql_executor:sqlcc_executor: '../../include' resolves to 'include' not below the relative path of its package 'src/sql_executor'. This will be an error in the future
+(01:51:11) WARNING: /home/liying/sqlcc/src/BUILD.bazel:36:11: in includes attribute of cc_library rule //src:execution_engine: '../include' resolves to 'include' not below the relative path of its package 'src'. This will be an error in the future
+(01:51:11) WARNING: /home/liying/sqlcc/src/BUILD.bazel:53:11: in includes attribute of cc_library rule //src:unified_executor: '../include' resolves to 'include' not below the relative path of its package 'src'. This will be an error in the future
+(01:51:11) WARNING: /home/liying/sqlcc/src/BUILD.bazel:53:11: in includes attribute of cc_library rule //src:unified_executor: '../include/core' resolves to 'include/core' not below the relative path of its package 'src'. This will be an error in the future
+(01:51:11) WARNING: /home/liying/sqlcc/src/BUILD.bazel:53:11: in includes attribute of cc_library rule //src:unified_executor: '../include/storage' resolves to 'include/storage' not below the relative path of its package 'src'. This will be an error in the future
+(01:51:11) WARNING: /home/liying/sqlcc/src/storage_engine/BUILD.bazel:42:11: in includes attribute of cc_library rule //src/storage_engine:sqlcc_index_manager: '../../include' resolves to 'include' not below the relative path of its package 'src/storage_engine'. This will be an error in the future
+(01:51:11) WARNING: /home/liying/sqlcc/src/core/BUILD.bazel:39:11: in includes attribute of cc_library rule //src/core:sqlcc_database_core: '../../include' resolves to 'include' not below the relative path of its package 'src/core'. This will be an error in the future
+(01:51:11) WARNING: /home/liying/sqlcc/src/core/BUILD.bazel:86:11: in includes attribute of cc_library rule //src/core:sqlcc_core_lib: '../../include' resolves to 'include' not below the relative path of its package 'src/core'. This will be an error in the future
+(01:51:11) WARNING: /home/liying/sqlcc/src/core/BUILD.bazel:86:11: in includes attribute of cc_library rule //src/core:sqlcc_core_lib: '../../include/storage' resolves to 'include/storage' not below the relative path of its package 'src/core'. This will be an error in the future
+(01:51:11) WARNING: /home/liying/sqlcc/src/core/BUILD.bazel:86:11: in includes attribute of cc_library rule //src/core:sqlcc_core_lib: '../../include/sql_parser' resolves to 'include/sql_parser' not below the relative path of its package 'src/core'. This will be an error in the future
+(01:51:11) WARNING: /home/liying/sqlcc/src/core/BUILD.bazel:86:11: in includes attribute of cc_library rule //src/core:sqlcc_core_lib: '../../include/core' resolves to 'include/core' not below the relative path of its package 'src/core'. This will be an error in the future
+(01:51:11) WARNING: /home/liying/sqlcc/src/core/BUILD.bazel:86:11: in includes attribute of cc_library rule //src/core:sqlcc_core_lib: '../../include/execution' resolves to 'include/execution' not below the relative path of its package 'src/core'. This will be an error in the future
+(01:51:11) INFO: Analyzed 6 targets (1 packages loaded, 12 targets configured).
+(01:51:11) INFO: Found 6 test targets...
+(01:51:11) [0 / 19] [Prepa] BazelWorkspaceStatusAction stable-status.txt
+(01:51:13) [19 / 37] Compiling tests/advanced_sql/distinct/select_distinct_test.cpp; 1s local, remote-cache ... (12 actions running)
+(01:51:14) [20 / 37] Compiling tests/advanced_sql/distinct/select_distinct_test.cpp; 3s local, remote-cache ... (11 actions, 10 running)
+(01:51:14) ERROR: /home/liying/sqlcc/tests/advanced_sql/BUILD.bazel:70:8: Linking tests/advanced_sql/subquery_scalar_subquery_test failed: (Exit 1): gcc failed: error executing command (from target //tests/advanced_sql:subquery_scalar_subquery_test) 
+  (cd /home/liying/.cache/bazel/_bazel_liying/68dbc53c53085b82ed46643b8af8ae0d/execroot/sqlcc && \
+  exec env - \
+    PATH=/home/liying/.local/bin:/home/liying/bin:/home/liying/.nvm/versions/node/v25.2.1/bin:/home/liying/.local/bin:/home/liying/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin:/home/liying/.local/bin:/home/liying/.local/bin \
+    PWD=/proc/self/cwd \
+  /usr/bin/gcc @bazel-out/k8-fastbuild/bin/tests/advanced_sql/subquery_scalar_subquery_test-2.params)
+# Configuration: efe2b6b9487bfb5392bc977e5225b5eaccd529a4ff27a710849986af914e0f08
+# Execution platform: @local_config_platform//:host
+/usr/bin/ld: bazel-out/k8-fastbuild/bin/_solib_k8/libsrc_Sexecution_Slibexecution.so: undefined reference to `sqlcc::procedure::ProcedureTriggerExecutor::fireDMLEvent(sqlcc::trigger::TriggerTiming, sqlcc::trigger::TriggerEvent, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<sqlcc::trigger::RowData, std::allocator<sqlcc::trigger::RowData> > const&, std::vector<sqlcc::trigger::RowData, std::allocator<sqlcc::trigger::RowData> > const&)'
+/usr/bin/ld: bazel-out/k8-fastbuild/bin/_solib_k8/libsrc_Sexecution_Slibexecution.so: undefined reference to `sqlcc::procedure::ProcedureTriggerExecutor::executeCallProcedure[abi:cxx11](sqlcc::sql_parser::CallProcedureStatement*)'
+/usr/bin/ld: bazel-out/k8-fastbuild/bin/_solib_k8/libsrc_Sexecution_Slibexecution.so: undefined reference to `sqlcc::procedure::ProcedureTriggerExecutor::executeDropTrigger[abi:cxx11](sqlcc::sql_parser::DropTriggerStatement*)'
+/usr/bin/ld: bazel-out/k8-fastbuild/bin/_solib_k8/libsrc_Sexecution_Slibexecution.so: undefined reference to `sqlcc::procedure::ProcedureTriggerExecutor::executeInsertWithTriggers[abi:cxx11](sqlcc::sql_parser::InsertStatement*)'
+/usr/bin/ld: bazel-out/k8-fastbuild/bin/_solib_k8/libsrc_Sexecution_Slibexecution.so: undefined reference to `sqlcc::procedure::ProcedureTriggerExecutor::executeDeleteWithTriggers[abi:cxx11](sqlcc::sql_parser::DeleteStatement*)'
+/usr/bin/ld: bazel-out/k8-fastbuild/bin/_solib_k8/libsrc_Sexecution_Slibexecution.so: undefined reference to `sqlcc::procedure::ProcedureTriggerExecutor::executeCreateTrigger[abi:cxx11](sqlcc::sql_parser::CreateTriggerStatement*)'
+/usr/bin/ld: bazel-out/k8-fastbuild/bin/_solib_k8/libsrc_Sexecution_Slibexecution.so: undefined reference to `sqlcc::procedure::ProcedureTriggerExecutor::executeCreateProcedure[abi:cxx11](sqlcc::sql_parser::CreateProcedureStatement*)'
+/usr/bin/ld: bazel-out/k8-fastbuild/bin/_solib_k8/libsrc_Sexecution_Slibexecution.so: undefined reference to `sqlcc::procedure::ProcedureTriggerExecutor::executeUpdateWithTriggers[abi:cxx11](sqlcc::sql_parser::UpdateStatement*)'
+/usr/bin/ld: bazel-out/k8-fastbuild/bin/_solib_k8/libsrc_Sexecution_Slibexecution.so: undefined reference to `sqlcc::procedure::ProcedureTriggerExecutor::getInstance()'
+/usr/bin/ld: bazel-out/k8-fastbuild/bin/_solib_k8/libsrc_Sexecution_Slibexecution.so: undefined reference to `sqlcc::procedure::ProcedureTriggerExecutor::executeDropProcedure[abi:cxx11](sqlcc::sql_parser::DropProcedureStatement*)'
+/usr/bin/ld: bazel-out/k8-fastbuild/bin/_solib_k8/libsrc_Sexecution_Slibexecution.so: undefined reference to `sqlcc::procedure::ProcedureTriggerExecutor::executeAlterTrigger[abi:cxx11](sqlcc::sql_parser::AlterTriggerStatement*)'
+collect2: error: ld returned 1 exit status
+(01:51:14) INFO: Elapsed time: 3.282s, Critical Path: 3.19s
+(01:51:14) INFO: 9 processes: 7 internal, 2 local.
+(01:51:14) FAILED: Build did NOT complete successfully
+//tests/advanced_sql:distinct_select_distinct_test                    NO STATUS
+//tests/advanced_sql:grouping_group_by_test                           NO STATUS
+//tests/advanced_sql:grouping_having_clause_test                      NO STATUS
+//tests/advanced_sql:join_inner_join_test                             NO STATUS
+//tests/advanced_sql:window_row_number_test                           NO STATUS
+//tests/advanced_sql:subquery_scalar_subquery_test              FAILED TO BUILD
+
+Executed 0 out of 6 tests: 1 fails to build and 5 were skipped.
+(01:51:14) FAILED: Build did NOT complete successfully
+(01:51:14) INFO: Build Event Protocol files produced successfully.
+统计集成测试结果...
+(01:51:14) INFO: Invocation ID: 37424191-42e8-42bd-a440-4c60d09496d5
+(01:51:15) INFO: Current date is 2025-12-17
+(01:51:15) Loading: 
+(01:51:15) Loading: 
+(01:51:15) Loading: 0 packages loaded
+(01:51:15) Analyzing: 13 targets (0 packages loaded, 0 targets configured)
+(01:51:15) WARNING: /home/liying/sqlcc/src/core/BUILD.bazel:8:11: in includes attribute of cc_library rule //src/core:error_handler: '../../include' resolves to 'include' not below the relative path of its package 'src/core'. This will be an error in the future
+(01:51:15) WARNING: /home/liying/sqlcc/src/core/BUILD.bazel:23:11: in includes attribute of cc_library rule //src/core:sqlcc_config_manager: '../../include' resolves to 'include' not below the relative path of its package 'src/core'. This will be an error in the future
+(01:51:15) WARNING: /home/liying/sqlcc/src/storage_engine/BUILD.bazel:42:11: in includes attribute of cc_library rule //src/storage_engine:sqlcc_index_manager: '../../include' resolves to 'include' not below the relative path of its package 'src/storage_engine'. This will be an error in the future
+(01:51:15) WARNING: /home/liying/sqlcc/src/core/BUILD.bazel:39:11: in includes attribute of cc_library rule //src/core:sqlcc_database_core: '../../include' resolves to 'include' not below the relative path of its package 'src/core'. This will be an error in the future
+(01:51:15) WARNING: /home/liying/sqlcc/src/core/BUILD.bazel:86:11: in includes attribute of cc_library rule //src/core:sqlcc_core_lib: '../../include' resolves to 'include' not below the relative path of its package 'src/core'. This will be an error in the future
+(01:51:15) WARNING: /home/liying/sqlcc/src/core/BUILD.bazel:86:11: in includes attribute of cc_library rule //src/core:sqlcc_core_lib: '../../include/storage' resolves to 'include/storage' not below the relative path of its package 'src/core'. This will be an error in the future
+(01:51:15) WARNING: /home/liying/sqlcc/src/core/BUILD.bazel:86:11: in includes attribute of cc_library rule //src/core:sqlcc_core_lib: '../../include/sql_parser' resolves to 'include/sql_parser' not below the relative path of its package 'src/core'. This will be an error in the future
+(01:51:15) WARNING: /home/liying/sqlcc/src/core/BUILD.bazel:86:11: in includes attribute of cc_library rule //src/core:sqlcc_core_lib: '../../include/core' resolves to 'include/core' not below the relative path of its package 'src/core'. This will be an error in the future
+(01:51:15) WARNING: /home/liying/sqlcc/src/core/BUILD.bazel:86:11: in includes attribute of cc_library rule //src/core:sqlcc_core_lib: '../../include/execution' resolves to 'include/execution' not below the relative path of its package 'src/core'. This will be an error in the future
+(01:51:15) WARNING: /home/liying/sqlcc/tests/components/security/BUILD.bazel:49:8: in includes attribute of cc_test rule //tests/components/security:test_grant_revoke: '../../../include' resolves to 'include' not below the relative path of its package 'tests/components/security'. This will be an error in the future. Since this rule was created by the macro 'cc_test', the error might have been caused by the macro implementation
+(01:51:15) WARNING: /home/liying/sqlcc/tests/components/security/BUILD.bazel:49:8: in includes attribute of cc_test rule //tests/components/security:test_grant_revoke: '../../../include/core' resolves to 'include/core' not below the relative path of its package 'tests/components/security'. This will be an error in the future. Since this rule was created by the macro 'cc_test', the error might have been caused by the macro implementation
+(01:51:15) WARNING: /home/liying/sqlcc/tests/components/security/BUILD.bazel:60:8: in includes attribute of cc_test rule //tests/components/security:test_revoke_persistence: '../../../include' resolves to 'include' not below the relative path of its package 'tests/components/security'. This will be an error in the future. Since this rule was created by the macro 'cc_test', the error might have been caused by the macro implementation
+(01:51:15) WARNING: /home/liying/sqlcc/tests/components/security/BUILD.bazel:60:8: in includes attribute of cc_test rule //tests/components/security:test_revoke_persistence: '../../../include/core' resolves to 'include/core' not below the relative path of its package 'tests/components/security'. This will be an error in the future. Since this rule was created by the macro 'cc_test', the error might have been caused by the macro implementation
+(01:51:15) WARNING: /home/liying/sqlcc/tests/components/security/BUILD.bazel:16:8: in includes attribute of cc_test rule //tests/components/security:permission_validation_test: '../../../include' resolves to 'include' not below the relative path of its package 'tests/components/security'. This will be an error in the future. Since this rule was created by the macro 'cc_test', the error might have been caused by the macro implementation
+(01:51:15) WARNING: /home/liying/sqlcc/tests/components/security/BUILD.bazel:16:8: in includes attribute of cc_test rule //tests/components/security:permission_validation_test: '../../../include/core' resolves to 'include/core' not below the relative path of its package 'tests/components/security'. This will be an error in the future. Since this rule was created by the macro 'cc_test', the error might have been caused by the macro implementation
+(01:51:15) WARNING: /home/liying/sqlcc/tests/components/security/BUILD.bazel:27:8: in includes attribute of cc_test rule //tests/components/security:permission_validator_test: '../../../include' resolves to 'include' not below the relative path of its package 'tests/components/security'. This will be an error in the future. Since this rule was created by the macro 'cc_test', the error might have been caused by the macro implementation
+(01:51:15) WARNING: /home/liying/sqlcc/tests/components/security/BUILD.bazel:27:8: in includes attribute of cc_test rule //tests/components/security:permission_validator_test: '../../../include/core' resolves to 'include/core' not below the relative path of its package 'tests/components/security'. This will be an error in the future. Since this rule was created by the macro 'cc_test', the error might have been caused by the macro implementation
+(01:51:15) WARNING: /home/liying/sqlcc/src/storage_engine/BUILD.bazel:5:11: in includes attribute of cc_library rule //src/storage_engine:sqlcc_storage_engine: '../../include' resolves to 'include' not below the relative path of its package 'src/storage_engine'. This will be an error in the future
+(01:51:15) WARNING: /home/liying/sqlcc/src/BUILD.bazel:36:11: in includes attribute of cc_library rule //src:execution_engine: '../include' resolves to 'include' not below the relative path of its package 'src'. This will be an error in the future
+(01:51:15) WARNING: /home/liying/sqlcc/src/BUILD.bazel:53:11: in includes attribute of cc_library rule //src:unified_executor: '../include' resolves to 'include' not below the relative path of its package 'src'. This will be an error in the future
+(01:51:15) WARNING: /home/liying/sqlcc/src/BUILD.bazel:53:11: in includes attribute of cc_library rule //src:unified_executor: '../include/core' resolves to 'include/core' not below the relative path of its package 'src'. This will be an error in the future
+(01:51:15) WARNING: /home/liying/sqlcc/src/BUILD.bazel:53:11: in includes attribute of cc_library rule //src:unified_executor: '../include/storage' resolves to 'include/storage' not below the relative path of its package 'src'. This will be an error in the future
+(01:51:15) WARNING: /home/liying/sqlcc/tests/components/security/BUILD.bazel:38:8: in includes attribute of cc_test rule //tests/components/security:revoke_persistence_test: '../../../include' resolves to 'include' not below the relative path of its package 'tests/components/security'. This will be an error in the future. Since this rule was created by the macro 'cc_test', the error might have been caused by the macro implementation
+(01:51:15) WARNING: /home/liying/sqlcc/tests/components/security/BUILD.bazel:38:8: in includes attribute of cc_test rule //tests/components/security:revoke_persistence_test: '../../../include/core' resolves to 'include/core' not below the relative path of its package 'tests/components/security'. This will be an error in the future. Since this rule was created by the macro 'cc_test', the error might have been caused by the macro implementation
+(01:51:15) WARNING: /home/liying/sqlcc/src/sql_parser/BUILD.bazel:5:11: in includes attribute of cc_library rule //src/sql_parser:sqlcc_parser: '../../include' resolves to 'include' not below the relative path of its package 'src/sql_parser'. This will be an error in the future
+(01:51:15) WARNING: /home/liying/sqlcc/src/BUILD.bazel:22:11: in includes attribute of cc_library rule //src:execution_context: '../include' resolves to 'include' not below the relative path of its package 'src'. This will be an error in the future
+(01:51:15) WARNING: /home/liying/sqlcc/src/BUILD.bazel:22:11: in includes attribute of cc_library rule //src:execution_context: '../include/core' resolves to 'include/core' not below the relative path of its package 'src'. This will be an error in the future
+(01:51:15) WARNING: /home/liying/sqlcc/src/execution/BUILD.bazel:5:11: in includes attribute of cc_library rule //src/execution:execution: '../include' resolves to 'src/include' not below the relative path of its package 'src/execution'. This will be an error in the future
+(01:51:15) WARNING: /home/liying/sqlcc/src/config_manager/BUILD.bazel:5:11: in includes attribute of cc_library rule //src/config_manager:sqlcc_config_manager: '../../include' resolves to 'include' not below the relative path of its package 'src/config_manager'. This will be an error in the future
+(01:51:15) WARNING: /home/liying/sqlcc/src/sql_executor/BUILD.bazel:5:11: in includes attribute of cc_library rule //src/sql_executor:sqlcc_executor: '../../include' resolves to 'include' not below the relative path of its package 'src/sql_executor'. This will be an error in the future
+(01:51:15) WARNING: /home/liying/sqlcc/tests/integration/BUILD.bazel:4:8: in includes attribute of cc_test rule //tests/integration:comprehensive_sales_test: '../include' resolves to 'tests/include' not below the relative path of its package 'tests/integration'. This will be an error in the future. Since this rule was created by the macro 'cc_test', the error might have been caused by the macro implementation
+(01:51:15) WARNING: /home/liying/sqlcc/tests/components/security/BUILD.bazel:5:8: in includes attribute of cc_test rule //tests/components/security:permission_check_test: '../../../include' resolves to 'include' not below the relative path of its package 'tests/components/security'. This will be an error in the future. Since this rule was created by the macro 'cc_test', the error might have been caused by the macro implementation
+(01:51:15) WARNING: /home/liying/sqlcc/tests/components/security/BUILD.bazel:5:8: in includes attribute of cc_test rule //tests/components/security:permission_check_test: '../../../include/core' resolves to 'include/core' not below the relative path of its package 'tests/components/security'. This will be an error in the future. Since this rule was created by the macro 'cc_test', the error might have been caused by the macro implementation
+(01:51:15) INFO: Analyzed 13 targets (0 packages loaded, 13 targets configured).
+(01:51:15) INFO: Found 13 test targets...
+(01:51:15) [0 / 25] [Prepa] BazelWorkspaceStatusAction stable-status.txt
+(01:51:15) ERROR: /home/liying/sqlcc/tests/integration/BUILD.bazel:4:8: Linking tests/integration/comprehensive_sales_test failed: (Exit 1): gcc failed: error executing command (from target //tests/integration:comprehensive_sales_test) 
+  (cd /home/liying/.cache/bazel/_bazel_liying/68dbc53c53085b82ed46643b8af8ae0d/execroot/sqlcc && \
+  exec env - \
+    PATH=/home/liying/.local/bin:/home/liying/bin:/home/liying/.nvm/versions/node/v25.2.1/bin:/home/liying/.local/bin:/home/liying/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin:/home/liying/.local/bin:/home/liying/.local/bin \
+    PWD=/proc/self/cwd \
+  /usr/bin/gcc @bazel-out/k8-fastbuild/bin/tests/integration/comprehensive_sales_test-2.params)
+# Configuration: c803e0f4ebe2a8a68ca2dea5462cc954ab12ccfef472dcda9d29ea5c94b8758b
+# Execution platform: @local_config_platform//:host
+/usr/bin/ld: bazel-out/k8-fastbuild/bin/_solib_k8/liblibunified_Uexecutor.so: undefined reference to `sqlcc::execution::JoinExecutor::JoinExecutor()'
+/usr/bin/ld: bazel-out/k8-fastbuild/bin/_solib_k8/liblibunified_Uexecutor.so: undefined reference to `sqlcc::execution::JoinExecutor::executeJoin(std::vector<std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >, std::allocator<std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > > > const&, std::vector<std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >, std::allocator<std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > > > const&, sqlcc::sql_parser::JoinClause&, std::unordered_map<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, unsigned long, std::hash<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::equal_to<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::allocator<std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, unsigned long> > > const&, std::unordered_map<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, unsigned long, std::hash<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::equal_to<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::allocator<std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, unsigned long> > > const&)'
+collect2: error: ld returned 1 exit status
+(01:51:15) INFO: Elapsed time: 0.203s, Critical Path: 0.12s
+(01:51:15) INFO: 9 processes: 9 internal.
+(01:51:15) FAILED: Build did NOT complete successfully
+//tests/advanced_sql:distinct_select_distinct_test                    NO STATUS
+//tests/advanced_sql:grouping_group_by_test                           NO STATUS
+//tests/advanced_sql:grouping_having_clause_test                      NO STATUS
+//tests/advanced_sql:join_inner_join_test                             NO STATUS
+//tests/advanced_sql:subquery_scalar_subquery_test                    NO STATUS
+//tests/advanced_sql:window_row_number_test                           NO STATUS
+//tests/components/security:permission_check_test                     NO STATUS
+//tests/components/security:permission_validation_test                NO STATUS
+//tests/components/security:permission_validator_test                 NO STATUS
+//tests/components/security:revoke_persistence_test                   NO STATUS
+//tests/components/security:test_grant_revoke                         NO STATUS
+//tests/components/security:test_revoke_persistence                   NO STATUS
+//tests/integration:comprehensive_sales_test                    FAILED TO BUILD
+
+Executed 0 out of 13 tests: 1 fails to build and 12 were skipped.
+(01:51:15) INFO: Build Event Protocol files produced successfully.
+(01:51:15) FAILED: Build did NOT complete successfully
+集成测试结果:
+- 总测试数: 25
+- 通过测试: 0
+- 失败测试: 0
+- 通过率: 0%
+WARNING: 集成测试通过率过低 (0% < 85%)
+集成测试执行完成
+✅ 集成测试执行成功
+
+步骤5: 全面测试执行
+执行全面测试套件...
+(01:51:15) INFO: Invocation ID: f628b394-285a-4306-b6e5-b165d27cd5da
+(01:51:15) INFO: Current date is 2025-12-17
+(01:51:15) Loading: 
+(01:51:15) Loading: 
+(01:51:15) Loading: 0 packages loaded
+(01:51:15) ERROR: Skipping '//tests:comprehensive_tests': no such target '//tests:comprehensive_tests': target 'comprehensive_tests' not declared in package 'tests' defined by /home/liying/sqlcc/tests/BUILD.bazel (Tip: use `query "//tests:*"` to see all the targets in that package)
+(01:51:15) ERROR: no such target '//tests:comprehensive_tests': target 'comprehensive_tests' not declared in package 'tests' defined by /home/liying/sqlcc/tests/BUILD.bazel (Tip: use `query "//tests:*"` to see all the targets in that package)
+(01:51:15) INFO: Elapsed time: 0.055s
+(01:51:15) INFO: 0 processes.
+(01:51:15) FAILED: Build did NOT complete successfully (1 packages loaded)
+(01:51:15) ERROR: Couldn't start the build. Unable to run tests
+(01:51:15) INFO: Build Event Protocol files produced successfully.
+(01:51:15) FAILED: Build did NOT complete successfully (1 packages loaded)
+❌ 全面测试执行失败
+
+步骤5: 通信协议测试
+开始通信协议测试...
+启动测试服务器...
+等待服务器启动...
+启动SQLCC测试服务器...
+启动服务器进程...
+等待服务器初始化...
+ERROR: 服务器启动失败
+./scripts/start_test_server.sh: line 16: ./bazel-bin/sqlcc: No such file or directory
+ERROR: 服务器启动失败
+❌ 通信协议测试失败
+
+步骤6: 端到端测试
+开始执行端到端测试...
+运行所有端到端测试脚本...
+执行 test_basic_sql.sh...
+❌ test_basic_sql.sh 执行失败
+执行 test_comprehensive_sqlcc.sh...
+❌ test_comprehensive_sqlcc.sh 执行失败
+执行 test_isql_sqlcc.sh...
+❌ test_isql_sqlcc.sh 执行失败
+执行 test_storage_integration.sh...
+❌ test_storage_integration.sh 执行失败
+端到端测试结果:
+- 执行的脚本数: 0
+- 成功的脚本数: 0
+- 通过率: 0%
+WARNING: 端到端测试通过率过低 (0% < 70%)
+端到端测试执行完成
+✅ 端到端测试成功
+
+步骤7: 覆盖率数据收集
+=== 覆盖率数据收集开始 ===
+清理旧的覆盖率数据...
+执行覆盖率测试...
+(01:51:43) INFO: Invocation ID: cfcabcfb-c943-4b92-abd3-facec11c274e
+(01:51:43) INFO: Current date is 2025-12-17
+(01:51:43) Loading: 
+(01:51:43) Loading: 
+(01:51:43) Loading: 0 packages loaded
+(01:51:43) INFO: Using default value for --instrumentation_filter: "^//tests[/:]".
+(01:51:43) INFO: Override the above default with --instrumentation_filter
+(01:51:43) INFO: Build options --collect_code_coverage and --instrumentation_filter have changed, discarding analysis cache.
+(01:51:43) Analyzing: 190 targets (6 packages loaded, 0 targets configured)
+(01:51:43) ERROR: /home/liying/sqlcc/tests/sql_parser/BUILD.bazel:289:8: no such target '//include/sql_parser:sql_parser': target 'sql_parser' not declared in package 'include/sql_parser' defined by /home/liying/sqlcc/include/sql_parser/BUILD.bazel (Tip: use `query "//include/sql_parser:*"` to see all the targets in that package) and referenced by '//tests/sql_parser:aggregate_functions_unit_test'
+(01:51:43) ERROR: /home/liying/sqlcc/tests/unit/core/BUILD.bazel:1:8: no such package 'include/core': BUILD file not found in any of the following directories. Add a BUILD file to a directory to mark it as a package.
+ - /home/liying/sqlcc/include/core and referenced by '//tests/unit/core:stored_procedure_manager_test'
+(01:51:43) ERROR: Analysis of target '//tests/unit/core:stored_procedure_manager_test' failed; build aborted: Analysis failed
+(01:51:43) INFO: Elapsed time: 0.136s
+(01:51:43) INFO: 0 processes.
+(01:51:43) FAILED: Build did NOT complete successfully (7 packages loaded, 255 targets configured)
+(01:51:43) ERROR: Couldn't start the build. Unable to run tests
+(01:51:43) INFO: Build Event Protocol files produced successfully.
+(01:51:43) FAILED: Build did NOT complete successfully (7 packages loaded, 255 targets configured)
+ERROR: 覆盖率测试执行失败
+❌ 覆盖率数据收集失败
+
+步骤8: 结果汇总和报告
+生成测试报告汇总...
+收集测试结果...
+解析测试数据...
+收集覆盖率数据...
+计算总体统计...
+生成汇总报告...
+=== 测试报告生成完成 ===
+最终报告: test_reports/final_report_20251217_015143.txt
+
+关键指标汇总:
+- 单元测试通过率: 0%
+- 集成测试通过率: 0%
+- 通信测试通过率: N/A%
+- 端到端测试通过率: 0%
+- 行覆盖率: N/A%
+测试报告生成完成
+✅ 报告生成成功
+
+结束时间: Wed Dec 17 01:51:43 CST 2025
+总执行时间: 45秒
+
+=== 自动化测试流水线完成 ===
