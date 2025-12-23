@@ -7,7 +7,7 @@
  * How: 使用std::shared_ptr实现配置快照的共享和自动生命周期管理
  */
 
-#include "utils/config_snapshot.h"
+#include "../../include/utils/config_snapshot.h"
 #include <sstream>
 #include <iomanip>
 #include <algorithm>

@@ -10,7 +10,7 @@
 #ifndef SQLCC_CONFIG_LIFECYCLE_H_
 #define SQLCC_CONFIG_LIFECYCLE_H_
 
-#include "utils/config_snapshot.h"
+#include "config_snapshot.h"
 #include <memory>
 #include <functional>
 #include <exception>

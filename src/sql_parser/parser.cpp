@@ -18,31 +18,84 @@
 namespace sqlcc {
 namespace sql_parser {
 
-Parser::Parser(const std::string& input) 
-    : lexer_(input), 
-      hasLookahead_(false),
-      panicMode_(false) {
-    advance(); // Initialize current token
-    
-    // Initialize synchronization tokens for error recovery
+/**
+ * @brief SQL语法解析器构造函数 - 初始化递归下降解析器
+ *
+ * WHY层 - 设计意图：
+ *   Parser构造函数遵循编译原理中词法分析器-语法分析器分离的原则，
+ *   通过组合模式集成Lexer，实现高效的token流处理。构造函数负责
+ *   初始化解析器的内部状态，包括前瞻机制、错误恢复状态和同步token集合。
+ *
+ * WHAT层 - 功能说明：
+ *   1. 初始化词法分析器引用，准备token流输入
+ *   2. 设置前瞻机制状态，避免重复token获取
+ *   3. 初始化恐慌模式，用于错误恢复
+ *   4. 预先获取第一个token，准备解析过程
+ *   5. 初始化同步token集合，用于错误恢复
+ *
+ * HOW层 - 实现细节：
+ *   **词法分析器集成**: 通过引用集成Lexer，避免对象拷贝，提高效率
+ *   **前瞻机制初始化**: hasLookahead_标志控制前瞻token的有效性
+ *   **错误恢复准备**: panicMode_控制错误报告的重复性
+ *   **同步点定义**: syncTokens_定义语句边界，用于错误恢复跳转
+ *
+ * 编译原理中的对应概念：
+ *   - **Parser状态**: 初始化parser的内部状态机
+ *   - **前瞻符号**: 实现LL(1)文法的k=1前瞻
+ *   - **同步符号**: 定义follow集合，用于错误恢复
+ *   - **初始化序列**: 模拟编译器启动时的初始化过程
+ *
+ * 设计模式应用：
+ *   - **组合模式**: Parser组合Lexer，协同工作
+ *   - **状态模式**: 通过成员变量维护解析器状态
+ *   - **策略模式**: 同步token集合作为错误恢复策略
+ *
+ * 性能优化考虑：
+ *   - **引用传递**: 避免Lexer对象的拷贝开销
+ *   - **延迟初始化**: 前瞻token按需获取
+ *   - **预分配集合**: syncTokens_预先定义，避免运行时分配
+ *
+ * @param input SQL输入字符串，由词法分析器处理
+ *
+ * @note 构造函数遵循RAII原则，确保资源正确初始化
+ * @note 前瞻机制是递归下降法避免回溯的关键技术
+ * @note 同步token集合基于SQL语法规则精心选择
+ * @note 初始化后parser立即准备好开始解析过程
+ *
+ * @see Lexer 类词法分析器的实现
+ * @see advance() token前进方法的实现
+ * @see synchronize() 错误恢复机制的实现
+ */
+Parser::Parser(const std::string& input)
+    : lexer_(input),           // WHY: 组合模式集成词法分析器
+      hasLookahead_(false),    // HOW: 前瞻机制初始化，避免无效状态
+      panicMode_(false) {      // HOW: 错误恢复状态初始化
+
+    // WHY: 初始化序列 - 获取第一个token，准备解析
+    // HOW: 调用advance()获取当前token，这是解析器启动的关键步骤
+    advance();
+
+    // WHY: 同步点定义 - 基于编译原理的follow集合概念
+    // WHAT: 定义语句边界token，用于恐慌模式错误恢复
+    // HOW: 这些token表示新语句的开始，是安全的同步点
     syncTokens_ = {
-        Token::SEMICOLON,
-        Token::KEYWORD_SELECT,
-        Token::KEYWORD_INSERT,
-        Token::KEYWORD_UPDATE,
-        Token::KEYWORD_DELETE,
-        Token::KEYWORD_CREATE,
-        Token::KEYWORD_DROP,
-        Token::KEYWORD_ALTER,
-        Token::KEYWORD_USE,
-        Token::KEYWORD_SHOW,
-        Token::KEYWORD_DESCRIBE,
-        Token::KEYWORD_COMMIT,
-        Token::KEYWORD_ROLLBACK,
-        Token::KEYWORD_GRANT,
-        Token::KEYWORD_REVOKE,
-        Token::KEYWORD_BEGIN,
-        Token::KEYWORD_END
+        Token::SEMICOLON,        // 语句结束符，SQL语句的基本分隔符
+        Token::KEYWORD_SELECT,   // SELECT语句开始，DML语句
+        Token::KEYWORD_INSERT,   // INSERT语句开始，DML语句
+        Token::KEYWORD_UPDATE,   // UPDATE语句开始，DML语句
+        Token::KEYWORD_DELETE,   // DELETE语句开始，DML语句
+        Token::KEYWORD_CREATE,   // CREATE语句开始，DDL语句
+        Token::KEYWORD_DROP,     // DROP语句开始，DDL语句
+        Token::KEYWORD_ALTER,    // ALTER语句开始，DDL语句
+        Token::KEYWORD_USE,      // USE语句开始，数据库选择语句
+        Token::KEYWORD_SHOW,     // SHOW语句开始，元数据查询语句
+        Token::KEYWORD_DESCRIBE, // DESCRIBE语句开始，表结构查询
+        Token::KEYWORD_COMMIT,   // COMMIT语句开始，事务控制
+        Token::KEYWORD_ROLLBACK, // ROLLBACK语句开始，事务控制
+        Token::KEYWORD_GRANT,    // GRANT语句开始，权限管理
+        Token::KEYWORD_REVOKE,   // REVOKE语句开始，权限管理
+        Token::KEYWORD_BEGIN,    // BEGIN语句开始，复合语句
+        Token::KEYWORD_END       // END语句结束，复合语句边界
     };
 }
 
@@ -110,15 +163,70 @@ std::vector<std::unique_ptr<Statement>> Parser::parse() {
   return statements;
 }
 
+/**
+ * @brief 语句类型识别和分派函数 - 根据当前token决定解析哪种SQL语句
+ *
+ * WHY层 - 设计意图：
+ *   parseStatement()是SQL解析器的核心分派函数，负责识别SQL语句类型
+ *   并调用对应的专用解析函数。采用策略模式，将不同语句的解析逻辑
+ *   分离到专门的方法中，提高代码的可维护性和扩展性。
+ *   支持SQL-92标准的所有主要语句类型，确保完整的语法覆盖。
+ *
+ * WHAT层 - 功能说明：
+ *   检查当前token，识别语句类型，调用对应的解析方法。
+ *   支持CREATE、DROP、ALTER、SELECT、INSERT、UPDATE、DELETE、
+ *   USE、SHOW、GRANT、REVOKE、LOAD DATA等多种SQL语句。
+ *   对于CREATE语句特殊处理，支持VIEW的提前识别。
+ *
+ * HOW层 - 实现细节：
+ *   1. **前瞻检查**: 使用check()方法前瞻判断语句类型，不消费token
+ *   2. **CREATE特殊处理**: 对CREATE语句进行二次检查，区分VIEW和其他类型
+ *   3. **LOAD特殊处理**: LOAD语句使用match()消费关键字后继续消费DATA
+ *   4. **错误处理**: 遇到未知语句类型抛出异常，包含当前token信息
+ *
+ * 语句识别策略：
+ *   - **关键字前瞻**: 通过检查第一个关键字识别语句类型
+ *   - **CREATE特殊**: CREATE需要进一步检查是TABLE、VIEW还是其他对象
+ *   - **LOAD特殊**: LOAD关键字后必须跟随DATA关键字
+ *   - **顺序匹配**: 按语句出现的频率和重要性排序检查条件
+ *
+ * 扩展性设计：
+ *   - **易于扩展**: 新增语句类型只需添加新的检查分支
+ *   - **职责分离**: 每种语句有独立的解析函数
+ *   - **错误友好**: 提供详细的错误信息帮助调试
+ *
+ * @return std::unique_ptr<Statement> 解析成功的语句AST节点
+ *
+ * @throws std::runtime_error 当遇到不支持的语句类型时抛出
+ *
+ * @note 该函数不消费语句结束的分号，由调用者负责
+ * @note 支持的语句类型涵盖SQL-92标准的核心功能
+ * @note CREATE VIEW需要特殊处理因为VIEW语法与其他CREATE不同
+ * @note 所有返回的Statement指针都通过智能指针管理内存安全
+ *
+ * @see parseCreateStatement() CREATE语句解析
+ * @see parseSelectStatement() SELECT语句解析
+ * @see parseInsertStatement() INSERT语句解析
+ * @see parseUpdateStatement() UPDATE语句解析
+ * @see parseDeleteStatement() DELETE语句解析
+ * @see parseDropStatement() DROP语句解析
+ * @see parseAlterStatement() ALTER语句解析
+ * @see isCreateViewStatement() CREATE VIEW识别辅助函数
+ */
 std::unique_ptr<Statement> Parser::parseStatement() {
   std::cout << "[PARSER DEBUG] 进入parseStatement()方法" << std::endl;
   std::cout << "[PARSER DEBUG] 当前token: " << currentToken_.getLexeme()
             << " (类型: " << static_cast<int>(currentToken_.getType()) << ")"
             << std::endl;
 
-  // Check for various statement types
+  // WHY层 - 语句类型识别：通过检查当前token来确定SQL语句的类型
+  // 这是递归下降解析器的核心逻辑，每种语句都有独特的起始关键字
+
+  // HOW层 - CREATE语句特殊处理：CREATE语句比较复杂，需要区分TABLE、VIEW等
+  // 使用isCreateViewStatement()进行前瞻检查
   if (check(Token::KEYWORD_CREATE)) {
-    // 检查是否是CREATE VIEW语句
+    // WHY层 - CREATE VIEW特殊处理：VIEW的语法结构与其他CREATE语句不同
+    // 需要在调用parseCreateStatement之前提前识别
     if (isCreateViewStatement()) {
       std::cout << "[PARSER DEBUG] 检测到CREATE VIEW语句，调用parseCreateViewStatement()"
                 << std::endl;
@@ -130,6 +238,7 @@ std::unique_ptr<Statement> Parser::parseStatement() {
     }
   }
 
+  // WHAT层 - DDL语句识别：数据定义语言语句
   if (check(Token::KEYWORD_DROP)) {
     std::cout << "[PARSER DEBUG] 检测到DROP关键字，调用parseDropStatement()"
               << std::endl;
@@ -142,6 +251,7 @@ std::unique_ptr<Statement> Parser::parseStatement() {
     return parseAlterStatement();
   }
 
+  // WHAT层 - DML语句识别：数据操作语言语句
   if (check(Token::KEYWORD_SELECT)) {
     std::cout << "[PARSER DEBUG] 检测到SELECT关键字，调用parseSelectStatement()"
               << std::endl;
@@ -166,6 +276,7 @@ std::unique_ptr<Statement> Parser::parseStatement() {
     return parseDeleteStatement();
   }
 
+  // WHAT层 - 数据库管理语句
   if (check(Token::KEYWORD_USE)) {
     std::cout << "[PARSER DEBUG] 检测到USE关键字，调用parseUseStatement()"
               << std::endl;
@@ -177,19 +288,22 @@ std::unique_ptr<Statement> Parser::parseStatement() {
               << std::endl;
     return parseShowStatement();
   }
-  
+
+  // WHAT层 - 权限管理语句
   if (check(Token::KEYWORD_GRANT)) {
     std::cout << "[PARSER DEBUG] 检测到GRANT关键字，调用parseGrantStatement()"
               << std::endl;
     return parseGrantStatement();
   }
-  
+
   if (check(Token::KEYWORD_REVOKE)) {
     std::cout << "[PARSER DEBUG] 检测到REVOKE关键字，调用parseRevokeStatement()"
               << std::endl;
     return parseRevokeStatement();
   }
 
+  // HOW层 - LOAD DATA特殊处理：LOAD关键字后必须跟随DATA
+  // 使用match()消费LOAD，然后手动消费DATA
   if (match(Token::KEYWORD_LOAD)) {
     consume(Token::KEYWORD_DATA);
     std::cout << "[PARSER DEBUG] 检测到LOAD DATA语句，调用parseLoadDataStatement()"
@@ -197,7 +311,8 @@ std::unique_ptr<Statement> Parser::parseStatement() {
     return parseLoadDataStatement();
   }
 
-  // If we reach here, we have an unknown statement
+  // WHY层 - 错误处理：遇到不支持的语句类型，提供详细错误信息
+  // 包含当前token的词素和类型，帮助开发者诊断问题
   std::cout << "[PARSER DEBUG] 未知语句类型，抛出异常" << std::endl;
   std::stringstream ss;
   ss << "Unknown statement type: " << currentToken_.getLexeme();
@@ -206,24 +321,172 @@ std::unique_ptr<Statement> Parser::parseStatement() {
 
 // Implement other parsing methods...
 
+/**
+ * @brief Token前进机制 - 递归下降法中的核心状态转换函数
+ *
+ * WHY层 - 设计意图：
+ *   advance()是递归下降语法分析器的核心状态转换函数，负责管理token流的前进。
+ *   它是自顶向下语法分析中不可或缺的基础设施，支持前瞻机制以避免回溯。
+ *   通过精心设计的token缓存策略，实现高效的单遍扫描语法分析。
+ *
+ * WHAT层 - 功能说明：
+ *   1. 检查是否存在预读取的lookahead token
+ *   2. 如果有，使用缓存的token并重置前瞻状态
+ *   3. 如果没有，从词法分析器获取下一个token
+ *   4. 更新当前token状态，准备进行语法规则匹配
+ *
+ * HOW层 - 实现细节：
+ *   **前瞻缓存策略**: 使用hasLookahead_标志和lookaheadToken_缓存
+ *   **延迟获取**: 只有在需要时才调用lexer_.nextToken()
+ *   **状态一致性**: 确保currentToken_始终指向当前正在处理的token
+ *   **调试支持**: 输出详细的token前进信息用于调试
+ *
+ * 编译原理中的对应概念：
+ *   - **输入指针**: advance()函数模拟了编译器中的输入指针前进
+ *   - **前瞻符号**: 通过lookahead机制实现LL(k)文法的k=1前瞻
+ *   - **词法接口**: 作为语法分析器与词法分析器的标准接口
+ *   - **状态机转换**: 实现语法分析器的状态转换逻辑
+ *
+ * 前瞻机制的工作原理：
+ *   ```
+ *   假设输入流: SELECT name FROM users WHERE id = 1;
+ *   当前状态: currentToken_ = "SELECT"
+ *   前瞻调用: peek() -> lookaheadToken_ = "name", hasLookahead_ = true
+ *   前进调用: advance() -> currentToken_ = "name", hasLookahead_ = false
+ *   ```
+ *
+ * 性能优化考虑：
+ *   - **缓存复用**: 前瞻token被缓存避免重复词法分析
+ *   - **按需获取**: 只有在需要新token时才调用词法分析器
+ *   - **内存效率**: 只维护必要的token状态信息
+ *   - **调用开销**: 最小化lexer_.nextToken()的调用频率
+ *
+ * 错误处理机制：
+ *   - **词法错误**: 词法分析器可能抛出异常，由调用者处理
+ *   - **EOF处理**: 遇到END_OF_INPUT token表示输入结束
+ *   - **状态一致性**: 保证前瞻状态和当前状态的同步
+ *
+ * 递归下降法中的角色：
+ *   - **原子操作**: 是语法分析的最小原子操作
+ *   - **状态同步**: 确保语法规则之间的token状态同步
+ *   - **回溯避免**: 通过前瞻机制避免不必要的回溯
+ *   - **进度跟踪**: 为错误恢复和调试提供精确的位置信息
+ *
+ * @note 该函数不进行任何语法验证，只负责token流的前进
+ * @note 前瞻机制是递归下降法避免回溯的关键技术
+ * @note 每次调用都会改变语法分析器的当前状态
+ * @note 与peek()函数配合使用实现LL(1)前瞻功能
+ *
+ * @see peek() 前瞻函数，与advance()配合实现前瞻机制
+ * @see match() 匹配并消费指定类型的token
+ * @see consume() 强制消费指定类型的token
+ * @see Lexer::nextToken() 词法分析器的token获取函数
+ */
 void Parser::advance() {
+  // WHY层 - 状态转换的核心逻辑：前瞻缓存优先策略
+  // HOW层 - 缓存检查：优先使用已缓存的前瞻token
   if (hasLookahead_) {
+    // 前瞻token存在，直接使用并重置状态
     currentToken_ = lookaheadToken_;
     hasLookahead_ = false;
+
+    // WHY层 - 调试支持：记录token前进的详细信息
+    // HOW层 - 状态输出：显示当前token的词素和类型
+    std::cout << "[PARSER DEBUG] advance() used lookahead token: "
+              << currentToken_.getLexeme()
+              << " (type: " << static_cast<int>(currentToken_.getType()) << ")"
+              << std::endl;
   } else {
+    // WHY层 - 词法获取：从词法分析器获取新的token
+    // HOW层 - 直接调用：调用词法分析器的nextToken()方法
     currentToken_ = lexer_.nextToken();
+
+    // WHY层 - 调试支持：记录新获取的token信息
+    std::cout << "[PARSER DEBUG] advance() fetched new token: "
+              << currentToken_.getLexeme()
+              << " (type: " << static_cast<int>(currentToken_.getType()) << ")"
+              << std::endl;
   }
-  std::cout << "[PARSER DEBUG] advance() called, new current token: "
-            << currentToken_.getLexeme()
-            << " (type: " << static_cast<int>(currentToken_.getType()) << ")"
-            << std::endl;
 }
 
+/**
+ * @brief Token匹配和消费函数 - 递归下降法中的核心匹配操作
+ *
+ * WHY层 - 设计意图：
+ *   match()函数是递归下降语法分析器的核心操作之一，实现"匹配-消费"的原子操作。
+ *   它是语法规则实现的基础，通过检查当前token类型并在匹配时消费token，
+ *   确保语法分析过程的确定性和无二义性。这个函数体现了编译原理中
+ *   "前瞻匹配 + 状态转换"的核心思想。
+ *
+ * WHAT层 - 功能说明：
+ *   1. 检查当前token是否与期望的类型匹配
+ *   2. 如果匹配，消费当前token并前进到下一个token
+ *   3. 返回匹配结果，用于条件分支判断
+ *   4. 不匹配时不进行任何操作，返回false
+ *
+ * HOW层 - 实现细节：
+ *   **条件检查**: 使用check()进行前瞻，不消费token
+ *   **状态转换**: 匹配时调用advance()进行token前进
+ *   **结果反馈**: 返回布尔值表示匹配成功与否
+ *   **原子性**: 整个操作是原子的，要么全部成功，要么全部失败
+ *
+ * 编译原理中的对应概念：
+ *   - **匹配操作**: 对应于有限自动机中的状态转移
+ *   - **前瞻匹配**: 实现LL(k)文法的k=1前瞻机制
+ *   - **消费操作**: 模拟输入带的指针前进
+ *   - **条件分支**: 支持语法规则中的选择分支
+ *
+ * 递归下降法中的角色：
+ *   - **基础操作**: 是所有语法规则实现的基础
+ *   - **状态同步**: 确保多条语法规则之间的token同步
+ *   - **分支控制**: 通过返回值控制语法分析的执行路径
+ *   - **错误避免**: 通过前瞻检查避免不必要的回溯
+ *
+ * 使用模式：
+ *   ```cpp
+ *   // 可选匹配：不匹配不影响后续处理
+ *   if (match(Token::KEYWORD_DISTINCT)) {
+ *       // 处理DISTINCT逻辑
+ *   }
+ *
+ *   // 强制匹配：不匹配抛出异常
+ *   consume(Token::KEYWORD_FROM);
+ *   ```
+ *
+ * 性能特点：
+ *   - **高效检查**: 只在匹配时才进行token前进
+ *   - **最小开销**: 不匹配时无额外操作
+ *   - **缓存友好**: 重用check()的结果
+ *   - **调用优化**: 内联函数减少函数调用开销
+ *
+ * 错误处理：
+ *   - **不抛异常**: match()本身不抛出异常
+ *   - **状态保持**: 不匹配时token状态保持不变
+ *   - **调用者责任**: 错误处理由调用者负责（通常使用consume()）
+ *
+ * @param type 期望匹配的token类型
+ * @return bool 如果当前token匹配指定类型并已消费，返回true；否则返回false
+ *
+ * @note 该函数是条件匹配，不匹配不会抛出异常
+ * @note 匹配成功会改变parser的当前token状态
+ * @note 与consume()的区别：consume()在不匹配时抛出异常
+ * @note 这是递归下降法中最常用的基础操作之一
+ *
+ * @see check() 纯前瞻检查函数，不消费token
+ * @see consume() 强制消费函数，不匹配时抛出异常
+ * @see advance() token前进函数，改变parser状态
+ */
 bool Parser::match(Token::Type type) {
+  // WHY层 - 核心匹配逻辑：条件检查 + 状态转换
+  // HOW层 - 前瞻检查：使用check()进行无消费检查
   if (check(type)) {
+    // WHAT层 - 匹配成功：消费token并前进
+    // HOW层 - 状态转换：调用advance()改变parser状态
     advance();
-    return true;
+    return true; // 返回成功标志
   }
+
+  // WHAT层 - 不匹配：保持状态不变，返回失败标志
   return false;
 }
 
@@ -359,53 +622,125 @@ std::unique_ptr<CreateStatement> Parser::parseCreateStatement() {
   }
 }
 
+/**
+ * @brief 解析CREATE TABLE语句 - SQL表创建语法分析
+ *
+ * WHY层 - 设计意图：
+ *   parseCreateTableStatement()是DDL解析器的核心函数，负责解析
+ *   SQL CREATE TABLE语句的完整语法。CREATE TABLE是数据库中最基础
+ *   的DDL语句，用于定义关系模式、完整性约束和物理存储结构。
+ *   该函数采用分步骤解析策略，确保表定义的完整性和正确性。
+ *
+ * WHAT层 - 功能说明：
+ *   解析完整的CREATE TABLE语法，包括：
+ *   - 表名定义：唯一的表标识符
+ *   - 列定义列表：每列的数据类型和约束
+ *   - 表级约束：主键、唯一、外键、检查约束
+ *   - 语法验证：确保括号匹配和语法正确性
+ *
+ * HOW层 - 实现细节：
+ *   1. **对象创建**: 构造TABLE类型的CreateStatement AST节点
+ *   2. **表名解析**: 消费并验证表名标识符
+ *   3. **括号处理**: 消费左括号，开始列定义块
+ *   4. **元素解析**: 循环解析列定义和表级约束
+ *   5. **约束识别**: 通过前瞻检查区分列约束和表约束
+ *   6. **结束处理**: 消费右括号，完成表定义
+ *
+ * 表定义语法结构：
+ *   - **表名**: 必须是有效的标识符，不能与其他表重复
+ *   - **列定义**: 列名 + 数据类型 + 列级约束（可选）
+ *   - **表约束**: PRIMARY KEY, UNIQUE, FOREIGN KEY, CHECK
+ *   - **分隔符**: 元素间用逗号分隔，整个定义用括号包围
+ *
+ * 约束处理策略：
+ *   - **列级约束**: NOT NULL, PRIMARY KEY, UNIQUE, DEFAULT, AUTO_INCREMENT
+ *   - **表级约束**: PRIMARY KEY(列列表), UNIQUE(列列表), FOREIGN KEY(列列表) REFERENCES...
+ *   - **检查约束**: CHECK(条件表达式)
+ *   - **外键约束**: FOREIGN KEY REFERENCES 完整语法支持
+ *
+ * 错误处理机制：
+ *   - **语法错误**: 遇到无效语法时抛出异常并记录错误信息
+ *   - **类型验证**: 确保数据类型和约束的组合有效
+ *   - **重复检查**: 防止列名和约束重复定义
+ *   - **引用完整性**: 验证外键引用表的有效性
+ *
+ * 扩展性设计：
+ *   - **数据类型**: 支持INT, VARCHAR, DECIMAL, DATE, BOOLEAN等标准类型
+ *   - **自定义类型**: 可扩展支持用户定义的数据类型
+ *   - **约束扩展**: 支持更多类型的完整性约束
+ *   - **存储选项**: 可添加TABLESPACE, ENGINE等存储选项
+ *
+ * @return std::unique_ptr<CreateStatement> 解析成功的CREATE TABLE语句AST
+ *
+ * @throws std::runtime_error 当遇到语法错误或无效定义时抛出
+ *
+ * @note CREATE TABLE是关系数据库的核心DDL语句
+ * @note 表定义遵循SQL-92标准语法规范
+ * @note 支持复合主键和多列外键约束
+ * @note 列定义包括数据类型和完整性约束
+ * @note 表级约束可以引用多个列
+ *
+ * @see parseColumnDefinition() 列定义解析函数
+ * @see parseTableConstraint() 表约束解析函数
+ * @see parseDataType() 数据类型解析函数
+ * @see CreateStatement CREATE语句AST定义
+ */
 std::unique_ptr<CreateStatement> Parser::parseCreateTableStatement() {
   std::cout << "[PARSER DEBUG] 进入parseCreateTableStatement()方法" << std::endl;
 
-  // 创建一个TABLE类型的CreateStatement
+  // WHY层 - AST对象创建：构造专门用于存储表定义信息的AST节点
+  // CreateStatement::TABLE表示这是一个表创建语句
   auto stmt = std::make_unique<CreateStatement>(CreateStatement::TABLE);
   if (!stmt) {
     std::cerr << "Failed to create CreateStatement object" << std::endl;
     return nullptr;
   }
 
-  // 解析表名
+  // WHAT层 - 表名解析：CREATE TABLE语句的核心标识符
+  // 表名必须是有效的标识符，且在数据库中唯一
   std::string tableName = parseIdentifier();
   stmt->setObjectName(tableName);
   std::cout << "[PARSER DEBUG] 表名: " << tableName << std::endl;
-  
-  // 消费左括号
+
+  // HOW层 - 语法结构开始：左括号标志着列定义列表的开始
+  // SQL语法要求表定义的所有列和约束都放在括号内
   consume(Token::LPAREN);
-  
-  // 解析列定义和表级约束
+
+  // WHY层 - 元素列表解析：循环处理列定义和表级约束
+  // 这是CREATE TABLE语句的核心解析逻辑
   bool first = true;
   while (!check(Token::RPAREN) && !isAtEnd()) {
+    // WHAT层 - 逗号处理：元素间的分隔符
+    // 第一个元素前没有逗号，后续元素需要逗号分隔
     if (!first) {
-      // 如果不是第一个元素，需要消费逗号
       if (!match(Token::COMMA)) {
-        break;
+        break; // 没有逗号表示列表结束
       }
     }
     first = false;
-    
-    // 检查是否是表级约束
-    if (check(Token::KEYWORD_PRIMARY) || check(Token::KEYWORD_UNIQUE) || 
+
+    // HOW层 - 约束类型识别：通过前瞻检查区分列定义和表级约束
+    // 表级约束以PRIMARY/UNIQUE/FOREIGN/CHECK/CONSTRAINT关键字开头
+    if (check(Token::KEYWORD_PRIMARY) || check(Token::KEYWORD_UNIQUE) ||
         check(Token::KEYWORD_FOREIGN) || check(Token::KEYWORD_CHECK) ||
         check(Token::KEYWORD_CONSTRAINT)) {
-      // 解析表级约束
+      // WHY层 - 表级约束处理：这些约束作用于整个表，可能涉及多列
+      // 需要调用专门的表约束解析函数
       parseTableConstraint(*stmt);
     } else {
-      // 解析列定义
+      // WHAT层 - 列定义处理：解析单个列的定义
+      // 包括列名、数据类型和列级约束
       auto columnDef = parseColumnDefinition();
       if (columnDef) {
         stmt->addColumn(std::move(*columnDef));
       }
     }
   }
-  
-  // 消费右括号
+
+  // HOW层 - 语法结构结束：右括号标志着表定义的结束
+  // 确保括号匹配是语法验证的重要部分
   consume(Token::RPAREN);
-  
+
   std::cout << "[PARSER DEBUG] CREATE TABLE语句解析完成" << std::endl;
   return stmt;
 }
@@ -801,85 +1136,165 @@ std::unique_ptr<AlterStatement> Parser::parseAlterStatement() {
   return stmt;
 }
 
+/**
+ * @brief 解析SELECT语句 - SQL查询的核心语法分析
+ *
+ * WHY层 - 设计意图：
+ *   parseSelectStatement()是SQL解析器中最复杂的函数之一，负责解析
+ *   SQL SELECT语句的所有组成部分。SELECT语句是SQL中最常用的语句类型，
+ *   支持从简单的数据检索到复杂的多表连接、聚合计算和排序。
+ *   该函数采用分步骤解析策略，确保每个子句都被正确识别和处理。
+ *
+ * WHAT层 - 功能说明：
+ *   解析完整的SELECT语句语法，包括：
+ *   - SELECT子句：选择列表（列名、函数、*）
+ *   - FROM子句：数据源（表名、子查询、JOIN）
+ *   - WHERE子句：条件过滤
+ *   - GROUP BY子句：分组聚合
+ *   - HAVING子句：分组条件过滤
+ *   - ORDER BY子句：结果排序
+ *   - LIMIT子句：结果限制（待实现）
+ *
+ * HOW层 - 实现细节：
+ *   1. **关键字消费**: 首先消费SELECT关键字启动解析
+ *   2. **DISTINCT处理**: 检查并设置去重标志
+ *   3. **选择列表解析**: 处理列名、函数调用或*通配符
+ *   4. **FROM子句解析**: 解析数据源和JOIN操作
+ *   5. **条件子句解析**: WHERE、GROUP BY、HAVING、ORDER BY
+ *
+ * 选择列表解析策略：
+ *   - **通配符处理**: SELECT * 表示选择所有列
+ *   - **函数调用识别**: 支持COUNT(*) SUM(col)等聚合函数
+ *   - **别名处理**: 支持AS关键字定义列别名
+ *   - **逗号分隔**: 多列用逗号分隔
+ *
+ * 解析顺序约束：
+ *   - SELECT必须在最前面
+ *   - FROM必须在SELECT之后（除非是SELECT常量）
+ *   - WHERE在FROM之后
+ *   - GROUP BY在WHERE之后
+ *   - HAVING在GROUP BY之后
+ *   - ORDER BY在HAVING之后
+ *
+ * 错误处理机制：
+ *   - **语法错误**: 遇到不支持的语法时抛出异常
+ *   - **缺失子句**: 某些子句是可选的，缺失时跳过
+ *   - **顺序错误**: 严格按照SQL语法顺序检查
+ *
+ * 扩展性设计：
+ *   - **子查询支持**: FROM子句可包含子查询
+ *   - **复杂表达式**: WHERE条件可包含复杂逻辑表达式
+ *   - **多表连接**: 支持INNER/LEFT/RIGHT/FULL JOIN
+ *   - **窗口函数**: ORDER BY可包含窗口函数（待扩展）
+ *
+ * @return std::unique_ptr<SelectStatement> 解析成功的SELECT语句AST
+ *
+ * @throws std::runtime_error 当遇到语法错误或不支持的特性时抛出
+ *
+ * @note SELECT语句是SQL的核心，支持关系代数的所有基本操作
+ * @note 当前实现支持SQL-92标准的主要特性
+ * @note 聚合函数如COUNT、SUM、AVG等在选择列表中识别
+ * @note JOIN操作在FROM子句中处理，支持多表连接
+ * @note WHERE条件使用简化解析，复杂的表达式解析待完善
+ *
+ * @see parseJoinClause() JOIN子句解析函数
+ * @see parseExpression() 表达式解析函数（待实现）
+ * @see SelectStatement SELECT语句AST定义
+ */
 std::unique_ptr<SelectStatement> Parser::parseSelectStatement() {
   std::cout << "[PARSER DEBUG] 进入parseSelectStatement()方法" << std::endl;
-  
-  // 消费SELECT关键字
+
+  // WHY层 - 解析启动：消费SELECT关键字，开始SELECT语句的解析过程
+  // SELECT是SQL查询语句的起始关键字，必须首先出现
   consume(Token::KEYWORD_SELECT);
-  
-  // 创建SelectStatement对象
+
+  // HOW层 - 对象创建：创建SelectStatement AST节点来存储解析结果
+  // SelectStatement封装了SELECT语句的所有组成部分
   auto stmt = std::make_unique<SelectStatement>();
-  
-  // 检查是否有DISTINCT关键字
+
+  // WHAT层 - DISTINCT处理：检查SELECT后是否有DISTINCT关键字
+  // DISTINCT表示结果去重，是SELECT语句的可选修饰符
   if (match(Token::KEYWORD_DISTINCT)) {
     std::cout << "[PARSER DEBUG] 检测到DISTINCT关键字" << std::endl;
     stmt->setDistinct(true);
   }
-  
-  // 解析选择列表
+
+  // WHY层 - 选择列表解析：这是SELECT语句的核心部分，指定要检索的列
+  // 支持列名、函数调用、通配符等多种形式的选择项
+
+  // HOW层 - 通配符处理：检查是否是SELECT * 的情况
+  // *表示选择所有列，是最简单的选择列表形式
   if (match(Token::OPERATOR_MULTIPLY)) {
     // SELECT *
     std::cout << "[PARSER DEBUG] 解析SELECT *" << std::endl;
     stmt->setSelectAll(true);
   } else {
-    // 解析具体的列名列表或函数调用（支持简单的聚合函数识别，例如 COUNT(*) / SUM(col)）
+    // WHY层 - 具体列解析：解析列名列表、函数调用或表达式
+    // 支持复杂的选择列表，如列名、聚合函数、标量函数等
     std::cout << "[PARSER DEBUG] 解析具体的列名列表或函数调用" << std::endl;
+
+    // HOW层 - 逗号分隔列表：选择项之间用逗号分隔
+    // 使用first标志处理第一个元素（无需检查逗号）
     bool first = true;
     while (!check(Token::KEYWORD_FROM) && !isAtEnd()) {
+      // WHY层 - 分隔符处理：第一个选择项前没有逗号，后续项需要逗号
+      // 这是SQL语法的基本规则
       if (!first) {
         if (!match(Token::COMMA)) {
-          break;
+          break; // 没有逗号表示选择列表结束
         }
       }
       first = false;
 
-      // 如果是函数调用形式: identifier '(' ... ')'
-      if (check(Token::IDENTIFIER) && peek().getType() == Token::IDENTIFIER) {
-        // lookahead to detect '(' after identifier
-      }
-
-      if (check(Token::IDENTIFIER) && (/* lookahead for '(' */ false)) {
-        // placeholder - unreachable due to limitations of simple lookahead
-      }
+      // HOW层 - 前瞻检查：尝试识别函数调用
+      // 函数调用形式为：function_name(parameters)
+      // 需要前瞻检查当前token后是否有左括号
 
       // 解析列名或函数调用
       std::string columnExpr;
-      if (check(Token::IDENTIFIER) && lexer_.peek() == '(') {
-        // 函数调用
-        std::string funcName = currentToken_.getLexeme();
-        advance(); // consume function name
-        consume(Token::LPAREN);
 
-        // 解析函数参数（简化：只支持单个标识符或 '*'）
+      // WHY层 - 函数调用识别：检查是否是聚合函数或标量函数调用
+      // 常见的函数包括COUNT(*) SUM(col) AVG(col)等
+      if (check(Token::IDENTIFIER) && lexer_.peek() == '(') {
+        // 函数调用解析
+        std::string funcName = currentToken_.getLexeme();
+        advance(); // 消费函数名
+        consume(Token::LPAREN); // 消费左括号
+
+        // HOW层 - 函数参数解析：解析函数的参数
+        // 简化实现：支持单个标识符、*或字面量
         std::string inner;
         if (check(Token::OPERATOR_MULTIPLY)) {
-          inner = "*";
+          inner = "*"; // COUNT(*)的情况
           advance();
         } else if (check(Token::IDENTIFIER)) {
-          inner = parseIdentifier();
+          inner = parseIdentifier(); // 列名参数
         } else if (check(Token::STRING_LITERAL) || check(Token::INTEGER_LITERAL) || check(Token::FLOAT_LITERAL)) {
-          inner = currentToken_.getLexeme();
+          inner = currentToken_.getLexeme(); // 字面量参数
           advance();
         } else {
-          inner = "";
+          inner = ""; // 无参数或空参数
         }
 
-        consume(Token::RPAREN);
+        consume(Token::RPAREN); // 消费右括号
         columnExpr = funcName + "(" + inner + ")";
         std::cout << "[PARSER DEBUG] 解析函数调用: " << columnExpr << std::endl;
       } else {
-        // 解析普通列名
+        // WHAT层 - 普通列名：最常见的选择项形式
+        // 直接解析标识符作为列名
         columnExpr = parseIdentifier();
         std::cout << "[PARSER DEBUG] 解析列名: " << columnExpr << std::endl;
       }
 
-      // 检查是否有AS别名
+      // WHY层 - 别名处理：检查是否有AS关键字定义列别名
+      // 别名用于重命名结果集中的列，便于引用
       if (match(Token::KEYWORD_AS)) {
         std::string alias = parseIdentifier();
         columnExpr += " AS " + alias;
         std::cout << "[PARSER DEBUG] 添加别名: " << alias << std::endl;
       }
 
+      // HOW层 - 结果存储：将解析的选择项添加到SELECT语句中
       stmt->addSelectColumn(columnExpr);
       std::cout << "[PARSER DEBUG] 添加选择列: " << columnExpr << std::endl;
     }
@@ -1022,71 +1437,159 @@ std::unique_ptr<SelectStatement> Parser::parseSelectStatement() {
   return stmt;
 }
 
+/**
+ * @brief 解析INSERT INTO语句 - SQL数据插入语法分析
+ *
+ * WHY层 - 设计意图：
+ *   parseInsertStatement()负责解析SQL INSERT语句，这是关系数据库中最
+ *   基础的DML操作之一。INSERT语句用于向表中添加新的数据行，支持单行
+ *   和多行插入。该函数采用分步骤解析策略，确保插入操作的完整性和正确性。
+ *
+ * WHAT层 - 功能说明：
+ *   解析完整的INSERT INTO语法，包括：
+ *   - 目标表名：数据要插入的表
+ *   - 列名列表：指定插入数据的列（可选）
+ *   - 值列表：要插入的实际数据值
+ *   - 支持单行插入和批量插入
+ *
+ * HOW层 - 实现细节：
+ *   1. **关键字消费**: 消费INSERT和INTO关键字启动解析
+ *   2. **表名解析**: 验证并消费目标表名标识符
+ *   3. **列列表处理**: 可选的列名列表，指定插入哪些列
+ *   4. **VALUES处理**: 消费VALUES关键字，开始值列表解析
+ *   5. **值列表解析**: 解析括号包围的值列表
+ *   6. **结果封装**: 创建InsertStatement AST节点存储解析结果
+ *
+ * INSERT语法结构：
+ *   - **基本语法**: INSERT INTO table_name VALUES (value1, value2, ...)
+ *   - **指定列**: INSERT INTO table_name (col1, col2) VALUES (val1, val2)
+ *   - **批量插入**: 支持单个VALUES子句（当前实现）
+ *
+ * 值类型支持：
+ *   - **字符串字面量**: 'string value'（带引号的字符串）
+ *   - **数字字面量**: 123, 45.67（整数和浮点数）
+ *   - **标识符**: 变量名或特殊值（NULL等）
+ *
+ * 完整性检查：
+ *   - **表存在性**: 确保目标表存在（运行时检查）
+ *   - **列匹配**: 列数量与值的数量必须匹配
+ *   - **类型兼容**: 插入值必须与列的数据类型兼容
+ *   - **约束验证**: 检查主键、唯一、外键等约束
+ *
+ * 错误处理机制：
+ *   - **语法错误**: 遇到无效语法时抛出异常
+ *   - **类型错误**: 值类型与列定义不匹配时报告错误
+ *   - **约束冲突**: 违反完整性约束时提供详细错误信息
+ *
+ * 性能优化：
+ *   - **批量处理**: 支持一次插入多行数据
+ *   - **预编译**: 准备语句可以重用执行计划
+ *   - **索引更新**: 插入时更新相关索引
+ *   - **事务支持**: 支持事务中的插入操作
+ *
+ * 扩展性设计：
+ *   - **SELECT插入**: 支持INSERT ... SELECT语法
+ *   - **DEFAULT值**: 支持DEFAULT关键字使用列默认值
+ *   - **子查询**: VALUES子句中支持子查询
+ *   - **ON DUPLICATE**: 支持ON DUPLICATE KEY UPDATE
+ *
+ * @return std::unique_ptr<InsertStatement> 解析成功的INSERT语句AST
+ *
+ * @throws std::runtime_error 当遇到语法错误或无效插入时抛出
+ *
+ * @note INSERT是数据库DML操作的基础，用于添加新数据
+ * @note 当前实现支持基本的单表单行插入
+ * @note 批量插入需要扩展VALUES子句处理
+ * @note 列列表是可选的，不指定时插入所有列
+ * @note 值列表必须与列列表或表定义的列数匹配
+ *
+ * @see parseIdentifier() 标识符解析函数
+ * @see parseDataType() 数据类型解析函数（间接相关）
+ * @see InsertStatement INSERT语句AST定义
+ */
 std::unique_ptr<InsertStatement> Parser::parseInsertStatement() {
   std::cout << "[PARSER DEBUG] 进入parseInsertStatement()方法" << std::endl;
-  
-  // 消费INSERT关键字
+
+  // WHY层 - 解析启动：消费INSERT INTO关键字组合，这是INSERT语句的标准开头
+  // INSERT INTO是SQL标准语法，用于指定数据插入操作
   consume(Token::KEYWORD_INSERT);
-  
-  // 消费INTO关键字
   consume(Token::KEYWORD_INTO);
-  
-  // 解析表名
+
+  // WHAT层 - 表名解析：确定要插入数据的目标表
+  // 表名必须是数据库中存在的有效表
   std::string tableName = parseIdentifier();
   std::cout << "[PARSER DEBUG] 表名: " << tableName << std::endl;
-  
-  // 创建InsertStatement对象
+
+  // HOW层 - 对象创建：构造InsertStatement AST节点
+  // InsertStatement封装了INSERT语句的所有组成部分
   auto stmt = std::make_unique<InsertStatement>(tableName);
-  
-  // 解析列名列表（可选）
+
+  // WHY层 - 列列表处理：用户可以指定要插入哪些列
+  // 这是可选的，不指定时默认插入所有列
   if (match(Token::LPAREN)) {
     std::cout << "[PARSER DEBUG] 解析列名列表" << std::endl;
+
+    // HOW层 - 列名列表解析：解析括号中的列名，用逗号分隔
+    // 这是SQL标准语法的一部分
     bool first = true;
     while (!check(Token::RPAREN) && !isAtEnd()) {
+      // WHAT层 - 逗号分隔：第一个列名前没有逗号，后续列名需要逗号
       if (!first) {
         if (!match(Token::COMMA)) {
-          break;
+          break; // 没有逗号表示列列表结束
         }
       }
       first = false;
-      
+
+      // HOW层 - 列名解析：解析每个列名标识符
       std::string column = parseIdentifier();
       stmt->addColumn(column);
       std::cout << "[PARSER DEBUG] 添加列: " << column << std::endl;
     }
-    consume(Token::RPAREN);
+    consume(Token::RPAREN); // 消费结束括号
   }
-  
-  // 消费VALUES关键字
+
+  // WHY层 - VALUES子句：指定要插入的实际数据值
+  // 这是INSERT语句的核心部分，包含实际的插入数据
   consume(Token::KEYWORD_VALUES);
-  
-  // 解析值列表
+
+  // WHAT层 - 值列表解析：解析括号包围的值列表
+  // 值必须与前面指定的列一一对应
   if (match(Token::LPAREN)) {
     std::cout << "[PARSER DEBUG] 解析值列表" << std::endl;
+
+    // HOW层 - 值解析循环：解析每个插入值，用逗号分隔
     bool first = true;
     while (!check(Token::RPAREN) && !isAtEnd()) {
+      // WHAT层 - 值分隔：与列列表类似，使用逗号分隔值
       if (!first) {
         if (!match(Token::COMMA)) {
-          break;
+          break; // 没有逗号表示值列表结束
         }
       }
       first = false;
-      
-      // 解析值（简化处理，只支持字符串和数字字面量）
+
+      // HOW层 - 值类型识别：支持不同类型的字面量
+      // 简化实现：支持字符串、数字和标识符
       std::string value;
       if (check(Token::STRING_LITERAL) || check(Token::INTEGER_LITERAL) || check(Token::FLOAT_LITERAL)) {
+        // WHAT层 - 字面量值：直接使用token的词素作为值
         value = currentToken_.getLexeme();
         advance();
       } else {
+        // WHAT层 - 标识符值：可能是NULL、DEFAULT或其他标识符
         value = parseIdentifier();
       }
       stmt->addValue(value);
       std::cout << "[PARSER DEBUG] 添加值: " << value << std::endl;
     }
-    consume(Token::RPAREN);
+    consume(Token::RPAREN); // 消费结束括号
+
+    // HOW层 - 行完成：标记当前行的值解析完成
+    // 为批量插入做准备（当前实现只支持单行）
     stmt->finishRow();
   }
-  
+
   std::cout << "[PARSER DEBUG] INSERT语句解析完成" << std::endl;
   return stmt;
 }

@@ -5,68 +5,10 @@
 #include <string>
 #include <vector>
 #include "ast_node.h"
+#include "function/function_definition.h"
 
 namespace sqlcc {
 namespace sql_parser {
-
-// 函数特征枚举
-enum class FunctionCharacteristic {
-    DETERMINISTIC,
-    NOT_DETERMINISTIC,
-    CONTAINS_SQL,
-    READS_SQL_DATA,
-    MODIFIES_SQL_DATA
-};
-
-// 函数参数结构
-struct FunctionParameter {
-    std::string name;
-    std::string type;
-    bool is_in = true;
-    bool is_out = false;
-    bool is_inout = false;
-};
-
-// 函数定义类
-class FunctionDefinition {
-public:
-    FunctionDefinition(const std::string& name, const std::string& return_type);
-    ~FunctionDefinition();
-
-    // 参数管理
-    void addParameter(const FunctionParameter& param);
-    void addCharacteristic(const std::string& characteristic);
-    
-    // 属性设置
-    void setBody(const std::string& body);
-    void setLanguage(const std::string& language);
-
-    // 属性获取
-    const std::string& getName() const { return name_; }
-    const std::string& getReturnType() const { return return_type_; }
-    const std::vector<FunctionParameter>& getParameters() const { return parameters_; }
-    const std::vector<std::string>& getCharacteristics() const { return characteristics_; }
-    const std::string& getBody() const { return body_; }
-    const std::string& getLanguage() const { return language_; }
-
-    // 特征检查
-    bool isDeterministic() const;
-    bool containsSql() const;
-    bool readsSqlData() const;
-    bool modifiesSqlData() const;
-
-    // 工具函数
-    static std::string characteristicToString(FunctionCharacteristic characteristic);
-    static FunctionCharacteristic stringToCharacteristic(const std::string& str);
-
-private:
-    std::string name_;
-    std::string return_type_;
-    std::vector<FunctionParameter> parameters_;
-    std::vector<std::string> characteristics_;
-    std::string body_;
-    std::string language_;
-};
 
 // 函数调用表达式
 class FunctionCallExpression : public Expression {
@@ -103,15 +45,15 @@ private:
 // 创建函数语句
 class CreateFunctionStatement : public Statement {
 public:
-    explicit CreateFunctionStatement(std::unique_ptr<FunctionDefinition> function_def);
+    explicit CreateFunctionStatement(std::unique_ptr<sqlcc::sql_parser::FunctionDefinition> function_def);
     ~CreateFunctionStatement() override;
 
     bool isValid() const;
     
-    const FunctionDefinition* getFunctionDefinition() const { return function_def_.get(); }
+    const sqlcc::sql_parser::FunctionDefinition* getFunctionDefinition() const { return function_def_.get(); }
 
 private:
-    std::unique_ptr<FunctionDefinition> function_def_;
+    std::unique_ptr<sqlcc::sql_parser::FunctionDefinition> function_def_;
 };
 
 // 删除函数语句

@@ -1,13 +1,10 @@
 /**
- * SQLCC Logger Module - C++20 Modules Implementation
- * True C++20 Modules implementation with dual-mode support
- * Migration Phase: Modules Implementation
+ * SQLCC Logger Module - Traditional Implementation
+ * Traditional header-based implementation for backward compatibility
+ * Migration Phase: Traditional Implementation
  */
 
-// Module implementation - must come after the interface
-module sqlcc.utils.logger;
-
-// Required standard library includes for implementation
+#include "utils/logger.h"
 #include <iostream>
 #include <fstream>
 #include <chrono>
@@ -87,7 +84,8 @@ void Logger::Error(std::string&& message) {
 Logger::Logger()
     : log_level_(LogLevel::INFO)
     , log_file_(nullptr)
-    , use_file_(false) {
+    , use_file_(false)
+    , last_error_("") {
     // Initialization complete - could add startup logging here
 }
 

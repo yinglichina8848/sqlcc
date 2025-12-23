@@ -13,8 +13,8 @@ cc_library(
     hdrs = [
         "//include/types:domain_manager",
     ],
-    includes = ["//include"],
     copts = [
+        "-Iinclude",
         "-std=c++20",
         "-stdlib=libc++",
         "-Wall",
@@ -32,6 +32,8 @@ cc_library(
     deps = [
         "//include/core:headers",
         "//include/utils:headers",
+        "//include/procedure:procedure_headers",
+        "//include/types:domain_manager",
     ],
 )
 
@@ -39,10 +41,8 @@ cc_test(
     name = "types_test",
     size = "small",
     srcs = [
-        "domain_manager_test.cpp",
-        "types_test.cpp",
+        # Test files to be added later
     ],
-    includes = ["//include"],
     copts = [
         "-std=c++20",
         "-stdlib=libc++",

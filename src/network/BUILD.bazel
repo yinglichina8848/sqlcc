@@ -14,6 +14,33 @@ cc_library(
     hdrs = ["//include/network:session_manager.h"],
     deps = [
         ":session",
+        "//src/utils:utils",
+        "//src/logger:logger",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+cc_library(
+    name = "network",
+    srcs = [
+        "network.cpp",
+        "connection_state_machine.cpp",
+        "client_connection.cpp",
+        "mysql_protocol.cpp",
+        "data_transmission_validator.cpp",
+        "encryption.cpp",
+        "network_exception_handler.cpp",
+        "server_network_manager.cpp",
+    ],
+    hdrs = ["//include/network:network.h"],
+    deps = [
+        ":session",
+        ":session_manager",
+        "//src/utils:utils",
+        "//src/logger:logger",
+        "//src/core:core",
+        "//include/network/encryption:encryption_headers",
+        "//src/security:security",
     ],
     visibility = ["//visibility:public"],
 )

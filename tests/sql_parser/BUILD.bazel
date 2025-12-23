@@ -1,4 +1,4 @@
-"""Bazel构建配置 for SQLCC parser核心组件测试"""
+""Bazel构建配置 for SQLCC parser核心组件测试""
 
 load("@rules_cc//cc:defs.bzl", "cc_test")
 
@@ -6,7 +6,7 @@ load("@rules_cc//cc:defs.bzl", "cc_test")
 cc_test(
     name = "lexer_new_unit_test",
     srcs = ["lexer_new_unit_test.cpp"],
-    includes = ["//include"],
+    includes = ["../include"],
     timeout = "short",
     deps = [
         "@com_google_googletest//:gtest_main",
@@ -20,7 +20,7 @@ cc_test(
 cc_test(
     name = "parser_new_unit_test",
     srcs = ["parser_new_unit_test.cpp"],
-    includes = ["//include"],
+    includes = ["../include"],
     deps = [
         "@com_google_googletest//:gtest_main",
         "//src/core:core",
@@ -33,7 +33,7 @@ cc_test(
 cc_test(
     name = "lexer_new_test",
     srcs = ["lexer_new_test.cpp"],
-    includes = ["//include"],
+    includes = ["../include"],
     deps = [
         "@com_google_googletest//:gtest_main",
         "//src/core:core",
@@ -46,7 +46,7 @@ cc_test(
 cc_test(
     name = "parser_new_basic_test",
     srcs = ["parser_new_basic_test.cpp"],
-    includes = ["//include"],
+    includes = ["../include"],
     deps = [
         "@com_google_googletest//:gtest_main",
         "//src/core:core",
@@ -59,7 +59,7 @@ cc_test(
 cc_test(
     name = "parser_new_integration_test",
     srcs = ["parser_new_integration_test.cpp"],
-    includes = ["//include"],
+    includes = ["../include"],
     deps = [
         "@com_google_googletest//:gtest_main",
         "//src/core:core",
@@ -72,7 +72,7 @@ cc_test(
 cc_test(
     name = "lexer_new_benchmark_test",
     srcs = ["lexer_new_benchmark_test.cpp"],
-    includes = ["//include"],
+    includes = ["../include"],
     deps = [
         "@com_google_googletest//:gtest_main",
         "//src/core:core",
@@ -85,7 +85,7 @@ cc_test(
 cc_test(
     name = "parser_performance_benchmark_test",
     srcs = ["parser_performance_benchmark_test.cpp"],
-    includes = ["//include"],
+    includes = ["../include"],
     deps = [
         "@com_google_googletest//:gtest_main",
         "//src/core:core",
@@ -98,7 +98,7 @@ cc_test(
 cc_test(
     name = "performance_comparison_test",
     srcs = ["performance_comparison_test.cpp"],
-    includes = ["//include"],
+    includes = ["../include"],
     deps = [
         "@com_google_googletest//:gtest_main",
         "//src/core:core",
@@ -111,7 +111,7 @@ cc_test(
 cc_test(
     name = "ast_core_test",
     srcs = ["ast_core_test.cpp"],
-    includes = ["//include"],
+    includes = ["../include"],
     deps = [
         "@com_google_googletest//:gtest_main",
         "//src/core:core",
@@ -124,7 +124,7 @@ cc_test(
 cc_test(
     name = "ast_visitor_simple_test",
     srcs = ["ast_visitor_simple_test.cpp"],
-    includes = ["//include"],
+    includes = ["../include"],
     deps = [
         "@com_google_googletest//:gtest_main",
         "//src/core:core",
@@ -137,7 +137,7 @@ cc_test(
 cc_test(
     name = "ast_visitor_test",
     srcs = ["ast_visitor_test.cpp"],
-    includes = ["//include"],
+    includes = ["../include"],
     deps = [
         "@com_google_googletest//:gtest_main",
         "//src/core:core",
@@ -150,7 +150,7 @@ cc_test(
 cc_test(
     name = "error_integration_test",
     srcs = ["error_integration_test.cpp"],
-    includes = ["//include"],
+    includes = ["../include"],
     deps = [
         "@com_google_googletest//:gtest_main",
         "//src/core:core",
@@ -163,7 +163,7 @@ cc_test(
 cc_test(
     name = "expression_test",
     srcs = ["expression_test.cpp"],
-    includes = ["//include"],
+    includes = ["../include"],
     deps = [
         "@com_google_googletest//:gtest_main",
         "//src/core:core",
@@ -176,7 +176,7 @@ cc_test(
 cc_test(
     name = "lexer_integration_test",
     srcs = ["lexer_integration_test.cpp"],
-    includes = ["//include"],
+    includes = ["../include"],
     deps = [
         "@com_google_googletest//:gtest_main",
         "//src/core:core",
@@ -189,7 +189,7 @@ cc_test(
 cc_test(
     name = "parser_integration_test",
     srcs = ["parser_integration_test.cpp"],
-    includes = ["//include"],
+    includes = ["../include"],
     deps = [
         "@com_google_googletest//:gtest_main",
         "//src/core:core",
@@ -202,7 +202,7 @@ cc_test(
 cc_test(
     name = "simple_parser_test",
     srcs = ["simple_parser_test.cpp"],
-    includes = ["//include"],
+    includes = ["../include"],
     deps = [
         "@com_google_googletest//:gtest_main",
         "//src/core:core",
@@ -215,7 +215,7 @@ cc_test(
 cc_test(
     name = "sql_parser_test",
     srcs = ["sql_parser_test.cpp"],
-    includes = ["//include"],
+    includes = ["../include"],
     deps = [
         "@com_google_googletest//:gtest_main",
         "//src/core:core",
@@ -228,7 +228,7 @@ cc_test(
 cc_test(
     name = "statement_node_test",
     srcs = ["statement_node_test.cpp"],
-    includes = ["//include"],
+    includes = ["../include"],
     deps = [
         "@com_google_googletest//:gtest_main",
         "//src/core:core",
@@ -241,7 +241,7 @@ cc_test(
 cc_test(
     name = "test_lexer_new",
     srcs = ["test_lexer_new.cpp"],
-    includes = ["//include"],
+    includes = ["../include"],
     deps = [
         "@com_google_googletest//:gtest_main",
         "//src/core:core",
@@ -254,7 +254,7 @@ cc_test(
 cc_test(
     name = "test_parser",
     srcs = ["test_parser.cpp"],
-    includes = ["//include"],
+    includes = ["../include"],
     deps = [
         "@com_google_googletest//:gtest_main",
         "//src/core:core",
@@ -267,7 +267,7 @@ cc_test(
 cc_test(
     name = "token_new_unit_test",
     srcs = ["token_new_unit_test.cpp"],
-    includes = ["//include"],
+    includes = ["../include"],
     deps = [
         "@com_google_googletest//:gtest_main",
         "//src/core:core",
@@ -343,7 +343,7 @@ cc_test(
 cc_test(
     name = "debug_lexer_test",
     srcs = ["debug_lexer_test.cpp"],
-    includes = ["//include"],
+    includes = ["../include"],
     deps = [
         "@com_google_googletest//:gtest_main",
         "//src/core:core",

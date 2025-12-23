@@ -1,39 +1,98 @@
-"""重构后的Bazel构建配置 - SQLCC核心组件库"""
+# src/core/BUILD.bazel - SQLCC核心基础组件库
+# 遵循设计文档的包层次结构
+
+load("@rules_cc//cc:defs.bzl", "cc_library")
 
 package(default_visibility = ["//visibility:public"])
 
 # ==============================================================================
-# Core库 - 核心组件（简化版本）
+# Core库 - 核心基础组件（严格独立）
 # ==============================================================================
 cc_library(
     name = "core",
     srcs = [
         "user_manager.cpp",
         "error_handler.cpp",
-        "config_manager.cpp",
-        "database_manager.cpp",
         "permission_validator.cpp",
-        "sql_executor.cpp",
     ],
     hdrs = [
         "//include/core:user_manager.h",
-        "//include/core:execution_context.h",
-        "//include/core:unified_executor.h",
         "//include/core:permission_validator.h",
-        "//include/core:schema_manager.h",
-        "//include/core:system_database.h",
-        "//include/core:execution_result.h",
-        "//include/database_manager:database_manager",
-        "//include/sql_executor:headers",
-        "//include/error_handler:error_handler",
-        "//include/exception:exception",
-        # "//include/core:headers",  # 移除包含stored_procedure_manager的headers依赖
     ],
+    includes = ["../../include"],
     deps = [
-        "//src/utils:utils",
+        # 只依赖基础工具库，不依赖任何业务模块
         "//src/logger:logger",
-        "//include:error_handler",
-        "//include/utils:headers",
+        "//src/utils:utils",
+        "//include/exception:exception",
+        "//include:sqlcc_pch",  # 预编译头文件
+    ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+        "-Wall",
+        "-Wextra",
+        "-Wno-error=maybe-uninitialized",
+        "-include include/sqlcc_pch.h",  # 使用预编译头文件
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+    defines = [
+        "SQLCC_MODERN_CPP=1",
+        "SQLCC_CLANG18_FEATURES=1",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+# ==============================================================================
+# 独立的业务模块（不属于core）
+# ==============================================================================
+
+# Database Manager - 独立的数据库管理模块
+cc_library(
+    name = "database_manager",
+    srcs = [
+        "database_manager.cpp",
+    ],
+    hdrs = [
+        "//include/core:database_manager.h",
+    ],
+    includes = ["../../include"],
+    deps = [
+        ":core",  # 可以依赖core，但core不能依赖database_manager
+        "//src/storage_engine:storage_engine",
+        "//src/logger:logger",
+    ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+        "-Wall",
+        "-Wextra",
+        "-Wno-error=maybe-uninitialized",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+    defines = [
+        "SQLCC_MODERN_CPP=1",
+        "SQLCC_CLANG18_FEATURES=1",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+# SQL Executor Interface - 独立的SQL执行接口模块
+cc_library(
+    name = "sql_executor_interface",
+    hdrs = [
+        "//include/core:sql_executor_interface.h",
+    ],
+    includes = ["../../include"],
+    deps = [
+        ":core",  # 可以依赖core，但core不能依赖sql_executor_interface
+        "//src/logger:logger",
     ],
     copts = [
         "-std=c++20",

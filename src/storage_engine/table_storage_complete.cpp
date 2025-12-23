@@ -296,7 +296,7 @@ bool TableStorageManager::InsertRecord(const std::string &table_name,
             field_types.push_back(column.type);
         }
         
-        if (!RecordValidator::ValidateDataIntegrity(field_names, field_types, values)) {
+        if (!storage_engine::table_storage::RecordValidator::ValidateDataIntegrity(field_names, field_types, values)) {
             return false;
         }
 

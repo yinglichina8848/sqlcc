@@ -1,4 +1,4 @@
-#include "procedure/procedure_parser.h"
+#include "../../include/procedure/procedure_parser.h"
 #include <cctype>
 #include <algorithm>
 #include <unordered_set>

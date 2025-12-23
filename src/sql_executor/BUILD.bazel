@@ -7,8 +7,8 @@ load("@rules_cc//cc:defs.bzl", "cc_library")
 cc_library(
     name = "sql_executor",
     srcs = ["sql_executor.cpp"],
-    hdrs = ["//include:sql_executor"],
-    includes = ["//include"],
+    hdrs = ["//include/sql_executor:headers"],
+    includes = ["../../include"],
     deps = [
         "//src/core:core",
         "//src/utils:utils",
@@ -32,5 +32,14 @@ cc_library(
         "SQLCC_MODERN_CPP=1",
         "SQLCC_CLANG18_FEATURES=1",
     ],
+    visibility = ["//visibility:public"],
+)
+
+# Placeholder target - TODO: implement actual functionality
+cc_library(
+    name = "sqlcc_executor",
+    srcs = [],  # TODO: add source files
+    hdrs = [],  # TODO: add header files
+    deps = [],  # TODO: add dependencies
     visibility = ["//visibility:public"],
 )

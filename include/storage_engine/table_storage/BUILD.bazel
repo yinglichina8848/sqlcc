@@ -10,7 +10,7 @@ cc_library(
     hdrs = [
         "page_raii.h",
     ],
-    includes = ["//include"],
+    includes = ["../include"],
     copts = [
         "-std=c++20",
         "-stdlib=libc++",
@@ -28,7 +28,7 @@ cc_library(
         "SQLCC_CLANG18_FEATURES=1",
     ],
     deps = [
-        "//include:storage_engine",
+        "//include/storage:buffer_pool",
         "//include/utils:headers",
     ],
 )
@@ -38,7 +38,7 @@ cc_library(
     hdrs = [
         "record_validator.h",
     ],
-    includes = ["//include"],
+    includes = ["../include"],
     copts = [
         "-std=c++20",
         "-stdlib=libc++",

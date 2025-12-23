@@ -8,7 +8,42 @@
 
 namespace sqlcc {
 
-class Value;
+namespace procedure {
+
+/**
+ * @brief 变量值类型
+ */
+class Value {
+public:
+    enum Type { INTEGER, DOUBLE, STRING, BOOLEAN, NULL_VALUE };
+
+    Value() : type_(NULL_VALUE) {}
+    Value(int int_val) : type_(INTEGER), int_value_(int_val) {}
+    Value(double double_val) : type_(DOUBLE), double_value_(double_val) {}
+    Value(const std::string& str_val) : type_(STRING), string_value_(str_val) {}
+    Value(bool bool_val) : type_(BOOLEAN), bool_value_(bool_val) {}
+
+    Type getType() const { return type_; }
+
+    int asInteger() const;
+    double asDouble() const;
+    const std::string& asString() const;
+    bool asBoolean() const;
+
+    std::string toString() const;
+
+private:
+    Type type_;
+    int int_value_;
+    double double_value_;
+    std::string string_value_;
+    bool bool_value_;
+};
+
+} // namespace procedure
+
+// 使用简化的Value类
+using Value = procedure::Value;
 
 /**
  * @brief 域定义

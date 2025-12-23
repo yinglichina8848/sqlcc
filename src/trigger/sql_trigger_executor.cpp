@@ -1,4 +1,5 @@
 #include "trigger/sql_trigger_executor.h"
+#include "sql_executor.h"
 #include <algorithm>
 #include <regex>
 #include <sstream>
@@ -95,15 +96,22 @@ std::string SQLTriggerExecutor::substituteTriggerVariables(const std::string& sq
     // 替换 :OLD.column_name 引用
     if (old_row) {
         std::regex old_pattern(":OLD\\.(\\w+)");
-        result = std::regex_replace(result, old_pattern,
-            [this, old_row](const std::smatch& match) {
-                std::string column_name = match[1].str();
-                int index = getColumnIndex(old_row->columns, column_name);
-                if (index >= 0 && index < static_cast<int>(old_row->values.size())) {
-                    return escapeSQLString(old_row->values[index]);
-                }
-                return std::string("NULL");
-            });
+        std::smatch match;
+        std::string::const_iterator search_start(result.cbegin());
+
+        while (std::regex_search(search_start, result.cend(), match, old_pattern)) {
+            std::string column_name = match[1].str();
+            std::string replacement = "NULL";
+
+            int index = getColumnIndex(old_row->columns, column_name);
+            if (index >= 0 && index < static_cast<int>(old_row->values.size())) {
+                replacement = escapeSQLString(old_row->values[index]);
+            }
+
+            size_t pos = match.position() + (search_start - result.cbegin());
+            result.replace(pos, match.length(), replacement);
+            search_start = result.cbegin() + pos + replacement.length();
+        }
     } else {
         // 如果没有旧行，将所有 :OLD. 引用替换为 NULL
         std::regex old_pattern(":OLD\\.\\w+");
@@ -113,15 +121,22 @@ std::string SQLTriggerExecutor::substituteTriggerVariables(const std::string& sq
     // 替换 :NEW.column_name 引用
     if (new_row) {
         std::regex new_pattern(":NEW\\.(\\w+)");
-        result = std::regex_replace(result, new_pattern,
-            [this, new_row](const std::smatch& match) {
-                std::string column_name = match[1].str();
-                int index = getColumnIndex(new_row->columns, column_name);
-                if (index >= 0 && index < static_cast<int>(new_row->values.size())) {
-                    return escapeSQLString(new_row->values[index]);
-                }
-                return std::string("NULL");
-            });
+        std::smatch match;
+        std::string::const_iterator search_start(result.cbegin());
+
+        while (std::regex_search(search_start, result.cend(), match, new_pattern)) {
+            std::string column_name = match[1].str();
+            std::string replacement = "NULL";
+
+            int index = getColumnIndex(new_row->columns, column_name);
+            if (index >= 0 && index < static_cast<int>(new_row->values.size())) {
+                replacement = escapeSQLString(new_row->values[index]);
+            }
+
+            size_t pos = match.position() + (search_start - result.cbegin());
+            result.replace(pos, match.length(), replacement);
+            search_start = result.cbegin() + pos + replacement.length();
+        }
     } else {
         // 如果没有新行，将所有 :NEW. 引用替换为 NULL
         std::regex new_pattern(":NEW\\.\\w+");

@@ -9,10 +9,9 @@ cc_library(
     name = "procedure_parser",
     srcs = ["procedure_parser.cpp"],
     hdrs = ["//include/procedure:procedure_parser.h"],
-    includes = ["//include"],
     deps = [
         "//src/sql_parser:sql_parser",
-        "//src/procedure:procedure",
+        # "//src/procedure:procedure",  # 移除循环依赖
     ],
 )
 
@@ -21,7 +20,6 @@ cc_library(
     name = "procedure_vm",
     srcs = ["procedure_vm.cpp"],
     hdrs = ["//include/procedure:procedure_vm.h"],
-    includes = ["//include"],
     deps = [
         ":procedure_parser",
         "//src/core:core",
@@ -34,12 +32,11 @@ cc_library(
     name = "procedure_trigger_executor",
     srcs = ["procedure_trigger_executor.cpp"],
     hdrs = ["//include/procedure:procedure_trigger_executor.h"],
-    includes = ["//include"],
     deps = [
         ":procedure_parser",
         ":procedure_vm",
-        "//src/trigger:trigger_manager",
         "//src/core:core",
+        # "//src/trigger:trigger_manager",  # 移除循环依赖 - 通过接口调用
         # "//src/sql_executor:sql_executor",  # 移除循环依赖
     ],
 )

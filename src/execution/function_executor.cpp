@@ -1,11 +1,25 @@
 #include "execution/function_executor.h"
-#include "procedure/procedure_vm.h"
-#include "sql_parser/function_ast.h"
+#include "types/domain_manager.h"
 #include <algorithm>
-#include <regex>
 #include <sstream>
 
+// Move regex include to the end to avoid namespace conflicts
+#include <regex>
+#include "execution_ast/ast_interface.h"
+
 namespace sqlcc {
+
+namespace execution {
+
+// Forward declarations to resolve circular dependencies
+class FunctionExecutionContext;
+class UserDefinedFunction;
+class SqlUserDefinedFunction;
+class FunctionExecutor;
+class FunctionCaller;
+
+} // namespace execution
+
 
 // FunctionExecutionContext implementation
 FunctionExecutionContext::FunctionExecutionContext(const std::string& name,
@@ -14,14 +28,14 @@ FunctionExecutionContext::FunctionExecutionContext(const std::string& name,
     : function_name(name), arguments(args), sql_executor(executor) {}
 
 // UserDefinedFunction implementation
-UserDefinedFunction::UserDefinedFunction(std::unique_ptr<FunctionDefinition> def)
+UserDefinedFunction::UserDefinedFunction(std::unique_ptr<sqlcc::sql_parser::FunctionDefinition> def)
     : definition_(std::move(def)) {}
 
 const std::string& UserDefinedFunction::getName() const {
     return definition_->getName();
 }
 
-const FunctionDefinition& UserDefinedFunction::getDefinition() const {
+const sqlcc::sql_parser::FunctionDefinition& UserDefinedFunction::getDefinition() const {
     return *definition_;
 }
 
@@ -51,11 +65,11 @@ bool UserDefinedFunction::modifiesSqlData() const {
 }
 
 // SqlUserDefinedFunction implementation
-SqlUserDefinedFunction::SqlUserDefinedFunction(std::unique_ptr<FunctionDefinition> definition)
+SqlUserDefinedFunction::SqlUserDefinedFunction(std::unique_ptr<sqlcc::sql_parser::FunctionDefinition> definition)
     : UserDefinedFunction(std::move(definition)) {}
 
 Value SqlUserDefinedFunction::executeScalar(const std::vector<Value>& arguments,
-                                          std::shared_ptr<SqlExecutor> executor) {
+                                          std::shared_ptr<SqlExecutor> executor) const {
     const std::string& body = getDefinition().getBody();
 
     // Substitute parameters in the SQL body
@@ -67,7 +81,7 @@ Value SqlUserDefinedFunction::executeScalar(const std::vector<Value>& arguments,
 
 std::vector<std::unordered_map<std::string, Value>>
 SqlUserDefinedFunction::executeTable(const std::vector<Value>& arguments,
-                                   std::shared_ptr<SqlExecutor> executor) {
+                                   std::shared_ptr<SqlExecutor> executor) const {
     // For table-valued functions, we need to execute the query and return result set
     // This is a simplified implementation - in a real system, this would need
     // proper result set handling
@@ -88,7 +102,7 @@ SqlUserDefinedFunction::executeTable(const std::vector<Value>& arguments,
 }
 
 std::string SqlUserDefinedFunction::substituteParameters(const std::string& body,
-                                                       const std::vector<Value>& arguments) {
+                                                       const std::vector<Value>& arguments) const {
     std::string result = body;
     const auto& params = getDefinition().getParameters();
 
@@ -108,7 +122,7 @@ std::string SqlUserDefinedFunction::substituteParameters(const std::string& body
 }
 
 Value SqlUserDefinedFunction::executeSqlQuery(const std::string& sql,
-                                            std::shared_ptr<SqlExecutor> executor) {
+                                            std::shared_ptr<SqlExecutor> executor) const {
     // This is a simplified implementation
     // In a real system, this would execute the SQL and return appropriate results
 

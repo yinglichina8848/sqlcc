@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include "constraint_executor.h"
 #include "sql_parser/constraint.h"
-#include "core/database_manager.h"
+#include "core/core_database_manager.h"
 
 class ConstraintAdvancedTest : public ::testing::Test {
 protected:

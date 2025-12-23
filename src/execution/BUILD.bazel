@@ -16,14 +16,13 @@ exports_files([
 cc_library(
     name = "function_executor",
     srcs = ["function_executor.cpp"],
-    hdrs = ["//include/execution:function_executor.h"],
     visibility = ["//visibility:public"],
     deps = [
         "//src/core:core",
         "//src/sql_parser:sql_parser",
         # "//src/execution:execution",  # 移除循环依赖
         "//src/procedure:procedure",
-        "//src/trigger:trigger",
+        "//include/execution:function_executor",
         "//include/execution:task_executor_hdr",
         "//include/procedure:procedure_headers",
         "//include/sql_parser:function_ast",
@@ -82,6 +81,19 @@ cc_library(
     ],
 )
 
+# Subquery Executor
+cc_library(
+    name = "subquery_executor",
+    srcs = ["subquery_executor.cpp"],
+    hdrs = ["subquery_executor.h"],
+    visibility = ["//visibility:public"],
+    deps = [
+        "//include/execution:subquery_executor_hdr",
+        "//include/execution_ast",
+        "//src/core:core",
+    ],
+)
+
 # 执行模块聚合库
 cc_library(
     name = "execution",
@@ -90,6 +102,7 @@ cc_library(
         ":function_executor",
         ":join_executor",
         ":set_operation_executor",
+        ":subquery_executor",
         ":window_function_executor",
         ":recursive_query_executor",
         ":load_data_executor",

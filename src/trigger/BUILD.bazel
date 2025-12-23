@@ -1,21 +1,42 @@
 cc_library(
     name = "sql_trigger_executor",
     srcs = ["sql_trigger_executor.cpp"],
-    hdrs = ["sql_trigger_executor.h"],
+    hdrs = ["//include/trigger:sql_trigger_executor.h"],
     visibility = ["//visibility:public"],
     deps = [
         "//src/core:core",
-        "//src/trigger:trigger",
-        "//include/trigger:trigger_headers",
+        # "//src/trigger:trigger",  # 移除循环依赖 - 通过接口调用
+        "//src/execution:execution",
     ],
 )
 
 cc_library(
     name = "trigger_manager",
     srcs = ["trigger_manager.cpp"],
-    hdrs = ["trigger_manager.h"],
+    hdrs = ["//include/trigger:trigger_manager.h"],
     visibility = ["//visibility:public"],
     deps = [
-        "//include/trigger:trigger_headers",
+        ":sql_trigger_executor",
+        "//src/core:core",
+        "//src/logger:logger",
+        "//src/sql_executor:sql_executor",
+    ],
+)
+
+cc_library(
+    name = "trigger",
+    srcs = [
+        "trigger_definition.cpp",
+        "trigger_executor.cpp",
+        "recursion_guard.cpp",
+    ],
+    hdrs = ["//include/trigger:trigger_definition.h"],
+    visibility = ["//visibility:public"],
+    deps = [
+        ":trigger_manager",
+        ":sql_trigger_executor",
+        "//src/core:core",
+        "//src/sql_parser:sql_parser",
+        "//src/logger:logger",
     ],
 )

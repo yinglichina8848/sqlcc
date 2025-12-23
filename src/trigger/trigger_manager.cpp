@@ -58,7 +58,7 @@ bool RecursionGuard::enterTrigger(const std::string& trigger_name) {
     // 检查递归深度
     auto it = trigger_depth_.find(trigger_name);
     if (it != trigger_depth_.end()) {
-        if (it->second >= MAX_RECURSION_DEPTH) {
+        if (static_cast<size_t>(it->second) >= MAX_RECURSION_DEPTH) {
             return false; // 超过最大递归深度
         }
         it->second++;
@@ -224,9 +224,9 @@ bool TriggerManager::fireTriggers(TriggerTiming timing, TriggerEvent event,
             // 行级触发器 - 为每一行执行
             size_t max_rows = std::max(old_rows.size(), new_rows.size());
             for (size_t i = 0; i < max_rows; ++i) {
-                std::shared_ptr<const RowData> old_row = (i < old_rows.size()) ? 
+                std::shared_ptr<const RowData> old_row = (i < old_rows.size()) ?
                     std::make_shared<RowData>(old_rows[i]) : nullptr;
-                std::shared_ptr<const RowData> new_row = (i < new_rows.size()) ? 
+                std::shared_ptr<const RowData> new_row = (i < new_rows.size()) ?
                     std::make_shared<RowData>(new_rows[i]) : nullptr;
 
                 if (!executeTrigger(trigger, old_row, new_row)) {
@@ -312,7 +312,7 @@ bool TriggerManager::checkTriggerCondition(std::shared_ptr<const TriggerDefiniti
         return upper_condition == "TRUE" || upper_condition == "1";
     }
 
-    return trigger_executor_->evaluateCondition(condition, old_row, new_row);
+    return trigger_executor_->evaluateCondition(condition, old_row.get(), new_row.get());
 }
 
 bool TriggerManager::executeTriggerSql(std::shared_ptr<const TriggerDefinition> trigger,

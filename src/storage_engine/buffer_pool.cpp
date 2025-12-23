@@ -132,7 +132,7 @@ std::shared_ptr<BufferPage> BufferPool::FetchPage(int32_t page_id, int32_t trans
 
   // 创建新页面智能指针
   auto page = std::make_shared<BufferPage>(page_id);
-  char* page_data = page->data.GetDataSpan().data;
+  char* page_data = page->data.GetDataSpan().data();
   int32_t current_page_id = page_id;  // 释放锁，进行磁盘读取操作 - 修复死锁问题
   lock.unlock();
 
@@ -280,7 +280,7 @@ int32_t BufferPool::NewPage(int32_t transaction_id) {
   auto page = std::make_shared<BufferPage>(new_page_id);
 
   // 初始化页面数据
-  memset(page->data.GetDataSpan().data, 0, PAGE_SIZE);
+  memset(page->data.GetDataSpan().data(), 0, PAGE_SIZE);
 
   // 添加到页面表
   page_table_[new_page_id] = page;
@@ -326,7 +326,7 @@ bool BufferPool::FlushPage(int32_t page_id) {
 
   // 写回页面到磁盘
   bool write_success =
-      disk_manager_->WritePage(page_id, it->second->data.GetDataSpan().data);
+      disk_manager_->WritePage(page_id, it->second->data.GetDataSpan().data());
   if (write_success) {
     // 清除脏页标记
     dirty_pages_[page_id] = false;
@@ -360,7 +360,7 @@ bool BufferPool::FlushAllPages() {
     if (dirty_pages_[page_id]) {
       // 写回页面到磁盘
       bool write_success =
-          disk_manager_->WritePage(page_id, buffer_page->data.GetDataSpan().data);
+          disk_manager_->WritePage(page_id, buffer_page->data.GetDataSpan().data());
       if (write_success) {
         // 清除脏页标记
         dirty_pages_[page_id] = false;
@@ -401,7 +401,7 @@ int32_t BufferPool::ReplacePage() {
         // 如果是脏页，先写回磁盘
         if (dirty_pages_[page_id]) {
           bool write_success =
-              disk_manager_->WritePage(page_id, buffer_page_it->second->data.GetDataSpan().data);
+              disk_manager_->WritePage(page_id, buffer_page_it->second->data.GetDataSpan().data());
           if (!write_success) {
             SQLCC_LOG_ERROR("Failed to write dirty page " + std::to_string(page_id) +
                             " to disk during replacement");

@@ -4,7 +4,7 @@
 #include <vector>
 #include "sql_parser/parser.h"
 #include "sql_parser/ast_nodes.h"
-#include "core/database_manager.h"
+#include "core/core_database_manager.h"
 
 // 测试ALTER VIEW和DROP VIEW语句的解析和执行
 

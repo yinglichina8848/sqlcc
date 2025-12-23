@@ -7,8 +7,8 @@ cc_library(
     srcs = [
         "memory_monitor.cpp",
     ],
-    hdrs = [
-        "memory_monitor.h",
+    deps = [
+        "//include/security:memory_monitor",
     ],
     copts = ["-std=c++17"],
     visibility = ["//visibility:public"],

@@ -7,7 +7,7 @@
  * Thread-safe, efficient, and ready for future module conversion.
  */
 
-#include "utils/logger.h"  // Include our optimized header
+#include "../../include/utils/logger.h"  // Include our optimized header
 
 // Required standard library includes for implementation
 // These are separated from header to minimize compilation dependencies
@@ -92,7 +92,9 @@ void Logger::Error(std::string&& message) {
 Logger::Logger()
     : log_level_(LogLevel::INFO)
     , log_file_(nullptr)
-    , use_file_(false) {
+    , use_file_(false)
+    , mutex_()
+    , last_error_() {
     // Initialization complete - could add startup logging here
 }
 

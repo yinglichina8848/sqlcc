@@ -7,11 +7,12 @@
 #include <memory>
 #include <functional>
 
+#include "types/domain_manager.h"
+#include "sql_parser/function/function_definition.h"
+
 namespace sqlcc {
 
-class Value;
 class SqlExecutor;
-class FunctionDefinition;
 
 /**
  * @brief 函数返回值类型
@@ -41,20 +42,20 @@ struct FunctionExecutionContext {
  */
 class UserDefinedFunction {
 public:
-    UserDefinedFunction(std::unique_ptr<FunctionDefinition> definition);
+    UserDefinedFunction(std::unique_ptr<sqlcc::sql_parser::FunctionDefinition> definition);
     virtual ~UserDefinedFunction() = default;
 
     const std::string& getName() const;
-    const FunctionDefinition& getDefinition() const;
+    const sqlcc::sql_parser::FunctionDefinition& getDefinition() const;
     FunctionReturnType getReturnType() const;
 
     // 执行函数
     virtual Value executeScalar(const std::vector<Value>& arguments,
-                              std::shared_ptr<SqlExecutor> executor) = 0;
+                              std::shared_ptr<SqlExecutor> executor) const = 0;
 
     virtual std::vector<std::unordered_map<std::string, Value>> executeTable(
         const std::vector<Value>& arguments,
-        std::shared_ptr<SqlExecutor> executor) = 0;
+        std::shared_ptr<SqlExecutor> executor) const = 0;
 
     // 函数特性检查
     bool isDeterministic() const;
@@ -63,7 +64,7 @@ public:
     bool modifiesSqlData() const;
 
 protected:
-    std::unique_ptr<FunctionDefinition> definition_;
+    std::unique_ptr<sqlcc::sql_parser::FunctionDefinition> definition_;
 };
 
 /**
@@ -71,14 +72,14 @@ protected:
  */
 class SqlUserDefinedFunction : public UserDefinedFunction {
 public:
-    SqlUserDefinedFunction(std::unique_ptr<FunctionDefinition> definition);
+    SqlUserDefinedFunction(std::unique_ptr<sqlcc::sql_parser::FunctionDefinition> definition);
 
     Value executeScalar(const std::vector<Value>& arguments,
-                       std::shared_ptr<SqlExecutor> executor) override;
+                       std::shared_ptr<SqlExecutor> executor) const override;
 
     std::vector<std::unordered_map<std::string, Value>> executeTable(
         const std::vector<Value>& arguments,
-        std::shared_ptr<SqlExecutor> executor) override;
+        std::shared_ptr<SqlExecutor> executor) const override;
 
 private:
     // 解析函数体中的参数引用

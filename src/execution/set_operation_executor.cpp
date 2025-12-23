@@ -29,7 +29,7 @@ ExecutionResult SetOperationExecutor::execute(const sql_parser::SetOperation& st
         // 执行右操作数
         ExecutionResult right_result = executeSelect(*stmt.getRightOperand(), context);
         if (!right_result.success) {
-            result.error_message = "Failed to execute right operand: " + right_result.error_message;
+            result.message = "Failed to execute right operand: " + right_result.message;
             return result;
         }
 
@@ -45,7 +45,7 @@ ExecutionResult SetOperationExecutor::execute(const sql_parser::SetOperation& st
                 result = executeExcept(left_result, right_result, stmt.isAll());
                 break;
             default:
-                result.error_message = "Unsupported set operation type";
+                result.message = "Unsupported set operation type";
                 return result;
         }
 
@@ -63,11 +63,11 @@ ExecutionResult SetOperationExecutor::execute(const sql_parser::SetOperation& st
             applyLimit(result, stmt.getLimit());
         }
 
-        result.rows_affected = result.rows.size();
-        context.records_affected = result.rows_affected;
+        // Note: ExecutionResult doesn't have rows_affected member
+        // context.records_affected = result.rows.size();
 
     } catch (const std::exception& e) {
-        result.error_message = "Set operation execution failed: " + std::string(e.what());
+        result.message = "Set operation execution failed: " + std::string(e.what());
         result.success = false;
     }
 
@@ -91,7 +91,7 @@ ExecutionResult SetOperationExecutor::executeUnion(const ExecutionResult& left,
     if (!left.rows.empty() && !right.rows.empty()) {
         if (left.rows[0].values.size() != right.rows[0].values.size()) {
             result.success = false;
-            result.error_message = "UNION operands have different number of columns";
+            result.message = "UNION operands have different number of columns";
             return result;
         }
     }
@@ -154,7 +154,7 @@ ExecutionResult SetOperationExecutor::executeIntersect(const ExecutionResult& le
 
     if (left.rows[0].values.size() != right.rows[0].values.size()) {
         result.success = false;
-        result.error_message = "INTERSECT operands have different number of columns";
+        result.message = "INTERSECT operands have different number of columns";
         return result;
     }
 
@@ -268,7 +268,7 @@ ExecutionResult SetOperationExecutor::executeExcept(const ExecutionResult& left,
     if (!right.rows.empty() &&
         left.rows[0].values.size() != right.rows[0].values.size()) {
         result.success = false;
-        result.error_message = "EXCEPT operands have different number of columns";
+        result.message = "EXCEPT operands have different number of columns";
         return result;
     }
 

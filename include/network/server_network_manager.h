@@ -5,12 +5,19 @@
 #include <unordered_map>
 #include <mutex>
 
+#ifdef __linux__
+#include <openssl/ssl.h>
+#include <arpa/inet.h>
+#endif
+
+#include "sql_executor.h"
+#include "utils/file_descriptor.h"
+#include "network/session.h"
+#include "network/session_manager.h"
+#include "network/connection_handler.h"
+
 namespace sqlcc {
 namespace network {
-
-class SessionManager;
-class SqlExecutor;
-class ConnectionHandler;
 
 /**
  * @brief 服务端网络管理器类

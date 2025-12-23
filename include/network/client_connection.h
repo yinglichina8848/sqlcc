@@ -3,6 +3,8 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include "utils/ssl_wrapper.h"
+#include "utils/file_descriptor.h"
 
 namespace sqlcc {
 namespace network {
@@ -81,9 +83,9 @@ private:
 
     // Linux specific members
 #ifdef __linux__
-    int socket_fd_;                      ///< Socket文件描述符
-    struct ssl_st* ssl_;                 ///< SSL连接对象
-    struct ssl_ctx_st* ssl_ctx_;         ///< SSL上下文对象
+    sqlcc::FileDescriptor socket_fd_;  ///< Socket文件描述符
+    sqlcc::utils::SSLSocket ssl_;             ///< SSL连接对象
+    sqlcc::utils::SSLContext ssl_ctx_;        ///< SSL上下文对象
 #endif
 };
 

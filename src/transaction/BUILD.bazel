@@ -11,9 +11,8 @@ cc_library(
         "savepoint_manager.cpp",
     ],
     hdrs = [
-        "//include/transaction:headers",
+        "//include/transaction:savepoint_manager",
     ],
-    includes = ["//include"],
     copts = [
         "-std=c++20",
         "-stdlib=libc++",
@@ -30,9 +29,9 @@ cc_library(
         "SQLCC_CLANG18_FEATURES=1",
     ],
     deps = [
-        "//src/transaction:transaction",
-        "//include/storage:headers",
-        "//include/utils:headers",
+        "//src/storage_engine:storage_engine",
+        "//src/utils:utils",
+        "//src/logger:logger",
     ],
 )
 
@@ -43,7 +42,7 @@ cc_test(
         "savepoint_manager_test.cpp",
         "transaction_test.cpp",
     ],
-    includes = ["//include"],
+    includes = ["../include"],
     copts = [
         "-std=c++20",
         "-stdlib=libc++",

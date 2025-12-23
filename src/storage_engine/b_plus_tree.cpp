@@ -1322,7 +1322,7 @@ std::unique_ptr<BPlusTreeNode> BPlusTreeIndex::LoadNode(int32_t page_id) {
   }
   
   // 检查页面数据以确定节点类型
-  char* data = page->GetDataSpan().data;
+  char* data = page->GetDataSpan().data();
   
   // 检查节点类型字节是否有效
   if (data[0] != 0 && data[0] != 1) {

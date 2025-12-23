@@ -7,15 +7,15 @@ load("@rules_cc//cc:defs.bzl", "cc_library")
 cc_library(
     name = "utils",
     srcs = [
-        "config_snapshot.cpp",
         "config_lifecycle.cpp",
+        "config_manager.cpp",
+        "config_snapshot.cpp",
         "smart_config_manager.cpp",
     ],
-    hdrs = [
-        "//include/utils:config_snapshot.h",
-        "//include/utils:config_lifecycle.h",
-        "//include/utils:smart_config_manager.h",
-        "//include/utils:ssl_wrapper.h",
+    includes = ["../../include"],
+    deps = [
+        "//include/utils:headers",
+        "//src/logger:logger",
     ],
     copts = [
         "-std=c++20",

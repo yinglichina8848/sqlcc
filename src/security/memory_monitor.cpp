@@ -1,9 +1,10 @@
-#include "memory_monitor.h"
+#include "../../include/security/memory_monitor.h"
 #include <sys/resource.h>
 #include <unistd.h>
 #include <sstream>
 #include <iomanip>
 #include <fstream>
+#include <iostream>
 
 namespace sqlcc {
 namespace security {
@@ -11,7 +12,7 @@ namespace security {
 MemoryMonitor::MemoryMonitor() {
     current_metrics_ = {};
     current_metrics_.last_update = std::chrono::steady_clock::now();
-    
+
     // 设置默认告警回调
     registerAlertCallback([](AlertLevel level, const std::string& message, const MemoryMetrics& metrics) {
         std::string level_str;
@@ -21,11 +22,11 @@ MemoryMonitor::MemoryMonitor() {
             case AlertLevel::ERROR: level_str = "ERROR"; break;
             case AlertLevel::CRITICAL: level_str = "CRITICAL"; break;
         }
-        
+
         std::cout << "[MemoryMonitor " << level_str << "] " << message << std::endl;
         std::cout << "  Current Usage: " << metrics.current_usage << " bytes" << std::endl;
         std::cout << "  Peak Usage: " << metrics.peak_usage << " bytes" << std::endl;
-        
+
         // 严重告警时写入日志文件
         if (level >= AlertLevel::ERROR) {
             std::ofstream log_file("memory_safety_alerts.log", std::ios::app);
@@ -126,7 +127,7 @@ void MemoryMonitor::recordDeallocation(size_t size) {
     }
 }
 
-NUMAMemoryMonitor::MemoryMetrics MemoryMonitor::getCurrentMetrics() {
+MemoryMonitor::MemoryMetrics MemoryMonitor::getCurrentMetrics() {
     std::lock_guard<std::mutex> lock(metrics_mutex_);
     return current_metrics_;
 }
@@ -146,7 +147,9 @@ std::string MemoryMonitor::generateSecurityReport() {
     
     std::ostringstream report;
     report << "=== Memory Security Report ===" << std::endl;
-    report << "Timestamp: " << std::chrono::system_clock::now() << std::endl;
+    auto now = std::chrono::system_clock::now();
+    auto time_t = std::chrono::system_clock::to_time_t(now);
+    report << "Timestamp: " << std::put_time(std::localtime(&time_t), "%Y-%m-%d %H:%M:%S") << std::endl;
     report << "Current Memory Usage: " << current_metrics_.current_usage << " bytes" << std::endl;
     report << "Peak Memory Usage: " << current_metrics_.peak_usage << " bytes" << std::endl;
     report << "Allocation Count: " << current_metrics_.allocation_count << std::endl;

@@ -148,7 +148,7 @@ private:
                           std::shared_ptr<const RowData> old_row, std::shared_ptr<const RowData> new_row);
 
     std::shared_ptr<SqlExecutor> sql_executor_;
-    std::unordered_map<std::string, std::unique_ptr<TriggerDefinition>> triggers_;
+    std::unordered_map<std::string, std::shared_ptr<TriggerDefinition>> triggers_;
     std::unique_ptr<TriggerExecutor> trigger_executor_;
     RecursionGuard recursion_guard_;
     mutable std::mutex mutex_;

@@ -5,6 +5,14 @@ package(default_visibility = ["//visibility:public"])
 
 load("@rules_cc//cc:defs.bzl", "cc_binary", "cc_test")
 
+# 导出include目录的头文件，使其对其他包可见
+exports_files(
+    glob(["include/**/*.h"], allow_empty = True),
+    visibility = ["//visibility:public"],
+)
+
+
+
 # ==================== 主应用程序 ====================
 
 # SQLCC服务器端程序 - 引用子包目标
@@ -19,6 +27,12 @@ cc_binary(
         "//src/sql_parser:sql_parser",
         "//src/logger:logger",
         "//src/sql_executor:sql_executor",
+        "//src/execution:execution",
+        "//src/procedure:procedure",
+        "//src/trigger:trigger",
+        "//src/transaction:transaction",
+        "//src/types:types",
+        "//src/security:security",
     ],
     includes = ["include"],
     copts = [
@@ -45,11 +59,11 @@ cc_binary(
     name = "isql",
     srcs = ["//src/isql_network:client_main.cpp"],
     deps = [
-        "//src/isql_network:isql_network_lib",
         "//src/network:network",
         "//src/core:core",
         "//src/sql_executor:sql_executor",
         "//src/logger:logger",
+        "//src/utils:utils",
     ],
     includes = ["include"],
     copts = [
@@ -108,8 +122,8 @@ cc_binary(
         "test_logger_module.cpp",
     ],
     data = [
-        "//include/utils:logger.cppm",
-        "//src/utils:logger_module.cpp",
+        "//include/utils:logger",
+        "//src/utils:logger_module",
     ],
     copts = [
         "-std=c++20",
