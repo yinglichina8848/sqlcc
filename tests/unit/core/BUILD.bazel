@@ -7,7 +7,6 @@ cc_test(
         "//src/utils:utils",
         "//include:core:stored_procedure_manager",
     ],
-)
     linkopts = [
         "-stdlib=libc++",
         "-lc++abi",
@@ -16,6 +15,7 @@ cc_test(
         "-std=c++20",
         "-stdlib=libc++",
     ],
+)
 
 cc_test(
     name = "config_manager_test",
@@ -24,7 +24,6 @@ cc_test(
         "//src/core:core",
         "@com_google_googletest//:gtest_main",
     ],
-)
     linkopts = [
         "-stdlib=libc++",
         "-lc++abi",
@@ -33,3 +32,92 @@ cc_test(
         "-std=c++20",
         "-stdlib=libc++",
     ],
+)
+
+cc_test(
+    name = "manual_test_system_database",
+    srcs = ["manual_test_system_database.cpp"],
+    deps = [
+        "//src/core:sqlcc_core_lib",
+        "//src/sql_executor:sqlcc_executor",
+        "//src:execution_engine",
+        "//src:unified_executor",
+        "@com_google_googletest//:gtest_main",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+    ],
+)
+
+cc_test(
+    name = "simple_test",
+    srcs = ["simple_test.cpp"],
+    deps = [
+        "//src/core:sqlcc_core_lib",
+        "//src/sql_executor:sqlcc_executor",
+        "//src:execution_engine",
+        "//src:unified_executor",
+        "@com_google_googletest//:gtest_main",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+    ],
+)
+
+cc_test(
+    name = "system_database_test",
+    srcs = ["system_database_test.cpp"],
+    deps = [
+        "//src/core:sqlcc_core_lib",
+        "//src/sql_executor:sqlcc_executor",
+        "//src/sql_parser:sql_parser",
+        "@com_google_googletest//:gtest_main",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+    ],
+)
+
+cc_test(
+    name = "test_gtest",
+    srcs = ["test_gtest.cpp"],
+    deps = [
+        "//src/core:sqlcc_core_lib",
+        "@com_google_googletest//:gtest_main",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+    ],
+)
+
+test_suite(
+    name = "core_component_tests",
+    tests = [
+        ":stored_procedure_manager_test",
+        ":config_manager_test",
+        ":simple_test",
+        ":system_database_test",
+        ":test_gtest",
+        ":manual_test_system_database",
+    ],
+)
