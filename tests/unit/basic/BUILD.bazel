@@ -1,4 +1,5 @@
-load("@rules_cc//cc:defs.bzl", "cc_test")
+load("@rules_cc"//cc:defs.bzl"", "cc_test")
+
 
 # 基础单元测试套件
 package(default_visibility = ["//visibility:public"])
@@ -51,6 +52,8 @@ cc_test(
     name = "data_types_test",
     srcs = ["data_types_test.cpp"],
     includes = ["../../../include"],
+
+
     deps = [
         "//src/sql_parser:sql_parser",
         "//src/procedure:procedure",

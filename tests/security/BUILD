@@ -1,6 +1,7 @@
 """内存安全测试框架构建配置"""
 
-load("@rules_cc//cc:defs.bzl", "cc_test")
+load("@rules_cc"//cc:defs.bzl"", "cc_test")
+
 
 cc_test(
     name = "memory_safety_framework",
