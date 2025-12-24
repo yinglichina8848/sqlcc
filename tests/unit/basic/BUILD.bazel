@@ -58,7 +58,9 @@ cc_test(
 
     deps = [
         "//src/sql_parser:sql_parser",
-        "//src/procedure:procedure",
+        "//src/procedure:procedure_parser",
+        "//src/procedure:procedure_vm",
+        "//src/procedure:procedure_trigger_executor",
         "@com_google_googletest//:gtest_main",
     ],
     copts = [
@@ -106,6 +108,23 @@ cc_test(
     ],
 )
 
+cc_test(
+    name = "logger_basic_test",
+    srcs = ["logger_basic_test.cpp"],
+    deps = [
+        "//src:logger",
+        "@com_google_googletest//:gtest_main",
+    ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+)
+
 test_suite(
     name = "basic_unit_tests",
     tests = [
@@ -114,5 +133,6 @@ test_suite(
         ":data_types_test",
         ":decimal_test",
         ":sql_executor_core_test",
+        ":logger_basic_test",
     ],
 )
