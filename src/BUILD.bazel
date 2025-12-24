@@ -1,32 +1,18 @@
 # src/BUILD.bazel - 源代码包定义
 # 包含所有源代码库的目标定义
 
-load("@rules_cc//cc:defs.bzl", "cc_library", "cc_test")
+load("@rules_cc"//cc:defs.bzl"", "cc_library", "cc_test")
+
+
+
 
 # ==================== 工具库 ====================
 
-# Logger库 - 现代化日志系统
+# Logger库 - 现代化日志系统 (包装器)
 cc_library(
     name = "logger",
-    srcs = [
-        "//src/logger:logger_module_impl.cpp",
-    ],
-    hdrs = ["//include/utils:logger.h"],
-    includes = ["../include"],
-    copts = [
-        "-std=c++20",
-        "-stdlib=libc++",
-        "-Wall",
-        "-Wextra",
-        "-Wno-error=maybe-uninitialized",
-    ],
-    linkopts = [
-        "-stdlib=libc++",
-        "-lc++abi",
-    ],
-    defines = [
-        "SQLCC_MODERN_CPP=1",
-        "SQLCC_CLANG18_FEATURES=1",
+    deps = [
+        "//src/logger:logger",
     ],
     visibility = ["//visibility:public"],
 )
@@ -167,10 +153,22 @@ cc_library(
         "//include/storage_engine:b_plus_tree_node.h",
         "//include/storage_engine:b_plus_tree_leaf_node.h",
         "//include/storage_engine:b_plus_tree_index.h",
-        "//include/storage_engine:buffer_pool/lru_manager.h",
-        "//include/storage_engine:buffer_pool/statistics_collector.h",
-        "//include/storage_engine:table_storage/page_raii.h",
-        "//include/storage_engine:table_storage/record_validator.h",
+        "//include/storage_engine/buffer_pool/buffer_pool/buffer_pool:buffer_pool/lru_manager.h",
+
+
+
+        "//include/storage_engine/buffer_pool/buffer_pool/buffer_pool:buffer_pool/statistics_collector.h",
+
+
+
+        "//include/storage_engine/table_storage/table_storage/table_storage:table_storage/page_raii.h",
+
+
+
+        "//include/storage_engine/table_storage/table_storage/table_storage:table_storage/record_validator.h",
+
+
+
     ],
     includes = ["../include"],
     deps = [
