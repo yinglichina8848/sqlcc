@@ -116,8 +116,11 @@ coverage --instrumentation_filter="//include/.*"
 # 远程缓存配置（如果使用）
 # build --remote_cache=http://cache.example.com:8080
 
-# 本地磁盘缓存
+# 本地磁盘缓存 - 优化缓存策略
 build --disk_cache=/tmp/bazel-disk-cache
+build --repository_cache=/tmp/bazel-repo-cache
+build --experimental_remote_cache_compression
+build --experimental_remote_cache_async
 
 # 并行构建配置 - 优化并行度
 build --jobs=12

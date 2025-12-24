@@ -19,7 +19,7 @@ cc_library(
         "//include/core:user_manager.h",
         "//include/core:permission_validator.h",
     ],
-    includes = ["../../include"],
+    includes = ["//include"],
     deps = [
         # 只依赖基础工具库，不依赖任何业务模块
         "//src/logger:logger",
@@ -59,7 +59,7 @@ cc_library(
     hdrs = [
         "//include/core:database_manager.h",
     ],
-    includes = ["../../include"],
+    includes = ["//include"],
     deps = [
         ":core",  # 可以依赖core，但core不能依赖database_manager
         "//src/storage_engine:storage_engine",
@@ -89,7 +89,7 @@ cc_library(
     hdrs = [
         "//include/core:sql_executor_interface.h",
     ],
-    includes = ["../../include"],
+    includes = ["//include"],
     deps = [
         ":core",  # 可以依赖core，但core不能依赖sql_executor_interface
         "//src/logger:logger",

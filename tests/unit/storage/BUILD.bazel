@@ -1,14 +1,4 @@
-# TODO: lazy_writer target does not exist in src/storage_engine/BUILD.bazel
-# cc_test(
-#     name = "lazy_writer_test",
-#     srcs = ["lazy_writer_test.cpp"],
-#     deps = [
-#         "@com_google_googletest//:gtest_main",
-#         "//src/utils:utils",
-#         "//src/storage_engine:lazy_writer",
-#         "//src/storage_engine:storage_engine",
-#     ],
-# )
+# Storage单元测试BUILD文件
 
 cc_test(
     name = "wal_buffer_test",
@@ -16,5 +6,13 @@ cc_test(
     deps = [
         "//include:storage:storage_headers_lib",
         "@com_google_googletest//:gtest_main",
+    ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
     ],
 )

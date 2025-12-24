@@ -6,6 +6,7 @@
 #include "database_manager.h"
 #include "execution_engine.h"
 #include "sql_parser/ast_nodes.h"
+#include <chrono>
 #include <fstream>
 #include <iostream>
 #include <memory>
@@ -35,8 +36,17 @@ SqlExecutor::~SqlExecutor() = default;
 
 // 执行SQL语句
 std::string SqlExecutor::Execute(const std::string &sql) {
+  // 验证输入参数
+  if (sql.empty()) {
+    SetError("SQL语句不能为空");
+    return "Error: " + GetLastError();
+  }
+
   ClearError();
   execution_stats_.clear();
+
+  // 记录执行开始时间
+  auto start_time = std::chrono::high_resolution_clock::now();
 
   try {
     // 解析SQL语句
@@ -74,6 +84,11 @@ std::string SqlExecutor::Execute(const std::string &sql) {
     // 保存执行统计信息
     execution_stats_ = query_plan->getExecutionStats();
 
+    // 计算执行时间
+    auto end_time = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
+    execution_stats_ += "\nExecution time: " + std::to_string(duration.count()) + " ms";
+
     // 更新当前数据库（如果是USE语句）
     UpdateCurrentDatabase(sql);
 
@@ -86,7 +101,19 @@ std::string SqlExecutor::Execute(const std::string &sql) {
       return "Error: " + result.message;
     }
   } catch (const std::exception &e) {
-    SetError("Exception occurred: " + std::string(e.what()));
+    // 增强异常处理，提供更详细的错误信息
+    std::string error_msg = "Exception occurred during SQL execution: " + std::string(e.what());
+    SetError(error_msg);
+
+    // 记录异常发生的上下文信息
+    execution_stats_ += "\nException context: " + error_msg;
+
+    return "Error: " + GetLastError();
+  } catch (...) {
+    // 处理未知异常
+    std::string error_msg = "Unknown exception occurred during SQL execution";
+    SetError(error_msg);
+    execution_stats_ += "\nException context: " + error_msg;
     return "Error: " + GetLastError();
   }
 }
@@ -171,7 +198,7 @@ SqlExecutor::CreateQueryPlan(std::unique_ptr<sql_parser::Statement> stmt) {
 bool SqlExecutor::InitializePermissionValidator() {
   try {
     permission_validator_ =
-        std::make_unique<PermissionValidator>(user_manager_, db_manager_);
+        std::make_unique<PermissionValidator>(user_manager_);
     current_user_ = "root"; // 默认用户
     current_database_ = ""; // 默认无数据库
     return true;

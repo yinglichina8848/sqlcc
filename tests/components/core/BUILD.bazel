@@ -1,4 +1,4 @@
-""Bazel构建配置 for SQLCC core组件测试""
+# Bazel构建配置 for SQLCC core组件测试""
 
 load("@rules_cc//cc:defs.bzl", "cc_test")
 
@@ -27,6 +27,14 @@ cc_test(
         "@com_google_googletest//:gtest_main",
     ],
 )
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+    ],
 
 cc_test(
     name = "simple_test",
@@ -40,6 +48,14 @@ cc_test(
         "@com_google_googletest//:gtest_main",
     ],
 )
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+    ],
 
 cc_test(
     name = "system_database_test",
@@ -52,6 +68,14 @@ cc_test(
         "@com_google_googletest//:gtest_main",
     ],
 )
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+    ],
 
 cc_test(
     name = "test_gtest",
@@ -62,6 +86,14 @@ cc_test(
         "@com_google_googletest//:gtest_main",
     ],
 )
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+    ],
 
 test_suite(
     name = "core_component_tests",

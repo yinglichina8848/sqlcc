@@ -3,8 +3,26 @@
 #include <thread>
 #include <chrono>
 #include <future>
+#include <ranges>
+#include <concepts>
 
 using namespace sqlcc::execution;
+
+// C++20 Concepts for test constraints
+template<typename T>
+concept TestableTask = requires(T task) {
+    task.getTaskId();
+    task.getTaskType();
+    task.execute();
+    { task.isCompleted() } -> std::convertible_to<bool>;
+};
+
+// C++20 Concept for components that support RAII
+template<typename T>
+concept RAIIComponent = requires(T comp) {
+    comp.initialize();
+    comp.cleanup();
+};
 
 // 测试夹具类
 class TaskExecutorTest : public ::testing::Test {

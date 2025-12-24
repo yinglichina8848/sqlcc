@@ -147,7 +147,7 @@ private:
 
     std::unique_ptr<SqlExecutor> sql_executor_;
     ProcedureParser procedure_parser_;
-    ProcedureVM procedure_vm_;
+    std::unique_ptr<ProcedureVM> procedure_vm_;
     std::unordered_map<std::string, std::unique_ptr<ProcedureDefinition>> stored_procedures_;
     std::string last_error_;
 

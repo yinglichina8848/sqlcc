@@ -79,6 +79,7 @@
 #include <vector>
 
 #include "core/core_database_manager.h"
+#include "storage/concurrency_control.h"
 
 namespace sqlcc {
 
@@ -206,35 +207,7 @@ struct Transaction {
   Transaction(TransactionId id, IsolationLevel level);
 };
 
-/**
- * @brief 锁类型枚举 - 定义数据库锁的两种基本类型
- *
- * WHY层 - 设计意图：
- *   锁是并发控制的核心机制，通过限制对共享资源的并发访问来保证数据一致性。
- *   SHARED和EXCLUSIVE两种锁类型的设计体现了数据库锁协议的基本哲学：允许多个
- *   读取者并发访问，但写入者需要独占访问权。
- *
- * WHAT层 - 锁类型说明：
- *   - SHARED: 共享锁，允许多个事务同时持有，用于读取操作
- *   - EXCLUSIVE: 排他锁，只允许一个事务持有，用于写入操作
- *
- * HOW层 - 锁兼容性矩阵：
- *   兼容性规则：
- *   - SHARED + SHARED = 兼容（多个读操作可以并发）
- *   - SHARED + EXCLUSIVE = 不兼容（读写冲突）
- *   - EXCLUSIVE + SHARED = 不兼容（写读冲突）
- *   - EXCLUSIVE + EXCLUSIVE = 不兼容（写写冲突）
- *
- * 锁粒度考虑：
- *   - 行级锁：最小粒度，最大并发度
- *   - 页级锁：中等粒度，平衡性能和并发
- *   - 表级锁：最大粒度，最简单实现
- *   - 数据库级锁：全局锁，性能最差
- */
-enum class LockType {
-  SHARED,      ///< 共享锁：允许多个读取事务并发访问
-  EXCLUSIVE    ///< 排他锁：只允许一个事务独占访问（用于写入）
-};
+
 
 /**
  * @brief 锁信息结构体 - 锁表条目的完整描述

@@ -1,4 +1,5 @@
-""Bazel构建配置 for SQLCC storage组件测试""
+# Bazel构建配置 for SQLCC 测试 - C++20 + Clang-18
+# 使用现代C++特性提升测试质量和覆盖率
 
 load("@rules_cc//cc:defs.bzl", "cc_test")
 
@@ -14,6 +15,19 @@ cc_test(
         "//src/execution:execution",
         "//src/config_manager:sqlcc_config_manager",
     ],
+    # C++20 + Clang-18 配置
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+        "-Wall",
+        "-Wextra",
+        "-Wno-error=maybe-uninitialized",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+    features = ["cpp20_modules"],
 )
 
 cc_test(
@@ -23,6 +37,18 @@ cc_test(
         "//src/storage_engine:storage_engine",
         "@com_google_googletest//:gtest_main",
     ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+        "-Wall",
+        "-Wextra",
+        "-Wno-error=maybe-uninitialized",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+    features = ["cpp20_modules"],
 )
 
 cc_test(
@@ -33,6 +59,18 @@ cc_test(
         "//src/core:sqlcc_core_lib",
         "@com_google_googletest//:gtest_main",
     ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+        "-Wall",
+        "-Wextra",
+        "-Wno-error=maybe-uninitialized",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+    features = ["cpp20_modules"],
 )
 
 cc_test(
@@ -42,6 +80,18 @@ cc_test(
         "//src/storage_engine:storage_engine",
         "@com_google_googletest//:gtest_main",
     ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+        "-Wall",
+        "-Wextra",
+        "-Wno-error=maybe-uninitialized",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+    features = ["cpp20_modules"],
 )
 
 cc_test(
@@ -51,6 +101,18 @@ cc_test(
         "//src/storage_engine:storage_engine",
         "@com_google_googletest//:gtest_main",
     ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+        "-Wall",
+        "-Wextra",
+        "-Wno-error=maybe-uninitialized",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+    features = ["cpp20_modules"],
 )
 
 cc_test(
@@ -65,6 +127,18 @@ cc_test(
         "//src/sql_parser:sql_parser",
         "@com_google_googletest//:gtest_main",
     ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+        "-Wall",
+        "-Wextra",
+        "-Wno-error=maybe-uninitialized",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+    features = ["cpp20_modules"],
 )
 
 test_suite(
@@ -85,6 +159,18 @@ cc_test(
     deps = [
         "@com_google_googletest//:gtest_main",
     ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+        "-Wall",
+        "-Wextra",
+        "-Wno-error=maybe-uninitialized",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+    features = ["cpp20_modules"],
 )
 
 cc_test(
@@ -94,4 +180,16 @@ cc_test(
         "//src/storage_engine:storage_engine",
         "@com_google_googletest//:gtest_main",
     ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+        "-Wall",
+        "-Wextra",
+        "-Wno-error=maybe-uninitialized",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+    features = ["cpp20_modules"],
 )

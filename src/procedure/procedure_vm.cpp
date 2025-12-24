@@ -68,7 +68,7 @@ std::string Value::toString() const {
 
 // ==================== ProcedureContext Implementation ====================
 
-ProcedureContext::ProcedureContext(std::unique_ptr<SqlExecutorInterface> executor)
+ProcedureContext::ProcedureContext(std::unique_ptr<sqlcc::core::SqlExecutorInterface> executor)
     : sql_executor_(std::move(executor)) {}
 
 ProcedureContext::~ProcedureContext() {}
@@ -129,7 +129,7 @@ const std::vector<std::string>& ProcedureContext::getCallStack() const {
 
 // ==================== ProcedureVM Implementation ====================
 
-ProcedureVM::ProcedureVM(std::unique_ptr<SqlExecutorInterface> executor)
+ProcedureVM::ProcedureVM(std::unique_ptr<sqlcc::core::SqlExecutorInterface> executor)
     : sql_executor_(std::move(executor)), last_error_("") {}
 
 ProcedureVM::~ProcedureVM() {}

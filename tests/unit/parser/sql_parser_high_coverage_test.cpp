@@ -2,7 +2,7 @@
 #include <memory>
 #include <string>
 #include <vector>
-#include "../../include/sql_parser/parser.h"
+#include "sql_parser/parser.h"
 
 namespace sqlcc {
 namespace sql_parser {

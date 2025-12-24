@@ -1,25 +1,13 @@
 #include "execution/function_executor.h"
 #include "types/domain_manager.h"
+#include "sql_parser/function/function_definition.h"
 #include <algorithm>
 #include <sstream>
 
 // Move regex include to the end to avoid namespace conflicts
 #include <regex>
-#include "execution_ast/ast_interface.h"
 
 namespace sqlcc {
-
-namespace execution {
-
-// Forward declarations to resolve circular dependencies
-class FunctionExecutionContext;
-class UserDefinedFunction;
-class SqlUserDefinedFunction;
-class FunctionExecutor;
-class FunctionCaller;
-
-} // namespace execution
-
 
 // FunctionExecutionContext implementation
 FunctionExecutionContext::FunctionExecutionContext(const std::string& name,

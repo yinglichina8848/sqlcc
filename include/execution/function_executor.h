@@ -8,7 +8,13 @@
 #include <functional>
 
 #include "types/domain_manager.h"
-#include "sql_parser/function/function_definition.h"
+
+// Forward declaration to reduce coupling
+namespace sqlcc {
+namespace sql_parser {
+class FunctionDefinition;
+}
+}
 
 namespace sqlcc {
 
@@ -84,11 +90,11 @@ public:
 private:
     // 解析函数体中的参数引用
     std::string substituteParameters(const std::string& body,
-                                   const std::vector<Value>& arguments);
+                                   const std::vector<Value>& arguments) const;
 
     // 执行SQL查询
     Value executeSqlQuery(const std::string& sql,
-                         std::shared_ptr<SqlExecutor> executor);
+                          std::shared_ptr<SqlExecutor> executor) const;
 };
 
 /**

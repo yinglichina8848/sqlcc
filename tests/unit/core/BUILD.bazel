@@ -8,6 +8,14 @@ cc_test(
         "//include:core:stored_procedure_manager",
     ],
 )
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+    ],
 
 cc_test(
     name = "config_manager_test",
@@ -17,3 +25,11 @@ cc_test(
         "@com_google_googletest//:gtest_main",
     ],
 )
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+    ],

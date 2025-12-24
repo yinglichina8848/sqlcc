@@ -1,13 +1,21 @@
-""Bazel构建配置 for SQLCC parser组件测试""
+# SQLCC parser组件测试套件
+package(default_visibility = ["//visibility:public"])
 
-load("@rules_cc//cc:defs.bzl", "cc_test")
+load("@rules_cc//cc:defs.bzl", "cc_test", "cc_binary")
 
 cc_test(
     name = "ast_nodes_test",
     srcs = ["ast_nodes_test.cpp"],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
     deps = [
         "@com_google_googletest//:gtest_main",
-        "//src/sql_parser:sql_parser",
         "//src/sql_parser:sql_parser",
         "//src/execution:execution",
     ],
@@ -16,9 +24,16 @@ cc_test(
 cc_test(
     name = "compare_values_test",
     srcs = ["compare_values_test.cpp"],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
     deps = [
         "@com_google_googletest//:gtest_main",
-        "//src/sql_parser:sql_parser",
         "//src/sql_parser:sql_parser",
         "//src/execution:execution",
     ],
@@ -27,9 +42,16 @@ cc_test(
 cc_test(
     name = "comprehensive_dcl_test",
     srcs = ["comprehensive_dcl_test.cpp"],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
     deps = [
         "@com_google_googletest//:gtest_main",
-        "//src/sql_parser:sql_parser",
         "//src/sql_parser:sql_parser",
         "//src/execution:execution",
     ],
@@ -38,9 +60,16 @@ cc_test(
 cc_test(
     name = "dcl_parser_test",
     srcs = ["dcl_parser_test.cpp"],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
     deps = [
         "@com_google_googletest//:gtest_main",
-        "//src/sql_parser:sql_parser",
         "//src/sql_parser:sql_parser",
         "//src/execution:execution",
     ],
@@ -49,6 +78,14 @@ cc_test(
 cc_test(
     name = "dcl_test",
     srcs = ["dcl_test.cpp"],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
     deps = [
         "//src/sql_parser:sql_parser",
         "//src/sql_executor:sqlcc_executor",
@@ -60,6 +97,14 @@ cc_test(
 cc_binary(
     name = "dcl_test_advanced",
     srcs = ["dcl_test_advanced.cpp"],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
     deps = [
         "//src/sql_parser:sql_parser",
         "//src/sql_executor:sqlcc_executor",
@@ -70,6 +115,14 @@ cc_binary(
 cc_test(
     name = "ddl_test",
     srcs = ["ddl_test.cpp"],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
     deps = [
         "//src/sql_parser:sql_parser",
         "//src/sql_executor:sqlcc_executor",
@@ -81,7 +134,15 @@ cc_test(
 cc_test(
     name = "dml_test",
     srcs = ["dml_test.cpp"],
-    includes = ["../include"],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+        "-Iinclude",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
     deps = [
         "//src/sql_parser:sql_parser",
         "//src:execution_engine",
@@ -94,9 +155,16 @@ cc_test(
 cc_test(
     name = "final_dcl_test",
     srcs = ["final_dcl_test.cpp"],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
     deps = [
         "@com_google_googletest//:gtest_main",
-        "//src/sql_parser:sql_parser",
         "//src/sql_parser:sql_parser",
         "//src/execution:execution",
     ],
@@ -105,9 +173,16 @@ cc_test(
 cc_test(
     name = "parser_verification_test",
     srcs = ["parser_verification_test.cpp"],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
     deps = [
         "@com_google_googletest//:gtest_main",
-        "//src/sql_parser:sql_parser",
         "//src/sql_parser:sql_parser",
         "//src/execution:execution",
     ],
@@ -116,9 +191,16 @@ cc_test(
 cc_test(
     name = "test_colon_parsing",
     srcs = ["test_colon_parsing.cpp"],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
     deps = [
         "@com_google_googletest//:gtest_main",
-        "//src/sql_parser:sql_parser",
         "//src/sql_parser:sql_parser",
         "//src/execution:execution",
     ],
@@ -127,9 +209,16 @@ cc_test(
 cc_test(
     name = "test_colon_simple",
     srcs = ["test_colon_simple.cpp"],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
     deps = [
         "@com_google_googletest//:gtest_main",
-        "//src/sql_parser:sql_parser",
         "//src/sql_parser:sql_parser",
         "//src/execution:execution",
     ],
@@ -138,6 +227,14 @@ cc_test(
 cc_test(
     name = "test_create_table",
     srcs = ["test_create_table.cpp"],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
     deps = [
         "//src/sql_parser:sql_parser",
         "//src/core:sqlcc_database_core",
@@ -149,9 +246,16 @@ cc_test(
 cc_test(
     name = "test_percent_operator",
     srcs = ["test_percent_operator.cpp"],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
     deps = [
         "@com_google_googletest//:gtest_main",
-        "//src/sql_parser:sql_parser",
         "//src/sql_parser:sql_parser",
         "//src/execution:execution",
     ],
@@ -160,9 +264,16 @@ cc_test(
 cc_test(
     name = "test_percent_simple",
     srcs = ["test_percent_simple.cpp"],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
     deps = [
         "@com_google_googletest//:gtest_main",
-        "//src/sql_parser:sql_parser",
         "//src/sql_parser:sql_parser",
         "//src/execution:execution",
     ],
@@ -171,9 +282,16 @@ cc_test(
 cc_test(
     name = "test_show_grants",
     srcs = ["test_show_grants.cpp"],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
     deps = [
         "@com_google_googletest//:gtest_main",
-        "//src/sql_parser:sql_parser",
         "//src/sql_parser:sql_parser",
         "//src/execution:execution",
     ],
@@ -182,6 +300,14 @@ cc_test(
 cc_test(
     name = "test_simple_create",
     srcs = ["test_simple_create.cpp"],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
     deps = [
         "//src/sql_parser:sql_parser",
         "//src/core:sqlcc_database_core",
@@ -194,9 +320,16 @@ cc_test(
 cc_test(
     name = "alter_table_parser_test",
     srcs = ["alter_table_parser_test.cpp"],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
     deps = [
         "@com_google_googletest//:gtest_main",
-        "//src/sql_parser:sql_parser",
         "//src/sql_parser:sql_parser",
         "//src/execution:execution",
     ],
@@ -206,8 +339,15 @@ cc_test(
 cc_test(
     name = "simple_alter_test",
     srcs = ["simple_alter_test.cpp"],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
     deps = [
-        "//src/sql_parser:sql_parser_light",  # 使用轻量级解析器
         "//src/sql_parser:sql_parser",
         "//src/core:sqlcc_core_lib",
         "@com_google_googletest//:gtest_main",
@@ -218,9 +358,16 @@ cc_test(
 cc_test(
     name = "set_operation_parser_test",
     srcs = ["set_operation_parser_test.cpp"],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
     deps = [
         "@com_google_googletest//:gtest_main",
-        "//src/sql_parser:sql_parser",
         "//src/sql_parser:sql_parser",
         "//src/execution:execution",
     ],
@@ -229,6 +376,14 @@ cc_test(
 cc_test(
     name = "test_show_commands",
     srcs = ["test_show_commands.cpp"],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
     deps = [
         "//src/sql_parser:sql_parser",
         "//src/sql_executor:sqlcc_executor",
@@ -242,6 +397,14 @@ cc_test(
 cc_binary(
     name = "test_create_view",
     srcs = ["test_create_view.cpp"],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
     deps = [
         "//src/sql_parser:sql_parser",
     ],
@@ -256,7 +419,6 @@ test_suite(
         ":comprehensive_dcl_test",
         ":dcl_parser_test",
         ":dcl_test",
-        
         ":ddl_test",
         ":dml_test",
         ":final_dcl_test",
@@ -268,9 +430,9 @@ test_suite(
         ":test_percent_simple",
         ":test_show_grants",
         ":test_simple_create",
-        ":alter_table_parser_test",  # 添加新的测试
-        ":simple_alter_test",  # 添加简单测试
-        ":set_operation_parser_test",  # 添加SET OPERATION测试
-        ":test_show_commands",  # 添加SHOW命令测试
+        ":alter_table_parser_test",
+        ":simple_alter_test",
+        ":set_operation_parser_test",
+        ":test_show_commands",
     ],
 )

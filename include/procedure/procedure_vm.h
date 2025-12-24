@@ -26,7 +26,6 @@ class IfStatement;
 class WhileStatement;
 class CallStatement;
 class ProcedureVisitor;
-class SqlExecutorInterface;
 
 /**
  * @brief 存储过程值类型
@@ -65,7 +64,7 @@ private:
  */
 class ProcedureContext {
 public:
-    explicit ProcedureContext(std::unique_ptr<SqlExecutorInterface> executor);
+    explicit ProcedureContext(std::unique_ptr<sqlcc::core::SqlExecutorInterface> executor);
     ~ProcedureContext();
 
     // 变量管理
@@ -92,7 +91,7 @@ private:
     std::unordered_map<std::string, Value> parameters_;
     Value return_value_;
     std::vector<std::string> call_stack_;
-    std::unique_ptr<SqlExecutorInterface> sql_executor_;
+    std::unique_ptr<sqlcc::core::SqlExecutorInterface> sql_executor_;
 };
 
 /**
@@ -102,7 +101,7 @@ private:
  */
 class ProcedureVM {
 public:
-    explicit ProcedureVM(std::unique_ptr<SqlExecutorInterface> executor);
+    explicit ProcedureVM(std::unique_ptr<sqlcc::core::SqlExecutorInterface> executor);
     ~ProcedureVM();
 
     /**
@@ -142,7 +141,7 @@ private:
     std::string trim(const std::string& str) const;
     void setError(const std::string& error);
 
-    std::unique_ptr<SqlExecutorInterface> sql_executor_;
+    std::unique_ptr<sqlcc::core::SqlExecutorInterface> sql_executor_;
     std::string last_error_;
 };
 

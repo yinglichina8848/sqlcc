@@ -1,3 +1,5 @@
+# Validate单元测试BUILD文件
+
 cc_test(
     name = "constraint_system_test",
     srcs = ["constraint_system_test.cpp"],
@@ -7,7 +9,14 @@ cc_test(
         "//src/sql_parser:sql_parser",
         "//src/execution:execution",
     ],
-    copts = ["-std=c++17"],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
 )
 
 cc_test(
@@ -18,11 +27,18 @@ cc_test(
         "//include:constraint_executor",
         "//include:execution_engine",
         "//include:database_manager",
-        "//src/core:sqlcc_core_lib",  # 添加核心实现库
-        "//src/core:sqlcc_parser",  # 添加SQL解析器实现库
-        "//src/execution:execution",  # 添加执行引擎实现库
+        "//src/core:sqlcc_core_lib",
+        "//src/core:sqlcc_parser",
+        "//src/execution:execution",
     ],
-    copts = ["-std=c++17"],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
 )
 
 cc_test(
@@ -34,7 +50,14 @@ cc_test(
         "//src/sql_parser:sql_parser",
         "//src/execution:execution",
     ],
-    copts = ["-std=c++17"],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
 )
 
 cc_test(
@@ -46,7 +69,14 @@ cc_test(
         "//src/sql_parser:sql_parser",
         "//src/execution:execution",
     ],
-    copts = ["-std=c++17"],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
 )
 
 cc_test(
@@ -58,7 +88,14 @@ cc_test(
         "//src/sql_parser:sql_parser",
         "//src/execution:execution",
     ],
-    copts = ["-std=c++17"],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
 )
 
 cc_test(
@@ -70,7 +107,14 @@ cc_test(
         "//src/sql_parser:sql_parser",
         "//src/execution:execution",
     ],
-    copts = ["-std=c++17"],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
 )
 
 cc_test(
@@ -82,7 +126,14 @@ cc_test(
         "//src/sql_parser:sql_parser",
         "//src/execution:execution",
     ],
-    copts = ["-std=c++17"],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
 )
 
 cc_test(
@@ -94,7 +145,14 @@ cc_test(
         "//src/sql_parser:sql_parser",
         "//src/execution:execution",
     ],
-    copts = ["-std=c++17"],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
 )
 
 cc_test(
@@ -106,7 +164,14 @@ cc_test(
         "//src/sql_parser:sql_parser",
         "//src/execution:execution",
     ],
-    copts = ["-std=c++17"],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
 )
 
 cc_test(
@@ -118,5 +183,12 @@ cc_test(
         "//src/sql_parser:sql_parser",
         "//src/execution:execution",
     ],
-    copts = ["-std=c++17"],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
 )

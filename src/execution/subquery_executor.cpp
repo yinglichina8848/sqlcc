@@ -7,13 +7,16 @@
 #include <vector>
 
 namespace sqlcc {
+namespace execution {
 
 SubqueryExecutor::SubqueryExecutor(std::shared_ptr<SqlExecutor> sql_executor,
                                    std::shared_ptr<DatabaseManager> db_manager,
                                    std::shared_ptr<UserManager> user_manager,
                                    const ExecutionContext &context)
-    : sql_executor_(sql_executor), db_manager_(db_manager),
-      user_manager_(user_manager), context_(context) {
+    : sql_executor_(std::move(sql_executor)),
+      db_manager_(std::move(db_manager)),
+      user_manager_(std::move(user_manager)),
+      context_(context) {
   // 初始化子查询执行器
 }
 
@@ -257,4 +260,5 @@ bool SubqueryExecutor::evaluate_subquery_result(
   return false;
 }
 
+} // namespace execution
 } // namespace sqlcc

@@ -112,7 +112,7 @@ ExecutionResult SetOperationExecutor::executeUnion(const ExecutionResult& left,
         for (const auto& row : left.rows) {
             std::vector<std::string> row_values;
             for (const auto& value : row.values) {
-                row_values.push_back(value);
+                row_values.push_back(value.toString());
             }
             unique_rows.insert(row_values);
         }
@@ -121,7 +121,7 @@ ExecutionResult SetOperationExecutor::executeUnion(const ExecutionResult& left,
         for (const auto& row : right.rows) {
             std::vector<std::string> row_values;
             for (const auto& value : row.values) {
-                row_values.push_back(value);
+                row_values.push_back(value.toString());
             }
             unique_rows.insert(row_values);
         }
@@ -130,8 +130,11 @@ ExecutionResult SetOperationExecutor::executeUnion(const ExecutionResult& left,
         result.rows.reserve(unique_rows.size());
         for (const auto& row_values : unique_rows) {
             Row row;
-            row.values = row_values;
-            result.rows.push_back(row);
+            row.values.reserve(row_values.size());
+            for (const auto& str : row_values) {
+                row.values.emplace_back(str);
+            }
+            result.rows.push_back(std::move(row));
         }
     }
 
@@ -170,7 +173,7 @@ ExecutionResult SetOperationExecutor::executeIntersect(const ExecutionResult& le
             std::string key;
             for (const auto& value : row.values) {
                 if (!key.empty()) key += "|";
-                key += value;
+                key += value.toString();
             }
             left_count[key]++;
         }
@@ -180,7 +183,7 @@ ExecutionResult SetOperationExecutor::executeIntersect(const ExecutionResult& le
             std::string key;
             for (const auto& value : row.values) {
                 if (!key.empty()) key += "|";
-                key += value;
+                key += value.toString();
             }
             right_count[key]++;
         }
@@ -211,8 +214,11 @@ ExecutionResult SetOperationExecutor::executeIntersect(const ExecutionResult& le
             // 添加指定次数的行
             for (int i = 0; i < count; ++i) {
                 Row row;
-                row.values = values;
-                result.rows.push_back(row);
+                row.values.reserve(values.size());
+                for (const auto& str : values) {
+                    row.values.emplace_back(str);
+                }
+                result.rows.push_back(std::move(row));
             }
         }
     } else {
@@ -223,7 +229,7 @@ ExecutionResult SetOperationExecutor::executeIntersect(const ExecutionResult& le
         for (const auto& row : left.rows) {
             std::vector<std::string> row_values;
             for (const auto& value : row.values) {
-                row_values.push_back(value);
+                row_values.push_back(value.toString());
             }
             left_set.insert(row_values);
         }
@@ -232,7 +238,7 @@ ExecutionResult SetOperationExecutor::executeIntersect(const ExecutionResult& le
         for (const auto& row : right.rows) {
             std::vector<std::string> row_values;
             for (const auto& value : row.values) {
-                row_values.push_back(value);
+                row_values.push_back(value.toString());
             }
             if (left_set.count(row_values)) {
                 result_set.insert(row_values);
@@ -243,8 +249,11 @@ ExecutionResult SetOperationExecutor::executeIntersect(const ExecutionResult& le
         result.rows.reserve(result_set.size());
         for (const auto& row_values : result_set) {
             Row row;
-            row.values = row_values;
-            result.rows.push_back(row);
+            row.values.reserve(row_values.size());
+            for (const auto& str : row_values) {
+                row.values.emplace_back(str);
+            }
+            result.rows.push_back(std::move(row));
         }
     }
 
@@ -284,7 +293,7 @@ ExecutionResult SetOperationExecutor::executeExcept(const ExecutionResult& left,
             std::string key;
             for (const auto& value : row.values) {
                 if (!key.empty()) key += "|";
-                key += value;
+                key += value.toString();
             }
             left_count[key]++;
         }
@@ -294,7 +303,7 @@ ExecutionResult SetOperationExecutor::executeExcept(const ExecutionResult& left,
             std::string key;
             for (const auto& value : row.values) {
                 if (!key.empty()) key += "|";
-                key += value;
+                key += value.toString();
             }
             right_count[key]++;
         }
@@ -319,8 +328,11 @@ ExecutionResult SetOperationExecutor::executeExcept(const ExecutionResult& left,
                 // 添加剩余次数的行
                 for (int i = 0; i < diff; ++i) {
                     Row row;
-                    row.values = values;
-                    result.rows.push_back(row);
+                    row.values.reserve(values.size());
+                    for (const auto& str : values) {
+                        row.values.emplace_back(str);
+                    }
+                    result.rows.push_back(std::move(row));
                 }
             }
         }
@@ -332,7 +344,7 @@ ExecutionResult SetOperationExecutor::executeExcept(const ExecutionResult& left,
         for (const auto& row : left.rows) {
             std::vector<std::string> row_values;
             for (const auto& value : row.values) {
-                row_values.push_back(value);
+                row_values.push_back(value.toString());
             }
             left_set.insert(row_values);
         }
@@ -341,7 +353,7 @@ ExecutionResult SetOperationExecutor::executeExcept(const ExecutionResult& left,
         for (const auto& row : right.rows) {
             std::vector<std::string> row_values;
             for (const auto& value : row.values) {
-                row_values.push_back(value);
+                row_values.push_back(value.toString());
             }
             right_set.insert(row_values);
         }
@@ -356,8 +368,11 @@ ExecutionResult SetOperationExecutor::executeExcept(const ExecutionResult& left,
         result.rows.reserve(diff_result.size());
         for (const auto& row_values : diff_result) {
             Row row;
-            row.values = row_values;
-            result.rows.push_back(row);
+            row.values.reserve(row_values.size());
+            for (const auto& str : row_values) {
+                row.values.emplace_back(str);
+            }
+            result.rows.push_back(std::move(row));
         }
     }
 
@@ -388,26 +403,23 @@ void SetOperationExecutor::applyOrderBy(ExecutionResult& result,
         column_indices.push_back(col_idx);
     }
 
-    // 排序
+    // 排序 - 简化版本，直接比较字符串
     std::sort(result.rows.begin(), result.rows.end(),
               [column_indices, ascending](const Row& a, const Row& b) {
-                  for (size_t i = 0; i < column_indices.size(); ++i) {
-                      size_t col_idx = column_indices[i];
-                      bool asc = (i < ascending.size()) ? ascending[i] : true;
+                  if (column_indices.empty()) return false;
 
-                      if (col_idx >= a.values.size() || col_idx >= b.values.size()) {
-                          continue;
-                      }
+                  size_t col_idx = column_indices[0];
+                  bool asc = ascending.empty() ? true : ascending[0];
 
-                      const std::string& val_a = a.values[col_idx];
-                      const std::string& val_b = b.values[col_idx];
-
-                      int cmp = val_a.compare(val_b);
-                      if (cmp != 0) {
-                          return asc ? (cmp < 0) : (cmp > 0);
-                      }
+                  if (col_idx >= a.values.size() || col_idx >= b.values.size()) {
+                      return false;
                   }
-                  return false; // 相等
+
+                  std::string val_a = a.values[col_idx].toString();
+                  std::string val_b = b.values[col_idx].toString();
+
+                  int cmp = val_a.compare(val_b);
+                  return asc ? (cmp < 0) : (cmp > 0);
               });
 }
 
@@ -427,9 +439,9 @@ ExecutionResult SetOperationExecutor::executeSelect(const sql_parser::SelectStat
     // 模拟一些测试数据
     if (stmt.getTableName() == "employees") {
         result.rows = {
-            {"1", "John", "Engineering", "50000"},
-            {"2", "Jane", "Sales", "45000"},
-            {"3", "Bob", "Engineering", "55000"}
+            Row{{Value("1"), Value("John"), Value("Engineering"), Value("50000")}},
+            Row{{Value("2"), Value("Jane"), Value("Sales"), Value("45000")}},
+            Row{{Value("3"), Value("Bob"), Value("Engineering"), Value("55000")}}
         };
         result.column_metadata = {
             {"id", "INTEGER", true, true, false, ""},
@@ -439,8 +451,8 @@ ExecutionResult SetOperationExecutor::executeSelect(const sql_parser::SelectStat
         };
     } else if (stmt.getTableName() == "departments") {
         result.rows = {
-            {"Engineering", "100"},
-            {"Sales", "50"}
+            Row{{Value("Engineering"), Value("100")}},
+            Row{{Value("Sales"), Value("50")}}
         };
         result.column_metadata = {
             {"name", "VARCHAR", false, false, false, ""},

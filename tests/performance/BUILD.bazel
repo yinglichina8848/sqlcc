@@ -1,4 +1,4 @@
-""Bazel构建配置 for SQLCC性能测试""
+# Bazel构建配置 for SQLCC性能测试""
 
 # 性能测试基类
 cc_library(
@@ -34,6 +34,14 @@ cc_test(
         "@com_google_googletest//:gtest_main",
     ],
 )
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+    ],
 
 test_suite(
     name = "performance_tests",

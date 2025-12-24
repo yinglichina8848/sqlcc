@@ -17,7 +17,8 @@ ProcedureTriggerExecutor::~ProcedureTriggerExecutor() {}
 
 void ProcedureTriggerExecutor::initialize(SqlExecutor* sql_executor) {
     sql_executor_ = sql_executor;
-    procedure_vm_.initialize(sql_executor);
+    // Create ProcedureVM with a null executor initially
+    procedure_vm_ = std::make_unique<ProcedureVM>(nullptr);
     trigger::TriggerManager::getInstance().initialize(sql_executor);
 }
 

@@ -9,19 +9,39 @@ namespace fs = std::filesystem;
 
 namespace sqlcc {
 
-StorageEngine::StorageEngine(ConfigManager& config_manager, const std::string& db_path) 
+StorageEngine::StorageEngine(ConfigManager& config_manager, const std::string& db_path)
     : config_manager_(config_manager), db_path_(db_path) {
-    // 创建磁盘管理器
+    // 验证输入参数
+    if (db_path.empty()) {
+        throw std::invalid_argument("Database path cannot be empty");
+    }
+
+    // 创建数据库文件路径
     std::string db_file = db_path_ + "/sqlcc.db";
+    try {
+        // 确保数据库目录存在
+        std::filesystem::create_directories(db_path_);
+    } catch (const std::filesystem::filesystem_error& e) {
+        throw std::runtime_error("Failed to create database directory: " + std::string(e.what()));
+    }
+
+    // 创建磁盘管理器
     disk_manager_ = std::make_unique<DiskManager>(db_file, config_manager_);
-    
-    // 获取缓冲池配置
+
+    // 获取缓冲池配置，使用更安全的配置获取方式
     size_t buffer_pool_size = config_manager_.GetInt("buffer.pool.size", 64);
+    if (buffer_pool_size == 0) {
+        buffer_pool_size = 64;  // 设置最小缓冲池大小
+    }
+
     size_t shard_count = config_manager_.GetInt("buffer.shard.count", 16);
-    
+    if (shard_count == 0) {
+        shard_count = 4;  // 设置最小分片数量
+    }
+
     // 创建缓冲池
     buffer_pool_ = std::make_unique<BufferPoolSharded>(std::move(disk_manager_), config_manager_, buffer_pool_size, shard_count);
-    
+
     // 注意：不能在这里创建索引管理器，因为shared_from_this()只能在对象完全构造后使用
     // 索引管理器的创建将延迟到首次访问时
     index_manager_ = nullptr;

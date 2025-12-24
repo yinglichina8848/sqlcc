@@ -7,6 +7,7 @@
 #include "../database_manager.h"
 #include "core/execution_context.h"
 #include "core/execution_result.h"
+#include "sql_parser/ast_nodes.h"
 
 namespace sqlcc {
 

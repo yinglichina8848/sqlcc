@@ -1,4 +1,4 @@
-#include "include/execution/load_data_executor.h"
+#include "execution/load_data_executor.h"
 #include <iostream>
 #include <filesystem>
 #include <algorithm>
@@ -15,8 +15,8 @@ LoadDataExecutor::LoadDataExecutor(std::shared_ptr<StorageEngine> storage_engine
 
 LoadDataExecutor::~LoadDataExecutor() = default;
 
-ExecuteResult LoadDataExecutor::execute(const LoadDataStatement& stmt) {
-    ExecuteResult result;
+ExecutionResult LoadDataExecutor::execute(const sql_parser::LoadDataStatement& stmt) {
+    ExecutionResult result;
     result.success = false;
 
     try {
@@ -25,27 +25,27 @@ ExecuteResult LoadDataExecutor::execute(const LoadDataStatement& stmt) {
 
         // 1. 验证表是否存在
         if (!checkTableExists(stmt.table_name)) {
-            result.error_message = "Table '" + stmt.table_name + "' does not exist";
+            result.error_message() = "Table '" + stmt.table_name + "' does not exist";
             return result;
         }
 
         // 2. 获取表元数据
         auto table_meta = getTableMetadata(stmt.table_name);
         if (!table_meta) {
-            result.error_message = "Failed to get metadata for table '" + stmt.table_name + "'";
+            result.error_message() = "Failed to get metadata for table '" + stmt.table_name + "'";
             return result;
         }
 
         // 3. 检查文件权限
         if (!checkFilePermissions(stmt.file_name, stmt.is_local)) {
-            result.error_message = "Cannot access file '" + stmt.file_name + "'";
+            result.error_message() = "Cannot access file '" + stmt.file_name + "'";
             return result;
         }
 
         // 4. 打开文件
         std::ifstream file;
         if (!openFile(stmt.file_name, stmt.is_local, file)) {
-            result.error_message = "Failed to open file '" + stmt.file_name + "'";
+            result.error_message() = "Failed to open file '" + stmt.file_name + "'";
             return result;
         }
 
@@ -138,7 +138,7 @@ ExecuteResult LoadDataExecutor::execute(const LoadDataStatement& stmt) {
         }
 
     } catch (const std::exception& e) {
-        result.error_message = "LOAD DATA execution failed: " + std::string(e.what());
+        result.error_message() = "LOAD DATA execution failed: " + std::string(e.what());
         result.success = false;
     }
 
@@ -165,7 +165,7 @@ void LoadDataExecutor::closeFile(std::ifstream& file) {
     }
 }
 
-std::vector<std::string> LoadDataExecutor::parseFields(const std::string& line, const LoadDataStatement& stmt) {
+std::vector<std::string> LoadDataExecutor::parseFields(const std::string& line, const sql_parser::LoadDataStatement& stmt) {
     std::vector<std::string> fields;
 
     if (line.empty()) {
@@ -291,7 +291,7 @@ std::string LoadDataExecutor::removeEnclosure(const std::string& field,
 
 bool LoadDataExecutor::validateAndConvertRow(const std::vector<std::string>& raw_fields,
                                            std::vector<std::string>& processed_row,
-                                           const LoadDataStatement& stmt,
+                                           const sql_parser::LoadDataStatement& stmt,
                                            std::shared_ptr<TableMetadata> table_meta) {
     // 获取列信息
     const auto& columns = table_meta->get_columns();
@@ -356,7 +356,7 @@ bool LoadDataExecutor::validateAndConvertRow(const std::vector<std::string>& raw
 }
 
 bool LoadDataExecutor::applySetExpressions(std::vector<std::string>& row,
-                                         const LoadDataStatement& stmt) {
+                                         const sql_parser::LoadDataStatement& stmt) {
     if (stmt.set_expressions.empty()) {
         return true;
     }
@@ -555,7 +555,7 @@ bool LoadDataExecutor::validateDataType(const std::string& value, const std::str
 }
 
 bool LoadDataExecutor::insertRow(const std::vector<std::string>& row,
-                               const LoadDataStatement& stmt,
+                               const sql_parser::LoadDataStatement& stmt,
                                std::shared_ptr<TableMetadata> table_meta) {
     try {
         // 使用存储引擎插入数据

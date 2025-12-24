@@ -43,9 +43,16 @@ cc_library(
 cc_library(
     name = "function_ast",
     srcs = ["function_ast.cpp"],
-    hdrs = ["function_ast.h"],
+    includes = ["../include"],
+    copts = [
+        "-Iinclude",
+    ],
     deps = [
         "//include/sql_parser:function_ast",
+        "//include/sql_parser:ast_node",
+        "//include/sql_parser:node_visitor",
+        "//include/sql_parser:token",
+        "//include/sql_parser:function_definition",
     ],
     visibility = ["//visibility:public"],
 )
