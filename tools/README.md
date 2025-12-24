@@ -1,112 +1,153 @@
-# SQLCC 工具集
+# SQLCC 开发工具集
 
-本目录包含SQLCC项目使用的各种辅助工具。
+## 概述
+
+SQLCC开发工具集提供了一系列自动化工具，帮助开发者提高开发效率、维护代码质量和自动化重复性任务。
 
 ## 工具列表
 
-### bazel_label_fixer_enhanced.py
-增强版Bazel标签修复工具，用于自动修复BUILD文件中的标签路径问题。
+### 1. Bazel标签自动修复器 (`bazel_label_auto_fixer.py`)
 
 #### 功能特性
-- 修复 `//include:xxx.h` 标签为 `//include/xxx:xxx.h` 格式
-- 修复 `//src:xxx.cpp` 标签为 `//src/xxx:xxx.cpp` 格式
-- 自动转换相对路径引用为绝对路径：
-  - `../../include` → `//include`
-  - `../../../include` → `//include`
-- 支持单个文件或整个目录的批量修复
-- 提供dry-run模式预览修复效果
+- **自动扫描**: 扫描项目中所有BUILD.bazel文件
+- **智能检测**: 检测Bazel标签格式错误，包括：
+  - 无效的外部引用格式 (`//package:subpackage/file.cpp`)
+  - 缺少引号的标签引用
+  - 相对路径错误
+- **安全修复**: 支持dry-run模式预览修复内容
+- **批量处理**: 支持单文件和全项目批量修复
+- **详细报告**: 生成修复报告和统计信息
 
 #### 使用方法
+
 ```bash
-# 给工具添加执行权限
-chmod +x bazel_label_fixer_enhanced.py
+# 预览模式（推荐先运行）
+python3 tools/bazel_label_auto_fixer.py --dry-run --verbose
 
-# 查看帮助信息
-python3 bazel_label_fixer_enhanced.py --help
+# 实际修复
+python3 tools/bazel_label_auto_fixer.py --fix
 
-# dry-run模式：预览需要修复的文件（不实际修改）
-python3 bazel_label_fixer_enhanced.py /path/to/build/file.or.directory --dry-run
+# 修复特定文件
+python3 tools/bazel_label_auto_fixer.py --fix --filter "src/BUILD.bazel"
 
-# 实际修复文件
-python3 bazel_label_fixer_enhanced.py /path/to/build/file.or.directory
-
-# 修复整个项目
-python3 bazel_label_fixer_enhanced.py .
+# 生成详细报告
+python3 tools/bazel_label_auto_fixer.py --dry-run --report bazel_fix_report.md
 ```
 
-#### 使用示例
-```bash
-# 修复当前目录下的所有BUILD文件（预览模式）
-python3 bazel_label_fixer_enhanced.py . --dry-run
+#### 修复示例
 
-# 修复特定BUILD文件
-python3 bazel_label_fixer_enhanced.py src/core/BUILD.bazel
-
-# 修复整个src目录
-python3 bazel_label_fixer_enhanced.py src
+**修复前:**
+```bazel
+deps = [
+    "//src:network/network.cpp",  # 错误格式
+    //src:subpackage/file.cpp,     # 缺少引号
+    "../../include/utils.h",      # 相对路径
+]
 ```
 
-### bazel_dep_fixer_enhanced.py
-增强版BUILD文件依赖修复工具，用于自动修复BUILD文件中的依赖声明问题。
+**修复后:**
+```bazel
+deps = [
+    "//src/network:network.cpp",  # 正确格式
+    "//src/subpackage:file.cpp",   # 添加引号
+    "//include:utils.h",          # 简化路径
+]
+```
+
+#### 测试结果
+
+在SQLCC项目中测试，发现并修复了49个Bazel标签问题：
+- 处理文件总数: 71个
+- 发现问题总数: 49个
+- 无效的外部引用格式: 4个
+- 缺少引号: 33个
+- 相对路径错误: 12个
+
+### 2. 依赖分析器 (`test_dependency_analyzer.py`)
 
 #### 功能特性
-- 自动修复缺失的依赖声明
-- 移除未使用的依赖项
-- 优化依赖声明顺序
-- 修复相对路径依赖问题
-- 支持单个文件或整个目录的批量修复
-- 提供dry-run模式预览修复效果
+- 分析测试文件依赖关系
+- 生成依赖图
+- 识别循环依赖
+- 优化依赖层次
 
-#### 使用方法
+### 3. 测试配置验证器 (`test_config_validator.py`)
+
+#### 功能特性
+- 验证测试配置文件
+- 检查测试环境设置
+- 生成配置报告
+
+### 4. 头文件使用分析器 (`analyze_header_usage.py`)
+
+#### 功能特性
+- 分析头文件使用情况
+- 生成包含关系图
+- 识别冗余包含
+
+## 安装和配置
+
+### 环境要求
+- Python 3.7+
+- 必要的Python包会自动安装
+
+### 快速开始
 ```bash
-# 给工具添加执行权限
-chmod +x bazel_dep_fixer_enhanced.py
+# 克隆项目
+git clone https://gitee.com/yinglichina/sqlcc.git
+cd sqlcc
 
-# 查看帮助信息
-python3 bazel_dep_fixer_enhanced.py --help
-
-# dry-run模式：预览需要修复的文件（不实际修改）
-python3 bazel_dep_fixer_enhanced.py /path/to/build/file.or.directory --dry-run
-
-# 实际修复文件
-python3 bazel_dep_fixer_enhanced.py /path/to/build/file.or.directory
-
-# 修复整个项目
-python3 bazel_dep_fixer_enhanced.py .
+# 运行Bazel标签修复器
+python3 tools/bazel_label_auto_fixer.py --dry-run
 ```
 
-#### 使用示例
+## 使用建议
+
+### 1. 开发前检查
 ```bash
-# 修复当前目录下的所有BUILD文件（预览模式）
-python3 bazel_dep_fixer_enhanced.py . --dry-run
-
-# 修复特定BUILD文件
-python3 bazel_dep_fixer_enhanced.py src/core/BUILD.bazel
-
-# 修复整个src目录
-python3 bazel_dep_fixer_enhanced.py src
+# 检查BUILD文件是否有格式问题
+python3 tools/bazel_label_auto_fixer.py --dry-run
 ```
 
-### migrate_config_manager.sh
-配置管理器迁移工具，用于将旧版配置迁移到新版配置系统。
+### 2. 持续集成
+将工具集成到CI/CD流程中：
+```yaml
+# .github/workflows/ci.yml
+- name: Check Bazel Labels
+  run: python3 tools/bazel_label_auto_fixer.py --dry-run
+```
 
-### build_validator.sh
-构建验证工具，用于验证项目构建配置的正确性。
+### 3. 定期维护
+```bash
+# 每月运行一次全面检查
+python3 tools/bazel_label_auto_fixer.py --dry-run --report monthly_report.md
+```
 
-### bazel_check_deps.sh
-Bazel依赖检查工具，用于分析和报告Bazel构建依赖关系。
+## 贡献指南
 
-### bazel_code_checker.py
-Bazel代码检查工具，用于检查代码质量和规范。
+### 添加新工具
+1. 在`tools/`目录下创建Python脚本
+2. 添加详细的文档字符串
+3. 提供命令行接口
+4. 更新本README文件
+5. 添加使用示例
 
-## 目录结构
+### 代码规范
+- 使用类型注解
+- 提供详细的错误处理
+- 支持命令行参数
+- 生成有用的输出信息
 
-- `cpp/` - C++相关工具
-- `mcp/` - MCP协议相关工具
-- `test_framework/` - 测试框架相关工具
+## 许可证
 
-## 使用注意事项
+本工具集遵循与SQLCC项目相同的许可证。
 
-1. 所有工具都应该在项目根目录下运行
-2. 在运行任何修改性工具之前，建议先使用dry-run模式预览效果
-3. 定期更新工具以获得最新功能和修复
+## 联系方式
+
+如有问题或建议，请通过以下方式联系：
+- 提交Issue: [SQLCC Issues](https://gitee.com/yinglichina/sqlcc/issues)
+- 讨论区: [SQLCC Discussions](https://gitee.com/yinglichina/sqlcc/discussions)
+
+---
+
+**SQLCC开发工具集** - 让开发更高效，让代码更高质量
