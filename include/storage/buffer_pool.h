@@ -76,10 +76,10 @@ public:
 
   /**
    * @brief 创建新页面
-   * @param transaction_id 事务ID（用于并发控制）
-   * @return 新页面ID，如果失败返回-1
+   * @param page_id 返回的页面ID指针
+   * @return 新页面指针，如果失败返回nullptr
    */
-  int32_t NewPage(int32_t transaction_id = -1);
+  Page* NewPage(int32_t* page_id);
 
   /**
    * @brief 检查页面是否在缓冲池中

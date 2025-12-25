@@ -1,4 +1,4 @@
-# src/logger/BUILD.bazel - Logger模块
+# //src/logger/BUILD.bazel - Logger模块
 # 遵循设计文档的包层次结构
 
 load("@rules_cc//cc:defs.bzl", "cc_library")
@@ -18,7 +18,10 @@ cc_library(
     srcs = [
         "logger.cpp",
     ],
-    hdrs = ["include/utils/logger.h"],
+    hdrs = ["//include/utils:headers"],
+    deps = [
+        "//include/utils:headers",
+    ],
     copts = [
         "-std=c++20",
         "-stdlib=libc++",

@@ -2,7 +2,7 @@
 # SQLCC 头文件包定义 - 采用清晰的分层标签格式
 # ==============================================================================
 
-load("@rules_cc"//cc:defs.bzl"", "cc_library")
+load("@rules_cc"//cc:defs.bzl", "cc_library")
 
 
 # -----------------------------------------------------------------------------
@@ -53,7 +53,7 @@ cc_library(
 
 cc_library(
     name = "sql_executor_headers",
-    deps = ["//include/sql_executor:headers"],
+    deps = ["//include/sql_executor/*.h"],
     visibility = ["//visibility:public"],
 )
 

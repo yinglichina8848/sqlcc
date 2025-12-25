@@ -1,7 +1,7 @@
-# src/core/BUILD.bazel - SQLCC核心基础组件库
+# //src/core/BUILD.bazel - SQLCC核心基础组件库
 # 遵循设计文档的包层次结构
 
-load("@rules_cc"//cc:defs.bzl"", "cc_library")
+load("@rules_cc//cc:defs.bzl", "cc_library")
 
 
 package(default_visibility = ["//visibility:public"])
@@ -34,7 +34,7 @@ cc_library(
         "-Wall",
         "-Wextra",
         "-Wno-error=maybe-uninitialized",
-        "-include include/sqlcc_pch.h",  # 使用预编译头文件
+        "-include //include/sqlcc_pch.h",  # 使用预编译头文件
     ],
     linkopts = [
         "-stdlib=libc++",
