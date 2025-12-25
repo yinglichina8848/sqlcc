@@ -1,8 +1,7 @@
 # //src/execution/BUILD.bazel - Execution模块
 # 遵循设计文档的包层次结构
 
-load("@rules_cc"//cc:defs.bzl", "cc_library")
-
+load("@rules_cc//cc:defs.bzl", "cc_library")
 
 # 导出源文件以供其他包使用
 exports_files([
@@ -21,10 +20,9 @@ cc_library(
     deps = [
         "//src/core:core",
         "//src/sql_parser:sql_parser",
-        # "//src/execution:execution",  # 移除循环依赖
         "//src/procedure:procedure",
         "//include/execution:function_executor",
-        "//include/execution:task_executor_hdr",
+        "//include/execution:task_executor",
         "//include/procedure:procedure_headers",
         "//include/sql_parser:function_ast",
     ],
