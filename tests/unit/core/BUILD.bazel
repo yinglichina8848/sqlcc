@@ -22,8 +22,10 @@ cc_test(
     srcs = ["config_manager_test.cpp"],
     deps = [
         "//src/core:core",
+        "//src/utils:utils",
         "@com_google_googletest//:gtest_main",
     ],
+    includes = ["//include"],
     linkopts = [
         "-stdlib=libc++",
         "-lc++abi",

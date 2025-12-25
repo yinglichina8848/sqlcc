@@ -7,7 +7,7 @@
  * How: 使用std::shared_ptr、std::unique_ptr和RAII模式实现内存安全的配置管理
  */
 
-#include "utils/smart_config_manager.h"
+#include <utils/smart_config_manager.h>
 #include <fstream>
 #include <sstream>
 #include <chrono>

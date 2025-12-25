@@ -26,15 +26,16 @@ cc_library(
         "//src/logger:logger",
         "//src/utils:utils",
         "//include/exception:exception",
+        "//include:error_handler",  # 错误处理模块
         "//include:sqlcc_pch",  # 预编译头文件
     ],
     copts = [
+        "-Iinclude",
         "-std=c++20",
         "-stdlib=libc++",
         "-Wall",
         "-Wextra",
         "-Wno-error=maybe-uninitialized",
-        "-include //include/sqlcc_pch.h",  # 使用预编译头文件
     ],
     linkopts = [
         "-stdlib=libc++",

@@ -12,7 +12,7 @@ cc_library(
         "domain_manager.cpp",
     ],
     hdrs = [
-        "//include/types:domain_manager",
+        "//include/types:domain_manager.h",
     ],
     copts = [
         "-Iinclude",
@@ -31,10 +31,9 @@ cc_library(
         "SQLCC_CLANG18_FEATURES=1",
     ],
     deps = [
-        "//include/core:headers",
-        "//include/utils:headers",
+        "//src/core:core",
+        "//src/utils:utils",
         "//include/procedure:procedure_headers",
-        "//include/types:domain_manager",
     ],
 )
 

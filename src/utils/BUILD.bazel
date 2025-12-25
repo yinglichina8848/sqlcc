@@ -1,7 +1,7 @@
 # src/utils/BUILD.bazel - Utils模块
 # 遵循设计文档的包层次结构
 
-load("@rules_cc"//cc:defs.bzl", "cc_library")
+load("@rules_cc//cc:defs.bzl", "cc_library")
 
 
 # Utils库 - 工具库
@@ -14,16 +14,20 @@ cc_library(
         "smart_config_manager.cpp",
     ],
     includes = ["//include"],
-    deps = [
-        "//include/utils:headers",
-        "//src/logger:logger",
-    ],
     copts = [
+        "-Iinclude",
         "-std=c++20",
         "-stdlib=libc++",
         "-Wall",
         "-Wextra",
         "-Wno-uninitialized",
+    ],
+    hdrs = [
+        "//include/utils:smart_config_manager.h",
+    ],
+    deps = [
+        "//include/utils:headers",
+        "//src/logger:logger",
     ],
     linkopts = [
         "-stdlib=libc++",
