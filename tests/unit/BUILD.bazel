@@ -194,3 +194,29 @@ cc_test(
     ],
     features = ["cpp20_modules"],
 )
+
+# Logger组件测试
+cc_test(
+    name = "logger_test",
+    srcs = ["logger_test.cpp"],
+    deps = [
+        "//src/logger:logger",
+        "//include/utils:headers",
+        "@com_google_googletest//:gtest_main",
+    ],
+    includes = ["."],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+        "-Wall",
+        "-Wextra",
+        "-Wno-error=maybe-uninitialized",
+        "-I.",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+        "-lpthread",
+    ],
+    features = ["cpp20_modules"],
+)

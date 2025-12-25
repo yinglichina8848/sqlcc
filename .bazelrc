@@ -113,6 +113,13 @@ coverage --combined_report=lcov
 coverage --instrumentation_filter="//src/.*"
 coverage --instrumentation_filter="//include/.*"
 
+# Clang覆盖率专用配置
+coverage --copt=-fprofile-instr-generate
+coverage --copt=-fcoverage-mapping
+coverage --linkopt=-fprofile-instr-generate
+coverage --linkopt=-fcoverage-mapping
+coverage --action_env=LLVM_PROFILE_FILE=/tmp/coverage_%p.profraw
+
 # 远程缓存配置（如果使用）
 # build --remote_cache=http://cache.example.com:8080
 
