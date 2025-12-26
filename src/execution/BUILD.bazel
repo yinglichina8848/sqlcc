@@ -1,7 +1,7 @@
 # //src/execution/BUILD.bazel - Execution模块
 # 遵循设计文档的包层次结构
 
-load("@rules_cc//cc:defs.bzl", "cc_library")
+load("@rules_cc//cc:defs.bzl", "cc_library", "cc_test")
 
 # 导出源文件以供其他包使用
 exports_files([
@@ -16,13 +16,15 @@ exports_files([
 cc_library(
     name = "function_executor",
     srcs = ["function_executor.cpp"],
+
     visibility = ["//visibility:public"],
     deps = [
         "//src/core:core",
         "//src/sql_parser:sql_parser",
+        "//src/sql_parser:function_definition_impl",
         "//src/procedure:procedure",
-        "//include/execution:function_executor",
-        "//include/execution:task_executor",
+        "//include/execution:headers",
+        "//include/execution:task_executor_hdr",
         "//include/procedure:procedure_headers",
         "//include/sql_parser:function_ast",
     ],
@@ -31,52 +33,68 @@ cc_library(
 cc_library(
     name = "join_executor",
     srcs = ["join_executor.cpp"],
+
     visibility = ["//visibility:public"],
     deps = [
-        "//src/core:core"
+        "//src/core:core",
+        "//src/sql_parser:sql_parser",
+        "//src/storage_engine:storage_engine",
+        "//include/sql_parser:ast_node",
     ],
 )
 
 cc_library(
     name = "set_operation_executor",
     srcs = ["set_operation_executor.cpp"],
+
     visibility = ["//visibility:public"],
     deps = [
         "//include/execution:set_operation_executor_hdr",
         "//src/sql_parser:set_operation",
         "//src/core:core",
+        "//src/sql_parser:sql_parser",
+        "//src/storage_engine:storage_engine",
     ],
 )
 
 cc_library(
     name = "window_function_executor",
     srcs = ["window_function_executor.cpp"],
+
     visibility = ["//visibility:public"],
     deps = [
         "//include/execution:window_function_executor_hdr",
         "//src/sql_parser:window_function",
         "//src/core:core",
+        "//src/sql_parser:sql_parser",
+        "//src/storage_engine:storage_engine",
     ],
 )
 
 cc_library(
     name = "recursive_query_executor",
     srcs = ["recursive_query_executor.cpp"],
+
     visibility = ["//visibility:public"],
     deps = [
         "//include/execution:recursive_query_executor_hdr",
-        "//src/sql_parser:recursive_query",
+        "//src/sql_parser:sql_parser",
         "//src/core:core",
+        "//src/storage_engine:storage_engine",
     ],
 )
 
 cc_library(
     name = "load_data_executor",
     srcs = ["load_data_executor.cpp"],
+
     visibility = ["//visibility:public"],
     deps = [
         "//include/execution:load_data_executor_hdr",
         "//src/core:core",
+        "//src/sql_parser:sql_parser",
+        "//src/storage_engine:storage_engine",
+
     ],
 )
 
@@ -84,12 +102,32 @@ cc_library(
 cc_library(
     name = "subquery_executor",
     srcs = ["subquery_executor.cpp"],
-    hdrs = ["subquery_executor.h"],
+
     visibility = ["//visibility:public"],
     deps = [
         "//include/execution:subquery_executor_hdr",
         "//include/execution_ast",
         "//src/core:core",
+        "//src/sql_parser:sql_parser",
+        "//src/storage_engine:storage_engine",
+    ],
+)
+
+cc_library(
+    name = "procedure_trigger_task",
+    srcs = ["procedure_trigger_task.cpp"],
+
+    visibility = ["//visibility:public"],
+    deps = [
+        "//include/execution:task_executor_hdr",
+        "//include/sql_parser:ast_node",
+        "//include/sql_parser:ast_nodes",
+        "//include/procedure:procedure_headers",
+        "//include/trigger:trigger_headers",
+        "//src/core:core",
+        "//src/sql_parser:sql_parser",
+        "//src/procedure:procedure",
+        "//src/trigger:trigger",
     ],
 )
 
@@ -105,5 +143,8 @@ cc_library(
         ":window_function_executor",
         ":recursive_query_executor",
         ":load_data_executor",
+        ":procedure_trigger_task",
     ],
 )
+
+

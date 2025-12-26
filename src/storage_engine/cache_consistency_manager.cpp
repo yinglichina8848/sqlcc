@@ -11,7 +11,7 @@
  */
 
 #include "storage/cache_consistency_manager.h"
-#include "storage/buffer_pool.h"
+#include "storage/buffer_pool_sharded.h"
 #include "exception.h"
 #include "utils/logger.h"
 #include <algorithm>
@@ -21,7 +21,7 @@
 namespace sqlcc {
 
 // 缓存一致性管理器实现
-CacheConsistencyManager::CacheConsistencyManager(std::shared_ptr<BufferPool> buffer_pool,
+CacheConsistencyManager::CacheConsistencyManager(std::shared_ptr<BufferPoolSharded> buffer_pool,
                                                  CacheConsistencyStrategy strategy)
     : buffer_pool_(std::move(buffer_pool)),
       strategy_(strategy),

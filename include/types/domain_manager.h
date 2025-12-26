@@ -8,8 +8,6 @@
 
 namespace sqlcc {
 
-namespace procedure {
-
 /**
  * @brief 变量值类型
  */
@@ -39,11 +37,6 @@ private:
     std::string string_value_;
     bool bool_value_;
 };
-
-} // namespace procedure
-
-// 使用简化的Value类
-using Value = procedure::Value;
 
 /**
  * @brief 域定义

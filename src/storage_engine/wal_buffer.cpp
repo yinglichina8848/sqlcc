@@ -145,8 +145,6 @@ bool WALBuffer::Flush() {
 }
 
 bool WALBuffer::ForceFlush() {
-  std::unique_lock<std::mutex> lock(buffer_mutex_);
-  // 强制刷新所有待处理记录
   return Flush();
 }
 

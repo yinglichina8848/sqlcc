@@ -195,6 +195,29 @@ cc_test(
     features = ["cpp20_modules"],
 )
 
+cc_test(
+    name = "basic_bplus_tree_test",
+    srcs = ["basic_bplus_tree_test.cpp"],
+    deps = [
+        "//src/storage_engine:storage_engine",
+        "//src/core:core",
+        "//src/utils:utils",
+        "@com_google_googletest//:gtest_main",
+    ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+        "-Wall",
+        "-Wextra",
+        "-Wno-error=maybe-uninitialized",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+    features = ["cpp20_modules"],
+)
+
 # Logger组件测试
 cc_test(
     name = "logger_test",

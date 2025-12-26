@@ -1,3 +1,4 @@
+#include "sql_parser/ast_node.h"
 #ifndef SQLCC_SQL_PARSER_PARSER_H
 #define SQLCC_SQL_PARSER_PARSER_H
 
@@ -52,7 +53,7 @@ private:
   bool hadError() const;
 
   // Helper method to check if current statement is CREATE VIEW
-  bool isCreateViewStatement() const;
+  bool isCreateViewStatement();
 
   // Statement parsing (strict BNF compliance)
   std::unique_ptr<Statement> parseStatement();

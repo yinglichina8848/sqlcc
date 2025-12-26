@@ -1,3 +1,4 @@
+#include "sql_parser/ast_node.h"
 #ifndef SQLCC_UNIFIED_QUERY_PLAN_H
 #define SQLCC_UNIFIED_QUERY_PLAN_H
 

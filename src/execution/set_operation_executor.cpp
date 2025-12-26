@@ -1,3 +1,4 @@
+#include "sql_parser/ast_nodes.h"
 #include "execution/set_operation_executor.h"
 #include "core/execution_context.h"
 #include "core/execution_result.h"

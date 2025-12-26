@@ -1,7 +1,7 @@
 #ifndef SQLCC_TRIGGER_SQL_TRIGGER_EXECUTOR_H
 #define SQLCC_TRIGGER_SQL_TRIGGER_EXECUTOR_H
 
-#include "trigger/trigger_manager.h"
+#include "trigger_manager.h"
 #include <memory>
 #include <string>
 #include <vector>

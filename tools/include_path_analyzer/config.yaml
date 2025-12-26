@@ -1,0 +1,250 @@
+# SQLCC Include路径分析器配置
+# 版本: v1.0.0
+# 更新时间: 2025年12月25日
+
+# 项目基本信息
+project:
+  name: "SQLCC"
+  root: "."
+  include_dirs:
+    - "include"
+  src_dirs:
+    - "src"
+    - "tests"
+
+# 问题类型定义
+issue_types:
+  - name: "relative_path"
+    description: "使用相对路径引用include目录"
+    severity: "high"
+    pattern: "^\\.\\./include/"
+    suggestion: "使用标准include路径"
+
+  - name: "deprecated_header"
+    description: "使用已弃用的头文件"
+    severity: "medium"
+    deprecated_headers:
+      - "storage/buffer_pool_v2.h"
+      - "storage/buffer_pool_fixed.h"
+    suggestion: "使用storage/buffer_pool.h"
+
+  - name: "incorrect_module_path"
+    description: "模块路径不正确"
+    severity: "medium"
+    suggestion: "使用正确的模块路径"
+
+  - name: "missing_header"
+    description: "引用的头文件不存在"
+    severity: "high"
+    suggestion: "检查文件路径或创建缺失的文件"
+
+  - name: "circular_dependency"
+    description: "循环依赖"
+    severity: "high"
+    suggestion: "重构代码以消除循环依赖"
+
+# 模块映射规则
+module_mappings:
+  # 核心模块
+  "database_manager.h": "core/database_manager.h"
+  "sql_executor.h": "core/sql_executor.h"
+  "user_manager.h": "core/user_manager.h"
+  "permission_validator.h": "core/permission_validator.h"
+  "error_handler.h": "core/error_handler.h"
+
+  # 存储引擎模块
+  "storage_engine.h": "storage_engine.h"
+  "buffer_pool.h": "storage/buffer_pool.h"
+  "b_plus_tree.h": "storage/b_plus_tree.h"
+  "index_manager.h": "storage/index_manager.h"
+  "disk_manager.h": "storage/disk_manager.h"
+  "table_storage.h": "storage/table_storage.h"
+  "wal_writer.h": "storage/wal_writer.h"
+  "wal_buffer.h": "storage/wal_buffer.h"
+  "checkpoint.h": "storage/checkpoint.h"
+
+  # SQL解析器模块
+  "sql_parser.h": "sql_parser/parser.h"
+  "lexer.h": "sql_parser/lexer.h"
+  "parser.h": "sql_parser/parser.h"
+  "ast_node.h": "sql_parser/ast_node.h"
+  "token.h": "sql_parser/token.h"
+  "constraint.h": "sql_parser/constraint.h"
+  "function_ast.h": "sql_parser/function_ast.h"
+  "set_operation.h": "sql_parser/set_operation.h"
+  "window_function.h": "sql_parser/window_function.h"
+  "recursive_query.h": "sql_parser/recursive_query.h"
+  "json.h": "sql_parser/json.h"
+  "datetime.h": "sql_parser/datetime.h"
+  "decimal.h": "sql_parser/decimal.h"
+
+  # 执行引擎模块
+  "join_executor.h": "execution/join_executor.h"
+  "function_executor.h": "execution/function_executor.h"
+  "window_function_executor.h": "execution/window_function_executor.h"
+  "load_data_executor.h": "execution/load_data_executor.h"
+  "set_operation_executor.h": "execution/set_operation_executor.h"
+  "recursive_query_executor.h": "execution/recursive_query_executor.h"
+  "dml_execution_strategy.h": "execution/dml_execution_strategy.h"
+  "execution_strategy.h": "execution/execution_strategy.h"
+  "aggregate_engine.h": "execution/aggregate_engine.h"
+  "group_by_executor.h": "execution/group_by_executor.h"
+  "unified_executor.h": "execution/unified_executor.h"
+  "ddl_execution_strategy.h": "execution/ddl_execution_strategy.h"
+  "task_executor.h": "execution/task_executor.h"
+  "comprehensive_task_executor.h": "execution/comprehensive_task_executor.h"
+  "test_runner.h": "execution/test_runner.h"
+  "standalone_test.h": "execution/standalone_test.h"
+
+  # 网络模块
+  "network.h": "network/network.h"
+  "connection_state.h": "network/connection_state.h"
+  "encryption.h": "network/encryption.h"
+  "session.h": "network/session.h"
+  "session_manager.h": "network/session_manager.h"
+  "client_connection.h": "network/client_connection.h"
+  "client_network_manager.h": "network/client_network_manager.h"
+  "server_network_manager.h": "network/server_network_manager.h"
+  "connection_handler.h": "network/connection_handler.h"
+  "connection_state_machine.h": "network/connection_state_machine.h"
+  "network_exception.h": "network/network_exception.h"
+  "message_processor.h": "network/message_processor.h"
+  "key_rotation_policy.h": "network/key_rotation_policy.h"
+  "network_monitor.h": "network/network_monitor.h"
+  "network_stability_guard.h": "network/network_stability_guard.h"
+  "data_transmission_validator.h": "network/data_transmission_validator.h"
+  "mysql_protocol.h": "network/mysql_protocol.h"
+
+  # 工具模块
+  "config_manager.h": "utils/config_manager.h"
+  "logger.h": "utils/logger.h"
+  "smart_config_manager.h": "utils/smart_config_manager.h"
+  "config_snapshot.h": "utils/config_snapshot.h"
+  "config_lifecycle.h": "utils/config_lifecycle.h"
+
+  # 触发器模块
+  "trigger_manager.h": "trigger/trigger_manager.h"
+  "sql_trigger_executor.h": "trigger/sql_trigger_executor.h"
+  "trigger_definition.h": "trigger/trigger_definition.h"
+  "trigger_executor.h": "trigger/trigger_executor.h"
+  "recursion_guard.h": "trigger/recursion_guard.h"
+
+  # 存储过程模块
+  "procedure_parser.h": "procedure/procedure_parser.h"
+  "procedure_vm.h": "procedure/procedure_vm.h"
+  "procedure_trigger_executor.h": "procedure/procedure_trigger_executor.h"
+  "procedure_trigger_task.h": "execution/procedure_trigger_task.h"
+
+  # 事务模块
+  "savepoint_manager.h": "transaction/savepoint_manager.h"
+
+  # 类型模块
+  "domain_manager.h": "types/domain_manager.h"
+
+# 标准库和第三方库头文件
+standard_libraries:
+  # C标准库
+  - "assert.h"
+  - "ctype.h"
+  - "errno.h"
+  - "float.h"
+  - "limits.h"
+  - "locale.h"
+  - "math.h"
+  - "setjmp.h"
+  - "signal.h"
+  - "stdarg.h"
+  - "stddef.h"
+  - "stdio.h"
+  - "stdlib.h"
+  - "string.h"
+  - "time.h"
+
+  # C++标准库
+  - "algorithm"
+  - "array"
+  - "atomic"
+  - "bitset"
+  - "chrono"
+  - "complex"
+  - "deque"
+  - "exception"
+  - "filesystem"
+  - "fstream"
+  - "functional"
+  - "future"
+  - "initializer_list"
+  - "iomanip"
+  - "ios"
+  - "iosfwd"
+  - "iostream"
+  - "istream"
+  - "iterator"
+  - "limits"
+  - "list"
+  - "locale"
+  - "map"
+  - "memory"
+  - "mutex"
+  - "new"
+  - "numeric"
+  - "optional"
+  - "ostream"
+  - "queue"
+  - "random"
+  - "ratio"
+  - "regex"
+  - "set"
+  - "sstream"
+  - "stack"
+  - "stdexcept"
+  - "streambuf"
+  - "string"
+  - "string_view"
+  - "system_error"
+  - "thread"
+  - "tuple"
+  - "type_traits"
+  - "unordered_map"
+  - "unordered_set"
+  - "utility"
+  - "valarray"
+  - "variant"
+  - "vector"
+
+  # C++17及以上
+  - "any"
+  - "execution"
+  - "memory_resource"
+  - "shared_mutex"
+  - "typeindex"
+
+  # 第三方库
+  - "gtest/gtest.h"
+  - "gmock/gmock.h"
+  - "spdlog/spdlog.h"
+  - "spdlog/sinks/basic_file_sink.h"
+  - "spdlog/sinks/stdout_color_sinks.h"
+  - "openssl/ssl.h"
+  - "openssl/err.h"
+
+# 分析选项
+analysis:
+  max_include_depth: 10
+  enable_circular_detection: true
+  check_bazel_compatibility: true
+  enable_auto_fix: false  # 默认不自动修复，需要明确启用
+
+# 输出选项
+output:
+  formats: ["json", "html", "cli"]
+  report_dir: "reports/include_analysis"
+  enable_summary: true
+  enable_details: true
+
+# 修复选项
+fixing:
+  backup_files: true
+  dry_run: false
+  max_fixes_per_file: 10
+  require_confirmation: true

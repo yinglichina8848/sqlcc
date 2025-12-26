@@ -1,4 +1,5 @@
 /**
+#include "sql_parser/ast_node.h"
  * @file procedure_vm.h
  * @brief 存储过程虚拟机定义
  *

@@ -1,3 +1,6 @@
+#include "sql_parser/ast_node.h"
+#include "sql_parser/data_types.h"
+#include "sql_parser/token.h"
 #include "sql_parser/ast_nodes.h"
 #include <algorithm>
 #include <cctype>
@@ -1145,7 +1148,7 @@ std::string AlterTriggerStatement::getActionString() const {
 namespace {
     // Expression classes
     sqlcc::sql_parser::Expression dummy_expression;
-    sqlcc::sql_parser::BinaryExpression dummy_binary_expr(nullptr, nullptr, sqlcc::sql_parser::Token::OPERATOR_PLUS);
+    sqlcc::sql_parser::BinaryExpression dummy_binary_expr(nullptr, nullptr, sqlcc::sql_parser::TokenType::OPERATOR_PLUS);
     sqlcc::sql_parser::IdentifierExpression dummy_identifier("");
     sqlcc::sql_parser::StringLiteralExpression dummy_string("");
     sqlcc::sql_parser::NumericLiteralExpression dummy_numeric(0.0);

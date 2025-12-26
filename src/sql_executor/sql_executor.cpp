@@ -1,3 +1,4 @@
+#include "sql_parser/ast_node.h"
 #include "sql_executor.h"
 #include "view_manager.h"
 #include "core/permission_validator.h"

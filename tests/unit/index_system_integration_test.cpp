@@ -1,3 +1,4 @@
+#include "sql_parser/ast_node.h"
 #include <gtest/gtest.h>
 #include <filesystem>
 #include "database_manager.h"

@@ -1,3 +1,4 @@
+#include "sql_parser/ast_node.h"
 #ifndef SQLCC_PROCEDURE_PROCEDURE_PARSER_H
 #define SQLCC_PROCEDURE_PROCEDURE_PARSER_H
 

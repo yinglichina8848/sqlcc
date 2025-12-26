@@ -1,4 +1,5 @@
 /**
+#include "sql_parser/ast_node.h"
  * @file function_ddl.h
  * @brief 函数DDL语句类定义
  *

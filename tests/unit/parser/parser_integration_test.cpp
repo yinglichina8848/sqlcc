@@ -1,3 +1,5 @@
+#include "sql_parser/ast_nodes.h"
+#include "sql_parser/token.h"
 #include <iostream>
 #include <memory>
 #include <vector>

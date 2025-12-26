@@ -1,4 +1,6 @@
 /**
+#include "sql_parser/ast_node.h"
+#include "sql_parser/ast_nodes.h"
  * @file ddl_execution_strategy.h
  * @brief DDL执行策略头文件
  */

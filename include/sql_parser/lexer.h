@@ -1,7 +1,7 @@
 #ifndef SQLCC_SQL_PARSER_LEXER_H
 #define SQLCC_SQL_PARSER_LEXER_H
 
-#include "token.h"
+#include "sql_parser/token.h"
 #include <string>
 #include <unordered_map>
 

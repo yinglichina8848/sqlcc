@@ -3,8 +3,8 @@
 
 #include "performance_test_base.h"
 #include "storage_engine.h"
-#include "config_manager.h"
-#include "b_plus_tree.h"
+#include "utils/config_manager.h"
+#include "storage/b_plus_tree.h"
 #include <string>
 #include <vector>
 #include <map>

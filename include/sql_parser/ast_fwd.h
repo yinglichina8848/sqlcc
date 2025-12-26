@@ -1,3 +1,5 @@
+#include "sql_parser/ast_node.h"
+#include "sql_parser/ast_nodes.h"
 #ifndef SQLCC_SQL_PARSER_AST_FWD_H
 #define SQLCC_SQL_PARSER_AST_FWD_H
 

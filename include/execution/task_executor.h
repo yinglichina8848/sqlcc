@@ -16,6 +16,7 @@
 #include <functional>
 
 #include "core/execution_result.h"
+#include "execution/task_result.h"
 
 namespace sqlcc {
 
@@ -38,26 +39,32 @@ enum class TaskPriority {
     CRITICAL = 3
 };
 
+
+
 // 任务接口
 class Task {
 public:
-    Task();
+    Task() : task_id_(""), task_type_(execution::TaskType::UNKNOWN), priority_(0), completed_(false) {}
+    Task(const std::string& task_id, execution::TaskType type, int priority = 0)
+        : task_id_(task_id), task_type_(type), priority_(priority), completed_(false) {}
     virtual ~Task() = default;
 
-    virtual void execute(ExecutionContext& context) = 0;
-    virtual std::string getDescription() const = 0;
-    virtual TaskPriority getPriority() const = 0;
+    virtual std::shared_ptr<execution::TaskResult> execute() = 0;
+    virtual std::string getDescription() const { return task_id_; }
+    virtual TaskPriority getPriority() const { return static_cast<TaskPriority>(priority_); }
 
-    TaskStatus getStatus() const;
-    void setStatus(TaskStatus status);
+    const std::string& getTaskId() const { return task_id_; }
+    execution::TaskType getTaskType() const { return task_type_; }
+    int getPriorityValue() const { return priority_; }
+    bool isCompleted() const { return completed_; }
 
-    // 任务标识
-    int getTaskId() const;
-    void setTaskId(int id);
+    void setTaskId(const std::string& task_id) { task_id_ = task_id; }
 
 private:
-    int task_id_;
-    TaskStatus status_;
+    std::string task_id_;
+    execution::TaskType task_type_;
+    int priority_;
+    bool completed_;
 };
 
 // 任务执行器 - 管理任务队列和执行

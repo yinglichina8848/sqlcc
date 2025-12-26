@@ -13,7 +13,7 @@
 #include <iostream>
 #include <memory>
 #include "version.h"
-#include "config_manager.h"
+#include "utils/config_manager.h"
 #include "storage_engine.h"
 #include "exception.h"
 

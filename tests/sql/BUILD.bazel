@@ -2,12 +2,12 @@
 
 package(default_visibility = ["//visibility:public"])
 
-load("@rules_cc"//cc:defs.bzl", "cc_test")
+load("@rules_cc//cc:defs.bzl", "cc_test")
 
 
 # 约束系统测试
 cc_test(
-    name = simple_constraint_test,,
+    name = "simple_constraint_test",
     srcs = ["simple_constraint_test.cpp"],
     deps = [
         "@com_google_googletest//:gtest_main",
@@ -16,11 +16,19 @@ cc_test(
         "//src/sql_parser:sql_parser",
         "//src/procedure:procedure",
     ],
-
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+    ],
+)
 
 # 约束演示测试
 cc_test(
-    name = test_constraint_demo,,
+    name = "test_constraint_demo",
     srcs = ["test_constraint_demo.cpp"],
     deps = [
         "@com_google_googletest//:gtest_main",
@@ -29,11 +37,19 @@ cc_test(
         "//src/sql_parser:sql_parser",
         "//src/procedure:procedure",
     ],
-
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+    ],
+)
 
 # 存储过程测试
 cc_test(
-    name = simple_procedure_test,,
+    name = "simple_procedure_test",
     srcs = ["simple_procedure_test.cpp"],
     deps = [
         "//src/procedure:procedure_parser",
@@ -41,27 +57,51 @@ cc_test(
         "//src/trigger:trigger_manager",
         "@com_google_googletest//:gtest_main",
     ],
-
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+    ],
+)
 
 # DCL解析测试
 cc_test(
-    name = test_dcl_parsing,,
+    name = "test_dcl_parsing",
     srcs = ["test_dcl_parsing.cpp"],
     deps = [
         "//src/sql_parser:sql_parser",
         "@com_google_googletest//:gtest_main",
     ],
-
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+    ],
+)
 
 # JOIN功能测试
 cc_test(
-    name = test_join_functionality,,
+    name = "test_join_functionality",
     srcs = ["test_join_functionality.cpp"],
     deps = [
         "//src/execution:join_executor",
         "@com_google_googletest//:gtest_main",
     ],
-
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+    ],
+)
 
 exports_files([
     "comprehensive_test.sql",

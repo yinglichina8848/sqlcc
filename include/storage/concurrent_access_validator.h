@@ -35,7 +35,7 @@ enum AccessControlType {
 };
 
 // 锁模式
-enum LockMode {
+enum LockType {
     SHARED_LOCK = 1,       // 共享锁 (允许多读)
     EXCLUSIVE_LOCK = 2,    // 排他锁 (只允许单写)
     UPDATE_LOCK = 3,       // 更新锁 (用于防止死锁)
@@ -66,12 +66,12 @@ struct LockRequest {
     int32_t transaction_id;
     std::string table_name;
     int32_t record_id;
-    LockMode mode;
+    LockType mode;
     std::chrono::milliseconds timeout;
     std::chrono::steady_clock::time_point request_time;
 
     LockRequest(int32_t tx_id, const std::string& table, int32_t record,
-               LockMode lock_mode, std::chrono::milliseconds lock_timeout)
+               LockType lock_mode, std::chrono::milliseconds lock_timeout)
         : transaction_id(tx_id), table_name(table), record_id(record),
           mode(lock_mode), timeout(lock_timeout),
           request_time(std::chrono::steady_clock::now()) {}
@@ -80,11 +80,11 @@ struct LockRequest {
 // 锁持有者信息
 struct LockHolder {
     int32_t transaction_id;
-    LockMode mode;
+    LockType mode;
     std::chrono::steady_clock::time_point acquire_time;
     int32_t reference_count; // 引用计数，用于共享锁
 
-    LockHolder(int32_t tx_id, LockMode lock_mode)
+    LockHolder(int32_t tx_id, LockType lock_mode)
         : transaction_id(tx_id), mode(lock_mode),
           acquire_time(std::chrono::steady_clock::now()),
           reference_count(1) {}
@@ -133,13 +133,13 @@ public:
     LockState ReleaseAllLocks(int32_t transaction_id);
 
     // 锁查询
-    bool HasLock(int32_t transaction_id, const std::string& table_name, int32_t record_id, LockMode mode) const;
+    bool HasLock(int32_t transaction_id, const std::string& table_name, int32_t record_id, LockType mode) const;
     std::vector<LockHolder> GetLockHolders(const std::string& table_name, int32_t record_id) const;
     std::vector<LockRequest> GetWaitingLocks(int32_t transaction_id) const;
 
     // 锁升级
     LockState UpgradeLock(int32_t transaction_id, const std::string& table_name,
-                         int32_t record_id, LockMode new_mode);
+                         int32_t record_id, LockType new_mode);
 
 private:
     std::shared_ptr<TransactionManager> transaction_manager_;
@@ -156,8 +156,8 @@ private:
     mutable std::mutex waiting_mutex_;
 
     // 锁兼容性检查
-    bool IsLockCompatible(LockMode existing_mode, LockMode requested_mode) const;
-    bool CanGrantLock(const std::vector<LockHolder>& holders, LockMode requested_mode) const;
+    bool IsLockCompatible(LockType existing_mode, LockType requested_mode) const;
+    bool CanGrantLock(const std::vector<LockHolder>& holders, LockType requested_mode) const;
 
     // 锁清理
     void CleanupExpiredLocks();
@@ -205,7 +205,7 @@ public:
 
     // 锁管理
     LockState AcquireRecordLock(int32_t transaction_id, const std::string& table_name,
-                              int32_t record_id, LockMode mode,
+                              int32_t record_id, LockType mode,
                               std::chrono::milliseconds timeout = std::chrono::milliseconds(5000));
     LockState ReleaseRecordLock(int32_t transaction_id, const std::string& table_name, int32_t record_id);
 
@@ -246,7 +246,7 @@ private:
         int32_t transaction_id;
         IsolationLevel isolation_level;
         std::chrono::steady_clock::time_point start_time;
-        std::vector<std::tuple<std::string, int32_t, LockMode>> held_locks;
+        std::vector<std::tuple<std::string, int32_t, LockType>> held_locks;
     };
 
     std::unordered_map<int32_t, TransactionContext> active_transactions_;
@@ -288,7 +288,7 @@ class ConcurrentAccessResultFormatter {
 public:
     static std::string FormatLockState(LockState state);
     static std::string FormatAccessControlType(AccessControlType type);
-    static std::string FormatLockMode(LockMode mode);
+    static std::string FormatLockType(LockType mode);
     static std::string FormatIsolationLevel(IsolationLevel level);
     static bool IsCriticalError(LockState state);
 };

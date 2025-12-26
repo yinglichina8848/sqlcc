@@ -1,3 +1,6 @@
+#include "sql_parser/ast_node.h"
+#include "sql_parser/ast_nodes.h"
+#include "sql_parser/token.h"
 #include "../../include/sql_parser/ast_nodes.h"
 #include "sql_parser/lexer.h"
 #include "sql_parser/lexer_new.h"

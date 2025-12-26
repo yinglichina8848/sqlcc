@@ -2,6 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+#include "sql_parser/ast_nodes.h"
 #include "execution/recursive_query_executor.h"
 #include "core/execution_context.h"
 #include "core/execution_result.h"

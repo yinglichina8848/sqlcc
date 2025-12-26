@@ -220,7 +220,7 @@ LockState LockManager::ReleaseAllLocks(int32_t transaction_id) {
 }
 
 bool LockManager::HasLock(int32_t transaction_id, const std::string& table_name,
-                         int32_t record_id, LockMode mode) const {
+                         int32_t record_id, LockType mode) const {
     std::shared_lock<std::shared_mutex> lock(lock_table_mutex_);
 
     auto table_it = lock_table_.find(table_name);
@@ -263,7 +263,7 @@ std::vector<LockRequest> LockManager::GetWaitingLocks(int32_t transaction_id) co
 }
 
 LockState LockManager::UpgradeLock(int32_t transaction_id, const std::string& table_name,
-                                 int32_t record_id, LockMode new_mode) {
+                                 int32_t record_id, LockType new_mode) {
     std::unique_lock<std::shared_mutex> lock(lock_table_mutex_);
 
     auto table_it = lock_table_.find(table_name);
@@ -287,7 +287,7 @@ LockState LockManager::UpgradeLock(int32_t transaction_id, const std::string& ta
     }
 
     // 检查是否可以升级
-    LockMode current_mode = holder_it->mode;
+    LockType current_mode = holder_it->mode;
     if (current_mode == new_mode) {
         return LOCK_GRANTED; // 已经是目标模式
     }
@@ -311,7 +311,7 @@ LockState LockManager::UpgradeLock(int32_t transaction_id, const std::string& ta
     return LOCK_CONFLICT;
 }
 
-bool LockManager::IsLockCompatible(LockMode existing_mode, LockMode requested_mode) const {
+bool LockManager::IsLockCompatible(LockType existing_mode, LockType requested_mode) const {
     // 锁兼容性矩阵
     static const bool compatibility_matrix[7][7] = {
         // 现有\请求    SHARED  EXCLUSIVE  UPDATE  INTENT_S  INTENT_E  SHARED_IE
@@ -326,7 +326,7 @@ bool LockManager::IsLockCompatible(LockMode existing_mode, LockMode requested_mo
     return compatibility_matrix[existing_mode - 1][requested_mode - 1];
 }
 
-bool LockManager::CanGrantLock(const std::vector<LockHolder>& holders, LockMode requested_mode) const {
+bool LockManager::CanGrantLock(const std::vector<LockHolder>& holders, LockType requested_mode) const {
     for (const auto& holder : holders) {
         if (!IsLockCompatible(holder.mode, requested_mode)) {
             return false;
@@ -431,7 +431,7 @@ LockState ConcurrentAccessValidator::ValidateConcurrentAccess(
     (void)isolation_level; // 避免未使用变量警告
 
     // 根据访问类型确定需要的锁模式
-    LockMode required_mode;
+    LockType required_mode;
     switch (access_type) {
         case READ_ACCESS:
             required_mode = SHARED_LOCK;
@@ -493,7 +493,7 @@ void ConcurrentAccessValidator::RollbackTransaction(int32_t transaction_id) {
 LockState ConcurrentAccessValidator::AcquireRecordLock(int32_t transaction_id,
                                                      const std::string& table_name,
                                                      int32_t record_id,
-                                                     LockMode mode,
+                                                     LockType mode,
                                                      std::chrono::milliseconds timeout) {
 
     LockRequest request(transaction_id, table_name, record_id, mode, timeout);
@@ -672,7 +672,7 @@ std::string ConcurrentAccessResultFormatter::FormatAccessControlType(AccessContr
     }
 }
 
-std::string ConcurrentAccessResultFormatter::FormatLockMode(LockMode mode) {
+std::string ConcurrentAccessResultFormatter::FormatLockType(LockType mode) {
     switch (mode) {
         case SHARED_LOCK: return "SHARED_LOCK";
         case EXCLUSIVE_LOCK: return "EXCLUSIVE_LOCK";

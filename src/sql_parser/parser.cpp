@@ -1,3 +1,4 @@
+#include "sql_parser/ast_node.h"
 #include "sql_parser/parser.h"
 #include "sql_parser/lexer.h"
 #include "sql_parser/token.h"
@@ -562,12 +563,14 @@ void Parser::synchronize() {
 bool Parser::hadError() const { return !errors_.empty(); }
 
 // Helper method to check if current statement is CREATE VIEW
-bool Parser::isCreateViewStatement() const {
-  // Simple check: if current token is CREATE, assume it's CREATE VIEW for now
-  // In a full implementation, we would need to lookahead to check the next token
-  // Since this is a const method, we can't access currentToken_ directly
-  // We'll assume CREATE is always followed by VIEW for now
-  return true; // Placeholder implementation
+bool Parser::isCreateViewStatement() {
+  // Look ahead to check if the next token is VIEW
+  // This is needed because CREATE could be followed by TABLE, INDEX, or VIEW
+  if (!hasLookahead_) {
+    lookaheadToken_ = lexer_.nextToken();
+    hasLookahead_ = true;
+  }
+  return lookaheadToken_.getType() == Token::KEYWORD_VIEW;
 }
 
 void Parser::initializeSyncTokens() {
@@ -2057,7 +2060,7 @@ std::unique_ptr<JoinClause> Parser::parseJoinClause() {
       auto leftExpr = std::make_unique<IdentifierExpression>(leftColumn);
       auto rightExpr = std::make_unique<IdentifierExpression>(rightColumn);
       condition = std::make_unique<BinaryExpression>(
-          std::move(leftExpr), std::move(rightExpr), Token::OPERATOR_EQUAL);
+          std::move(leftExpr), std::move(rightExpr), TokenType::OPERATOR_EQUAL);
     } catch (const std::exception& e) {
       reportError(std::string("Failed to create JOIN condition: ") + e.what());
       return nullptr;

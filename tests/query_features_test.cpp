@@ -1,3 +1,4 @@
+#include "sql_parser/ast_nodes.h"
 #include <gtest/gtest.h>
 #include "execution/set_operation_executor.h"
 #include "execution/window_function_executor.h"

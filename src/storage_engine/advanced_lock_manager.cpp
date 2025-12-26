@@ -21,78 +21,7 @@
 
 namespace sqlcc {
 
-// 锁兼容性矩阵实现
-LockCompatibilityMatrix::LockCompatibilityMatrix() {
-    // 初始化锁兼容性矩阵
-    // 矩阵格式：[existing][requested]
-    // 锁模式：SHARED, EXCLUSIVE, INTENTION_SHARED, INTENTION_EXCLUSIVE, SHARED_INTENTION_EXCLUSIVE
 
-    // 初始化为false
-    for (int i = 0; i < 5; ++i) {
-        for (int j = 0; j < 5; ++j) {
-            compatibility_matrix_[i][j] = false;
-        }
-    }
-
-    // 设置兼容性规则
-    // SHARED (S) 兼容性
-    compatibility_matrix_[SHARED][SHARED] = true;                          // S + S
-    compatibility_matrix_[SHARED][INTENTION_SHARED] = true;               // S + IS
-    compatibility_matrix_[SHARED][INTENTION_EXCLUSIVE] = false;           // S + IX (不兼容)
-    compatibility_matrix_[SHARED][SHARED_INTENTION_EXCLUSIVE] = false;    // S + SIX (不兼容)
-    compatibility_matrix_[SHARED][EXCLUSIVE] = false;                     // S + X (不兼容)
-
-    // EXCLUSIVE (X) 兼容性 - X锁与任何锁都不兼容
-    compatibility_matrix_[EXCLUSIVE][SHARED] = false;
-    compatibility_matrix_[EXCLUSIVE][EXCLUSIVE] = false;
-    compatibility_matrix_[EXCLUSIVE][INTENTION_SHARED] = false;
-    compatibility_matrix_[EXCLUSIVE][INTENTION_EXCLUSIVE] = false;
-    compatibility_matrix_[EXCLUSIVE][SHARED_INTENTION_EXCLUSIVE] = false;
-
-    // INTENTION_SHARED (IS) 兼容性
-    compatibility_matrix_[INTENTION_SHARED][SHARED] = true;               // IS + S
-    compatibility_matrix_[INTENTION_SHARED][EXCLUSIVE] = false;           // IS + X
-    compatibility_matrix_[INTENTION_SHARED][INTENTION_SHARED] = true;     // IS + IS
-    compatibility_matrix_[INTENTION_SHARED][INTENTION_EXCLUSIVE] = true;  // IS + IX
-    compatibility_matrix_[INTENTION_SHARED][SHARED_INTENTION_EXCLUSIVE] = true; // IS + SIX
-
-    // INTENTION_EXCLUSIVE (IX) 兼容性
-    compatibility_matrix_[INTENTION_EXCLUSIVE][SHARED] = false;           // IX + S (不兼容)
-    compatibility_matrix_[INTENTION_EXCLUSIVE][EXCLUSIVE] = false;        // IX + X (不兼容)
-    compatibility_matrix_[INTENTION_EXCLUSIVE][INTENTION_SHARED] = true;  // IX + IS
-    compatibility_matrix_[INTENTION_EXCLUSIVE][INTENTION_EXCLUSIVE] = true; // IX + IX
-    compatibility_matrix_[INTENTION_EXCLUSIVE][SHARED_INTENTION_EXCLUSIVE] = false; // IX + SIX (不兼容)
-
-    // SHARED_INTENTION_EXCLUSIVE (SIX) 兼容性
-    compatibility_matrix_[SHARED_INTENTION_EXCLUSIVE][SHARED] = false;    // SIX + S (不兼容)
-    compatibility_matrix_[SHARED_INTENTION_EXCLUSIVE][EXCLUSIVE] = false; // SIX + X (不兼容)
-    compatibility_matrix_[SHARED_INTENTION_EXCLUSIVE][INTENTION_SHARED] = true;  // SIX + IS
-    compatibility_matrix_[SHARED_INTENTION_EXCLUSIVE][INTENTION_EXCLUSIVE] = false; // SIX + IX (不兼容)
-    compatibility_matrix_[SHARED_INTENTION_EXCLUSIVE][SHARED_INTENTION_EXCLUSIVE] = false; // SIX + SIX (不兼容)
-
-    // 对称矩阵 - 如果A兼容B，那么B也兼容A
-    for (int i = 0; i < 5; ++i) {
-        for (int j = i + 1; j < 5; ++j) {
-            if (compatibility_matrix_[i][j]) {
-                compatibility_matrix_[j][i] = true;
-            }
-        }
-    }
-}
-
-bool LockCompatibilityMatrix::IsCompatible(LockMode existing, LockMode requested) const {
-    return compatibility_matrix_[existing][requested];
-}
-
-bool LockCompatibilityMatrix::CanGrantImmediately(const PageLockState& state, LockMode requested) const {
-    // 检查请求的锁是否与所有现有锁兼容
-    for (const auto& holder : state.holders) {
-        if (!IsCompatible(holder.mode, requested)) {
-            return false;
-        }
-    }
-    return true;
-}
 
 // 死锁检测器实现
 AdvancedDeadlockDetector::AdvancedDeadlockDetector() = default;
@@ -159,24 +88,28 @@ bool AdvancedDeadlockDetector::HasCycleDFS(int32_t current, std::unordered_set<i
 }
 
 // 辅助函数：更新锁计数器
-void UpdateLockCounts(PageLockState& state, LockMode mode, int delta) {
+void UpdateLockCounts(PageLockState& state, LockType mode, int delta) {
     switch (mode) {
-        case SHARED:
+        case LockType::SHARED:
             state.shared_count += delta;
             break;
-        case EXCLUSIVE:
+        case LockType::EXCLUSIVE:
             state.exclusive_count += delta;
             break;
-        case INTENTION_SHARED:
-            state.intention_shared_count += delta;
-            break;
-        case INTENTION_EXCLUSIVE:
-            state.intention_exclusive_count += delta;
-            break;
-        case SHARED_INTENTION_EXCLUSIVE:
-            state.shared_intention_exclusive_count += delta;
+        default:
+            // 其他锁类型暂不支持
             break;
     }
+}
+
+LockUpgradeManager::UpgradeStrategy LockUpgradeManager::CanUpgrade(LockType current, LockType requested) const {
+    // 检查是否可以立即升级
+    if (current == LockType::SHARED && requested == LockType::EXCLUSIVE) {
+        return IMMEDIATE_UPGRADE;
+    } else {
+        return DEFERRED_UPGRADE; // 需要等待其他锁释放
+    }
+    return NO_UPGRADE;
 }
 
 // 锁升级/降级管理器实现
@@ -185,46 +118,15 @@ LockUpgradeManager::LockUpgradeManager() {
     // 矩阵格式：[current][requested]
     for (int i = 0; i < 5; ++i) {
         for (int j = 0; j < 5; ++j) {
-            upgrade_matrix_[i][j] = false;
         }
     }
 
     // 设置升级规则
-    // SHARED 可以升级到其他锁
-    upgrade_matrix_[SHARED][EXCLUSIVE] = true;
-    upgrade_matrix_[SHARED][INTENTION_EXCLUSIVE] = true;
-    upgrade_matrix_[SHARED][SHARED_INTENTION_EXCLUSIVE] = true;
-
-    // INTENTION_SHARED 可以升级到更强的意向锁
-    upgrade_matrix_[INTENTION_SHARED][INTENTION_EXCLUSIVE] = true;
-    upgrade_matrix_[INTENTION_SHARED][SHARED_INTENTION_EXCLUSIVE] = true;
-    upgrade_matrix_[INTENTION_SHARED][EXCLUSIVE] = true;
-
-    // INTENTION_EXCLUSIVE 可以升级到排他锁
-    upgrade_matrix_[INTENTION_EXCLUSIVE][EXCLUSIVE] = true;
-
-    // SHARED_INTENTION_EXCLUSIVE 可以升级到排他锁
-    upgrade_matrix_[SHARED_INTENTION_EXCLUSIVE][EXCLUSIVE] = true;
-
-    // EXCLUSIVE 不能升级（已经是最高级别）
-    upgrade_matrix_[EXCLUSIVE][EXCLUSIVE] = false;
+    // LockType::SHARED 可以升级到其他锁
+    // LockType::EXCLUSIVE 不能升级（已经是最高级别）
 }
 
-
-
-LockUpgradeManager::UpgradeStrategy LockUpgradeManager::CanUpgrade(LockMode current, LockMode requested) const {
-    if (upgrade_matrix_[current][requested]) {
-        // 检查是否可以立即升级
-        if (current == SHARED && (requested == INTENTION_EXCLUSIVE || requested == SHARED_INTENTION_EXCLUSIVE)) {
-            return IMMEDIATE_UPGRADE;
-        } else {
-            return DEFERRED_UPGRADE; // 需要等待其他锁释放
-        }
-    }
-    return NO_UPGRADE;
-}
-
-bool LockUpgradeManager::PerformUpgrade(PageLockState& state, int32_t transaction_id, LockMode new_mode) {
+bool LockUpgradeManager::PerformUpgrade(PageLockState& state, int32_t transaction_id, LockType new_mode) {
     // 查找事务当前的锁
     auto it = std::find_if(state.holders.begin(), state.holders.end(),
                           [transaction_id](const LockHolder& holder) {
@@ -241,7 +143,7 @@ bool LockUpgradeManager::PerformUpgrade(PageLockState& state, int32_t transactio
     }
 
     // 执行升级
-    LockMode old_mode = it->mode;
+    LockType old_mode = it->mode;
     it->mode = new_mode;
     it->acquire_time = std::chrono::steady_clock::now();
 
@@ -255,23 +157,18 @@ bool LockUpgradeManager::PerformUpgrade(PageLockState& state, int32_t transactio
     return true;
 }
 
-bool LockUpgradeManager::CanDowngrade(LockMode current, LockMode requested) const {
+bool LockUpgradeManager::CanDowngrade(LockType current, LockType requested) const {
     // 降级规则：任何锁都可以降级到更弱的锁
-    if (current == EXCLUSIVE) {
-        return requested == SHARED || requested == INTENTION_SHARED ||
-               requested == INTENTION_EXCLUSIVE || requested == SHARED_INTENTION_EXCLUSIVE;
-    } else if (current == SHARED_INTENTION_EXCLUSIVE) {
-        return requested == SHARED || requested == INTENTION_SHARED || requested == INTENTION_EXCLUSIVE;
-    } else if (current == INTENTION_EXCLUSIVE) {
-        return requested == SHARED || requested == INTENTION_SHARED;
-    } else if (current == SHARED) {
-        return requested == INTENTION_SHARED;
+    if (current == LockType::EXCLUSIVE && requested == LockType::SHARED) {
+        return true;
+    } else if (current == LockType::SHARED && requested == LockType::SHARED) {
+        // SHARED不能进一步降级
+        return false;
     }
-
     return false;
 }
 
-bool LockUpgradeManager::PerformDowngrade(PageLockState& state, int32_t transaction_id, LockMode new_mode) {
+bool LockUpgradeManager::PerformDowngrade(PageLockState& state, int32_t transaction_id, LockType new_mode) {
     // 查找事务当前的锁
     auto it = std::find_if(state.holders.begin(), state.holders.end(),
                           [transaction_id](const LockHolder& holder) {
@@ -288,7 +185,7 @@ bool LockUpgradeManager::PerformDowngrade(PageLockState& state, int32_t transact
     }
 
     // 执行降级
-    LockMode old_mode = it->mode;
+    LockType old_mode = it->mode;
     it->mode = new_mode;
     it->acquire_time = std::chrono::steady_clock::now();
 
@@ -326,7 +223,7 @@ AdvancedLockManager::~AdvancedLockManager() {
     StopAsyncWorker();
 }
 
-LockRequestStatus AdvancedLockManager::AcquireLock(int32_t page_id, LockMode mode,
+LockRequestStatus AdvancedLockManager::AcquireLock(int32_t page_id, LockType mode,
                                                   int32_t transaction_id,
                                                   std::chrono::milliseconds timeout) {
     auto start_time = std::chrono::steady_clock::now();
@@ -406,7 +303,7 @@ LockRequestStatus AdvancedLockManager::ReleaseLock(int32_t page_id, int32_t tran
         return ABORTED; // 事务没有持有锁
     }
 
-    LockMode released_mode = holder_it->mode;
+    LockType released_mode = holder_it->mode;
     state.holders.erase(holder_it);
 
     // 更新计数器
@@ -426,7 +323,7 @@ LockRequestStatus AdvancedLockManager::ReleaseLock(int32_t page_id, int32_t tran
 }
 
 std::vector<LockRequestStatus> AdvancedLockManager::AcquireLocks(
-    const std::vector<std::pair<int32_t, LockMode>>& requests,
+    const std::vector<std::pair<int32_t, LockType>>& requests,
     int32_t transaction_id, std::chrono::milliseconds timeout) {
 
     std::vector<LockRequestStatus> results;
@@ -469,7 +366,7 @@ size_t AdvancedLockManager::ReleaseAllLocks(int32_t transaction_id) {
                                      });
 
         if (holder_it != state.holders.end()) {
-            LockMode released_mode = holder_it->mode;
+            LockType released_mode = holder_it->mode;
             state.holders.erase(holder_it);
             UpdateLockCounts(state, released_mode, -1);
             state.transaction_locks.erase(transaction_id);
@@ -489,7 +386,7 @@ size_t AdvancedLockManager::ReleaseAllLocks(int32_t transaction_id) {
     return released_count;
 }
 
-bool AdvancedLockManager::AcquireLockAsync(int32_t page_id, LockMode mode, int32_t transaction_id,
+bool AdvancedLockManager::AcquireLockAsync(int32_t page_id, LockType mode, int32_t transaction_id,
                                           std::function<void(LockRequestStatus)> callback,
                                           std::chrono::milliseconds timeout) {
     std::lock_guard<std::mutex> lock(async_mutex_);
@@ -506,7 +403,7 @@ bool AdvancedLockManager::AcquireLockAsync(int32_t page_id, LockMode mode, int32
     return true;
 }
 
-bool AdvancedLockManager::HasLock(int32_t page_id, int32_t transaction_id, LockMode min_mode) const {
+bool AdvancedLockManager::HasLock(int32_t page_id, int32_t transaction_id, LockType min_mode) const {
     std::shared_lock<std::shared_mutex> lock(lock_table_mutex_);
 
     auto it = lock_table_.find(page_id);
@@ -522,22 +419,22 @@ bool AdvancedLockManager::HasLock(int32_t page_id, int32_t transaction_id, LockM
     }
 
     // 检查锁模式是否满足最小要求
-    LockMode current_mode = lock_it->second;
+    LockType current_mode = lock_it->second;
     return current_mode >= min_mode;
 }
 
-LockMode AdvancedLockManager::GetLockMode(int32_t page_id, int32_t transaction_id) const {
+LockType AdvancedLockManager::GetLockType(int32_t page_id, int32_t transaction_id) const {
     std::shared_lock<std::shared_mutex> lock(lock_table_mutex_);
 
     auto it = lock_table_.find(page_id);
     if (it == lock_table_.end()) {
-        return SHARED; // 默认值，表示没有锁
+        return LockType::SHARED; // 默认值，表示没有锁
     }
 
     const PageLockState& state = it->second;
     auto lock_it = state.transaction_locks.find(transaction_id);
 
-    return lock_it != state.transaction_locks.end() ? lock_it->second : SHARED;
+    return lock_it != state.transaction_locks.end() ? lock_it->second : LockType::SHARED;
 }
 
 std::vector<int32_t> AdvancedLockManager::GetLockedPages(int32_t transaction_id) const {
@@ -573,7 +470,7 @@ std::vector<int32_t> AdvancedLockManager::GetLockHolders(int32_t page_id) const 
     return holders;
 }
 
-LockRequestStatus AdvancedLockManager::UpgradeLock(int32_t page_id, int32_t transaction_id, LockMode new_mode) {
+LockRequestStatus AdvancedLockManager::UpgradeLock(int32_t page_id, int32_t transaction_id, LockType new_mode) {
     std::unique_lock<std::shared_mutex> lock(lock_table_mutex_);
 
     PageLockState& state = GetOrCreatePageLockState(page_id);
@@ -587,7 +484,7 @@ LockRequestStatus AdvancedLockManager::UpgradeLock(int32_t page_id, int32_t tran
     return ABORTED;
 }
 
-LockRequestStatus AdvancedLockManager::DowngradeLock(int32_t page_id, int32_t transaction_id, LockMode new_mode) {
+LockRequestStatus AdvancedLockManager::DowngradeLock(int32_t page_id, int32_t transaction_id, LockType new_mode) {
     std::unique_lock<std::shared_mutex> lock(lock_table_mutex_);
 
     PageLockState& state = GetOrCreatePageLockState(page_id);
@@ -718,7 +615,7 @@ PageLockState& AdvancedLockManager::GetOrCreatePageLockState(int32_t page_id) {
     return lock_table_[page_id]; // 自动创建默认构造的PageLockState
 }
 
-LockRequestStatus AdvancedLockManager::TryAcquireLock(int32_t page_id, LockMode mode, int32_t transaction_id) {
+LockRequestStatus AdvancedLockManager::TryAcquireLock(int32_t page_id, LockType mode, int32_t transaction_id) {
     PageLockState& state = GetOrCreatePageLockState(page_id);
 
     // 检查事务是否已经有锁
@@ -848,11 +745,17 @@ void AdvancedLockManager::StopAsyncWorker() {
     }
 }
 
-bool AdvancedLockManager::IsLockCompatible(const PageLockState& state, LockMode requested) const {
-    return compatibility_matrix_.CanGrantImmediately(state, requested);
+bool AdvancedLockManager::IsLockCompatible(const PageLockState& state, LockType requested) const {
+    // 检查请求的锁是否与所有现有锁兼容
+    for (const auto& holder : state.holders) {
+        if (!compatibility_matrix_.IsCompatible(holder.mode, requested)) {
+            return false;
+        }
+    }
+    return true;
 }
 
-bool AdvancedLockManager::CanUpgradeLock(const PageLockState& state, int32_t transaction_id, LockMode new_mode) const {
+bool AdvancedLockManager::CanUpgradeLock(const PageLockState& state, int32_t transaction_id, LockType new_mode) const {
     // 检查事务当前是否持有锁
     auto it = state.transaction_locks.find(transaction_id);
     if (it == state.transaction_locks.end()) {

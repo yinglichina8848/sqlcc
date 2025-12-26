@@ -3,8 +3,11 @@
 cc_test(
     name = "wal_buffer_test",
     srcs = ["wal_buffer_test.cpp"],
+    includes = ["../../../include"],
     deps = [
+        "//src/storage_engine:storage_engine",
         "//include/storage:headers",
+        "//include/utils:headers",
         "@com_google_googletest//:gtest_main",
     ],
     copts = [

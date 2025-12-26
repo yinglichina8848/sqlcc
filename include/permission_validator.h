@@ -1,3 +1,4 @@
+#include "sql_parser/ast_node.h"
 #ifndef SQLCC_PERMISSION_VALIDATOR_H
 #define SQLCC_PERMISSION_VALIDATOR_H
 

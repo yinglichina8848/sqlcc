@@ -1,3 +1,4 @@
+#include "sql_parser/ast_nodes.h"
 #include "constraint_executor.h"
 #include <gtest/gtest.h>
 #include <string>

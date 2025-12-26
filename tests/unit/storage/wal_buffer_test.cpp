@@ -31,7 +31,7 @@ TEST_F(WALBufferTest, BasicFunctionality) {
   EXPECT_GT(wal_buffer_->GetUtilization(), 0.0);
 
   // 测试统计信息
-  auto stats = wal_buffer_->GetStats();
+  auto& stats = wal_buffer_->GetStats();
   EXPECT_EQ(stats.total_logs.load(), 0);
   EXPECT_EQ(stats.total_flushes.load(), 0);
 }
@@ -46,7 +46,7 @@ TEST_F(WALBufferTest, AddRecord) {
   EXPECT_TRUE(wal_buffer_->AddRecord(std::move(record)));
 
   // 检查统计信息
-  auto stats = wal_buffer_->GetStats();
+  auto& stats = wal_buffer_->GetStats();
   EXPECT_EQ(stats.total_logs.load(), 1);
   EXPECT_GT(wal_buffer_->GetCurrentSize(), 0);
 }
@@ -62,14 +62,14 @@ TEST_F(WALBufferTest, ForceFlush) {
   }
 
   // 检查记录已添加
-  auto stats_before = wal_buffer_->GetStats();
+  auto& stats_before = wal_buffer_->GetStats();
   EXPECT_EQ(stats_before.total_logs.load(), 10);
 
   // 强制刷新
   EXPECT_TRUE(wal_buffer_->ForceFlush());
 
   // 检查统计信息更新
-  auto stats_after = wal_buffer_->GetStats();
+  auto& stats_after = wal_buffer_->GetStats();
   EXPECT_GE(stats_after.total_flushes.load(), 1);
 }
 
@@ -116,7 +116,7 @@ TEST_F(WALBufferTest, ConcurrentAccess) {
   }
 
   // 检查总记录数
-  auto stats = wal_buffer_->GetStats();
+  auto& stats = wal_buffer_->GetStats();
   EXPECT_EQ(stats.total_logs.load(), num_threads * records_per_thread);
 }
 
@@ -128,14 +128,14 @@ TEST_F(WALBufferTest, ResetStats) {
   wal_buffer_->AddRecord(std::move(record));
 
   // 检查统计信息
-  auto stats_before = wal_buffer_->GetStats();
+  auto& stats_before = wal_buffer_->GetStats();
   EXPECT_EQ(stats_before.total_logs.load(), 1);
 
   // 重置统计信息
   wal_buffer_->ResetStats();
 
   // 检查统计信息已重置
-  auto stats_after = wal_buffer_->GetStats();
+  auto& stats_after = wal_buffer_->GetStats();
   EXPECT_EQ(stats_after.total_logs.load(), 0);
   EXPECT_EQ(stats_after.total_flushes.load(), 0);
 }
@@ -159,7 +159,7 @@ TEST_F(WALBufferTest, FlushTrigger) {
   wal_buffer_->ForceFlush();
 
   // 检查刷新次数
-  auto stats = wal_buffer_->GetStats();
+  auto& stats = wal_buffer_->GetStats();
   EXPECT_GE(stats.total_flushes.load(), 1);
 }
 
@@ -182,7 +182,7 @@ TEST_F(WALBufferTest, RecordValidation) {
   EXPECT_TRUE(wal_buffer_->AddRecord(std::move(large_record)));
 
   // 检查统计信息
-  auto stats = wal_buffer_->GetStats();
+  auto& stats = wal_buffer_->GetStats();
   EXPECT_EQ(stats.total_logs.load(), 3);
 }
 
@@ -203,7 +203,7 @@ TEST_F(WALBufferTest, EdgeCases) {
   EXPECT_TRUE(wal_buffer_->ForceFlush());
 
   // 检查统计信息
-  auto stats = wal_buffer_->GetStats();
+  auto& stats = wal_buffer_->GetStats();
   EXPECT_EQ(stats.total_logs.load(), 1000);
   EXPECT_GE(stats.total_flushes.load(), 1);
 }

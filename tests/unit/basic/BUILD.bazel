@@ -10,19 +10,18 @@ cc_test(
     includes = ["include"],
     deps = [
         "@com_google_googletest//:gtest_main",
-        "//src/core:core",
-        "//src/core:sqlcc_core_lib",
-        "//src/sql_parser:sql_parser",
-        "//src/execution:execution",
         "//src:execution_context",
     ],
     copts = [
         "-std=c++20",
         "-stdlib=libc++",
+        "-fprofile-instr-generate",
+        "-fcoverage-mapping",
     ],
     linkopts = [
         "-stdlib=libc++",
         "-lc++abi",
+        "-fprofile-instr-generate",
     ],
 )
 
@@ -30,21 +29,19 @@ cc_test(
     name = "permission_validator_test",
     srcs = ["permission_validator_test.cpp"],
     deps = [
-        "//src/core:sqlcc_database_core",
-        "//src/core:sqlcc_core_lib",
-        "//src/sql_parser:sql_parser",
-        "//src/sql_executor:sqlcc_executor",
-        "//src/storage_engine:storage_engine",
         "//src:unified_executor",
         "@com_google_googletest//:gtest_main",
     ],
     copts = [
         "-std=c++20",
         "-stdlib=libc++",
+        "-fprofile-instr-generate",
+        "-fcoverage-mapping",
     ],
     linkopts = [
         "-stdlib=libc++",
         "-lc++abi",
+        "-fprofile-instr-generate",
     ],
 )
 
@@ -52,24 +49,23 @@ cc_test(
     name = "data_types_test",
     srcs = ["data_types_test.cpp"],
     includes = ["../../../include"],
-
-
-
-
     deps = [
-        "//src/sql_parser:sql_parser",
-        "//src/procedure:procedure_parser",
-        "//src/procedure:procedure_vm",
-        "//src/procedure:procedure_trigger_executor",
+        "//include/sql_parser:headers",
+        "//src/sql_parser:data_types_impl",
+        "//src/sql_parser:decimal_impl",
+        "//src/sql_parser:datetime_impl",
         "@com_google_googletest//:gtest_main",
     ],
     copts = [
         "-std=c++20",
         "-stdlib=libc++",
+        "-fprofile-instr-generate",
+        "-fcoverage-mapping",
     ],
     linkopts = [
         "-stdlib=libc++",
         "-lc++abi",
+        "-fprofile-instr-generate",
     ],
 )
 
@@ -77,16 +73,18 @@ cc_test(
     name = "decimal_test",
     srcs = ["decimal_test.cpp"],
     deps = [
-        "//src/sql_parser:sql_parser",
         "@com_google_googletest//:gtest_main",
     ],
     copts = [
         "-std=c++20",
         "-stdlib=libc++",
+        "-fprofile-instr-generate",
+        "-fcoverage-mapping",
     ],
     linkopts = [
         "-stdlib=libc++",
         "-lc++abi",
+        "-fprofile-instr-generate",
     ],
 )
 
@@ -94,17 +92,18 @@ cc_test(
     name = "sql_executor_core_test",
     srcs = ["sql_executor_core_test.cpp"],
     deps = [
-        "//src/sql_executor:sql_executor",
-        "//src/core:core",
         "@com_google_googletest//:gtest_main",
     ],
     copts = [
         "-std=c++20",
         "-stdlib=libc++",
+        "-fprofile-instr-generate",
+        "-fcoverage-mapping",
     ],
     linkopts = [
         "-stdlib=libc++",
         "-lc++abi",
+        "-fprofile-instr-generate",
     ],
 )
 
@@ -118,10 +117,53 @@ cc_test(
     copts = [
         "-std=c++20",
         "-stdlib=libc++",
+        "-fprofile-instr-generate",
+        "-fcoverage-mapping",
     ],
     linkopts = [
         "-stdlib=libc++",
         "-lc++abi",
+        "-fprofile-instr-generate",
+    ],
+)
+
+cc_test(
+    name = "config_manager_test",
+    srcs = ["config_manager_test.cpp"],
+    deps = [
+        "//src/config_manager:sqlcc_config_manager",
+        "@com_google_googletest//:gtest_main",
+    ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+        "-fprofile-instr-generate",
+        "-fcoverage-mapping",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+        "-fprofile-instr-generate",
+    ],
+)
+
+cc_test(
+    name = "exception_test",
+    srcs = ["exception_test.cpp"],
+    deps = [
+        "//include/exception:exceptions",
+        "@com_google_googletest//:gtest_main",
+    ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+        "-fprofile-instr-generate",
+        "-fcoverage-mapping",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+        "-fprofile-instr-generate",
     ],
 )
 
@@ -134,5 +176,7 @@ test_suite(
         ":decimal_test",
         ":sql_executor_core_test",
         ":logger_basic_test",
+        ":config_manager_test",
+        ":exception_test",
     ],
 )

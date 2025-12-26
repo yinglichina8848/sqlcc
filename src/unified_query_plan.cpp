@@ -1,3 +1,4 @@
+#include "sql_parser/ast_node.h"
 #include "unified_query_plan.h"
 #include "sql_parser/ast_nodes.h"
 

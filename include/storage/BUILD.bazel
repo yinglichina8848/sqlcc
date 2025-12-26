@@ -44,14 +44,6 @@ cc_library(
 
 # 缓冲池头文件目标
 cc_library(
-    name = "buffer_pool",
-    hdrs = ["buffer_pool.h"],
-    includes = ["."],
-    visibility = ["//visibility:public"],
-)
-
-# 分片缓冲池头文件目标
-cc_library(
     name = "buffer_pool_sharded",
     hdrs = ["buffer_pool_sharded.h"],
     includes = ["."],
@@ -73,5 +65,6 @@ cc_library(
 cc_library(
     name = "headers",
     hdrs = glob(["*.h"]),
+    includes = ["."],
     visibility = ["//visibility:public"],
 )

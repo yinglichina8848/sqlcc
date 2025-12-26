@@ -2,6 +2,7 @@
 #define SQLCC_SQL_PARSER_TOKEN_H
 
 #include <string>
+#include <cstddef> // for size_t
 
 namespace sqlcc {
 namespace sql_parser {

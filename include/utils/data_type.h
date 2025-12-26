@@ -1,3 +1,4 @@
+#include "sql_parser/data_types.h"
 #pragma once
 
 #include <memory>

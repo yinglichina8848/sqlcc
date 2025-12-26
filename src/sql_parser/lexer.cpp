@@ -1,3 +1,5 @@
+#include "sql_parser/ast_node.h"
+#include "sql_parser/token.h"
 #include "sql_parser/lexer.h"
 #include <algorithm>
 #include <cctype>

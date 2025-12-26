@@ -1,11 +1,9 @@
-# 高级SQL测试构建配置""
-
 load("@rules_cc"//cc:defs.bzl", "cc_test")
 
 
 # 分组查询测试
 cc_test(
-    name = grouping_having_clause_test,,
+    name = "grouping_having_clause_test",
     srcs = ["grouping/having_clause_test.cpp"],
     deps = [
         "@com_google_googletest//:gtest_main",
@@ -18,14 +16,22 @@ cc_test(
         "//src/types:types",
         "//src/procedure:procedure",
         "//src/trigger:trigger",
-        "//src/sql_executor:sqlcc_executor",
+        "//src/sql_executor:sql_executor",
         "//src:unified_executor",
     ],
-
+)
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+    ],
 
 # GROUP BY测试
 cc_test(
-    name = grouping_group_by_test,,
+    name = "grouping_group_by_test",
     srcs = ["grouping/group_by_test.cpp"],
     deps = [
         "@com_google_googletest//:gtest_main",
@@ -38,14 +44,22 @@ cc_test(
         "//src/types:types",
         "//src/procedure:procedure",
         "//src/trigger:trigger",
-        "//src/sql_executor:sqlcc_executor",
+        "//src/sql_executor:sql_executor",
         "//src:unified_executor",
     ],
-
+)
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+    ],
 
 # SELECT DISTINCT测试
 cc_test(
-    name = distinct_select_distinct_test,,
+    name = "distinct_select_distinct_test",
     srcs = ["distinct/select_distinct_test.cpp"],
     deps = [
         "@com_google_googletest//:gtest_main",
@@ -58,14 +72,22 @@ cc_test(
         "//src/types:types",
         "//src/procedure:procedure",
         "//src/trigger:trigger",
-        "//src/sql_executor:sqlcc_executor",
+        "//src/sql_executor:sql_executor",
         "//src:unified_executor",
     ],
-
+)
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+    ],
 
 # 连接查询测试
 cc_test(
-    name = join_inner_join_test,,
+    name = "join_inner_join_test",
     srcs = ["join/inner_join_test.cpp"],
     deps = [
         "@com_google_googletest//:gtest_main",
@@ -78,14 +100,22 @@ cc_test(
         "//src/types:types",
         "//src/procedure:procedure",
         "//src/trigger:trigger",
-        "//src/sql_executor:sqlcc_executor",
+        "//src/sql_executor:sql_executor",
         "//src:unified_executor",
     ],
-
+)
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+    ],
 
 # 存储过程和触发器集成测试
 cc_test(
-    name = procedure_trigger_integration_test,,
+    name = "procedure_trigger_integration_test",
     srcs = ["procedure_trigger_integration_test.cpp"],
     deps = [
         "//src/core:sqlcc_core_lib",
@@ -93,16 +123,24 @@ cc_test(
         "//src/execution:execution",
         "//src/procedure:procedure",
         "//src/sql_parser:sql_parser",
-        "//src/sql_executor:sqlcc_executor",
+        "//src/sql_executor:sql_executor",
         "//src/storage_engine:storage_engine",
         "//src:unified_executor",
         "@com_google_googletest//:gtest_main",
     ],
-
+)
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+    ],
 
 # 子查询测试
 cc_test(
-    name = subquery_scalar_subquery_test,,
+    name = "subquery_scalar_subquery_test",
     srcs = ["subquery/scalar_subquery_test.cpp"],
     deps = [
         "@com_google_googletest//:gtest_main",
@@ -115,14 +153,22 @@ cc_test(
         "//src/types:types",
         "//src/procedure:procedure",
         "//src/trigger:trigger",
-        "//src/sql_executor:sqlcc_executor",
+        "//src/sql_executor:sql_executor",
         "//src:unified_executor",
     ],
-
+)
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+    ],
 
 # 窗口函数测试
 cc_test(
-    name = window_row_number_test,,
+    name = "window_row_number_test",
     srcs = ["window/row_number_test.cpp"],
     deps = [
         "@com_google_googletest//:gtest_main",
@@ -135,8 +181,17 @@ cc_test(
         "//src/types:types",
         "//src/procedure:procedure",
         "//src/trigger:trigger",
-        "//src/sql_executor:sqlcc_executor",
+        "//src/sql_executor:sql_executor",
         "//src:unified_executor",
+    ],
+)
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
     ],
 
 

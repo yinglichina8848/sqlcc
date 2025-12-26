@@ -13,7 +13,7 @@ cc_library(
         "-I/usr/include",
         "-I/usr/include/c++/15",
         "-I/usr/include/x86_64-linux-gnu/c++/15",
-        "-I/usr/lib/gcc/x86_64-linux-gnu/15/include",
+
     ],
     includes = [
         ".",
@@ -35,7 +35,7 @@ cc_library(
         "-I/usr/include",
         "-I/usr/include/c++/15",
         "-I/usr/include/x86_64-linux-gnu/c++/15",
-        "-I/usr/lib/gcc/x86_64-linux-gnu/15/include",
+
     ],
     includes = [
         ".",

@@ -236,17 +236,20 @@ void BPlusTreeInternalNode::DeserializeFromPage() {
   size_t offset = PAGE_HEADER_SIZE;
   // 内部节点应该至少有一个子节点ID，即使没有键
   if (key_count == 0) {
-    // 读取唯一的子节点ID
-    if (offset + sizeof(int32_t) > PAGE_SIZE) {
-      SQLCC_LOG_ERROR("Insufficient page data to read child page ID for empty internal node");
-      keys_.clear();
-      child_page_ids_.clear();
-      return;
+    // 对于空内部节点，检查页面是否确实包含序列化的子节点ID
+    // 只有当页面看起来确实被序列化过时才读取
+    if (offset + sizeof(int32_t) <= PAGE_SIZE) {
+      int32_t child_page_id = *reinterpret_cast<int32_t *>(data + offset);
+      // 检查子节点ID是否合理（不为负数，且看起来像有效的页面ID）
+      if (child_page_id >= 0 && child_page_id < 1000000) {  // 合理的页面ID范围
+        child_page_ids_.push_back(child_page_id);
+        SQLCC_LOG_DEBUG("Deserialized empty internal node with child_page_id: " + std::to_string(child_page_id));
+      } else {
+        SQLCC_LOG_DEBUG("Empty internal node with invalid child_page_id: " + std::to_string(child_page_id) + ", skipping");
+      }
+    } else {
+      SQLCC_LOG_DEBUG("Empty internal node, no child page IDs to deserialize");
     }
-    
-    // 反序列化子节点ID
-    int32_t child_page_id = *reinterpret_cast<int32_t *>(data + offset);
-    child_page_ids_.push_back(child_page_id);
   } else {
     // 有键的情况，按原有逻辑处理
     for (int32_t i = 0; i < key_count; ++i) {

@@ -1,3 +1,4 @@
+#include "sql_parser/ast_node.h"
 #include "include/sql_parser/parser_new.h"
 #include "../../../include/sql_parser/ast_nodes.h"
 #include <iostream>

@@ -1,3 +1,4 @@
+#include "sql_parser/ast_nodes.h"
 #include "gtest/gtest.h"
 #include "sql_parser/advanced_sql92_features.h"
 #include "sql_executor/advanced_sql92_executor.h"

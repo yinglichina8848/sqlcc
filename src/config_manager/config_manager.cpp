@@ -1,4 +1,4 @@
-#include "utils/config_manager.h"
+#include "config_manager.h"
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -8,8 +8,18 @@ namespace sqlcc {
 
 // 获取单例实例
 ConfigManager& ConfigManager::GetInstance() {
-    static ConfigManager instance;
-    return instance;
+    static std::unique_ptr<ConfigManager> instance;
+    static std::once_flag init_flag;
+
+    std::call_once(init_flag, []() {
+        instance.reset(new ConfigManager());
+    });
+
+    return *instance;
+}
+
+// 构造函数实现
+ConfigManager::ConfigManager() : operation_timeout_ms_(kDefaultOperationTimeoutMs) {
 }
 
 // 加载配置文件
@@ -103,6 +113,8 @@ bool ConfigManager::GetBool(const std::string& key, bool default_value) const {
             std::string str_value = std::get<std::string>(it->second);
             std::transform(str_value.begin(), str_value.end(), str_value.begin(), ::tolower);
             return (str_value == "true" || str_value == "1" || str_value == "yes" || str_value == "on");
+        } else if (std::holds_alternative<int>(it->second)) {
+            return std::get<int>(it->second) != 0;
         }
     }
     return default_value;
@@ -119,7 +131,12 @@ int ConfigManager::GetInt(const std::string& key, int default_value) const {
                 return std::stoi(std::get<std::string>(it->second));
             } catch (const std::exception&) {
                 // 转换失败，返回默认值
+                return default_value;
             }
+        } else if (std::holds_alternative<double>(it->second)) {
+            return static_cast<int>(std::get<double>(it->second));
+        } else if (std::holds_alternative<bool>(it->second)) {
+            return std::get<bool>(it->second) ? 1 : 0;
         }
     }
     return default_value;

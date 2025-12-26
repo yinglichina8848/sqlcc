@@ -3,8 +3,8 @@
  * @brief LRU缓存管理器实现
  */
 
-#include "storage_engine/buffer_pool/lru_manager.h"
-#include "utils/logger.h"
+#include "include/storage_engine/buffer_pool/lru_manager.h"
+#include "include/utils/logger.h"
 
 namespace sqlcc {
 namespace storage {

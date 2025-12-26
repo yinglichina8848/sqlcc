@@ -2,7 +2,7 @@
 
 #include "performance_test_base.h"
 #include "sql_executor.h"
-#include "logger.h"
+#include "utils/logger.h"
 #include <vector>
 #include <string>
 #include <iomanip>

@@ -1,15 +1,34 @@
+# SQLCC存储引擎缓冲池模块头文件库定义
+
+package(default_visibility = ["//visibility:public"])
+
+load("@rules_cc//cc:defs.bzl", "cc_library")
+
+# LRU管理器头文件库
 cc_library(
-    name = "buffer_pool_components",
-    srcs = [
-        "//src/storage_engine/buffer_pool:buffer_pool_src",
-    ],
-    hdrs = [
-        "lru_manager.h",
-        "statistics_collector.h",
-    ],
-    deps = [
-        "//include:utils:utils_lib",
-        "//include:exception:exception",
-    ],
+    name = "lru_manager",
+    hdrs = ["lru_manager.h"],
+    includes = ["."],
     visibility = ["//visibility:public"],
 )
+
+# 统计收集器头文件库
+cc_library(
+    name = "statistics_collector",
+    hdrs = ["statistics_collector.h"],
+    includes = ["."],
+    visibility = ["//visibility:public"],
+)
+
+# 缓冲池模块头文件库
+cc_library(
+    name = "headers",
+    hdrs = glob(["*.h"]),
+    includes = ["."],
+    visibility = ["//visibility:public"],
+)
+
+exports_files([
+    "lru_manager.h",
+    "statistics_collector.h",
+])

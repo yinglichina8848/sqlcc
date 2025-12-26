@@ -19,19 +19,14 @@
 #include <functional>
 #include <thread>
 
+#include "concurrency_control.h"
+
 namespace sqlcc {
 
 // 前向声明
 class TransactionManager;
 
-// 锁模式枚举 - 支持更细粒度的锁定
-enum LockMode {
-    SHARED = 0,           // 共享锁 (S) - 允许多个事务同时读取
-    EXCLUSIVE = 1,        // 排他锁 (X) - 只允许一个事务访问
-    INTENTION_SHARED = 2, // 意向共享锁 (IS) - 表示事务意图在子节点上加共享锁
-    INTENTION_EXCLUSIVE = 3, // 意向排他锁 (IX) - 表示事务意图在子节点上加排他锁
-    SHARED_INTENTION_EXCLUSIVE = 4 // 共享意向排他锁 (SIX) - 持有共享锁但意图在子节点加排他锁
-};
+// 使用concurrency_control.h中的LockType作为锁模式
 
 // 锁请求状态
 enum LockRequestStatus {
@@ -45,14 +40,14 @@ enum LockRequestStatus {
 // 锁请求结构
 struct LockRequest {
     int32_t transaction_id;
-    LockMode mode;
+    LockType mode;
     int32_t page_id;
     std::chrono::steady_clock::time_point request_time;
     std::chrono::milliseconds timeout;
     LockRequestStatus status;
     std::function<void(LockRequestStatus)> callback; // 异步回调
 
-    LockRequest(int32_t tid, LockMode m, int32_t pid,
+    LockRequest(int32_t tid, LockType m, int32_t pid,
                 std::chrono::milliseconds t = std::chrono::milliseconds(5000))
         : transaction_id(tid), mode(m), page_id(pid),
           request_time(std::chrono::steady_clock::now()),
@@ -62,11 +57,11 @@ struct LockRequest {
 // 锁持有信息
 struct LockHolder {
     int32_t transaction_id;
-    LockMode mode;
+    LockType mode;
     std::chrono::steady_clock::time_point acquire_time;
     int32_t reference_count; // 引用计数，支持重入
 
-    LockHolder(int32_t tid, LockMode m)
+    LockHolder(int32_t tid, LockType m)
         : transaction_id(tid), mode(m),
           acquire_time(std::chrono::steady_clock::now()),
           reference_count(1) {}
@@ -76,7 +71,7 @@ struct LockHolder {
 struct PageLockState {
     std::vector<LockHolder> holders;
     std::deque<LockRequest> waiting_queue;  // 改为std::deque以支持迭代
-    std::unordered_map<int32_t, LockMode> transaction_locks; // 事务->锁模式的映射
+    std::unordered_map<int32_t, LockType> transaction_locks; // 事务->锁模式的映射
 
     // 锁计数器
     int shared_count = 0;
@@ -86,25 +81,10 @@ struct PageLockState {
     int shared_intention_exclusive_count = 0;
 };
 
-// 锁兼容性矩阵
-class LockCompatibilityMatrix {
-public:
-    LockCompatibilityMatrix();
-    ~LockCompatibilityMatrix() = default;
 
-    // 检查两种锁模式是否兼容
-    bool IsCompatible(LockMode existing, LockMode requested) const;
-
-    // 检查请求的锁是否可以立即授予
-    bool CanGrantImmediately(const PageLockState& state, LockMode requested) const;
-
-private:
-    // 锁兼容性矩阵 [existing][requested]
-    bool compatibility_matrix_[5][5];
-};
 
 // 辅助函数：更新锁计数器
-void UpdateLockCounts(PageLockState& state, LockMode mode, int delta);
+void UpdateLockCounts(PageLockState& state, LockType mode, int delta);
 
 // 死锁检测器
 class AdvancedDeadlockDetector {
@@ -148,18 +128,18 @@ public:
     };
 
     // 检查锁是否可以升级
-    UpgradeStrategy CanUpgrade(LockMode current, LockMode requested) const;
+    UpgradeStrategy CanUpgrade(LockType current, LockType requested) const;
 
     // 执行锁升级
     bool PerformUpgrade(PageLockState& state, int32_t transaction_id,
-                       LockMode new_mode);
+                       LockType new_mode);
 
     // 检查锁降级
-    bool CanDowngrade(LockMode current, LockMode requested) const;
+    bool CanDowngrade(LockType current, LockType requested) const;
 
     // 执行锁降级
     bool PerformDowngrade(PageLockState& state, int32_t transaction_id,
-                         LockMode new_mode);
+                         LockType new_mode);
 
 private:
     // 锁升级兼容性矩阵
@@ -174,32 +154,32 @@ public:
     ~AdvancedLockManager();
 
     // 同步锁操作
-    LockRequestStatus AcquireLock(int32_t page_id, LockMode mode, int32_t transaction_id,
+    LockRequestStatus AcquireLock(int32_t page_id, LockType mode, int32_t transaction_id,
                                  std::chrono::milliseconds timeout = std::chrono::milliseconds(5000));
 
     LockRequestStatus ReleaseLock(int32_t page_id, int32_t transaction_id);
 
     // 批量锁操作
-    std::vector<LockRequestStatus> AcquireLocks(const std::vector<std::pair<int32_t, LockMode>>& requests,
+    std::vector<LockRequestStatus> AcquireLocks(const std::vector<std::pair<int32_t, LockType>>& requests,
                                                int32_t transaction_id,
                                                std::chrono::milliseconds timeout = std::chrono::milliseconds(5000));
 
     size_t ReleaseAllLocks(int32_t transaction_id);
 
     // 异步锁操作
-    bool AcquireLockAsync(int32_t page_id, LockMode mode, int32_t transaction_id,
+    bool AcquireLockAsync(int32_t page_id, LockType mode, int32_t transaction_id,
                          std::function<void(LockRequestStatus)> callback,
                          std::chrono::milliseconds timeout = std::chrono::milliseconds(5000));
 
     // 锁查询
-    bool HasLock(int32_t page_id, int32_t transaction_id, LockMode min_mode = SHARED) const;
-    LockMode GetLockMode(int32_t page_id, int32_t transaction_id) const;
+    bool HasLock(int32_t page_id, int32_t transaction_id, LockType min_mode = LockType::SHARED) const;
+    LockType GetLockType(int32_t page_id, int32_t transaction_id) const;
     std::vector<int32_t> GetLockedPages(int32_t transaction_id) const;
     std::vector<int32_t> GetLockHolders(int32_t page_id) const;
 
     // 锁升级/降级
-    LockRequestStatus UpgradeLock(int32_t page_id, int32_t transaction_id, LockMode new_mode);
-    LockRequestStatus DowngradeLock(int32_t page_id, int32_t transaction_id, LockMode new_mode);
+    LockRequestStatus UpgradeLock(int32_t page_id, int32_t transaction_id, LockType new_mode);
+    LockRequestStatus DowngradeLock(int32_t page_id, int32_t transaction_id, LockType new_mode);
 
     // 死锁检测和处理
     bool DetectAndResolveDeadlock(std::vector<int32_t>& victims);
@@ -260,7 +240,7 @@ private:
 
     // 辅助方法
     PageLockState& GetOrCreatePageLockState(int32_t page_id);
-    LockRequestStatus TryAcquireLock(int32_t page_id, LockMode mode, int32_t transaction_id);
+    LockRequestStatus TryAcquireLock(int32_t page_id, LockType mode, int32_t transaction_id);
     void GrantWaitingRequests(int32_t page_id);
     void UpdateLockWaitTime(std::chrono::milliseconds wait_time);
     void ProcessAsyncRequests();
@@ -268,8 +248,8 @@ private:
     void StopAsyncWorker();
 
     // 锁兼容性检查
-    bool IsLockCompatible(const PageLockState& state, LockMode requested) const;
-    bool CanUpgradeLock(const PageLockState& state, int32_t transaction_id, LockMode new_mode) const;
+    bool IsLockCompatible(const PageLockState& state, LockType requested) const;
+    bool CanUpgradeLock(const PageLockState& state, int32_t transaction_id, LockType new_mode) const;
 };
 
 // 锁管理器工厂

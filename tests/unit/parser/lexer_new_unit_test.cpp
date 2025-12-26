@@ -1,3 +1,4 @@
+#include "sql_parser/token.h"
 #include <gtest/gtest.h>
 #include <iostream>
 #include <sql_parser/lexer.h>

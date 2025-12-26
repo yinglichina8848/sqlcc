@@ -1,0 +1,42 @@
+=== 详细存储引擎组件分析 ===
+生成时间: Fri Dec 26 17:16:26 CST 2025
+
+=== 文件: src/storage_engine/b_plus_tree.cpp ===
+总行数: 1361
+类定义:
+函数定义:
+20:BPlusTreeNode::BPlusTreeNode(std::shared_ptr<StorageEngine> storage_engine, int32_t page_id,
+55:BPlusTreeInternalNode::BPlusTreeInternalNode(std::shared_ptr<StorageEngine> storage_engine,
+478:BPlusTreeLeafNode::BPlusTreeLeafNode(std::shared_ptr<StorageEngine> storage_engine,
+737:std::vector<IndexEntry>
+738:BPlusTreeLeafNode::Search(const std::string &key) const {
+
+=== 文件: src/storage_engine/b_plus_tree_index.cpp ===
+总行数: 851
+类定义:
+函数定义:
+55:BPlusTreeIndex::BPlusTreeIndex(std::shared_ptr<StorageEngine> storage_engine,
+433:std::vector<IndexEntry> BPlusTreeIndex::Search(const std::string& key) const {
+449:std::vector<IndexEntry> BPlusTreeIndex::Search(const std::string& key,
+523:std::vector<IndexEntry> BPlusTreeIndex::SearchRange(const std::string& lower_bound,
+537:std::vector<IndexEntry> BPlusTreeIndex::SearchRange(const std::string& lower_bound,
+
+=== 文件: src/storage_engine/storage_engine.cpp ===
+总行数: 143
+类定义:
+函数定义:
+12:StorageEngine::StorageEngine(ConfigManager& config_manager, const std::string& db_path)
+66:std::unique_ptr<Page> StorageEngine::NewPage(int32_t *page_id) {
+82:std::shared_ptr<Page> StorageEngine::FetchPage(int32_t page_id) {
+125:std::string StorageEngine::GetStats() const {
+
+=== 文件: src/storage_engine/page_allocator.cpp ===
+总行数: 562
+类定义:
+函数定义:
+24:PageAllocator::PageAllocator(size_t max_pages, PageAllocationStrategy strategy)
+65:std::shared_ptr<Page> PageAllocator::AllocatePage(PageType type, int32_t hint_page_id) {
+173:std::shared_ptr<Page> PageAllocator::GetPage(int32_t page_id) {
+199:std::shared_ptr<Page> PageAllocator::AllocateSequential(PageType type) {
+212:std::shared_ptr<Page> PageAllocator::AllocateRandom(PageType type) {
+

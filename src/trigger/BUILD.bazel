@@ -1,13 +1,14 @@
 cc_library(
     name = "sql_trigger_executor",
     srcs = ["sql_trigger_executor.cpp"],
-    hdrs = ["//include/trigger:sql_trigger_executor.h"],
-    visibility = ["//visibility:public"],
     deps = [
+        "//include/trigger:trigger_headers",
         "//src/core:core",
+        "//src/sql_executor:sql_executor",
         # "//src/trigger:trigger",  # 移除循环依赖 - 通过接口调用
-        "//src/execution:execution",
+        # "//src/execution:execution",  # 移除循环依赖
     ],
+    visibility = ["//visibility:public"],
 )
 
 cc_library(

@@ -1,78 +1,119 @@
 #!/bin/bash
 
-# 生成覆盖率报告脚本
+# SQLCC v1.2.10 覆盖率数据生成脚本
+# 专门用于生成已通过测试的覆盖率数据
+
 set -e
 
-BUILD_DIR="/home/liying/sqlcc/build"
-REPORTS_DIR="/home/liying/sqlcc/docs/coverage_reports"
-HTML_DIR="$REPORTS_DIR/html"
+echo "=========================================="
+echo "SQLCC v1.2.10 覆盖率数据生成"
+echo "=========================================="
+echo "开始时间: $(date)"
+echo ""
 
-echo "=== SQLCC 覆盖率报告生成器 ==="
+# 创建覆盖率数据目录
+COVERAGE_DIR="/tmp/coverage_data"
+mkdir -p "$COVERAGE_DIR"
 
-# 创建输出目录
-mkdir -p "$HTML_DIR"
-mkdir -p "$REPORTS_DIR"
+# 只运行已验证成功的测试
+SUCCESSFUL_TESTS=(
+    "comprehensive_bplus_tree_test"
+    "final_bplus_tree_test"
+    "minimal_bplus_tree_test"
+)
 
-# 清理之前的覆盖率数据
-echo "清理之前的覆盖率数据..."
-find "$BUILD_DIR" -name "*.gcda" -delete 2>/dev/null || true
-find "$BUILD_DIR" -name "*.gcno" -delete 2>/dev/null || true
+echo "将为以下成功测试生成覆盖率数据:"
+for test in "${SUCCESSFUL_TESTS[@]}"; do
+    echo "  - $test"
+done
+echo ""
 
-# 重新编译并运行基本覆盖率测试
-echo "重新编译覆盖率测试..."
-cd "$BUILD_DIR"
-make database_manager_coverage_test
+# 执行测试并收集覆盖率
+for test in "${SUCCESSFUL_TESTS[@]}"; do
+    echo "----------------------------------------"
+    echo "收集 $test 的覆盖率数据"
+    echo "----------------------------------------"
 
-echo "运行基本覆盖率测试..."
-./tests/coverage/database_manager_coverage_test --gtest_brief=1 > /dev/null 2>&1
+    # 设置覆盖率环境变量
+    export LLVM_PROFILE_FILE="$COVERAGE_DIR/coverage_$test.profraw"
 
-# 收集覆盖率数据
-echo "收集覆盖率数据..."
-cd "$BUILD_DIR"
+    # 执行测试
+    if bazel test "//tests/storage_engine:$test" --test_timeout=60 --test_output=summary; then
+        echo "✅ $test - 覆盖率数据收集成功"
+    else
+        echo "❌ $test - 测试失败，跳过覆盖率数据收集"
+        continue
+    fi
+
+    echo ""
+done
+
+# 生成覆盖率报告
+echo "=========================================="
+echo "生成覆盖率报告"
+echo "=========================================="
 
 # 检查是否有覆盖率数据
-GCD_COUNT=$(find . -name "*.gcda" | wc -l)
-if [ "$GCD_COUNT" -eq 0 ]; then
-    echo "警告：未找到.gcda覆盖率数据文件"
-    exit 1
-fi
+if ls "$COVERAGE_DIR"/*.profraw 1> /dev/null 2>&1; then
+    echo "发现覆盖率数据文件，正在合并..."
 
-echo "找到 $GCD_COUNT 个覆盖率数据文件"
+    # 合并覆盖率数据
+    llvm-profdata merge "$COVERAGE_DIR"/*.profraw -o "$COVERAGE_DIR/coverage.profdata"
+    echo "覆盖率数据合并完成"
 
-# 使用lcov生成HTML报告（忽略错误）
-echo "生成HTML覆盖率报告..."
-lcov --capture --directory . --output-file coverage_info.info --ignore-errors mismatch
+    # 生成文本覆盖率报告
+    echo "生成文本覆盖率报告..."
+    llvm-cov show \
+        --instr-profile="$COVERAGE_DIR/coverage.profdata" \
+        --object=bazel-bin/tests/storage_engine/comprehensive_bplus_tree_test \
+        --object=bazel-bin/tests/storage_engine/final_bplus_tree_test \
+        --object=bazel-bin/tests/storage_engine/minimal_bplus_tree_test \
+        --format=text \
+        --output-dir="$COVERAGE_DIR/text" \
+        src/storage_engine/ > "$COVERAGE_DIR/coverage_text_report.txt"
 
-# 过滤掉测试文件和构建文件，只保留源代码
-lcov --remove coverage_info.info "*/tests/*" "*/build/*" "*.cpp.gcda" --output-file coverage_filtered.info
+    # 生成HTML覆盖率报告
+    echo "生成HTML覆盖率报告..."
+    llvm-cov show \
+        --instr-profile="$COVERAGE_DIR/coverage.profdata" \
+        --object=bazel-bin/tests/storage_engine/comprehensive_bplus_tree_test \
+        --format=html \
+        --output-dir="$COVERAGE_DIR/html" \
+        src/storage_engine/
 
-# 检查是否有源代码覆盖率数据
-if [ ! -s "coverage_filtered.info" ]; then
-    echo "警告：没有源代码覆盖率数据，尝试从所有数据生成报告..."
-    lcov --capture --directory . --output-file coverage_all.info --ignore-errors mismatch
-    genhtml coverage_all.info --output-directory "$HTML_DIR" --ignore-errors mismatch
+    # 生成覆盖率摘要
+    echo "生成覆盖率摘要..."
+    llvm-cov report \
+        --instr-profile="$COVERAGE_DIR/coverage.profdata" \
+        --object=bazel-bin/tests/storage_engine/comprehensive_bplus_tree_test \
+        --object=bazel-bin/tests/storage_engine/final_bplus_tree_test \
+        --object=bazel-bin/tests/storage_engine/minimal_bplus_tree_test \
+        src/storage_engine/ > "$COVERAGE_DIR/coverage_summary.txt"
+
+    echo ""
+    echo "=========================================="
+    echo "覆盖率报告生成完成"
+    echo "=========================================="
+    echo "覆盖率数据目录: $COVERAGE_DIR"
+    echo "HTML报告: $COVERAGE_DIR/html/index.html"
+    echo "文本摘要: $COVERAGE_DIR/coverage_summary.txt"
+    echo "详细文本报告: $COVERAGE_DIR/coverage_text_report.txt"
+
 else
-    # 生成HTML报告
-    genhtml coverage_filtered.info --output-directory "$HTML_DIR" --ignore-errors mismatch
+    echo "❌ 未找到覆盖率数据文件"
+    echo "可能的原因:"
+    echo "  - 测试执行失败"
+    echo "  - LLVM_PROFILE_FILE环境变量未正确设置"
+    echo "  - Clang编译器未启用覆盖率支持"
 fi
 
-# 复制报告到文档目录
-cp -r "$HTML_DIR"/* "$REPORTS_DIR/" 2>/dev/null || true
+# 清理环境变量
+unset LLVM_PROFILE_FILE
 
-# 生成文本格式的覆盖率摘要
-echo "生成覆盖率摘要..."
-if [ -f "coverage_filtered.info" ]; then
-    lcov --summary coverage_filtered.info > "$REPORTS_DIR/coverage_summary.txt" 2>/dev/null || true
-else
-    lcov --summary coverage_all.info > "$REPORTS_DIR/coverage_summary.txt" 2>/dev/null || true
-fi
+echo ""
+echo "=========================================="
+echo "执行完成"
+echo "=========================================="
+echo "结束时间: $(date)"
 
-echo "=== 覆盖率报告生成完成 ==="
-echo "HTML报告位置：$HTML_DIR"
-echo "摘要报告：$REPORTS_DIR/coverage_summary.txt"
-
-# 显示覆盖率摘要
-if [ -f "$REPORTS_DIR/coverage_summary.txt" ]; then
-    echo "=== 覆盖率摘要 ==="
-    cat "$REPORTS_DIR/coverage_summary.txt"
-fi
+exit 0

@@ -1,6 +1,5 @@
 #include "core/core_database_manager.h"
 #include "storage/index_manager.h"
-#include "storage/buffer_pool.h"
 #include "storage/buffer_pool_sharded.h"
 #include "storage/table_storage.h"
 #include "storage_engine.h"
@@ -42,6 +41,9 @@ DatabaseManager::DatabaseManager(const std::string &db_path,
     // 创建索引管理器
     index_manager_ =
         std::make_shared<IndexManager>(storage_engine_, *config_manager_);
+
+    // TODO: 暂时跳过buffer_pool_的初始化，因为BufferPool类型定义不完整
+    // buffer_pool_ = std::make_shared<BufferPoolSharded>(buffer_pool_size, shard_count, stripe_count);
 
     // TODO: 事务管理器暂未实现
     // txn_manager_ = std::make_shared<TransactionManager>();
@@ -401,46 +403,29 @@ bool DatabaseManager::RollbackTransaction(TransactionId txn_id) {
 bool DatabaseManager::ReadPage(TransactionId txn_id, int32_t page_id,
                                Page **page) {
   std::lock_guard<std::mutex> lock(mutex_);
-  if (is_closed_ || !buffer_pool_)
+  if (is_closed_)
     return false;
   (void)txn_id; // 标记参数为已使用
+  (void)page_id; // 标记参数为已使用
   
-  // 检查buffer_pool_是否已初始化
-  if (!buffer_pool_) {
-    *page = nullptr;
-    return false;
-  }
-
-  // 获取页面的智能指针
-  auto page_ptr = buffer_pool_->FetchPage(page_id);
-  if (!page_ptr) {
-    *page = nullptr;
-    return false;
-  }
-  
-  // 注意：这里我们不能直接返回智能指针拥有的原始指针，
-  // 因为当page_ptr销毁时，页面也会被销毁。
-  // 在实际实现中，应该重新设计API以正确处理智能指针。
-  // 这里为了兼容现有API，我们简单地返回nullptr表示失败。
+  // TODO: 暂时跳过使用buffer_pool_，因为BufferPool类型定义不完整
+  // 实际实现需要集成BufferPool
   *page = nullptr;
-  return false;
+  return false; // 暂时返回失败
 }
 
 bool DatabaseManager::WritePage(TransactionId txn_id, int32_t page_id,
                                 Page *page) {
   std::lock_guard<std::mutex> lock(mutex_);
-  if (is_closed_ || !buffer_pool_)
+  if (is_closed_)
     return false;
   (void)txn_id; // 标记参数为已使用
+  (void)page_id; // 标记参数为已使用
   (void)page;   // 标记参数为已使用
 
-  // 再次检查buffer_pool_是否有效，避免空指针解引用
-  if (!buffer_pool_) {
-    return false;
-  }
-
-  buffer_pool_->UnpinPage(page_id, true);
-  return true;
+  // TODO: 暂时跳过使用buffer_pool_，因为BufferPool类型定义不完整
+  // 实际实现需要集成BufferPool
+  return false; // 暂时返回失败
 }
 
 bool DatabaseManager::LockKey(TransactionId txn_id, const std::string &key) {

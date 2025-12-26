@@ -1,4 +1,6 @@
 /**
+#include "sql_parser/ast_node.h"
+#include "sql_parser/ast_nodes.h"
  * @file aggregate_engine.h
  * @brief 聚合引擎头文件
  */

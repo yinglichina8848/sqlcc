@@ -1,8 +1,8 @@
 #ifndef SQLCC_SQL_PARSER_WINDOW_FUNCTION_H
 #define SQLCC_SQL_PARSER_WINDOW_FUNCTION_H
 
-#include "ast_node.h"
-#include "node_visitor.h"
+#include "sql_parser/ast_node.h"
+#include "sql_parser/node_visitor.h"
 #include <string>
 #include <vector>
 #include <memory>

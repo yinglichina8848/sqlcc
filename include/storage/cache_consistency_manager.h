@@ -17,7 +17,7 @@
 namespace sqlcc {
 
 // 前向声明
-class BufferPool;
+class BufferPoolSharded;
 class Page;
 
 // 页面版本信息
@@ -50,7 +50,7 @@ enum CacheConsistencyStrategy {
 // 缓存一致性管理器
 class CacheConsistencyManager {
 public:
-    CacheConsistencyManager(std::shared_ptr<BufferPool> buffer_pool,
+    CacheConsistencyManager(std::shared_ptr<BufferPoolSharded> buffer_pool,
                            CacheConsistencyStrategy strategy = STRICT_CONSISTENCY);
     ~CacheConsistencyManager() = default;
 
@@ -122,7 +122,7 @@ private:
     };
 
     // 成员变量
-    std::shared_ptr<BufferPool> buffer_pool_;
+    std::shared_ptr<BufferPoolSharded> buffer_pool_;
     CacheConsistencyStrategy strategy_;
     std::chrono::milliseconds lock_timeout_;
     bool version_check_enabled_;

@@ -1,5 +1,7 @@
 #include "execution/subquery_executor.h"
-#include "execution_ast/ast_interface.h"
+#include "core/execution_context.h"
+#include "core/execution_result.h"
+#include "sql_parser/ast_nodes.h"
 #include <algorithm>
 #include <memory>
 #include <optional>
@@ -7,7 +9,6 @@
 #include <vector>
 
 namespace sqlcc {
-namespace execution {
 
 SubqueryExecutor::SubqueryExecutor(std::shared_ptr<SqlExecutor> sql_executor,
                                    std::shared_ptr<DatabaseManager> db_manager,
@@ -260,5 +261,4 @@ bool SubqueryExecutor::evaluate_subquery_result(
   return false;
 }
 
-} // namespace execution
 } // namespace sqlcc

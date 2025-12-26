@@ -90,7 +90,7 @@ TEST_F(DataTypesTest, DataValue_BasicOperations) {
     }
 
     {
-        DataValue string_val("hello");
+        DataValue string_val(std::string("hello"));
         std::cout << "String val type: " << static_cast<int>(string_val.getType()) << std::endl;
         std::cout << "String val content: " << string_val.asString() << std::endl;
         EXPECT_EQ(string_val.getType(), DataType::VARCHAR);

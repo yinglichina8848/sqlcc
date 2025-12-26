@@ -1,3 +1,5 @@
+#include "sql_parser/ast_node.h"
+#include "sql_parser/ast_nodes.h"
 #include "execution/join_executor.h"
 #include "core/unified_executor.h"
 #include "core/execution_result.h"

@@ -19,7 +19,7 @@
 #include <readline/readline.h>
 #endif
 
-#include "config_manager.h"
+#include "utils/config_manager.h"
 #include "sql_executor.h"
 #include "exception.h"
 #include "storage_engine.h"

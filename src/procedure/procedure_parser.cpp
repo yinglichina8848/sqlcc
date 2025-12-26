@@ -1,3 +1,4 @@
+#include "sql_parser/ast_node.h"
 #include "../../include/procedure/procedure_parser.h"
 #include <cctype>
 #include <algorithm>

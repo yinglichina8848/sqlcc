@@ -1,3 +1,4 @@
+#include "sql_parser/token.h"
 #include <iostream>
 #include <memory>
 #include <sstream>

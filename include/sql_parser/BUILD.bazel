@@ -11,61 +11,73 @@ filegroup(
 cc_library(
     name = "ast_node",
     hdrs = ["ast_node.h"],
+    includes = ["."],
 )
 
 cc_library(
     name = "ast_nodes",
     hdrs = ["ast_nodes.h"],
+    includes = ["."],
 )
 
 cc_library(
     name = "node_visitor",
     hdrs = ["node_visitor.h"],
+    includes = ["."],
 )
 
 cc_library(
     name = "function_ast",
     hdrs = ["function_ast.h"],
+    includes = ["."],
 )
 
 cc_library(
     name = "function_definition",
     hdrs = ["function/function_definition.h"],
+    includes = ["."],
 )
 
 cc_library(
     name = "set_operation",
     hdrs = ["set_operation.h"],
+    includes = ["."],
 )
 
 cc_library(
     name = "window_function",
     hdrs = ["window_function.h"],
+    includes = ["."],
 )
 
 cc_library(
     name = "recursive_query",
     hdrs = ["recursive_query.h"],
+    includes = ["."],
 )
 
 cc_library(
     name = "token",
     hdrs = ["token.h"],
+    includes = ["."],
 )
 
 cc_library(
     name = "constraint",
     hdrs = ["constraint.h"],
+    includes = ["."],
 )
 
 cc_library(
     name = "data_types",
     hdrs = ["data_types.h"],
+    includes = ["."],
 )
 
 cc_library(
     name = "datetime",
     hdrs = ["datetime.h"],
+    includes = ["."],
 )
 
 # -----------------------------------------------------------------------------
@@ -74,6 +86,7 @@ cc_library(
 
 cc_library(
     name = "headers",
-    hdrs = glob(["*.h"]),
+    hdrs = glob(["*.h", "**/*.h"]),
+    includes = ["."],
     visibility = ["//visibility:public"],
 )

@@ -1,4 +1,7 @@
+#include "sql_parser/ast_node.h"
+#include "sql_parser/ast_nodes.h"
 #include "execution/procedure_trigger_task.h"
+#include "execution/task_result.h"
 #include "procedure/procedure_trigger_executor.h"
 #include <chrono>
 
@@ -6,8 +9,8 @@ namespace sqlcc {
 namespace execution {
 
 // ProcedureCallTask implementation
-ProcedureCallTask::ProcedureCallTask(const std::string& task_id, sql_parser::CallProcedureStatement* stmt)
-    : Task(task_id, TaskType::PROCEDURE_CALL), stmt_(stmt) {}
+ProcedureCallTask::ProcedureCallTask(const std::string& task_id, std::unique_ptr<sql_parser::CallProcedureStatement> stmt)
+    : Task(task_id, execution::TaskType::PROCEDURE_CALL), stmt_(std::move(stmt)) {}
 
 std::shared_ptr<TaskResult> ProcedureCallTask::execute() {
     auto result = std::make_shared<TaskResult>(getTaskId());
@@ -16,7 +19,7 @@ std::shared_ptr<TaskResult> ProcedureCallTask::execute() {
     try {
         // 执行存储过程调用
         std::string execution_result = procedure::ProcedureTriggerExecutor::getInstance()
-            .executeCallProcedure(stmt_);
+            .executeCallProcedure(stmt_.get());
 
         result->setSuccess(true);
         result->setResultData(execution_result);

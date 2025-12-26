@@ -1,4 +1,6 @@
+#include "sql_parser/ast_node.h"
 #include "sql_parser/function_ast.h"
+#include "sql_parser/ast_nodes.h"
 #include <algorithm>
 #include <sstream>
 

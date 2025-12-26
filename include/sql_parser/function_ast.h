@@ -4,7 +4,7 @@
 #include <memory>
 #include <string>
 #include <vector>
-#include "ast_node.h"
+#include "sql_parser/ast_node.h"
 #include "function/function_definition.h"
 
 namespace sqlcc {

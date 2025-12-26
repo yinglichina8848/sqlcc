@@ -8,9 +8,8 @@ load("@rules_cc//cc:defs.bzl", "cc_library")
 cc_library(
     name = "sql_executor",
     srcs = ["sql_executor.cpp"],
-    hdrs = ["//include/sql_executor/*.h"],
-    includes = ["//include"],
     deps = [
+        "//include/sql_executor:sql_executor_headers",
         "//src/core:core",
         "//src/utils:utils",
         "//src/storage_engine:storage_engine",

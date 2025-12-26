@@ -300,4 +300,8 @@ void Prefetcher::PrefetchWorker() {
     }
 }
 
+bool LockCompatibilityMatrix::IsCompatible(LockType type1, LockType type2) {
+    return compatibility_matrix_[static_cast<size_t>(type1)][static_cast<size_t>(type2)];
+}
+
 } // namespace sqlcc

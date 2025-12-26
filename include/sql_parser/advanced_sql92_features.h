@@ -1,8 +1,9 @@
+#include "sql_parser/ast_node.h"
 #ifndef SQLCC_SQL_PARSER_ADVANCED_SQL92_FEATURES_H
 #define SQLCC_SQL_PARSER_ADVANCED_SQL92_FEATURES_H
 
-#include "ast_nodes.h"
-#include "node_visitor.h"
+#include "sql_parser/ast_nodes.h"
+#include "sql_parser/node_visitor.h"
 #include <memory>
 #include <string>
 #include <vector>
@@ -21,7 +22,7 @@ public:
   ~SavepointStatement();
 
   const std::string &getSavepointName() const;
-  void accept(NodeVisitor &visitor) override;
+  void accept(NodeVisitor &visitor);
 
 private:
   std::string savepointName_;
@@ -36,7 +37,7 @@ public:
   ~ReleaseSavepointStatement();
 
   const std::string &getSavepointName() const;
-  void accept(NodeVisitor &visitor) override;
+  void accept(NodeVisitor &visitor);
 
 private:
   std::string savepointName_;
@@ -70,7 +71,7 @@ public:
   void setWork(bool work);
   bool isWork() const;
 
-  void accept(NodeVisitor &visitor) override;
+  void accept(NodeVisitor &visitor);
 
 private:
   IsolationLevel isolationLevel_;
@@ -163,7 +164,7 @@ public:
   const DomainDefinition &getDomainDefinition() const;
   std::unique_ptr<DomainDefinition> takeDomainDefinition();
 
-  void accept(NodeVisitor &visitor) override;
+  void accept(NodeVisitor &visitor);
 
 private:
   std::unique_ptr<DomainDefinition> domainDef_;
@@ -200,7 +201,7 @@ public:
   const std::string &getConstraintDefinition() const;
   bool hasConstraintDefinition() const;
 
-  void accept(NodeVisitor &visitor) override;
+  void accept(NodeVisitor &visitor);
 
 private:
   std::string domainName_;
@@ -230,7 +231,7 @@ public:
   bool isIfExists() const;
   void setIfExists(bool ifExists);
 
-  void accept(NodeVisitor &visitor) override;
+  void accept(NodeVisitor &visitor);
 
 private:
   std::string domainName_;
@@ -296,7 +297,7 @@ public:
   const FunctionDefinition &getFunctionDefinition() const;
   std::unique_ptr<FunctionDefinition> takeFunctionDefinition();
 
-  void accept(NodeVisitor &visitor) override;
+  void accept(NodeVisitor &visitor);
 
 private:
   std::unique_ptr<FunctionDefinition> functionDef_;
@@ -314,7 +315,7 @@ public:
   bool isIfExists() const;
   void setIfExists(bool ifExists);
 
-  void accept(NodeVisitor &visitor) override;
+  void accept(NodeVisitor &visitor);
 
 private:
   std::string functionName_;
@@ -449,7 +450,7 @@ public:
   void addAction(std::unique_ptr<AlterTableAction> action);
   const std::vector<std::unique_ptr<AlterTableAction>> &getActions() const;
 
-  void accept(NodeVisitor &visitor) override;
+  void accept(NodeVisitor &visitor);
 
 private:
   std::string tableName_;

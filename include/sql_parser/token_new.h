@@ -1,7 +1,7 @@
 #ifndef SQLCC_SQL_PARSER_TOKEN_NEW_H
 #define SQLCC_SQL_PARSER_TOKEN_NEW_H
 
-#include "token.h"
+#include "sql_parser/token.h"
 
 namespace sqlcc {
 namespace sql_parser {

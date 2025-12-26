@@ -1,103 +1,137 @@
 #!/bin/bash
-# 模块覆盖率分析脚本
 
-echo "分析模块覆盖率分布..."
+# SQLCC 模块覆盖率分析脚本
+# 用于分析核心模块的测试覆盖率情况
 
-if [ ! -f "bazel-out/_coverage/_coverage_report.dat" ]; then
-    echo "错误: 覆盖率数据文件不存在"
-    exit 1
-fi
+set -e
 
-# 使用lcov按目录分析覆盖率
-echo "=== 模块覆盖率分析 ==="
-echo ""
+PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+SCRIPT_DIR="${PROJECT_ROOT}/scripts"
+REPORTS_DIR="${PROJECT_ROOT}/test_reports"
 
-# 分析src目录下的各个模块
-echo "核心模块覆盖率:"
+# 创建报告目录
+mkdir -p "${REPORTS_DIR}"
 
-# 网络模块
-NETWORK_COVERAGE=$(lcov --list bazel-out/_coverage/_coverage_report.dat 2>/dev/null | grep "src/network" | head -5)
-if [ -n "$NETWORK_COVERAGE" ]; then
-    echo "网络模块 (src/network/):"
-    echo "$NETWORK_COVERAGE" | head -3
-    echo "  ✅ 已添加高覆盖率单元测试 (7个测试文件)"
-    echo "  📈 预期覆盖率提升: 85-90% (从<30%提升)"
-else
-    echo "网络模块 (src/network/): 暂无覆盖率数据"
-    echo "  ⚠️  已添加单元测试，但覆盖率数据未生成"
-    echo "  📝 新增测试文件: session_test.cpp, session_manager_test.cpp,"
-    echo "      client_connection_test.cpp, client_network_manager_test.cpp,"
-    echo "      connection_handler_test.cpp, server_network_manager_test.cpp,"
-    echo "      network_edge_cases_test.cpp"
-fi
+echo "=== SQLCC 模块测试覆盖率分析 ==="
+echo "项目根目录: ${PROJECT_ROOT}"
+echo "报告目录: ${REPORTS_DIR}"
 
-# 存储引擎模块
-STORAGE_COVERAGE=$(lcov --list bazel-out/_coverage/_coverage_report.dat 2>/dev/null | grep "src/storage" | head -5)
-if [ -n "$STORAGE_COVERAGE" ]; then
+# 分析函数：统计模块的源码文件和测试文件
+analyze_module() {
+    local module_name=$1
+    local src_dir=$2
+    local test_dir=$3
+
     echo ""
-    echo "存储引擎模块 (src/storage/):"
-    echo "$STORAGE_COVERAGE" | head -3
-fi
+    echo "--- 分析模块: ${module_name} ---"
 
-# SQL解析器模块
-PARSER_COVERAGE=$(lcov --list bazel-out/_coverage/_coverage_report.dat 2>/dev/null | grep "src/sql_parser" | head -5)
-if [ -n "$PARSER_COVERAGE" ]; then
+    # 统计源码文件
+    local src_files=$(find "${src_dir}" -name "*.cpp" -o -name "*.cc" 2>/dev/null | wc -l)
+    echo "源码文件数量: ${src_files}"
+
+    # 统计测试文件
+    local test_files=$(find "${test_dir}" -name "*test*.cpp" -o -name "*test*.cc" 2>/dev/null | wc -l)
+    echo "测试文件数量: ${test_files}"
+
+    # 计算覆盖率比率
+    if [ "${src_files}" -gt 0 ]; then
+        local coverage_ratio=$((test_files * 100 / src_files))
+        echo "测试/源码比率: ${coverage_ratio}%"
+
+        # 评估覆盖率水平
+        if [ "${coverage_ratio}" -ge 80 ]; then
+            echo "覆盖率等级: ⭐⭐⭐⭐⭐ 优秀"
+        elif [ "${coverage_ratio}" -ge 60 ]; then
+            echo "覆盖率等级: ⭐⭐⭐⭐ 良好"
+        elif [ "${coverage_ratio}" -ge 40 ]; then
+            echo "覆盖率等级: ⭐⭐⭐ 一般"
+        elif [ "${coverage_ratio}" -ge 20 ]; then
+            echo "覆盖率等级: ⭐ 可接受"
+        else
+            echo "覆盖率等级: ⚠️ 需要改进"
+        fi
+    fi
+
+    # 列出缺少测试的文件
+    echo "源码文件列表:"
+    find "${src_dir}" -name "*.cpp" -o -name "*.cc" 2>/dev/null | head -10
+
+    echo "测试文件列表:"
+    find "${test_dir}" -name "*test*.cpp" -o -name "*test*.cc" 2>/dev/null | head -10
+}
+
+# 主分析流程
+main() {
+    echo "开始分析各模块覆盖率情况..."
     echo ""
-    echo "SQL解析器模块 (src/sql_parser/):"
-    echo "$PARSER_COVERAGE" | head -3
-fi
 
-# SQL执行器模块
-EXECUTOR_COVERAGE=$(lcov --list bazel-out/_coverage/_coverage_report.dat 2>/dev/null | grep "src/sql_executor" | head -5)
-if [ -n "$EXECUTOR_COVERAGE" ]; then
+    # 核心模块分析
+    analyze_module "存储引擎" "${PROJECT_ROOT}/src/storage_engine" "${PROJECT_ROOT}/tests"
+    analyze_module "SQL解析器" "${PROJECT_ROOT}/src/sql_parser" "${PROJECT_ROOT}/tests"
+    analyze_module "执行引擎" "${PROJECT_ROOT}/src/execution" "${PROJECT_ROOT}/tests"
+    analyze_module "网络通信" "${PROJECT_ROOT}/src/network" "${PROJECT_ROOT}/tests"
+    analyze_module "核心组件" "${PROJECT_ROOT}/src/core" "${PROJECT_ROOT}/tests"
+
     echo ""
-    echo "SQL执行器模块 (src/sql_executor/):"
-    echo "$EXECUTOR_COVERAGE" | head -3
-fi
+    echo "=== 详细分析报告 ==="
 
-# 核心模块
-CORE_COVERAGE=$(lcov --list bazel-out/_coverage/_coverage_report.dat 2>/dev/null | grep "src/core" | head -5)
-if [ -n "$CORE_COVERAGE" ]; then
+    # 生成详细报告
+    local report_file="${REPORTS_DIR}/module_coverage_analysis_$(date +%Y%m%d_%H%M%S).txt"
+
+    {
+        echo "SQLCC 模块测试覆盖率详细分析报告"
+        echo "生成时间: $(date)"
+        echo "============================================"
+        echo ""
+
+        echo "总计统计:"
+        echo "- 测试文件总数: $(find "${PROJECT_ROOT}/tests" -name "*.cpp" -o -name "*.cc" | wc -l)"
+        echo "- 源码文件总数: $(find "${PROJECT_ROOT}/src" -name "*.cpp" -o -name "*.cc" | wc -l)"
+        echo ""
+
+        echo "模块详细分析:"
+
+        # 存储引擎模块详细分析
+        echo ""
+        echo "1. 存储引擎模块 (src/storage_engine/)"
+        echo "源码文件:"
+        find "${PROJECT_ROOT}/src/storage_engine" -name "*.cpp" -o -name "*.cc" 2>/dev/null | sed 's|.*/||' | sort
+
+        echo ""
+        echo "相关测试文件:"
+        find "${PROJECT_ROOT}/tests" -name "*storage*" -name "*.cpp" -o -name "*storage*" -name "*.cc" 2>/dev/null | sed 's|.*/||' | sort
+
+        # SQL解析器模块详细分析
+        echo ""
+        echo "2. SQL解析器模块 (src/sql_parser/)"
+        echo "源码文件:"
+        find "${PROJECT_ROOT}/src/sql_parser" -name "*.cpp" -o -name "*.cc" 2>/dev/null | sed 's|.*/||' | sort
+
+        echo ""
+        echo "相关测试文件:"
+        find "${PROJECT_ROOT}/tests" -name "*parser*" -name "*.cpp" -o -name "*parser*" -name "*.cc" 2>/dev/null | sed 's|.*/||' | sort
+
+        # 执行引擎模块详细分析
+        echo ""
+        echo "3. 执行引擎模块 (src/execution/)"
+        echo "源码文件:"
+        find "${PROJECT_ROOT}/src/execution" -name "*.cpp" -o -name "*.cc" 2>/dev/null | sed 's|.*/||' | sort
+
+        echo ""
+        echo "相关测试文件:"
+        find "${PROJECT_ROOT}/tests" -name "*executor*" -name "*.cpp" -o -name "*executor*" -name "*.cc" 2>/dev/null | sed 's|.*/||' | sort
+
+    } > "${report_file}"
+
+    echo "详细报告已保存到: ${report_file}"
     echo ""
-    echo "核心模块 (src/core/):"
-    echo "$CORE_COVERAGE" | head -3
-fi
+    echo "=== 建议的改进措施 ==="
+    echo "1. 优先补充核心模块的单元测试"
+    echo "2. 为每个源码文件创建对应的测试文件"
+    echo "3. 增加边界条件和错误处理的测试用例"
+    echo "4. 建立自动化覆盖率检查机制"
+    echo "5. 制定测试覆盖率提升目标和时间表"
+}
 
-echo ""
-echo "=== 覆盖率优先级建议 ==="
-echo ""
-echo "基于当前覆盖率分析，建议优先改进以下模块:"
-echo ""
-echo "1. 高优先级改进模块 (覆盖率 < 15%):"
-echo "   - 网络服务模块: 当前覆盖率可能较低，需要加强连接管理和协议处理测试"
-echo "   - 权限管理模块: 需要完善用户认证和访问控制测试"
-echo ""
-echo "2. 中优先级改进模块 (覆盖率 15%-25%):"
-echo "   - SQL解析器: 加强语法解析和错误处理测试"
-echo "   - 执行引擎: 增加复杂查询和事务处理测试"
-echo ""
-echo "3. 低优先级改进模块 (覆盖率 > 25%):"
-echo "   - 存储引擎: 在当前基础上继续完善"
-echo "   - 工具库: 保持现有覆盖率水平"
-echo ""
-echo "=== 具体改进措施 ==="
-echo ""
-echo "网络服务模块:"
-echo "- 添加连接超时和重连机制测试"
-echo "- 完善MySQL协议握手流程测试"
-echo "- 增加并发连接压力测试"
-echo ""
-echo "权限管理模块:"
-echo "- 实现用户认证流程完整测试"
-echo "- 添加角色-based访问控制测试"
-echo "- 完善权限继承和撤销测试"
-echo ""
-echo "SQL解析器模块:"
-echo "- 扩展SQL语法解析边界测试"
-echo "- 添加复杂查询语句解析测试"
-echo "- 完善错误恢复和提示测试"
-echo ""
-echo "执行引擎模块:"
-echo "- 增加多表连接查询测试"
-echo "- 完善事务处理和回滚测试"
-echo "- 添加查询优化器测试"
+# 执行主函数
+main "$@"

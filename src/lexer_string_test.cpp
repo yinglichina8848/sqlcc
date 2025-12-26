@@ -1,3 +1,4 @@
+#include "sql_parser/token.h"
 #include "include/sql_parser/lexer.h"
 #include "include/sql_parser/lexer_new.h"
 #include "include/sql_parser/token_new.h"

@@ -1,3 +1,4 @@
+#include "sql_parser/ast_node.h"
 #include "sql_parser/recursive_query.h"
 #include "sql_parser/ast_nodes.h"
 

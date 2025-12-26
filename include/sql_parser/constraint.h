@@ -1,7 +1,7 @@
 #ifndef SQLCC_SQL_PARSER_CONSTRAINT_H
 #define SQLCC_SQL_PARSER_CONSTRAINT_H
 
-#include "ast_node.h"
+#include "sql_parser/ast_node.h"
 #include <memory>
 #include <string>
 #include <vector>

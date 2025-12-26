@@ -75,13 +75,17 @@ cc_library(
         "database_manager.cpp",
     ],
     hdrs = [
-        "//include/core:database_manager.h",
+        "//include/core:core_database_manager.h"
     ],
     includes = ["//include"],
     deps = [
         ":core",  # 可以依赖core，但core不能依赖database_manager
         "//src/storage_engine:storage_engine",
+        "//include/storage:buffer_pool_sharded",
+        "//include/storage:table_storage",
+        "//include/storage:headers",
         "//src/logger:logger",
+        "//src/utils:utils",
     ],
     copts = [
         "-std=c++20",

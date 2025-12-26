@@ -28,7 +28,6 @@
 // Storage subsystem headers
 #include "disk_manager.h"
 #include "page.h"
-#include "storage/buffer_pool.h"
 #include "storage/buffer_pool_sharded.h"
 #include "storage/table_storage.h"
 #include "utils/config_manager.h"

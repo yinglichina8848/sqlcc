@@ -1,3 +1,4 @@
+#include "sql_parser/ast_node.h"
 #include "execution_engine.h"
 #include "core/user_manager.h"
 #include "core/system_database.h"

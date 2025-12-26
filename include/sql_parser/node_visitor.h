@@ -1,7 +1,8 @@
 #ifndef SQLCC_SQL_PARSER_NODE_VISITOR_H
 #define SQLCC_SQL_PARSER_NODE_VISITOR_H
 
-#include "ast_node.h"
+#include "sql_parser/ast_node.h"
+#include "sql_parser/token.h"
 #include <memory>
 #include <string>
 #include <unordered_map>
@@ -41,6 +42,8 @@ class DropProcedureStatement;
 class CreateTriggerStatement;
 class DropTriggerStatement;
 class AlterTriggerStatement;
+class AlterViewStatement;
+class DropViewStatement;
 class Expression;
 class SetOperation;
 class CompositeSelectStatement;
@@ -77,6 +80,8 @@ public:
   virtual void visit(CreateTriggerStatement &node) = 0;
   virtual void visit(DropTriggerStatement &node) = 0;
   virtual void visit(AlterTriggerStatement &node) = 0;
+  virtual void visit(AlterViewStatement &node) = 0;
+  virtual void visit(DropViewStatement &node) = 0;
 
   // 表达式访问方法
   virtual void visit(BinaryExpression &node) = 0;

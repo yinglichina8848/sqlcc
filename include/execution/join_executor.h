@@ -1,3 +1,4 @@
+#include "sql_parser/ast_node.h"
 #pragma once
 
 #include <memory>

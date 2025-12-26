@@ -1,3 +1,4 @@
+#include "sql_parser/ast_nodes.h"
 #pragma once
 
 #include <memory>
@@ -44,7 +45,7 @@ private:
                            const sql_parser::LoadDataStatement& stmt);
     std::string evaluateSetExpression(const std::string& expression,
                                     const std::vector<std::string>& row,
-                                    const std::vector<sql_parser::ColumnDefinition>& columns);
+                                    const std::vector<TableColumn>& columns);
     std::string evaluateArithmeticExpression(const std::string& expr);
     bool validateConstraints(const std::vector<std::string>& row,
                            std::shared_ptr<TableMetadata> table_meta);

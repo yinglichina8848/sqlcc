@@ -1,3 +1,4 @@
+#include "sql_parser/ast_node.h"
 #include <gtest/gtest.h>
 #include "include/sql_parser/parser.h"
 #include "include/execution/load_data_executor.h"

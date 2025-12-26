@@ -649,6 +649,45 @@ cc_test(
     ],
 )
 
+cc_test(
+    name = "constraint_test",
+    srcs = ["constraint_test.cpp"],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+        "-Iinclude",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+    deps = [
+        "@com_google_googletest//:gtest_main",
+        "//src/sql_parser:sql_parser",
+        "//src/sql_parser:set_operation",
+    ],
+)
+
+cc_test(
+    name = "window_function_test",
+    srcs = ["window_function_test.cpp"],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+        "-Iinclude",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+    deps = [
+        "@com_google_googletest//:gtest_main",
+        "//src/sql_parser:sql_parser",
+        "//src/sql_parser:set_operation",
+        "//src/sql_parser:window_function",
+    ],
+)
+
 test_suite(
     name = "parser_unit_tests",
     tests = [
@@ -688,5 +727,7 @@ test_suite(
         ":test_parser",
         ":test_simple_insert",
         ":token_new_unit_test",
+        ":constraint_test",
+        ":window_function_test",
     ],
 )

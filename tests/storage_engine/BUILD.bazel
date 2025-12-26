@@ -1,27 +1,9 @@
 # Storage engine tests BUILD configuration
+# 支持覆盖率测试：在保证测试运行的同时收集覆盖率数据
+
+load("//tools:bazel_coverage_build_template.bzl", "sqlcc_coverage_test", "sqlcc_coverage_test_suite")
 
 package(default_visibility = ["//visibility:public"])
-
-# Buffer pool测试
-cc_test(
-    name = "buffer_pool_test",
-    srcs = ["buffer_pool_v3_test.cpp"],
-    includes = ["../include"],
-    deps = [
-        "@com_google_googletest//:gtest_main",
-        "//src/utils:utils",
-        "//src/storage_engine:storage_engine",
-        "//src/config_manager:sqlcc_config_manager",
-    ],
-    copts = [
-        "-std=c++20",
-        "-stdlib=libc++",
-    ],
-    linkopts = [
-        "-stdlib=libc++",
-        "-lc++abi",
-    ],
-)
 
 # B+树测试
 cc_test(
@@ -137,17 +119,253 @@ cc_test(
     ],
 )
 
-# Storage engine测试套件
+# B+树核心算法测试
+cc_test(
+    name = "b_plus_tree_core_test",
+    srcs = ["b_plus_tree_core_test.cpp"],
+    includes = ["../include"],
+    deps = [
+        "//src/storage_engine:storage_engine",
+        "@com_google_googletest//:gtest_main",
+        "//src/utils:utils",
+    ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+)
+
+# Storage engine综合测试
+cc_test(
+    name = "storage_engine_comprehensive_test",
+    srcs = ["storage_engine_comprehensive_test.cpp"],
+    includes = ["../include"],
+    deps = [
+        "@com_google_googletest//:gtest_main",
+        "//src/storage_engine:storage_engine",
+        "//src/utils:utils",
+        "//src/core:core",
+        "//src/procedure:procedure_vm",
+        "//src/sql_parser:set_operation",
+    ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+)
+
+# Storage engine边界测试
+cc_test(
+    name = "storage_engine_boundary_test",
+    srcs = ["storage_engine_boundary_test.cpp"],
+    includes = ["../include"],
+    deps = [
+        "@com_google_googletest//:gtest_main",
+        "//src/storage_engine:storage_engine",
+        "//src/utils:utils",
+        "//src/core:core",
+        "//include/sql_parser:data_types",
+    ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+)
+
+# 页面分配器测试
+cc_test(
+    name = "page_allocator_test",
+    srcs = ["page_allocator_test.cpp"],
+    includes = ["../include"],
+    deps = [
+        "@com_google_googletest//:gtest_main",
+        "@com_google_googletest//:gtest",
+        "//src/storage_engine:storage_engine",
+        "//src/utils:utils",
+        "//src/core:core",
+    ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+)
+
+# 索引管理器测试
+cc_test(
+    name = "index_manager_test",
+    srcs = ["index_manager_test.cpp"],
+    includes = ["../include"],
+    deps = [
+        "@com_google_googletest//:gtest_main",
+        "@com_google_googletest//:gtest",
+        "//src/storage_engine:storage_engine",
+        "//src/utils:utils",
+        "//src/core:core",
+    ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+)
+
+# 缓冲池系统测试
+cc_test(
+    name = "buffer_pool_test",
+    srcs = ["buffer_pool_test.cpp"],
+    includes = ["../include"],
+    deps = [
+        "@com_google_googletest//:gtest_main",
+        "@com_google_googletest//:gtest",
+        "//src/storage_engine:storage_engine",
+        "//src/utils:utils",
+        "//src/core:core",
+    ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+)
+
+# 并发控制测试
+cc_test(
+    name = "concurrency_control_test",
+    srcs = ["concurrency_control_test.cpp"],
+    includes = ["../include"],
+    deps = [
+        "@com_google_googletest//:gtest_main",
+        "@com_google_googletest//:gtest",
+        "//src/storage_engine:storage_engine",
+        "//src/utils:utils",
+        "//src/core:core",
+    ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+)
+
+# 数据完整性测试
+cc_test(
+    name = "data_integrity_test",
+    srcs = ["data_integrity_test.cpp"],
+    includes = ["../include"],
+    deps = [
+        "@com_google_googletest//:gtest_main",
+        "@com_google_googletest//:gtest",
+        "//src/storage_engine:storage_engine",
+        "//src/utils:utils",
+        "//src/core:core",
+    ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+)
+
+# 磁盘管理器测试
+cc_test(
+    name = "disk_manager_test",
+    srcs = ["disk_manager_test.cpp"],
+    includes = ["../include"],
+    deps = [
+        "@com_google_googletest//:gtest_main",
+        "@com_google_googletest//:gtest",
+        "//src/storage_engine:storage_engine",
+        "//src/utils:utils",
+        "//src/core:core",
+    ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+)
+
+# 覆盖率测试示例 - 使用自定义模板
+# 这些测试在运行时会收集覆盖率数据，但不会影响正常测试流程
+sqlcc_coverage_test(
+    name = "buffer_pool_test_with_coverage",
+    srcs = ["buffer_pool_test.cpp"],
+    deps = [
+        "//src/storage_engine:storage_engine",
+        "//src/utils:utils",
+        "//src/core:core",
+    ],
+)
+
+sqlcc_coverage_test(
+    name = "index_manager_test_with_coverage",
+    srcs = ["index_manager_test.cpp"],
+    deps = [
+        "//src/storage_engine:storage_engine",
+        "//src/utils:utils",
+        "//src/core:core",
+    ],
+)
+
+# 覆盖率测试套件 - 标记为手动执行（因为覆盖率测试通常需要特殊配置）
+sqlcc_coverage_test_suite(
+    name = "storage_engine_coverage_tests",
+    tests = [
+        ":buffer_pool_test_with_coverage",
+        ":index_manager_test_with_coverage",
+    ],
+)
+
+# 标准测试套件（不带覆盖率）
 test_suite(
     name = "storage_engine_tests",
     tests = [
-        ":buffer_pool_test",
         ":bplus_tree_test",
         ":comprehensive_bplus_tree_test",
         ":final_bplus_tree_test",
         ":minimal_bplus_tree_test",
         ":simple_bplus_tree_test",
         ":test_bplus_tree_fix",
+        ":b_plus_tree_core_test",
+        ":storage_engine_comprehensive_test",
+        ":storage_engine_boundary_test",
+        ":page_allocator_test",
+        ":index_manager_test",
+        ":buffer_pool_test",
+        ":concurrency_control_test",
+        ":data_integrity_test",
+        ":disk_manager_test",
     ],
 )
 

@@ -1,3 +1,4 @@
+#include "sql_parser/ast_nodes.h"
 #include <iostream>
 #include <memory>
 #include <string>

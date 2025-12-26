@@ -4,6 +4,63 @@
 
 namespace sqlcc {
 
+// Value implementation
+int Value::asInteger() const {
+    switch (type_) {
+        case INTEGER: return int_value_;
+        case DOUBLE: return static_cast<int>(double_value_);
+        case STRING: return 0; // 简化实现
+        case BOOLEAN: return bool_value_ ? 1 : 0;
+        case NULL_VALUE: return 0;
+        default: return 0;
+    }
+}
+
+double Value::asDouble() const {
+    switch (type_) {
+        case INTEGER: return static_cast<double>(int_value_);
+        case DOUBLE: return double_value_;
+        case STRING: return 0.0; // 简化实现
+        case BOOLEAN: return bool_value_ ? 1.0 : 0.0;
+        case NULL_VALUE: return 0.0;
+        default: return 0.0;
+    }
+}
+
+const std::string& Value::asString() const {
+    static const std::string empty_string;
+    switch (type_) {
+        case STRING: return string_value_;
+        case INTEGER: 
+        case DOUBLE: 
+        case BOOLEAN: 
+        case NULL_VALUE:
+        default: return empty_string;
+    }
+}
+
+bool Value::asBoolean() const {
+    switch (type_) {
+        case INTEGER: return int_value_ != 0;
+        case DOUBLE: return double_value_ != 0.0;
+        case STRING: return !string_value_.empty();
+        case BOOLEAN: return bool_value_;
+        case NULL_VALUE: return false;
+        default: return false;
+    }
+}
+
+std::string Value::toString() const {
+    switch (type_) {
+        case INTEGER: return std::to_string(int_value_);
+        case DOUBLE: return std::to_string(double_value_);
+        case STRING: return string_value_;
+        case BOOLEAN: return bool_value_ ? "true" : "false";
+        case NULL_VALUE: return "null";
+        default: return "unknown";
+    }
+}
+
 // DomainDefinition implementation
 DomainDefinition::DomainDefinition(const std::string& name, const std::string& base_type)
     : name_(name), base_type_(base_type), nullable_(true) {}

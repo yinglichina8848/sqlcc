@@ -1,4 +1,5 @@
 /**
+#include "sql_parser/ast_nodes.h"
  * @file recursive_query.h
  * @brief 递归查询语句定义
  *
@@ -7,7 +8,7 @@
 
 #pragma once
 
-#include "ast_node.h"
+#include "sql_parser/ast_node.h"
 #include <memory>
 #include <string>
 

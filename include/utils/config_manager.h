@@ -164,7 +164,7 @@ public:
     /**
      * @brief 构造函数（私有，实现单例模式）
      */
-    ConfigManager() = default;
+    ConfigManager();
 
     /**
      * @brief 析构函数
