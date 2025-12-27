@@ -13,6 +13,7 @@
 #include <fstream>
 #include <shared_mutex>
 
+#include "types/transaction_types.h"
 #include "storage/advanced_lock_manager.h"
 #include "storage/concurrency_control.h"
 #include "storage_engine.h"
@@ -80,12 +81,12 @@ TEST_F(ConcurrencyControlTest, LockManagerBasicOperations) {
     auto resource_id = CreateTestResourceId(1);
 
     // 测试独占锁获取
-    bool lock_result = lock_manager->AcquireLock(tx_id, resource_id, LockMode::EXCLUSIVE);
+    bool lock_result = lock_manager->AcquireLock(tx_id, resource_id, LockType::EXCLUSIVE);
     EXPECT_TRUE(lock_result);
 
     // 验证锁状态
     EXPECT_TRUE(lock_manager->HasLock(tx_id, resource_id));
-    EXPECT_TRUE(lock_manager->HasLock(tx_id, resource_id, LockMode::EXCLUSIVE));
+    EXPECT_TRUE(lock_manager->HasLock(tx_id, resource_id, LockType::EXCLUSIVE));
 
     // 测试锁释放
     bool release_result = lock_manager->ReleaseLock(tx_id, resource_id);
@@ -102,15 +103,15 @@ TEST_F(ConcurrencyControlTest, LockCompatibility) {
     auto resource_id = CreateTestResourceId(1);
 
     // 事务1获取共享锁
-    bool lock1_result = lock_manager->AcquireLock(tx1_id, resource_id, LockMode::SHARED);
+    bool lock1_result = lock_manager->AcquireLock(tx1_id, resource_id, LockType::SHARED);
     EXPECT_TRUE(lock1_result);
 
     // 事务2可以获取共享锁（兼容）
-    bool lock2_result = lock_manager->AcquireLock(tx2_id, resource_id, LockMode::SHARED);
+    bool lock2_result = lock_manager->AcquireLock(tx2_id, resource_id, LockType::SHARED);
     EXPECT_TRUE(lock2_result);
 
     // 事务2不能获取独占锁（不兼容）
-    bool exclusive_lock_result = lock_manager->AcquireLock(tx2_id, resource_id, LockMode::EXCLUSIVE);
+    bool exclusive_lock_result = lock_manager->AcquireLock(tx2_id, resource_id, LockType::EXCLUSIVE);
     EXPECT_FALSE(exclusive_lock_result);
 
     // 释放锁
@@ -124,7 +125,7 @@ TEST_F(ConcurrencyControlTest, LockUpgrade) {
     auto resource_id = CreateTestResourceId(1);
 
     // 首先获取共享锁
-    bool shared_lock_result = lock_manager->AcquireLock(tx_id, resource_id, LockMode::SHARED);
+    bool shared_lock_result = lock_manager->AcquireLock(tx_id, resource_id, LockType::SHARED);
     EXPECT_TRUE(shared_lock_result);
 
     // 升级到独占锁
@@ -132,7 +133,7 @@ TEST_F(ConcurrencyControlTest, LockUpgrade) {
     EXPECT_TRUE(upgrade_result);
 
     // 验证现在持有独占锁
-    EXPECT_TRUE(lock_manager->HasLock(tx_id, resource_id, LockMode::EXCLUSIVE));
+    EXPECT_TRUE(lock_manager->HasLock(tx_id, resource_id, LockType::EXCLUSIVE));
 
     // 释放锁
     lock_manager->ReleaseLock(tx_id, resource_id);
@@ -144,7 +145,7 @@ TEST_F(ConcurrencyControlTest, LockDowngrade) {
     auto resource_id = CreateTestResourceId(1);
 
     // 获取独占锁
-    bool exclusive_lock_result = lock_manager->AcquireLock(tx_id, resource_id, LockMode::EXCLUSIVE);
+    bool exclusive_lock_result = lock_manager->AcquireLock(tx_id, resource_id, LockType::EXCLUSIVE);
     EXPECT_TRUE(exclusive_lock_result);
 
     // 降级到共享锁
@@ -152,8 +153,8 @@ TEST_F(ConcurrencyControlTest, LockDowngrade) {
     EXPECT_TRUE(downgrade_result);
 
     // 验证现在持有共享锁
-    EXPECT_TRUE(lock_manager->HasLock(tx_id, resource_id, LockMode::SHARED));
-    EXPECT_FALSE(lock_manager->HasLock(tx_id, resource_id, LockMode::EXCLUSIVE));
+    EXPECT_TRUE(lock_manager->HasLock(tx_id, resource_id, LockType::SHARED));
+    EXPECT_FALSE(lock_manager->HasLock(tx_id, resource_id, LockType::EXCLUSIVE));
 
     // 释放锁
     lock_manager->ReleaseLock(tx_id, resource_id);
@@ -167,20 +168,20 @@ TEST_F(ConcurrencyControlTest, DeadlockDetection) {
     auto resource2_id = CreateTestResourceId(2);
 
     // 创建死锁场景
-    // 事务1锁定资源1
-    bool lock1_result = lock_manager->AcquireLock(tx1_id, resource1_id, LockMode::EXCLUSIVE);
-    EXPECT_TRUE(lock1_result);
+        // 事务1锁定资源1
+        bool lock1_result = lock_manager->AcquireLock(tx1_id, resource1_id, LockType::EXCLUSIVE);
+        EXPECT_TRUE(lock1_result);
 
-    // 事务2锁定资源2
-    bool lock2_result = lock_manager->AcquireLock(tx2_id, resource2_id, LockMode::EXCLUSIVE);
-    EXPECT_TRUE(lock2_result);
+        // 事务2锁定资源2
+        bool lock2_result = lock_manager->AcquireLock(tx2_id, resource2_id, LockType::EXCLUSIVE);
+        EXPECT_TRUE(lock2_result);
 
     // 事务1尝试锁定资源2（会被阻塞）
     std::atomic<bool> tx1_blocked{false};
     std::thread tx1_thread([this, tx1_id, resource2_id, &tx1_blocked]() {
         tx1_blocked = true;
         // 这可能会被死锁检测器终止
-        lock_manager->AcquireLock(tx1_id, resource2_id, LockMode::EXCLUSIVE);
+        lock_manager->AcquireLock(tx1_id, resource2_id, LockType::EXCLUSIVE);
     });
 
     // 等待事务1开始尝试获取锁
@@ -193,7 +194,7 @@ TEST_F(ConcurrencyControlTest, DeadlockDetection) {
     std::thread tx2_thread([this, tx2_id, resource1_id, &tx2_blocked]() {
         tx2_blocked = true;
         // 这应该被死锁检测器终止
-        lock_manager->AcquireLock(tx2_id, resource1_id, LockMode::EXCLUSIVE);
+        lock_manager->AcquireLock(tx2_id, resource1_id, LockType::EXCLUSIVE);
     });
 
     // 等待事务2开始尝试获取锁
@@ -229,7 +230,7 @@ TEST_F(ConcurrencyControlTest, TransactionManagement) {
 
     // 获取锁
     auto resource_id = CreateTestResourceId(1);
-    bool lock_result = concurrency_control->AcquireLock(tx_id, resource_id, LockMode::EXCLUSIVE);
+    bool lock_result = concurrency_control->AcquireLock(tx_id, resource_id, LockType::EXCLUSIVE);
     EXPECT_TRUE(lock_result);
 
     // 提交事务
@@ -281,7 +282,7 @@ TEST_F(ConcurrencyControlTest, ConcurrentTransactions) {
                     auto resource_id = CreateTestResourceId((i * operations_per_transaction + j) % 20);
 
                     // 获取锁
-                    concurrency_control->AcquireLock(tx_id, resource_id, LockMode::EXCLUSIVE);
+                    concurrency_control->AcquireLock(tx_id, resource_id, LockType::EXCLUSIVE);
 
                     // 模拟工作
                     std::this_thread::sleep_for(std::chrono::microseconds(100));
@@ -319,8 +320,8 @@ TEST_F(ConcurrencyControlTest, StatisticsCollection) {
     concurrency_control->BeginTransaction(tx2_id);
 
     auto resource_id = CreateTestResourceId(1);
-    concurrency_control->AcquireLock(tx1_id, resource_id, LockMode::SHARED);
-    concurrency_control->AcquireLock(tx2_id, resource_id, LockMode::SHARED);
+    concurrency_control->AcquireLock(tx1_id, resource_id, LockType::SHARED);
+    concurrency_control->AcquireLock(tx2_id, resource_id, LockType::SHARED);
 
     concurrency_control->CommitTransaction(tx1_id);
     concurrency_control->CommitTransaction(tx2_id);
@@ -343,7 +344,7 @@ TEST_F(ConcurrencyControlTest, LockWaitQueue) {
 
     // 事务1获取独占锁
     concurrency_control->BeginTransaction(tx1_id);
-    bool lock1_result = concurrency_control->AcquireLock(tx1_id, resource_id, LockMode::EXCLUSIVE);
+    bool lock1_result = concurrency_control->AcquireLock(tx1_id, resource_id, LockType::EXCLUSIVE);
     EXPECT_TRUE(lock1_result);
 
     std::atomic<bool> tx2_waiting{false};
@@ -355,7 +356,7 @@ TEST_F(ConcurrencyControlTest, LockWaitQueue) {
         tx2_waiting = true;
 
         // 这应该会等待
-        bool lock_result = concurrency_control->AcquireLock(tx2_id, resource_id, LockMode::EXCLUSIVE);
+        bool lock_result = concurrency_control->AcquireLock(tx2_id, resource_id, LockType::EXCLUSIVE);
         if (lock_result) {
             concurrency_control->ReleaseLock(tx2_id, resource_id);
             concurrency_control->CommitTransaction(tx2_id);
@@ -368,7 +369,7 @@ TEST_F(ConcurrencyControlTest, LockWaitQueue) {
         tx3_waiting = true;
 
         // 这应该会等待
-        bool lock_result = concurrency_control->AcquireLock(tx3_id, resource_id, LockMode::EXCLUSIVE);
+        bool lock_result = concurrency_control->AcquireLock(tx3_id, resource_id, LockType::EXCLUSIVE);
         if (lock_result) {
             concurrency_control->ReleaseLock(tx3_id, resource_id);
             concurrency_control->CommitTransaction(tx3_id);
@@ -443,7 +444,7 @@ TEST_F(ConcurrencyControlTest, PerformanceCharacteristics) {
         auto resource_id = CreateTestResourceId(i % 50);
 
         concurrency_control->BeginTransaction(tx_id);
-        concurrency_control->AcquireLock(tx_id, resource_id, LockMode::EXCLUSIVE);
+        concurrency_control->AcquireLock(tx_id, resource_id, LockType::EXCLUSIVE);
         concurrency_control->ReleaseLock(tx_id, resource_id);
         concurrency_control->CommitTransaction(tx_id);
     }

@@ -30,41 +30,75 @@ int main() {
         
         std::cout << "B+ tree index created successfully" << std::endl;
         
-    // 插入一些测试数据 (只插入1个数据，简化测试)
-    std::string key = "0";
-    if (!b_plus_tree_index->Insert(key, 0, 0)) {
-        std::cerr << "Failed to insert key: " << key << std::endl;
+    // 测试插入操作
+    std::cout << "Testing insert operations..." << std::endl;
+
+    // 插入测试数据
+    std::string key1 = "test_key_1";
+    std::string key2 = "test_key_2";
+    std::string key3 = "test_key_3";
+
+    if (!b_plus_tree_index->Insert(key1, 1, 100)) {
+        std::cerr << "Failed to insert key1: " << key1 << std::endl;
         return 1;
     }
+    std::cout << "Inserted key1: " << key1 << std::endl;
 
-    std::cout << "Inserted 1 test entry" << std::endl;
-
-    // 搜索测试数据 (暂时跳过搜索测试)
-    // auto results = b_plus_tree_index->Search(key);
-    // if (results.size() != 1) {
-    //     std::cerr << "Search failed for key: " << key << std::endl;
-    //     return 1;
-    // }
-    // std::cout << "Found key: " << results[0].key << ", page_id: " << results[0].page_id << std::endl;
-
-    std::cout << "Skipping search test" << std::endl;
-
-    // 删除测试数据
-    if (!b_plus_tree_index->Delete(key)) {
-        std::cerr << "Failed to delete key: " << key << std::endl;
+    if (!b_plus_tree_index->Insert(key2, 2, 200)) {
+        std::cerr << "Failed to insert key2: " << key2 << std::endl;
         return 1;
     }
+    std::cout << "Inserted key2: " << key2 << std::endl;
 
-    std::cout << "Deleted test entry" << std::endl;
+    if (!b_plus_tree_index->Insert(key3, 3, 300)) {
+        std::cerr << "Failed to insert key3: " << key3 << std::endl;
+        return 1;
+    }
+    std::cout << "Inserted key3: " << key3 << std::endl;
 
-    // 验证删除 (暂时跳过验证)
-    // results = b_plus_tree_index->Search(key);
-    // if (results.size() != 0) {
-    //     std::cerr << "Key still exists after deletion: " << key << std::endl;
-    //     return 1;
-    // }
-        
-        std::cout << "All deletions verified successfully" << std::endl;
+    // 测试搜索操作
+    std::cout << "Testing search operations..." << std::endl;
+
+    auto results1 = b_plus_tree_index->Search(key1);
+    if (results1.size() != 1) {
+        std::cerr << "Search failed for key1: " << key1 << ", found " << results1.size() << " results" << std::endl;
+        return 1;
+    }
+    std::cout << "Found key1: " << results1[0].key << ", page_id: " << results1[0].page_id << ", offset: " << results1[0].offset << std::endl;
+
+    auto results2 = b_plus_tree_index->Search(key2);
+    if (results2.size() != 1) {
+        std::cerr << "Search failed for key2: " << key2 << ", found " << results2.size() << " results" << std::endl;
+        return 1;
+    }
+    std::cout << "Found key2: " << results2[0].key << ", page_id: " << results2[0].page_id << ", offset: " << results2[0].offset << std::endl;
+
+    // 测试范围查询
+    std::cout << "Testing range search..." << std::endl;
+    auto range_results = b_plus_tree_index->SearchRange("test_key_0", "test_key_9");
+    if (range_results.size() != 3) {
+        std::cerr << "Range search failed, expected 3 results, got " << range_results.size() << std::endl;
+        return 1;
+    }
+    std::cout << "Range search found " << range_results.size() << " results" << std::endl;
+
+    // 测试删除操作
+    std::cout << "Testing delete operations..." << std::endl;
+    if (!b_plus_tree_index->Delete(key2)) {
+        std::cerr << "Failed to delete key2: " << key2 << std::endl;
+        return 1;
+    }
+    std::cout << "Deleted key2: " << key2 << std::endl;
+
+    // 验证删除
+    auto results_after_delete = b_plus_tree_index->Search(key2);
+    if (results_after_delete.size() != 0) {
+        std::cerr << "Key2 still exists after deletion: " << key2 << std::endl;
+        return 1;
+    }
+    std::cout << "Verified key2 deletion" << std::endl;
+
+        std::cout << "All operations completed successfully" << std::endl;
         
         // 清理
         b_plus_tree_index.reset();

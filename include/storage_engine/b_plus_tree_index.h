@@ -1,6 +1,8 @@
 #pragma once
 
 #include "storage_engine/b_plus_tree_node.h"
+#include "storage_engine/b_plus_tree_leaf_node.h"
+#include "storage_engine/b_plus_tree_internal_node.h"
 #include <memory>
 #include <string>
 #include <vector>
@@ -33,9 +35,25 @@ public:
     bool Insert(const std::string& key, int32_t page_id, size_t offset);
     bool Delete(const std::string& key);
     std::vector<IndexEntry> Search(const std::string& key) const;
-    std::vector<IndexEntry> SearchRange(const std::string& lower_bound, const std::string& upper_bound) const;
+    std::vector<IndexEntry> SearchRange(const std::string& lower_bound,
+                                        const std::string& upper_bound) const;
 
 private:
+    // 迭代式插入方法 (替代递归实现)
+    bool InsertIterative(const std::string& key, int32_t page_id, size_t offset);
+
+    // 查找叶子节点页面ID
+    int32_t FindLeafPageId(const std::string& key);
+
+    // 分裂处理方法
+    bool HandleLeafSplit(BPlusTreeLeafNode* leaf_node, int recursion_depth);
+    bool HandleInternalSplit(BPlusTreeInternalNode* internal_node, BPlusTreeNode* child_node, int recursion_depth);
+    bool HandleRootSplit(int32_t left_child_id, int32_t right_child_id, const std::string& split_key);
+
+    // 更新父节点分裂信息
+    bool UpdateParentForSplit(int32_t parent_page_id, int32_t left_child_id,
+                             int32_t right_child_id, const std::string& split_key,
+                             int recursion_depth);
     // 递归插入方法
     bool Insert(const std::string& key, int32_t page_id, size_t offset,
                 std::unique_ptr<BPlusTreeNode>& node, int recursion_depth);
@@ -58,6 +76,7 @@ private:
     std::string table_name_;
     std::string column_name_;
     int32_t root_page_id_;
+    std::unique_ptr<BPlusTreeNode> root_node_; // 保持根节点在内存中用于测试
 };
 
 } // namespace sqlcc

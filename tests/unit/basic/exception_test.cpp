@@ -70,10 +70,11 @@ TEST_F(ExceptionTest, BaseException) {
 TEST_F(ExceptionTest, IOException) {
     // 测试构造函数
     std::string io_message = "File I/O error occurred";
+    std::string expected_message = "IO Error: " + io_message;
     IOException io_ex(io_message);
 
     // 验证异常消息
-    EXPECT_STREQ(io_ex.what(), io_message.c_str());
+    EXPECT_STREQ(io_ex.what(), expected_message.c_str());
 
     // 验证继承关系
     EXPECT_TRUE(dynamic_cast<Exception*>(&io_ex) != nullptr);
@@ -83,7 +84,7 @@ TEST_F(ExceptionTest, IOException) {
     try {
         throw IOException("Test I/O exception");
     } catch (const IOException& e) {
-        EXPECT_STREQ(e.what(), "Test I/O exception");
+        EXPECT_STREQ(e.what(), "IO Error: Test I/O exception");
     } catch (...) {
         FAIL() << "Expected IOException to be caught";
     }
@@ -95,10 +96,11 @@ TEST_F(ExceptionTest, IOException) {
 TEST_F(ExceptionTest, BufferPoolException) {
     // 测试构造函数
     std::string buffer_message = "Buffer pool allocation failed";
+    std::string expected_message = "Buffer Pool Error: " + buffer_message;
     BufferPoolException buffer_ex(buffer_message);
 
     // 验证异常消息
-    EXPECT_STREQ(buffer_ex.what(), buffer_message.c_str());
+    EXPECT_STREQ(buffer_ex.what(), expected_message.c_str());
 
     // 验证继承关系
     EXPECT_TRUE(dynamic_cast<Exception*>(&buffer_ex) != nullptr);
@@ -108,10 +110,10 @@ TEST_F(ExceptionTest, BufferPoolException) {
     try {
         throw BufferPoolException("Buffer pool exhausted");
     } catch (const BufferPoolException& e) {
-        EXPECT_STREQ(e.what(), "Buffer pool exhausted");
+        EXPECT_STREQ(e.what(), "Buffer Pool Error: Buffer pool exhausted");
     } catch (const Exception& e) {
         // 也可以用基类捕获
-        EXPECT_STREQ(e.what(), "Buffer pool exhausted");
+        EXPECT_STREQ(e.what(), "Buffer Pool Error: Buffer pool exhausted");
     } catch (...) {
         FAIL() << "Expected BufferPoolException to be caught";
     }
@@ -123,10 +125,11 @@ TEST_F(ExceptionTest, BufferPoolException) {
 TEST_F(ExceptionTest, PageException) {
     // 测试构造函数
     std::string page_message = "Page read/write error";
+    std::string expected_message = "Page Error: " + page_message;
     PageException page_ex(page_message);
 
     // 验证异常消息
-    EXPECT_STREQ(page_ex.what(), page_message.c_str());
+    EXPECT_STREQ(page_ex.what(), expected_message.c_str());
 
     // 验证继承关系
     EXPECT_TRUE(dynamic_cast<Exception*>(&page_ex) != nullptr);
@@ -136,7 +139,7 @@ TEST_F(ExceptionTest, PageException) {
     try {
         throw PageException("Invalid page access");
     } catch (const PageException& e) {
-        EXPECT_STREQ(e.what(), "Invalid page access");
+        EXPECT_STREQ(e.what(), "Page Error: Invalid page access");
     } catch (...) {
         FAIL() << "Expected PageException to be caught";
     }
@@ -148,10 +151,11 @@ TEST_F(ExceptionTest, PageException) {
 TEST_F(ExceptionTest, DiskManagerException) {
     // 测试构造函数
     std::string disk_message = "Disk I/O operation failed";
+    std::string expected_message = "Disk Manager Error: " + disk_message;
     DiskManagerException disk_ex(disk_message);
 
     // 验证异常消息
-    EXPECT_STREQ(disk_ex.what(), disk_message.c_str());
+    EXPECT_STREQ(disk_ex.what(), expected_message.c_str());
 
     // 验证继承关系
     EXPECT_TRUE(dynamic_cast<Exception*>(&disk_ex) != nullptr);
@@ -161,7 +165,7 @@ TEST_F(ExceptionTest, DiskManagerException) {
     try {
         throw DiskManagerException("Disk space insufficient");
     } catch (const DiskManagerException& e) {
-        EXPECT_STREQ(e.what(), "Disk space insufficient");
+        EXPECT_STREQ(e.what(), "Disk Manager Error: Disk space insufficient");
     } catch (...) {
         FAIL() << "Expected DiskManagerException to be caught";
     }
@@ -173,10 +177,11 @@ TEST_F(ExceptionTest, DiskManagerException) {
 TEST_F(ExceptionTest, LockTimeoutException) {
     // 测试构造函数
     std::string lock_message = "Lock acquisition timeout";
+    std::string expected_message = "Lock Timeout Error: " + lock_message;
     LockTimeoutException lock_ex(lock_message);
 
     // 验证异常消息
-    EXPECT_STREQ(lock_ex.what(), lock_message.c_str());
+    EXPECT_STREQ(lock_ex.what(), expected_message.c_str());
 
     // 验证继承关系
     EXPECT_TRUE(dynamic_cast<Exception*>(&lock_ex) != nullptr);
@@ -186,7 +191,7 @@ TEST_F(ExceptionTest, LockTimeoutException) {
     try {
         throw LockTimeoutException("Deadlock detected");
     } catch (const LockTimeoutException& e) {
-        EXPECT_STREQ(e.what(), "Deadlock detected");
+        EXPECT_STREQ(e.what(), "Lock Timeout Error: Deadlock detected");
     } catch (...) {
         FAIL() << "Expected LockTimeoutException to be caught";
     }
@@ -198,10 +203,11 @@ TEST_F(ExceptionTest, LockTimeoutException) {
 TEST_F(ExceptionTest, NotImplementedException) {
     // 测试构造函数
     std::string feature_message = "Feature not yet implemented";
+    std::string expected_message = "Not Implemented Error: " + feature_message;
     NotImplementedException feature_ex(feature_message);
 
     // 验证异常消息
-    EXPECT_STREQ(feature_ex.what(), feature_message.c_str());
+    EXPECT_STREQ(feature_ex.what(), expected_message.c_str());
 
     // 验证继承关系
     EXPECT_TRUE(dynamic_cast<Exception*>(&feature_ex) != nullptr);
@@ -211,7 +217,7 @@ TEST_F(ExceptionTest, NotImplementedException) {
     try {
         throw NotImplementedException("Advanced SQL features");
     } catch (const NotImplementedException& e) {
-        EXPECT_STREQ(e.what(), "Advanced SQL features");
+        EXPECT_STREQ(e.what(), "Not Implemented Error: Advanced SQL features");
     } catch (...) {
         FAIL() << "Expected NotImplementedException to be caught";
     }
@@ -223,10 +229,11 @@ TEST_F(ExceptionTest, NotImplementedException) {
 TEST_F(ExceptionTest, IllegalArgumentException) {
     // 测试构造函数
     std::string arg_message = "Invalid argument provided";
+    std::string expected_message = "Illegal Argument Error: " + arg_message;
     IllegalArgumentException arg_ex(arg_message);
 
     // 验证异常消息
-    EXPECT_STREQ(arg_ex.what(), arg_message.c_str());
+    EXPECT_STREQ(arg_ex.what(), expected_message.c_str());
 
     // 验证继承关系
     EXPECT_TRUE(dynamic_cast<Exception*>(&arg_ex) != nullptr);
@@ -236,7 +243,7 @@ TEST_F(ExceptionTest, IllegalArgumentException) {
     try {
         throw IllegalArgumentException("Negative value not allowed");
     } catch (const IllegalArgumentException& e) {
-        EXPECT_STREQ(e.what(), "Negative value not allowed");
+        EXPECT_STREQ(e.what(), "Illegal Argument Error: Negative value not allowed");
     } catch (...) {
         FAIL() << "Expected IllegalArgumentException to be caught";
     }
@@ -279,7 +286,7 @@ TEST_F(ExceptionTest, CopyAndAssignment) {
     // 测试赋值操作符（如果支持的话）
     // 注意：std::runtime_error不支持拷贝赋值，但我们可以测试引用
     const IOException& ref = original;
-    EXPECT_STREQ(ref.what(), "Original I/O error");
+    EXPECT_STREQ(ref.what(), "IO Error: Original I/O error");
 }
 
 /**
@@ -291,7 +298,7 @@ TEST_F(ExceptionTest, ExceptionHierarchy) {
         throw IOException("Test I/O exception");
     } catch (const Exception& e) {
         // 应该能够用基类捕获
-        EXPECT_STREQ(e.what(), "Test I/O exception");
+        EXPECT_STREQ(e.what(), "IO Error: Test I/O exception");
         EXPECT_TRUE(typeid(e) == typeid(IOException) ||
                    typeid(e) == typeid(Exception));
     }
@@ -299,13 +306,13 @@ TEST_F(ExceptionTest, ExceptionHierarchy) {
     try {
         throw BufferPoolException("Test buffer exception");
     } catch (const Exception& e) {
-        EXPECT_STREQ(e.what(), "Test buffer exception");
+        EXPECT_STREQ(e.what(), "Buffer Pool Error: Test buffer exception");
     }
 
     try {
         throw NotImplementedException("Test feature exception");
     } catch (const Exception& e) {
-        EXPECT_STREQ(e.what(), "Test feature exception");
+        EXPECT_STREQ(e.what(), "Not Implemented Error: Test feature exception");
     }
 }
 
@@ -333,11 +340,11 @@ TEST_F(ExceptionTest, MemoryManagement) {
     // 测试异常对象的动态分配
     Exception* dynamic_ex = new IOException("Dynamic exception");
 
-    EXPECT_STREQ(dynamic_ex->what(), "Dynamic exception");
+    EXPECT_STREQ(dynamic_ex->what(), "IO Error: Dynamic exception");
 
     // 测试智能指针
     std::unique_ptr<Exception> smart_ex = std::make_unique<PageException>("Smart pointer exception");
-    EXPECT_STREQ(smart_ex->what(), "Smart pointer exception");
+    EXPECT_STREQ(smart_ex->what(), "Page Error: Smart pointer exception");
 
     // 清理动态分配的对象
     delete dynamic_ex;

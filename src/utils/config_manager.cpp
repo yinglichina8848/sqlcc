@@ -2,6 +2,11 @@
 #include <algorithm>
 #include <cctype>
 #include <mutex>
+#include <fstream>
+#include <sstream>
+#include <iomanip>
+#include <vector>
+#include <filesystem>
 
 namespace sqlcc {
 
@@ -9,7 +14,9 @@ namespace sqlcc {
 std::unique_ptr<ConfigManager> ConfigManager::instance_;
 std::once_flag ConfigManager::init_flag_;
 
-// ConfigManager构造函数使用默认实现，已在头文件中声明为 = default
+// ConfigManager构造函数实现
+ConfigManager::ConfigManager() : operation_timeout_ms_(kDefaultOperationTimeoutMs) {
+}
 
 bool ConfigManager::SetValue(const std::string &key, const ConfigValue &value) {
   std::lock_guard<std::mutex> lock(config_mutex_);
@@ -113,6 +120,160 @@ ConfigManager& ConfigManager::GetInstance() {
     instance_ = std::unique_ptr<ConfigManager>(new ConfigManager());
   });
   return *instance_;
+}
+
+// 加载配置文件
+bool ConfigManager::LoadConfig(const std::string& config_file_path, const std::string& env) {
+  std::lock_guard<std::mutex> lock(config_mutex_);
+  config_file_path_ = config_file_path;
+  env_ = env;
+  return ParseConfigFile(config_file_path);
+}
+
+// 重新加载配置文件
+bool ConfigManager::ReloadConfig() {
+  std::lock_guard<std::mutex> lock(config_mutex_);
+  if (config_file_path_.empty()) {
+    return false;
+  }
+  return ParseConfigFile(config_file_path_);
+}
+
+// 加载默认配置
+void ConfigManager::LoadDefaultConfig() {
+  std::lock_guard<std::mutex> lock(config_mutex_);
+  // 设置默认配置值
+  config_map_["buffer_pool.read_lock_timeout_ms"] = 2000;
+  config_map_["buffer_pool.write_lock_timeout_ms"] = 5000;
+  config_map_["buffer_pool.default_lock_timeout_ms"] = 3000;
+  operation_timeout_ms_ = kDefaultOperationTimeoutMs;
+}
+
+// 解析配置文件
+bool ConfigManager::ParseConfigFile(const std::string& file_path) {
+  std::ifstream file(file_path);
+  if (!file.is_open()) {
+    // 文件不存在时加载默认配置
+    LoadDefaultConfig();
+    return true;
+  }
+
+  std::string line;
+  std::string current_section;
+  
+  while (std::getline(file, line)) {
+    ParseConfigLine(line, current_section);
+  }
+  
+  return true;
+}
+
+// 解析配置行
+bool ConfigManager::ParseConfigLine(const std::string& line, std::string& current_section) {
+  // 跳过空行和注释行
+  if (line.empty() || line[0] == '#' || line[0] == ';') {
+    return true;
+  }
+
+  // 处理节标题 [section]
+  if (line[0] == '[' && line.back() == ']') {
+    current_section = line.substr(1, line.length() - 2);
+    return true;
+  }
+
+  // 处理键值对 key=value
+  size_t equal_pos = line.find('=');
+  if (equal_pos != std::string::npos) {
+    std::string key = line.substr(0, equal_pos);
+    std::string value = line.substr(equal_pos + 1);
+    
+    // 去除首尾空格
+    key.erase(0, key.find_first_not_of(" \t"));
+    key.erase(key.find_last_not_of(" \t") + 1);
+    value.erase(0, value.find_first_not_of(" \t"));
+    value.erase(value.find_last_not_of(" \t") + 1);
+    
+    // 如果有节，则加上节前缀
+    std::string full_key = current_section.empty() ? key : current_section + "." + key;
+    return SetValue(full_key, value);
+  }
+  return true;
+}
+
+// 保存配置到文件
+bool ConfigManager::SaveToFile(const std::string& file_path) const {
+  std::lock_guard<std::mutex> lock(config_mutex_);
+  std::ofstream file(file_path);
+  if (!file.is_open()) {
+    return false;
+  }
+
+  std::string current_section;
+  for (const auto& [key, value] : config_map_) {
+    size_t dot_pos = key.find('.');
+    std::string section = (dot_pos != std::string::npos) ? key.substr(0, dot_pos) : "";
+    std::string item_key = (dot_pos != std::string::npos) ? key.substr(dot_pos + 1) : key;
+    
+    if (section != current_section) {
+      if (!current_section.empty()) {
+        file << std::endl;
+      }
+      file << "[" << section << "]" << std::endl;
+      current_section = section;
+    }
+    
+    if (std::holds_alternative<std::string>(value)) {
+      file << item_key << "=" << std::get<std::string>(value) << std::endl;
+    } else if (std::holds_alternative<int>(value)) {
+      file << item_key << "=" << std::get<int>(value) << std::endl;
+    } else if (std::holds_alternative<double>(value)) {
+      file << item_key << "=" << std::get<double>(value) << std::endl;
+    } else if (std::holds_alternative<bool>(value)) {
+      file << item_key << "=" << (std::get<bool>(value) ? "true" : "false") << std::endl;
+    }
+  }
+  
+  return true;
+}
+
+// 获取所有配置键
+std::vector<std::string> ConfigManager::GetAllKeys() const {
+  std::lock_guard<std::mutex> lock(config_mutex_);
+  std::vector<std::string> keys;
+  for (const auto& [key, value] : config_map_) {
+    keys.push_back(key);
+  }
+  return keys;
+}
+
+// 获取指定前缀的所有配置键
+std::vector<std::string> ConfigManager::GetKeysWithPrefix(const std::string& prefix) const {
+  std::lock_guard<std::mutex> lock(config_mutex_);
+  std::vector<std::string> keys;
+  for (const auto& [key, value] : config_map_) {
+    if (key.find(prefix) == 0) {
+      keys.push_back(key);
+    }
+  }
+  return keys;
+}
+
+// 清除所有配置项（用于测试）
+void ConfigManager::ClearAll() {
+  std::lock_guard<std::mutex> lock(config_mutex_);
+  config_map_.clear();
+}
+
+// 设置操作超时时间
+void ConfigManager::SetOperationTimeout(int timeout_ms) {
+  std::lock_guard<std::mutex> lock(config_mutex_);
+  operation_timeout_ms_ = timeout_ms;
+}
+
+// 获取操作超时时间
+int ConfigManager::GetOperationTimeout() const {
+  std::lock_guard<std::mutex> lock(config_mutex_);
+  return operation_timeout_ms_;
 }
 
 } // namespace sqlcc

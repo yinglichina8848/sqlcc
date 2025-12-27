@@ -13,7 +13,7 @@
 
 #include "storage_engine/index_manager/smart_index_cache.h"
 #include "storage_engine/index_manager/smart_index_factory.h"
-#include "storage/b_plus_tree.h"
+#include "storage_engine/b_plus_tree_index.h"
 #include "storage_engine.h"
 #include "utils/config_manager.h"
 
@@ -35,8 +35,8 @@ protected:
         // 初始化存储引擎
         storage_engine = std::make_shared<StorageEngine>(*config, test_dir.string());
 
-        // 初始化智能索引缓存
-        index_cache = std::make_unique<SmartIndexCache>(100, std::chrono::minutes(30));
+    // 初始化智能索引缓存
+    index_cache = std::make_unique<storage_engine::index_manager::SmartIndexCache>(100, std::chrono::minutes(30));
     }
 
     void TearDown() override {
@@ -58,7 +58,7 @@ protected:
     fs::path test_dir;
     std::unique_ptr<ConfigManager> config;
     std::shared_ptr<StorageEngine> storage_engine;
-    std::unique_ptr<SmartIndexCache> index_cache;
+    std::unique_ptr<storage_engine::index_manager::SmartIndexCache> index_cache;
 };
 
 // 测试基本索引缓存功能
@@ -122,16 +122,13 @@ TEST_F(IndexManagerTest, CacheStatistics) {
         index_cache->CacheIndex(name, std::move(index), 0, std::chrono::minutes(60));
     }
 
-    // 获取基本统计信息
-    SmartIndexCache::CacheStats basic_stats = index_cache->GetEnhancedCacheStats();
+    // 获取增强统计信息
+    storage_engine::index_manager::SmartIndexCache::EnhancedCacheStats enhanced_stats = index_cache->GetEnhancedCacheStats();
 
     // 验证统计信息
-    EXPECT_EQ(basic_stats.total_indexes, 4);
-    EXPECT_EQ(basic_stats.expired_entries, 0);
-    EXPECT_EQ(basic_stats.high_priority_entries, 0);
-
-    // 获取增强统计信息
-    SmartIndexCache::EnhancedCacheStats enhanced_stats = index_cache->GetEnhancedCacheStats();
+    EXPECT_EQ(enhanced_stats.total_indexes, 4);
+    EXPECT_EQ(enhanced_stats.expired_entries, 0);
+    EXPECT_EQ(enhanced_stats.high_priority_entries, 0);
 
     // 验证增强统计信息
     EXPECT_EQ(enhanced_stats.total_indexes, 4);
@@ -159,7 +156,7 @@ TEST_F(IndexManagerTest, PriorityCaching) {
     }
 
     // 获取统计信息并验证优先级分布
-    SmartIndexCache::EnhancedCacheStats stats = index_cache->GetEnhancedCacheStats();
+    storage_engine::index_manager::SmartIndexCache::EnhancedCacheStats stats = index_cache->GetEnhancedCacheStats();
     EXPECT_EQ(stats.priority_distribution[1], 1);  // 低优先级
     EXPECT_EQ(stats.priority_distribution[5], 1);  // 中优先级
     EXPECT_EQ(stats.priority_distribution[10], 1); // 高优先级
@@ -180,7 +177,7 @@ TEST_F(IndexManagerTest, CacheExpiration) {
     std::this_thread::sleep_for(std::chrono::milliseconds(2));
 
     // 手动清理过期缓存
-    index_cache->CleanupExpiredCache(std::chrono::milliseconds(0));
+    index_cache->CleanupExpiredCache(std::chrono::minutes(0));
 
     // 验证索引已被清理（取决于实现，可能需要手动清理）
     // 注意：实际过期行为取决于实现，这里测试清理功能
@@ -255,7 +252,7 @@ TEST_F(IndexManagerTest, ConcurrentAccess) {
     EXPECT_EQ(success_count, num_threads * operations_per_thread);
 
     // 验证最终状态
-    SmartIndexCache::EnhancedCacheStats final_stats = index_cache->GetEnhancedCacheStats();
+    storage_engine::index_manager::SmartIndexCache::EnhancedCacheStats final_stats = index_cache->GetEnhancedCacheStats();
     EXPECT_EQ(final_stats.total_indexes, num_threads * operations_per_thread);
 }
 
@@ -291,7 +288,7 @@ TEST_F(IndexManagerTest, BoundaryConditionsEmptyCache) {
     EXPECT_FALSE(index_cache->RemoveIndex("non_existent"));
 
     // 获取空缓存的统计信息
-    SmartIndexCache::EnhancedCacheStats stats = index_cache->GetEnhancedCacheStats();
+    storage_engine::index_manager::SmartIndexCache::EnhancedCacheStats stats = index_cache->GetEnhancedCacheStats();
     EXPECT_EQ(stats.total_indexes, 0);
     EXPECT_EQ(stats.total_hits, 0);
     EXPECT_EQ(stats.total_misses, 0);
@@ -428,7 +425,7 @@ TEST_F(IndexManagerTest, MemoryUsageMonitoring) {
     index_cache->IntelligentCleanup();
 
     // 验证缓存仍然有效
-    SmartIndexCache::EnhancedCacheStats stats = index_cache->GetEnhancedCacheStats();
+    storage_engine::index_manager::SmartIndexCache::EnhancedCacheStats stats = index_cache->GetEnhancedCacheStats();
     EXPECT_GE(stats.total_indexes, 0);  // 清理后可能保留部分索引
 
     std::cout << "Memory usage test completed. Final index count: " << stats.total_indexes << std::endl;

@@ -901,37 +901,14 @@ bool BPlusTreeIndex::Drop() {
   return true;
 }
 
+/*
+// DEPRECATED: This recursive implementation has been replaced by the iterative version in b_plus_tree_index.cpp
+// to avoid stack overflow issues. This method is kept for reference but should not be used.
 bool BPlusTreeIndex::Insert(const std::string& key, int32_t page_id, size_t offset) {
-  if (!storage_engine_)
-    return false;
-
-  // 如果树为空，创建根节点
-  if (root_page_id_ < 0) {
-    if (!Create())
-      return false;
-  }
-
-  SQLCC_LOG_DEBUG("Insert: root_page_id_ = " + std::to_string(root_page_id_) + ", inserting key = " + key);
-
-  // 创建索引条目
-  IndexEntry entry(key, page_id, offset);
-
-  // 加载根节点
-  auto root_node = LoadNode(root_page_id_);
-  if (!root_node) {
-    return false;
-  }
-
-  // 调用递归插入方法
-  bool result = Insert(key, page_id, offset, root_node, 0);
-
-  // 保存根节点的状态
-  if (root_node) {
-    root_node->SerializeToPage();
-  }
-
-  return result;
+  SQLCC_LOG_ERROR("Recursive Insert method called - this should not happen! Use InsertIterative instead.");
+  return false;
 }
+*/
 
 // 添加静态变量来跟踪递归深度
 bool BPlusTreeIndex::Insert(const std::string& key, int32_t page_id, size_t offset, 

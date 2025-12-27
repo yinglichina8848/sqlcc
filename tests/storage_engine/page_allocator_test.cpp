@@ -192,8 +192,7 @@ TEST_F(PageAllocatorTest, ConcurrentAccess) {
                     auto page = allocator->AllocatePage(PageType::DATA);
                     if (page) {
                         int32_t page_id = page->GetPageId();
-                        // 模拟一些操作
-                        std::this_thread::sleep_for(std::chrono::microseconds(1));
+                    // 模拟一些操作 - 移除不必要的sleep以加快测试
                         if (allocator->DeallocatePage(page_id)) {
                             success_count++;
                         }
@@ -284,14 +283,14 @@ TEST_F(PageAllocatorTest, AccessPatternAnalysis) {
     for (int i = 0; i < 5; ++i) {
         auto retrieved = allocator->GetPage(page_id1);
         ASSERT_TRUE(retrieved != nullptr);
-        std::this_thread::sleep_for(std::chrono::microseconds(1));
+        // 移除不必要的sleep以加快测试
     }
 
     // 偶尔访问page2
     for (int i = 0; i < 2; ++i) {
         auto retrieved = allocator->GetPage(page_id2);
         ASSERT_TRUE(retrieved != nullptr);
-        std::this_thread::sleep_for(std::chrono::microseconds(1));
+        // 移除不必要的sleep以加快测试
     }
 
     // 获取访问模式分析

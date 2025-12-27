@@ -16,7 +16,10 @@ cc_library(
     hdrs = glob([
         "*.h",
     ], allow_empty = True),
-    includes = ["../../include"],
+    includes = [
+        "../../include",
+        "../../src/types",
+    ],
     deps = [
         "//src/types:types",
         "//include/sql_parser:headers",
@@ -29,7 +32,10 @@ cc_library(
 cc_library(
     name = "function_ast",
     srcs = ["function_ast.cpp"],
-    includes = ["../../include"],
+    includes = [
+        "../../include",
+        "../../src/sql_parser",
+    ],
     deps = [
         "//include/sql_parser:function_ast",
         "//include/sql_parser:ast_node",
@@ -44,7 +50,11 @@ cc_library(
 cc_library(
     name = "set_operation",
     srcs = ["set_operation.cpp"],
-    includes = ["../../include"],
+    includes = [
+        "../../include",
+        "../../src/sql_parser",
+        "../../src/storage_engine",
+    ],
     deps = [
         "//include/sql_parser:set_operation",
         "//include/sql_parser:ast_node",
@@ -61,7 +71,10 @@ cc_library(
     name = "window_function",
     srcs = ["window_function.cpp"],
     hdrs = ["window_function.h"],
-    includes = ["../../include"],
+    includes = [
+        "../../include",
+        "../../src/sql_parser",
+    ],
     deps = [
         "//include/sql_parser:window_function",
         "//include/sql_parser:ast_node",
@@ -74,7 +87,11 @@ cc_library(
 cc_library(
     name = "recursive_query",
     srcs = ["recursive_query.cpp"],
-    includes = ["../../include"],
+    includes = [
+        "../../include",
+        "../../src/sql_parser",
+        "../../src/storage_engine",
+    ],
     deps = [
         "//include/sql_parser:recursive_query",
         "//include/sql_parser:ast_node",
@@ -91,7 +108,10 @@ cc_library(
 cc_library(
     name = "load_data_ast",
     hdrs = ["load_data_ast.h"],
-    includes = ["../../include"],
+    includes = [
+        "../../include",
+        "../../src/sql_parser",
+    ],
     deps = [
         "//include/sql_parser:ast_node",
     ],
@@ -101,7 +121,10 @@ cc_library(
 cc_library(
     name = "function_definition_impl",
     srcs = ["function_definition.cpp"],
-    includes = ["../../include"],
+    includes = [
+        "../../include",
+        "../../src/sql_parser",
+    ],
     deps = [
         "//include/sql_parser:function_definition",
     ],
@@ -111,7 +134,10 @@ cc_library(
 cc_library(
     name = "data_types_impl",
     srcs = ["data_types.cpp"],
-    includes = ["../../include"],
+    includes = [
+        "../../include",
+        "../../src/sql_parser",
+    ],
     deps = [
         "//include/sql_parser:data_types",
         "//include/sql_parser:datetime",
@@ -122,7 +148,10 @@ cc_library(
 cc_library(
     name = "decimal_impl",
     srcs = ["decimal.cpp"],
-    includes = ["../../include"],
+    includes = [
+        "../../include",
+        "../../src/sql_parser",
+    ],
     deps = [
         "//include/sql_parser:data_types",
     ],
@@ -132,7 +161,10 @@ cc_library(
 cc_library(
     name = "datetime_impl",
     srcs = ["datetime.cpp"],
-    includes = ["../../include"],
+    includes = [
+        "../../include",
+        "../../src/sql_parser",
+    ],
     deps = [
         "//include/sql_parser:data_types",
         "//include/sql_parser:datetime",
@@ -153,10 +185,9 @@ cc_library(
         "parser_new.h",
         "token_new.h",
     ], allow_empty = True),
-    copts = [
-    ],
     includes = [
-        "../include",
+        "../../include",
+        "../../src/sql_parser",
     ],
     deps = [
         # light parser variant has no direct core dependency

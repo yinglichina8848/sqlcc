@@ -11,6 +11,7 @@ cc_test(
         "//src/execution:join_executor",
         "//src/core:core",
         "//src/sql_parser:sql_parser",
+        "//src/utils:utils",
         "@com_google_googletest//:gtest_main",
     ],
     copts = [
@@ -35,6 +36,8 @@ cc_test(
         "//src/execution:function_executor",
         "//src/core:core",
         "//src/sql_parser:sql_parser",
+        "//src/utils:utils",
+        "//src/config_manager:sqlcc_config_manager",
         "@com_google_googletest//:gtest_main",
     ],
     copts = [
@@ -60,6 +63,8 @@ cc_test(
         "//src/core:core",
         "//src/core:database_manager",
         "//src/sql_parser:window_function",
+        "//src/utils:utils",
+        "//src/config_manager:sqlcc_config_manager",
         "@com_google_googletest//:gtest_main",
     ],
     copts = [
@@ -84,6 +89,8 @@ cc_test(
         "//src/execution:recursive_query_executor",
         "//src/core:core",
         "//src/sql_parser:recursive_query",
+        "//src/utils:utils",
+        "//src/config_manager:sqlcc_config_manager",
         "@com_google_googletest//:gtest_main",
     ],
     copts = [
@@ -109,6 +116,7 @@ cc_test(
         "//src/core:core",
         "//src/core:database_manager",
         "//src/sql_parser:set_operation",
+        "//src/utils:utils",
         "@com_google_googletest//:gtest_main",
     ],
     copts = [
@@ -134,6 +142,8 @@ cc_test(
         "//src/core:core",
         "//src/storage_engine:storage_engine",
         "//include/sql_executor:headers",
+        "//src/utils:utils",
+        "//src/config_manager:sqlcc_config_manager",
         "@com_google_googletest//:gtest_main",
     ],
     copts = [
@@ -155,8 +165,9 @@ cc_test(
     name = "task_executor_unit_test",
     srcs = ["task_executor_test.cpp"],
     deps = [
-        "//src/execution:execution",
-        "//src/core:core",
+        "//src/execution:task_executor",
+        "//src/utils:utils",
+        "//src/config_manager:sqlcc_config_manager",
         "@com_google_googletest//:gtest_main",
     ],
     copts = [

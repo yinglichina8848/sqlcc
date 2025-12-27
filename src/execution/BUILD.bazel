@@ -114,6 +114,19 @@ cc_library(
 )
 
 cc_library(
+    name = "task_executor",
+    srcs = ["task_executor_simple.cpp"],
+
+    visibility = ["//visibility:public"],
+    deps = [
+        "//include/execution:task_executor_hdr",
+        "//src/core:core",
+        "//src/sql_parser:sql_parser",
+        "//src/utils:utils",
+    ],
+)
+
+cc_library(
     name = "procedure_trigger_task",
     srcs = ["procedure_trigger_task.cpp"],
 
@@ -143,6 +156,7 @@ cc_library(
         ":window_function_executor",
         ":recursive_query_executor",
         ":load_data_executor",
+        ":task_executor",
         ":procedure_trigger_task",
     ],
 )

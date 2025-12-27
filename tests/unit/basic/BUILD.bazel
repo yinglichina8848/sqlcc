@@ -72,7 +72,9 @@ cc_test(
 cc_test(
     name = "decimal_test",
     srcs = ["decimal_test.cpp"],
+    includes = ["../../../include"],
     deps = [
+        "//include/sql_parser:decimal",
         "@com_google_googletest//:gtest_main",
     ],
     copts = [
@@ -91,7 +93,13 @@ cc_test(
 cc_test(
     name = "sql_executor_core_test",
     srcs = ["sql_executor_core_test.cpp"],
+    includes = ["../../../include"],
     deps = [
+        "//include:sql_executor",
+        "//include/core:user_manager",
+        "//include:database_manager",
+        "//include/core:permission_validator",
+        "//include/core:execution_context",
         "@com_google_googletest//:gtest_main",
     ],
     copts = [
@@ -128,10 +136,30 @@ cc_test(
 )
 
 cc_test(
+    name = "logger_test",
+    srcs = ["logger_test.cpp"],
+    deps = [
+        "//src:logger",
+        "@com_google_googletest//:gtest_main",
+    ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+        "-fprofile-instr-generate",
+        "-fcoverage-mapping",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+        "-fprofile-instr-generate",
+    ],
+)
+
+cc_test(
     name = "config_manager_test",
     srcs = ["config_manager_test.cpp"],
     deps = [
-        "//src/config_manager:sqlcc_config_manager",
+        "//src/utils:utils",
         "@com_google_googletest//:gtest_main",
     ],
     copts = [
@@ -150,8 +178,79 @@ cc_test(
 cc_test(
     name = "exception_test",
     srcs = ["exception_test.cpp"],
+    includes = ["../../../include"],
     deps = [
-        "//include/exception:exceptions",
+        "//include:exception",
+        "@com_google_googletest//:gtest_main",
+    ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+        "-fprofile-instr-generate",
+        "-fcoverage-mapping",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+        "-fprofile-instr-generate",
+    ],
+)
+
+cc_test(
+    name = "token_test",
+    srcs = ["token_test.cpp"],
+    includes = ["../../../include"],
+    deps = [
+        "//include/sql_parser:token",
+        "//src/sql_parser:sql_parser",
+        "@com_google_googletest//:gtest_main",
+    ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+        "-fprofile-instr-generate",
+        "-fcoverage-mapping",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+        "-fprofile-instr-generate",
+    ],
+)
+
+cc_test(
+    name = "ast_node_basic_test",
+    srcs = ["ast_node_basic_test.cpp"],
+    includes = ["../../../include"],
+    deps = [
+        "//include/sql_parser:ast_node",
+        "//include/sql_parser:ast_nodes",
+        "//include/sql_parser:node_visitor",
+        "//src/sql_parser:sql_parser",
+        "@com_google_googletest//:gtest_main",
+    ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+        "-fprofile-instr-generate",
+        "-fcoverage-mapping",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+        "-fprofile-instr-generate",
+    ],
+)
+
+cc_test(
+    name = "ast_node_basic_test_fixed",
+    srcs = ["ast_node_basic_test_fixed.cpp"],
+    includes = ["../../../include"],
+    deps = [
+        "//include/sql_parser:ast_node",
+        "//include/sql_parser:ast_nodes",
+        "//include/sql_parser:node_visitor",
+        "//src/sql_parser:sql_parser",
         "@com_google_googletest//:gtest_main",
     ],
     copts = [
@@ -176,7 +275,11 @@ test_suite(
         ":decimal_test",
         ":sql_executor_core_test",
         ":logger_basic_test",
+        ":logger_test",
         ":config_manager_test",
         ":exception_test",
+        ":token_test",
+        ":ast_node_basic_test",
+        ":ast_node_basic_test_fixed",
     ],
 )

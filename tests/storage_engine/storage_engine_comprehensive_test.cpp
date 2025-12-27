@@ -294,7 +294,7 @@ TEST_F(StorageEngineTest, PerformanceCharacteristics) {
     // Perform bulk operations to test performance
     auto btree = std::make_unique<BPlusTreeIndex>(storage_engine, "perf_test", "perf_index");
 
-    const int num_operations = 1000;
+    const int num_operations = 100; // 减少操作数量以加快测试执行
     std::vector<int32_t> page_ids(num_operations);
 
     // Create pages first

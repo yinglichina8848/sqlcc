@@ -9,7 +9,7 @@ namespace sqlcc {
 
 class BPlusTreeInternalNode : public BPlusTreeNode {
 public:
-    BPlusTreeInternalNode(std::shared_ptr<StorageEngine> storage_engine, int32_t page_id);
+  BPlusTreeInternalNode(std::shared_ptr<StorageEngine> storage_engine, int32_t page_id, bool is_new = false);
     ~BPlusTreeInternalNode() override;
 
     // 实现纯虚函数

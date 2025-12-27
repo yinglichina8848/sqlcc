@@ -10,10 +10,10 @@ namespace execution {
 
 // ProcedureCallTask implementation
 ProcedureCallTask::ProcedureCallTask(const std::string& task_id, std::unique_ptr<sql_parser::CallProcedureStatement> stmt)
-    : Task(task_id, execution::TaskType::PROCEDURE_CALL), stmt_(std::move(stmt)) {}
+    : Task(task_id, TaskType::PROCEDURE_CALL), stmt_(std::move(stmt)) {}
 
 std::shared_ptr<TaskResult> ProcedureCallTask::execute() {
-    auto result = std::make_shared<TaskResult>(getTaskId());
+    auto result = std::make_shared<TaskResult>(true, TaskType::DDL_EXECUTE);
     auto start_time = std::chrono::high_resolution_clock::now();
 
     try {
@@ -21,17 +21,17 @@ std::shared_ptr<TaskResult> ProcedureCallTask::execute() {
         std::string execution_result = procedure::ProcedureTriggerExecutor::getInstance()
             .executeCallProcedure(stmt_.get());
 
-        result->setSuccess(true);
-        result->setResultData(execution_result);
+        result->set_success(true);
+        result->set_result_message(execution_result);
 
     } catch (const std::exception& e) {
-        result->setSuccess(false);
-        result->setErrorMessage(std::string("Procedure call failed: ") + e.what());
+        result->set_success(false);
+        result->set_error_message(std::string("Procedure call failed: ") + e.what());
     }
 
     auto end_time = std::chrono::high_resolution_clock::now();
     auto execution_time = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
-    result->setExecutionTime(execution_time);
+    
 
     return result;
 }
@@ -45,7 +45,7 @@ TriggerExecuteTask::TriggerExecuteTask(const std::string& task_id,
       timing_(timing), event_(event), table_name_(table_name) {}
 
 std::shared_ptr<TaskResult> TriggerExecuteTask::execute() {
-    auto result = std::make_shared<TaskResult>(getTaskId());
+    auto result = std::make_shared<TaskResult>(true, TaskType::DDL_EXECUTE);
     auto start_time = std::chrono::high_resolution_clock::now();
 
     try {
@@ -53,21 +53,21 @@ std::shared_ptr<TaskResult> TriggerExecuteTask::execute() {
         bool success = procedure::ProcedureTriggerExecutor::getInstance()
             .fireDMLEvent(timing_, event_, table_name_, old_rows_, new_rows_);
 
-        result->setSuccess(success);
+        result->set_success(success);
         if (success) {
-            result->setResultData("Trigger executed successfully");
+            result->set_result_message("Trigger executed successfully");
         } else {
-            result->setErrorMessage("Trigger execution failed");
+            result->set_error_message("Trigger execution failed");
         }
 
     } catch (const std::exception& e) {
-        result->setSuccess(false);
-        result->setErrorMessage(std::string("Trigger execution error: ") + e.what());
+        result->set_success(false);
+        result->set_error_message(std::string("Trigger execution error: ") + e.what());
     }
 
     auto end_time = std::chrono::high_resolution_clock::now();
     auto execution_time = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
-    result->setExecutionTime(execution_time);
+    
 
     return result;
 }
@@ -85,7 +85,7 @@ ProcedureTriggerCreateTask::ProcedureTriggerCreateTask(const std::string& task_i
     : Task(task_id, TaskType::SQL_EXECUTE), type_(type), stmt_(std::move(stmt)) {}
 
 std::shared_ptr<TaskResult> ProcedureTriggerCreateTask::execute() {
-    auto result = std::make_shared<TaskResult>(getTaskId());
+    auto result = std::make_shared<TaskResult>(true, TaskType::DDL_EXECUTE);
     auto start_time = std::chrono::high_resolution_clock::now();
 
     try {
@@ -103,17 +103,17 @@ std::shared_ptr<TaskResult> ProcedureTriggerCreateTask::execute() {
                 .executeCreateTrigger(trig_stmt);
         }
 
-        result->setSuccess(true);
-        result->setResultData(execution_result);
+        result->set_success(true);
+        result->set_result_message(execution_result);
 
     } catch (const std::exception& e) {
-        result->setSuccess(false);
-        result->setErrorMessage(std::string("Create statement failed: ") + e.what());
+        result->set_success(false);
+        result->set_error_message(std::string("Create statement failed: ") + e.what());
     }
 
     auto end_time = std::chrono::high_resolution_clock::now();
     auto execution_time = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
-    result->setExecutionTime(execution_time);
+    
 
     return result;
 }
@@ -125,7 +125,7 @@ ProcedureTriggerDropTask::ProcedureTriggerDropTask(const std::string& task_id,
     : Task(task_id, TaskType::SQL_EXECUTE), type_(type), stmt_(std::move(stmt)) {}
 
 std::shared_ptr<TaskResult> ProcedureTriggerDropTask::execute() {
-    auto result = std::make_shared<TaskResult>(getTaskId());
+    auto result = std::make_shared<TaskResult>(true, TaskType::DDL_EXECUTE);
     auto start_time = std::chrono::high_resolution_clock::now();
 
     try {
@@ -143,17 +143,17 @@ std::shared_ptr<TaskResult> ProcedureTriggerDropTask::execute() {
                 .executeDropTrigger(trig_stmt);
         }
 
-        result->setSuccess(true);
-        result->setResultData(execution_result);
+        result->set_success(true);
+        result->set_result_message(execution_result);
 
     } catch (const std::exception& e) {
-        result->setSuccess(false);
-        result->setErrorMessage(std::string("Drop statement failed: ") + e.what());
+        result->set_success(false);
+        result->set_error_message(std::string("Drop statement failed: ") + e.what());
     }
 
     auto end_time = std::chrono::high_resolution_clock::now();
     auto execution_time = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
-    result->setExecutionTime(execution_time);
+    
 
     return result;
 }
@@ -164,7 +164,7 @@ TriggerAlterTask::TriggerAlterTask(const std::string& task_id,
     : Task(task_id, TaskType::SQL_EXECUTE), stmt_(std::move(stmt)) {}
 
 std::shared_ptr<TaskResult> TriggerAlterTask::execute() {
-    auto result = std::make_shared<TaskResult>(getTaskId());
+    auto result = std::make_shared<TaskResult>(true, TaskType::DDL_EXECUTE);
     auto start_time = std::chrono::high_resolution_clock::now();
 
     try {
@@ -172,17 +172,17 @@ std::shared_ptr<TaskResult> TriggerAlterTask::execute() {
         std::string execution_result = procedure::ProcedureTriggerExecutor::getInstance()
             .executeAlterTrigger(stmt_.get());
 
-        result->setSuccess(true);
-        result->setResultData(execution_result);
+        result->set_success(true);
+        result->set_result_message(execution_result);
 
     } catch (const std::exception& e) {
-        result->setSuccess(false);
-        result->setErrorMessage(std::string("Alter trigger failed: ") + e.what());
+        result->set_success(false);
+        result->set_error_message(std::string("Alter trigger failed: ") + e.what());
     }
 
     auto end_time = std::chrono::high_resolution_clock::now();
     auto execution_time = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
-    result->setExecutionTime(execution_time);
+    
 
     return result;
 }
@@ -194,7 +194,7 @@ DMLWithTriggerTask::DMLWithTriggerTask(const std::string& task_id,
     : Task(task_id, TaskType::SQL_EXECUTE), type_(type), stmt_(std::move(stmt)) {}
 
 std::shared_ptr<TaskResult> DMLWithTriggerTask::execute() {
-    auto result = std::make_shared<TaskResult>(getTaskId());
+    auto result = std::make_shared<TaskResult>(true, TaskType::DDL_EXECUTE);
     auto start_time = std::chrono::high_resolution_clock::now();
 
     try {
@@ -219,21 +219,21 @@ std::shared_ptr<TaskResult> DMLWithTriggerTask::execute() {
 
         // 检查执行结果是否成功
         if (execution_result.find("ERROR") == 0) {
-            result->setSuccess(false);
-            result->setErrorMessage(execution_result);
+            result->set_success(false);
+            result->set_error_message(execution_result);
         } else {
-            result->setSuccess(true);
-            result->setResultData(execution_result);
+            result->set_success(true);
+            result->set_result_message(execution_result);
         }
 
     } catch (const std::exception& e) {
-        result->setSuccess(false);
-        result->setErrorMessage(std::string("DML operation failed: ") + e.what());
+        result->set_success(false);
+        result->set_error_message(std::string("DML operation failed: ") + e.what());
     }
 
     auto end_time = std::chrono::high_resolution_clock::now();
     auto execution_time = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
-    result->setExecutionTime(execution_time);
+    
 
     return result;
 }

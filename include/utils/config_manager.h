@@ -301,6 +301,11 @@ public:
     std::vector<std::string> GetKeysWithPrefix(const std::string& prefix) const;
     
     /**
+     * @brief 清除所有配置项（用于测试）
+     */
+    void ClearAll();
+    
+    /**
      * @brief 设置操作超时时间
      * @param timeout_ms 超时时间（毫秒）
      */

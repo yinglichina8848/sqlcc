@@ -10,7 +10,10 @@ cc_library(
     name = "storage_engine",
     srcs = [
         "storage_engine.cpp",
-        "b_plus_tree.cpp",
+        "b_plus_tree_index.cpp",
+        "b_plus_tree_node.cpp",
+        "b_plus_tree_internal_node.cpp",
+        "b_plus_tree_leaf_node.cpp",
         "table_storage_complete.cpp",
         "cache_consistency_manager.cpp",
         "data_integrity_validator.cpp",
@@ -58,6 +61,7 @@ cc_library(
     ],
     deps = [
         "//src/utils:utils",
+        "//src/config_manager:sqlcc_config_manager",
         "//src/sql_parser:sql_parser",
         "//include/sql_parser:headers",
         "//include/utils:headers",

@@ -44,17 +44,17 @@ enum class TaskPriority {
 // 任务接口
 class Task {
 public:
-    Task() : task_id_(""), task_type_(execution::TaskType::UNKNOWN), priority_(0), completed_(false) {}
-    Task(const std::string& task_id, execution::TaskType type, int priority = 0)
+    Task() : task_id_(""), task_type_(TaskType::UNKNOWN), priority_(0), completed_(false) {}
+    Task(const std::string& task_id, TaskType type, int priority = 0)
         : task_id_(task_id), task_type_(type), priority_(priority), completed_(false) {}
     virtual ~Task() = default;
 
-    virtual std::shared_ptr<execution::TaskResult> execute() = 0;
+    virtual std::shared_ptr<TaskResult> execute() = 0;
     virtual std::string getDescription() const { return task_id_; }
     virtual TaskPriority getPriority() const { return static_cast<TaskPriority>(priority_); }
 
     const std::string& getTaskId() const { return task_id_; }
-    execution::TaskType getTaskType() const { return task_type_; }
+    TaskType getTaskType() const { return task_type_; }
     int getPriorityValue() const { return priority_; }
     bool isCompleted() const { return completed_; }
 
@@ -62,7 +62,7 @@ public:
 
 private:
     std::string task_id_;
-    execution::TaskType task_type_;
+    TaskType task_type_;
     int priority_;
     bool completed_;
 };
