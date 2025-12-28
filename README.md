@@ -1,6 +1,12 @@
 # SQLCC - SQL Cloud Computing Database System
 
-## 🚀 最新版本：v1.2.10 - 测试重构改进与覆盖率分析
+## 🚀 最新版本：v1.3.0 - B+树索引数据一致性修复
+
+### 🎯 v1.3.0版本亮点
+- **B+树索引数据一致性修复**: 修复BufferPool返回页面副本问题，将unique_ptr改为shared_ptr，确保数据一致性
+- **智能指针重构**: 系统性重构BufferPoolSharded、PageWrapper、StorageEngine的智能指针使用，提升内存安全性
+- **测试验证通过**: simple_bplus_tree_test所有测试用例通过，包括键插入、搜索验证、范围查询和删除操作
+- **系统稳定性提升**: B+树索引操作稳定可靠，插入、查询、删除功能完全正常
 
 ### 🎯 v1.2.10版本亮点
 - **覆盖率测试系统分析**: 确立LLVM Clang-18覆盖率工具链，移除早期JaCoCo错误配置
