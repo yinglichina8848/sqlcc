@@ -294,6 +294,29 @@ cc_test(
     ],
 )
 
+# 节点大小管理器测试
+cc_test(
+    name = "node_size_manager_test",
+    srcs = ["node_size_manager_test.cpp"],
+    includes = ["../include"],
+    copts = [
+        "-Iinclude",
+        "-std=c++20",
+        "-stdlib=libc++",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+    deps = [
+        "@com_google_googletest//:gtest_main",
+        "@com_google_googletest//:gtest",
+        "//src/storage_engine:storage_engine",
+        "//src/utils:utils",
+        "//include/storage:headers",
+    ],
+)
+
 # 磁盘管理器测试
 cc_test(
     name = "disk_manager_test",
@@ -366,6 +389,7 @@ test_suite(
         ":concurrency_control_test",
         ":data_integrity_test",
         ":disk_manager_test",
+        ":node_size_manager_test",
     ],
 )
 

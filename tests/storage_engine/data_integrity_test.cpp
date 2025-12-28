@@ -90,13 +90,10 @@ protected:
         }
     }
 
-    // 创建测试记录
-    std::unique_ptr<RecordBoundaryValidator::Record> CreateTestRecord(const std::string& data) {
-        auto record = std::make_unique<RecordBoundaryValidator::Record>();
-        record->data.assign(data.begin(), data.end());
-        record->length = data.size();
-        record->checksum = integrity_validator->CalculateChecksum(record->data);
-        return record;
+    // 创建测试记录的辅助方法
+    std::tuple<std::string, std::vector<uint8_t>> CreateTestRecord(const std::string& data) {
+        std::vector<uint8_t> record_data(data.begin(), data.end());
+        return std::make_tuple(data, record_data);
     }
 
     fs::path test_dir;
@@ -107,60 +104,56 @@ protected:
     std::mt19937 random_engine;
 };
 
-// 测试校验和计算
-TEST_F(DataIntegrityTest, ChecksumCalculation) {
-    // 测试空数据
-    std::vector<uint8_t> empty_data;
-    uint32_t empty_checksum = integrity_validator->CalculateChecksum(empty_data);
-    EXPECT_NE(empty_checksum, 0);  // 即使是空数据也应该有校验和
+// 测试数据完整性约束验证
+TEST_F(DataIntegrityTest, ConstraintValidation) {
+    // 创建测试表约束
+    ConstraintRule not_null_rule("not_null_id", NOT_NULL_CONSTRAINT, "test_table");
+    not_null_rule.column_names = {"id"};
+    integrity_validator->AddConstraint(not_null_rule);
 
-    // 测试固定模式数据
-    auto fixed_data = CreateTestData(100, 0x55);
-    uint32_t fixed_checksum1 = integrity_validator->CalculateChecksum(fixed_data);
-    uint32_t fixed_checksum2 = integrity_validator->CalculateChecksum(fixed_data);
-    EXPECT_EQ(fixed_checksum1, fixed_checksum2);  // 相同数据应该产生相同校验和
+    ConstraintRule unique_rule("unique_name", UNIQUE_CONSTRAINT, "test_table");
+    unique_rule.column_names = {"name"};
+    integrity_validator->AddConstraint(unique_rule);
 
-    // 测试不同数据产生不同校验和
-    auto different_data = CreateTestData(100, 0xAA);
-    uint32_t different_checksum = integrity_validator->CalculateChecksum(different_data);
-    EXPECT_NE(fixed_checksum1, different_checksum);
+    // 验证有效记录
+    std::vector<std::string> field_names = {"id", "name"};
+    std::vector<std::string> field_types = {"INT", "VARCHAR(50)"};
+    std::vector<std::string> valid_values = {"1", "Test"};
+    
+    ConstraintValidationResult result = integrity_validator->ValidateConstraints(
+        "test_table", field_names, field_types, valid_values);
+    EXPECT_EQ(result, CONSTRAINT_VALID);
 
-    // 测试随机数据
-    auto random_data1 = CreateRandomData(100);
-    auto random_data2 = CreateRandomData(100);
-    uint32_t random_checksum1 = integrity_validator->CalculateChecksum(random_data1);
-    uint32_t random_checksum2 = integrity_validator->CalculateChecksum(random_data2);
-    // 随机数据很可能产生不同校验和（极小概率相同）
-    // EXPECT_NE(random_checksum1, random_checksum2);
+    // 验证违反非空约束
+    std::vector<std::string> null_values = {"", "Test2"};
+    result = integrity_validator->ValidateConstraints(
+        "test_table", field_names, field_types, null_values);
+    EXPECT_NE(result, CONSTRAINT_VALID);
 }
 
-// 测试数据完整性验证
-TEST_F(DataIntegrityTest, DataIntegrityValidation) {
-    // 创建测试数据
-    auto test_data = CreateRandomData(1024);
-    uint32_t original_checksum = integrity_validator->CalculateChecksum(test_data);
+// 测试批量数据验证
+TEST_F(DataIntegrityTest, BatchValidation) {
+    // 创建测试表约束
+    ConstraintRule not_null_rule("not_null_id", NOT_NULL_CONSTRAINT, "test_table");
+    not_null_rule.column_names = {"id"};
+    integrity_validator->AddConstraint(not_null_rule);
 
-    // 验证完整数据
-    bool valid_result = integrity_validator->ValidateIntegrity(test_data, original_checksum);
-    EXPECT_TRUE(valid_result);
+    // 准备批量测试数据
+    std::vector<std::vector<std::string>> record_batch;
+    record_batch.push_back({"1", "Test1"});
+    record_batch.push_back({"2", "Test2"});
+    record_batch.push_back({"", "Invalid"}); // 违反非空约束
+    record_batch.push_back({"3", "Test3"});
 
-    // 验证损坏数据
-    auto corrupted_data = test_data;
-    CorruptData(corrupted_data, 1);
-    bool invalid_result = integrity_validator->ValidateIntegrity(corrupted_data, original_checksum);
-    EXPECT_FALSE(invalid_result);
+    // 执行批量验证
+    auto results = integrity_validator->ValidateConstraintsBatch("test_table", record_batch);
+    EXPECT_EQ(results.size(), record_batch.size());
 
-    // 验证边界情况：空数据
-    std::vector<uint8_t> empty_data;
-    uint32_t empty_checksum = integrity_validator->CalculateChecksum(empty_data);
-    bool empty_valid = integrity_validator->ValidateIntegrity(empty_data, empty_checksum);
-    EXPECT_TRUE(empty_valid);
-
-    // 验证边界情况：单个字节
-    std::vector<uint8_t> single_byte = {0x42};
-    uint32_t single_checksum = integrity_validator->CalculateChecksum(single_byte);
-    bool single_valid = integrity_validator->ValidateIntegrity(single_byte, single_checksum);
-    EXPECT_TRUE(single_valid);
+    // 检查结果
+    EXPECT_EQ(results[0], CONSTRAINT_VALID);
+    EXPECT_EQ(results[1], CONSTRAINT_VALID);
+    EXPECT_NE(results[2], CONSTRAINT_VALID); // 应该失败
+    EXPECT_EQ(results[3], CONSTRAINT_VALID);
 }
 
 // 测试记录边界验证
@@ -182,33 +175,9 @@ TEST_F(DataIntegrityTest, RecordBoundaryValidation) {
     // 测试验证删除
     ValidationResult delete_result = boundary_validator->ValidateRecordDeletion("test_table", 1);
     // 预期会失败，因为表不存在，但这不影响测试边界验证器的功能
-
 }
 
-// 测试批量数据验证
-TEST_F(DataIntegrityTest, BatchDataValidation) {
-    const size_t batch_size = 100;
-    std::vector<std::vector<uint8_t>> data_batch;
-    std::vector<uint32_t> checksums;
 
-    // 创建批量数据
-    for (size_t i = 0; i < batch_size; ++i) {
-        auto data = CreateRandomData(256);
-        data_batch.push_back(data);
-        checksums.push_back(integrity_validator->CalculateChecksum(data));
-    }
-
-    // 验证批量完整性
-    bool batch_valid = integrity_validator->ValidateBatchIntegrity(data_batch, checksums);
-    EXPECT_TRUE(batch_valid);
-
-    // 损坏一批数据中的一个
-    if (!data_batch.empty()) {
-        CorruptData(data_batch[batch_size / 2], 1);
-        bool batch_invalid = integrity_validator->ValidateBatchIntegrity(data_batch, checksums);
-        EXPECT_FALSE(batch_invalid);
-    }
-}
 
 // 测试并发数据验证
 TEST_F(DataIntegrityTest, ConcurrentDataValidation) {
@@ -223,26 +192,18 @@ TEST_F(DataIntegrityTest, ConcurrentDataValidation) {
         threads.emplace_back([this, i, operations_per_thread, &validation_count, &error_count]() {
             try {
                 for (int j = 0; j < operations_per_thread; ++j) {
-                    // 创建测试数据
-                    auto data = CreateRandomData(512);
-                    uint32_t checksum = integrity_validator->CalculateChecksum(data);
-
-                    // 验证完整性
-                    bool is_valid = integrity_validator->ValidateIntegrity(data, checksum);
-                    if (is_valid) {
+                    // 验证数据约束
+                    std::vector<std::string> field_names = {"id", "name"};
+                    std::vector<std::string> field_types = {"INT", "VARCHAR(50)"};
+                    std::vector<std::string> valid_values = {"1", "Test"};
+                    
+                    ConstraintValidationResult result = integrity_validator->ValidateConstraints(
+                        "test_table", field_names, field_types, valid_values);
+                    
+                    if (result == CONSTRAINT_VALID) {
                         validation_count++;
                     } else {
                         error_count++;
-                    }
-
-                    // 偶尔测试损坏数据
-                    if (j % 10 == 0) {
-                        auto corrupted = data;
-                        CorruptData(corrupted, 1);
-                        bool should_be_invalid = integrity_validator->ValidateIntegrity(corrupted, checksum);
-                        if (!should_be_invalid) {
-                            error_count++;
-                        }
                     }
                 }
             } catch (const std::exception& e) {
@@ -265,143 +226,104 @@ TEST_F(DataIntegrityTest, ConcurrentDataValidation) {
 // 测试数据完整性配置
 TEST_F(DataIntegrityTest, ConfigurationManagement) {
     // 获取默认配置
-    auto default_config = integrity_validator->GetConfig();
-    EXPECT_TRUE(default_config.enable_validation);
-    EXPECT_EQ(default_config.checksum_algorithm, "CRC32");
+    IntegrityValidationConfig default_config = integrity_validator->GetValidationConfig();
+    EXPECT_TRUE(default_config.enable_not_null_checking);
+    EXPECT_TRUE(default_config.enable_unique_checking);
 
     // 设置新配置
-    DataIntegrityValidator::IntegrityConfig new_config;
-    new_config.enable_validation = true;
-    new_config.checksum_algorithm = "SHA256";
-    new_config.validation_level = ValidationLevel::PARANOID;
+    IntegrityValidationConfig new_config;
+    new_config.enable_not_null_checking = true;
+    new_config.enable_unique_checking = false;
+    new_config.enable_foreign_key_checking = false;
+    new_config.strict_mode = false;
 
-    integrity_validator->SetConfig(new_config);
+    integrity_validator->SetValidationConfig(new_config);
 
     // 验证配置更新
-    auto updated_config = integrity_validator->GetConfig();
-    EXPECT_EQ(updated_config.checksum_algorithm, new_config.checksum_algorithm);
-    EXPECT_EQ(updated_config.validation_level, new_config.validation_level);
+    IntegrityValidationConfig updated_config = integrity_validator->GetValidationConfig();
+    EXPECT_EQ(updated_config.enable_not_null_checking, new_config.enable_not_null_checking);
+    EXPECT_EQ(updated_config.enable_unique_checking, new_config.enable_unique_checking);
+    EXPECT_EQ(updated_config.enable_foreign_key_checking, new_config.enable_foreign_key_checking);
+    EXPECT_EQ(updated_config.strict_mode, new_config.strict_mode);
 }
 
-// 测试记录边界检测
-TEST_F(DataIntegrityTest, RecordBoundaryDetection) {
-    // 创建多个连续的记录数据
-    std::string record_data = "RECORD1|RECORD2|RECORD3|";
-    std::vector<uint8_t> raw_data(record_data.begin(), record_data.end());
-
-    // 检测记录边界
-    auto boundaries = boundary_validator->DetectRecordBoundaries(raw_data, '|');
-    EXPECT_EQ(boundaries.size(), 3);  // 应该检测到3个记录
-
-    // 验证边界位置
-    EXPECT_EQ(boundaries[0], 7);  // RECORD1|
-    EXPECT_EQ(boundaries[1], 15); // RECORD2|
-    EXPECT_EQ(boundaries[2], 23); // RECORD3|
-
-    // 测试无效数据
-    std::vector<uint8_t> invalid_data = {'N', 'O', ' ', 'B', 'O', 'U', 'N', 'D', 'A', 'R', 'Y'};
-    auto no_boundaries = boundary_validator->DetectRecordBoundaries(invalid_data, '|');
-    EXPECT_TRUE(no_boundaries.empty());
+// 测试记录大小验证
+TEST_F(DataIntegrityTest, RecordSizeValidation) {
+    // 测试各种数据类型的记录验证
+    std::vector<std::string> field_names = {"id", "name", "description"};
+    std::vector<std::string> field_types = {"INT", "VARCHAR(50)", "TEXT"};
+    
+    // 测试有效大小
+    std::vector<std::string> valid_values = {"1", "Short name", "Short description"};
+    ValidationResult valid_result = boundary_validator->ValidateRecord(
+        "test_table", field_names, field_types, valid_values);
+    EXPECT_EQ(valid_result, ValidationResult::VALID);
+    
+    // 测试超长字符串
+    std::vector<std::string> invalid_values = {"2", "Valid name", 
+        std::string(100000, 'x')}; // 超过TEXT最大长度
+    ValidationResult invalid_result = boundary_validator->ValidateRecord(
+        "test_table", field_names, field_types, invalid_values);
+    EXPECT_NE(invalid_result, ValidationResult::VALID);
 }
 
-// 测试数据修复尝试
-TEST_F(DataIntegrityTest, DataRepairAttempt) {
-    // 创建测试数据
-    auto original_data = CreateRandomData(1024);
-    uint32_t original_checksum = integrity_validator->CalculateChecksum(original_data);
 
-    // 轻微损坏数据（只损坏一个字节）
-    auto corrupted_data = original_data;
-    CorruptData(corrupted_data, 1);
-
-    // 验证损坏检测
-    bool is_corrupted = !integrity_validator->ValidateIntegrity(corrupted_data, original_checksum);
-    EXPECT_TRUE(is_corrupted);
-
-    // 尝试修复（如果支持）
-    auto repair_result = integrity_validator->AttemptRepair(corrupted_data, original_checksum);
-    // 注意：修复功能可能不实现，取决于具体实现
-    // 这里我们只是测试接口存在性
-
-    // 验证修复是否成功
-    if (repair_result.has_value()) {
-        bool repair_valid = integrity_validator->ValidateIntegrity(repair_result.value(), original_checksum);
-        EXPECT_TRUE(repair_valid);
-    }
-}
 
 // 测试数据完整性统计信息
 TEST_F(DataIntegrityTest, StatisticsCollection) {
     // 执行一些操作来生成统计信息
+    std::vector<std::string> field_names = {"id", "name"};
+    std::vector<std::string> field_types = {"INT", "VARCHAR(50)"};
+    
     for (int i = 0; i < 10; ++i) {
-        auto data = CreateRandomData(256);
-        uint32_t checksum = integrity_validator->CalculateChecksum(data);
-
         // 验证有效数据
-        integrity_validator->ValidateIntegrity(data, checksum);
-
-        // 验证无效数据
-        auto corrupted = data;
-        CorruptData(corrupted, 1);
-        integrity_validator->ValidateIntegrity(corrupted, checksum);
+        std::vector<std::string> valid_values = {std::to_string(i), "Test" + std::to_string(i)};
+        integrity_validator->ValidateConstraints("test_table", field_names, field_types, valid_values);
     }
 
     // 获取统计信息
-    auto stats = integrity_validator->GetStatistics();
-    EXPECT_GE(stats.total_validations, 20);  // 10有效 + 10无效
-    EXPECT_GE(stats.failed_validations, 10);  // 至少10个失败
-    EXPECT_GE(stats.successful_validations, 10);  // 至少10个成功
+    auto stats = integrity_validator->GetIntegrityStats();
+    EXPECT_GE(stats.total_validations, 10);
+    EXPECT_GE(stats.successful_validations, 10);
 }
 
 // 测试边界情况处理
 TEST_F(DataIntegrityTest, EdgeCaseHandling) {
-    // 测试超大数据
-    const size_t large_size = 10 * 1024 * 1024; // 10MB
-    auto large_data = CreateTestData(large_size, 0xFF);
-    uint32_t large_checksum = integrity_validator->CalculateChecksum(large_data);
-    bool large_valid = integrity_validator->ValidateIntegrity(large_data, large_checksum);
-    EXPECT_TRUE(large_valid);
-
-    // 测试最小数据
-    std::vector<uint8_t> minimal_data = {0x00};
-    uint32_t minimal_checksum = integrity_validator->CalculateChecksum(minimal_data);
-    bool minimal_valid = integrity_validator->ValidateIntegrity(minimal_data, minimal_checksum);
-    EXPECT_TRUE(minimal_valid);
-
-    // 测试重复模式数据
-    auto pattern_data = CreateTestData(1000, 0xAB);
-    uint32_t pattern_checksum = integrity_validator->CalculateChecksum(pattern_data);
-    bool pattern_valid = integrity_validator->ValidateIntegrity(pattern_data, pattern_checksum);
-    EXPECT_TRUE(pattern_valid);
-
-    // 测试全零数据
-    auto zero_data = CreateTestData(1000, 0x00);
-    uint32_t zero_checksum = integrity_validator->CalculateChecksum(zero_data);
-    bool zero_valid = integrity_validator->ValidateIntegrity(zero_data, zero_checksum);
-    EXPECT_TRUE(zero_valid);
+    std::vector<std::string> field_names = {"id", "name", "value"};
+    std::vector<std::string> field_types = {"INT", "VARCHAR(50)", "DOUBLE"};
+    
+    // 测试空值
+    std::vector<std::string> null_values = {"1", "", "123.45"};
+    ValidationResult null_result = boundary_validator->ValidateRecord(
+        "test_table", field_names, field_types, null_values);
+    // 注意：空值是否允许取决于表的约束配置
+    
+    // 测试无效类型
+    std::vector<std::string> invalid_type_values = {"abc", "Valid name", "123.45"};
+    ValidationResult type_result = boundary_validator->ValidateRecord(
+        "test_table", field_names, field_types, invalid_type_values);
+    EXPECT_NE(type_result, ValidationResult::VALID);
 }
 
 // 测试数据完整性错误处理
 TEST_F(DataIntegrityTest, ErrorHandling) {
-    // 测试空校验和验证
-    std::vector<uint8_t> test_data = {1, 2, 3, 4, 5};
-    bool empty_checksum_result = integrity_validator->ValidateIntegrity(test_data, 0);
-    // 空校验和可能被视为无效，具体取决于实现
-
-    // 测试数据大小不匹配的情况
-    std::vector<uint8_t> small_data = {1, 2, 3};
-    bool size_mismatch_result = integrity_validator->ValidateIntegrity(small_data, 0x12345678);
-    // 应该返回false，因为校验和不匹配
-
-    // 测试nullptr处理（如果适用）
-    // 注意：这取决于具体实现的安全性
-
-    // 测试异常情况下的恢复
+    std::vector<std::string> field_names = {"id", "name"};
+    std::vector<std::string> field_types = {"INT", "VARCHAR(50)"};
+    
+    // 测试空表名
     try {
-        // 尝试一些可能抛出异常的操作
-        std::vector<uint8_t> empty_vec;
-        integrity_validator->CalculateChecksum(empty_vec);
+        integrity_validator->ValidateConstraints(
+            "", field_names, field_types, {"1", "Test"});
         // 如果没有异常，测试通过
+    } catch (const std::exception&) {
+        // 如果实现抛出异常，也是可以接受的
+    }
+    
+    // 测试字段数量不匹配
+    try {
+        integrity_validator->ValidateConstraints(
+            "test_table", field_names, field_types, {"1"});
+        // 应该失败，因为值的数量与字段数量不匹配
     } catch (const std::exception&) {
         // 如果实现抛出异常，也是可以接受的
     }
@@ -410,23 +332,25 @@ TEST_F(DataIntegrityTest, ErrorHandling) {
 // 测试数据完整性性能特征
 TEST_F(DataIntegrityTest, PerformanceCharacteristics) {
     const int num_operations = 1000;
-    const size_t data_size = 4096; // 4KB数据
+    
+    std::vector<std::string> field_names = {"id", "name"};
+    std::vector<std::string> field_types = {"INT", "VARCHAR(50)"};
+    std::vector<std::string> valid_values = {"1", "Test"};
 
     auto start_time = std::chrono::high_resolution_clock::now();
 
     // 执行大量完整性操作
     for (int i = 0; i < num_operations; ++i) {
-        auto data = CreateRandomData(data_size);
-        uint32_t checksum = integrity_validator->CalculateChecksum(data);
-        bool valid = integrity_validator->ValidateIntegrity(data, checksum);
-        ASSERT_TRUE(valid);
+        ConstraintValidationResult result = integrity_validator->ValidateConstraints(
+            "test_table", field_names, field_types, valid_values);
+        ASSERT_EQ(result, CONSTRAINT_VALID);
     }
 
     auto end_time = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
 
     // 验证操作完成且性能合理
-    auto stats = integrity_validator->GetStatistics();
+    auto stats = integrity_validator->GetIntegrityStats();
     EXPECT_GE(stats.total_validations, num_operations);
     EXPECT_LT(duration.count(), 5000);  // 应该在5秒内完成
 

@@ -1,5 +1,6 @@
 #include "storage_engine/b_plus_tree_leaf_node.h"
 #include "storage_engine.h"
+#include "storage_engine/node_size_manager.h"
 #include "utils/logger.h"
 #include "page.h"
 #include <algorithm>
@@ -57,12 +58,22 @@ void BPlusTreeLeafNode::Clear() {
 }
 
 bool BPlusTreeLeafNode::IsFull() const {
-  // 简单的容量检查，假设每个条目最大100字节
-  size_t total_size = 0;
+  // 使用动态节点大小管理器进行容量检查
+  std::vector<size_t> entry_sizes;
+  entry_sizes.reserve(entries_.size());
+
   for (const auto& entry : entries_) {
-    total_size += entry.key.size() + sizeof(int32_t) + sizeof(int32_t) + sizeof(size_t);
+    // 计算每个条目的实际大小（键长 + 键内容 + 页面ID + 偏移量）
+    size_t entry_size = sizeof(int32_t) + entry.key.size() + // 键长度 + 键内容
+                       sizeof(int32_t) +                    // 页面ID
+                       sizeof(size_t);                      // 偏移量
+    entry_sizes.push_back(entry_size);
   }
-  return total_size > (PAGE_DATA_SIZE * 0.8); // 80%满时认为已满
+
+  // 使用NodeSizeManager进行动态容量判断
+  return NodeSizeManager::get_instance().should_split_node(
+    "leaf", entries_.size(), PAGE_DATA_SIZE
+  );
 }
 
 void BPlusTreeLeafNode::SerializeToPage() {

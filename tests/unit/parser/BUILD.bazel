@@ -688,6 +688,42 @@ cc_test(
     ],
 )
 
+cc_test(
+    name = "ast_comprehensive_test",
+    srcs = ["ast_comprehensive_test.cpp"],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+        "-Iinclude",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+    deps = [
+        "@com_google_googletest//:gtest_main",
+        "//src/sql_parser:sql_parser",
+    ],
+)
+
+cc_test(
+    name = "expression_parser_test",
+    srcs = ["expression_parser_test.cpp"],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+        "-Iinclude",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+    deps = [
+        "@com_google_googletest//:gtest_main",
+        "//src/sql_parser:sql_parser",
+    ],
+)
+
 test_suite(
     name = "parser_unit_tests",
     tests = [
@@ -729,5 +765,7 @@ test_suite(
         ":token_new_unit_test",
         ":constraint_test",
         ":window_function_test",
+        ":ast_comprehensive_test",
+        ":expression_parser_test",
     ],
 )

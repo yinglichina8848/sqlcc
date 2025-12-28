@@ -32,7 +32,6 @@ protected:
         config = std::make_unique<ConfigManager>();
         config->SetValue("storage.data_directory", test_dir.string());
         config->SetValue("buffer_pool.size", std::string("1024"));  // 1MB buffer pool
-
         // Initialize storage engine
         storage_engine = std::make_shared<StorageEngine>(*config, test_dir.string());
     }
