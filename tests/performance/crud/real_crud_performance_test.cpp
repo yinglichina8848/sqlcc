@@ -1,7 +1,7 @@
 #include "../performance_test_base.h"
 #include "crud_performance_test.h"
 #include "../../include/sql_executor.h"
-#include "../../include/database_manager.h"
+#include "core/core_database_manager.h"
 #include <chrono>
 #include <iostream>
 #include <vector>
