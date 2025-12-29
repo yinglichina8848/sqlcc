@@ -2,82 +2,105 @@
 #include <string>
 #include <vector>
 #include <memory>
-#include "../include/core/core_database_manager.h"
+#include "../include/sql_executor.h"
 
 using namespace sqlcc;
 
 int main() {
-    std::cout << "开始 CRUD 性能测试..." << std::endl;
+    std::cout << "开始真实 CRUD 性能测试..." << std::endl;
 
     try {
-        // 创建数据库管理器
-        auto db_manager = std::make_unique<DatabaseManager>("/tmp/test_db");
+        // 创建SQL执行器
+        auto sql_executor = std::make_unique<SqlExecutor>();
 
         // 测试数据库操作
         std::cout << "1. 创建数据库..." << std::endl;
-        bool result = db_manager->CreateDatabase("testdb");
-        std::cout << "   创建数据库结果: " << (result ? "成功" : "失败") << std::endl;
+        std::string result = sql_executor->Execute("CREATE DATABASE testdb;");
+        std::cout << "   创建数据库结果: " << result << std::endl;
 
         // 测试使用数据库
         std::cout << "2. 使用数据库..." << std::endl;
-        result = db_manager->UseDatabase("testdb");
-        std::cout << "   使用数据库结果: " << (result ? "成功" : "失败") << std::endl;
+        result = sql_executor->Execute("USE testdb;");
+        std::cout << "   使用数据库结果: " << result << std::endl;
 
         // 测试表操作
         std::cout << "3. 创建表..." << std::endl;
-        std::vector<std::pair<std::string, std::string>> columns = {
-            {"id", "INT PRIMARY KEY"},
-            {"name", "VARCHAR(100)"},
-            {"age", "INT"}
-        };
-        result = db_manager->CreateTable("testdb", "users", columns);
-        std::cout << "   创建表结果: " << (result ? "成功" : "失败") << std::endl;
+        result = sql_executor->Execute("CREATE TABLE users (id INT PRIMARY KEY, name VARCHAR(100), age INT);");
+        std::cout << "   创建表结果: " << result << std::endl;
 
-        // 测试表存在性检查
-        std::cout << "4. 检查表存在性..." << std::endl;
-        result = db_manager->TableExists("users");
-        std::cout << "   表存在性检查结果: " << (result ? "存在" : "不存在") << std::endl;
+        // 测试插入数据 (Create)
+        std::cout << "4. 插入数据 (Create)..." << std::endl;
+        result = sql_executor->Execute("INSERT INTO users VALUES (1, 'Alice', 25);");
+        std::cout << "   插入数据结果: " << result << std::endl;
 
-        // 测试列出表
-        std::cout << "5. 列出表..." << std::endl;
-        auto tables = db_manager->ListTables();
-        std::cout << "   表数量: " << tables.size() << std::endl;
-        for (const auto& table : tables) {
-            std::cout << "   - " << table << std::endl;
-        }
+        result = sql_executor->Execute("INSERT INTO users VALUES (2, 'Bob', 30);");
+        std::cout << "   插入数据结果: " << result << std::endl;
 
-        // 测试列出数据库
-        std::cout << "6. 列出数据库..." << std::endl;
-        auto databases = db_manager->ListDatabases();
-        std::cout << "   数据库数量: " << databases.size() << std::endl;
-        for (const auto& db : databases) {
-            std::cout << "   - " << db << std::endl;
-        }
+        result = sql_executor->Execute("INSERT INTO users VALUES (3, 'Charlie', 35);");
+        std::cout << "   插入数据结果: " << result << std::endl;
+
+        // 测试查询数据 (Read)
+        std::cout << "5. 查询数据 (Read)..." << std::endl;
+        result = sql_executor->Execute("SELECT * FROM users;");
+        std::cout << "   查询数据结果: " << result << std::endl;
+
+        // 测试查询特定记录
+        std::cout << "6. 查询特定记录..." << std::endl;
+        result = sql_executor->Execute("SELECT name, age FROM users WHERE id = 2;");
+        std::cout << "   查询特定记录结果: " << result << std::endl;
+
+        // 测试更新数据 (Update)
+        std::cout << "7. 更新数据 (Update)..." << std::endl;
+        result = sql_executor->Execute("UPDATE users SET age = 26 WHERE id = 1;");
+        std::cout << "   更新数据结果: " << result << std::endl;
+
+        // 验证更新结果
+        result = sql_executor->Execute("SELECT * FROM users WHERE id = 1;");
+        std::cout << "   验证更新结果: " << result << std::endl;
+
+        // 测试删除数据 (Delete)
+        std::cout << "8. 删除数据 (Delete)..." << std::endl;
+        result = sql_executor->Execute("DELETE FROM users WHERE id = 3;");
+        std::cout << "   删除数据结果: " << result << std::endl;
+
+        // 验证删除结果
+        result = sql_executor->Execute("SELECT * FROM users;");
+        std::cout << "   验证删除结果: " << result << std::endl;
 
         // 测试事务操作
-        std::cout << "7. 测试事务..." << std::endl;
-        TransactionId txn_id = db_manager->BeginTransaction();
-        std::cout << "   事务ID: " << txn_id << std::endl;
+        std::cout << "9. 测试事务..." << std::endl;
+        result = sql_executor->Execute("BEGIN;");
+        std::cout << "   开始事务结果: " << result << std::endl;
 
-        result = db_manager->CommitTransaction(txn_id);
-        std::cout << "   提交事务结果: " << (result ? "成功" : "失败") << std::endl;
+        result = sql_executor->Execute("INSERT INTO users VALUES (4, 'David', 40);");
+        std::cout << "   事务中插入数据结果: " << result << std::endl;
+
+        result = sql_executor->Execute("COMMIT;");
+        std::cout << "   提交事务结果: " << result << std::endl;
+
+        // 验证事务结果
+        result = sql_executor->Execute("SELECT * FROM users WHERE id = 4;");
+        std::cout << "   验证事务结果: " << result << std::endl;
+
+        // 测试聚合查询
+        std::cout << "10. 测试聚合查询..." << std::endl;
+        result = sql_executor->Execute("SELECT COUNT(*) as total_users, AVG(age) as avg_age FROM users;");
+        std::cout << "    聚合查询结果: " << result << std::endl;
 
         // 测试删除表
-        std::cout << "8. 删除表..." << std::endl;
-        result = db_manager->DropTable("users");
-        std::cout << "   删除表结果: " << (result ? "成功" : "失败") << std::endl;
+        std::cout << "11. 删除表..." << std::endl;
+        result = sql_executor->Execute("DROP TABLE users;");
+        std::cout << "    删除表结果: " << result << std::endl;
 
         // 测试删除数据库
-        std::cout << "9. 删除数据库..." << std::endl;
-        result = db_manager->DropDatabase("testdb");
-        std::cout << "   删除数据库结果: " << (result ? "成功" : "失败") << std::endl;
+        std::cout << "12. 删除数据库..." << std::endl;
+        result = sql_executor->Execute("DROP DATABASE testdb;");
+        std::cout << "    删除数据库结果: " << result << std::endl;
 
-        // 关闭数据库管理器
-        std::cout << "10. 关闭数据库管理器..." << std::endl;
-        result = db_manager->Close();
-        std::cout << "    关闭结果: " << (result ? "成功" : "失败") << std::endl;
+        std::cout << "\n真实 CRUD 性能测试完成!" << std::endl;
+        std::cout << "测试覆盖了完整的 CRUD 操作：创建、读取、更新、删除" << std::endl;
+        std::cout << "包括事务操作和聚合查询" << std::endl;
 
-        std::cout << "\nCRUD 性能测试完成!" << std::endl;
         return 0;
 
     } catch (const std::exception& e) {

@@ -5,7 +5,7 @@
 #include "sql_parser/ast_nodes.h"
 #include "core/user_manager.h"
 #include "core/system_database.h"
-#include "database_manager.h"
+#include "core/core_database_manager.h"
 #include "error_handler.h"
 #include "execution_engine.h"
 #include <functional>
