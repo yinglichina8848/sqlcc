@@ -11,6 +11,8 @@ exports_files([
     "window_function_executor.cpp",
     "recursive_query_executor.cpp",
     "load_data_executor.cpp",
+    "query_plan_factory.cpp",
+    "unified_query_plan.cpp",
 ])
 
 cc_library(
@@ -144,6 +146,31 @@ cc_library(
     ],
 )
 
+# Query Plan Factory
+cc_library(
+    name = "query_plan_factory",
+    srcs = ["query_plan_factory.cpp"],
+    hdrs = ["//include/execution:query_plan_factory"],
+    visibility = ["//visibility:public"],
+    deps = [
+        ":unified_query_plan",
+        "//src/core:core",
+        "//src/sql_parser:sql_parser",
+    ],
+)
+
+# Unified Query Plan
+cc_library(
+    name = "unified_query_plan",
+    srcs = ["unified_query_plan.cpp"],
+    hdrs = ["//include/execution:unified_query_plan"],
+    visibility = ["//visibility:public"],
+    deps = [
+        "//src/core:core",
+        "//src/sql_parser:sql_parser",
+    ],
+)
+
 # 执行模块聚合库
 cc_library(
     name = "execution",
@@ -158,7 +185,7 @@ cc_library(
         ":load_data_executor",
         ":task_executor",
         ":procedure_trigger_task",
+        ":query_plan_factory",
+        ":unified_query_plan",
     ],
 )
-
-

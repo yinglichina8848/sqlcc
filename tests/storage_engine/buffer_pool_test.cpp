@@ -11,10 +11,10 @@
 #include <filesystem>
 #include <unordered_set>
 
-#include "storage_engine/buffer_pool/lru_manager.h"
-#include "storage_engine/buffer_pool/statistics_collector.h"
+#include "include/storage_engine/buffer_pool/lru_manager.h"
+#include "include/storage_engine/buffer_pool/statistics_collector.h"
 #include "storage_engine.h"
-#include "page.h"
+#include "include/page.h"
 #include "utils/config_manager.h"
 
 namespace fs = std::filesystem;
@@ -36,8 +36,8 @@ protected:
         storage_engine = std::make_shared<StorageEngine>(*config, test_dir.string());
 
         // 初始化LRU管理器和统计收集器
-        lru_manager = std::make_unique<LRUManager>();
-        stats_collector = std::make_unique<StatisticsCollector>();
+        lru_manager = std::make_unique<storage::LRUManager>();
+        stats_collector = std::make_unique<storage::StatisticsCollector>();
     }
 
     void TearDown() override {

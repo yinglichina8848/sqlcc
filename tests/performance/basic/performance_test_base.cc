@@ -114,7 +114,9 @@ void PerformanceTestBase::GenerateReport(const std::vector<PerformanceTestBase::
     std::ofstream text_file("crud_performance_report.txt");
     if (text_file.is_open()) {
         text_file << "=== 性能测试报告 ===" << std::endl;
-        text_file << "生成时间: " << GetCurrentTime() << std::endl;
+        auto now_system = std::chrono::system_clock::now();
+        auto now_time_t = std::chrono::system_clock::to_time_t(now_system);
+        text_file << "生成时间: " << std::ctime(&now_time_t);
         text_file << std::endl;
         
         // 打印汇总信息
@@ -145,7 +147,6 @@ void PerformanceTestBase::GenerateReport(const std::vector<PerformanceTestBase::
             text_file << "平均延迟: " << FormatLatency(result.avg_latency) << std::endl;
             text_file << "P95延迟: " << FormatLatency(result.p95_latency) << std::endl;
             text_file << "P99延迟: " << FormatLatency(result.p99_latency) << std::endl;
-            text_file << "测试时间: " << result.test_time << std::endl;
             text_file << std::endl;
         }
         
@@ -166,7 +167,7 @@ void PerformanceTestBase::GenerateCSVReport(const std::vector<TestResult>& resul
         }
         
         // CSV头部
-        csv_file << "TestScale,TestName,Duration(ms),Operations,Throughput(ops/sec),AvgLatency(ms),P95Latency(ms),P99Latency(ms),TestTime\n";
+        csv_file << "TestScale,TestName,Duration(ms),Operations,Throughput(ops/sec),AvgLatency(ms),P95Latency(ms),P99Latency(ms)\n";
         
         // CSV数据行
         for (const auto& result : results) {
@@ -177,8 +178,7 @@ void PerformanceTestBase::GenerateCSVReport(const std::vector<TestResult>& resul
                      << std::fixed << std::setprecision(2) << result.throughput << ","
                      << std::fixed << std::setprecision(3) << result.avg_latency << ","
                      << std::fixed << std::setprecision(3) << result.p95_latency << ","
-                     << std::fixed << std::setprecision(3) << result.p99_latency << ","
-                     << result.test_time << "\n";
+                     << std::fixed << std::setprecision(3) << result.p99_latency << "\n";
         }
         
         csv_file.close();

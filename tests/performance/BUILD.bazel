@@ -13,27 +13,25 @@ cc_library(
     name = "crud_performance_test_lib",
     hdrs = ["crud/crud_performance_test.h"],
     deps = [
-        "//src/core:sqlcc_core_lib",
-        "//src/sql_executor:sqlcc_executor",
-        "//src:sqlcc_core",
+        "//src/core:core",
+        "//src/sql_executor:sql_executor",
+        "//src:core",
     ],
     visibility = ["//visibility:public"],
 )
 
-# 性能测试套件
+# CRUD性能测试（带覆盖率）
 cc_test(
     name = "real_crud_performance_test",
     srcs = ["crud/real_crud_performance_test.cpp", "crud/main.cpp"],
     deps = [
-        "//src:sqlcc_core",
-        "//src/core:sqlcc_core_lib",
-        "//src/sql_executor:sqlcc_executor",
+        "//src:core",
+        "//src/sql_executor:sql_executor",
         "//src/storage_engine:storage_engine",
         ":performance_test_base",
         ":crud_performance_test_lib",
         "@com_google_googletest//:gtest_main",
     ],
-)
     linkopts = [
         "-stdlib=libc++",
         "-lc++abi",
@@ -42,6 +40,33 @@ cc_test(
         "-std=c++20",
         "-stdlib=libc++",
     ],
+)
+
+# CRUD性能测试专用覆盖率版本
+cc_test(
+    name = "crud_performance_test_with_coverage",
+    srcs = ["crud/real_crud_performance_test.cpp", "crud/main.cpp"],
+    deps = [
+        "//src:core",
+        "//src/sql_executor:sql_executor",
+        "//src/storage_engine:storage_engine",
+        ":performance_test_base",
+        ":crud_performance_test_lib",
+        "@com_google_googletest//:gtest_main",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+        "-fprofile-instr-generate",
+    ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+        "-fprofile-instr-generate",
+        "-fcoverage-mapping",
+    ],
+    tags = ["coverage"],
+)
 
 test_suite(
     name = "performance_tests",

@@ -58,6 +58,18 @@ cc_library(
     visibility = ["//visibility:public"],
 )
 
+cc_library(
+    name = "core_database_manager",
+    hdrs = ["core_database_manager.h"],
+    includes = ["."],
+    visibility = ["//visibility:public"],
+    deps = [
+        "//include:page",
+        "//include:disk_manager",
+        "//include:exception",
+    ],
+)
+
 # -----------------------------------------------------------------------------
 # 综合头文件库 - 所有 core 头文件的集合
 # -----------------------------------------------------------------------------

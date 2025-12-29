@@ -30,6 +30,24 @@ cc_library(
     name = "core",
     deps = [
         "//src/core:core",
+        ":database_manager",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+# Database Manager库 - 数据库管理器
+cc_library(
+    name = "database_manager",
+    srcs = ["database_manager.cpp"],
+    hdrs = ["//include:database_manager"],
+    deps = [
+        "//include/core:core_database_manager",
+        "//include/storage:buffer_pool_sharded",
+        "//include:page",
+        "//include:disk_manager",
+        "//include:exception",
+        "//src/utils:utils",
+        "//src/core:core",
     ],
     visibility = ["//visibility:public"],
 )

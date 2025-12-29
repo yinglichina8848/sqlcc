@@ -114,6 +114,21 @@ coverage --instrumentation_filter="//include/.*"
 coverage --combined_report=lcov
 coverage --experimental_generate_llvm_lcov
 
+# CRUD性能测试专用覆盖率配置
+build:crud_coverage --cxxopt=-fprofile-instr-generate
+build:crud_coverage --cxxopt=-fcoverage-mapping
+build:crud_coverage --linkopt=-fprofile-instr-generate
+build:crud_coverage --linkopt=-fcoverage-mapping
+build:crud_coverage --define=sqlcc_crud_coverage=1
+
+# CRUD覆盖率测试配置
+coverage:crud --config=crud_coverage
+coverage:crud --instrumentation_filter="//src/storage_engine/.*"
+coverage:crud --instrumentation_filter="//src/sql_executor/.*"
+coverage:crud --instrumentation_filter="//src/core/.*"
+coverage:crud --combined_report=lcov
+coverage:crud --experimental_generate_llvm_lcov
+
 # 远程缓存配置（如果使用）
 # build --remote_cache=http://cache.example.com:8080
 

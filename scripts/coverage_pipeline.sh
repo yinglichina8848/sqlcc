@@ -199,6 +199,15 @@ EOF
     log_success "测试摘要报告生成完成"
 }
 
+
+此组件的详细覆盖率分析...
+
+EOF
+
+    done
+
+    log_success "分组件覆盖率分析完成"
+}
 # 分组件覆盖率分析
 analyze_component_coverage() {
     log_info "进行分组件覆盖率分析..."
@@ -219,6 +228,53 @@ analyze_component_coverage() {
         cat > "${COMPONENT_COVERAGE_DIR}/component_report.txt" << EOF
 ${component} 组件覆盖率分析报告
 生成时间: $(date)
+
+此组件的详细覆盖率分析...
+
+EOF
+
+    done
+
+    log_success "分组件覆盖率分析完成"
+}
+
+# CRUD 性能测试覆盖率分析
+analyze_crud_coverage() {
+    log_info "进行 CRUD 性能测试覆盖率分析..."
+
+    # 检查是否存在 CRUD 覆盖率数据
+    CRUD_COVERAGE_DIR="${COVERAGE_DIR}/crud"
+    if [ -d "${CRUD_COVERAGE_DIR}" ]; then
+        log_info "发现 CRUD 覆盖率数据，开始分析..."
+
+        # 合并 CRUD 覆盖率数据到主覆盖率报告
+        if [ -f "${CRUD_COVERAGE_DIR}/crud_coverage_analysis.md" ]; then
+            log_info "合并 CRUD 覆盖率分析到主报告..."
+
+            # 在主覆盖率报告中添加 CRUD 分析章节
+            cat >> "${COVERAGE_DIR}/comprehensive_coverage_report.txt" << EOF
+
+CRUD 性能测试覆盖率分析
+
+EOF
+
+            # 追加 CRUD 分析内容
+            cat "${CRUD_COVERAGE_DIR}/crud_coverage_analysis.md" >> "${COVERAGE_DIR}/comprehensive_coverage_report.txt"
+
+            log_success "CRUD 覆盖率分析已合并到主报告"
+        else
+            log_warning "未找到 CRUD 覆盖率分析文件"
+        fi
+
+        # 复制 CRUD HTML 报告到主覆盖率目录
+        if [ -d "${CRUD_COVERAGE_DIR}/html" ]; then
+            cp -r "${CRUD_COVERAGE_DIR}/html" "${COVERAGE_DIR}/crud_html"
+            log_success "CRUD HTML 覆盖率报告已复制"
+        fi
+    else
+        log_info "未发现 CRUD 覆盖率数据，跳过分析"
+    fi
+}
 ================================
 
 此组件的详细覆盖率分析...
@@ -339,6 +395,7 @@ main() {
         run_unit_tests_with_coverage
         generate_coverage_report
         analyze_component_coverage
+        analyze_crud_coverage
         track_coverage_trends
     fi
 

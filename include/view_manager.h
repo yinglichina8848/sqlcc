@@ -1,91 +1,90 @@
-#ifndef VIEW_MANAGER_H
-#define VIEW_MANAGER_H
+#ifndef SQLCC_VIEW_MANAGER_H
+#define SQLCC_VIEW_MANAGER_H
 
-#include <chrono>
-#include <mutex>
 #include <string>
 #include <unordered_map>
+#include <memory>
 #include <vector>
 
 namespace sqlcc {
 
-// 视图数据结构
-struct View {
-  std::string view_name;
-  std::string schema_name;
-  std::string definition;
-  std::string owner;
-  std::string created_at;
-  bool is_updatable;
-  
-  // 默认构造函数
-  View() = default;
-  
-  // 拷贝构造函数
-  View(const View&) = default;
-  
-  // 移动构造函数
-  View(View&&) = default;
-  
-  // 拷贝赋值运算符
-  View& operator=(const View&) = default;
-  
-  // 移动赋值运算符
-  View& operator=(View&&) = default;
-};
+class SqlExecutor;
 
-// 视图管理器类
+/**
+ * @brief 视图管理器 - 负责管理数据库视图
+ *
+ * 视图是虚拟表，基于SQL查询的结果集。视图管理器提供创建、删除、
+ * 修改和查询视图的功能。
+ */
 class ViewManager {
 public:
-  ViewManager();
-  ~ViewManager();
+    /**
+     * @brief 构造函数
+     */
+    ViewManager();
 
-  // 创建视图
-  bool CreateView(const std::string &view_name, const std::string &schema_name,
-                  const std::string &definition, const std::string &owner,
-                  bool is_updatable = false);
+    /**
+     * @brief 构造函数，带SqlExecutor依赖
+     * @param sql_executor SQL执行器指针
+     */
+    explicit ViewManager(std::shared_ptr<SqlExecutor> sql_executor);
 
-  // 删除视图
-  bool DropView(const std::string &view_name,
-                const std::string &schema_name = "public");
+    /**
+     * @brief 析构函数
+     */
+    ~ViewManager();
 
-  // 修改视图
-  bool AlterView(const std::string &view_name, const std::string &schema_name,
-                 const std::string &new_definition);
+    /**
+     * @brief 创建视图
+     * @param view_name 视图名称
+     * @param sql_query 创建视图的SQL查询
+     * @return 是否创建成功
+     */
+    bool CreateView(const std::string& view_name, const std::string& sql_query);
 
-  // 获取视图信息
-  View GetView(const std::string &view_name,
-               const std::string &schema_name = "public") const;
+    /**
+     * @brief 删除视图
+     * @param view_name 视图名称
+     * @return 是否删除成功
+     */
+    bool DropView(const std::string& view_name);
 
-  // 列出所有视图
-  std::vector<View> ListViews(const std::string &schema_name = "") const;
+    /**
+     * @brief 检查视图是否存在
+     * @param view_name 视图名称
+     * @return 视图是否存在
+     */
+    bool ViewExists(const std::string& view_name);
 
-  // 检查视图是否存在
-  bool ViewExists(const std::string &view_name,
-                  const std::string &schema_name = "public") const;
+    /**
+     * @brief 获取视图定义
+     * @param view_name 视图名称
+     * @return 视图的SQL定义
+     */
+    std::string GetViewDefinition(const std::string& view_name);
 
-  // 获取视图定义
-  std::string
-  GetViewDefinition(const std::string &view_name,
-                    const std::string &schema_name = "public") const;
+    /**
+     * @brief 列出所有视图
+     * @return 视图名称列表
+     */
+    std::vector<std::string> ListViews();
 
-  // 获取最后一次错误信息
-  const std::string &GetLastError() const;
+    /**
+     * @brief 更新视图定义
+     * @param view_name 视图名称
+     * @param new_sql_query 新的SQL查询
+     * @return 是否更新成功
+     */
+    bool AlterView(const std::string& view_name, const std::string& new_sql_query);
 
 private:
-  // 获取当前时间字符串
-  std::string GetCurrentTimeString();
+    // 视图存储：视图名 -> SQL定义
+    std::unordered_map<std::string, std::string> views_;
 
-  // 生成视图的完整名称（schema.view）
-  std::string GetFullViewName(const std::string &view_name,
-                              const std::string &schema_name) const;
-
-  // 成员变量
-  std::unordered_map<std::string, View> views_; // 完整视图名 -> 视图信息
-  mutable std::mutex mutex_;                    // 互斥锁，保护并发访问
-  std::string last_error_;                      // 最后一次错误信息
+    // SQL执行器（用于验证视图查询）
+    std::shared_ptr<SqlExecutor> sql_executor_;
 };
 
 } // namespace sqlcc
 
-#endif // VIEW_MANAGER_H
+#endif // SQLCC_VIEW_MANAGER_H
