@@ -12,7 +12,9 @@ DatabaseManager::DatabaseManager(const std::string& db_path,
                                size_t shard_count,
                                size_t stripe_count)
     : db_path_(db_path), current_database_(""), is_closed_(false) {
-    // 基本初始化
+    // 简化初始化，避免依赖复杂的组件
+    // 创建数据库目录
+    std::filesystem::create_directories(db_path);
 }
 
 DatabaseManager::~DatabaseManager() {

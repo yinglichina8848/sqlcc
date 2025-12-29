@@ -289,3 +289,22 @@ cc_test(
         "-lc++abi",
     ],
 )
+
+# CRUD 性能测试
+cc_binary(
+    name = "crud_test",
+    srcs = ["crud_test.cpp"],
+    deps = [
+        "//src:database_manager",
+        "//include/core:core_database_manager",
+        "//include:storage",
+    ],
+    copts = [
+        "-fprofile-instr-generate",
+        "-fcoverage-mapping",
+    ],
+    linkopts = [
+        "-fprofile-instr-generate",
+        "-fcoverage-mapping",
+    ],
+)
