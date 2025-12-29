@@ -32,7 +32,17 @@ cc_library(
         "network_exception_handler.cpp",
         "server_network_manager.cpp",
     ],
-    hdrs = ["//include/network:network.h"],
+    hdrs = [
+        "//include/network:network.h",
+        "//include/network:client_connection.h",
+        "//include/network:connection_state_machine.h",
+        "//include/network:data_transmission_validator.h",
+        "//include/network:encryption.h",
+        "//include/network:network_exception_handler.h",
+        "//include/network:server_network_manager.h",
+        "//include/network:mysql_protocol.h",
+    ],
+    includes = ["../include"],
     deps = [
         ":session",
         ":session_manager",

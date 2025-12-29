@@ -13,17 +13,19 @@ build --incompatible_strict_action_env
 # 包结构检查 - 严格要求BUILD文件存在
 # build --incompatible_disallow_empty_package  # 此选项在当前Bazel版本中不支持
 
-# 通用构建选项 - Clang 18 + C++20 + libc++
+# 通用构建选项 - Clang 20 + C++20/C++23 + libc++
 build --cxxopt=-std=c++20
 build --cxxopt=-stdlib=libc++
 build --linkopt=-stdlib=libc++
 build --linkopt=-lc++abi
-build --action_env=CC=clang-18
-build --action_env=CXX=clang++-18
+build --action_env=CC=clang-20
+build --action_env=CXX=clang++-20
 build --copt=-Wall
 build --copt=-Wextra
 build --copt=-Wno-error=maybe-uninitialized
 build --copt=-O2
+build --copt=-Iinclude
+build --copt=-I.
 
 # 构建事件和输出配置
 build --show_timestamps
@@ -40,14 +42,14 @@ build:modern --cxxopt=-std=c++20
 build:modern --cxxopt=-stdlib=libc++
 build:modern --linkopt=-stdlib=libc++
 build:modern --linkopt=-lc++abi
-build:modern --action_env=CC=clang-18
-build:modern --action_env=CXX=clang++-18
+build:modern --action_env=CC=clang-20
+build:modern --action_env=CXX=clang++-20
 build:modern --copt=-Wall
 build:modern --copt=-Wextra
 build:modern --copt=-Wno-error=maybe-uninitialized
 build:modern --copt=-O2
 build:modern --define=sqlcc_modern_cpp=1
-build:modern --define=sqlcc_clang18_features=1
+build:modern --define=sqlcc_clang20_features=1
 
 # 传统构建配置 - 兼容模式（如果需要回滚）
 build:traditional --cxxopt=-std=c++17
@@ -61,36 +63,53 @@ build:traditional --copt=-O2
 build:traditional --define=sqlcc_modern_cpp=0
 
 # -----------------------------
-# C++20 Modules 配置 (实验性)
-# 注意: 当前Clang 18对header units支持有限
+# C++20/C++23 Modules 配置 (实验性)
+# 注意: Clang 20对header units和modules支持更完善
 # -----------------------------
+
+# C++23配置 - 使用最新C++标准特性
+build:cpp23 --cxxopt=-std=c++23
+build:cpp23 --cxxopt=-stdlib=libc++
+build:cpp23 --linkopt=-stdlib=libc++
+build:cpp23 --linkopt=-lc++abi
+build:cpp23 --action_env=CC=clang-20
+build:cpp23 --action_env=CXX=clang++-20
+build:cpp23 --copt=-Wall
+build:cpp23 --copt=-Wextra
+build:cpp23 --copt=-Wno-error=maybe-uninitialized
+build:cpp23 --copt=-O2
+build:cpp23 --copt=-Iinclude
+build:cpp23 --copt=-I.
+build:cpp23 --define=sqlcc_cpp23=1
+build:cpp23 --define=sqlcc_modern_cpp=1
+build:cpp23 --define=sqlcc_clang20_features=1
 
 # Modules模式配置 - 实验性，未来使用
 build:modules --cxxopt=-std=c++20
 build:modules --cxxopt=-stdlib=libc++
 build:modules --linkopt=-stdlib=libc++
 build:modules --linkopt=-lc++abi
-build:modules --action_env=CC=clang-18
-build:modules --action_env=CXX=clang++-18
+build:modules --action_env=CC=clang-20
+build:modules --action_env=CXX=clang++-20
 build:modules --copt=-fmodules
 build:modules --copt=-fmodule-map-file=module.modulemap
 build:modules --define=sqlcc_modules=1
 build:modules --define=sqlcc_modern_cpp=1
-build:modules --define=sqlcc_clang18_features=1
+build:modules --define=sqlcc_clang20_features=1
 
 # 双模式配置 - 支持传统+Modules兼容
 build:dual_mode --cxxopt=-std=c++20
 build:dual_mode --cxxopt=-stdlib=libc++
 build:dual_mode --linkopt=-stdlib=libc++
 build:dual_mode --linkopt=-lc++abi
-build:dual_mode --action_env=CC=clang-18
-build:dual_mode --action_env=CXX=clang++-18
+build:dual_mode --action_env=CC=clang-20
+build:dual_mode --action_env=CXX=clang++-20
 build:dual_mode --copt=-Wall
 build:dual_mode --copt=-Wextra
 build:dual_mode --copt=-Wno-error=maybe-uninitialized
 build:dual_mode --copt=-O2
 build:dual_mode --define=sqlcc_modern_cpp=1
-build:dual_mode --define=sqlcc_clang18_features=1
+build:dual_mode --define=sqlcc_clang20_features=1
 build:dual_mode --define=sqlcc_dual_mode=1
 
 # 调试模式配置

@@ -1,7 +1,7 @@
-#include "network/server_network_manager.h"
-#include "network/session.h"
-#include "network/session_manager.h"
-#include "network/connection_handler.h"
+#include "include/network/server_network_manager.h"
+#include "include/network/session.h"
+#include "include/network/session_manager.h"
+#include "include/network/connection_handler.h"
 #include "utils/file_descriptor.h"
 #include <iostream>
 #include <cstring>
@@ -164,7 +164,7 @@ void ServerNetworkManager::ProcessEvents() {
             auto it = connections_.find(fd);
             if (it != connections_.end()) {
                 // 处理连接事件
-                it->second->handleEvent(events[i].events);
+                it->second->HandleEvent(events[i].events);
             }
         }
     }
