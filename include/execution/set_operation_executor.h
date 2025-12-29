@@ -4,7 +4,7 @@
 #include <vector>
 #include <string>
 #include "sql_parser/set_operation.h"
-#include "../database_manager.h"
+#include "core/core_database_manager.h"
 #include "core/execution_context.h"
 #include "core/execution_result.h"
 #include "sql_parser/ast_nodes.h"

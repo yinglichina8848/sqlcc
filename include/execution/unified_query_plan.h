@@ -5,15 +5,14 @@
 #include <string>
 #include <vector>
 
+// 添加对Statement类完整定义的引用
+#include "sql_parser/ast_node.h"
+
 namespace sqlcc {
 
 class DatabaseManager;
 class UserManager;
 class SystemDatabase;
-
-namespace sql_parser {
-class Statement;
-} // namespace sql_parser
 
 /**
  * @brief 统一查询计划 - 执行SQL语句的抽象接口

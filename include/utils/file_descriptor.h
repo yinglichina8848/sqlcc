@@ -3,9 +3,13 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <sys/socket.h>
-#include <sys/epoll.h>
 #include <memory>
 #include <stdexcept>
+
+// 跨平台兼容：仅在Linux系统上包含epoll相关头文件
+#ifdef __linux__
+#include <sys/epoll.h>
+#endif
 
 namespace sqlcc {
 
@@ -146,7 +150,9 @@ public:
      * @brief Create an epoll file descriptor
      * @param flags Epoll flags
      * @return FileDescriptor instance for epoll
+     * @note Linux only
      */
+    #ifdef __linux__
     static FileDescriptor create_epoll(int flags = 0) {
         int fd = ::epoll_create1(flags);
         if (fd < 0) {
@@ -154,6 +160,7 @@ public:
         }
         return FileDescriptor(fd);
     }
+    #endif
 
     /**
      * @brief Accept a connection on a listening socket
@@ -165,7 +172,15 @@ public:
      */
     static FileDescriptor accept(int sockfd, struct sockaddr* addr = nullptr,
                                 socklen_t* addrlen = nullptr, int flags = 0) {
-        int fd = ::accept4(sockfd, addr, addrlen, flags);
+        int fd;
+        #ifdef __linux__
+        // Linux平台使用accept4支持flags
+        fd = ::accept4(sockfd, addr, addrlen, flags);
+        #else
+        // 其他平台（如macOS）使用标准accept，忽略flags
+        (void)flags; // 避免未使用参数警告
+        fd = ::accept(sockfd, addr, addrlen);
+        #endif
         if (fd < 0) {
             throw std::runtime_error("Failed to accept connection");
         }

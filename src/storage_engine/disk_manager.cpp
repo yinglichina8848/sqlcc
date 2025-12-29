@@ -569,6 +569,8 @@ bool DiskManager::PrefetchPage(int32_t page_id) {
     // 计算页面偏移量
     off_t offset = static_cast<off_t>(page_id) * PAGE_SIZE;
 
+      // 跨平台兼容：仅在支持posix_fadvise的系统上使用预读建议
+    #ifdef POSIX_FADV_WILLNEED
     // 使用posix_fadvise建议操作系统预读页面
     int result = posix_fadvise(fd.get(), offset, PAGE_SIZE, POSIX_FADV_WILLNEED);
 
@@ -576,6 +578,7 @@ bool DiskManager::PrefetchPage(int32_t page_id) {
       SQLCC_LOG_ERROR("Failed to prefetch page " + std::to_string(page_id));
       return false;
     }
+    #endif
 
     return true;
   } catch (const std::runtime_error& e) {
@@ -633,11 +636,14 @@ bool DiskManager::BatchPrefetchPages(const std::vector<int32_t> &page_ids) {
       off_t offset = static_cast<off_t>(start_page) * PAGE_SIZE;
       off_t size = static_cast<off_t>(end_page - start_page + 1) * PAGE_SIZE;
 
+      // 跨平台兼容：仅在支持posix_fadvise的系统上使用预读建议
+      #ifdef POSIX_FADV_WILLNEED
       // 使用posix_fadvise建议操作系统预读连续页面范围
       int result = posix_fadvise(fd.get(), offset, size, POSIX_FADV_WILLNEED);
       if (result != 0) {
         success = false;
       }
+      #endif
 
       i++; // 移动到下一个不连续的页面
     }
