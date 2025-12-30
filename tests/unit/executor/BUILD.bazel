@@ -4,12 +4,10 @@ load("@rules_cc//cc:defs.bzl", "cc_test")
 
 cc_test(
     name = "task_executor_test",
-    srcs = ["standalone_test.cpp"],
+    srcs = ["task_executor_test.cpp"],
+    includes = ["../../../include"],
     deps = [
         "@com_google_googletest//:gtest_main",
-        "//src/core:core",
-        "//src/storage_engine:storage_engine",
-        "//src/sql_parser:sql_parser",
         "//src/execution:execution",
     ],
     copts = [

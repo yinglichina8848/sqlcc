@@ -58,7 +58,11 @@ cc_test(
     deps = [
         "//src/storage_engine:storage_engine",
         "//src/core:sqlcc_core_lib",
+        "//tests:test_utils",
         "@com_google_googletest//:gtest_main",
+    ],
+    includes = [
+        "//tests",
     ],
     copts = [
         "-std=c++20",

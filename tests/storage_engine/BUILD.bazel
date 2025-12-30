@@ -339,6 +339,28 @@ cc_test(
     ],
 )
 
+# WAL系统测试
+cc_test(
+    name = "wal_system_test",
+    srcs = ["wal_system_test.cpp"],
+    includes = ["../include"],
+    deps = [
+        "@com_google_googletest//:gtest_main",
+        "@com_google_googletest//:gtest",
+        "//src/storage_engine:storage_engine",
+        "//src/utils:utils",
+        "//src/core:core",
+    ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+)
+
 # 覆盖率测试示例 - 使用自定义模板
 # 这些测试在运行时会收集覆盖率数据，但不会影响正常测试流程
 sqlcc_coverage_test(
@@ -390,6 +412,7 @@ test_suite(
         ":data_integrity_test",
         ":disk_manager_test",
         ":node_size_manager_test",
+        ":wal_system_test",
     ],
 )
 

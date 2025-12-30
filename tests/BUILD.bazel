@@ -3,6 +3,19 @@
 
 load("@rules_cc//cc:defs.bzl", "cc_test")
 
+exports_files(["test_disk_manager.h"])
+
+# Test utilities library
+cc_library(
+    name = "test_utils",
+    hdrs = ["test_disk_manager.h"],
+    visibility = ["//visibility:public"],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+    ],
+)
+
 
 # ==================== SQL解析器测试 ====================
 
