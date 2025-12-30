@@ -34,10 +34,16 @@ namespace sql_parser {
 class Parser {
 public:
   /**
+   * @brief Parser构造函数
+   * @param input SQL输入字符串，由词法分析器处理
+   */
+  Parser(const std::string& input);
+
+  /**
    * WHAT: parse - 解析SQL语句的主入口
-   *
+
    * 处理完整的SQL脚本，包含多个语句。返回解析后的AST节点列表。
-   *
+
    * HOW: 循环调用parseStatement()直到输入结束
    * 1. 初始化词法分析器
    * 2. 循环解析每个语句

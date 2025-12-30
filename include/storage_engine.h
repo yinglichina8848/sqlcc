@@ -188,7 +188,21 @@ public:
   DiskManager *GetDiskManager() const { return disk_manager_.get(); }
 
   /**
-   * @brief 获取缓冲池
+   * WHAT: GetBufferPool - 获取缓冲池组件访问接口
+   *
+   * 提供对底层缓冲池的直接访问，用于需要精细控制的场景。
+   * 缓冲池负责内存中的页面缓存和管理。
+   *
+   * HOW: 智能指针访问
+   * - 返回原始指针而不是智能指针（避免所有权转移）
+   * - 保证缓冲池对象的生命周期由StorageEngine管理
+   * - 调用方只获得访问权，不承担管理责任
+   *
+   * 使用场景：
+   * - 查询执行器需要直接操作页面
+   * - 索引管理器需要页面级别的控制
+   * - 事务管理器需要页面锁定功能
+   *
    * @return 缓冲池指针
    */
   BufferPoolSharded *GetBufferPool() const { return buffer_pool_.get(); }
@@ -213,6 +227,11 @@ private:
   // Why: 需要访问配置参数来初始化和调整存储引擎的行为
   // What: config_manager_是对ConfigManager对象的引用，用于获取配置参数
   // How: 通过引用方式使用ConfigManager，避免所有权问题
+  //
+  // 技术实现细节：
+  // - 引用类型保证了ConfigManager对象的外部所有权
+  // - 避免了智能指针的循环依赖问题
+  // - 确保配置在StorageEngine生命周期内有效
   ConfigManager &config_manager_;
 
   /// 磁盘管理器
