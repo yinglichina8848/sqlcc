@@ -182,36 +182,49 @@ bool WALWriter::TruncateToLSN(uint64_t target_lsn) {
 }
 
 void WALWriter::WALWriteWorker() {
-  std::vector<std::vector<std::unique_ptr<WALBuffer::WALRecord>>> local_queue;
-
   while (running_) {
+    std::vector<std::vector<std::unique_ptr<WALBuffer::WALRecord>>> current_queue;
+    
+    // 1. 获取所有待写入的批次，释放队列锁
     {
-      std::unique_lock<std::mutex> lock(write_mutex_);
-
-      // 等待写入任务或超时
-      write_cv_.wait_for(lock, sync_interval_, [this]() {
-        std::unique_lock<std::mutex> queue_lock(queue_mutex_);
-        return !running_ || !write_queue_.empty();
-      });
-
-      if (!running_ && write_queue_.empty()) {
-        break;
+      std::unique_lock<std::mutex> queue_lock(queue_mutex_);
+      if (write_queue_.empty()) {
+        queue_lock.unlock();
+        
+        // 等待写入任务或超时
+        std::unique_lock<std::mutex> write_lock(write_mutex_);
+        write_cv_.wait_for(write_lock, sync_interval_, [this]() {
+          std::unique_lock<std::mutex> q_lock(queue_mutex_);
+          return !running_ || !write_queue_.empty();
+        });
+        
+        // 再次检查队列
+        queue_lock.lock();
+        if (write_queue_.empty()) {
+          continue;
+        }
       }
-
-      // 获取待写入的批次
-      {
-        std::unique_lock<std::mutex> queue_lock(queue_mutex_);
-        local_queue.swap(write_queue_);
-      }
+      
+      // 交换队列内容
+      current_queue.swap(write_queue_);
     }
-
-    // 处理所有批次
-    for (auto& batch : local_queue) {
+    
+    // 2. 处理所有批次
+    for (auto& batch : current_queue) {
       if (!batch.empty()) {
         PerformWrite(batch);
       }
     }
-    local_queue.clear();
+    current_queue.clear();
+    
+    // 3. 检查是否需要退出
+    if (!running_) {
+      // 检查是否还有未处理的记录
+      std::unique_lock<std::mutex> queue_lock(queue_mutex_);
+      if (write_queue_.empty()) {
+        break;
+      }
+    }
   }
 }
 

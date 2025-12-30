@@ -114,6 +114,16 @@ public:
    */
   void SetWALWriter(WALWriter* wal_writer) { wal_writer_ = wal_writer; }
 
+  /**
+   * @brief 启动后台刷新线程
+   */
+  void Start();
+
+  /**
+   * @brief 停止后台刷新线程
+   */
+  void Stop();
+
 private:
   // WAL写入器引用（需要在运行时设置）
   WALWriter* wal_writer_;

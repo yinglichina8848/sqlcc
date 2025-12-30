@@ -44,7 +44,7 @@ protected:
 // B+树内部节点类
 class BPlusTreeInternalNode : public BPlusTreeNode {
 public:
-    BPlusTreeInternalNode(std::shared_ptr<StorageEngine> storage_engine, int32_t page_id);
+    BPlusTreeInternalNode(std::shared_ptr<StorageEngine> storage_engine, int32_t page_id, bool is_new = false);
     virtual ~BPlusTreeInternalNode();
 
     // 序列化和反序列化方法
