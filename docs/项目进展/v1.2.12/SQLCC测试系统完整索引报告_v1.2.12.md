@@ -74,7 +74,7 @@ v1.2.12版本重点实现了层次4-7测试重构，包括约束解析增强、J
 
 #### 2.1 核心存储组件 (10个文件)
 - **page_allocator_test.cpp**: 页面分配器测试 ✅ COMPILABLE
-- **buffer_pool_test.cpp**: 缓冲池测试 ⏸️ TIMEOUT (优化中)
+- **buffer_pool_test.cpp**: 缓冲池测试 ❌ FAILED TO BUILD - 未声明的标识符 'BufferPool' 和 'BufferPage'
 - **buffer_pool_smart_pointer_test.cpp**: 智能指针缓冲池测试 ✅ COMPILABLE
 - **index_manager_test.cpp**: 索引管理器测试 ⏸️ TIMEOUT (优化中)
 - **wal_manager_test.cpp**: WAL管理器测试 ❌ BUILD_ERROR (修复中)
@@ -90,6 +90,30 @@ v1.2.12版本重点实现了层次4-7测试重构，包括约束解析增强、J
 - **data_integrity_test.cpp**: 数据完整性测试 ❌ BUILD_ERROR
 - **disk_manager_test.cpp**: 磁盘管理器测试 ❌ BUILD_ERROR
 - **concurrency_control_test.cpp**: 并发控制测试 ❌ BUILD_ERROR
+
+### 层次2.3 单元测试目录 (10个文件)
+- **b_plus_tree_test.cpp**: B+树测试 ✅ COMPILABLE
+- **basic_bplus_tree_test.cpp**: 基础B+树测试 ✅ COMPILABLE
+- **disk_manager_test.cpp**: 磁盘管理器测试 ✅ COMPILABLE
+- **index_maintenance_test.cpp**: 索引维护测试 ✅ COMPILABLE
+- **index_system_integration_test.cpp**: 索引系统集成测试 ✅ COMPILABLE
+- **logger_test.cpp**: 日志测试 ✅ COMPILABLE
+- **simple_create_test.cpp**: 简单创建测试 ✅ COMPILABLE
+- **simple_network_test.cpp**: 简单网络测试 ✅ COMPILABLE
+- **buffer_pool_smart_pointer_test.cpp**: 智能指针缓冲池测试 ✅ COMPILABLE
+- **BUILD.bazel**: 构建配置 ✅ VALID
+
+### 层次2.4 基础单元测试 (10个文件)
+- **ast_node_basic_test_fixed.cpp**: 修复版AST节点测试 ✅ COMPILABLE
+- **config_manager_test.cpp**: 配置管理器测试 ✅ COMPILABLE
+- **data_types_test.cpp**: 数据类型测试 ✅ COMPILABLE
+- **decimal_test.cpp**: 十进制测试 ✅ COMPILABLE - 存在警告（冗余括号）
+- **exception_test.cpp**: 异常测试 ✅ COMPILABLE
+- **logger_basic_test.cpp**: 基础日志测试 ✅ COMPILABLE
+- **logger_test.cpp**: 日志测试 ✅ COMPILABLE
+- **sql_executor_core_test.cpp**: SQL执行器核心测试 ❌ FAILED TO LINK - 未定义引用 __atomic_load 和 __atomic_store
+- **token_test.cpp**: 令牌测试 ✅ COMPILABLE
+- **permission_validator_test.cpp**: 权限验证测试 ❌ FAILED TO LINK - 未定义引用 __atomic_load 和 __atomic_store
 
 ### 层次3: 索引系统测试 (30个文件) - ✅ 完全可用
 
@@ -140,15 +164,55 @@ v1.2.12版本重点实现了层次4-7测试重构，包括约束解析增强、J
 ### 层次4: SQL解析器测试 (46个文件) - ✅ 部分修复
 
 #### 4.1 解析器核心 (25个文件)
-- **sql_parser_high_coverage_test.cpp**: 高覆盖率SQL解析器测试 (增强版)
-- **ast_node_test.cpp**: AST节点测试 (修复完成)
-- **lexer_test.cpp**: 词法器测试 (修复完成)
-- **parser_test.cpp**: 语法解析器测试 (修复完成)
+- **sql_parser_high_coverage_test.cpp**: 高覆盖率SQL解析器测试 ✅ COMPILABLE
+- **ast_node_test.cpp**: AST节点测试 ✅ COMPILABLE
+- **lexer_test.cpp**: 词法器测试 ❌ FAILED TO BUILD - 未知类型 'LexerNew'
+- **parser_test.cpp**: 语法解析器测试 ✅ COMPILABLE
 - **constraint_parser_test.cpp**: 约束解析器测试 ✅ PASSED (新增)
-- **function_parser_test.cpp**: 函数解析器测试 (修复完成)
-- **json_parser_test.cpp**: JSON解析器测试 (增强版)
+- **function_parser_test.cpp**: 函数解析器测试 ✅ COMPILABLE
+- **json_parser_test.cpp**: JSON解析器测试 ✅ COMPILABLE
 - **cte_parser_test.cpp**: CTE解析器测试 ✅ PASSED (新增)
 - **BUILD.bazel**: 构建配置 (增强版)
+
+#### 4.2 SQL解析器单元测试 (40个文件)
+- **aggregate_functions_unit_test.cpp**: 聚合函数单元测试 ✅ COMPILABLE
+- **aggregate_parser_test.cpp**: 聚合解析器测试 ✅ COMPILABLE
+- **ast_comprehensive_test.cpp**: AST综合测试 ✅ COMPILABLE
+- **ast_core_test.cpp**: AST核心测试 ✅ COMPILABLE
+- **ast_visitor_simple_test.cpp**: AST访问者简单测试 ✅ COMPILABLE
+- **ast_visitor_test.cpp**: AST访问者测试 ✅ COMPILABLE
+- **constraint_test.cpp**: 约束测试 ✅ COMPILABLE
+- **debug_lexer_test.cpp**: 调试词法器测试 ✅ COMPILABLE
+- **error_integration_test.cpp**: 错误集成测试 ✅ COMPILABLE
+- **expression_parser_test.cpp**: 表达式解析器测试 ✅ COMPILABLE
+- **expression_test.cpp**: 表达式测试 ✅ COMPILABLE
+- **lexer_integration_test.cpp**: 词法器集成测试 ✅ COMPILABLE
+- **lexer_new_benchmark_test.cpp**: 新词法器基准测试 ✅ COMPILABLE
+- **lexer_new_test.cpp**: 新词法器测试 ✅ COMPILABLE
+- **lexer_new_unit_test.cpp**: 新词法器单元测试 ✅ COMPILABLE
+- **parser_integration_test.cpp**: 解析器集成测试 ✅ COMPILABLE
+- **parser_new_basic_test.cpp**: 新解析器基础测试 ✅ COMPILABLE
+- **parser_new_integration_test.cpp**: 新解析器集成测试 ✅ COMPILABLE
+- **parser_new_unit_test.cpp**: 新解析器单元测试 ✅ COMPILABLE
+- **parser_performance_benchmark_test.cpp**: 解析器性能基准测试 ✅ COMPILABLE
+- **performance_comparison_test.cpp**: 性能对比测试 ✅ COMPILABLE
+- **select_parser_comprehensive_test.cpp**: SELECT解析器综合测试 ✅ COMPILABLE
+- **select_parser_simple_test.cpp**: SELECT解析器简单测试 ✅ COMPILABLE
+- **simple_parser_test.cpp**: 简单解析器测试 ✅ COMPILABLE
+- **sql_parser_boundary_test.cpp**: SQL解析器边界测试 ✅ COMPILABLE
+- **sql_parser_test.cpp**: SQL解析器测试 ✅ COMPILABLE
+- **statement_node_test.cpp**: 语句节点测试 ✅ COMPILABLE
+- **test_all_statements.cpp**: 测试所有语句 ✅ COMPILABLE
+- **test_direct_keyword.cpp**: 测试直接关键字 ✅ COMPILABLE
+- **test_fix.cpp**: 测试修复 ✅ COMPILABLE
+- **test_insert_parser.cpp**: 测试插入解析器 ✅ COMPILABLE
+- **test_keyword.cpp**: 测试关键字 ✅ COMPILABLE
+- **test_lexer.cpp**: 测试词法器 ✅ COMPILABLE
+- **test_lexer_new.cpp**: 测试新词法器 ✅ COMPILABLE
+- **test_parser.cpp**: 测试解析器 ✅ COMPILABLE
+- **test_simple_insert.cpp**: 测试简单插入 ✅ COMPILABLE
+- **token_new_unit_test.cpp**: 新令牌单元测试 ✅ COMPILABLE
+- **window_function_test.cpp**: 窗口函数测试 ✅ COMPILABLE
 
 #### 4.2 SQL功能分类 (21个文件)
 - **basic/**: 基础SQL功能测试目录 (增强版)
@@ -164,41 +228,53 @@ v1.2.12版本重点实现了层次4-7测试重构，包括约束解析增强、J
 ### 层次5: 执行引擎测试 (54个文件) - ✅ 部分修复
 
 #### 5.1 执行器核心 (30个文件)
-- **task_executor_test.cpp**: 任务执行器测试 (修复完成)
-- **task_executor_comprehensive_test.cpp**: 综合任务执行器测试 (修复完成)
-- **standalone_test.cpp**: 独立测试 (修复完成)
-- **test_runner.cpp**: 测试运行器 (修复完成)
-- **join_executor_boundary_test.cpp**: JOIN执行器边界测试 (修复完成)
-- **set_operation_boundary_test.cpp**: 集合操作边界测试 (修复完成)
-- **window_function_boundary_test.cpp**: 窗口函数边界测试 (修复完成)
-- **load_data_boundary_test.cpp**: 加载数据边界测试 (修复完成)
-- **recursive_query_executor_test.cpp**: 递归查询执行器测试 (修复完成)
-- **subquery_executor_test.cpp**: 子查询执行器测试 (修复完成)
-- **aggregate_executor_test.cpp**: 聚合执行器测试 (修复完成)
+- **task_executor_test.cpp**: 任务执行器测试 ✅ COMPILABLE
+- **task_executor_comprehensive_test.cpp**: 综合任务执行器测试 ✅ COMPILABLE
+- **standalone_test.cpp**: 独立测试 ✅ COMPILABLE
+- **test_runner.cpp**: 测试运行器 ✅ COMPILABLE
+- **join_executor_boundary_test.cpp**: JOIN执行器边界测试 ✅ COMPILABLE
+- **set_operation_boundary_test.cpp**: 集合操作边界测试 ✅ COMPILABLE
+- **window_function_boundary_test.cpp**: 窗口函数边界测试 ✅ COMPILABLE
+- **load_data_boundary_test.cpp**: 加载数据边界测试 ❌ FAILED TO BUILD - 存在多个编译错误
+- **recursive_query_executor_test.cpp**: 递归查询执行器测试 ✅ COMPILABLE
+- **subquery_executor_test.cpp**: 子查询执行器测试 ✅ COMPILABLE
+- **aggregate_executor_test.cpp**: 聚合执行器测试 ✅ COMPILABLE
 - **performance_executor_test.cpp**: 性能执行器测试 (增强版)
 - **transaction_executor_test.cpp**: 事务执行器测试 ✅ PASSED (新增)
 - **concurrent_executor_test.cpp**: 并发执行器测试 (增强版)
 - **BUILD.bazel**: 构建配置 (增强版)
 
 #### 5.2 执行器扩展 (24个文件)
-- **function_executor_test.cpp**: 函数执行器测试 (修复完成)
-- **join_executor_test.cpp**: JOIN执行器测试 (修复完成)
-- **window_function_executor_test.cpp**: 窗口函数执行器测试 (修复完成)
-- **load_data_executor_test.cpp**: 加载数据执行器测试 (修复完成)
-- **set_operation_executor_test.cpp**: 集合操作执行器测试 (修复完成)
-- **concurrent_executor_test.cpp**: 并发执行器测试 (增强版)
+- **function_executor_test.cpp**: 函数执行器测试 ✅ COMPILABLE
+- **join_executor_test.cpp**: JOIN执行器测试 ✅ COMPILABLE
+- **window_function_executor_test.cpp**: 窗口函数执行器测试 ✅ COMPILABLE
+- **load_data_executor_test.cpp**: 加载数据执行器测试 ✅ COMPILABLE
+- **set_operation_executor_test.cpp**: 集合操作执行器测试 ✅ COMPILABLE
+- **concurrent_executor_test.cpp**: 并发执行器测试 ✅ COMPILABLE
 - **deadlock_detection_test.cpp**: 死锁检测测试 ✅ PASSED (新增)
+
+#### 5.3 核心单元测试 (6个文件)
+- **config_manager_test.cpp**: 配置管理器测试 ✅ COMPILABLE
+- **manual_test_system_database.cpp**: 手动测试系统数据库 ✅ COMPILABLE
+- **stored_procedure_manager_test.cpp**: 存储过程管理器测试 ✅ COMPILABLE
+- **system_database_test.cpp**: 系统数据库测试 ✅ COMPILABLE
+- **test_gtest.cpp**: GTest测试 ✅ COMPILABLE
+- **simple_test.cpp**: 简单测试 ❌ FAILED TO LINK - 未定义引用 __atomic_load 和 __atomic_store
 
 ### 层次6: 网络通信测试 (27个文件) - ✅ 部分修复
 
 #### 6.1 网络基础 (14个文件)
-- **network_connection_test.cpp**: 网络连接测试 (修复完成)
-- **session_manager_test.cpp**: 会话管理器测试 (修复完成)
-- **encryption_test.cpp**: 加密测试 (修复完成)
+- **network_connection_test.cpp**: 网络连接测试 ✅ COMPILABLE
+- **session_manager_test.cpp**: 会话管理器测试 ✅ COMPILABLE
+- **encryption_test.cpp**: 加密测试 ✅ COMPILABLE
 - **tls_connection_test.cpp**: TLS连接测试 ✅ PASSED (增强版)
 - **connection_pool_test.cpp**: 连接池测试 ✅ PASSED (新增)
 - **network_protocol_test.cpp**: 网络协议测试 ✅ PASSED (新增)
 - **BUILD.bazel**: 构建配置 (增强版)
+
+#### 6.2 网络单元测试 (2个文件)
+- **network_boundary_test.cpp**: 网络边界测试 ✅ COMPILABLE
+- **multi_threaded_network_manager_test.cpp**: 多线程网络管理器测试 ❌ FAILED TO BUILD - 找不到 'network/network.h' 文件
 
 #### 6.2 通信协议 (13个文件)
 - **network_edge_cases_test.cpp**: 网络边界情况测试 (修复完成)
