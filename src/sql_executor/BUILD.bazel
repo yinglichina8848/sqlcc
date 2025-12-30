@@ -7,13 +7,15 @@ load("@rules_cc//cc:defs.bzl", "cc_library")
 # SQL Executor库 - SQL语句执行协调
 cc_library(
     name = "sql_executor",
-    srcs = ["sql_executor.cpp"],
+    srcs = ["sql_executor.cpp", "permission_validator.cpp"],
     deps = [
         "//include/sql_executor:sql_executor_headers",
         "//src/core:core",
+        "//src/core:database_manager",
         "//src/utils:utils",
         "//src/storage_engine:storage_engine",
         "//src/sql_parser:sql_parser",
+        "//src:view_manager",
         # "//src/execution:execution",  # 暂时移除循环依赖
         "//src/logger:logger",
     ],

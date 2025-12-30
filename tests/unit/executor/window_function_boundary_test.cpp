@@ -6,7 +6,7 @@
 #include "execution/window_function_executor.h"
 #include "sql_parser/window_function.h"
 #include "sql_parser/parser.h"
-#include "core/sql_executor.h"
+#include "sql_executor.h"
 
 using namespace sqlcc::sql_parser;
 using namespace sqlcc;

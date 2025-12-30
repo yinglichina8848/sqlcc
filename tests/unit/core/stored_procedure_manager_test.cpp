@@ -1,6 +1,6 @@
-#include "include/core/stored_procedure_manager.h"
+#include "core/stored_procedure_manager.h"
 #include "utils/config_manager.h"
-#include "include/database_manager.h"
+#include "core/core_database_manager.h"
 #include <gtest/gtest.h>
 #include <memory>
 #include <thread>
@@ -14,7 +14,7 @@ class StoredProcedureManagerTest : public ::testing::Test {
 protected:
   void SetUp() override {
     config_manager_ = std::make_unique<ConfigManager>();
-    database_manager_ = std::make_unique<DatabaseManager>(*config_manager_);
+    database_manager_ = std::make_unique<DatabaseManager>("./test_db");
     spm_ = std::make_unique<StoredProcedureManager>(*config_manager_, *database_manager_);
   }
 

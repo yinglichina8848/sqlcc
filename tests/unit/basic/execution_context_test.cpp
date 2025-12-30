@@ -1,6 +1,6 @@
 #include "core/execution_context.h"
 #include "core/user_manager.h"
-#include "database_manager.h"
+#include "core/core_database_manager.h"
 #include <gtest/gtest.h>
 #include <memory>
 #include <string>
@@ -14,7 +14,7 @@ protected:
     void SetUp() override {
         // 创建测试用的管理器
         user_manager_ = std::make_shared<UserManager>();
-        db_manager_ = std::make_shared<DatabaseManager>();
+        db_manager_ = std::make_shared<DatabaseManager>("./test_db");
     }
 
     void TearDown() override {
@@ -65,7 +65,7 @@ TEST_F(ExecutionContextTest, ParameterizedConstructor) {
 // 测试带管理器的构造
 TEST_F(ExecutionContextTest, ManagerConstructor) {
     auto user_mgr = std::make_shared<UserManager>();
-    auto db_mgr = std::make_shared<DatabaseManager>();
+    auto db_mgr = std::make_shared<DatabaseManager>("./test_db");
     
     ExecutionContext context(db_mgr, user_mgr, nullptr);
     

@@ -3,7 +3,7 @@
 #define SQLCC_PERMISSION_VALIDATOR_H
 
 #include "core/user_manager.h"
-#include "database_manager.h"
+#include "core/core_database_manager.h"
 #include "error_handler.h"
 #include "sql_parser/ast_nodes.h"
 #include <memory>

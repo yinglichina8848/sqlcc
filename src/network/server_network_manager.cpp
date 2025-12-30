@@ -1,7 +1,7 @@
-#include "network/server_network_manager.h"
-#include "network/session.h"
-#include "network/session_manager.h"
-#include "network/connection_handler.h"
+#include "server_network_manager.h"
+#include "session.h"
+#include "session_manager.h"
+#include "connection_handler.h"
 #include "utils/file_descriptor.h"
 #include <iostream>
 #include <cstring>

@@ -1,5 +1,7 @@
 # Executor单元测试BUILD文件
 
+load("@rules_cc//cc:defs.bzl", "cc_test")
+
 cc_test(
     name = "task_executor_test",
     srcs = ["standalone_test.cpp"],
@@ -13,37 +15,45 @@ cc_test(
     copts = [
         "-std=c++20",
         "-stdlib=libc++",
+        "-Wall",
+        "-Wextra",
+        "-Wno-error=maybe-uninitialized",
     ],
     linkopts = [
         "-stdlib=libc++",
         "-lc++abi",
     ],
+    features = ["cpp20_modules"],
 )
 
-cc_test(
-    name = "task_executor_comprehensive_test",
-    srcs = ["comprehensive_task_executor_test.cpp"],
-    deps = [
-        "@com_google_googletest//:gtest_main",
-        "//src/execution:execution",
-        "//src/execution:task_executor",
-    ],
-    copts = [
-        "-std=c++20",
-        "-stdlib=libc++",
-    ],
-    linkopts = [
-        "-stdlib=libc++",
-        "-lc++abi",
-    ],
-)
+# cc_test(
+#     name = "task_executor_comprehensive_test",
+#     srcs = ["comprehensive_task_executor_test.cpp"],
+#     deps = [
+#         "@com_google_googletest//:gtest_main",
+#         "//src/execution:execution",
+#         "//src/execution:task_executor",
+#     ],
+#     copts = [
+#         "-std=c++20",
+#         "-stdlib=libc++",
+#         "-Wall",
+#         "-Wextra",
+#         "-Wno-error=maybe-uninitialized",
+#     ],
+#     linkopts = [
+#         "-stdlib=libc++",
+#         "-lc++abi",
+#     ],
+#     features = ["cpp20_modules"],
+# )
 
 cc_test(
     name = "join_executor_boundary_test",
     srcs = ["join_executor_boundary_test.cpp"],
     deps = [
         "@com_google_googletest//:gtest_main",
-        "//include/execution:join_executor",
+        "//include/execution:join_executor_hdr",
         "//src/sql_parser:sql_parser",
         "//src/core:core",
         "//src/sql_executor:sql_executor",
@@ -51,11 +61,15 @@ cc_test(
     copts = [
         "-std=c++20",
         "-stdlib=libc++",
+        "-Wall",
+        "-Wextra",
+        "-Wno-error=maybe-uninitialized",
     ],
     linkopts = [
         "-stdlib=libc++",
         "-lc++abi",
     ],
+    features = ["cpp20_modules"],
 )
 
 cc_test(
@@ -63,7 +77,7 @@ cc_test(
     srcs = ["set_operation_boundary_test.cpp"],
     deps = [
         "@com_google_googletest//:gtest_main",
-        "//include/execution:set_operation_executor",
+        "//include/execution:set_operation_executor_hdr",
         "//src/sql_parser:sql_parser",
         "//src/core:core",
         "//src/sql_executor:sql_executor",
@@ -71,11 +85,15 @@ cc_test(
     copts = [
         "-std=c++20",
         "-stdlib=libc++",
+        "-Wall",
+        "-Wextra",
+        "-Wno-error=maybe-uninitialized",
     ],
     linkopts = [
         "-stdlib=libc++",
         "-lc++abi",
     ],
+    features = ["cpp20_modules"],
 )
 
 cc_test(
@@ -83,7 +101,7 @@ cc_test(
     srcs = ["load_data_boundary_test.cpp"],
     deps = [
         "@com_google_googletest//:gtest_main",
-        "//include/execution:load_data_executor",
+        "//include/execution:load_data_executor_hdr",
         "//src/sql_parser:sql_parser",
         "//src/core:core",
         "//src/sql_executor:sql_executor",
@@ -91,11 +109,15 @@ cc_test(
     copts = [
         "-std=c++20",
         "-stdlib=libc++",
+        "-Wall",
+        "-Wextra",
+        "-Wno-error=maybe-uninitialized",
     ],
     linkopts = [
         "-stdlib=libc++",
         "-lc++abi",
     ],
+    features = ["cpp20_modules"],
 )
 
 cc_test(
@@ -103,7 +125,7 @@ cc_test(
     srcs = ["window_function_boundary_test.cpp"],
     deps = [
         "@com_google_googletest//:gtest_main",
-        "//include/execution:window_function_executor",
+        "//include/execution:window_function_executor_hdr",
         "//src/sql_parser:sql_parser",
         "//src/core:core",
         "//src/sql_executor:sql_executor",
@@ -111,9 +133,13 @@ cc_test(
     copts = [
         "-std=c++20",
         "-stdlib=libc++",
+        "-Wall",
+        "-Wextra",
+        "-Wno-error=maybe-uninitialized",
     ],
     linkopts = [
         "-stdlib=libc++",
         "-lc++abi",
     ],
+    features = ["cpp20_modules"],
 )

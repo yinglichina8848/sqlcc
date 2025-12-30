@@ -19,10 +19,10 @@ TEST_F(DecimalTest, BasicConstructors) {
   EXPECT_EQ(d1.to_string(), "0");
 
   // int64构造函数
-  Decimal d2(123);
+  Decimal d2(static_cast<int64_t>(123));
   EXPECT_EQ(d2.to_string(), "123");
 
-  Decimal d3(-456);
+  Decimal d3(static_cast<int64_t>(-456));
   EXPECT_EQ(d3.to_string(), "-456");
 
   // double构造函数
@@ -48,7 +48,7 @@ TEST_F(DecimalTest, CopyAndAssignment) {
   EXPECT_EQ(d3.to_string(), "123.456");
 
   Decimal d4;
-  d4 = 789; // 从int赋值
+  d4 = static_cast<int64_t>(789); // 从int赋值
   EXPECT_EQ(d4.to_string(), "789");
 
   Decimal d5;
@@ -411,8 +411,10 @@ TEST_F(DecimalTest, DoubleConversion) {
   }
 
   // 测试特殊值
-  EXPECT_THROW(Decimal(std::numeric_limits<double>::infinity()), std::runtime_error);
-  EXPECT_THROW(Decimal(std::numeric_limits<double>::quiet_NaN()), std::runtime_error);
+  double inf_val = std::numeric_limits<double>::infinity();
+  double nan_val = std::numeric_limits<double>::quiet_NaN();
+  EXPECT_THROW(Decimal(inf_val), std::runtime_error);
+  EXPECT_THROW(Decimal(nan_val), std::runtime_error);
 }
 
 // 性能测试（基本检查）

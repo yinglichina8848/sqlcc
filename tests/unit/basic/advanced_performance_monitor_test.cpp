@@ -6,7 +6,7 @@
 #include <algorithm>
 #include <numeric>
 
-#include "utils/performance_monitor.h"
+#include "storage/performance_monitor.h"
 
 // Test advanced monitoring metrics
 class AdvancedPerformanceMonitorTest : public ::testing::Test {

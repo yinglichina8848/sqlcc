@@ -1,8 +1,8 @@
 #include <iostream>
 #include <memory>
-#include "database_manager.h"
-#include "system_database.h"
-#include "user_manager.h"
+#include "core/core_database_manager.h"
+#include "core/system_database.h"
+#include "core/user_manager.h"
 
 using namespace sqlcc;
 

@@ -1,6 +1,6 @@
 #include "permission_validator.h"
-#include "user_manager.h"
-#include "database_manager.h"
+#include "core/user_manager.h"
+#include "core/core_database_manager.h"
 #include <gtest/gtest.h>
 #include <memory>
 #include <string>
@@ -17,7 +17,7 @@ protected:
     void SetUp() override {
         // 创建测试用的管理器
         user_manager_ = std::make_shared<UserManager>();
-        db_manager_ = std::make_shared<DatabaseManager>();
+        db_manager_ = std::make_shared<DatabaseManager>("./test_db");
         
         // 创建权限验证器
         permission_validator_ = std::make_shared<PermissionValidator>(user_manager_, db_manager_);

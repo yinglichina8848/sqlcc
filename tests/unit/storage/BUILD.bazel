@@ -1,5 +1,7 @@
 # Storage单元测试BUILD文件
 
+load("@rules_cc//cc:defs.bzl", "cc_test")
+
 cc_test(
     name = "wal_buffer_test",
     srcs = ["wal_buffer_test.cpp"],
@@ -13,9 +15,37 @@ cc_test(
     copts = [
         "-std=c++20",
         "-stdlib=libc++",
+        "-Wall",
+        "-Wextra",
+        "-Wno-error=maybe-uninitialized",
     ],
     linkopts = [
         "-stdlib=libc++",
         "-lc++abi",
     ],
+    features = ["cpp20_modules"],
+)
+
+cc_test(
+    name = "lazy_writer_test",
+    srcs = ["lazy_writer_test.cpp"],
+    includes = ["../../../include"],
+    deps = [
+        "//src/storage_engine:storage_engine",
+        "//include/storage:headers",
+        "//include/utils:headers",
+        "@com_google_googletest//:gtest_main",
+    ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+        "-Wall",
+        "-Wextra",
+        "-Wno-error=maybe-uninitialized",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+    features = ["cpp20_modules"],
 )

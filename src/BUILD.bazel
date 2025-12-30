@@ -31,6 +31,35 @@ cc_library(
     deps = [
         "//src/core:core",
         ":database_manager",
+        ":execution_context",
+        ":view_manager",
+    ],
+    visibility = ["//visibility:public"],
+)
+# Execution Context库 - 执行上下文管理
+cc_library(
+    name = "execution_context",
+    srcs = ["execution_context.cpp"],
+    deps = [
+        "//src/core:core",
+        "//src/core:database_manager",
+    ],
+    copts = [
+        "-Iinclude",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+# View Manager库 - 视图管理
+cc_library(
+    name = "view_manager",
+    srcs = ["view_manager.cpp"],
+    deps = [
+        "//src/core:core",
+        "//include:view_manager",
+    ],
+    copts = [
+        "-Iinclude",
     ],
     visibility = ["//visibility:public"],
 )

@@ -7,7 +7,7 @@
 
 #include "execution/load_data_executor.h"
 #include "sql_parser/parser.h"
-#include "core/sql_executor.h"
+#include "sql_executor.h"
 #include "storage_engine.h"
 
 using namespace sqlcc::sql_parser;
