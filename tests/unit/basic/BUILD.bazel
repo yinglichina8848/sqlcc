@@ -269,6 +269,75 @@ cc_test(
     features = ["cpp20_modules"],
 )
 
+cc_test(
+    name = "json_operations_test",
+    srcs = ["json_operations_test.cpp"],
+    includes = ["../../../include"],
+    deps = [
+        "//src/sql_executor:sql_executor",
+        "//src/sql_parser:sql_parser",
+        "@com_google_googletest//:gtest_main",
+    ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+        "-Wall",
+        "-Wextra",
+        "-Wno-error=maybe-uninitialized",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+    features = ["cpp20_modules"],
+)
+
+cc_test(
+    name = "stored_procedure_test",
+    srcs = ["stored_procedure_test.cpp"],
+    includes = ["../../../include"],
+    deps = [
+        "//src/sql_executor:sql_executor",
+        "//src/sql_parser:sql_parser",
+        "@com_google_googletest//:gtest_main",
+    ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+        "-Wall",
+        "-Wextra",
+        "-Wno-error=maybe-uninitialized",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+    features = ["cpp20_modules"],
+)
+
+cc_test(
+    name = "trigger_test",
+    srcs = ["trigger_test.cpp"],
+    includes = ["../../../include"],
+    deps = [
+        "//src/sql_executor:sql_executor",
+        "//src/sql_parser:sql_parser",
+        "@com_google_googletest//:gtest_main",
+    ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+        "-Wall",
+        "-Wextra",
+        "-Wno-error=maybe-uninitialized",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+    features = ["cpp20_modules"],
+)
+
 # cc_test(
 #     name = "advanced_performance_monitor_test",
 #     srcs = ["advanced_performance_monitor_test.cpp"],
@@ -326,5 +395,8 @@ test_suite(
         ":exception_test",
         ":token_test",
         ":ast_node_basic_test_fixed",
+        ":json_operations_test",
+        ":stored_procedure_test",
+        ":trigger_test",
     ],
 )

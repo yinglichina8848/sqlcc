@@ -141,20 +141,19 @@ build --experimental_remote_cache_async
 # 并行构建配置 - 优化并行度
 build --jobs=12
 
-# 内存配置 - 增加内存资源
-build --local_ram_resources=12000
+# 内存配置 - 优化内存资源使用
+build --local_ram_resources=4096
 
 # 构建性能优化
 build --experimental_remote_merkle_tree_cache
 build --experimental_build_event_upload_strategy=local
 build --experimental_build_event_upload_max_retries=3
 
-# 增量构建优化
-build --experimental_spawn_scheduler
-build --spawn_strategy=sandboxed,local
+# 增量构建优化 - 注释掉可能导致问题的选项
+# build --experimental_spawn_scheduler
+build --spawn_strategy=standalone
 
 # 沙盒配置
-build --spawn_strategy=standalone
 test --spawn_strategy=standalone
 
 # 平台配置
@@ -165,10 +164,11 @@ build --platforms=@local_config_platform//:host
 build --incompatible_enable_cc_toolchain_resolution
 
 # 特定于SQLCC的配置
-build --define=sqlcc_version=1.1.1
+build --define=sqlcc_version=1.2.12
 build --define=sqlcc_build_type=bazel
 
-# 测试标签过滤
+# 测试配置 - 缩短超时时间
+test --test_timeout=60
 test --test_tag_filters=-manual,-slow
 
 # 构建事件配置
@@ -177,6 +177,9 @@ build --build_event_json_file=/tmp/bazel-build-events.json
 # 输出配置
 build --show_timestamps
 build --verbose_failures
+
+# 并行构建优化 - 减少并行度
+build --jobs=4
 
 # 实验性功能
 # build --experimental_allow_incremental_repository_updates  # 此选项在Bazel 6.4.0中已移除

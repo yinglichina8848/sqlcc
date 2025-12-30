@@ -46,3 +46,25 @@ cc_test(
     ],
     features = ["cpp20_modules"],
 )
+
+cc_test(
+    name = "tls_connection_test",
+    srcs = ["tls_connection_test.cpp"],
+    deps = [
+        "@com_google_googletest//:gtest_main",
+        "//src/network:network",
+        "//src/core:core",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+        "-Wall",
+        "-Wextra",
+        "-Wno-error=maybe-uninitialized",
+    ],
+    features = ["cpp20_modules"],
+)
