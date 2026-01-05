@@ -18,7 +18,7 @@ check_clang18() {
         return 0
     else
         echo "❌ Clang 18 未安装"
-        echo "请运行: sudo apt install clang-18 clang++-18 libc++-18-dev libc++abi-18-dev"
+        echo "请运行: sudo apt install clang-20 clang++-20 libc++-20-dev libc++abi-20-dev"
         return 1
     fi
 }

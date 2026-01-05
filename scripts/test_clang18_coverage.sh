@@ -1,28 +1,31 @@
 #!/bin/bash
 
-# SQLCC Clang 18 覆盖率测试脚本
-# 使用 Clang++ 18 和 LLVM 覆盖率工具进行测试
+# SQLCC Clang++ 20 综合覆盖率测试脚本
+# 整合所有成功运行的覆盖率测试方法
+# 使用 Clang++ 20 和 LLVM-20 覆盖率工具进行测试
 
 set -e
 
-echo "=== SQLCC Clang 18 覆盖率测试脚本 ==="
+echo "=== SQLCC Clang++ 20 综合覆盖率测试脚本 ==="
+echo "整合所有成功运行的覆盖率测试方法"
+echo ""
 
 # 检查工具是否存在
 check_tools() {
     echo "检查必需工具..."
 
-    if ! command -v clang++-18 &> /dev/null; then
-        echo "错误: clang++-18 未安装"
+    if ! command -v clang++-20 &> /dev/null; then
+        echo "错误: clang++-20 未安装"
         exit 1
     fi
 
-    if ! command -v llvm-profdata-18 &> /dev/null; then
-        echo "错误: llvm-profdata-18 未安装"
+    if ! command -v llvm-profdata-20 &> /dev/null; then
+        echo "错误: llvm-profdata-20 未安装"
         exit 1
     fi
 
-    if ! command -v llvm-cov-18 &> /dev/null; then
-        echo "错误: llvm-cov-18 未安装"
+    if ! command -v llvm-cov-20 &> /dev/null; then
+        echo "错误: llvm-cov-20 未安装"
         exit 1
     fi
 
@@ -37,7 +40,7 @@ compile_test() {
     mkdir -p coverage_data/layer1
 
     # 编译选项：C++20 + 覆盖率，使用系统googletest
-    clang++-18 -std=c++20 \
+    clang++-20 -std=c++20 \
         -fprofile-instr-generate \
         -fcoverage-mapping \
         -I. \
@@ -73,18 +76,18 @@ generate_report() {
     echo "生成覆盖率报告..."
 
     # 合并profile数据（在项目根目录）
-    llvm-profdata-18 merge coverage_data/layer1/coverage.profraw -o coverage_data/layer1/coverage.profdata
+    llvm-profdata-20 merge coverage_data/layer1/coverage.profraw -o coverage_data/layer1/coverage.profdata
 
     # 生成文本报告
     echo "生成文本覆盖率报告..."
-    llvm-cov-18 report \
+    llvm-cov-20 report \
         coverage_data/layer1/layer1_test \
         --instr-profile=coverage_data/layer1/coverage.profdata \
         > coverage_data/layer1/coverage_report.txt
 
     # 生成详细的HTML报告
     echo "生成HTML覆盖率报告..."
-    llvm-cov-18 show \
+    llvm-cov-20 show \
         coverage_data/layer1/layer1_test \
         --instr-profile=coverage_data/layer1/coverage.profdata \
         --format=html \
@@ -92,7 +95,7 @@ generate_report() {
 
     # 生成LCOV格式报告
     echo "生成LCOV格式报告..."
-    llvm-cov-18 export \
+    llvm-cov-20 export \
         coverage_data/layer1/layer1_test \
         --instr-profile=coverage_data/layer1/coverage.profdata \
         --format=lcov \
