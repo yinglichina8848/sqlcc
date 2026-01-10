@@ -21,6 +21,7 @@
 #endif
 
 #include "network/encryption.h"
+#include "utils/file_descriptor.h"
 
 namespace sqlcc {
 namespace network {
@@ -137,7 +138,8 @@ MessageProcessor::MessageProcessor(std::shared_ptr<SessionManager> session_manag
 // ServerNetworkManager实现
 ServerNetworkManager::ServerNetworkManager(int port, int max_connections)
     : port_(port), max_connections_(max_connections), running_(false),
-      session_manager_(std::make_shared<SessionManager>()) {
+      session_manager_(std::make_shared<SessionManager>()),
+      user_manager_(std::make_shared<::sqlcc::UserManager>("./data")) {
 }
 
 ServerNetworkManager::~ServerNetworkManager() {
@@ -151,7 +153,7 @@ bool ServerNetworkManager::Start() {
     if (fd < 0) {
         return false;
     }
-    listen_fd_ = sqlcc::utils::FileDescriptor(fd);
+    listen_fd_ = ::sqlcc::FileDescriptor(fd);
 
     // 设置socket选项
     int opt = 1;
@@ -180,7 +182,7 @@ bool ServerNetworkManager::Start() {
     if (epoll_fd < 0) {
         return false;
     }
-    epoll_fd_ = sqlcc::utils::FileDescriptor(epoll_fd);
+    epoll_fd_ = ::sqlcc::FileDescriptor(epoll_fd);
 
     // 添加监听socket到epoll
     struct epoll_event ev;
@@ -250,9 +252,10 @@ void ServerNetworkManager::AcceptConnection() {
 
     // 创建连接处理器
     std::unique_ptr<ConnectionHandler> handler = std::make_unique<ConnectionHandler>(
-        sqlcc::utils::FileDescriptor(client_fd),
+        ::sqlcc::FileDescriptor(client_fd),
         session_manager_,
-        sql_executor_
+        sql_executor_,
+        user_manager_
     );
 
     // 添加到epoll

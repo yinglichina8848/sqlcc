@@ -47,7 +47,7 @@ if ! bazel build //src/sqlcc_server:server_main >/dev/null 2>&1; then
     exit 1
 fi
 
-if ! bazel build //:crud_performance_test >/dev/null 2>&1; then
+if ! bazel build //src/network:crud_performance_test >/dev/null 2>&1; then
     print_error "CRUD performance test compilation failed"
     exit 1
 fi
@@ -79,7 +79,7 @@ echo "This will test INSERT, SELECT, UPDATE, DELETE operations..."
 echo ""
 
 # 运行性能测试
-if bazel run //:crud_performance_test -- "$SERVER_HOST" "$SERVER_PORT" "$TEST_ITERATIONS"; then
+if bazel run //src/network:crud_performance_test -- "$SERVER_HOST" "$SERVER_PORT" "$TEST_ITERATIONS"; then
     print_success "CRUD performance test completed successfully"
 else
     print_error "CRUD performance test failed"

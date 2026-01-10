@@ -63,8 +63,6 @@ cc_library(
         "//include/network/encryption:encryption_headers",
         "//src/security:security",
         "//src/transaction:transaction",
-        "//src/sql_executor:sql_executor",
-        "//src/sql_parser:sql_parser",
     ],
     visibility = ["//visibility:public"],
 )
@@ -109,6 +107,58 @@ cc_binary(
     srcs = ["standalone_auth_test.cpp"],
     deps = [
         "//src/core:core",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+# CRUD performance test binary (MySQL protocol, no encryption)
+cc_binary(
+    name = "crud_performance_test",
+    srcs = ["crud_performance_test_main.cpp"],
+    deps = [
+        ":network",
+        "//src/utils:utils",
+        "//src/logger:logger",
+    ],
+    copts = [
+        "-std=c++20",
+        "-O2",
+    ],
+    linkopts = [
+        "-lssl",
+        "-lcrypto",
+        "-pthread",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+# MySQL protocol test client
+cc_binary(
+    name = "mysql_client_test",
+    srcs = ["mysql_client_test.cpp"],
+    deps = [
+        ":network",
+    ],
+    copts = [
+        "-std=c++20",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+# MySQL protocol test server
+cc_binary(
+    name = "mysql_server_test",
+    srcs = ["mysql_server_test.cpp"],
+    deps = [
+        ":network",
+        "//src/utils:utils",
+    ],
+    copts = [
+        "-std=c++20",
+        "-pthread",
+    ],
+    linkopts = [
+        "-pthread",
     ],
     visibility = ["//visibility:public"],
 )
