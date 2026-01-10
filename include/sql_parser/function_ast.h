@@ -1,113 +1,48 @@
-#ifndef SQLCC_FUNCTION_AST_H
-#define SQLCC_FUNCTION_AST_H
+#ifndef SQLCC_FUNCTION_AST_H_H
+#define SQLCC_FUNCTION_AST_H_H
 
 #include <memory>
 #include <string>
 #include <vector>
-#include "sql_parser/ast_node.h"
-#include "function/function_definition.h"
 
 namespace sqlcc {
-namespace sql_parser {
 
-// 函数调用表达式
-class FunctionCallExpression : public Expression {
+/**
+ * @brief FunctionAst 类声明
+ *
+ * 这是一个自动生成的头文件模板。
+ * 请根据实际需求完善类定义。
+ */
+class FunctionAst {
 public:
-    explicit FunctionCallExpression(const std::string& function_name);
-    ~FunctionCallExpression() override;
+    // 构造函数
+    FunctionAst();
+    explicit FunctionAst(const std::string& name);
 
-    void addArgument(std::unique_ptr<Expression> argument);
-    
-    const std::string& getFunctionName() const { return function_name_; }
-    const std::vector<std::unique_ptr<Expression>>& getArguments() const { return arguments_; }
+    // 析构函数
+    ~FunctionAst();
+
+    // 禁用拷贝
+    FunctionAst(const FunctionAst&) = delete;
+    FunctionAst& operator=(const FunctionAst&) = delete;
+
+    // 允许移动
+    FunctionAst(FunctionAst&&) noexcept = default;
+    FunctionAst& operator=(FunctionAst&&) noexcept = default;
+
+    // 公共方法
+    void initialize();
+    void shutdown();
+
+    // Getter/Setter
+    const std::string& get_name() const;
+    void set_name(const std::string& name);
 
 private:
-    std::string function_name_;
-    std::vector<std::unique_ptr<Expression>> arguments_;
+    std::string name_;
+    bool initialized_;
 };
 
-// 函数调用语句
-class FunctionCallStatement : public Statement {
-public:
-    explicit FunctionCallStatement(const std::string& function_name);
-    ~FunctionCallStatement() override;
-
-    void addArgument(std::unique_ptr<Expression> argument);
-    
-    const std::string& getFunctionName() const { return function_name_; }
-    const std::vector<std::unique_ptr<Expression>>& getArguments() const { return arguments_; }
-
-private:
-    std::string function_name_;
-    std::vector<std::unique_ptr<Expression>> arguments_;
-};
-
-// 创建函数语句
-class CreateFunctionStatement : public Statement {
-public:
-    explicit CreateFunctionStatement(std::unique_ptr<sqlcc::sql_parser::FunctionDefinition> function_def);
-    ~CreateFunctionStatement() override;
-
-    bool isValid() const;
-    
-    const sqlcc::sql_parser::FunctionDefinition* getFunctionDefinition() const { return function_def_.get(); }
-
-private:
-    std::unique_ptr<sqlcc::sql_parser::FunctionDefinition> function_def_;
-};
-
-// 删除函数语句
-class DropFunctionStatement : public Statement {
-public:
-    enum DropBehavior {
-        RESTRICT,
-        CASCADE
-    };
-
-    explicit DropFunctionStatement(const std::string& function_name);
-    ~DropFunctionStatement() override;
-
-    void setIfExists(bool if_exists) { if_exists_ = if_exists; }
-    void setDropBehavior(DropBehavior behavior) { drop_behavior_ = behavior; }
-    
-    const std::string& getFunctionName() const { return function_name_; }
-    bool getIfExists() const { return if_exists_; }
-    DropBehavior getDropBehavior() const { return drop_behavior_; }
-
-private:
-    std::string function_name_;
-    DropBehavior drop_behavior_;
-    bool if_exists_;
-};
-
-// 修改函数语句
-class AlterFunctionStatement : public Statement {
-public:
-    enum Action {
-        RENAME_TO,
-        SET_SCHEMA
-    };
-
-    explicit AlterFunctionStatement(const std::string& function_name);
-    ~AlterFunctionStatement() override;
-
-    void setAction(Action action) { action_ = action; }
-    void setNewName(const std::string& new_name) { new_name_ = new_name; }
-    void setNewSchema(const std::string& new_schema) { new_schema_ = new_schema; }
-    
-    const std::string& getFunctionName() const { return function_name_; }
-    Action getAction() const { return action_; }
-    const std::string& getNewName() const { return new_name_; }
-    const std::string& getNewSchema() const { return new_schema_; }
-
-private:
-    std::string function_name_;
-    Action action_;
-    std::string new_name_;
-    std::string new_schema_;
-};
-
-} // namespace sql_parser
 } // namespace sqlcc
 
-#endif // SQLCC_FUNCTION_AST_H
+#endif // SQLCC_FUNCTION_AST_H_H
