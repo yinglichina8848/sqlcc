@@ -20,7 +20,7 @@ protected:
         db_manager_ = std::make_shared<DatabaseManager>("./test_db");
         
         // 创建权限验证器
-        permission_validator_ = std::make_shared<PermissionValidator>(user_manager_, db_manager_);
+        permission_validator_ = std::make_shared<PermissionValidator>(user_manager_);
         
         // 创建测试用户
         CreateTestUsers();
@@ -351,9 +351,9 @@ TEST_F(PermissionValidatorTest, DynamicPermissionUpdate) {
 TEST_F(PermissionValidatorTest, MemorySafety) {
     // 测试智能指针的正确使用
     {
-        auto temp_validator = std::make_shared<PermissionValidator>(user_manager_, db_manager_);
+        auto temp_validator = std::make_shared<PermissionValidator>(user_manager_);
         EXPECT_TRUE(temp_validator != nullptr);
-        
+
         PermissionResult result = temp_validator->validate(
             PermissionOperation::SELECT, "table1", "user1", "test_db");
         EXPECT_TRUE(result.allowed || !result.allowed);
