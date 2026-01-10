@@ -12,6 +12,7 @@
 
 #include "sql_executor.h"
 #include "utils/file_descriptor.h"
+#include "utils/thread_pool.h"
 #include "network/session.h"
 #include "network/session_manager.h"
 #include "network/connection_handler.h"
@@ -35,8 +36,9 @@ public:
      * @brief 构造函数
      * @param port 监听端口
      * @param max_connections 最大连接数
+     * @param thread_pool_size 线程池大小
      */
-    ServerNetworkManager(int port, int max_connections);
+    ServerNetworkManager(int port, int max_connections, int thread_pool_size = 4);
 
     /**
      * @brief 析构函数
@@ -96,6 +98,7 @@ private:
     std::shared_ptr<SessionManager> session_manager_;  ///< 会话管理器
     std::shared_ptr<sqlcc::SqlExecutor> sql_executor_; ///< SQL执行器
     std::shared_ptr<sqlcc::UserManager> user_manager_; ///< 用户管理器
+    sqlcc::utils::ThreadPool thread_pool_;             ///< 线程池
 
     // Linux specific members
 #ifdef __linux__

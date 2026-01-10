@@ -162,3 +162,97 @@ cc_binary(
     ],
     visibility = ["//visibility:public"],
 )
+
+# MySQL protocol performance test
+cc_binary(
+    name = "mysql_performance_test",
+    srcs = ["mysql_performance_test.cpp"],
+    deps = [
+        ":network",
+        "//src/utils:utils",
+    ],
+    copts = [
+        "-std=c++20",
+        "-pthread",
+    ],
+    linkopts = [
+        "-pthread",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+# Concurrent performance test with thread pool and connection pool
+cc_binary(
+    name = "concurrent_performance_test",
+    srcs = ["concurrent_performance_test.cpp"],
+    deps = [
+        ":network",
+        "//src/utils:utils",
+        "//src/utils:thread_pool",
+    ],
+    copts = [
+        "-std=c++20",
+        "-pthread",
+    ],
+    linkopts = [
+        "-pthread",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+# Scalable performance test with comprehensive scaling analysis
+cc_binary(
+    name = "scalable_performance_test",
+    srcs = ["scalable_performance_test.cpp"],
+    deps = [
+        ":network",
+        "//src/utils:utils",
+        "//src/utils:thread_pool",
+    ],
+    copts = [
+        "-std=c++20",
+        "-pthread",
+    ],
+    linkopts = [
+        "-pthread",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+# Real concurrent performance test with actual execution data
+cc_binary(
+    name = "real_concurrent_test",
+    srcs = ["real_concurrent_test.cpp"],
+    deps = [
+        ":network",
+        "//src/utils:utils",
+        "//src/utils:thread_pool",
+    ],
+    copts = [
+        "-std=c++20",
+        "-pthread",
+    ],
+    linkopts = [
+        "-pthread",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+# True CRUD performance test with actual database operations
+cc_binary(
+    name = "true_crud_performance_test",
+    srcs = ["true_crud_performance_test.cpp"],
+    deps = [
+        ":network",
+        "//src/utils:utils",
+        "//src/utils:thread_pool",
+    ],
+    copts = [
+        "-std=c++20",
+        "-pthread",
+    ],
+    linkopts = [
+        "-pthread",
+    ],
+    visibility = ["//visibility:public"],
+)

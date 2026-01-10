@@ -30,10 +30,11 @@ int main(int argc, char* argv[]) {
     int port = 18647; // 默认端口
     bool verbose = false;
     bool enable_encryption = false;  // 对所有连接启用加密
-    
+    int thread_pool_size = 4; // 默认线程池大小
+
     // 解析命令行参数
     int opt;
-    while ((opt = getopt(argc, argv, "p:ve")) != -1) {
+    while ((opt = getopt(argc, argv, "p:vet:")) != -1) {
         switch (opt) {
             case 'p':
                 port = std::stoi(optarg);
@@ -44,9 +45,15 @@ int main(int argc, char* argv[]) {
             case 'e':
                 enable_encryption = true;  // 启用加密
                 break;
+            case 't':
+                thread_pool_size = std::stoi(optarg);
+                break;
             default:
-                std::cerr << "Usage: " << argv[0] << " [-p port] [-v] [-e]" << std::endl;
+                std::cerr << "Usage: " << argv[0] << " [-p port] [-v] [-e] [-t thread_pool_size]" << std::endl;
+                std::cerr << "  -p: Port to listen on (default: 18647)" << std::endl;
+                std::cerr << "  -v: Verbose output" << std::endl;
                 std::cerr << "  -e: Enable AES-256 encryption for all connections" << std::endl;
+                std::cerr << "  -t: Thread pool size (default: 4)" << std::endl;
                 return 1;
         }
     }
@@ -60,7 +67,7 @@ int main(int argc, char* argv[]) {
     auto sql_executor = std::make_shared<sqlcc::SqlExecutor>();
     
     // 创建服务器网络管理器
-    ServerNetworkManager server(port);
+    ServerNetworkManager server(port, 100, thread_pool_size); // max_connections=100, thread_pool_size
     g_server = &server;
     
     // 设置SQL执行器到服务器网络管理器

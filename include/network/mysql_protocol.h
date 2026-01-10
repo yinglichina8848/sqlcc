@@ -1,6 +1,7 @@
 #pragma once
 #include <cstdint>
 #include <string>
+#include <vector>
 #include "utils/version.h"
 #include "utils/file_descriptor.h"
 
@@ -46,6 +47,13 @@ public:
     bool handle_client_response();
 
 private:
+    // 发送MySQL协议包（带包头）
+    bool send_packet(const uint8_t* data, size_t length, uint8_t sequence_id);
+
+    // 接收MySQL协议包
+    std::vector<uint8_t> receive_packet();
+
     sqlcc::FileDescriptor client_fd_;
     HandshakeV10 handshake_;
+    uint8_t next_sequence_id_; // 包序列号管理
 };

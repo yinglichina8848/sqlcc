@@ -24,7 +24,7 @@ namespace network {
 ClientConnection::ClientConnection(const std::string& host, int port)
     : host_(host), port_(port), connected_(false), tls_enabled_(false)
 #ifdef __linux__
-      , socket_fd_(-1), ssl_(nullptr), ssl_ctx_(nullptr)
+      , socket_fd_(-1)
 #endif
 {
 }
@@ -162,13 +162,8 @@ bool ClientConnection::SendData(const std::vector<char>& data) {
         return false;
     }
 
-    // 检查TLS上下文是否存在（只在启用TLS时检查）
-    if (tls_enabled_) {
-        if (!ssl_ctx_.is_valid() || !ssl_.is_valid()) {
-            return false;
-        }
-    }
     if (tls_enabled_ && ssl_.is_valid()) {
+        // TLS发送
         size_t total_sent = 0;
         while (total_sent < data.size()) {
             int sent = SSL_write(ssl_.get(), data.data() + total_sent, static_cast<int>(data.size() - total_sent));
@@ -178,18 +173,21 @@ bool ClientConnection::SendData(const std::vector<char>& data) {
             total_sent += sent;
         }
         return true;
-    }
-    size_t total_sent = 0;
-    while (total_sent < data.size()) {
-        ssize_t sent = send(socket_fd_.get(), data.data() + total_sent, data.size() - total_sent, 0);
-        if (sent < 0) {
-            if (errno == EAGAIN || errno == EWOULDBLOCK) {
-                std::this_thread::sleep_for(std::chrono::milliseconds(1));
-                continue;
+    } else {
+        // 普通TCP发送
+        size_t total_sent = 0;
+        while (total_sent < data.size()) {
+            ssize_t sent = send(socket_fd_.get(), data.data() + total_sent, data.size() - total_sent, 0);
+            if (sent < 0) {
+                if (errno == EAGAIN || errno == EWOULDBLOCK) {
+                    std::this_thread::sleep_for(std::chrono::milliseconds(1));
+                    continue;
+                }
+                return false;
             }
-            return false;
+            total_sent += sent;
         }
-        total_sent += sent;
+        return true;
     }
 #endif
     return true;
@@ -198,7 +196,8 @@ bool ClientConnection::SendData(const std::vector<char>& data) {
 std::vector<char> ClientConnection::ReceiveData() {
 #ifdef __linux__
     std::vector<char> buffer(4096);
-    if (tls_enabled_ && ssl_.is_valid() && ssl_ctx_.is_valid()) {
+
+    if (tls_enabled_ && ssl_ctx_.is_valid() && ssl_.is_valid()) {
         // 设置超时，避免无限阻塞
         struct timeval tv;
         tv.tv_sec = 5;
@@ -210,23 +209,25 @@ std::vector<char> ClientConnection::ReceiveData() {
         }
         buffer.resize(bytes);
         return buffer;
-    }
-    ssize_t received = recv(socket_fd_.get(), buffer.data(), buffer.size(), 0);
+    } else {
+        // 普通TCP接收（非TLS模式）
+        ssize_t received = recv(socket_fd_.get(), buffer.data(), buffer.size(), 0);
 
-    if (received < 0) {
-        if (errno == EAGAIN || errno == EWOULDBLOCK) {
-            // 非阻塞模式下没有数据可读
+        if (received < 0) {
+            if (errno == EAGAIN || errno == EWOULDBLOCK) {
+                // 非阻塞模式下没有数据可读
+                return std::vector<char>();
+            }
+            return std::vector<char>(); // 错误发生
+        } else if (received == 0) {
+            // 连接被对方关闭
+            connected_ = false;
             return std::vector<char>();
         }
-        return std::vector<char>(); // 错误发生
-    } else if (received == 0) {
-        // 连接被对方关闭
-        connected_ = false;
-        return std::vector<char>();
-    }
 
-    buffer.resize(received);
-    return buffer;
+        buffer.resize(received);
+        return buffer;
+    }
 #else
     return std::vector<char>();
 #endif

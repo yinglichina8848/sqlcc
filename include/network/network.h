@@ -695,10 +695,12 @@ private:
     StabilityAction DetermineAction(int load_level, double exception_rate, size_t throughput) const;
 };
 
+#include "utils/thread_pool.h"
+
 // 服务器网络管理器
 class ServerNetworkManager {
 public:
-    ServerNetworkManager(int port, int max_connections = 100);
+    ServerNetworkManager(int port, int max_connections = 100, int thread_pool_size = 4);
     ~ServerNetworkManager();
     
     bool Start();

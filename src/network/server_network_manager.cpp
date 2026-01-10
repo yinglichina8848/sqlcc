@@ -18,13 +18,14 @@
 namespace sqlcc {
 namespace network {
 
-ServerNetworkManager::ServerNetworkManager(int port, int max_connections)
+ServerNetworkManager::ServerNetworkManager(int port, int max_connections, int thread_pool_size)
     : port_(port),
       max_connections_(max_connections),
       running_(false),
       session_manager_(std::make_shared<SessionManager>()),
       sql_executor_(nullptr),
-      user_manager_(std::make_shared<sqlcc::UserManager>("./data"))
+      user_manager_(std::make_shared<sqlcc::UserManager>("./data")),
+      thread_pool_(thread_pool_size)
 #ifdef __linux__
       , listen_fd_(-1),
       epoll_fd_(-1),
