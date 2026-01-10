@@ -29,7 +29,7 @@ public:
     /**
      * @brief 析构函数
      */
-    ~TransactionManagerMock() override;
+    ~TransactionManagerMock();
 
     // 禁止拷贝
     TransactionManagerMock(const TransactionManagerMock&) = delete;
@@ -57,21 +57,21 @@ public:
     void ClearCallHistory() { call_history_.clear(); }
 
     // 重写TransactionManager接口方法
-    TransactionId begin_transaction(IsolationLevel isolation_level = IsolationLevel::READ_COMMITTED) override;
-    bool commit_transaction(TransactionId txn_id) override;
-    bool rollback_transaction(TransactionId txn_id) override;
-    bool create_savepoint(TransactionId txn_id, const std::string &savepoint_name) override;
-    bool rollback_to_savepoint(TransactionId txn_id, const std::string &savepoint_name) override;
-    bool acquire_lock(TransactionId txn_id, const std::string &resource, LockType lock_type, bool wait = true) override;
-    void release_lock(TransactionId txn_id, const std::string &resource) override;
-    bool detect_deadlock(TransactionId txn_id) override;
-    TransactionState get_transaction_state(TransactionId txn_id) const override;
-    std::vector<TransactionId> get_active_transactions() const override;
-    void log_operation(TransactionId txn_id, const LogEntry &entry) override;
-    TransactionId next_transaction_id() override;
+    TransactionId begin_transaction(IsolationLevel isolation_level = IsolationLevel::READ_COMMITTED);
+    bool commit_transaction(TransactionId txn_id);
+    bool rollback_transaction(TransactionId txn_id);
+    bool create_savepoint(TransactionId txn_id, const std::string &savepoint_name);
+    bool rollback_to_savepoint(TransactionId txn_id, const std::string &savepoint_name);
+    bool acquire_lock(TransactionId txn_id, const std::string &resource, LockType lock_type, bool wait = true);
+    void release_lock(TransactionId txn_id, const std::string &resource);
+    bool detect_deadlock(TransactionId txn_id);
+    TransactionState get_transaction_state(TransactionId txn_id) const;
+    std::vector<TransactionId> get_active_transactions() const;
+    void log_operation(TransactionId txn_id, const LogEntry &entry);
+    TransactionId next_transaction_id();
 
 private:
-    void RecordCall(const std::string& method, const std::vector<std::string>& args = {});
+    void RecordCall(const std::string& method, const std::vector<std::string>& args = {}) const;
 
     // Mock配置
     TransactionId begin_transaction_result_ = 1;
@@ -86,7 +86,7 @@ private:
     TransactionId next_transaction_id_result_ = 100;
 
     // 调用历史
-    std::vector<CallRecord> call_history_;
+    mutable std::vector<CallRecord> call_history_;
 };
 
 } // namespace mocks

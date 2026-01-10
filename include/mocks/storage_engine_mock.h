@@ -30,7 +30,7 @@ public:
     /**
      * @brief 析构函数
      */
-    ~StorageEngineMock() override;
+    ~StorageEngineMock();
 
     // 禁止拷贝
     StorageEngineMock(const StorageEngineMock&) = delete;
@@ -55,17 +55,17 @@ public:
     void ClearCallHistory() { call_history_.clear(); }
 
     // 重写StorageEngine接口方法
-    void InitializeIndexManager() override;
-    std::unique_ptr<Page> NewPage(int32_t *page_id = nullptr) override;
-    std::shared_ptr<Page> FetchPage(int32_t page_id) override;
-    bool UnpinPage(int32_t page_id, bool is_dirty = false) override;
-    bool FlushPage(int32_t page_id) override;
-    bool DeletePage(int32_t page_id) override;
-    void FlushAllPages() override;
-    std::string GetStats() const override;
+    void InitializeIndexManager();
+    std::unique_ptr<Page> NewPage(int32_t *page_id = nullptr);
+    std::shared_ptr<Page> FetchPage(int32_t page_id);
+    bool UnpinPage(int32_t page_id, bool is_dirty = false);
+    bool FlushPage(int32_t page_id);
+    bool DeletePage(int32_t page_id);
+    void FlushAllPages();
+    std::string GetStats() const;
 
 private:
-    void RecordCall(const std::string& method, const std::vector<std::string>& args = {});
+    void RecordCall const(const std::string& method, const std::vector<std::string>& args = {});
 
     // Mock配置
     bool new_page_success_ = true;
@@ -78,7 +78,7 @@ private:
     std::string stats_result_ = "Mock Storage Engine Stats";
 
     // 调用历史
-    std::vector<CallRecord> call_history_;
+    mutable std::vector<CallRecord> call_history_;
 };
 
 } // namespace mocks

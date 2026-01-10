@@ -124,7 +124,7 @@ std::string IndexManagerMock::GetCompositeIndexName(const std::string &table_nam
     return get_composite_index_name_result_;
 }
 
-void IndexManagerMock::RecordCall(const std::string& method, const std::vector<std::string>& args) {
+void IndexManagerMock::RecordCall(const std::string& method, const std::vector<std::string>& args) const {
     CallRecord record;
     record.method_name = method;
 

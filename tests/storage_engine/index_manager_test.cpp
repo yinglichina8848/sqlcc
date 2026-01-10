@@ -36,7 +36,7 @@ protected:
         storage_engine = std::make_shared<StorageEngine>(*config, test_dir.string());
 
     // 初始化智能索引缓存
-    index_cache = std::make_unique<storage_engine::index_manager::SmartIndexCache>(100, std::chrono::minutes(30));
+    index_cache = std::make_unique<sqlcc::storage_engine::index_manager::SmartIndexCache>(100, std::chrono::minutes(30));
     }
 
     void TearDown() override {
@@ -58,7 +58,7 @@ protected:
     fs::path test_dir;
     std::unique_ptr<ConfigManager> config;
     std::shared_ptr<StorageEngine> storage_engine;
-    std::unique_ptr<storage_engine::index_manager::SmartIndexCache> index_cache;
+    std::unique_ptr<sqlcc::storage_engine::index_manager::SmartIndexCache> index_cache;
 };
 
 // 测试基本索引缓存功能
@@ -168,7 +168,7 @@ TEST_F(IndexManagerTest, CacheExpiration) {
 
     // 创建一个短期TTL的索引
     auto index = CreateTestIndex("test_table", index_name);
-    index_cache->CacheIndex(index_name, std::move(index), 0, std::chrono::milliseconds(1));
+    index_cache->CacheIndex(index_name, std::move(index), 0, std::chrono::minutes(0));
 
     // 立即验证索引存在
     EXPECT_TRUE(index_cache->HasIndex(index_name));
@@ -209,7 +209,7 @@ TEST_F(IndexManagerTest, IntelligentCleanup) {
     index_cache->IntelligentCleanup();
 
     // 验证清理后的状态（至少有一些索引被保留）
-    SmartIndexCache::EnhancedCacheStats stats = index_cache->GetEnhancedCacheStats();
+    sqlcc::storage_engine::index_manager::SmartIndexCache::EnhancedCacheStats stats = index_cache->GetEnhancedCacheStats();
     EXPECT_GE(stats.total_indexes, 0);  // 可能全部保留或部分清理
 }
 
@@ -365,7 +365,7 @@ TEST_F(IndexManagerTest, PerformanceCharacteristics) {
               << " operations in " << duration.count() << "ms" << std::endl;
 
     // 验证最终状态
-    SmartIndexCache::EnhancedCacheStats final_stats = index_cache->GetEnhancedCacheStats();
+    sqlcc::storage_engine::index_manager::SmartIndexCache::EnhancedCacheStats final_stats = index_cache->GetEnhancedCacheStats();
     EXPECT_EQ(final_stats.total_indexes, num_operations);
 }
 
@@ -386,7 +386,7 @@ TEST_F(IndexManagerTest, AccessPatternStatistics) {
     }
 
     // 获取统计信息
-    SmartIndexCache::EnhancedCacheStats stats = index_cache->GetEnhancedCacheStats();
+    sqlcc::storage_engine::index_manager::SmartIndexCache::EnhancedCacheStats stats = index_cache->GetEnhancedCacheStats();
 
     // 验证访问统计
     EXPECT_GE(stats.total_hits, num_accesses);

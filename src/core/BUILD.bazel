@@ -16,11 +16,13 @@ cc_library(
         "error_handler.cpp",
         "permission_validator.cpp",
         "system_database.cpp",
+        "execution_context.cpp",
     ],
     hdrs = [
         "//include/core:user_manager.h",
         "//include/core:permission_validator.h",
         "//include/core:system_database.h",
+        "//include/core:execution_context.h",
     ],
     includes = ["//include"],
     deps = [
@@ -30,6 +32,9 @@ cc_library(
         "//include/exception:exception",
         "//include:error_handler",  # 错误处理模块
         "//include:sqlcc_pch",  # 预编译头文件
+        "//include:page",  # Page类
+        "//include:disk_manager",  # 磁盘管理器
+        "//include/storage:buffer_pool_sharded",  # 缓冲池
     ],
     copts = [
         "-Iinclude",

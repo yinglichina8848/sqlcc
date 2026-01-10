@@ -31,7 +31,7 @@ public:
     /**
      * @brief 析构函数
      */
-    ~IndexManagerMock() override;
+    ~IndexManagerMock();
 
     // 禁止拷贝
     IndexManagerMock(const IndexManagerMock&) = delete;
@@ -60,26 +60,26 @@ public:
 
     // 重写IndexManager接口方法
     bool CreateIndex(const std::string &index_name, const std::string &table_name,
-                    const std::string &column_name, bool unique = false) override;
+                    const std::string &column_name, bool unique = false);
     bool CreateCompositeIndex(const std::string &index_name,
                              const std::string &table_name,
                              const std::vector<std::string> &columns,
-                             bool unique = false) override;
-    bool DropIndex(const std::string &index_name, const std::string &table_name) override;
+                             bool unique = false);
+    bool DropIndex(const std::string &index_name, const std::string &table_name);
     bool IndexExists(const std::string &index_name,
-                    const std::string &table_name) const override;
+                    const std::string &table_name) const;
     BPlusTreeIndex *GetIndex(const std::string &index_name,
-                            const std::string &table_name) override;
-    std::vector<BPlusTreeIndex *> GetTableIndexes(const std::string &table_name) const override;
-    std::vector<std::string> GetIndexedColumns(const std::string &table_name) const override;
-    std::vector<std::vector<std::string>> GetCompositeIndexedColumns(const std::string &table_name) const override;
+                            const std::string &table_name);
+    std::vector<BPlusTreeIndex *> GetTableIndexes(const std::string &table_name) const;
+    std::vector<std::string> GetIndexedColumns(const std::string &table_name) const;
+    std::vector<std::vector<std::string>> GetCompositeIndexedColumns(const std::string &table_name) const;
     std::string GetIndexName(const std::string &table_name,
-                            const std::string &column_name) const override;
+                            const std::string &column_name) const;
     std::string GetCompositeIndexName(const std::string &table_name,
-                                     const std::vector<std::string> &columns) const override;
+                                     const std::vector<std::string> &columns) const;
 
 private:
-    void RecordCall(const std::string& method, const std::vector<std::string>& args = {});
+    void RecordCall(const std::string& method, const std::vector<std::string>& args = {}) const;
 
     // Mock配置
     bool create_index_success_ = true;
@@ -94,7 +94,7 @@ private:
     std::string get_composite_index_name_result_ = "mock_composite_index_name";
 
     // 调用历史
-    std::vector<CallRecord> call_history_;
+    mutable std::vector<CallRecord> call_history_;
 };
 
 } // namespace mocks

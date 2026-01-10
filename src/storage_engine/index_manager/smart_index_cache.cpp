@@ -1,8 +1,8 @@
 #include "storage_engine/index_manager/smart_index_cache.h"
-#include "storage/b_plus_tree.h"
-#include "utils/logger.h"
+#include "storage_engine/b_plus_tree_index.h"
 #include <algorithm>
 #include <chrono>
+#include <iostream>
 
 namespace sqlcc {
 namespace storage_engine {
@@ -90,7 +90,7 @@ void SmartIndexCache::WarmupCache(const std::vector<std::string>& predicted_inde
     for (const auto& index_name : predicted_indexes) {
         // 这里可以实现预加载逻辑
         // 实际实现可能需要从存储引擎预加载索引
-        SQLCC_LOG_DEBUG("Warming up cache for index: " + index_name);
+        std::cout << "Warming up cache for index: " << index_name << std::endl;
     }
 }
 
@@ -150,7 +150,7 @@ void SmartIndexCache::IntelligentCleanup() {
     }
 
     if (!to_remove.empty()) {
-        SQLCC_LOG_INFO("Intelligent cleanup removed " + std::to_string(to_remove.size()) + " cache entries");
+        std::cout << "Intelligent cleanup removed " << to_remove.size() << " cache entries" << std::endl;
     }
 }
 
@@ -232,7 +232,7 @@ void SmartIndexCache::CleanupExpiredCache(std::chrono::minutes max_age) {
     }
 
     if (!to_remove.empty()) {
-        SQLCC_LOG_INFO("Cleaned up " + std::to_string(to_remove.size()) + " expired cache entries");
+        std::cout << "Cleaned up " << to_remove.size() << " expired cache entries" << std::endl;
     }
 }
 

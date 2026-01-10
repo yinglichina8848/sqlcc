@@ -72,7 +72,7 @@ cc_library(
 # -----------------------------------------------------------------------------
 
 cc_library(
-    name = "utils_headers",
+    name = "utils",
     deps = ["//include/utils:headers"],
     visibility = ["//visibility:public"],
 )
@@ -134,6 +134,12 @@ cc_library(
 )
 
 cc_library(
+    name = "storage_index_manager",
+    deps = ["//include/storage:headers"],
+    visibility = ["//visibility:public"],
+)
+
+cc_library(
     name = "sql_executor",
     hdrs = ["sql_executor.h"],
     visibility = ["//visibility:public"],
@@ -141,7 +147,7 @@ cc_library(
 
 cc_library(
     name = "config_manager",
-    hdrs = ["config_manager.h"],
+    deps = ["//include/utils:headers"],
     visibility = ["//visibility:public"],
 )
 
@@ -160,6 +166,12 @@ cc_library(
 cc_library(
     name = "database_manager",
     hdrs = ["database_manager.h"],
+    visibility = ["//visibility:public"],
+)
+
+cc_library(
+    name = "core_database_manager",
+    deps = ["//include/core:core_database_manager"],
     visibility = ["//visibility:public"],
 )
 
@@ -227,7 +239,7 @@ cc_library(
         ":sql_parser_headers",
         ":execution_headers",
         ":network_headers",
-        ":utils_headers",
+        ":utils",
         ":procedure_headers",
         ":trigger_headers",
         ":transaction_headers",

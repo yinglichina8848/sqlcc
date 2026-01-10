@@ -1,0 +1,68 @@
+load("@rules_cc//cc:defs.bzl", "cc_library")
+
+package(default_visibility = ["//visibility:public"])
+
+# 智能索引缓存库
+cc_library(
+    name = "smart_index_cache",
+    srcs = ["smart_index_cache.cpp"],
+    hdrs = ["//include/storage_engine/index_manager:smart_index_cache.h"],
+    includes = ["../../../include"],
+    deps = [
+        "//include:storage_engine",
+        "//include:exception",
+        "//include:utils",
+    ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+)
+
+# 智能索引工厂库
+cc_library(
+    name = "smart_index_factory",
+    srcs = ["smart_index_factory.cpp"],
+    hdrs = ["//include/storage_engine/index_manager:smart_index_factory.h"],
+    deps = [
+        ":smart_index_cache",
+        "//include:storage_engine",
+        "//include:exception",
+    ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+)
+
+# 索引管理器库
+cc_library(
+    name = "index_manager",
+    srcs = [
+        "index_manager.cpp",
+    ],
+    hdrs = ["//include/storage:index_manager"],
+    deps = [
+        ":smart_index_cache",
+        ":smart_index_factory",
+        "//include:storage_engine",
+        "//include:exception",
+        "//include:config_manager",
+    ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+)

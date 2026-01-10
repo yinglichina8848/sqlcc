@@ -40,9 +40,7 @@ WindowFunction::WindowFunction(FunctionType type)
     }
 }
 
-WindowFunction::~WindowFunction() = default;
-
-sqlcc::sql_parser::WindowFunction::FunctionType WindowFunction::getFunctionType() const {
+FunctionType WindowFunction::getFunctionType() const {
     return functionType_;
 }
 
@@ -74,8 +72,6 @@ WindowSpecification::WindowSpecification()
     : frameStart_(FrameBoundary::UNBOUNDED_PRECEDING),
       frameEnd_(FrameBoundary::CURRENT_ROW) {
 }
-
-WindowSpecification::~WindowSpecification() = default;
 
 void WindowSpecification::setPartitionBy(std::vector<std::string> columns) {
     partitionByColumns_ = std::move(columns);

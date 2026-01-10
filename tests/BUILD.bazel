@@ -12,14 +12,14 @@ package(default_visibility = ["//visibility:public"])
 cc_library(
     name = "gtest",
     deps = [
-        "@googletest//:gtest_main",
+        "@com_google_googletest//:gtest_main",
     ],
 )
 
 cc_library(
     name = "gtest_main",
     deps = [
-        "@googletest//:gtest_main",
+        "@com_google_googletest//:gtest_main",
     ],
 )
 
@@ -66,250 +66,38 @@ cc_library(
 
 cc_library(
     name = "mocks",
-    srcs = [
-        "//src/mocks:storage_engine_mock.cpp",
-        "//src/mocks:database_manager_mock.cpp",
-        "//src/mocks:transaction_manager_mock.cpp",
-        "//src/mocks:index_manager_mock.cpp",
-    ],
-    hdrs = [
-        "//include/mocks:storage_engine_mock.h",
-        "//include/mocks:database_manager_mock.h",
-        "//include/mocks:transaction_manager_mock.h",
-        "//include/mocks:index_manager_mock.h",
-    ],
     deps = [
-        "//include:storage_engine",
-        "//include:core_database_manager",
-        "//include:transaction_manager",
-        "//include:storage_index_manager",
+        "//src/mocks:storage_engine_mock",
+        "//src/mocks:database_manager_mock",
+        "//src/mocks:transaction_manager_mock",
+        "//src/mocks:index_manager_mock",
     ],
-    includes = ["../include"],
 )
 
 # ==================== 单元测试 ====================
 
-# 存储引擎单元测试
-cc_test(
-    name = "storage_engine_unit_test",
-    srcs = ["storage_engine/storage_engine_unit_test.cpp"],
-    deps = [
-        ":test_framework",
-        ":mocks",
-        "//src/storage_engine:storage_engine",
-    ],
-    includes = ["../include"],
-    copts = [
-        "-std=c++20",
-        "-stdlib=libc++",
-    ],
-    linkopts = [
-        "-stdlib=libc++",
-        "-lc++abi",
-    ],
-)
-
-# 索引管理器单元测试
-cc_test(
-    name = "index_manager_unit_test",
-    srcs = ["storage_engine/index_manager_unit_test.cpp"],
-    deps = [
-        ":test_framework",
-        ":mocks",
-        "//src/storage_engine:storage_engine",
-    ],
-    includes = ["../include"],
-    copts = [
-        "-std=c++20",
-        "-stdlib=libc++",
-    ],
-    linkopts = [
-        "-stdlib=libc++",
-        "-lc++abi",
-    ],
-)
-
-# 事务管理器单元测试
-cc_test(
-    name = "transaction_manager_unit_test",
-    srcs = ["transaction/transaction_manager_unit_test.cpp"],
-    deps = [
-        ":test_framework",
-        ":mocks",
-    ],
-    includes = ["../include"],
-    copts = [
-        "-std=c++20",
-        "-stdlib=libc++",
-    ],
-    linkopts = [
-        "-stdlib=libc++",
-        "-lc++abi",
-    ],
-)
+# 注意：单元测试已在相应子包中定义
+# 存储引擎单元测试请参考 //tests/storage_engine:all
+# 事务管理器单元测试请参考 //tests/transaction:all
 
 # ==================== 集成测试 ====================
 
-# 数据库管理器集成测试
-cc_test(
-    name = "database_manager_integration_test",
-    srcs = ["integration/database_manager_integration_test.cpp"],
-    deps = [
-        ":test_framework",
-        ":mocks",
-        "//src/core:core",
-    ],
-    includes = ["../include"],
-    copts = [
-        "-std=c++20",
-        "-stdlib=libc++",
-    ],
-    linkopts = [
-        "-stdlib=libc++",
-        "-lc++abi",
-    ],
-    tags = ["integration"],
-)
-
-# SQL执行器集成测试
-cc_test(
-    name = "sql_executor_integration_test",
-    srcs = ["integration/sql_executor_integration_test.cpp"],
-    deps = [
-        ":test_framework",
-        ":mocks",
-        "//src/sql_executor:sql_executor",
-    ],
-    includes = ["../include"],
-    copts = [
-        "-std=c++20",
-        "-stdlib=libc++",
-    ],
-    linkopts = [
-        "-stdlib=libc++",
-        "-lc++abi",
-    ],
-    tags = ["integration"],
-)
+# 注意：集成测试已在子包 tests/integration 中定义
+# 数据库管理器和SQL执行器集成测试请参考 //tests/integration:all
 
 # ==================== 性能测试 ====================
 
-# 存储引擎性能测试
-cc_test(
-    name = "storage_engine_performance_test",
-    srcs = ["performance/storage_engine_performance_test.cpp"],
-    deps = [
-        ":test_framework",
-        "//src/storage_engine:storage_engine",
-    ],
-    includes = ["../include"],
-    copts = [
-        "-std=c++20",
-        "-stdlib=libc++",
-        "-O2",  # 性能测试使用优化编译
-    ],
-    linkopts = [
-        "-stdlib=libc++",
-        "-lc++abi",
-    ],
-    tags = ["performance", "benchmark"],
-)
-
-# 索引性能测试
-cc_test(
-    name = "index_performance_test",
-    srcs = ["performance/index_performance_test.cpp"],
-    deps = [
-        ":test_framework",
-        "//src/storage_engine:storage_engine",
-    ],
-    includes = ["../include"],
-    copts = [
-        "-std=c++20",
-        "-stdlib=libc++",
-        "-O2",
-    ],
-    linkopts = [
-        "-stdlib=libc++",
-        "-lc++abi",
-    ],
-    tags = ["performance", "benchmark"],
-)
+# 注意：性能测试已在子包 tests/performance 中定义
+# 存储引擎和索引性能测试请参考 //tests/performance:all
 
 # ==================== 测试运行工具 ====================
 
-# 运行所有单元测试
-cc_binary(
-    name = "run_unit_tests",
-    srcs = ["scripts/run_unit_tests.cpp"],
-    deps = [
-        ":gtest_main",
-    ],
-    copts = [
-        "-std=c++20",
-        "-stdlib=libc++",
-    ],
-    linkopts = [
-        "-stdlib=libc++",
-        "-lc++abi",
-    ],
-)
-
-# 运行所有集成测试
-cc_binary(
-    name = "run_integration_tests",
-    srcs = ["scripts/run_integration_tests.cpp"],
-    deps = [
-        ":gtest_main",
-    ],
-    copts = [
-        "-std=c++20",
-        "-stdlib=libc++",
-    ],
-    linkopts = [
-        "-stdlib=libc++",
-        "-lc++abi",
-    ],
-)
-
-# 运行性能测试
-cc_binary(
-    name = "run_performance_tests",
-    srcs = ["scripts/run_performance_tests.cpp"],
-    deps = [
-        ":gtest_main",
-    ],
-    copts = [
-        "-std=c++20",
-        "-stdlib=libc++",
-    ],
-    linkopts = [
-        "-stdlib=libc++",
-        "-lc++abi",
-    ],
-)
+# 注意：测试运行工具已在子包 tests/scripts 中定义
+# 运行脚本请参考 //tests/scripts:all
 
 # ==================== 覆盖率分析 ====================
 
-# 生成覆盖率报告的脚本
-cc_binary(
-    name = "generate_coverage_report",
-    srcs = ["scripts/generate_coverage_report.cpp"],
-    deps = [
-        ":gtest_main",
-    ],
-    copts = [
-        "-std=c++20",
-        "-stdlib=libc++",
-        "--coverage",  # GCC覆盖率编译标志
-    ],
-    linkopts = [
-        "-stdlib=libc++",
-        "-lc++abi",
-        "--coverage",  # GCC覆盖率链接标志
-        "-lgcov",
-    ],
-)
+# 注意：覆盖率分析工具已在子包 tests/scripts 中定义
 
 # ==================== 测试数据 ====================
 
@@ -317,8 +105,6 @@ cc_binary(
 pkg_tar(
     name = "test_data",
     srcs = glob([
-        "data/**/*",
         "sql/**/*.sql",
-    ]),
-    strip_prefix = ".",
+    ], allow_empty = True),
 )

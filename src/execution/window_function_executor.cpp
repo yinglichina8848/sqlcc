@@ -26,28 +26,28 @@ ExecutionResult WindowFunctionExecutor::execute(const sql_parser::WindowFunction
 
         // 模拟窗口函数结果
         switch (stmt.getFunctionType()) {
-            case sql_parser::WindowFunction::FunctionType::ROW_NUMBER:
+            case sql_parser::FunctionType::ROW_NUMBER:
                 result.rows = {Row{{Value("1")}}, Row{{Value("2")}}, Row{{Value("3")}}};
                 break;
-            case sql_parser::WindowFunction::FunctionType::RANK:
+            case sql_parser::FunctionType::RANK:
                 result.rows = {Row{{Value("1")}}, Row{{Value("1")}}, Row{{Value("3")}}};
                 break;
-            case sql_parser::WindowFunction::FunctionType::DENSE_RANK:
+            case sql_parser::FunctionType::DENSE_RANK:
                 result.rows = {Row{{Value("1")}}, Row{{Value("1")}}, Row{{Value("2")}}};
                 break;
-            case sql_parser::WindowFunction::FunctionType::SUM:
+            case sql_parser::FunctionType::SUM:
                 result.rows = {Row{{Value("150000")}}, Row{{Value("150000")}}, Row{{Value("150000")}}};
                 break;
-            case sql_parser::WindowFunction::FunctionType::AVG:
+            case sql_parser::FunctionType::AVG:
                 result.rows = {Row{{Value("50000")}}, Row{{Value("50000")}}, Row{{Value("50000")}}};
                 break;
-            case sql_parser::WindowFunction::FunctionType::COUNT:
+            case sql_parser::FunctionType::COUNT:
                 result.rows = {Row{{Value("3")}}, Row{{Value("3")}}, Row{{Value("3")}}};
                 break;
-            case sql_parser::WindowFunction::FunctionType::MIN:
+            case sql_parser::FunctionType::MIN:
                 result.rows = {Row{{Value("45000")}}, Row{{Value("45000")}}, Row{{Value("45000")}}};
                 break;
-            case sql_parser::WindowFunction::FunctionType::MAX:
+            case sql_parser::FunctionType::MAX:
                 result.rows = {Row{{Value("55000")}}, Row{{Value("55000")}}, Row{{Value("55000")}}};
                 break;
             default:
@@ -87,7 +87,7 @@ ExecutionResult WindowFunctionExecutor::executeWindowFunctions(
 
             // 获取分区和排序信息
             const auto& partitions = window_spec->getPartitionBy();
-            const auto& order_cols = window_spec->getOrderByColumns();
+            const auto& order_cols = window_spec->getOrderBy();
             const auto& order_asc = window_spec->getOrderByAscending();
 
             // 对数据进行分区和排序
@@ -198,20 +198,20 @@ void WindowFunctionExecutor::calculateWindowFunction(
 
     // 计算窗口函数
     switch (window_func.getFunctionType()) {
-        case sql_parser::WindowFunction::FunctionType::ROW_NUMBER:
+        case sql_parser::FunctionType::ROW_NUMBER:
             calculateRowNumber(all_rows, results);
             break;
-        case sql_parser::WindowFunction::FunctionType::RANK:
+        case sql_parser::FunctionType::RANK:
             calculateRank(partitions, results);
             break;
-        case sql_parser::WindowFunction::FunctionType::DENSE_RANK:
+        case sql_parser::FunctionType::DENSE_RANK:
             calculateDenseRank(partitions, results);
             break;
-        case sql_parser::WindowFunction::FunctionType::SUM:
-        case sql_parser::WindowFunction::FunctionType::AVG:
-        case sql_parser::WindowFunction::FunctionType::COUNT:
-        case sql_parser::WindowFunction::FunctionType::MIN:
-        case sql_parser::WindowFunction::FunctionType::MAX:
+        case sql_parser::FunctionType::SUM:
+        case sql_parser::FunctionType::AVG:
+        case sql_parser::FunctionType::COUNT:
+        case sql_parser::FunctionType::MIN:
+        case sql_parser::FunctionType::MAX:
             calculateAggregateWindowFunction(window_func, partitions, results);
             break;
         default:
@@ -312,19 +312,19 @@ void WindowFunctionExecutor::calculateAggregateWindowFunction(
             std::string value = "0"; // 默认值
 
             switch (window_func.getFunctionType()) {
-                case sql_parser::WindowFunction::FunctionType::SUM:
+                case sql_parser::FunctionType::SUM:
                     value = calculateSum(partition);
                     break;
-                case sql_parser::WindowFunction::FunctionType::AVG:
+                case sql_parser::FunctionType::AVG:
                     value = calculateAvg(partition);
                     break;
-                case sql_parser::WindowFunction::FunctionType::COUNT:
+                case sql_parser::FunctionType::COUNT:
                     value = std::to_string(partition.size());
                     break;
-                case sql_parser::WindowFunction::FunctionType::MIN:
+                case sql_parser::FunctionType::MIN:
                     value = calculateMin(partition);
                     break;
-                case sql_parser::WindowFunction::FunctionType::MAX:
+                case sql_parser::FunctionType::MAX:
                     value = calculateMax(partition);
                     break;
                 default:

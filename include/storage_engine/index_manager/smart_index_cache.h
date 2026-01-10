@@ -12,11 +12,12 @@
 #include <atomic>
 
 namespace sqlcc {
-namespace storage_engine {
-namespace index_manager {
 
 // Forward declarations
 class BPlusTreeIndex;
+
+namespace storage_engine {
+namespace index_manager {
 
 /**
  * @brief 智能索引缓存管理器

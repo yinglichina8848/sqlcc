@@ -1,5 +1,4 @@
 #include "core/execution_context.h"
-#include "core/core_database_manager.h"
 #include <sstream>
 
 namespace sqlcc {
@@ -58,9 +57,9 @@ ExecutionContext::ExecutionContext(std::shared_ptr<DatabaseManager> db_manager,
                                    std::shared_ptr<UserManager> user_manager,
                                    std::shared_ptr<SystemDatabase> system_db)
     : current_user("admin"),
-      current_database(db_manager ? db_manager->GetCurrentDatabase() : ""),
+      current_database(""),  // 不调用db_manager方法以避免循环依赖
       current_user_("admin"),
-      current_database_(db_manager ? db_manager->GetCurrentDatabase() : ""),
+      current_database_(""),  // 不调用db_manager方法以避免循环依赖
       is_transactional_(false), transaction_id_(""), read_only_(false),
       records_affected(0), rows_affected_(0), rows_returned_(0),
       execution_time_ms_(0), used_index(false), execution_plan("未优化"),

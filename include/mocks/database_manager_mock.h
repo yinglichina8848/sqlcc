@@ -36,7 +36,7 @@ public:
     /**
      * @brief 析构函数
      */
-    ~DatabaseManagerMock() override;
+    ~DatabaseManagerMock();
 
     // 禁止拷贝
     DatabaseManagerMock(const DatabaseManagerMock&) = delete;
@@ -79,40 +79,40 @@ public:
     void ClearCallHistory() { call_history_.clear(); }
 
     // 重写DatabaseManager接口方法
-    bool CreateDatabase(const std::string& db_name) override;
-    bool DropDatabase(const std::string& db_name) override;
-    bool UseDatabase(const std::string& db_name) override;
-    std::vector<std::string> ListDatabases() override;
-    bool DatabaseExists(const std::string& db_name) override;
-    std::string GetCurrentDatabase() const override;
+    bool CreateDatabase(const std::string& db_name);
+    bool DropDatabase(const std::string& db_name);
+    bool UseDatabase(const std::string& db_name);
+    std::vector<std::string> ListDatabases();
+    bool DatabaseExists(const std::string& db_name);
+    std::string GetCurrentDatabase() const;
     bool CreateTable(const std::string& db_name,
                     const std::string& table_name,
-                    const std::vector<std::pair<std::string, std::string>>& columns) override;
+                    const std::vector<std::pair<std::string, std::string>>& columns);
     bool CreateTable(const std::string& table_name,
-                    const std::vector<std::pair<std::string, std::string>>& columns) override;
-    bool DropTable(const std::string& table_name) override;
-    bool TableExists(const std::string& table_name) override;
-    std::vector<std::string> ListTables() override;
-    TransactionId BeginTransaction(IsolationLevel isolation_level = IsolationLevel::READ_COMMITTED) override;
-    bool CommitTransaction(TransactionId txn_id) override;
-    bool RollbackTransaction(TransactionId txn_id) override;
-    bool ReadPage(TransactionId txn_id, int32_t page_id, Page** page) override;
-    bool WritePage(TransactionId txn_id, int32_t page_id, Page* page) override;
-    bool LockKey(TransactionId txn_id, const std::string& key) override;
-    bool UnlockKey(TransactionId txn_id, const std::string& key) override;
-    bool FlushAllPages() override;
-    bool Close() override;
-    std::shared_ptr<TableMetadata> GetTableMetadata(const std::string& table_name) override;
-    std::shared_ptr<IndexManager> GetIndexManager() override;
-    std::shared_ptr<ConfigManager> GetConfig() override;
-    bool Initialize() override;
-    bool IsInitialized() const override;
-    bool Execute(const std::string& sql) override;
-    std::vector<std::string> GetTableNames() override;
-    std::string GetTableSchema(const std::string& table_name) override;
+                    const std::vector<std::pair<std::string, std::string>>& columns);
+    bool DropTable(const std::string& table_name);
+    bool TableExists(const std::string& table_name);
+    std::vector<std::string> ListTables();
+    TransactionId BeginTransaction(IsolationLevel isolation_level = IsolationLevel::READ_COMMITTED);
+    bool CommitTransaction(TransactionId txn_id);
+    bool RollbackTransaction(TransactionId txn_id);
+    bool ReadPage(TransactionId txn_id, int32_t page_id, Page** page);
+    bool WritePage(TransactionId txn_id, int32_t page_id, Page* page);
+    bool LockKey(TransactionId txn_id, const std::string& key);
+    bool UnlockKey(TransactionId txn_id, const std::string& key);
+    bool FlushAllPages();
+    bool Close();
+    std::shared_ptr<TableMetadata> GetTableMetadata(const std::string& table_name);
+    std::shared_ptr<IndexManager> GetIndexManager();
+    std::shared_ptr<ConfigManager> GetConfig();
+    bool Initialize();
+    bool IsInitialized() const;
+    bool Execute(const std::string& sql);
+    std::vector<std::string> GetTableNames();
+    std::string GetTableSchema(const std::string& table_name);
 
 private:
-    void RecordCall(const std::string& method, const std::vector<std::string>& args = {});
+    void RecordCall const(const std::string& method, const std::vector<std::string>& args = {});
 
     // Mock配置
     bool create_database_success_ = true;
@@ -142,7 +142,7 @@ private:
     std::string get_table_schema_result_;
 
     // 调用历史
-    std::vector<CallRecord> call_history_;
+    mutable std::vector<CallRecord> call_history_;
 };
 
 } // namespace mocks
