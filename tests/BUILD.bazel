@@ -1,38 +1,104 @@
-# tests/BUILD.bazel - 根目录测试定义
-# 遵循设计文档的测试结构，使用标准cc_test
+# SQLCC测试套件BUILD.bazel - 集成Google Test框架
+# 提供完整的单元测试、集成测试和性能测试支持
 
-load("@rules_cc//cc:defs.bzl", "cc_test")
+load("@rules_cc//cc:defs.bzl", "cc_library", "cc_test", "cc_binary")
+load("@bazel_tools//tools/build_defs/pkg:pkg.bzl", "pkg_tar")
 
-exports_files(["test_disk_manager.h"])
+package(default_visibility = ["//visibility:public"])
 
-# Test utilities library
+# ==================== Google Test 集成 ====================
+
+# Google Test库依赖
 cc_library(
-    name = "test_utils",
-    hdrs = ["test_disk_manager.h"],
-    visibility = ["//visibility:public"],
-    copts = [
-        "-std=c++20",
-        "-stdlib=libc++",
+    name = "gtest",
+    deps = [
+        "@googletest//:gtest_main",
     ],
 )
 
-
-# ==================== SQL解析器测试 ====================
-
-cc_test(
-    name = "parser_create_table_test",
-    srcs = ["parser_create_table_test.cpp"],
+cc_library(
+    name = "gtest_main",
     deps = [
-        "@com_google_googletest//:gtest_main",
-        "//src/core:core",
-        "//src/utils:utils",
+        "@googletest//:gtest_main",
+    ],
+)
+
+# ==================== 测试框架基础库 ====================
+
+# 测试辅助工具库
+cc_library(
+    name = "test_framework",
+    srcs = [
+        "framework/test_base.cpp",
+        "framework/test_helpers.cpp",
+        "framework/performance_timer.cpp",
+    ],
+    hdrs = [
+        "framework/test_base.h",
+        "framework/test_helpers.h",
+        "framework/performance_timer.h",
+    ],
+    deps = [
+        ":gtest",
+        "//include:sql_executor",
+        "//include:storage_engine",
+        "//include:transaction_manager",
+        "//include:core_database_manager",
+        "//src/mocks:storage_engine_mock",
+        "//src/mocks:database_manager_mock",
+        "//src/mocks:transaction_manager_mock",
+        "//src/mocks:index_manager_mock",
+    ],
+    includes = ["../include"],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+        "-Wall",
+        "-Wextra",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+)
+
+# ==================== Mock库 ====================
+
+cc_library(
+    name = "mocks",
+    srcs = [
+        "//src/mocks:storage_engine_mock.cpp",
+        "//src/mocks:database_manager_mock.cpp",
+        "//src/mocks:transaction_manager_mock.cpp",
+        "//src/mocks:index_manager_mock.cpp",
+    ],
+    hdrs = [
+        "//include/mocks:storage_engine_mock.h",
+        "//include/mocks:database_manager_mock.h",
+        "//include/mocks:transaction_manager_mock.h",
+        "//include/mocks:index_manager_mock.h",
+    ],
+    deps = [
+        "//include:storage_engine",
+        "//include:core_database_manager",
+        "//include:transaction_manager",
+        "//include:storage_index_manager",
+    ],
+    includes = ["../include"],
+)
+
+# ==================== 单元测试 ====================
+
+# 存储引擎单元测试
+cc_test(
+    name = "storage_engine_unit_test",
+    srcs = ["storage_engine/storage_engine_unit_test.cpp"],
+    deps = [
+        ":test_framework",
+        ":mocks",
         "//src/storage_engine:storage_engine",
-        "//src/execution:execution",
-        "//src/transaction:transaction",
-        "//src/types:types",
-        "//src/procedure:procedure",
-        "//src/trigger:trigger",
     ],
+    includes = ["../include"],
     copts = [
         "-std=c++20",
         "-stdlib=libc++",
@@ -43,20 +109,16 @@ cc_test(
     ],
 )
 
+# 索引管理器单元测试
 cc_test(
-    name = "parser_create_table_advanced_test",
-    srcs = ["parser_create_table_advanced_test.cpp"],
+    name = "index_manager_unit_test",
+    srcs = ["storage_engine/index_manager_unit_test.cpp"],
     deps = [
-        "@com_google_googletest//:gtest_main",
-        "//src/core:core",
-        "//src/utils:utils",
+        ":test_framework",
+        ":mocks",
         "//src/storage_engine:storage_engine",
-        "//src/execution:execution",
-        "//src/transaction:transaction",
-        "//src/types:types",
-        "//src/procedure:procedure",
-        "//src/trigger:trigger",
     ],
+    includes = ["../include"],
     copts = [
         "-std=c++20",
         "-stdlib=libc++",
@@ -67,20 +129,37 @@ cc_test(
     ],
 )
 
+# 事务管理器单元测试
 cc_test(
-    name = "parser_alter_table_test",
-    srcs = ["parser_alter_table_test.cpp"],
+    name = "transaction_manager_unit_test",
+    srcs = ["transaction/transaction_manager_unit_test.cpp"],
     deps = [
-        "@com_google_googletest//:gtest_main",
+        ":test_framework",
+        ":mocks",
+    ],
+    includes = ["../include"],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+)
+
+# ==================== 集成测试 ====================
+
+# 数据库管理器集成测试
+cc_test(
+    name = "database_manager_integration_test",
+    srcs = ["integration/database_manager_integration_test.cpp"],
+    deps = [
+        ":test_framework",
+        ":mocks",
         "//src/core:core",
-        "//src/utils:utils",
-        "//src/storage_engine:storage_engine",
-        "//src/execution:execution",
-        "//src/transaction:transaction",
-        "//src/types:types",
-        "//src/procedure:procedure",
-        "//src/trigger:trigger",
     ],
+    includes = ["../include"],
     copts = [
         "-std=c++20",
         "-stdlib=libc++",
@@ -89,22 +168,19 @@ cc_test(
         "-stdlib=libc++",
         "-lc++abi",
     ],
+    tags = ["integration"],
 )
 
+# SQL执行器集成测试
 cc_test(
-    name = "parser_alter_table_comprehensive_test",
-    srcs = ["parser_alter_table_comprehensive_test.cpp"],
+    name = "sql_executor_integration_test",
+    srcs = ["integration/sql_executor_integration_test.cpp"],
     deps = [
-        "@com_google_googletest//:gtest_main",
-        "//src/core:core",
-        "//src/utils:utils",
-        "//src/storage_engine:storage_engine",
-        "//src/execution:execution",
-        "//src/transaction:transaction",
-        "//src/types:types",
-        "//src/procedure:procedure",
-        "//src/trigger:trigger",
+        ":test_framework",
+        ":mocks",
+        "//src/sql_executor:sql_executor",
     ],
+    includes = ["../include"],
     copts = [
         "-std=c++20",
         "-stdlib=libc++",
@@ -113,210 +189,136 @@ cc_test(
         "-stdlib=libc++",
         "-lc++abi",
     ],
+    tags = ["integration"],
 )
 
+# ==================== 性能测试 ====================
+
+# 存储引擎性能测试
 cc_test(
-    name = "parser_drop_table_test",
-    srcs = ["parser_drop_table_test.cpp"],
+    name = "storage_engine_performance_test",
+    srcs = ["performance/storage_engine_performance_test.cpp"],
     deps = [
-        "@com_google_googletest//:gtest_main",
-        "//src/core:core",
-        "//src/utils:utils",
+        ":test_framework",
         "//src/storage_engine:storage_engine",
-        "//src/execution:execution",
-        "//src/transaction:transaction",
-        "//src/types:types",
-        "//src/procedure:procedure",
-        "//src/trigger:trigger",
     ],
+    includes = ["../include"],
     copts = [
         "-std=c++20",
         "-stdlib=libc++",
+        "-O2",  # 性能测试使用优化编译
     ],
     linkopts = [
         "-stdlib=libc++",
         "-lc++abi",
     ],
+    tags = ["performance", "benchmark"],
 )
 
+# 索引性能测试
 cc_test(
-    name = "parser_select_test",
-    srcs = ["parser_select_test.cpp"],
+    name = "index_performance_test",
+    srcs = ["performance/index_performance_test.cpp"],
     deps = [
-        "@com_google_googletest//:gtest_main",
-        "//src/core:core",
-        "//src/utils:utils",
+        ":test_framework",
         "//src/storage_engine:storage_engine",
-        "//src/execution:execution",
-        "//src/transaction:transaction",
-        "//src/types:types",
-        "//src/procedure:procedure",
-        "//src/trigger:trigger",
     ],
+    includes = ["../include"],
     copts = [
         "-std=c++20",
         "-stdlib=libc++",
+        "-O2",
     ],
     linkopts = [
         "-stdlib=libc++",
         "-lc++abi",
     ],
+    tags = ["performance", "benchmark"],
 )
 
-cc_test(
-    name = "parser_insert_test",
-    srcs = ["parser_insert_test.cpp"],
-    deps = [
-        "@com_google_googletest//:gtest_main",
-        "//src/core:core",
-        "//src/utils:utils",
-        "//src/storage_engine:storage_engine",
-        "//src/execution:execution",
-        "//src/transaction:transaction",
-        "//src/types:types",
-        "//src/procedure:procedure",
-        "//src/trigger:trigger",
-    ],
-    copts = [
-        "-std=c++20",
-        "-stdlib=libc++",
-    ],
-    linkopts = [
-        "-stdlib=libc++",
-        "-lc++abi",
-    ],
-)
+# ==================== 测试运行工具 ====================
 
-cc_test(
-    name = "debug_lexer_test",
-    srcs = ["debug_lexer_test.cpp"],
-    deps = [
-        "@com_google_googletest//:gtest_main",
-        "//src/core:core",
-        "//src/utils:utils",
-        "//src/storage_engine:storage_engine",
-        "//src/execution:execution",
-        "//src/transaction:transaction",
-        "//src/types:types",
-        "//src/procedure:procedure",
-        "//src/trigger:trigger",
-    ],
-    copts = [
-        "-std=c++20",
-        "-stdlib=libc++",
-    ],
-    linkopts = [
-        "-stdlib=libc++",
-        "-lc++abi",
-    ],
-)
-
-cc_test(
-    name = "debug_token_enum_values",
-    srcs = ["debug_token_enum_values.cpp"],
-    deps = [
-        "@com_google_googletest//:gtest_main",
-        "//src/core:core",
-        "//src/utils:utils",
-        "//src/storage_engine:storage_engine",
-        "//src/execution:execution",
-        "//src/transaction:transaction",
-        "//src/types:types",
-        "//src/procedure:procedure",
-        "//src/trigger:trigger",
-    ],
-    copts = [
-        "-std=c++20",
-        "-stdlib=libc++",
-    ],
-    linkopts = [
-        "-stdlib=libc++",
-        "-lc++abi",
-    ],
-)
-
-cc_test(
-    name = "debug_keyword_check",
-    srcs = ["debug_keyword_check.cpp"],
-    deps = [
-        "@com_google_googletest//:gtest_main",
-        "//src/core:core",
-        "//src/utils:utils",
-        "//src/storage_engine:storage_engine",
-        "//src/execution:execution",
-        "//src/transaction:transaction",
-        "//src/types:types",
-        "//src/procedure:procedure",
-        "//src/trigger:trigger",
-    ],
-    copts = [
-        "-std=c++20",
-        "-stdlib=libc++",
-    ],
-    linkopts = [
-        "-stdlib=libc++",
-        "-lc++abi",
-    ],
-)
-
-# ==================== 高级SQL92特性测试 ====================
-
-cc_test(
-    name = "advanced_sql92_test_suite",
-    srcs = ["advanced_sql92_test_suite.cpp"],
-    deps = [
-        "//src/execution:execution",
-        "//src/trigger:trigger",
-        "//src/transaction:transaction",
-        "//src/types:types",
-        "//src/procedure:procedure",
-        "@com_google_googletest//:gtest_main",
-    ],
-    copts = [
-        "-std=c++20",
-        "-stdlib=libc++",
-    ],
-    linkopts = [
-        "-stdlib=libc++",
-        "-lc++abi",
-    ],
-)
-
-# ==================== 查询特性测试 ====================
-
-cc_test(
-    name = "query_features_test",
-    srcs = ["query_features_test.cpp"],
-    deps = [
-        "//src/execution:execution",
-        "//src/core:core",
-        "//src/storage_engine:storage_engine",
-        "@com_google_googletest//:gtest_main",
-    ],
-    copts = [
-        "-std=c++20",
-        "-stdlib=libc++",
-    ],
-    linkopts = [
-        "-stdlib=libc++",
-        "-lc++abi",
-    ],
-)
-
-# CRUD 性能测试
+# 运行所有单元测试
 cc_binary(
-    name = "crud_test",
-    srcs = ["crud_test.cpp"],
+    name = "run_unit_tests",
+    srcs = ["scripts/run_unit_tests.cpp"],
     deps = [
-        "//src:database_manager",
-        "//include/core:core_database_manager",
+        ":gtest_main",
     ],
     copts = [
-        "-fprofile-instr-generate",
-        "-fcoverage-mapping",
+        "-std=c++20",
+        "-stdlib=libc++",
     ],
     linkopts = [
-        "-fprofile-instr-generate",
-        "-fcoverage-mapping",
+        "-stdlib=libc++",
+        "-lc++abi",
     ],
+)
+
+# 运行所有集成测试
+cc_binary(
+    name = "run_integration_tests",
+    srcs = ["scripts/run_integration_tests.cpp"],
+    deps = [
+        ":gtest_main",
+    ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+)
+
+# 运行性能测试
+cc_binary(
+    name = "run_performance_tests",
+    srcs = ["scripts/run_performance_tests.cpp"],
+    deps = [
+        ":gtest_main",
+    ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+)
+
+# ==================== 覆盖率分析 ====================
+
+# 生成覆盖率报告的脚本
+cc_binary(
+    name = "generate_coverage_report",
+    srcs = ["scripts/generate_coverage_report.cpp"],
+    deps = [
+        ":gtest_main",
+    ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+        "--coverage",  # GCC覆盖率编译标志
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+        "--coverage",  # GCC覆盖率链接标志
+        "-lgcov",
+    ],
+)
+
+# ==================== 测试数据 ====================
+
+# 测试数据包
+pkg_tar(
+    name = "test_data",
+    srcs = glob([
+        "data/**/*",
+        "sql/**/*.sql",
+    ]),
+    strip_prefix = ".",
 )
