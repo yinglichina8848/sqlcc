@@ -97,6 +97,8 @@
 #include "network/encryption.h"
 #include "utils/file_descriptor.h"
 #include "utils/ssl_wrapper.h"
+#include "core/user_manager.h"
+#include "sql_executor.h"
 #ifdef __linux__
 #include <openssl/ssl.h>
 #endif
@@ -282,9 +284,7 @@ private:
 
 // Forward declarations
 class ClientConnection;
-namespace sqlcc {
 class SqlExecutor;
-}
 
 // 客户端网络管理器
 class ClientNetworkManager {
@@ -328,7 +328,7 @@ private:
 // 连接处理器
 class ConnectionHandler {
 public:
-    ConnectionHandler(FileDescriptor&& fd, std::shared_ptr<SessionManager> session_manager, std::shared_ptr<sqlcc::SqlExecutor> sql_executor);
+    ConnectionHandler(FileDescriptor&& fd, std::shared_ptr<SessionManager> session_manager, std::shared_ptr<sqlcc::SqlExecutor> sql_executor, std::shared_ptr<::sqlcc::UserManager> user_manager);
     ~ConnectionHandler();
     
     int GetFd() const;
@@ -695,10 +695,12 @@ private:
     StabilityAction DetermineAction(int load_level, double exception_rate, size_t throughput) const;
 };
 
+#include "utils/thread_pool.h"
+
 // 服务器网络管理器
 class ServerNetworkManager {
 public:
-    ServerNetworkManager(int port, int max_connections = 100);
+    ServerNetworkManager(int port, int max_connections = 100, int thread_pool_size = 4);
     ~ServerNetworkManager();
     
     bool Start();
@@ -724,6 +726,7 @@ private:
     bool running_;
     std::shared_ptr<SessionManager> session_manager_;
     std::shared_ptr<sqlcc::SqlExecutor> sql_executor_;
+    std::shared_ptr<::sqlcc::UserManager> user_manager_;
     std::unordered_map<int, std::unique_ptr<ConnectionHandler>> connections_;
 #ifdef __linux__
     bool tls_enabled_ = false;

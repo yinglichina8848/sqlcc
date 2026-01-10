@@ -4,6 +4,27 @@
 load("@rules_cc//cc:defs.bzl", "cc_library")
 
 
+# Thread Pool库 - 多线程任务执行器
+cc_library(
+    name = "thread_pool",
+    srcs = ["thread_pool.cpp"],
+    hdrs = ["//include/utils:thread_pool.h"],
+    includes = ["//include"],
+    copts = [
+        "-Iinclude",
+        "-std=c++20",
+        "-stdlib=libc++",
+        "-Wall",
+        "-Wextra",
+        "-Wno-uninitialized",
+        "-pthread",
+    ],
+    linkopts = [
+        "-pthread",
+    ],
+    visibility = ["//visibility:public"],
+)
+
 # Utils库 - 工具库
 cc_library(
     name = "utils",

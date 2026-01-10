@@ -1,0 +1,41 @@
+# SQLCC Execution Tests
+# Test programs for SQL execution engine
+# All tests use CLang compiler as specified
+
+cc_binary(
+    name = "simple_execution_context_test",
+    srcs = ["simple_execution_context_test.cpp"],
+    deps = [
+        "//src/execution:execution",
+        "//src/core:core",
+        "//src/utils:utils",
+        "//src/logger:logger",
+    ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+    ],
+    linkopts = [
+        "-pthread",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+cc_binary(
+    name = "test_sql_executor",
+    srcs = ["test_sql_executor.cpp"],
+    deps = [
+        "//src/sql_executor:sql_executor",
+        "//src/core:core",
+        "//src/utils:utils",
+        "//src/logger:logger",
+    ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+    ],
+    linkopts = [
+        "-pthread",
+    ],
+    visibility = ["//visibility:public"],
+)

@@ -85,8 +85,8 @@ public:
     }
     
     // 检查是否有效 - 增强验证
-    bool is_valid() const { 
-        return ctx_ != nullptr; 
+    bool is_valid() const noexcept {
+        return ctx_ != nullptr;
     }
     
     // 释放所有权 - 增强参数验证
@@ -216,8 +216,8 @@ public:
     }
     
     // 检查是否有效 - 增强验证
-    bool is_valid() const { 
-        return ssl_ != nullptr; 
+    bool is_valid() const noexcept {
+        return ssl_ != nullptr;
     }
     
     // 释放所有权 - 增强参数验证

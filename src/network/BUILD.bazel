@@ -1,9 +1,16 @@
+# SQLCC Network Core Library
+# This file contains only core network functionality, no test programs
+
 cc_library(
     name = "session",
     srcs = ["session.cpp"],
     hdrs = ["//include/network:session.h"],
     deps = [
         "//include/network/encryption:aes_encryptor",
+    ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
     ],
     visibility = ["//visibility:public"],
 )
@@ -16,6 +23,10 @@ cc_library(
         ":session",
         "//src/utils:utils",
         "//src/logger:logger",
+    ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
     ],
     visibility = ["//visibility:public"],
 )
@@ -53,6 +64,8 @@ cc_library(
     includes = ["//include"],
     copts = [
         "-Iinclude",
+        "-std=c++20",
+        "-stdlib=libc++",
     ],
     deps = [
         ":session",
@@ -71,46 +84,25 @@ cc_library(
     visibility = ["//visibility:public"],
 )
 
-# Authentication test server
+# Network server main executable
 cc_binary(
-    name = "auth_test_server",
-    srcs = ["auth_test_server.cpp"],
+    name = "server_main",
+    srcs = ["server_main.cpp"],
     deps = [
         ":network",
         "//src/core:core",
         "//src/utils:utils",
+        "//src/logger:logger",
     ],
-    visibility = ["//visibility:public"],
-)
-
-# Authentication test client
-cc_binary(
-    name = "auth_test_client",
-    srcs = ["auth_test_client.cpp"],
-    deps = [
-        ":network",
-        "//src/utils:utils",
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+        "-O2",
     ],
-    visibility = ["//visibility:public"],
-)
-
-# Simple authentication logic test
-cc_binary(
-    name = "simple_auth_test",
-    srcs = ["simple_auth_test.cpp"],
-    deps = [
-        "//src/core:core",
-        ":network",
-    ],
-    visibility = ["//visibility:public"],
-)
-
-# Standalone authentication test (no complex dependencies)
-cc_binary(
-    name = "standalone_auth_test",
-    srcs = ["standalone_auth_test.cpp"],
-    deps = [
-        "//src/core:core",
+    linkopts = [
+        "-pthread",
+        "-lssl",
+        "-lcrypto",
     ],
     visibility = ["//visibility:public"],
 )

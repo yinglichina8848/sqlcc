@@ -81,6 +81,8 @@ private:
     int scale_;          // 小数位数
 
     void normalize();
+    void from_string(const std::string& str);
+    void from_double(double value);
     static int64_t stringToInt64(const std::string& str, int scale);
 };
 

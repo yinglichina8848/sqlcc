@@ -158,32 +158,7 @@ cc_binary(
     ],
 )
 
-# ==================== CRUD性能测试 ====================
-
-# CRUD性能测试客户端
-cc_binary(
-    name = "crud_performance_test",
-    srcs = ["crud_performance_test.cpp"],
-    deps = [
-        "//src/network:network",
-        "//src/core:core",
-    ],
-    includes = ["include"],
-    copts = [
-        "-std=c++20",
-        "-stdlib=libc++",
-        "-Wall",
-        "-Wextra",
-        "-Wno-error=maybe-uninitialized",
-    ],
-    linkopts = [
-        "-stdlib=libc++",
-        "-lc++abi",
-        "-lssl",
-        "-lcrypto",
-    ],
-    defines = [
-        "SQLCC_MODERN_CPP=1",
-        "SQLCC_CLANG18_FEATURES=1",
-    ],
-)
+# ==================== 网络测试程序 ====================
+# 所有网络测试程序已移动到 tests/network 目录
+# 使用以下命令运行测试：
+# bazel run //tests/network:true_crud_performance_test
