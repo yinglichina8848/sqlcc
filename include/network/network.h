@@ -94,7 +94,6 @@
 #include <mutex>
 #include <vector>
 
-#include "sql_executor.h"
 #include "network/encryption.h"
 #include "utils/file_descriptor.h"
 #include "utils/ssl_wrapper.h"
@@ -281,8 +280,11 @@ private:
     int next_session_id_;
 };
 
-// Forward declaration for ClientConnection
+// Forward declarations
 class ClientConnection;
+namespace sqlcc {
+class SqlExecutor;
+}
 
 // 客户端网络管理器
 class ClientNetworkManager {
@@ -326,7 +328,7 @@ private:
 // 连接处理器
 class ConnectionHandler {
 public:
-    ConnectionHandler(sqlcc::FileDescriptor&& fd, std::shared_ptr<SessionManager> session_manager, std::shared_ptr<sqlcc::SqlExecutor> sql_executor);
+    ConnectionHandler(FileDescriptor&& fd, std::shared_ptr<SessionManager> session_manager, std::shared_ptr<sqlcc::SqlExecutor> sql_executor);
     ~ConnectionHandler();
     
     int GetFd() const;
@@ -355,7 +357,7 @@ private:
     std::vector<char> EncryptMessage(const std::vector<char>& message);
     std::vector<char> DecryptMessage(const std::vector<char>& message);
     
-    sqlcc::FileDescriptor fd_;  // RAII文件描述符管理
+    FileDescriptor fd_;  // RAII文件描述符管理
     std::shared_ptr<SessionManager> session_manager_;
     std::shared_ptr<sqlcc::SqlExecutor> sql_executor_;
     std::shared_ptr<Session> session_;
@@ -363,7 +365,7 @@ private:
     std::queue<std::vector<char>> write_queue_;
     std::mutex write_mutex_;
 #ifdef __linux__
-    sqlcc::utils::SSLSocket ssl_;      // SSL RAII包装器
+    utils::SSLSocket ssl_;      // SSL RAII包装器
     bool tls_enabled_ = false;
 #endif
 };
@@ -717,15 +719,15 @@ private:
     
     int port_;
     int max_connections_;
-    sqlcc::FileDescriptor listen_fd_;
-    sqlcc::FileDescriptor epoll_fd_;
+    FileDescriptor listen_fd_;
+    FileDescriptor epoll_fd_;
     bool running_;
     std::shared_ptr<SessionManager> session_manager_;
     std::shared_ptr<sqlcc::SqlExecutor> sql_executor_;
     std::unordered_map<int, std::unique_ptr<ConnectionHandler>> connections_;
 #ifdef __linux__
     bool tls_enabled_ = false;
-    sqlcc::utils::SSLContext ssl_ctx_; // SSL_CTX RAII包装器
+    utils::SSLContext ssl_ctx_; // SSL_CTX RAII包装器
 #endif
 };
 
