@@ -29,7 +29,9 @@ int main(int argc, char* argv[]) {
     int port = 18647;
     std::string username = "admin";
     std::string password = "password";
-    bool enable_encryption = false;  // 加密开关
+    bool enable_tls = false;         // TLS开关
+    bool enable_aes = false;         // AES加密开关
+    std::string ca_cert_path;        // CA证书路径
 
     // 解析命令行参数
     std::string sql_command;
@@ -37,7 +39,7 @@ int main(int argc, char* argv[]) {
     bool execute_mode = false;
     bool file_mode = false;
     int opt;
-    while ((opt = getopt(argc, argv, "h:p:u:P:eE:f:")) != -1) {
+    while ((opt = getopt(argc, argv, "h:p:u:P:t:eE:f:")) != -1) {
         switch (opt) {
             case 'h':
                 host = optarg;
@@ -51,8 +53,12 @@ int main(int argc, char* argv[]) {
             case 'P':
                 password = optarg;
                 break;
+            case 't':
+                enable_tls = true;         // 启用TLS
+                ca_cert_path = optarg;     // CA证书路径
+                break;
             case 'e':
-                enable_encryption = true;  // 启用加密
+                enable_aes = true;         // 启用AES加密
                 break;
             case 'E':
                 execute_mode = true;
@@ -63,7 +69,8 @@ int main(int argc, char* argv[]) {
                 sql_file = optarg;  // 执行SQL脚本文件
                 break;
             default:
-                std::cerr << "Usage: " << argv[0] << " [-h host] [-p port] [-u username] [-P password] [-e] [-E sql_command] [-f sql_file]" << std::endl;
+                std::cerr << "Usage: " << argv[0] << " [-h host] [-p port] [-u username] [-P password] [-t ca_cert_path] [-e] [-E sql_command] [-f sql_file]" << std::endl;
+                std::cerr << "  -t ca_cert_path: Enable TLS with CA certificate file" << std::endl;
                 std::cerr << "  -e: Enable AES-256 encryption for all connections" << std::endl;
                 std::cerr << "  -E sql_command: Execute SQL command directly" << std::endl;
                 std::cerr << "  -f sql_file: Execute SQL commands from file" << std::endl;
@@ -76,31 +83,46 @@ int main(int argc, char* argv[]) {
     std::cout << "[DEBUG]   Port: " << port << std::endl;
     std::cout << "[DEBUG]   Username: " << username << std::endl;
     std::cout << "[DEBUG]   Password: " << password << std::endl;
-    std::cout << "[DEBUG]   Encryption: " << (enable_encryption ? "enabled" : "disabled") << std::endl;
+    std::cout << "[DEBUG]   TLS: " << (enable_tls ? "enabled" : "disabled") << std::endl;
+    std::cout << "[DEBUG]   AES: " << (enable_aes ? "enabled" : "disabled") << std::endl;
     std::cout << "[DEBUG]   Execute mode: " << (execute_mode ? "yes" : "no") << std::endl;
     std::cout << "[DEBUG]   File mode: " << (file_mode ? "yes" : "no") << std::endl;
     if (execute_mode) std::cout << "[DEBUG]   SQL command: " << sql_command << std::endl;
     if (file_mode) std::cout << "[DEBUG]   SQL file: " << sql_file << std::endl;
+    if (enable_tls) std::cout << "[DEBUG]   CA cert: " << ca_cert_path << std::endl;
 
     std::cout << "SqlCC Network Client connecting to " << host << ":" << port << std::endl;
-    if (enable_encryption) {
+    if (enable_tls) {
+        std::cout << "[TLS模式] 启用TLS安全连接" << std::endl;
+    }
+    if (enable_aes) {
         std::cout << "[加密模式] 启用AES-256-CBC加密通信" << std::endl;
     }
     
     // 创建客户端网络管理器
     ClientNetworkManager client(host, port);
-    
+
+    // 如果启用TLS，配置TLS连接
+    if (enable_tls) {
+        client.EnableTLS(true);
+        if (!client.ConfigureTLSClient(ca_cert_path)) {
+            std::cerr << "Failed to configure TLS client" << std::endl;
+            return 1;
+        }
+        std::cout << "TLS client configured successfully" << std::endl;
+    }
+
     // 连接并认证
     std::cout << "Attempting to connect and authenticate..." << std::endl;
     if (!client.ConnectAndAuthenticate(username, password)) {
         std::cerr << "Failed to connect and authenticate to server" << std::endl;
         return 1;
     }
-    
+
     std::cout << "Successfully connected and authenticated to server" << std::endl;
-    
-    // 如果启用加密，则启动密钥交换
-    if (enable_encryption) {
+
+    // 如果启用AES加密，则启动密钥交换
+    if (enable_aes) {
         std::cout << "[加密] 发起密钥交换..." << std::endl;
         if (!client.InitiateKeyExchange()) {
             std::cerr << "[加密] 密钥交换失败" << std::endl;

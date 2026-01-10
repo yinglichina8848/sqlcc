@@ -9,6 +9,7 @@ namespace network {
 
 class ClientConnection;
 class Session;
+class SessionManager;
 
 /**
  * @brief 客户端网络管理器类
@@ -126,9 +127,17 @@ public:
     std::vector<char> DecryptMessage(const std::vector<char>& message);
 
 private:
+    /**
+     * @brief 生成序列号
+     * @return 新的序列号
+     */
+    uint32_t GenerateSequenceId();
+
     std::unique_ptr<ClientConnection> connection_;                    ///< 客户端连接对象
+    std::shared_ptr<SessionManager> session_manager_;                ///< 会话管理器
     std::shared_ptr<Session> session_;                               ///< 当前会话
     std::shared_ptr<class AESEncryptor> aes_encryptor_;              ///< AES加密器
+    uint32_t sequence_counter_;                                      ///< 序列号计数器
 };
 
 } // namespace network

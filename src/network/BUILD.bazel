@@ -26,16 +26,23 @@ cc_library(
         "network.cpp",
         "connection_state_machine.cpp",
         "client_connection.cpp",
+        "client_network_manager.cpp",
+        "connection_handler.cpp",
         "mysql_protocol.cpp",
         "data_transmission_validator.cpp",
         "encryption.cpp",
         "network_exception_handler.cpp",
+        "message_serializer.cpp",
+        "server_network_manager.cpp",
     ],
     hdrs = [
         "//include/network:network.h",
         "//include/network:client_connection.h",
+        "//include/network:client_network_manager.h",
         "//include/network:connection_handler.h",
-        "//include/network:server_network_manager.h",
+        "//include/network:message_serializer.h",
+        "//include/network:message_types.h",
+        # "//include/network:server_network_manager.h",  # Temporarily disabled
         "//include/network:mysql_protocol.h",
         "//include/network:encryption.h",
     ],
@@ -56,6 +63,52 @@ cc_library(
         "//include/network/encryption:encryption_headers",
         "//src/security:security",
         "//src/transaction:transaction",
+        "//src/sql_executor:sql_executor",
+        "//src/sql_parser:sql_parser",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+# Authentication test server
+cc_binary(
+    name = "auth_test_server",
+    srcs = ["auth_test_server.cpp"],
+    deps = [
+        ":network",
+        "//src/core:core",
+        "//src/utils:utils",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+# Authentication test client
+cc_binary(
+    name = "auth_test_client",
+    srcs = ["auth_test_client.cpp"],
+    deps = [
+        ":network",
+        "//src/utils:utils",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+# Simple authentication logic test
+cc_binary(
+    name = "simple_auth_test",
+    srcs = ["simple_auth_test.cpp"],
+    deps = [
+        "//src/core:core",
+        ":network",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+# Standalone authentication test (no complex dependencies)
+cc_binary(
+    name = "standalone_auth_test",
+    srcs = ["standalone_auth_test.cpp"],
+    deps = [
+        "//src/core:core",
     ],
     visibility = ["//visibility:public"],
 )

@@ -58,8 +58,8 @@ cc_binary(
 # ISQL客户端程序 - 引用子包目标
 cc_binary(
     name = "isql",
-    srcs = ["//src/isql_network:client_main.cpp"],
     deps = [
+        "//src/isql_network:isql_network_lib",
         "//src/network:network",
         "//src/core:core",
         "//src/sql_executor:sql_executor",
@@ -131,4 +131,59 @@ cc_binary(
         "-fmodules-ts",  # GCC/Clang modules标志
     ],
     features = ["cpp20_modules"],
+)
+
+# ==================== SQL执行器功能测试 ====================
+
+# SQL Executor功能测试
+cc_binary(
+    name = "test_sql_executor",
+    srcs = ["test_sql_executor.cpp"],
+    deps = ["//include:sql_executor"],
+    includes = ["include"],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+        "-Wall",
+        "-Wextra",
+        "-Wno-error=maybe-uninitialized",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+    defines = [
+        "SQLCC_MODERN_CPP=1",
+        "SQLCC_CLANG18_FEATURES=1",
+    ],
+)
+
+# ==================== CRUD性能测试 ====================
+
+# CRUD性能测试客户端
+cc_binary(
+    name = "crud_performance_test",
+    srcs = ["crud_performance_test.cpp"],
+    deps = [
+        "//src/network:network",
+        "//src/core:core",
+    ],
+    includes = ["include"],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+        "-Wall",
+        "-Wextra",
+        "-Wno-error=maybe-uninitialized",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+        "-lssl",
+        "-lcrypto",
+    ],
+    defines = [
+        "SQLCC_MODERN_CPP=1",
+        "SQLCC_CLANG18_FEATURES=1",
+    ],
 )

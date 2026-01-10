@@ -95,6 +95,7 @@ private:
     bool running_;                                     ///< 运行状态
     std::shared_ptr<SessionManager> session_manager_;  ///< 会话管理器
     std::shared_ptr<sqlcc::SqlExecutor> sql_executor_; ///< SQL执行器
+    std::shared_ptr<sqlcc::UserManager> user_manager_; ///< 用户管理器
 
     // Linux specific members
 #ifdef __linux__

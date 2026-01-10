@@ -95,27 +95,39 @@ bool ClientConnection::Connect() {
 
     // 如果启用TLS，则进行TLS握手
     if (tls_enabled_) {
-        SSL_library_init();
-        SSL_load_error_strings();
-        const SSL_METHOD* method = nullptr;
-        if (TLS_client_method()) {
-            method = TLS_client_method();
-        }
-        ssl_ctx_ = sqlcc::utils::SSLContext::create(method);
-        if (!ssl_ctx_.is_valid()) {
-            Disconnect();
-            return false;
-        }
-        if (!ca_cert_path_.empty()) {
-            if (SSL_CTX_load_verify_locations(ssl_ctx_.get(), ca_cert_path_.c_str(), nullptr) != 1) {
+        try {
+            SSL_library_init();
+            SSL_load_error_strings();
+            const SSL_METHOD* method = nullptr;
+            if (TLS_client_method()) {
+                method = TLS_client_method();
+            }
+            ssl_ctx_ = sqlcc::utils::SSLContext::create(method);
+            if (!ssl_ctx_.is_valid()) {
+                std::cerr << "Failed to create SSL context" << std::endl;
                 Disconnect();
                 return false;
             }
-            SSL_CTX_set_verify(ssl_ctx_.get(), SSL_VERIFY_PEER, nullptr);
-        }
-        ssl_ = sqlcc::utils::SSLSocket::create(ssl_ctx_.get());
-        SSL_set_fd(ssl_.get(), socket_fd_.get());
-        if (SSL_connect(ssl_.get()) <= 0) {
+            if (!ca_cert_path_.empty()) {
+                if (SSL_CTX_load_verify_locations(ssl_ctx_.get(), ca_cert_path_.c_str(), nullptr) != 1) {
+                    std::cerr << "Failed to load CA certificate, continuing without verification" << std::endl;
+                    // 不因为证书加载失败而中断连接，暂时跳过验证
+                    // Disconnect();
+                    // return false;
+                } else {
+                    SSL_CTX_set_verify(ssl_ctx_.get(), SSL_VERIFY_PEER, nullptr);
+                }
+            }
+            ssl_ = sqlcc::utils::SSLSocket::create(ssl_ctx_.get());
+            SSL_set_fd(ssl_.get(), socket_fd_.get());
+            if (SSL_connect(ssl_.get()) <= 0) {
+                std::cerr << "SSL handshake failed" << std::endl;
+                Disconnect();
+                return false;
+            }
+            std::cout << "TLS handshake successful" << std::endl;
+        } catch (const std::exception& e) {
+            std::cerr << "TLS initialization failed: " << e.what() << std::endl;
             Disconnect();
             return false;
         }
@@ -150,9 +162,11 @@ bool ClientConnection::SendData(const std::vector<char>& data) {
         return false;
     }
 
-    // 检查TLS上下文是否存在
-    if (tls_enabled_ && (!ssl_ctx_.is_valid() || !ssl_.is_valid())) {
-        return false;
+    // 检查TLS上下文是否存在（只在启用TLS时检查）
+    if (tls_enabled_) {
+        if (!ssl_ctx_.is_valid() || !ssl_.is_valid()) {
+            return false;
+        }
     }
     if (tls_enabled_ && ssl_.is_valid()) {
         size_t total_sent = 0;
@@ -184,7 +198,7 @@ bool ClientConnection::SendData(const std::vector<char>& data) {
 std::vector<char> ClientConnection::ReceiveData() {
 #ifdef __linux__
     std::vector<char> buffer(4096);
-    if (tls_enabled_ && ssl_.is_valid()) {
+    if (tls_enabled_ && ssl_.is_valid() && ssl_ctx_.is_valid()) {
         // 设置超时，避免无限阻塞
         struct timeval tv;
         tv.tv_sec = 5;

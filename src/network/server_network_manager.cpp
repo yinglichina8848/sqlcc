@@ -23,7 +23,8 @@ ServerNetworkManager::ServerNetworkManager(int port, int max_connections)
       max_connections_(max_connections),
       running_(false),
       session_manager_(std::make_shared<SessionManager>()),
-      sql_executor_(nullptr)
+      sql_executor_(nullptr),
+      user_manager_(std::make_shared<sqlcc::UserManager>("./data"))
 #ifdef __linux__
       , listen_fd_(-1),
       epoll_fd_(-1),
@@ -195,7 +196,54 @@ void ServerNetworkManager::AcceptConnection() {
     }
 
     // 创建连接处理器
-    auto connection_handler = std::make_unique<ConnectionHandler>(sqlcc::FileDescriptor(client_fd), session_manager_, sql_executor_);
+    auto connection_handler = std::make_unique<ConnectionHandler>(sqlcc::FileDescriptor(client_fd), session_manager_, sql_executor_, user_manager_);
+
+    // 如果启用TLS，创建SSL连接
+    if (tls_enabled_ && ssl_ctx_) {
+        try {
+            // 创建SSL对象
+            SSL* ssl = SSL_new(ssl_ctx_);
+            if (!ssl) {
+                std::cerr << "Failed to create SSL object for client connection" << std::endl;
+                close(client_fd);
+                return;
+            }
+
+            // 将SSL绑定到socket
+            if (SSL_set_fd(ssl, client_fd) != 1) {
+                std::cerr << "Failed to bind SSL to socket" << std::endl;
+                SSL_free(ssl);
+                close(client_fd);
+                return;
+            }
+
+            // 执行SSL握手（非阻塞模式）
+            int ssl_result = SSL_accept(ssl);
+            if (ssl_result == 1) {
+                // 握手成功
+                connection_handler->SetTLS(ssl, true);
+                std::cout << "SSL handshake successful for client connection" << std::endl;
+            } else {
+                int ssl_error = SSL_get_error(ssl, ssl_result);
+                if (ssl_error == SSL_ERROR_WANT_READ || ssl_error == SSL_ERROR_WANT_WRITE) {
+                    // 非阻塞，需要等待更多数据
+                    connection_handler->SetTLS(ssl, true);
+                    std::cout << "SSL handshake in progress for client connection" << std::endl;
+                } else {
+                    // 握手失败
+                    std::cerr << "SSL handshake failed for client connection" << std::endl;
+                    SSL_free(ssl);
+                    close(client_fd);
+                    return;
+                }
+            }
+        } catch (const std::exception& e) {
+            std::cerr << "Exception during SSL setup: " << e.what() << std::endl;
+            close(client_fd);
+            return;
+        }
+    }
+
     connections_[client_fd] = std::move(connection_handler);
 
     // 添加到epoll

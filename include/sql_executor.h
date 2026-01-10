@@ -170,6 +170,36 @@ private:
    * @param str 要处理的字符串
    */
   void TrimString(std::string &str);
+
+  /**
+   * @brief 执行语句的主要逻辑
+   * @param sql SQL语句
+   * @return 执行结果
+   */
+  std::string ExecuteStatement(const std::string& sql);
+
+  // DDL语句处理方法
+  std::string ExecuteCreateTable(const std::string& sql);
+  std::string ExecuteCreateDatabase(const std::string& sql);
+  std::string ExecuteDropTable(const std::string& sql);
+  std::string ExecuteDropDatabase(const std::string& sql);
+  std::string ExecuteAlterTable(const std::string& sql);
+  std::string ExecuteCreateIndex(const std::string& sql);
+  std::string ExecuteDropIndex(const std::string& sql);
+
+  // DML语句处理方法
+  std::string ExecuteInsert(const std::string& sql);
+  std::string ExecuteUpdate(const std::string& sql);
+  std::string ExecuteDelete(const std::string& sql);
+
+  // DQL语句处理方法
+  std::string ExecuteSelect(const std::string& sql);
+
+  // DCL语句处理方法
+  std::string ExecuteGrant(const std::string& sql);
+  std::string ExecuteRevoke(const std::string& sql);
+  std::string ExecuteCreateUser(const std::string& sql);
+  std::string ExecuteDropUser(const std::string& sql);
 };
 
 } // namespace sqlcc
