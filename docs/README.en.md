@@ -2,9 +2,9 @@
 
 > 🎯 **Database Development Guide for Sophomore Students** - Build your own database system with AI assistance from scratch!
 
-## 📦 Current Version: v0.4.5
+## 📦 Current Version: 1.3.1
 
-### 🆕 v0.4.5 New Features (CRUD Enhancement and Performance Optimization)
+### 🆕 v1.2.14 New Features (Comprehensive Testing and Quality Assurance)
 - **Complete CRUD Implementation**: Fully enhanced CRUD operation support, including complete implementation of INSERT, UPDATE, DELETE functionality
 - **Transactional CRUD Operations**: Ensure all CRUD operations are executed atomically within transactions to guarantee data consistency
 - **Performance Optimization**: Optimized CRUD operation performance, ensuring single operation latency < 5ms for 10,000-100,000 rows of data (SSD environment)
