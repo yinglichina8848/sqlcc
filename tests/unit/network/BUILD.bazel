@@ -136,6 +136,8 @@ cc_test(
     linkopts = [
         "-stdlib=libc++",
         "-lc++abi",
+        "-lssl",
+        "-lcrypto",
     ],
     features = ["cpp20_modules"],
 )
@@ -158,6 +160,36 @@ cc_test(
     linkopts = [
         "-stdlib=libc++",
         "-lc++abi",
+    ],
+    features = ["cpp20_modules"],
+)
+
+cc_test(
+    name = "session_state_test",
+    srcs = ["session_state_test.cpp"],
+    deps = [
+        "@com_google_googletest//:gtest_main",
+        "//src/network:network",
+    ],
+    includes = ["//include"],
+    copts = [
+        "-Iinclude",
+        "-std=c++20",
+        "-stdlib=libc++",
+        "-Wall",
+        "-Wextra",
+        "-Wno-error=maybe-uninitialized",
+        "--coverage",  # /(†Ö‡Ñ
+        "-fprofile-arcs",
+        "-ftest-coverage",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+        "-lssl",
+        "-lcrypto",
+        "--coverage",  # /(†Ö‡þ¥
+        "-lgcov",
     ],
     features = ["cpp20_modules"],
 )
