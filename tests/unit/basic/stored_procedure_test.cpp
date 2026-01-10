@@ -2,7 +2,7 @@
 #include <string>
 #include <memory>
 #include <vector>
-#include "sql_executor/procedure_executor.h"
+// #include "sql_executor/procedure_executor.h"  // TODO: Implement procedure executor
 #include "sql_parser/procedure_parser.h"
 
 using namespace sqlcc::sql_executor;
