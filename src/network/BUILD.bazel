@@ -35,6 +35,10 @@ cc_library(
         "message_serializer.cpp",
         "server_network_manager.cpp",
     ],
+    linkopts = [
+        "-lssl",
+        "-lcrypto",
+    ],
     hdrs = [
         "//include/network:network.h",
         "//include/network:client_connection.h",
@@ -63,8 +67,6 @@ cc_library(
         "//include/network/encryption:encryption_headers",
         "//src/security:security",
         "//src/transaction:transaction",
-        "//src/sql_executor:sql_executor",
-        "//src/sql_parser:sql_parser",
     ],
     visibility = ["//visibility:public"],
 )
