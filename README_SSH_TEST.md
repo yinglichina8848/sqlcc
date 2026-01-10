@@ -1,0 +1,1 @@
+# SQLCC SSH Configuration Test
