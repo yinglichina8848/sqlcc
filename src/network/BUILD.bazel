@@ -1,9 +1,16 @@
+# SQLCC Network Core Library
+# This file contains only core network functionality, no test programs
+
 cc_library(
     name = "session",
     srcs = ["session.cpp"],
     hdrs = ["//include/network:session.h"],
     deps = [
         "//include/network/encryption:aes_encryptor",
+    ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
     ],
     visibility = ["//visibility:public"],
 )
@@ -16,6 +23,10 @@ cc_library(
         ":session",
         "//src/utils:utils",
         "//src/logger:logger",
+    ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
     ],
     visibility = ["//visibility:public"],
 )
@@ -49,6 +60,8 @@ cc_library(
     includes = ["//include"],
     copts = [
         "-Iinclude",
+        "-std=c++20",
+        "-stdlib=libc++",
     ],
     deps = [
         ":session",
@@ -67,192 +80,25 @@ cc_library(
     visibility = ["//visibility:public"],
 )
 
-# Authentication test server
+# Network server main executable
 cc_binary(
-    name = "auth_test_server",
-    srcs = ["auth_test_server.cpp"],
+    name = "server_main",
+    srcs = ["server_main.cpp"],
     deps = [
         ":network",
         "//src/core:core",
-        "//src/utils:utils",
-    ],
-    visibility = ["//visibility:public"],
-)
-
-# Authentication test client
-cc_binary(
-    name = "auth_test_client",
-    srcs = ["auth_test_client.cpp"],
-    deps = [
-        ":network",
-        "//src/utils:utils",
-    ],
-    visibility = ["//visibility:public"],
-)
-
-# Simple authentication logic test
-cc_binary(
-    name = "simple_auth_test",
-    srcs = ["simple_auth_test.cpp"],
-    deps = [
-        "//src/core:core",
-        ":network",
-    ],
-    visibility = ["//visibility:public"],
-)
-
-# Standalone authentication test (no complex dependencies)
-cc_binary(
-    name = "standalone_auth_test",
-    srcs = ["standalone_auth_test.cpp"],
-    deps = [
-        "//src/core:core",
-    ],
-    visibility = ["//visibility:public"],
-)
-
-# CRUD performance test binary (MySQL protocol, no encryption)
-cc_binary(
-    name = "crud_performance_test",
-    srcs = ["crud_performance_test_main.cpp"],
-    deps = [
-        ":network",
         "//src/utils:utils",
         "//src/logger:logger",
     ],
     copts = [
         "-std=c++20",
+        "-stdlib=libc++",
         "-O2",
     ],
     linkopts = [
+        "-pthread",
         "-lssl",
         "-lcrypto",
-        "-pthread",
-    ],
-    visibility = ["//visibility:public"],
-)
-
-# MySQL protocol test client
-cc_binary(
-    name = "mysql_client_test",
-    srcs = ["mysql_client_test.cpp"],
-    deps = [
-        ":network",
-    ],
-    copts = [
-        "-std=c++20",
-    ],
-    visibility = ["//visibility:public"],
-)
-
-# MySQL protocol test server
-cc_binary(
-    name = "mysql_server_test",
-    srcs = ["mysql_server_test.cpp"],
-    deps = [
-        ":network",
-        "//src/utils:utils",
-    ],
-    copts = [
-        "-std=c++20",
-        "-pthread",
-    ],
-    linkopts = [
-        "-pthread",
-    ],
-    visibility = ["//visibility:public"],
-)
-
-# MySQL protocol performance test
-cc_binary(
-    name = "mysql_performance_test",
-    srcs = ["mysql_performance_test.cpp"],
-    deps = [
-        ":network",
-        "//src/utils:utils",
-    ],
-    copts = [
-        "-std=c++20",
-        "-pthread",
-    ],
-    linkopts = [
-        "-pthread",
-    ],
-    visibility = ["//visibility:public"],
-)
-
-# Concurrent performance test with thread pool and connection pool
-cc_binary(
-    name = "concurrent_performance_test",
-    srcs = ["concurrent_performance_test.cpp"],
-    deps = [
-        ":network",
-        "//src/utils:utils",
-        "//src/utils:thread_pool",
-    ],
-    copts = [
-        "-std=c++20",
-        "-pthread",
-    ],
-    linkopts = [
-        "-pthread",
-    ],
-    visibility = ["//visibility:public"],
-)
-
-# Scalable performance test with comprehensive scaling analysis
-cc_binary(
-    name = "scalable_performance_test",
-    srcs = ["scalable_performance_test.cpp"],
-    deps = [
-        ":network",
-        "//src/utils:utils",
-        "//src/utils:thread_pool",
-    ],
-    copts = [
-        "-std=c++20",
-        "-pthread",
-    ],
-    linkopts = [
-        "-pthread",
-    ],
-    visibility = ["//visibility:public"],
-)
-
-# Real concurrent performance test with actual execution data
-cc_binary(
-    name = "real_concurrent_test",
-    srcs = ["real_concurrent_test.cpp"],
-    deps = [
-        ":network",
-        "//src/utils:utils",
-        "//src/utils:thread_pool",
-    ],
-    copts = [
-        "-std=c++20",
-        "-pthread",
-    ],
-    linkopts = [
-        "-pthread",
-    ],
-    visibility = ["//visibility:public"],
-)
-
-# True CRUD performance test with actual database operations
-cc_binary(
-    name = "true_crud_performance_test",
-    srcs = ["true_crud_performance_test.cpp"],
-    deps = [
-        ":network",
-        "//src/utils:utils",
-        "//src/utils:thread_pool",
-    ],
-    copts = [
-        "-std=c++20",
-        "-pthread",
-    ],
-    linkopts = [
-        "-pthread",
     ],
     visibility = ["//visibility:public"],
 )

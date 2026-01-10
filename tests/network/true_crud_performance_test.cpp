@@ -185,6 +185,26 @@ public:
         return response.size() >= 5 && response[4] == 0x00;
     }
 
+    // 执行不删除数据的CRUD循环 (INSERT + SELECT + UPDATE)
+    bool ExecuteCRUDWithoutDelete(int user_id, int age) {
+        // INSERT
+        if (!ExecuteInsert(user_id, age)) {
+            return false;
+        }
+
+        // SELECT
+        if (!ExecuteSelect(user_id)) {
+            return false;
+        }
+
+        // UPDATE (增加年龄)
+        if (!ExecuteUpdate(user_id, age + 1)) {
+            return false;
+        }
+
+        return true;
+    }
+
     int GetClientId() const { return client_id_; }
 
 private:
@@ -256,6 +276,8 @@ struct TrueCRUDTestConfig {
     bool enable_progress_reporting = false;
     int progress_interval_ms = 5000;
     int base_user_id = 1000; // 避免与其他测试冲突
+    mutable int phase_percentage = 100; // 测试阶段百分比
+    mutable long long total_records_estimate = 0; // 预估总记录数
 };
 
 // 总体性能结果
@@ -336,6 +358,59 @@ TrueCRUDResult TrueCRUDWorkerThread(int thread_id, int operations_count,
     result.total_time_ms = total_duration.count();
     int successful_operations = result.inserts_completed + result.selects_completed +
                                result.updates_completed + result.deletes_completed;
+    if (successful_operations > 0) {
+        result.avg_time_ms = result.total_time_ms / successful_operations;
+        result.throughput_ops_sec = (successful_operations * 1000.0) / result.total_time_ms;
+    } else {
+        result.avg_time_ms = 0.0;
+        result.throughput_ops_sec = 0.0;
+    }
+
+    return result;
+}
+
+// 工作线程函数 - 执行不删除数据的CRUD操作（INSERT+SELECT+UPDATE）
+TrueCRUDResult TrueCRUDWorkerThreadNoDelete(int thread_id, int operations_count,
+                                           std::shared_ptr<TrueMySQLClient> connection,
+                                           int base_user_id) {
+    TrueCRUDResult result;
+    result.thread_id = thread_id;
+    result.operations_performed = operations_count;
+    result.errors_count = 0;
+    result.inserts_completed = 0;
+    result.selects_completed = 0;
+    result.updates_completed = 0;
+    result.deletes_completed = 0; // 不会执行DELETE操作
+
+    auto start_time = std::chrono::high_resolution_clock::now();
+
+    // 执行不删除数据的CRUD循环
+    for (int i = 0; i < operations_count; ++i) {
+        auto op_start = std::chrono::high_resolution_clock::now();
+
+        int user_id = base_user_id + thread_id * operations_count + i;
+        int user_age = 20 + (user_id % 50);
+
+        // 执行不删除数据的CRUD循环
+        if (connection->ExecuteCRUDWithoutDelete(user_id, user_age)) {
+            // 成功完成INSERT+SELECT+UPDATE
+            result.inserts_completed++;
+            result.selects_completed++;
+            result.updates_completed++;
+        } else {
+            result.errors_count++;
+        }
+
+        auto op_end = std::chrono::high_resolution_clock::now();
+        auto op_duration = std::chrono::duration_cast<std::chrono::microseconds>(op_end - op_start);
+        result.operation_times.push_back(op_duration.count() / 1000.0); // 转换为毫秒
+    }
+
+    auto end_time = std::chrono::high_resolution_clock::now();
+    auto total_duration = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
+
+    result.total_time_ms = total_duration.count();
+    int successful_operations = result.inserts_completed + result.selects_completed + result.updates_completed;
     if (successful_operations > 0) {
         result.avg_time_ms = result.total_time_ms / successful_operations;
         result.throughput_ops_sec = (successful_operations * 1000.0) / result.total_time_ms;
@@ -566,6 +641,202 @@ TrueCRUDPerformanceResult RunSingleTest(const std::string& host, int port, int n
     return result;
 }
 
+// 运行大规模数据积累测试 - 不删除数据，观察性能下降
+void RunLargeScaleDataAccumulationTest(const std::string& host, int port, int num_threads, int operations_per_thread) {
+    std::cout << "\n" << std::string(140, '*') << std::endl;
+    std::cout << "LARGE SCALE DATA ACCUMULATION PERFORMANCE TEST" << std::endl;
+    std::cout << "Server: " << host << ":" << port << std::endl;
+    std::cout << "Client threads: " << num_threads << std::endl;
+    std::cout << "Operations per thread: " << operations_per_thread << " TRUE CRUD operations (INSERT+SELECT+UPDATE only - NO DELETE)" << std::endl;
+    std::cout << "Focus: Database growth monitoring and query performance degradation" << std::endl;
+    std::cout << std::string(140, '*') << std::endl;
+
+    std::vector<TrueCRUDPerformanceResult> phase_results;
+    int total_data_points = num_threads * operations_per_thread;
+
+    // 分阶段测试，每阶段增加数据量
+    std::vector<int> test_phases = {10, 25, 50, 75, 100}; // 百分比
+
+    for (int phase_percent : test_phases) {
+        int phase_operations = (operations_per_thread * phase_percent) / 100;
+
+        std::cout << "\n" << std::string(100, '=') << std::endl;
+        std::cout << "PHASE " << phase_percent << "%: " << (num_threads * phase_operations)
+                  << " operations (" << (num_threads * phase_operations * 3) << " total records)" << std::endl;
+        std::cout << std::string(100, '=') << std::endl;
+
+        // 使用不同的用户ID范围，避免冲突
+        int base_user_id = phase_percent * 100000;
+
+        // 使用不删除数据的测试配置
+        TrueCRUDTestConfig config;
+        config.host = host;
+        config.port = port;
+        config.num_threads = num_threads;
+        config.operations_per_thread = phase_operations;
+        config.warmup_operations = 5;
+        config.enable_progress_reporting = false;
+        config.base_user_id = base_user_id;
+
+        // 创建线程池
+        sqlcc::utils::ThreadPool thread_pool(config.num_threads);
+
+        // 创建连接并预热
+        std::cout << "Creating database connections for phase " << phase_percent << "%..." << std::endl;
+        std::vector<std::shared_ptr<TrueMySQLClient>> connections;
+
+        for (int i = 0; i < config.num_threads; ++i) {
+            auto connection = std::make_shared<TrueMySQLClient>(config.host, config.port, i);
+            if (connection->Connect()) {
+                PerformTrueWarmup(connection, config.warmup_operations, config.base_user_id);
+                connections.push_back(connection);
+                std::cout << "Connection " << i << " established successfully" << std::endl;
+            } else {
+                std::cerr << "Failed to create connection for thread " << i << std::endl;
+            }
+        }
+
+        if (connections.empty()) {
+            std::cerr << "No connections established. Skipping phase " << phase_percent << "%" << std::endl;
+            continue;
+        }
+
+        // 执行不删除数据的CRUD测试
+        TrueCRUDPerformanceResult result;
+        result.config = config;
+
+        std::cout << "\nStarting data accumulation performance test..." << std::endl;
+        auto start_time = std::chrono::high_resolution_clock::now();
+
+        std::vector<std::future<TrueCRUDResult>> futures;
+
+        for (int thread_id = 0; thread_id < config.num_threads && thread_id < static_cast<int>(connections.size()); ++thread_id) {
+            auto connection = connections[thread_id];
+
+            futures.push_back(thread_pool.submit(
+                TrueCRUDWorkerThreadNoDelete,
+                thread_id,
+                config.operations_per_thread,
+                connection,
+                config.base_user_id
+            ));
+        }
+
+        // 等待所有任务完成并收集结果
+        int total_operations = 0;
+        int total_inserts = 0;
+        int total_selects = 0;
+        int total_updates = 0;
+        int total_errors = 0;
+
+        for (auto& future : futures) {
+            try {
+                TrueCRUDResult thread_result = future.get();
+                result.thread_results.push_back(thread_result);
+
+                total_operations += thread_result.operations_performed;
+                total_inserts += thread_result.inserts_completed;
+                total_selects += thread_result.selects_completed;
+                total_updates += thread_result.updates_completed;
+                total_errors += thread_result.errors_count;
+            } catch (const std::exception& e) {
+                std::cerr << "Exception in worker thread: " << e.what() << std::endl;
+            }
+        }
+
+        auto end_time = std::chrono::high_resolution_clock::now();
+        auto total_duration = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
+
+        // 计算总体结果
+        result.total_time_ms = total_duration.count();
+        result.total_operations = total_operations;
+        result.total_inserts = total_inserts;
+        result.total_selects = total_selects;
+        result.total_updates = total_updates;
+        result.total_deletes = 0; // 不执行DELETE操作
+        result.total_errors = total_errors;
+
+        int successful_operations = total_inserts + total_selects + total_updates;
+        if (successful_operations > 0) {
+            result.avg_time_per_operation_ms = result.total_time_ms / successful_operations;
+            result.operations_per_second = (successful_operations * 1000.0) / result.total_time_ms;
+        }
+
+        result.success_rate = total_operations > 0 ?
+                             (static_cast<double>(successful_operations) / (total_operations * 3)) * 100.0 : 0.0;
+
+        // 关闭所有连接
+        for (auto& connection : connections) {
+            connection->Disconnect();
+        }
+
+        // 记录这个阶段的结果
+        result.config.phase_percentage = phase_percent;
+        result.config.total_records_estimate = num_threads * phase_operations * 3; // INSERT + 2 UPDATE per user
+        phase_results.push_back(result);
+
+        std::cout << "\nPHASE " << phase_percent << "% SUMMARY:" << std::endl;
+        std::cout << "  Estimated database records: " << result.config.total_records_estimate << std::endl;
+        std::cout << "  Performance: " << std::fixed << std::setprecision(2) << result.operations_per_second << " ops/sec" << std::endl;
+        std::cout << "  Avg latency: " << std::fixed << std::setprecision(2) << result.avg_time_per_operation_ms << " ms" << std::endl;
+        std::cout << "  Success rate: " << std::fixed << std::setprecision(2) << result.success_rate << "%" << std::endl;
+
+        // 短暂延迟，让系统稳定
+        std::this_thread::sleep_for(std::chrono::seconds(2));
+    }
+
+    // 生成性能下降趋势分析
+    std::cout << "\n" << std::string(140, '=') << std::endl;
+    std::cout << "PERFORMANCE DEGRADATION ANALYSIS" << std::endl;
+    std::cout << std::string(140, '=') << std::endl;
+
+    std::cout << "Data Scale vs Performance:" << std::endl;
+    std::cout << std::setw(12) << "Data Size" << std::setw(12) << "Records" << std::setw(12) << "Ops/sec"
+              << std::setw(10) << "Latency" << std::setw(12) << "Success%" << std::setw(15) << "Degradation" << std::endl;
+    std::cout << std::string(73, '-') << std::endl;
+
+    double baseline_throughput = phase_results.empty() ? 0.0 : phase_results[0].operations_per_second;
+
+    for (size_t i = 0; i < phase_results.size(); ++i) {
+        const auto& result = phase_results[i];
+        double degradation = baseline_throughput > 0 ?
+                           ((baseline_throughput - result.operations_per_second) / baseline_throughput) * 100.0 : 0.0;
+
+        std::cout << std::setw(10) << (result.config.phase_percentage) << "%"
+                  << std::setw(12) << result.config.total_records_estimate
+                  << std::setw(12) << std::fixed << std::setprecision(1) << result.operations_per_second
+                  << std::setw(10) << std::fixed << std::setprecision(1) << result.avg_time_per_operation_ms
+                  << std::setw(12) << std::fixed << std::setprecision(1) << result.success_rate
+                  << std::setw(15) << std::fixed << std::setprecision(1) << degradation << "%" << std::endl;
+    }
+
+    std::cout << "\n" << std::string(140, '-') << std::endl;
+    std::cout << "FINAL ASSESSMENT:" << std::endl;
+    if (!phase_results.empty()) {
+        const auto& final_result = phase_results.back();
+        double total_degradation = baseline_throughput > 0 ?
+                                ((baseline_throughput - final_result.operations_per_second) / baseline_throughput) * 100.0 : 0.0;
+
+        std::cout << "Total data accumulation: " << total_data_points << " operations → "
+                  << (total_data_points * 3) << " database records" << std::endl;
+        std::cout << "Performance degradation: " << std::fixed << std::setprecision(1) << total_degradation << "%" << std::endl;
+        std::cout << "Final throughput: " << std::fixed << std::setprecision(1) << final_result.operations_per_second << " ops/sec" << std::endl;
+        std::cout << "Final latency: " << std::fixed << std::setprecision(1) << final_result.avg_time_per_operation_ms << " ms" << std::endl;
+
+        if (total_degradation < 20.0) {
+            std::cout << "Assessment: EXCELLENT - Minimal performance impact from data accumulation" << std::endl;
+        } else if (total_degradation < 40.0) {
+            std::cout << "Assessment: GOOD - Moderate performance impact, acceptable for production" << std::endl;
+        } else if (total_degradation < 60.0) {
+            std::cout << "Assessment: FAIR - Significant performance degradation, may need optimization" << std::endl;
+        } else {
+            std::cout << "Assessment: POOR - Severe performance degradation, requires immediate attention" << std::endl;
+        }
+    }
+
+    std::cout << std::string(140, '=') << std::endl;
+}
+
 // 运行用户要求的测试场景 - 真实的CRUD操作
 void RunTrueCRUDTests(const std::string& host, int port, int num_threads, int operations_per_thread) {
     std::cout << "\n" << std::string(120, '*') << std::endl;
@@ -592,12 +863,13 @@ void RunTrueCRUDTests(const std::string& host, int port, int num_threads, int op
 int main(int argc, char* argv[]) {
     std::string host = "localhost";
     int port = 18647;
-    int num_threads = 1; // 默认1个客户端线程
-    int operations_per_thread = 100; // 默认100次操作
+    int num_threads = 8; // 默认8个客户端线程（用户要求）
+    int operations_per_thread = 10000; // 默认1万次操作（用户要求）
+    bool data_accumulation_mode = false; // 是否启用数据积累模式
 
     // 解析命令行参数
     int opt;
-    while ((opt = getopt(argc, argv, "h:p:t:o:")) != -1) {
+    while ((opt = getopt(argc, argv, "h:p:t:o:a")) != -1) {
         switch (opt) {
             case 'h':
                 host = optarg;
@@ -611,26 +883,41 @@ int main(int argc, char* argv[]) {
             case 'o':
                 operations_per_thread = std::stoi(optarg);
                 break;
+            case 'a':
+                data_accumulation_mode = true;
+                break;
             default:
-                std::cerr << "Usage: " << argv[0] << " [-h host] [-p port] [-t threads] [-o operations_per_thread]" << std::endl;
+                std::cerr << "Usage: " << argv[0] << " [-h host] [-p port] [-t threads] [-o operations_per_thread] [-a]" << std::endl;
                 std::cerr << "  -h: Server host (default: localhost)" << std::endl;
                 std::cerr << "  -p: Server port (default: 18647)" << std::endl;
-                std::cerr << "  -t: Number of client threads (default: 1)" << std::endl;
-                std::cerr << "  -o: Operations per thread (default: 100)" << std::endl;
+                std::cerr << "  -t: Number of client threads (default: 8)" << std::endl;
+                std::cerr << "  -o: Operations per thread (default: 10000)" << std::endl;
+                std::cerr << "  -a: Enable data accumulation mode (no DELETE operations, monitor performance degradation)" << std::endl;
                 return 1;
         }
     }
 
-    std::cout << "SQLCC TRUE CRUD Performance Test" << std::endl;
+    std::cout << "SQLCC LARGE SCALE CRUD Performance Test" << std::endl;
+    std::cout << "=========================================" << std::endl;
+    if (data_accumulation_mode) {
+        std::cout << "MODE: Data Accumulation Test (No DELETE operations)" << std::endl;
+        std::cout << "PURPOSE: Monitor database growth and query performance degradation" << std::endl;
+    } else {
+        std::cout << "MODE: Standard CRUD Test (INSERT+SELECT+UPDATE+DELETE)" << std::endl;
+    }
     std::cout << "Based on ThreadPool + Connection Pool Architecture" << std::endl;
     std::cout << "Testing REAL database operations against SQLCC MySQL server" << std::endl;
-    std::cout << "Each operation executes actual INSERT/SELECT/UPDATE/DELETE operations" << std::endl;
-    std::cout << "Configuration:" << std::endl;
+
+    std::cout << "\nTest Configuration:" << std::endl;
     std::cout << "  Host: " << host << ":" << port << std::endl;
     std::cout << "  Client threads: " << num_threads << std::endl;
     std::cout << "  Operations per thread: " << operations_per_thread << std::endl;
     std::cout << "  Total operations: " << (num_threads * operations_per_thread) << std::endl;
-    std::cout << "  Total CRUD operations: " << (num_threads * operations_per_thread * 4) << std::endl;
+    if (data_accumulation_mode) {
+        std::cout << "  Estimated final records: " << (num_threads * operations_per_thread * 3) << " (INSERT+SELECT+UPDATE)" << std::endl;
+    } else {
+        std::cout << "  Total CRUD operations: " << (num_threads * operations_per_thread * 4) << std::endl;
+    }
 
     // 检查服务器是否在运行
     std::cout << "\nChecking if SQLCC server is running on " << host << ":" << port << "..." << std::endl;
@@ -643,15 +930,27 @@ int main(int argc, char* argv[]) {
         inet_pton(AF_INET, host.c_str(), &test_addr.sin_addr);
 
         if (connect(test_sock, (sockaddr*)&test_addr, sizeof(test_addr)) >= 0) {
-            std::cout << "✓ Server is running. Starting TRUE CRUD tests..." << std::endl;
+            std::cout << "✓ Server is running. Starting large scale CRUD tests..." << std::endl;
             close(test_sock);
 
-            // 运行真实的CRUD测试，使用命令行参数
-            RunTrueCRUDTests(host, port, num_threads, operations_per_thread);
+            // 根据模式运行不同的测试
+            if (data_accumulation_mode) {
+                std::cout << "\n" << std::string(60, '!') << std::endl;
+                std::cout << "STARTING DATA ACCUMULATION TEST" << std::endl;
+                std::cout << "This test will accumulate data without deletion to monitor:" << std::endl;
+                std::cout << "- Database file growth" << std::endl;
+                std::cout << "- Query performance degradation over time" << std::endl;
+                std::cout << "- Server stability under increasing load" << std::endl;
+                std::cout << std::string(60, '!') << std::endl;
+
+                RunLargeScaleDataAccumulationTest(host, port, num_threads, operations_per_thread);
+            } else {
+                RunTrueCRUDTests(host, port, num_threads, operations_per_thread);
+            }
         } else {
             std::cout << "✗ Server is not running on " << host << ":" << port << std::endl;
-            std::cout << "Please start the SQLCC MySQL server first:" << std::endl;
-            std::cout << "  bazel run //src/network:server_main -t <thread_pool_size>" << std::endl;
+            std::cout << "Please start the SQLCC MySQL server first with appropriate thread pool size:" << std::endl;
+            std::cout << "  bazel run //src/sqlcc_server:server_main -t 8  # or -t 16 for higher load" << std::endl;
             close(test_sock);
             return 1;
         }
@@ -660,7 +959,13 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    std::cout << "\nTrue CRUD performance test completed!" << std::endl;
+    std::cout << "\nLarge scale CRUD performance test completed!" << std::endl;
+    if (data_accumulation_mode) {
+        std::cout << "Data accumulation analysis provides insights into:" << std::endl;
+        std::cout << "- Server scalability under growing datasets" << std::endl;
+        std::cout << "- Performance degradation patterns" << std::endl;
+        std::cout << "- Optimal server configuration for large data volumes" << std::endl;
+    }
     return 0;
 }
     std::cout << "\nChecking if SQLCC server is running on " << host << ":" << port << "..." << std::endl;
