@@ -70,7 +70,7 @@ int main(int argc, char* argv[]) {
     std::signal(SIGTERM, signalHandler);
     
     // 启动服务器
-    if (!server.Start()) {
+    if (!g_server->Start()) {
         std::cerr << "Failed to start server on port " << port << std::endl;
         std::cerr << "Error: " << strerror(errno) << " (errno: " << errno << ")" << std::endl;
         return 1;

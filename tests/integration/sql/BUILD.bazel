@@ -1,6 +1,5 @@
 load("@rules_cc//cc:defs.bzl", "cc_test")
 
-
 # SQL执行器基础测试
 cc_test(
     name = "gtest_sql_executor_tests",
@@ -11,15 +10,15 @@ cc_test(
         "//src/sql_parser:sql_parser",
         "//src/sql_executor:sqlcc_executor",
     ],
-)
-    linkopts = [
-        "-stdlib=libc++",
-        "-lc++abi",
-    ],
     copts = [
         "-std=c++20",
         "-stdlib=libc++",
     ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+)
 
 # SQL执行器综合测试
 cc_test(
@@ -32,15 +31,15 @@ cc_test(
         "//src/storage_engine:storage_engine",
         "@com_google_googletest//:gtest_main",
     ],
-)
-    linkopts = [
-        "-stdlib=libc++",
-        "-lc++abi",
-    ],
     copts = [
         "-std=c++20",
         "-stdlib=libc++",
     ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+)
 
 # SQL执行器单元测试
 cc_test(
@@ -51,15 +50,15 @@ cc_test(
         "//src/sql_executor:sqlcc_executor",
         "@com_google_googletest//:gtest_main",
     ],
-)
-    linkopts = [
-        "-stdlib=libc++",
-        "-lc++abi",
-    ],
     copts = [
         "-std=c++20",
         "-stdlib=libc++",
     ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+)
 
 # SQL执行器最小测试
 cc_test(
@@ -70,15 +69,15 @@ cc_test(
         "//src/sql_executor:sqlcc_executor",
         "@com_google_googletest//:gtest_main",
     ],
-)
-    linkopts = [
-        "-stdlib=libc++",
-        "-lc++abi",
-    ],
     copts = [
         "-std=c++20",
         "-stdlib=libc++",
     ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+)
 
 # SQL执行器目标测试
 cc_test(
@@ -89,15 +88,15 @@ cc_test(
         "//src/sql_executor:sqlcc_executor",
         "@com_google_googletest//:gtest_main",
     ],
-)
-    linkopts = [
-        "-stdlib=libc++",
-        "-lc++abi",
-    ],
     copts = [
         "-std=c++20",
         "-stdlib=libc++",
     ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+)
 
 # Record测试
 cc_test(
@@ -109,15 +108,15 @@ cc_test(
         "//src/storage_engine:storage_engine",
         "@com_google_googletest//:gtest_main",
     ],
-)
-    linkopts = [
-        "-stdlib=libc++",
-        "-lc++abi",
-    ],
     copts = [
         "-std=c++20",
         "-stdlib=libc++",
     ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+)
 
 # Constraint执行器测试
 cc_test(
@@ -129,26 +128,12 @@ cc_test(
         "//src/sql_parser:sql_parser",
         "//src/sql_executor:sqlcc_executor",
     ],
-)
-    linkopts = [
-        "-stdlib=libc++",
-        "-lc++abi",
-    ],
     copts = [
         "-std=c++20",
         "-stdlib=libc++",
     ],
-
-# SQL执行器测试套件
-test_suite(
-    name = "sql_executor_tests",
-    tests = [
-        ":gtest_sql_executor_tests",
-        ":sql_executor_comprehensive_test",
-        ":sql_executor_unit_test",
-        ":sql_executor_minimal_test",
-        ":sql_executor_targeted_test",
-        ":record_test",
-        ":constraint_executor_test",
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
     ],
 )

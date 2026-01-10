@@ -8,16 +8,8 @@
 # 构建前检查配置 - 禁止危险操作
 build --incompatible_disallow_empty_glob
 build --incompatible_enable_cc_toolchain_resolution
-build --incompatible_strict_action_env
 
-# 包结构检查 - 严格要求BUILD文件存在
-# build --incompatible_disallow_empty_package  # 此选项在当前Bazel版本中不支持
-
-<<<<<<< HEAD
 # 通用构建选项 - Clang 20 + C++20 + libc++
-=======
-# 通用构建选项 - Clang 20 + C++20 + libc++
->>>>>>> origin/bazel-clang-upgrade-verification
 build --cxxopt=-std=c++20
 build --cxxopt=-stdlib=libc++
 build --linkopt=-stdlib=libc++
@@ -28,163 +20,20 @@ build --copt=-Wall
 build --copt=-Wextra
 build --copt=-Wno-error=uninitialized
 build --copt=-O2
-build --copt=-Iinclude
-build --copt=-I.
 
 # 构建事件和输出配置
 build --show_timestamps
 build --verbose_failures
 build --build_event_json_file=/tmp/bazel-build-events.json
 
-# -----------------------------
-# SQLCC C++20 现代化配置
-# 支持智能指针、RAII、现代C++特性
-# -----------------------------
-
-# 现代化构建配置 - 默认启用所有现代特性
-build:modern --cxxopt=-std=c++20
-build:modern --cxxopt=-stdlib=libc++
-build:modern --linkopt=-stdlib=libc++
-build:modern --linkopt=-lc++abi
-build:modern --action_env=CC=clang-20
-build:modern --action_env=CXX=clang++-20
-build:modern --copt=-Wall
-build:modern --copt=-Wextra
-build:modern --copt=-Wno-error=uninitialized
-build:modern --copt=-O2
-build:modern --define=sqlcc_modern_cpp=1
-build:modern --define=sqlcc_clang20_features=1
-
-# 传统构建配置 - 兼容模式（如果需要回滚）
-build:traditional --cxxopt=-std=c++17
-build:traditional --cxxopt=-stdlib=libstdc++
-build:traditional --linkopt=-stdlib=libstdc++
-build:traditional --action_env=CC=gcc
-build:traditional --action_env=CXX=g++
-build:traditional --copt=-Wall
-build:traditional --copt=-Wextra
-build:traditional --copt=-O2
-build:traditional --define=sqlcc_modern_cpp=0
-
-# -----------------------------
-<<<<<<< HEAD
-# C++20/C++23 Modules 配置 (实验性)
-# 注意: Clang 20对header units和modules支持更完善
-=======
-# C++20/C++23 Modules 配置 (实验性)
-# 注意: Clang 20对header units和modules支持更完善
->>>>>>> origin/bazel-clang-upgrade-verification
-# -----------------------------
-
-# C++23配置 - 使用最新C++标准特性
-build:cpp23 --cxxopt=-std=c++23
-build:cpp23 --cxxopt=-stdlib=libc++
-build:cpp23 --linkopt=-stdlib=libc++
-build:cpp23 --linkopt=-lc++abi
-build:cpp23 --action_env=CC=clang-20
-build:cpp23 --action_env=CXX=clang++-20
-build:cpp23 --copt=-Wall
-build:cpp23 --copt=-Wextra
-build:cpp23 --copt=-Wno-error=maybe-uninitialized
-build:cpp23 --copt=-O2
-build:cpp23 --copt=-Iinclude
-build:cpp23 --copt=-I.
-build:cpp23 --define=sqlcc_cpp23=1
-build:cpp23 --define=sqlcc_modern_cpp=1
-build:cpp23 --define=sqlcc_clang20_features=1
-
-# Modules模式配置 - 实验性，未来使用
-build:modules --cxxopt=-std=c++20
-build:modules --cxxopt=-stdlib=libc++
-build:modules --linkopt=-stdlib=libc++
-build:modules --linkopt=-lc++abi
-build:modules --action_env=CC=clang-20
-build:modules --action_env=CXX=clang++-20
-build:modules --copt=-fmodules
-build:modules --copt=-fmodule-map-file=module.modulemap
-build:modules --define=sqlcc_modules=1
-build:modules --define=sqlcc_modern_cpp=1
-build:modules --define=sqlcc_clang20_features=1
-
-# 双模式配置 - 支持传统+Modules兼容
-build:dual_mode --cxxopt=-std=c++20
-build:dual_mode --cxxopt=-stdlib=libc++
-build:dual_mode --linkopt=-stdlib=libc++
-build:dual_mode --linkopt=-lc++abi
-build:dual_mode --action_env=CC=clang-20
-build:dual_mode --action_env=CXX=clang++-20
-build:dual_mode --copt=-Wall
-build:dual_mode --copt=-Wextra
-build:dual_mode --copt=-Wno-error=uninitialized
-build:dual_mode --copt=-O2
-build:dual_mode --define=sqlcc_modern_cpp=1
-build:dual_mode --define=sqlcc_clang20_features=1
-build:dual_mode --define=sqlcc_dual_mode=1
-
-# 调试模式配置
-build:debug --compilation_mode=dbg
-build:debug --copt=-g
-build:debug --copt=-O0
-
-# 发布模式配置
-build:release --compilation_mode=opt
-build:release --copt=-O3
-build:release --copt=-DNDEBUG
-
-# 测试配置
-test --test_output=all
-test --test_timeout=300
-test --test_strategy=exclusive
-
-# 覆盖率配置 - 禁用Java工具，使用Clang原生覆盖率
-coverage --instrumentation_filter="//src/.*"
-coverage --instrumentation_filter="//include/.*"
-coverage --combined_report=lcov
-coverage --experimental_generate_llvm_lcov
-
-# CRUD性能测试专用覆盖率配置
-build:crud_coverage --cxxopt=-fprofile-instr-generate
-build:crud_coverage --cxxopt=-fcoverage-mapping
-build:crud_coverage --linkopt=-fprofile-instr-generate
-build:crud_coverage --linkopt=-fcoverage-mapping
-build:crud_coverage --define=sqlcc_crud_coverage=1
-
-# CRUD覆盖率测试配置
-coverage:crud --config=crud_coverage
-coverage:crud --instrumentation_filter="//src/storage_engine/.*"
-coverage:crud --instrumentation_filter="//src/sql_executor/.*"
-coverage:crud --instrumentation_filter="//src/core/.*"
-coverage:crud --combined_report=lcov
-coverage:crud --experimental_generate_llvm_lcov
-
-# 远程缓存配置（如果使用）
-# build --remote_cache=http://cache.example.com:8080
-
-# 本地磁盘缓存 - 优化缓存策略
-build --disk_cache=/tmp/bazel-disk-cache
-build --repository_cache=/tmp/bazel-repo-cache
-build --experimental_remote_cache_compression
-build --experimental_remote_cache_async
-
 # 并行构建配置 - 降低并行度避免超时
-build --jobs=2
+build --jobs=1
 
 # 内存配置 - 优化内存资源使用，避免内存压力
 build --local_ram_resources=4096
 
-
-
 # 构建性能优化
-build --experimental_remote_merkle_tree_cache
-build --experimental_build_event_upload_strategy=local
-build --experimental_build_event_upload_max_retries=3
-
-# 增量构建优化 - 注释掉可能导致问题的选项
-# build --experimental_spawn_scheduler
 build --spawn_strategy=standalone
-
-# 沙盒配置
-test --spawn_strategy=standalone
 
 # 平台配置
 build --host_platform=@local_config_platform//:host
@@ -201,57 +50,17 @@ build --define=sqlcc_build_type=bazel
 test --test_timeout=120
 test --test_tag_filters=-manual,-slow
 
-# 构建事件配置
-build --build_event_json_file=/tmp/bazel-build-events.json
-
 # 输出配置
 build --show_timestamps
 build --verbose_failures
 
-# 实验性功能
-# build --experimental_allow_incremental_repository_updates  # 此选项在Bazel 6.4.0中已移除
-# build --experimental_repository_cache_hardlinks           # 此选项在Bazel 6.4.0中已移除
-
-# -----------------------------
-# Sanitizer 配置（供本地调试/CI 使用）
-# 说明：ASan、TSan 与 UBSan 不能全部同时启用；请分别以 --config=asan/tsan/ubsan 使用。
-# 示例：
-#   bazel build --config=asan //...        # 构建启用 AddressSanitizer
-#   bazel test --config=asan //...         # 运行测试时启用 ASan
-#   bazel test --config=tsan //...         # 运行测试时启用 ThreadSanitizer
-# -----------------------------
-
-# AddressSanitizer（检测内存错误、LeakSanitizer）
-build:asan --compilation_mode=dbg
-build:asan --cxxopt=-g
-build:asan --cxxopt=-O1
-build:asan --cxxopt=-fsanitize=address,undefined
-build:asan --linkopt=-fsanitize=address,undefined
-build:asan --linkopt=-Wl,-z,relro
-test:asan --test_output=errors
-
-# ThreadSanitizer（检测数据竞争）
-build:tsan --compilation_mode=dbg
-build:tsan --cxxopt=-g
-build:tsan --cxxopt=-O1
-build:tsan --cxxopt=-fsanitize=thread
-build:tsan --linkopt=-fsanitize=thread
-test:tsan --test_output=errors
-
-# UndefinedBehaviorSanitizer
-build:ubsan --compilation_mode=dbg
-build:ubsan --cxxopt=-g
-build:ubsan --cxxopt=-O1
-build:ubsan --cxxopt=-fsanitize=undefined
-build:ubsan --linkopt=-fsanitize=undefined
-test:ubsan --test_output=errors
-
-# 额外建议：对于 ASan/TSan 测试，建议在 CI 中为测试添加适当的环境变量，例如
-#   ASAN_OPTIONS=detect_leaks=1:abort_on_error=1
-#   UBSAN_OPTIONS=print_stacktrace=1
-# 在执行 bazel test 时可以通过 --test_env=ASAN_OPTIONS=... 来传递。
 # 覆盖率配置
-test --collect_code_coverage
-test --combined_report=lcov
-test --instrumentation_filter='//src/network[:/].*'
-test --test_output=errors
+coverage --instrumentation_filter="//src/.*"
+coverage --instrumentation_filter="//include/.*"
+coverage --combined_report=lcov
+coverage --experimental_generate_llvm_lcov
+
+# 测试配置
+test --test_output=all
+test --test_timeout=300
+test --test_strategy=exclusive

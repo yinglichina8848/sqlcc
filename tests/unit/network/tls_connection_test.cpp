@@ -3,6 +3,8 @@
 #include <memory>
 #include <thread>
 #include <chrono>
+#include <vector>
+#include <algorithm>
 #include "network/connection_pool.h"
 #include "network/tls_handler.h"
 #include "network/network_manager.h"
@@ -14,23 +16,58 @@ class TLSConnectionTest : public ::testing::Test {
 protected:
     void SetUp() override {
         // Initialize TLS context and connection pool for testing
+        tls_handler_ = std::make_unique<TLSHandler>();
+        connection_pool_ = std::make_unique<ConnectionPool>(10, 300); // 10 connections, 5min timeout
     }
 
     void TearDown() override {
         // Cleanup TLS resources
+        connection_pool_.reset();
+        tls_handler_.reset();
     }
+
+    std::unique_ptr<TLSHandler> tls_handler_;
+    std::unique_ptr<ConnectionPool> connection_pool_;
 };
 
 // Test certificate validation
 TEST_F(TLSConnectionTest, TestCertificateValidation) {
     // Test valid certificate validation
-    EXPECT_TRUE(true); // Placeholder - implement actual TLS certificate validation
+    std::string valid_cert = "-----BEGIN CERTIFICATE-----\n"
+                           "MIICiTCCAg+gAwIBAgIJAJ8l4HnPq6F5MAOGA1UEBhMCVVMxCzAJBgNVBAgTAkNB\n"
+                           "MRYwFAYDVQQHEw1TYW4gRnJhbmNpc2NvMRowGAYDVQQKExFPcGVuU1NMIENlcnRp\n"
+                           "ZmljYXRpb24gQXV0aG9yaXR5MSEwHwYDVQQDExhPcGVuU1NMIFRlc3QgQ2VydGlm\n"
+                           "aWNhdGUwHhcNMTIwNTE0MTIzMzU5WhcNMTMwNTE0MTIzMzU5WjBhMQswCQYDVQQG\n"
+                           "EwJVUzELMAkGA1UECBMCQ0ExFjAUBgNVBAcTDVNhbiBGcmFuY2lzY28xGjAYBgNV\n"
+                           "BAoTEU9wZW5TU0wgQ2VydGlmaWNhdGlvbjEZMBcGA1UEAxMQQ2VydGlmaWNhdGUg\n"
+                           "VGVzdDAeFw0xMjA1MTQxMjMzNTlaFw0xMzA1MTQxMjMzNTlaMGExCzAJBgNVBAYT\n"
+                           "AlVTMQswCQYDVQQIEwJDQTEXMBUGA1UEBxMOU2FuIEZyYW5jaXNjbzEaMBgGA1UE\n"
+                           "ChMRQ2VydGlmaWNhdGUgVGVzdDB8MA0GCSqGSIb3DQEBAQUAA2sAMGgCYQCv1zJf\n"
+                           "-----END CERTIFICATE-----";
+
+    // Test certificate parsing and validation
+    EXPECT_TRUE(tls_handler_->validateCertificate(valid_cert));
+
+    // Test invalid certificate
+    std::string invalid_cert = "invalid_certificate_data";
+    EXPECT_FALSE(tls_handler_->validateCertificate(invalid_cert));
 }
 
 // Test cipher suite negotiation
 TEST_F(TLSConnectionTest, TestCipherSuiteNegotiation) {
     // Test TLS cipher suite selection
-    EXPECT_TRUE(true); // Placeholder - implement actual cipher negotiation test
+    std::vector<std::string> supported_ciphers = {
+        "TLS_AES_256_GCM_SHA384",
+        "TLS_AES_128_GCM_SHA256",
+        "TLS_CHACHA20_POLY1305_SHA256"
+    };
+
+    // Test cipher suite negotiation
+    std::string selected_cipher = tls_handler_->negotiateCipherSuite(supported_ciphers);
+    EXPECT_FALSE(selected_cipher.empty());
+
+    // Verify selected cipher is in supported list
+    EXPECT_TRUE(std::find(supported_ciphers.begin(), supported_ciphers.end(), selected_cipher) != supported_ciphers.end());
 }
 
 // Test TLS handshake performance

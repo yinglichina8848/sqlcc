@@ -8,17 +8,11 @@ cc_binary(
     deps = [
         "//src/core:core",
         "//src/network:network",
-        "//src/network:sqlcc_network",
-        "//src/storage_engine:index_manager",
         "//src/storage_engine:storage_engine",
         "//src/sql_parser:sql_parser",
-        "//src/transaction_manager:sqlcc_transaction_manager",
-        "//src/sql_executor:sqlcc_executor",
-        "//src:unified_executor",
+        "//src/sql_executor:sql_executor",
+        "//src/transaction:transaction",
     ],
-    includes = ["../include", "../..///include/core", "../..///include/storage"],
-
-
-
+    includes = ["../include"],
     linkopts = ["-lssl", "-lcrypto"],
 )
