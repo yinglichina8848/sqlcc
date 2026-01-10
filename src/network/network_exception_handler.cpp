@@ -9,7 +9,7 @@
  * - 系统稳定性保证
  */
 
-#include "network/network.h"
+#include <network/network.h>
 #include <algorithm>
 #include <sstream>
 #include <iomanip>
@@ -693,7 +693,11 @@ void NetworkStabilityGuard::ResetToDefaults() {
 
 int NetworkStabilityGuard::GetCurrentLoadLevel() const {
     std::lock_guard<std::mutex> lock(stability_mutex_);
-    return CalculateLoadLevel(*this); // 需要NetworkMonitor，这里简化了
+    // 简化的负载计算，不依赖NetworkMonitor
+    int connection_load = max_connections_ > 0 ? (current_connections_ * 100) / max_connections_ : 0;
+    int throughput_load = max_throughput_ > 0 ? static_cast<int>((current_throughput_ * 100) / max_throughput_) : 0;
+    int exception_load = max_exception_rate_ > 0 ? static_cast<int>((current_exception_rate_ * 100) / max_exception_rate_) : 0;
+    return std::max({connection_load, throughput_load, exception_load});
 }
 
 std::string NetworkStabilityGuard::GetStabilityReport() const {
@@ -741,7 +745,16 @@ double NetworkStabilityGuard::CalculateExceptionRate(const NetworkExceptionHandl
         NetworkExceptionType type = static_cast<NetworkExceptionType>(i);
         total_exceptions += exception_handler.GetExceptionCount(type);
     }
-    return total_exceptions / (GetUptime() / 60.0); // 每分钟异常数
+
+    // 计算运行时间（秒）
+    auto now = std::chrono::steady_clock::now();
+    auto uptime_seconds = std::chrono::duration_cast<std::chrono::seconds>(now - last_assessment_time_).count();
+
+    if (uptime_seconds == 0) {
+        return 0.0;
+    }
+
+    return total_exceptions / (uptime_seconds / 60.0); // 每分钟异常数
 }
 
 NetworkStabilityGuard::StabilityAction NetworkStabilityGuard::DetermineAction(

@@ -1,7 +1,7 @@
-#include "server_network_manager.h"
-#include "session.h"
-#include "session_manager.h"
-#include "connection_handler.h"
+#include <network/server_network_manager.h>
+#include <network/session.h>
+#include <network/session_manager.h>
+#include <network/connection_handler.h>
 #include "utils/file_descriptor.h"
 #include <iostream>
 #include <cstring>
@@ -164,7 +164,7 @@ void ServerNetworkManager::ProcessEvents() {
             auto it = connections_.find(fd);
             if (it != connections_.end()) {
                 // 处理连接事件
-                it->second->handleEvent(events[i].events);
+                it->second->HandleEvent(events[i].events);
             }
         }
     }
@@ -195,7 +195,7 @@ void ServerNetworkManager::AcceptConnection() {
     }
 
     // 创建连接处理器
-    auto connection_handler = std::make_unique<ConnectionHandler>(client_fd, session_manager_, sql_executor_);
+    auto connection_handler = std::make_unique<ConnectionHandler>(sqlcc::FileDescriptor(client_fd), session_manager_, sql_executor_);
     connections_[client_fd] = std::move(connection_handler);
 
     // 添加到epoll
@@ -211,7 +211,7 @@ void ServerNetworkManager::AcceptConnection() {
 #endif
 }
 
-void ServerNetworkManager::SetSqlExecutor(std::shared_ptr<SqlExecutor> sql_executor) {
+void ServerNetworkManager::SetSqlExecutor(std::shared_ptr<sqlcc::SqlExecutor> sql_executor) {
     sql_executor_ = sql_executor;
 }
 

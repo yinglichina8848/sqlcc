@@ -30,10 +30,20 @@ cc_library(
         "data_transmission_validator.cpp",
         "encryption.cpp",
         "network_exception_handler.cpp",
-        "server_network_manager.cpp",
+        # "server_network_manager.cpp",  # Temporarily disabled due to complex dependencies
     ],
-    hdrs = ["//include/network:network.h"],
+    hdrs = [
+        "//include/network:network.h",
+        "//include/network:client_connection.h",
+        "//include/network:connection_handler.h",
+        # "//include/network:server_network_manager.h",  # Temporarily disabled
+        "//include/network:mysql_protocol.h",
+        "//include/network:encryption.h",
+    ],
     includes = ["//include"],
+    copts = [
+        "-Iinclude",
+    ],
     deps = [
         ":session",
         ":session_manager",
