@@ -1,0 +1,92 @@
+# SQLCC注释质量检查配置文件
+
+# 内容长度要求（字符数）
+min_why_length: 100      # WHY部分最小长度
+min_what_length: 150     # WHAT部分最小长度
+min_how_length: 200      # HOW部分最小长度
+
+# 检查要求
+require_design_pattern: true     # 是否要求设计模式说明
+require_solid_principles: true  # 是否要求SOLID原则说明
+check_technical_depth: true     # 是否检查技术深度
+check_code_examples: true       # 是否检查代码示例
+
+# 评分权重（总和应为1.0）
+score_weights:
+  structure: 0.3    # 结构完整性权重
+  content: 0.4      # 内容质量权重
+  technical: 0.2    # 技术深度权重
+  examples: 0.1     # 代码示例权重
+
+# 质量等级阈值
+quality_thresholds:
+  excellent: 95     # 优秀阈值
+  good: 85          # 良好阈值
+  fair: 70          # 一般阈值
+  poor: 60          # 较差阈值
+  fail: 0           # 不及格阈值
+
+# 报告配置
+report_config:
+  output_format: "markdown"    # 输出格式：markdown, html, json
+  include_details: true        # 是否包含详细分析
+  include_suggestions: true    # 是否包含改进建议
+  max_issues_per_file: 10      # 每个文件最大问题数
+
+# CI/CD集成配置
+ci_config:
+  fail_on_quality_below: 80    # 低于此分数的文件导致CI失败
+  warn_on_quality_below: 90    # 低于此分数发出警告
+  exclude_patterns:            # 排除的文件模式
+    - "*/third_party/*"
+    - "*/generated/*"
+    - "*_test.h"
+    - "*_mock.h"
+
+# 高级分析配置
+advanced_config:
+  analyze_design_patterns: true    # 分析设计模式使用
+  check_consistency: true          # 检查注释一致性
+  validate_technical_terms: true   # 验证技术术语使用
+  detect_code_smells: true         # 检测代码异味
+
+# 团队标准配置
+team_standards:
+  preferred_language: "zh-CN"      # 首选语言
+  require_english_fallback: false  # 是否要求英文备用
+  enforce_comment_style: true      # 强制注释风格
+  allow_todo_comments: false       # 允许TODO注释
+
+# 自定义规则（正则表达式）
+custom_rules:
+  forbidden_patterns:              # 禁止的模式
+    - "FIXME"
+    - "HACK"
+    - "临时"
+  required_patterns:               # 必需的模式
+    - "🏗️\\s*设计模式"
+    - "SOLID原则"
+  technical_terms:                 # 技术术语列表
+    - "算法"
+    - "复杂度"
+    - "优化"
+    - "并发"
+    - "性能"
+    - "内存"
+    - "磁盘"
+    - "缓存"
+    - "锁"
+    - "事务"
+    - "索引"
+    - "查询"
+    - "存储"
+    - "网络"
+    - "安全"
+    - "监控"
+    - "日志"
+    - "配置"
+    - "异常"
+    - "测试"
+    - "部署"
+    - "扩展"
+    - "维护"
