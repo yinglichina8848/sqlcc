@@ -486,6 +486,163 @@ jobs:
 - 每月全面审查和优化
 ```
 
+## 快速入门
+
+### 最小配置要求
+```bash
+# 1. 安装依赖
+sudo apt-get install clang-20 lcov gcovr
+
+# 2. 设置环境变量
+export CC=clang-20
+export CXX=clang++-20
+
+# 3. 编译测试
+bazel build --config=coverage //...
+```
+
+### 单步测试执行
+```bash
+# 运行所有测试并生成覆盖率报告
+./scripts/run_full_test_coverage.sh
+
+# 查看覆盖率报告
+firefox coverage_report/index.html
+```
+
+### 常见问题解决
+```markdown
+**问题**: 覆盖率数据不完整
+**解决**: 确保使用 `--config=coverage` 编译
+
+**问题**: 测试执行超时
+**解决**: 使用 `--test_timeout=300` 扩展超时时间
+
+**问题**: 缺少依赖库
+**解决**: 运行 `./scripts/install_dependencies.sh`
+```
+
+## 高效测试执行
+
+### 增量测试策略
+```bash
+# 仅运行修改过的测试
+bazel test //tests/unit/... --test_filter="*modified*"
+
+# 并行测试执行
+bazel test //... --jobs=8 --local_test_jobs=4
+```
+
+### 测试优化技巧
+```bash
+# 缓存测试结果
+bazel test --cache_test_results=yes //...
+
+# 选择性测试
+bazel test //tests/unit/basic/... --test_filter="Logger*"
+
+# 快速反馈
+bazel test --test_output=summary //tests/unit/...
+```
+
+### 覆盖率数据优化
+```bash
+# 精确覆盖率收集
+bazel coverage --collect_code_coverage --instrumentation_filter="//src/core/..." //tests/unit/...
+
+# 过滤不相关代码
+bazel coverage --instrumentation_filter="//src/core/..." --instrumentation_filter="-//tests/..." //...
+```
+
+## 测试系统架构
+
+### 7层测试架构详解
+```mermaid
+graph TD
+    A[层次1: 基础工具] -->|依赖| B[层次2: 存储引擎]
+    B -->|依赖| C[层次3: 索引系统]
+    C -->|依赖| D[层次4: SQL解析器]
+    D -->|依赖| E[层次5: 执行引擎]
+    E -->|依赖| F[层次6: 网络通信]
+    F -->|依赖| G[层次7: 高层功能]
+```
+
+### 测试数据流
+```mermaid
+graph LR
+    A[源代码] -->|编译| B[测试二进制]
+    B -->|执行| C[测试结果]
+    C -->|分析| D[覆盖率数据]
+    D -->|生成| E[HTML报告]
+```
+
+### 关键组件说明
+```markdown
+**测试执行器**: 负责测试用例的发现和执行
+**覆盖率收集器**: 收集代码执行路径数据
+**报告生成器**: 生成可视化的覆盖率报告
+**依赖管理器**: 处理测试间的依赖关系
+```
+
+## 环境配置指南
+
+### 编译器配置
+```bash
+# 设置默认编译器
+sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/clang-20 100
+sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/clang++-20 100
+
+# 验证编译器版本
+clang++-20 --version
+```
+
+### Bazel配置
+```bash
+# .bazelrc配置
+build --config=coverage
+build --cxxopt="-std=c++20"
+build --cxxopt="-Iinclude"
+build --cxxopt="-Itests"
+```
+
+### 覆盖率工具配置
+```bash
+# lcov配置
+lcov --version
+lcov --capture --directory . --output-file coverage.info
+
+# gcovr配置
+gcovr --version
+gcovr -r . --html --html-details -o coverage.html
+```
+
+## 测试结果分析
+
+### 覆盖率报告解读
+```markdown
+**行覆盖率**: 执行的代码行数/总代码行数
+**函数覆盖率**: 调用的函数数/总函数数
+**分支覆盖率**: 执行的分支数/总分支数
+**路径覆盖率**: 执行的路径数/总路径数
+```
+
+### 性能分析
+```bash
+# 生成性能报告
+./scripts/generate_performance_report.sh
+
+# 分析瓶颈
+./scripts/analyze_performance_bottlenecks.sh
+```
+
+### 优化建议
+```markdown
+1. **优先测试核心路径**: 确保主要功能流程覆盖
+2. **边界值测试**: 测试输入边界和异常情况
+3. **错误处理测试**: 验证错误恢复机制
+4. **并发测试**: 测试多线程和竞态条件
+```
+
 ## 总结
 
 通过系统性的测试集成和覆盖率提升方法，结合完善的工具链和索引系统，SQLCC项目建立了高质量的测试体系。本指南提供了完整的使用方法和最佳实践，帮助开发者高效地进行测试开发和质量保障工作。
@@ -507,7 +664,7 @@ jobs:
 
 ---
 
-**文档版本**: v1.0
-**最后更新**: 2025年12月29日
+**文档版本**: v1.1
+**最后更新**: 2026年1月12日
 **维护者**: SQLCC AI Assistant
 **适用范围**: SQLCC项目测试和质量保障
