@@ -223,12 +223,16 @@ std::unique_ptr<Statement> Parser::parseStatement() {
   // WHY层 - 语句类型识别：通过检查当前token来确定SQL语句的类型
   // 这是递归下降解析器的核心逻辑，每种语句都有独特的起始关键字
 
-  // HOW层 - CREATE语句特殊处理：CREATE语句比较复杂，需要区分TABLE、VIEW等
-  // 使用isCreateViewStatement()进行前瞻检查
+  // HOW层 - CREATE语句特殊处理：CREATE语句比较复杂，需要区分TABLE、VIEW、USER等
+  // 使用前瞻检查来识别不同的CREATE语句类型
   if (check(Token::KEYWORD_CREATE)) {
-    // WHY层 - CREATE VIEW特殊处理：VIEW的语法结构与其他CREATE语句不同
-    // 需要在调用parseCreateStatement之前提前识别
-    if (isCreateViewStatement()) {
+    // WHY层 - CREATE USER特殊处理：USER语句语法与其他CREATE语句不同
+    // 需要提前识别避免冲突
+    if (isCreateUserStatement()) {
+      std::cout << "[PARSER DEBUG] 检测到CREATE USER语句，调用parseCreateUserStatement()"
+                << std::endl;
+      return parseCreateUserStatement();
+    } else if (isCreateViewStatement()) {
       std::cout << "[PARSER DEBUG] 检测到CREATE VIEW语句，调用parseCreateViewStatement()"
                 << std::endl;
       return parseCreateViewStatement();
@@ -241,9 +245,17 @@ std::unique_ptr<Statement> Parser::parseStatement() {
 
   // WHAT层 - DDL语句识别：数据定义语言语句
   if (check(Token::KEYWORD_DROP)) {
-    std::cout << "[PARSER DEBUG] 检测到DROP关键字，调用parseDropStatement()"
-              << std::endl;
-    return parseDropStatement();
+    // WHY层 - DROP USER特殊处理：USER语句需要返回特定的DropUserStatement类型
+    // 需要提前识别避免使用通用的DropStatement
+    if (isDropUserStatement()) {
+      std::cout << "[PARSER DEBUG] 检测到DROP USER语句，调用parseDropUserStatement()"
+                << std::endl;
+      return parseDropUserStatement();
+    } else {
+      std::cout << "[PARSER DEBUG] 检测到其他DROP语句，调用parseDropStatement()"
+                << std::endl;
+      return parseDropStatement();
+    }
   }
 
   if (check(Token::KEYWORD_ALTER)) {
@@ -528,6 +540,40 @@ void Parser::reportError(const std::string &message) {
   std::cout << "[PARSER ERROR] " << errorMsg << std::endl;
   errors_.push_back(errorMsg);
   panicMode_ = true;
+
+  // 增强错误信息：提供上下文信息
+  std::string context = getErrorContext();
+  if (!context.empty()) {
+    std::string contextMsg = "Context: " + context;
+    std::cout << "[PARSER ERROR] " << contextMsg << std::endl;
+    errors_.push_back(contextMsg);
+  }
+}
+
+// 获取错误上下文信息
+std::string Parser::getErrorContext() const {
+  std::stringstream ss;
+  ss << "Current token: '" << currentToken_.getLexeme() << "' ("
+     << Token::getTypeName(currentToken_.getType()) << ")";
+
+  // 显示前几个token作为上下文
+  if (hasLookahead_) {
+    ss << ", Next token: '" << lookaheadToken_.getLexeme() << "' ("
+       << Token::getTypeName(lookaheadToken_.getType()) << ")";
+  }
+
+  return ss.str();
+}
+
+// 获取详细错误信息
+std::vector<std::string> Parser::getDetailedErrors() const {
+  return errors_;
+}
+
+// 清空错误状态
+void Parser::clearErrors() {
+  errors_.clear();
+  panicMode_ = false;
 }
 
 void Parser::synchronize() {
@@ -573,6 +619,26 @@ bool Parser::isCreateViewStatement() {
   return lookaheadToken_.getType() == Token::KEYWORD_VIEW;
 }
 
+// Helper method to check if current statement is CREATE USER
+bool Parser::isCreateUserStatement() {
+  // Look ahead to check if the next token is USER
+  // This is needed because CREATE could be followed by TABLE, INDEX, VIEW, or USER
+  if (!hasLookahead_) {
+    lookaheadToken_ = lexer_.nextToken();
+    hasLookahead_ = true;
+  }
+  return lookaheadToken_.getType() == Token::KEYWORD_USER;
+}
+
+// Helper method to check if current statement is DROP USER
+bool Parser::isDropUserStatement() {
+  // Look ahead to check if the next token is USER
+  // This is needed because DROP could be followed by TABLE, DATABASE, INDEX, or USER
+  // For now, we'll assume it's DROP USER if we reach this point
+  // TODO: Implement proper lookahead without consuming tokens
+  return true; // Temporarily allow DROP USER parsing
+}
+
 void Parser::initializeSyncTokens() {
   syncTokens_ = {
       Token::KEYWORD_CREATE, Token::KEYWORD_DROP,   Token::KEYWORD_ALTER,
@@ -606,6 +672,12 @@ std::unique_ptr<CreateStatement> Parser::parseCreateStatement() {
   } else if (match(Token::KEYWORD_PROCEDURE)) {
     std::cout << "[PARSER DEBUG] 解析CREATE PROCEDURE语句" << std::endl;
     return parseCreateProcedureStatement();
+  } else if (match(Token::KEYWORD_USER)) {
+    std::cout << "[PARSER DEBUG] 解析CREATE USER语句" << std::endl;
+    // CREATE USER返回Statement类型，需要特殊处理
+    // 这里我们直接返回nullptr，稍后在parseStatement中处理
+    reportError("CREATE USER not supported in this context");
+    return nullptr;
   } else if (match(Token::KEYWORD_VIEW)) {
     std::cout << "[PARSER DEBUG] 解析CREATE VIEW语句" << std::endl;
     // VIEW语句返回Statement类型，需要特殊处理
@@ -618,7 +690,7 @@ std::unique_ptr<CreateStatement> Parser::parseCreateStatement() {
   } else {
     // 如果不是已知的对象类型，抛出错误
     std::stringstream ss;
-    ss << "Expected TABLE, DATABASE, INDEX, PROCEDURE, or TRIGGER after CREATE, but got "
+    ss << "Expected TABLE, DATABASE, INDEX, PROCEDURE, USER, VIEW, or TRIGGER after CREATE, but got "
        << currentToken_.getLexeme();
     reportError(ss.str());
     return nullptr;
@@ -1623,18 +1695,10 @@ std::unique_ptr<DropIndexStatement> Parser::parseDropIndexStatement() {
 
 std::unique_ptr<DropStatement> Parser::parseDropStatement() {
   std::cout << "[PARSER DEBUG] 进入parseDropStatement()方法" << std::endl;
-  
+
   // 消费DROP关键字
   consume(Token::KEYWORD_DROP);
-  
-  // 检查是否有IF EXISTS子句
-  bool ifExists = false;
-  if (match(Token::KEYWORD_IF)) {
-    consume(Token::KEYWORD_EXISTS);
-    ifExists = true;
-    std::cout << "[PARSER DEBUG] 检测到IF EXISTS子句" << std::endl;
-  }
-  
+
   // 检查要删除的对象类型
   DropStatement::ObjectType objectType;
   if (match(Token::KEYWORD_TABLE)) {
@@ -1646,23 +1710,34 @@ std::unique_ptr<DropStatement> Parser::parseDropStatement() {
   } else if (match(Token::KEYWORD_INDEX)) {
     objectType = DropStatement::INDEX;
     std::cout << "[PARSER DEBUG] 解析DROP INDEX语句" << std::endl;
+  } else if (match(Token::KEYWORD_USER)) {
+    objectType = DropStatement::USER;
+    std::cout << "[PARSER DEBUG] 解析DROP USER语句" << std::endl;
   } else {
     std::stringstream ss;
-    ss << "Expected TABLE, DATABASE, or INDEX after DROP, but got " 
+    ss << "Expected TABLE, DATABASE, INDEX, or USER after DROP, but got "
        << currentToken_.getLexeme();
     reportError(ss.str());
     return nullptr;
   }
-  
+
+  // 检查是否有IF EXISTS子句（对于USER类型，在对象类型后）
+  bool ifExists = false;
+  if (match(Token::KEYWORD_IF)) {
+    consume(Token::KEYWORD_EXISTS);
+    ifExists = true;
+    std::cout << "[PARSER DEBUG] 检测到IF EXISTS子句" << std::endl;
+  }
+
   // 创建DropStatement对象
   auto stmt = std::make_unique<DropStatement>(objectType);
   stmt->setIfExists(ifExists);
-  
+
   // 解析对象名称
   std::string objectName = parseIdentifier();
   stmt->setObjectName(objectName);
   std::cout << "[PARSER DEBUG] 对象名称: " << objectName << std::endl;
-  
+
   std::cout << "[PARSER DEBUG] DROP语句解析完成" << std::endl;
   return stmt;
 }
@@ -1702,27 +1777,31 @@ std::unique_ptr<CreateUserStatement> Parser::parseCreateUserStatement() {
 
 std::unique_ptr<DropUserStatement> Parser::parseDropUserStatement() {
   std::cout << "[PARSER DEBUG] 进入parseDropUserStatement()方法" << std::endl;
-  
-  // 消费DROP关键字
+
+  // 消费DROP关键字（已经在parseStatement中消费了）
   consume(Token::KEYWORD_DROP);
-  
+
   // 消费USER关键字
   consume(Token::KEYWORD_USER);
-  
+
   // 检查是否有IF EXISTS子句
   bool ifExists = false;
   if (match(Token::KEYWORD_IF)) {
     consume(Token::KEYWORD_EXISTS);
     ifExists = true;
+    std::cout << "[PARSER DEBUG] 检测到IF EXISTS子句" << std::endl;
   }
-  
+
   // 解析用户名
   std::string username = parseIdentifier();
-  
+  if (!username.empty()) {
+    std::cout << "[PARSER DEBUG] 用户名: " << username << std::endl;
+  }
+
   // 创建DropUserStatement对象
   auto stmt = std::make_unique<DropUserStatement>(username);
   stmt->setIfExists(ifExists);
-  
+
   std::cout << "[PARSER DEBUG] DROP USER语句解析完成" << std::endl;
   return stmt;
 }
@@ -1788,13 +1867,13 @@ std::unique_ptr<GrantStatement> Parser::parseGrantStatement() {
 
 std::unique_ptr<RevokeStatement> Parser::parseRevokeStatement() {
   std::cout << "[PARSER DEBUG] 进入parseRevokeStatement()方法" << std::endl;
-  
+
   // 消费REVOKE关键字
   consume(Token::KEYWORD_REVOKE);
-  
+
   // 创建RevokeStatement对象
   auto stmt = std::make_unique<RevokeStatement>();
-  
+
   // 解析权限列表
   if (match(Token::KEYWORD_ALL)) {
     // 处理ALL [PRIVILEGES]情况
@@ -1804,43 +1883,84 @@ std::unique_ptr<RevokeStatement> Parser::parseRevokeStatement() {
       stmt->addPrivilege("ALL");
     }
   } else {
-    // 解析具体权限列表
-    std::string privilege = parseIdentifier();
-    stmt->addPrivilege(privilege);
-    
-    while (match(Token::COMMA)) {
-      privilege = parseIdentifier();
-      stmt->addPrivilege(privilege);
+    // 解析具体权限列表，支持逗号分隔的多个权限
+    bool first = true;
+    while (!check(Token::KEYWORD_ON) && !check(Token::KEYWORD_PRIVILEGES) && !isAtEnd()) {
+      if (!first) {
+        if (!match(Token::COMMA)) {
+          break; // 没有逗号表示权限列表结束
+        }
+      }
+      first = false;
+
+      // 解析权限名 - 可以是标识符或关键字
+      std::string privilege;
+      if (check(Token::IDENTIFIER)) {
+        privilege = parseIdentifier();
+      } else {
+        // 检查常见的权限关键字
+        if (match(Token::KEYWORD_SELECT)) {
+          privilege = "SELECT";
+        } else if (match(Token::KEYWORD_INSERT)) {
+          privilege = "INSERT";
+        } else if (match(Token::KEYWORD_UPDATE)) {
+          privilege = "UPDATE";
+        } else if (match(Token::KEYWORD_DELETE)) {
+          privilege = "DELETE";
+        } else if (match(Token::KEYWORD_CREATE)) {
+          privilege = "CREATE";
+        } else if (match(Token::KEYWORD_DROP)) {
+          privilege = "DROP";
+        } else if (match(Token::KEYWORD_GRANT)) {
+          privilege = "GRANT";
+        } else if (match(Token::KEYWORD_ALTER)) {
+          privilege = "ALTER";
+        } else {
+          // 其他情况当作标识符处理
+          privilege = parseIdentifier();
+        }
+      }
+
+      if (!privilege.empty()) {
+        stmt->addPrivilege(privilege);
+        std::cout << "[PARSER DEBUG] 添加权限: " << privilege << std::endl;
+      }
     }
   }
-  
+
   // 可选的PRIVILEGES关键字
-  if (check(Token::KEYWORD_PRIVILEGES)) {
-    advance();
+  if (match(Token::KEYWORD_PRIVILEGES)) {
+    std::cout << "[PARSER DEBUG] 消费PRIVILEGES关键字" << std::endl;
   }
-  
+
   // 消费ON关键字
   consume(Token::KEYWORD_ON);
-  
+
   // 解析对象类型和名称
   if (match(Token::KEYWORD_TABLE)) {
     stmt->setObjectType("TABLE");
-    std::string tableName = parseIdentifier();
-    stmt->setObjectName(tableName);
+    std::cout << "[PARSER DEBUG] 设置对象类型: TABLE" << std::endl;
   } else {
     // 默认为TABLE类型
     stmt->setObjectType("TABLE");
-    std::string objectName = parseIdentifier();
-    stmt->setObjectName(objectName);
   }
-  
+
+  std::string objectName = parseIdentifier();
+  if (!objectName.empty()) {
+    stmt->setObjectName(objectName);
+    std::cout << "[PARSER DEBUG] 设置对象名称: " << objectName << std::endl;
+  }
+
   // 消费FROM关键字
   consume(Token::KEYWORD_FROM);
-  
+
   // 解析被撤销权限的用户
   std::string grantee = parseIdentifier();
-  stmt->setGrantee(grantee);
-  
+  if (!grantee.empty()) {
+    stmt->setGrantee(grantee);
+    std::cout << "[PARSER DEBUG] 设置被撤销权限用户: " << grantee << std::endl;
+  }
+
   std::cout << "[PARSER DEBUG] REVOKE语句解析完成" << std::endl;
   return stmt;
 }

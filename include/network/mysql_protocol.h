@@ -46,6 +46,21 @@ public:
     // 处理客户端响应
     bool handle_client_response();
 
+    // 发送认证成功响应
+    bool send_auth_success();
+
+    // 发送认证失败响应
+    bool send_auth_error(const std::string& error_message);
+
+    // 发送查询结果
+    bool send_query_result(const std::vector<std::vector<std::string>>& rows,
+                          const std::vector<std::string>& columns);
+
+    // 获取客户端认证信息
+    const std::string& get_client_username() const;
+    const std::string& get_client_database() const;
+    const std::vector<uint8_t>& get_client_auth_data() const;
+
 private:
     // 发送MySQL协议包（带包头）
     bool send_packet(const uint8_t* data, size_t length, uint8_t sequence_id);
@@ -53,7 +68,19 @@ private:
     // 接收MySQL协议包
     std::vector<uint8_t> receive_packet();
 
+    // 发送错误包
+    bool send_error_packet(const std::string& error_message, uint8_t sequence_id);
+
+    // 长度编码辅助函数
+    void encode_length_encoded_string(std::vector<uint8_t>& packet, const std::string& str);
+    void encode_length(std::vector<uint8_t>& packet, size_t length);
+
     sqlcc::FileDescriptor client_fd_;
     HandshakeV10 handshake_;
     uint8_t next_sequence_id_; // 包序列号管理
+
+    // 客户端认证信息
+    std::string client_username_;
+    std::string client_database_;
+    std::vector<uint8_t> client_auth_data_;
 };

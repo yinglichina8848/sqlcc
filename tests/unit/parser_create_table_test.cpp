@@ -37,7 +37,7 @@ int main() {
                     std::cout << "列数量: " << columns.size() << std::endl;
                     for (size_t i = 0; i < columns.size(); ++i) {
                         const auto& col = columns[i];
-                        std::cout << "  列 " << i << ": " << col.getName() << " " << col.getType() << std::endl;
+                        std::cout << "  列 " << i << ": " << col.getName() << " " << col.getTypeString() << std::endl;
                         if (col.isPrimaryKey()) {
                             std::cout << "    主键约束" << std::endl;
                         }

@@ -74,7 +74,7 @@ const std::unordered_set<std::string> &getSQLKeywords() {
       "case", "when", "then", "else", "end", "if", "while", "for", "do",
 
       // Database Objects
-      "database", "table", "index", "view", "sequence", "trigger", "procedure", "function",
+      "database", "table", "index", "view", "sequence", "trigger", "procedure", "function", "user",
 
       // Other Keywords
       "use", "show", "describe", "explain", "help", "status", "to", "into", "values", "privileges"  };

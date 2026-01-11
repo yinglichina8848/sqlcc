@@ -103,6 +103,40 @@ cc_test(
     ],
 )
 
+# AST驱动执行器测试
+cc_test(
+    name = "test_ast_executor",
+    srcs = ["test_ast_executor.cpp"],
+    deps = [
+        "//src/sql_executor:sql_executor",
+        "//src/sql_parser:sql_parser",
+        "@com_google_googletest//:gtest_main",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+    ],
+)
+
+# 简单Token测试
+cc_test(
+    name = "simple_token_test",
+    srcs = ["simple_token_test.cpp"],
+    deps = [],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+    ],
+)
+
 exports_files([
     "comprehensive_test.sql",
     "simple_test.sql",
@@ -116,5 +150,6 @@ test_suite(
         ":simple_procedure_test",
         ":test_dcl_parsing",
         ":test_join_functionality",
+        ":test_ast_executor",
     ],
 )

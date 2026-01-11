@@ -68,9 +68,57 @@ cc_test(
     tags = ["coverage"],
 )
 
+# 性能指标库
+cc_library(
+    name = "performance_metrics",
+    srcs = ["performance_benchmark_manager.cpp"],
+    hdrs = [
+        "performance_metrics.h",
+        "performance_test_base.h",
+    ],
+    deps = [
+        "//src/core:sqlcc_core_lib",
+        "//src/core:sqlcc_database_core",
+        "//src/storage_engine:storage_engine",
+        "//src/sql_parser:sql_parser",
+        "//src/execution:execution",
+        "//src/types:types",
+        "//src/sql_executor:sql_executor",
+        "//src:unified_executor",
+    ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+# SQLCC性能基准测试
+cc_test(
+    name = "sqlcc_performance_benchmarks",
+    srcs = ["sqlcc_performance_benchmarks.cpp"],
+    deps = [
+        ":performance_metrics",
+        "@com_google_googletest//:gtest_main",
+    ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+)
+
 test_suite(
     name = "performance_tests",
     tests = [
         ":real_crud_performance_test",
+        ":sqlcc_performance_benchmarks",
     ],
 )

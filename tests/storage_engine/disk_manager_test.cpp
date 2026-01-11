@@ -21,7 +21,7 @@ namespace sqlcc {
 
 class DiskManagerTest : public ::testing::Test {
 protected:
-    static const size_t PAGE_SIZE = 8192;
+    static constexpr size_t PAGE_SIZE = 8192;
 
     void SetUp() override {
         // 创建临时测试目录
@@ -95,8 +95,17 @@ TEST_F(DiskManagerTest, PageAllocation) {
     int32_t page_id3 = disk_manager->AllocatePage();
     EXPECT_EQ(page_id3, 2);
 
-    // 验证文件大小增长
-    EXPECT_GE(disk_manager->GetFileSize(), 3); // 至少有3个页面
+    // 验证分配的页面ID正确，但文件大小在写入前不会增长
+    EXPECT_EQ(disk_manager->GetFileSize(), 0); // 新文件分配前大小为0
+
+    // 写入一个页面以验证文件扩展
+    auto test_data = CreateTestData(PAGE_SIZE);
+    char* test_data_ptr = reinterpret_cast<char*>(test_data.data());
+    bool write_result = disk_manager->WritePage(page_id1, test_data_ptr);
+    EXPECT_TRUE(write_result);
+
+    // 现在文件大小应该增长
+    EXPECT_GE(disk_manager->GetFileSize(), PAGE_SIZE); // 至少有1个页面
 }
 
 // 测试页面写入和读取

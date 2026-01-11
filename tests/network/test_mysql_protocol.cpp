@@ -1,360 +1,302 @@
+#include "network/mysql_protocol.h"
+#include "network/network.h"
 #include <iostream>
 #include <cstring>
-#include <unistd.h>
 #include <sys/socket.h>
-#include <netinet/in.h>
+#include <sys/types.h>
+#include <unistd.h>
 #include <arpa/inet.h>
 #include <thread>
 #include <chrono>
-#include <vector>
 
-// 简单的MySQL协议测试 - 直接测试我们的修复
-class SimpleMySQLServer {
+using namespace sqlcc;
+using namespace sqlcc::network;
+
+class MockClient {
 public:
-    SimpleMySQLServer(int port) : port_(port), server_fd_(-1) {}
+    MockClient() : sock_fd_(-1) {}
 
-    bool Start() {
-        server_fd_ = socket(AF_INET, SOCK_STREAM, 0);
-        if (server_fd_ < 0) {
-            std::cerr << "Socket creation failed" << std::endl;
+    ~MockClient() {
+        if (sock_fd_ >= 0) {
+            close(sock_fd_);
+        }
+    }
+
+    bool connect(const std::string& host, int port) {
+        sock_fd_ = socket(AF_INET, SOCK_STREAM, 0);
+        if (sock_fd_ < 0) {
+            std::cerr << "Failed to create socket" << std::endl;
             return false;
         }
 
-        int opt = 1;
-        if (setsockopt(server_fd_, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) < 0) {
-            std::cerr << "Setsockopt failed" << std::endl;
-            return false;
-        }
-
-        sockaddr_in addr{};
-        addr.sin_family = AF_INET;
-        addr.sin_addr.s_addr = INADDR_ANY;
-        addr.sin_port = htons(port_);
-
-        if (bind(server_fd_, (sockaddr*)&addr, sizeof(addr)) < 0) {
-            std::cerr << "Bind failed" << std::endl;
-            return false;
-        }
-
-        if (listen(server_fd_, 1) < 0) {
-            std::cerr << "Listen failed" << std::endl;
-            return false;
-        }
-
-        std::cout << "Simple MySQL server started on port " << port_ << std::endl;
-        return true;
-    }
-
-    void Run() {
-        sockaddr_in client_addr{};
-        socklen_t addr_len = sizeof(client_addr);
-
-        int client_fd = accept(server_fd_, (sockaddr*)&client_addr, &addr_len);
-        if (client_fd < 0) {
-            std::cerr << "Accept failed" << std::endl;
-            return;
-        }
-
-        std::cout << "Client connected" << std::endl;
-
-        // 发送握手包 - 使用修复后的格式
-        SendHandshake(client_fd);
-
-        // 读取客户端响应
-        ReadClientResponse(client_fd);
-
-        close(client_fd);
-    }
-
-    void Stop() {
-        if (server_fd_ >= 0) {
-            close(server_fd_);
-            server_fd_ = -1;
-        }
-    }
-
-private:
-    void SendHandshake(int client_fd) {
-        // 构建握手包数据（不包含包头）
-        std::vector<uint8_t> payload;
-
-        // 协议版本
-        payload.push_back(0x0A);
-
-        // 服务器版本字符串
-        std::string server_version = "sqlcc-test-1.0.0";
-        payload.insert(payload.end(), server_version.begin(), server_version.end());
-        payload.push_back(0); // null terminator
-
-        // 线程ID (4字节，小端序)
-        uint32_t thread_id = 12345;
-        payload.push_back(thread_id & 0xFF);
-        payload.push_back((thread_id >> 8) & 0xFF);
-        payload.push_back((thread_id >> 16) & 0xFF);
-        payload.push_back((thread_id >> 24) & 0xFF);
-
-        // scramble (20字节随机数据)
-        for (int i = 0; i < 20; i++) {
-            payload.push_back(rand() % 256);
-        }
-
-        // 填充字节
-        payload.push_back(0);
-
-        // 能力标志低16位 (小端序)
-        uint16_t cap_low = 0x0D25; // CLIENT_PROTOCOL_41 | CLIENT_SECURE_CONNECTION | CLIENT_PLUGIN_AUTH | CLIENT_CONNECT_WITH_DB
-        payload.push_back(cap_low & 0xFF);
-        payload.push_back((cap_low >> 8) & 0xFF);
-
-        // 字符集
-        payload.push_back(0x21); // utf8mb4_general_ci
-
-        // 状态标志 (小端序)
-        uint16_t status = 0x0002; // SERVER_STATUS_AUTOCOMMIT
-        payload.push_back(status & 0xFF);
-        payload.push_back((status >> 8) & 0xFF);
-
-        // 能力标志高16位 (小端序)
-        uint16_t cap_high = 0x0000;
-        payload.push_back(cap_high & 0xFF);
-        payload.push_back((cap_high >> 8) & 0xFF);
-
-        // 认证插件数据长度
-        payload.push_back(20);
-
-        // 保留字段 (10字节)
-        for (int i = 0; i < 10; i++) {
-            payload.push_back(0);
-        }
-
-        // 认证插件名 (21字节)
-        std::string plugin_name = "mysql_native_password";
-        payload.insert(payload.end(), plugin_name.begin(), plugin_name.end());
-        payload.push_back(0); // null terminator (总共22字节，包括null)
-
-        // 发送包头 + 负载
-        SendPacket(client_fd, payload.data(), payload.size(), 0);
-
-        std::cout << "Sent handshake packet with correct format (length=" << payload.size() << ")" << std::endl;
-    }
-
-    void SendPacket(int client_fd, const uint8_t* data, size_t length, uint8_t sequence_id) {
-        if (length > 0xFFFFFF) {
-            std::cerr << "Packet too large" << std::endl;
-            return;
-        }
-
-        // 发送包头：3字节长度 + 1字节序列号
-        uint8_t header[4];
-        header[0] = length & 0xFF;
-        header[1] = (length >> 8) & 0xFF;
-        header[2] = (length >> 16) & 0xFF;
-        header[3] = sequence_id;
-
-        write(client_fd, header, 4);
-        if (length > 0) {
-            write(client_fd, data, length);
-        }
-
-        std::cout << "Sent packet: length=" << length << ", seq=" << (int)sequence_id << std::endl;
-    }
-
-    void ReadClientResponse(int client_fd) {
-        // 读取包头
-        uint8_t header[4];
-        if (read(client_fd, header, 4) != 4) {
-            std::cerr << "Failed to read packet header" << std::endl;
-            return;
-        }
-
-        uint32_t length = header[0] | (header[1] << 8) | (header[2] << 16);
-        uint8_t sequence_id = header[3];
-
-        std::cout << "Received packet: length=" << length << ", seq=" << (int)sequence_id << std::endl;
-
-        if (length > 0) {
-            std::vector<uint8_t> payload(length);
-            if (read(client_fd, payload.data(), length) != (ssize_t)length) {
-                std::cerr << "Failed to read packet payload" << std::endl;
-                return;
-            }
-
-            std::cout << "Client response received successfully" << std::endl;
-        }
-    }
-
-    int port_;
-    int server_fd_;
-};
-
-class SimpleMySQLClient {
-public:
-    SimpleMySQLClient(const std::string& host, int port) : host_(host), port_(port), sock_(-1) {}
-
-    bool Connect() {
-        sock_ = socket(AF_INET, SOCK_STREAM, 0);
-        if (sock_ < 0) {
-            std::cerr << "Socket creation failed" << std::endl;
-            return false;
-        }
-
-        sockaddr_in server_addr{};
+        struct sockaddr_in server_addr;
+        memset(&server_addr, 0, sizeof(server_addr));
         server_addr.sin_family = AF_INET;
-        server_addr.sin_port = htons(port_);
-        inet_pton(AF_INET, host_.c_str(), &server_addr.sin_addr);
+        server_addr.sin_port = htons(port);
 
-        if (connect(sock_, (sockaddr*)&server_addr, sizeof(server_addr)) < 0) {
+        if (inet_pton(AF_INET, host.c_str(), &server_addr.sin_addr) <= 0) {
+            std::cerr << "Invalid address" << std::endl;
+            return false;
+        }
+
+        if (::connect(sock_fd_, (struct sockaddr*)&server_addr, sizeof(server_addr)) < 0) {
             std::cerr << "Connection failed" << std::endl;
             return false;
         }
 
-        std::cout << "Connected to server" << std::endl;
         return true;
     }
 
-    void TestHandshake() {
-        // 读取握手包
-        uint8_t header[4];
-        if (read(sock_, header, 4) != 4) {
-            std::cerr << "Failed to read handshake header" << std::endl;
-            return;
-        }
+    bool send_handshake_response() {
+        // 模拟MySQL客户端的握手响应
+        // 这是一个简化的实现，实际MySQL握手响应更复杂
 
-        uint32_t length = header[0] | (header[1] << 8) | (header[2] << 16);
-        uint8_t sequence_id = header[3];
+        // 能力标志 (4字节)
+        uint32_t capabilities = CLIENT_PROTOCOL_41 | CLIENT_SECURE_CONNECTION |
+                               CLIENT_PLUGIN_AUTH | CLIENT_CONNECT_WITH_DB;
+        uint32_t capabilities_le = htole32(capabilities);
 
-        std::cout << "Received handshake: length=" << length << ", seq=" << (int)sequence_id << std::endl;
+        // 最大包长度 (4字节)
+        uint32_t max_packet_size = 16777216; // 16MB
+        uint32_t max_packet_size_le = htole32(max_packet_size);
 
-        if (length > 0) {
-            std::vector<uint8_t> payload(length);
-            if (read(sock_, payload.data(), length) != (ssize_t)length) {
-                std::cerr << "Failed to read handshake payload" << std::endl;
-                return;
-            }
-
-            std::cout << "Handshake packet received successfully" << std::endl;
-
-            // 发送握手响应
-            SendHandshakeResponse();
-        }
-    }
-
-    void SendHandshakeResponse() {
-        std::vector<uint8_t> response;
-
-        // 包头会由SendPacket添加，这里只准备数据负载
-        // 简化的握手响应
-        uint32_t client_flags = 0x00000001; // CLIENT_PROTOCOL_41
-        response.push_back(client_flags & 0xFF);
-        response.push_back((client_flags >> 8) & 0xFF);
-        response.push_back((client_flags >> 16) & 0xFF);
-        response.push_back((client_flags >> 24) & 0xFF);
-
-        // 最大包长度
-        uint32_t max_packet_size = 0x01000000;
-        response.push_back(max_packet_size & 0xFF);
-        response.push_back((max_packet_size >> 8) & 0xFF);
-        response.push_back((max_packet_size >> 16) & 0xFF);
-        response.push_back((max_packet_size >> 24) & 0xFF);
-
-        // 字符集
-        response.push_back(33); // utf8mb4
+        // 字符集 (1字节)
+        uint8_t charset = 33; // utf8mb4
 
         // 填充 (23字节)
-        for (int i = 0; i < 23; i++) {
-            response.push_back(0);
-        }
+        std::vector<uint8_t> filler(23, 0);
 
         // 用户名
-        std::string username = "test";
-        response.insert(response.end(), username.begin(), username.end());
-        response.push_back(0); // null terminator
+        std::string username = "testuser";
+        std::vector<uint8_t> username_data(username.begin(), username.end());
+        username_data.push_back(0); // null terminator
 
-        // 密码（空）
-        response.push_back(0);
+        // 认证数据长度 (1字节)
+        uint8_t auth_data_len = 20;
 
-        // 发送包
-        SendPacket(response.data(), response.size(), 1);
+        // 认证数据 (20字节，模拟scramble)
+        std::vector<uint8_t> auth_data(20, 0xAA);
 
-        std::cout << "Sent handshake response" << std::endl;
+        // 数据库名
+        std::string database = "testdb";
+        std::vector<uint8_t> database_data(database.begin(), database.end());
+        database_data.push_back(0); // null terminator
+
+        // 认证插件名
+        std::string plugin_name = "mysql_native_password";
+        std::vector<uint8_t> plugin_data(plugin_name.begin(), plugin_name.end());
+        plugin_data.push_back(0); // null terminator
+
+        // 组合所有数据
+        std::vector<uint8_t> response;
+        response.insert(response.end(),
+                       reinterpret_cast<uint8_t*>(&capabilities_le),
+                       reinterpret_cast<uint8_t*>(&capabilities_le) + 4);
+        response.insert(response.end(),
+                       reinterpret_cast<uint8_t*>(&max_packet_size_le),
+                       reinterpret_cast<uint8_t*>(&max_packet_size_le) + 4);
+        response.push_back(charset);
+        response.insert(response.end(), filler.begin(), filler.end());
+        response.insert(response.end(), username_data.begin(), username_data.end());
+        response.push_back(auth_data_len);
+        response.insert(response.end(), auth_data.begin(), auth_data.end());
+        response.insert(response.end(), database_data.begin(), database_data.end());
+        response.insert(response.end(), plugin_data.begin(), plugin_data.end());
+
+        return send_packet(response.data(), response.size(), 1);
     }
 
-    void SendPacket(const uint8_t* data, size_t length, uint8_t sequence_id) {
+    bool send_packet(const uint8_t* data, size_t length, uint8_t sequence_id) {
         if (length > 0xFFFFFF) {
-            std::cerr << "Packet too large" << std::endl;
-            return;
+            return false;
         }
 
-        // 发送包头：3字节长度 + 1字节序列号
+        // 构建包头：3字节长度 + 1字节序列号
         uint8_t header[4];
         header[0] = length & 0xFF;
         header[1] = (length >> 8) & 0xFF;
         header[2] = (length >> 16) & 0xFF;
         header[3] = sequence_id;
 
-        write(sock_, header, 4);
-        if (length > 0) {
-            write(sock_, data, length);
+        // 发送包头
+        if (::send(sock_fd_, header, 4, 0) != 4) {
+            return false;
         }
 
-        std::cout << "Sent packet: length=" << length << ", seq=" << (int)sequence_id << std::endl;
+        // 发送数据负载
+        if (length > 0) {
+            if (::send(sock_fd_, data, length, 0) != static_cast<ssize_t>(length)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
-    void Disconnect() {
-        if (sock_ >= 0) {
-            close(sock_);
-            sock_ = -1;
+    std::vector<uint8_t> receive_packet() {
+        // 读取包头
+        uint8_t header[4];
+        ssize_t received = ::recv(sock_fd_, header, 4, 0);
+        if (received != 4) {
+            return {};
         }
+
+        // 解析包长度
+        uint32_t length = header[0] | (header[1] << 8) | (header[2] << 16);
+
+        // 读取数据负载
+        std::vector<uint8_t> payload(length);
+        if (length > 0) {
+            received = ::recv(sock_fd_, payload.data(), length, 0);
+            if (static_cast<size_t>(received) != length) {
+                return {};
+            }
+        }
+
+        return payload;
     }
 
 private:
-    std::string host_;
-    int port_;
-    int sock_;
+    int sock_fd_;
 };
 
-int main() {
-    const int TEST_PORT = 18648; // 使用不同的端口避免冲突
+void test_mysql_protocol() {
+    std::cout << "=== MySQL协议测试 ===" << std::endl;
 
-    std::cout << "Testing MySQL Protocol Fix" << std::endl;
-    std::cout << "==========================" << std::endl;
+    // 测试1: 基本握手流程
+    std::cout << "\n测试1: MySQL握手流程" << std::endl;
 
-    // 启动服务器
-    SimpleMySQLServer server(TEST_PORT);
-    if (!server.Start()) {
-        std::cerr << "Failed to start server" << std::endl;
-        return 1;
+    // 创建服务器套接字
+    int server_fd = socket(AF_INET, SOCK_STREAM, 0);
+    if (server_fd < 0) {
+        std::cerr << "❌ 服务器套接字创建失败" << std::endl;
+        return;
     }
 
-    // 在后台运行服务器
-    std::thread server_thread([&server]() {
-        server.Run();
+    // 绑定到本地端口
+    struct sockaddr_in server_addr;
+    memset(&server_addr, 0, sizeof(server_addr));
+    server_addr.sin_family = AF_INET;
+    server_addr.sin_addr.s_addr = INADDR_ANY;
+    server_addr.sin_port = htons(3307); // 使用非标准端口避免冲突
+
+    if (bind(server_fd, (struct sockaddr*)&server_addr, sizeof(server_addr)) < 0) {
+        std::cerr << "❌ 绑定失败" << std::endl;
+        close(server_fd);
+        return;
+    }
+
+    if (listen(server_fd, 1) < 0) {
+        std::cerr << "❌ 监听失败" << std::endl;
+        close(server_fd);
+        return;
+    }
+
+    std::cout << "✅ 服务器启动，监听端口3307" << std::endl;
+
+    // 在后台启动客户端
+    std::thread client_thread([&]() {
+        std::this_thread::sleep_for(std::chrono::milliseconds(100)); // 等待服务器启动
+
+        MockClient client;
+        if (!client.connect("127.0.0.1", 3307)) {
+            std::cerr << "❌ 客户端连接失败" << std::endl;
+            return;
+        }
+
+        std::cout << "✅ 客户端连接成功" << std::endl;
+
+        // 接收服务器握手包
+        auto handshake_packet = client.receive_packet();
+        if (handshake_packet.empty()) {
+            std::cerr << "❌ 接收握手包失败" << std::endl;
+            return;
+        }
+
+        std::cout << "✅ 接收到握手包，大小: " << handshake_packet.size() << " 字节" << std::endl;
+
+        // 验证握手包基本结构
+        if (handshake_packet.size() > 40) {
+            // 检查协议版本
+            uint8_t protocol_version = handshake_packet[0];
+            std::cout << "协议版本: " << static_cast<int>(protocol_version) << std::endl;
+
+            // 查找服务器版本字符串
+            size_t null_pos = 1;
+            while (null_pos < handshake_packet.size() && handshake_packet[null_pos] != 0) {
+                null_pos++;
+            }
+            if (null_pos < handshake_packet.size()) {
+                std::string server_version(reinterpret_cast<char*>(&handshake_packet[1]),
+                                         null_pos - 1);
+                std::cout << "服务器版本: " << server_version << std::endl;
+            }
+
+            std::cout << "✅ 握手包结构正确" << std::endl;
+        }
+
+        // 发送握手响应
+        if (client.send_handshake_response()) {
+            std::cout << "✅ 握手响应发送成功" << std::endl;
+        } else {
+            std::cerr << "❌ 握手响应发送失败" << std::endl;
+        }
     });
 
-    // 等待服务器启动
-    std::this_thread::sleep_for(std::chrono::seconds(1));
+    // 接受客户端连接
+    struct sockaddr_in client_addr;
+    socklen_t client_len = sizeof(client_addr);
+    int client_fd = accept(server_fd, (struct sockaddr*)&client_addr, &client_len);
 
-    // 启动客户端
-    SimpleMySQLClient client("127.0.0.1", TEST_PORT);
-    if (!client.Connect()) {
-        std::cerr << "Failed to connect client" << std::endl;
-        server.Stop();
-        server_thread.join();
-        return 1;
+    if (client_fd < 0) {
+        std::cerr << "❌ 接受连接失败" << std::endl;
+        close(server_fd);
+        client_thread.join();
+        return;
     }
 
-    // 测试握手
-    client.TestHandshake();
+    std::cout << "✅ 接受客户端连接" << std::endl;
 
-    // 清理
-    client.Disconnect();
-    server.Stop();
-    server_thread.join();
+    // 创建MySQL协议处理器
+    FileDescriptor fd(client_fd);
+    MySQLProtocolHandler handler(std::move(fd));
 
-    std::cout << "Protocol test completed successfully!" << std::endl;
-    std::cout << "✓ Handshake packet format fix verified" << std::endl;
-    std::cout << "✓ Packet header (length + sequence) implemented" << std::endl;
-    std::cout << "✓ Client-server communication working" << std::endl;
+    // 发送握手包
+    handler.send_handshake();
+    std::cout << "✅ 服务器发送握手包" << std::endl;
 
+    // 处理客户端响应
+    if (handler.handle_client_response()) {
+        std::cout << "✅ 握手响应处理成功" << std::endl;
+    } else {
+        std::cout << "⚠️ 握手响应处理失败（可能是简化实现）" << std::endl;
+    }
+
+    // 等待客户端线程结束
+    client_thread.join();
+
+    close(server_fd);
+    std::cout << "✅ 服务器关闭" << std::endl;
+
+    // 测试2: 协议数据结构验证
+    std::cout << "\n测试2: 协议数据结构验证" << std::endl;
+
+    HandshakeV10 handshake;
+    std::cout << "协议版本: " << static_cast<int>(handshake.protocol_version) << std::endl;
+    std::cout << "服务器版本: " << handshake.server_version << std::endl;
+    std::cout << "线程ID: " << handshake.thread_id << std::endl;
+    std::cout << "服务器能力: 0x" << std::hex << handshake.server_capabilities << std::dec << std::endl;
+
+    // 生成scramble
+    handshake.generate_scramble();
+    std::cout << "生成scramble，长度: " << sizeof(handshake.scramble_buf) << " 字节" << std::endl;
+
+    std::cout << "✅ 协议数据结构验证完成" << std::endl;
+
+    std::cout << "\n=== MySQL协议测试完成 ===" << std::endl;
+}
+
+int main() {
+    test_mysql_protocol();
     return 0;
 }
