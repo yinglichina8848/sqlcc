@@ -1,3 +1,59 @@
+/**
+ * @file task_executor_comprehensive_test.cpp
+ *
+ * WHY: 为什么需要任务执行器测试？
+ *
+ * 任务执行器是SQLCC数据库系统的核心并发处理组件，负责管理多线程任务调度。
+ * 测试的目的是验证：
+ * 1. 多线程任务处理的正确性和稳定性
+ * 2. 不同任务类型的兼容性和执行逻辑
+ * 3. 边界条件和异常情况的处理能力
+ * 4. 性能表现和资源利用效率
+ * 5. 并发安全性，避免竞态条件和死锁
+ *
+ * 测试失败可能导致：
+ * - 生产环境并发任务处理错误
+ * - 内存泄漏或资源耗尽
+ * - 系统稳定性问题
+ * - 性能下降或响应超时
+ *
+ * WHAT: 这测试实现了什么功能？
+ *
+ * 任务执行器综合测试套件验证：
+ * - 基本功能：任务提交、执行、状态管理
+ * - 多任务类型：网络、SQL、事务、WAL等多种任务
+ * - 并发处理：多线程环境下任务调度和同步
+ * - 边界条件：空任务、异常任务、停止状态等
+ * - 性能测试：高并发场景下的稳定性和效率
+ *
+ * 测试用例覆盖：
+ * 1. BasicFunctionality - 基础功能验证
+ * 2. MultipleTaskTypes - 多任务类型支持
+ * 3. ConcurrentTaskProcessing - 并发任务处理
+ * 4. StopFunctionality - 停止功能测试
+ * 5. EmptyTaskHandling - 边界条件处理
+ * 6. ExceptionHandling - 异常处理机制
+ *
+ * HOW: 如何进行测试？
+ *
+ * 测试技术实现：
+ * 1. GoogleTest框架：使用TEST_F宏定义测试用例
+ * 2. 夹具模式：TaskExecutorComprehensiveTest提供共享设置
+ * 3. 多线程验证：使用std::atomic和std::thread验证并发
+ * 4. 时间控制：std::chrono控制测试时间和超时
+ * 5. 资源管理：智能指针和RAII确保资源清理
+ * 6. 异常测试：try-catch和EXPECT_THROW验证异常处理
+ *
+ * 测试策略：
+ * - 单元测试：验证单个功能点的正确性
+ * - 集成测试：验证组件间的协作
+ * - 并发测试：验证多线程环境下的稳定性
+ * - 压力测试：验证高负载下的性能表现
+ *
+ * @note 该测试专为TaskExecutor组件设计，确保并发任务处理的可靠性
+ * @see src/execution/task_executor.h
+ */
+
 #include "include/execution/task_executor.h"
 #include <gtest/gtest.h>
 #include <thread>
