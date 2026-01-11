@@ -195,6 +195,11 @@ public:
    */
   std::vector<std::unique_ptr<Statement>> parse();
 
+  // Error handling (public interface for testing)
+  std::vector<std::string> getDetailedErrors() const;
+  void clearErrors();
+  bool hadError() const;
+
 private:
   // Token stream management
   Lexer lexer_;
@@ -218,6 +223,7 @@ private:
 
   // Error handling
   void reportError(const std::string &message);
+  std::string getErrorContext() const;
 
   /**
    * WHAT: synchronize - 错误恢复机制
@@ -232,10 +238,14 @@ private:
    */
   void synchronize();
 
-  bool hadError() const;
-
   // Helper method to check if current statement is CREATE VIEW
   bool isCreateViewStatement();
+
+  // Helper method to check if current statement is CREATE USER
+  bool isCreateUserStatement();
+
+  // Helper method to check if current statement is DROP USER
+  bool isDropUserStatement();
 
   // Statement parsing (strict BNF compliance)
   std::unique_ptr<Statement> parseStatement();

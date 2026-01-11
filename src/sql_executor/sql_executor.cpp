@@ -61,80 +61,76 @@
  */
 
 #include "sql_executor.h"
+#include "sql_parser/parser.h"
+#include "storage_engine.h"
+#include "transaction_manager.h"
+#include "core/execution_context.h"
+#include "storage/table_storage.h"
 #include <iostream>
 #include <chrono>
 #include <algorithm>
 #include <cctype>
 #include <regex>
+#include <memory>
+#include <vector>
+#include <unordered_set>
 
 namespace sqlcc {
 
 // 构造函数实现
 SqlExecutor::SqlExecutor() {
-  db_manager_ = std::make_shared<DatabaseManager>("./data", 1024, 16, 64);
+  initializeComponents();
 }
 
 // 新增构造函数：接受DatabaseManager实例
 SqlExecutor::SqlExecutor(std::shared_ptr<DatabaseManager> db_manager)
     : db_manager_(db_manager) {
+  initializeComponents();
 }
 
 SqlExecutor::~SqlExecutor() = default;
 
-// 执行SQL语句
-std::string SqlExecutor::Execute(const std::string &sql) {
-  // 验证输入参数
-  if (sql.empty()) {
-    SetError("SQL语句不能为空");
-    return "Error: " + GetLastError();
+// 初始化组件
+void SqlExecutor::initializeComponents() {
+  // 如果没有传入db_manager，创建默认实例
+  if (!db_manager_) {
+    db_manager_ = std::make_shared<DatabaseManager>("./data", 1024, 16, 64);
   }
 
-  ClearError();
-  execution_stats_.clear();
-
-  // 记录执行开始时间
-  auto start_time = std::chrono::high_resolution_clock::now();
-
+  // 创建存储引擎
   try {
-    // 分析SQL语句类型并执行相应的处理
-    std::string result = ExecuteStatement(sql);
-
-    // 计算执行时间
-    auto end_time = std::chrono::high_resolution_clock::now();
-    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
-    execution_stats_ = "Execution time: " + std::to_string(duration.count()) + " ms";
-
-    return result;
-  } catch (const std::exception &e) {
-    std::string error_msg = "Exception occurred during SQL execution: " + std::string(e.what());
-    SetError(error_msg);
-    return "Error: " + GetLastError();
-  } catch (...) {
-    std::string error_msg = "Unknown exception occurred during SQL execution";
-    SetError(error_msg);
-    return "Error: " + GetLastError();
+    ConfigManager config_manager;
+    storage_engine_ = std::make_shared<StorageEngine>(config_manager, "./data");
+  } catch (const std::exception& e) {
+    std::cerr << "[SQLEXECUTOR] Failed to initialize storage engine: " << e.what() << std::endl;
   }
+
+  // 创建事务管理器
+  try {
+    transaction_manager_ = std::make_shared<TransactionManager>();
+  } catch (const std::exception& e) {
+    std::cerr << "[SQLEXECUTOR] Failed to initialize transaction manager: " << e.what() << std::endl;
+  }
+
+  // 创建用户管理器
+  try {
+    user_manager_ = std::make_shared<UserManager>();
+  } catch (const std::exception& e) {
+    std::cerr << "[SQLEXECUTOR] Failed to initialize user manager: " << e.what() << std::endl;
+  }
+
+  // 创建系统数据库
+  try {
+    system_db_ = std::make_shared<SystemDatabase>(db_manager_);
+  } catch (const std::exception& e) {
+    std::cerr << "[SQLEXECUTOR] Failed to initialize system database: " << e.what() << std::endl;
+  }
+
+  std::cout << "[SQLEXECUTOR] Components initialized successfully" << std::endl;
 }
 
-std::string SqlExecutor::ExecuteFile(const std::string &file_path) {
-  SetError("ExecuteFile not implemented in simplified version");
-  return "Error: " + GetLastError();
-}
-
-// 获取最后一次执行的错误信息
-std::string SqlExecutor::GetLastError() const { return last_error_; }
-
-// 获取执行统计信息
-std::string SqlExecutor::GetExecutionStats() const { return execution_stats_; }
-
-// 设置错误信息
-void SqlExecutor::SetError(const std::string &error) { last_error_ = error; }
-
-// 清除错误信息
-void SqlExecutor::ClearError() { last_error_.clear(); }
-
-// 执行语句的主要逻辑
-std::string SqlExecutor::ExecuteStatement(const std::string& sql) {
+// 执行SQL语句（字符串版本）
+std::string SqlExecutor::Execute(const std::string &sql) {
   // 转换为大写进行模式匹配
   std::string upper_sql = sql;
   std::transform(upper_sql.begin(), upper_sql.end(), upper_sql.begin(), ::toupper);
@@ -381,3 +377,6 @@ std::string SqlExecutor::ExecuteDropUser(const std::string& sql) {
 }
 
 } // namespace sqlcc
+=======
+} // namespace sqlcc
+>>>>>>> 0204ab68311c4f19b68ed97bc76b5c462ff6b611

@@ -735,7 +735,7 @@ private:
 
 class DropStatement : public Statement {
 public:
-  enum ObjectType { DATABASE, TABLE, INDEX };
+  enum ObjectType { DATABASE, TABLE, INDEX, USER };
 
   DropStatement(ObjectType objectType, const std::string &objectName);
   DropStatement(ObjectType objectType); // 兼容旧用法：后续通过setter设置名称

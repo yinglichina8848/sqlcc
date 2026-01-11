@@ -68,17 +68,36 @@
 #include "sql_parser/ast_node.h"
 #include "sql_parser/ast_nodes.h"
 #include "execution_engine.h"
-#include "database_manager.h"
+#include "core/core_database_manager.h"
 #include "core/execution_context.h"
 #include "core/unified_executor.h"
 #include <memory>
 
 namespace sqlcc {
 
+// WHY层 - 执行引擎架构设计
+// 执行引擎是SQLCC系统的核心组件，负责将解析后的AST转换为实际的数据库操作。
+// 采用策略模式和模板方法模式，支持不同类型的SQL语句执行。
+// 通过ExecutionContext管理执行状态，确保事务一致性和权限控制。
+//
+// WHAT层 - 架构组件
+// 1. ExecutionEngine基类：定义执行接口和公共逻辑
+// 2. 具体执行器：DDLExecutor, DMLExecutor, DCLExecutor, UtilityExecutor
+// 3. ExecutionContext：执行上下文，包含用户、数据库、权限等信息
+// 4. 执行策略：各种Strategy类实现具体的执行逻辑
+//
+// HOW层 - 设计模式应用
+// - 策略模式：不同类型的语句使用不同的执行策略
+// - 模板方法：基类定义执行流程，子类实现具体步骤
+// - 组合模式：执行器组合各种管理器和上下文
+// - 工厂模式：通过类型判断创建合适的执行器
+
 ExecutionEngine::ExecutionEngine(std::shared_ptr<DatabaseManager> db_manager)
     : db_manager_(db_manager),
       execution_context_(
-          std::make_shared<ExecutionContext>(db_manager)) { // 默认执行上下文
+          std::make_shared<ExecutionContext>()) { // 创建默认执行上下文
+  // 初始化执行上下文
+  execution_context_->set_db_manager(db_manager);
 }
 
 void ExecutionEngine::set_execution_context(

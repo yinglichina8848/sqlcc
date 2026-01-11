@@ -15,6 +15,8 @@
 
 namespace sqlcc {
 
+
+
 /**
  * WHY: 为什么需要统一的SQL执行器而不是分离的DDL/DML执行器？
  *
@@ -142,11 +144,55 @@ public:
   std::string Execute(const std::string &sql);
 
   /**
-   * @brief 执行SQL文件
+   * WHAT: Execute - AST驱动SQL执行入口
+   *
+   * 直接接受解析后的AST节点，生成查询计划并执行。
+   * 这是优化的执行路径，避免重复解析开销。
+   *
+   * HOW: AST驱动执行流程
+   * 1. 验证AST节点有效性
+   * 2. 创建执行上下文
+   * 3. 生成查询计划
+   * 4. 执行查询计划
+   * 5. 返回执行结果
+   *
+   * @param stmt 解析后的AST语句节点
+   * @return 执行结果消息
+   */
+  std::string Execute(const sqlcc::sql_parser::Statement* stmt);
+
+  /**
+   * @brief 执行文件中的SQL语句
    * @param file_path 文件路径
    * @return 执行结果消息
    */
   std::string ExecuteFile(const std::string &file_path);
+
+  /**
+   * @brief 验证语句的有效性
+   * @param stmt 要验证的AST语句节点
+   * @return 验证结果
+   */
+  bool validateStatement(const sqlcc::sql_parser::Statement* stmt);
+
+  /**
+   * @brief 检查语句是否需要事务支持
+   * @param stmt 要检查的AST语句节点
+   * @return 是否需要事务
+   */
+  bool requiresTransaction(const sqlcc::sql_parser::Statement* stmt);
+
+  /**
+   * @brief 与存储引擎集成的执行方法
+   * @param stmt AST语句节点
+   * @param context 执行上下文
+   * @param pages_accessed 页面访问计数
+   * @return 执行结果
+   */
+  ExecutionResult executeWithStorageEngine(
+      const sqlcc::sql_parser::Statement* stmt,
+      ExecutionContext& context,
+      size_t& pages_accessed);
 
   /**
    * @brief 获取最后一次执行的错误信息
@@ -166,10 +212,15 @@ private:
   std::shared_ptr<SystemDatabase> system_db_;
   std::unique_ptr<ViewManager> view_manager_;
   std::unique_ptr<PermissionValidator> permission_validator_;
+  std::shared_ptr<StorageEngine> storage_engine_;
+  std::shared_ptr<TransactionManager> transaction_manager_;
   std::string last_error_;
   std::string execution_stats_;
   std::string current_user_;
   std::string current_database_;
+
+  // 组件初始化
+  void initializeComponents();
 
   /**
    * @brief 设置错误信息

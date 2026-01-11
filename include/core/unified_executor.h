@@ -178,6 +178,7 @@ public:
                 const ExecutionContext &context) override;
 
 private:
+  // 执行方法
   ExecutionResult executeCreate(const sql_parser::CreateStatement& stmt,
                                 ExecutionContext &context);
 
@@ -192,6 +193,20 @@ private:
 
   ExecutionResult executeDropIndex(const sql_parser::DropIndexStatement& stmt,
                                    ExecutionContext &context);
+
+  // 权限检查方法
+  bool checkCreatePermission(const sql_parser::CreateStatement& stmt,
+                             const ExecutionContext& context);
+  bool checkDropPermission(const sql_parser::DropStatement& stmt,
+                           const ExecutionContext& context);
+  bool checkAlterPermission(const sql_parser::AlterStatement& stmt,
+                            const ExecutionContext& context);
+
+  // 验证方法
+  bool validateCreateStatement(const sql_parser::CreateStatement& stmt,
+                               const ExecutionContext& context);
+  bool validateDropStatement(const sql_parser::DropStatement& stmt,
+                             const ExecutionContext& context);
 };
 
 /**
@@ -216,6 +231,7 @@ public:
                          bool &used_index, std::string &index_info);
 
 private:
+  // 执行方法
   ExecutionResult executeInsert(const sql_parser::InsertStatement& stmt,
                                 ExecutionContext &context);
 
@@ -240,6 +256,17 @@ private:
   ExecutionResult executeSimpleSelect(const sql_parser::SelectStatement& stmt,
                                       ExecutionContext &context);
 
+  // 权限检查方法
+  bool checkSelectPermission(const sql_parser::SelectStatement& stmt,
+                             const ExecutionContext& context);
+  bool checkInsertPermission(const sql_parser::InsertStatement& stmt,
+                             const ExecutionContext& context);
+  bool checkUpdatePermission(const sql_parser::UpdateStatement& stmt,
+                             const ExecutionContext& context);
+  bool checkDeletePermission(const sql_parser::DeleteStatement& stmt,
+                             const ExecutionContext& context);
+
+  // 辅助方法
   std::string getColumnValue(const std::vector<std::string>& record,
                              const std::string& column_name,
                              std::shared_ptr<TableMetadata> metadata);
