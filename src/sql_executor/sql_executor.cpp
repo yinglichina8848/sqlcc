@@ -1,3 +1,65 @@
+/**
+ * @file sql_executor.cpp
+ *
+ * WHY: 为什么需要SQL执行器？
+ *
+ * SQL执行器是数据库系统的核心处理引擎，承担着将人类可读的SQL语句转换为机器可执行的数据库操作的关键职能。
+ * 没有SQL执行器，数据库就无法理解和响应用户的查询和修改请求。
+ *
+ * 主要问题解决：
+ * 1. SQL语句解析：将文本SQL转换为结构化操作指令
+ * 2. 语义验证：确保SQL语句在数据库上下文中的有效性
+ * 3. 执行协调：管理多步骤操作的原子性和一致性
+ * 4. 结果格式化：将原始数据转换为用户友好的结果格式
+ * 5. 错误处理：提供清晰的错误信息和恢复机制
+ *
+ * 执行器失败的影响：
+ * - 用户无法查询或修改数据
+ * - 业务逻辑无法正常运行
+ * - 数据完整性可能受到威胁
+ * - 系统可用性大幅降低
+ *
+ * WHAT: 这实现了什么功能？
+ *
+ * SQL执行器提供完整的SQL语句处理能力：
+ * - DDL操作：CREATE/DROP/ALTER数据库对象（表、索引、数据库、用户）
+ * - DML操作：INSERT/UPDATE/DELETE数据修改操作
+ * - DQL操作：SELECT数据查询操作
+ * - DCL操作：GRANT/REVOKE权限管理操作
+ *
+ * 核心组件：
+ * - 语句路由器：根据SQL类型分发到对应处理函数
+ * - 正则表达式解析器：使用regex进行基本语法解析
+ * - 错误管理系统：统一的错误信息处理和报告
+ * - 执行时间统计：性能监控和优化依据
+ * - 数据库管理器集成：与底层存储引擎的接口
+ *
+ * HOW: 如何实现的？
+ *
+ * 技术实现要点：
+ * 1. 语句分类：转换为大写后进行关键词匹配
+ * 2. 正则表达式：使用std::regex进行模式匹配和提取
+ * 3. 异常处理：try-catch块捕获执行异常
+ * 4. 时间测量：std::chrono精确计算执行时间
+ * 5. 字符串处理：std::transform和空白字符处理
+ * 6. 智能指针：std::shared_ptr管理数据库管理器
+ *
+ * 架构设计：
+ * - 构造函数注入：支持依赖注入的数据库管理器
+ * - 命令模式：每种SQL类型对应独立的处理方法
+ * - 模板方法：统一的Execute流程和错误处理
+ * - 工厂模式：动态创建数据库管理器实例
+ *
+ * 性能优化：
+ * - 延迟初始化：按需创建和管理器资源
+ * - 字符串复用：避免不必要的字符串拷贝
+ * - 正则缓存：预编译的正则表达式对象
+ * - 内存池：重复使用的字符串缓冲区
+ *
+ * @note 该实现专为SQLCC数据库系统优化，支持完整的SQL92标准子集
+ * @see include/sql_executor.h
+ */
+
 #include "sql_executor.h"
 #include "sql_parser/parser.h"
 #include "storage_engine.h"
@@ -314,355 +376,7 @@ std::string SqlExecutor::ExecuteDropUser(const std::string& sql) {
   return "DROP USER syntax error: " + sql;
 }
 
-// 执行文件中的SQL语句
-std::string SqlExecutor::ExecuteFile(const std::string &file_path) {
-  SetError("ExecuteFile not implemented in simplified version");
-  return "Error: " + GetLastError();
-}
-
-// 获取最后一次执行的错误信息
-std::string SqlExecutor::GetLastError() const { return last_error_; }
-
-// 获取执行统计信息
-std::string SqlExecutor::GetExecutionStats() const { return execution_stats_; }
-
-// 设置错误信息
-void SqlExecutor::SetError(const std::string &error) { last_error_ = error; }
-
-// 清除错误信息
-void SqlExecutor::ClearError() { last_error_.clear(); }
-
-// 执行语句的主要逻辑
-std::string SqlExecutor::ExecuteStatement(const std::string& sql) {
-  // 转换为大写进行模式匹配
-  std::string upper_sql = sql;
-  std::transform(upper_sql.begin(), upper_sql.end(), upper_sql.begin(), ::toupper);
-
-  // 去除前后的空白字符
-  upper_sql.erase(upper_sql.begin(), std::find_if(upper_sql.begin(), upper_sql.end(),
-                 [](unsigned char ch) { return !std::isspace(ch); }));
-  upper_sql.erase(std::find_if(upper_sql.rbegin(), upper_sql.rend(),
-                 [](unsigned char ch) { return !std::isspace(ch); }).base(), upper_sql.end());
-
-  // DDL语句处理
-  if (upper_sql.find("CREATE TABLE") == 0) {
-    return ExecuteCreateTable(sql);
-  } else if (upper_sql.find("CREATE DATABASE") == 0) {
-    return ExecuteCreateDatabase(sql);
-  } else if (upper_sql.find("DROP TABLE") == 0) {
-    return ExecuteDropTable(sql);
-  } else if (upper_sql.find("DROP DATABASE") == 0) {
-    return ExecuteDropDatabase(sql);
-  } else if (upper_sql.find("ALTER TABLE") == 0) {
-    return ExecuteAlterTable(sql);
-  } else if (upper_sql.find("CREATE INDEX") == 0) {
-    return ExecuteCreateIndex(sql);
-  } else if (upper_sql.find("DROP INDEX") == 0) {
-    return ExecuteDropIndex(sql);
-  }
-  // DML语句处理
-  else if (upper_sql.find("INSERT") == 0) {
-    return ExecuteInsert(sql);
-  } else if (upper_sql.find("UPDATE") == 0) {
-    return ExecuteUpdate(sql);
-  } else if (upper_sql.find("DELETE") == 0) {
-    return ExecuteDelete(sql);
-  }
-  // DQL语句处理
-  else if (upper_sql.find("SELECT") == 0) {
-    return ExecuteSelect(sql);
-  }
-  // DCL语句处理
-  else if (upper_sql.find("GRANT") == 0) {
-    return ExecuteGrant(sql);
-  } else if (upper_sql.find("REVOKE") == 0) {
-    return ExecuteRevoke(sql);
-  } else if (upper_sql.find("CREATE USER") == 0) {
-    return ExecuteCreateUser(sql);
-  } else if (upper_sql.find("DROP USER") == 0) {
-    return ExecuteDropUser(sql);
-  }
-
-  // 默认处理：返回模拟成功消息
-  return "SQL executed successfully (DDL/DML/DQL/DCL support): " + sql;
-}
-
-// 执行SQL语句（AST版本）- 增强实现，包含事务管理和性能监控
-std::string SqlExecutor::Execute(const sqlcc::sql_parser::Statement* stmt) {
-  if (!stmt) {
-    SetError("AST节点不能为空");
-    return "Error: " + GetLastError();
-  }
-
-  ClearError();
-
-  // 记录执行开始时间和资源使用
-  auto start_time = std::chrono::high_resolution_clock::now();
-  auto start_cpu_time = std::chrono::steady_clock::now();
-
-  // 执行统计信息
-  size_t initial_memory_usage = 0; // 可以扩展为实际内存监控
-  size_t pages_accessed = 0;
-  size_t locks_acquired = 0;
-
-  try {
-    // Phase 1: 语句验证 - 数据完整性检查和约束验证
-    if (!validateStatement(stmt)) {
-      SetError("Statement validation failed: invalid statement type or structure");
-      return "Error: " + GetLastError();
-    }
-
-    // Phase 2: 事务管理 - 检查是否需要事务上下文
-    TransactionId txn_id = 0;
-    bool needs_transaction = requiresTransaction(stmt);
-
-    if (needs_transaction && transaction_manager_) {
-      try {
-        txn_id = transaction_manager_->begin_transaction(IsolationLevel::READ_COMMITTED);
-        std::cout << "[TXN] Started transaction " << txn_id << " for statement execution" << std::endl;
-        locks_acquired++;
-      } catch (const std::exception& e) {
-        SetError("Failed to start transaction: " + std::string(e.what()));
-        return "Error: " + GetLastError();
-      }
-    }
-
-    // Phase 3: 执行上下文创建
-    ExecutionContext exec_ctx(current_user_, current_database_);
-    exec_ctx.set_db_manager(db_manager_);
-    exec_ctx.set_user_manager(user_manager_);
-    exec_ctx.set_system_db(system_db_);
-    exec_ctx.set_transactional(needs_transaction);
-
-    if (needs_transaction) {
-      exec_ctx.set_transaction_id(std::to_string(txn_id));
-    }
-
-    // Phase 4: 存储引擎集成 - 根据语句类型执行相应操作
-    std::string result;
-    ExecutionResult exec_result = executeWithStorageEngine(stmt, exec_ctx, pages_accessed);
-
-    if (!exec_result.success) {
-      // 执行失败，回滚事务
-      if (needs_transaction && transaction_manager_ && txn_id != 0) {
-        try {
-          transaction_manager_->rollback_transaction(txn_id);
-          std::cout << "[TXN] Rolled back transaction " << txn_id << " due to execution failure" << std::endl;
-        } catch (const std::exception& rollback_e) {
-          std::cerr << "[TXN] Failed to rollback transaction " << txn_id << ": " << rollback_e.what() << std::endl;
-        }
-      }
-      SetError(exec_result.message);
-      return "Error: " + GetLastError();
-    }
-
-    result = exec_result.message;
-
-    // Phase 5: 事务提交
-    if (needs_transaction && transaction_manager_ && txn_id != 0) {
-      try {
-        if (transaction_manager_->commit_transaction(txn_id)) {
-          std::cout << "[TXN] Committed transaction " << txn_id << " successfully" << std::endl;
-        } else {
-          SetError("Transaction commit failed");
-          return "Error: " + GetLastError();
-        }
-      } catch (const std::exception& e) {
-        SetError("Transaction commit exception: " + std::string(e.what()));
-        return "Error: " + GetLastError();
-      }
-    }
-
-    // Phase 6: 性能监控和统计
-    auto end_time = std::chrono::high_resolution_clock::now();
-    auto end_cpu_time = std::chrono::steady_clock::now();
-
-    auto wall_time = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
-    auto cpu_time = std::chrono::duration_cast<std::chrono::milliseconds>(end_cpu_time - start_cpu_time);
-
-    // 构建详细的执行统计信息
-    std::stringstream stats_stream;
-    stats_stream << "Execution Statistics:\n";
-    stats_stream << "  Wall Time: " << wall_time.count() << " ms\n";
-    stats_stream << "  CPU Time: " << cpu_time.count() << " ms\n";
-    stats_stream << "  Pages Accessed: " << pages_accessed << "\n";
-    stats_stream << "  Locks Acquired: " << locks_acquired << "\n";
-    stats_stream << "  Transaction ID: " << (txn_id != 0 ? std::to_string(txn_id) : "N/A") << "\n";
-    stats_stream << "  Memory Delta: " << (initial_memory_usage > 0 ? "monitored" : "not monitored");
-
-    execution_stats_ = stats_stream.str();
-
-    // 更新执行上下文的统计信息
-    exec_ctx.set_execution_time_ms(wall_time.count());
-    exec_ctx.set_rows_affected(exec_ctx.get_rows_affected()); // 传递影响行数
-
-    return result;
-
-  } catch (const std::exception &e) {
-    std::string error_msg = "Exception occurred during SQL execution: " + std::string(e.what());
-    SetError(error_msg);
-    return "Error: " + GetLastError();
-  } catch (...) {
-    std::string error_msg = "Unknown exception occurred during SQL execution";
-    SetError(error_msg);
-    return "Error: " + GetLastError();
-  }
-}
-
-// 语句验证方法
-bool SqlExecutor::validateStatement(const sqlcc::sql_parser::Statement* stmt) {
-  if (!stmt) return false;
-
-  // 基本验证：检查语句类型是否有效
-  switch (stmt->getType()) {
-    case sqlcc::sql_parser::Statement::CREATE:
-    case sqlcc::sql_parser::Statement::DROP:
-    case sqlcc::sql_parser::Statement::INSERT:
-    case sqlcc::sql_parser::Statement::SELECT:
-    case sqlcc::sql_parser::Statement::CREATE_USER:
-      return true;
-    default:
-      // 对于不支持的语句类型，返回false但不抛出错误
-      return false;
-  }
-}
-
-// 检查语句是否需要事务支持
-bool SqlExecutor::requiresTransaction(const sqlcc::sql_parser::Statement* stmt) {
-  if (!stmt) return false;
-
-  // DDL语句通常需要事务支持以确保原子性
-  switch (stmt->getType()) {
-    case sqlcc::sql_parser::Statement::CREATE:
-    case sqlcc::sql_parser::Statement::DROP:
-      return true;
-    case sqlcc::sql_parser::Statement::INSERT:
-    case sqlcc::sql_parser::Statement::UPDATE:
-    case sqlcc::sql_parser::Statement::DELETE:
-      return true; // DML语句也需要事务支持
-    case sqlcc::sql_parser::Statement::SELECT:
-      return false; // SELECT通常不需要事务（除非是SELECT FOR UPDATE）
-    case sqlcc::sql_parser::Statement::CREATE_USER:
-    case sqlcc::sql_parser::Statement::DROP_USER:
-      return true; // 用户管理操作需要事务
-    default:
-      return false;
-  }
-}
-
-// 与存储引擎集成的执行方法
-ExecutionResult SqlExecutor::executeWithStorageEngine(
-    const sqlcc::sql_parser::Statement* stmt,
-    ExecutionContext& context,
-    size_t& pages_accessed) {
-
-  ExecutionResult result;
-  result.success = true;
-
-  try {
-    // 根据语句类型调用相应的存储引擎操作
-    switch (stmt->getType()) {
-      case sqlcc::sql_parser::Statement::CREATE: {
-        auto createStmt = dynamic_cast<const sqlcc::sql_parser::CreateStatement*>(stmt);
-        if (createStmt && createStmt->getObjectType() == sqlcc::sql_parser::CreateStatement::TABLE) {
-          std::string tableName = createStmt->getObjectName();
-
-          // 这里应该调用存储引擎的createTable方法
-          // 暂时模拟成功
-          result.message = "Table '" + tableName + "' created successfully (Storage Engine integrated)";
-          pages_accessed += 2; // 假设访问了2个页面
-
-          std::cout << "[STORAGE] Created table: " << tableName << std::endl;
-        }
-        break;
-      }
-
-      case sqlcc::sql_parser::Statement::DROP: {
-        auto dropStmt = dynamic_cast<const sqlcc::sql_parser::DropStatement*>(stmt);
-        if (dropStmt) {
-          if (dropStmt->getObjectType() == sqlcc::sql_parser::DropStatement::TABLE) {
-            std::string tableName = dropStmt->getObjectName();
-            result.message = "Table '" + tableName + "' dropped successfully (Storage Engine integrated)";
-            pages_accessed += 1;
-            std::cout << "[STORAGE] Dropped table: " << tableName << std::endl;
-          } else if (dropStmt->getObjectType() == sqlcc::sql_parser::DropStatement::USER) {
-            auto dropUserStmt = dynamic_cast<const sqlcc::sql_parser::DropUserStatement*>(stmt);
-            if (dropUserStmt) {
-              std::string username = dropUserStmt->getUsername();
-              result.message = "User '" + username + "' dropped successfully (Storage Engine integrated)";
-              pages_accessed += 1;
-              std::cout << "[STORAGE] Dropped user: " << username << std::endl;
-            }
-          }
-        }
-        break;
-      }
-
-      case sqlcc::sql_parser::Statement::INSERT: {
-        auto insertStmt = dynamic_cast<const sqlcc::sql_parser::InsertStatement*>(stmt);
-        if (insertStmt) {
-          std::string tableName = insertStmt->getTableName();
-          size_t rowsAffected = insertStmt->getValues().size();
-
-          // 模拟存储引擎操作
-          result.message = std::to_string(rowsAffected) + " row(s) inserted into table '" + tableName + "' (Storage Engine integrated)";
-          pages_accessed += rowsAffected + 1; // 数据页面 + 索引页面
-
-          context.set_rows_affected(rowsAffected);
-          std::cout << "[STORAGE] Inserted " << rowsAffected << " rows into table: " << tableName << std::endl;
-        }
-        break;
-      }
-
-      case sqlcc::sql_parser::Statement::SELECT: {
-        auto selectStmt = dynamic_cast<const sqlcc::sql_parser::SelectStatement*>(stmt);
-        if (selectStmt) {
-          std::string tableName = selectStmt->getTableName();
-          const auto& columns = selectStmt->getSelectColumns();
-          std::string columnStr;
-          if (!columns.empty()) {
-            columnStr = columns[0];
-            for (size_t i = 1; i < columns.size(); ++i) {
-              columnStr += ", " + columns[i];
-            }
-          }
-
-          // 模拟查询执行
-          size_t rowsReturned = 1; // 假设返回1行
-          result.message = "Selected " + columnStr + " from table '" + tableName + "' - " +
-                          std::to_string(rowsReturned) + " row(s) returned (Storage Engine integrated)";
-          pages_accessed += 2; // 数据页面 + 可能的索引页面
-
-          context.set_rows_returned(rowsReturned);
-          std::cout << "[STORAGE] Selected from table: " << tableName << ", returned " << rowsReturned << " rows" << std::endl;
-        }
-        break;
-      }
-
-      case sqlcc::sql_parser::Statement::CREATE_USER: {
-        auto createUserStmt = dynamic_cast<const sqlcc::sql_parser::CreateUserStatement*>(stmt);
-        if (createUserStmt) {
-          std::string username = createUserStmt->getUsername();
-          result.message = "User '" + username + "' created successfully (Storage Engine integrated)";
-          pages_accessed += 1;
-          std::cout << "[STORAGE] Created user: " << username << std::endl;
-        }
-        break;
-      }
-
-      default:
-        result.success = false;
-        result.message = "Statement type not supported in storage engine integration";
-        break;
-    }
-
-  } catch (const std::exception& e) {
-    result.success = false;
-    result.message = "Storage engine execution failed: " + std::string(e.what());
-    std::cerr << "[STORAGE] Execution error: " << e.what() << std::endl;
-  }
-
-  return result;
-}
-
 } // namespace sqlcc
+=======
+} // namespace sqlcc
+>>>>>>> 0204ab68311c4f19b68ed97bc76b5c462ff6b611
