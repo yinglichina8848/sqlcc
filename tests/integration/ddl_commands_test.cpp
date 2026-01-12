@@ -80,24 +80,75 @@ protected:
                     return "Failed to switch to database '" + db_name + "'";
                 }
             } else if (upper_sql.find("CREATE TABLE") == 0) {
-                // CREATE TABLE table_name (columns...)
-                std::regex table_regex(R"(CREATE\s+TABLE\s+(\w+)\s*\((.+)\))", std::regex_constants::icase);
+                // 改进的CREATE TABLE解析，支持更复杂的SQL语法
+                std::regex table_regex(R"(CREATE\s+TABLE\s+([`\w]+)\s*\((.+)\))", std::regex_constants::icase);
                 std::smatch matches;
                 if (std::regex_search(sql, matches, table_regex)) {
                     std::string table_name = matches[1];
+                    // 移除可能的反引号
+                    if (table_name.front() == '`' && table_name.back() == '`') {
+                        table_name = table_name.substr(1, table_name.size() - 2);
+                    }
+
                     std::string columns_str = matches[2];
 
-                    // 解析列定义（简化版）
+                    // 改进的列定义解析
                     std::vector<std::pair<std::string, std::string>> columns;
-                    std::istringstream iss(columns_str);
-                    std::string column_def;
-                    while (std::getline(iss, column_def, ',')) {
-                        // 简单解析：name TYPE
-                        std::istringstream col_iss(column_def);
-                        std::string name, type;
-                        col_iss >> name >> type;
-                        if (!name.empty() && !type.empty()) {
-                            columns.emplace_back(name, type);
+                    size_t start = 0;
+                    int paren_depth = 0;
+
+                    for (size_t i = 0; i < columns_str.length(); ++i) {
+                        if (columns_str[i] == '(') {
+                            paren_depth++;
+                        } else if (columns_str[i] == ')') {
+                            paren_depth--;
+                        } else if (columns_str[i] == ',' && paren_depth == 0) {
+                            // 找到顶层的逗号，进行分割
+                            std::string column_def = columns_str.substr(start, i - start);
+                            // 移除前后的空白
+                            column_def.erase(column_def.begin(), std::find_if(column_def.begin(), column_def.end(),
+                                            [](unsigned char ch) { return !std::isspace(ch); }));
+                            column_def.erase(std::find_if(column_def.rbegin(), column_def.rend(),
+                                            [](unsigned char ch) { return !std::isspace(ch); }).base(), column_def.end());
+
+                            if (!column_def.empty()) {
+                                // 解析列定义：name TYPE [constraints...]
+                                std::istringstream col_iss(column_def);
+                                std::string name, type_part;
+                                col_iss >> name;
+
+                                // 获取剩余部分作为类型（可能包含约束）
+                                std::getline(col_iss, type_part);
+                                type_part.erase(type_part.begin(), std::find_if(type_part.begin(), type_part.end(),
+                                               [](unsigned char ch) { return !std::isspace(ch); }));
+
+                                if (!name.empty() && !type_part.empty()) {
+                                    columns.emplace_back(name, type_part);
+                                }
+                            }
+                            start = i + 1;
+                        }
+                    }
+
+                    // 处理最后一个列定义
+                    if (start < columns_str.length()) {
+                        std::string column_def = columns_str.substr(start);
+                        column_def.erase(column_def.begin(), std::find_if(column_def.begin(), column_def.end(),
+                                        [](unsigned char ch) { return !std::isspace(ch); }));
+                        column_def.erase(std::find_if(column_def.rbegin(), column_def.rend(),
+                                        [](unsigned char ch) { return !std::isspace(ch); }).base(), column_def.end());
+
+                        if (!column_def.empty()) {
+                            std::istringstream col_iss(column_def);
+                            std::string name, type_part;
+                            col_iss >> name;
+                            std::getline(col_iss, type_part);
+                            type_part.erase(type_part.begin(), std::find_if(type_part.begin(), type_part.end(),
+                                           [](unsigned char ch) { return !std::isspace(ch); }));
+
+                            if (!name.empty() && !type_part.empty()) {
+                                columns.emplace_back(name, type_part);
+                            }
                         }
                     }
 
@@ -107,13 +158,18 @@ protected:
                         return "Failed to create table '" + table_name + "'";
                     }
                 }
-                return "Invalid CREATE TABLE syntax";
+                return "Invalid CREATE TABLE syntax: " + sql;
             } else if (upper_sql.find("DROP TABLE") == 0) {
                 // DROP TABLE table_name
-                std::regex table_regex(R"(DROP\s+TABLE\s+(?:IF\s+EXISTS\s+)?(\w+))", std::regex_constants::icase);
+                std::regex table_regex(R"(DROP\s+TABLE\s+(?:IF\s+EXISTS\s+)?([`\w]+))", std::regex_constants::icase);
                 std::smatch matches;
                 if (std::regex_search(sql, matches, table_regex)) {
                     std::string table_name = matches[1];
+                    // 移除可能的反引号
+                    if (table_name.front() == '`' && table_name.back() == '`') {
+                        table_name = table_name.substr(1, table_name.size() - 2);
+                    }
+
                     if (db_manager_->DropTable(table_name)) {
                         return "Table '" + table_name + "' dropped successfully";
                     } else {
