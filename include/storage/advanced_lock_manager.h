@@ -1,6 +1,10 @@
 /**
  * @file advanced_lock_manager.h
  * @brief 高级锁管理器头文件 - 改进的页面锁定机制
+ *
+ * Why: 需要一个高级的锁管理器来处理复杂的并发控制场景
+ * What: AdvancedLockManager类提供完整的锁管理功能，包括死锁检测、锁升级、异步操作等
+ * How: 通过锁兼容性矩阵、死锁检测器、锁升级管理器等组件实现复杂的并发控制逻辑
  */
 
 #ifndef SQLCC_ADVANCED_LOCK_MANAGER_H

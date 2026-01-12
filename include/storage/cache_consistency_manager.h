@@ -1,6 +1,10 @@
 /**
  * @file cache_consistency_manager.h
  * @brief 缓存一致性管理器头文件 - 保证数据一致性和并发安全性
+ *
+ * Why: 需要一个专门的缓存一致性管理器来处理复杂的缓存数据一致性问题
+ * What: CacheConsistencyManager类提供完整的缓存一致性管理功能，包括页面版本控制、锁机制、脏页处理等
+ * How: 通过页面版本管理、读写锁机制、一致性检查算法等技术实现缓存数据的一致性保证
  */
 
 #ifndef SQLCC_CACHE_CONSISTENCY_MANAGER_H
