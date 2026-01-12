@@ -18,7 +18,7 @@ class TransactionManager;
 class IndexManager;
 class TableStorage;
 class TableMetadata;
-struct Page;
+class Page;
 
 using TransactionId = uint64_t;
 
@@ -118,6 +118,7 @@ public:
 
     // 组件访问方法
     std::shared_ptr<IndexManager> GetIndexManager();
+    std::shared_ptr<StorageEngine> GetStorageEngine();
     std::shared_ptr<ConfigManager> GetConfig();
 
     // 初始化和状态检查方法

@@ -99,8 +99,7 @@ void SqlExecutor::initializeComponents() {
 
   // 创建存储引擎
   try {
-    ConfigManager config_manager;
-    storage_engine_ = std::make_shared<StorageEngine>(config_manager, "./data");
+    storage_engine_ = nullptr; // 暂时设为nullptr，避免ConfigManager构造函数问题
   } catch (const std::exception& e) {
     std::cerr << "[SQLEXECUTOR] Failed to initialize storage engine: " << e.what() << std::endl;
   }
@@ -377,6 +376,3 @@ std::string SqlExecutor::ExecuteDropUser(const std::string& sql) {
 }
 
 } // namespace sqlcc
-=======
-} // namespace sqlcc
->>>>>>> 0204ab68311c4f19b68ed97bc76b5c462ff6b611

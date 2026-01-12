@@ -7,7 +7,7 @@ cc_test(
     deps = [
         "@com_google_googletest//:gtest_main",
         "//src/core:sqlcc_core_lib",
-        "//src/core:sqlcc_database_core",
+        "//src/core:database_manager",
         "//src/network:network",
         "//src/storage_engine:storage_engine",
         "//src/sql_parser:sql_parser",
@@ -35,7 +35,7 @@ cc_test(
     deps = [
         "@com_google_googletest//:gtest_main",
         "//src/core:sqlcc_core_lib",
-        "//src/core:sqlcc_database_core",
+        "//src/core:database_manager",
         "//src/network:network",
         "//src/storage_engine:storage_engine",
         "//src/sql_parser:sql_parser",
@@ -63,7 +63,7 @@ cc_test(
     deps = [
         "@com_google_googletest//:gtest_main",
         "//src/core:sqlcc_core_lib",
-        "//src/core:sqlcc_database_core",
+        "//src/core:database_manager",
         "//src/network:network",
         "//src/storage_engine:storage_engine",
         "//src/sql_parser:sql_parser",
@@ -91,7 +91,7 @@ cc_test(
     deps = [
         "@com_google_googletest//:gtest_main",
         "//src/core:sqlcc_core_lib",
-        "//src/core:sqlcc_database_core",
+        "//src/core:database_manager",
         "//src/network:network",
         "//src/storage_engine:storage_engine",
         "//src/sql_parser:sql_parser",
@@ -118,7 +118,7 @@ cc_test(
     srcs = ["procedure_trigger_integration_test.cpp"],
     deps = [
         "//src/core:sqlcc_core_lib",
-        "//src/core:sqlcc_database_core",
+        "//src/core:database_manager",
         "//src/execution:execution",
         "//src/procedure:procedure",
         "//src/sql_parser:sql_parser",
@@ -144,7 +144,7 @@ cc_test(
     deps = [
         "@com_google_googletest//:gtest_main",
         "//src/core:sqlcc_core_lib",
-        "//src/core:sqlcc_database_core",
+        "//src/core:database_manager",
         "//src/network:network",
         "//src/storage_engine:storage_engine",
         "//src/sql_parser:sql_parser",
@@ -172,7 +172,7 @@ cc_test(
     deps = [
         "@com_google_googletest//:gtest_main",
         "//src/core:sqlcc_core_lib",
-        "//src/core:sqlcc_database_core",
+        "//src/core:database_manager",
         "//src/network:network",
         "//src/storage_engine:storage_engine",
         "//src/sql_parser:sql_parser",
@@ -217,16 +217,12 @@ cc_test(
 cc_test(
     name = "ddl_commands_test",
     srcs = ["ddl_commands_test.cpp"],
+    includes = ["//include"],
     deps = [
         "@com_google_googletest//:gtest_main",
-        "//src/core:sqlcc_core_lib",
-        "//src/core:sqlcc_database_core",
-        "//src/storage_engine:storage_engine",
-        "//src/sql_parser:sql_parser",
-        "//src/execution:execution",
-        "//src/types:types",
-        "//src/sql_executor:sql_executor",
-        "//src:unified_executor",
+        "//src/core:database_manager",
+        "//include/core:core_database_manager",
+        "//src:exception",
     ],
     copts = [
         "-std=c++20",
@@ -245,7 +241,7 @@ cc_test(
     deps = [
         "@com_google_googletest//:gtest_main",
         "//src/core:sqlcc_core_lib",
-        "//src/core:sqlcc_database_core",
+        "//src/core:database_manager",
         "//src/storage_engine:storage_engine",
         "//src/sql_parser:sql_parser",
         "//src/execution:execution",
@@ -270,7 +266,7 @@ cc_test(
     deps = [
         "@com_google_googletest//:gtest_main",
         "//src/core:sqlcc_core_lib",
-        "//src/core:sqlcc_database_core",
+        "//src/core:database_manager",
         "//src/storage_engine:storage_engine",
         "//src/sql_parser:sql_parser",
         "//src/execution:execution",
@@ -295,7 +291,7 @@ cc_test(
     deps = [
         "@com_google_googletest//:gtest_main",
         "//src/core:sqlcc_core_lib",
-        "//src/core:sqlcc_database_core",
+        "//src/core:database_manager",
         "//src/storage_engine:storage_engine",
         "//src/sql_parser:sql_parser",
         "//src/execution:execution",
@@ -319,7 +315,7 @@ cc_test(
     srcs = ["procedure_trigger_split_test.cpp"],
     deps = [
         "//src/core:sqlcc_core_lib",
-        "//src/core:sqlcc_database_core",
+        "//src/core:database_manager",
         "//src/execution:execution",
         "//src/procedure:procedure",
         "//src/sql_parser:sql_parser",
@@ -344,7 +340,7 @@ cc_test(
     srcs = ["trigger_split_test.cpp"],
     deps = [
         "//src/core:sqlcc_core_lib",
-        "//src/core:sqlcc_database_core",
+        "//src/core:database_manager",
         "//src/execution:execution",
         "//src/procedure:procedure",
         "//src/sql_parser:sql_parser",
@@ -371,7 +367,7 @@ cc_test(
     deps = [
         "@com_google_googletest//:gtest_main",
         "//src/core:sqlcc_core_lib",
-        "//src/core:sqlcc_database_core",
+        "//src/core:database_manager",
         "//src/storage_engine:storage_engine",
         "//src/sql_parser:sql_parser",
         "//src/execution:execution",
@@ -400,7 +396,7 @@ cc_test(
     deps = [
         "@com_google_googletest//:gtest_main",
         "//src/core:sqlcc_core_lib",
-        "//src/core:sqlcc_database_core",
+        "//src/core:database_manager",
         "//src/storage_engine:storage_engine",
         "//src/sql_parser:sql_parser",
         "//src/execution:execution",
@@ -429,7 +425,7 @@ cc_test(
     deps = [
         "@com_google_googletest//:gtest_main",
         "//src/core:sqlcc_core_lib",
-        "//src/core:sqlcc_database_core",
+        "//src/core:database_manager",
         "//src/storage_engine:storage_engine",
         "//src/sql_parser:sql_parser",
         "//src/execution:execution",
@@ -457,7 +453,7 @@ cc_test(
     srcs = ["procedure_trigger_split_test.cpp"],
     deps = [
         "//src/core:sqlcc_core_lib",
-        "//src/core:sqlcc_database_core",
+        "//src/core:database_manager",
         "//src/execution:execution",
         "//src/procedure:procedure",
         "//src/sql_parser:sql_parser",
@@ -486,7 +482,7 @@ cc_test(
     srcs = ["trigger_split_test.cpp"],
     deps = [
         "//src/core:sqlcc_core_lib",
-        "//src/core:sqlcc_database_core",
+        "//src/core:database_manager",
         "//src/execution:execution",
         "//src/procedure:procedure",
         "//src/sql_parser:sql_parser",

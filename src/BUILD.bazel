@@ -23,6 +23,16 @@ cc_library(
     visibility = ["//visibility:public"],
 )
 
+# Exception库 - 异常处理库
+cc_library(
+    name = "exception",
+    srcs = ["exception/base_exception.cpp"],
+    hdrs = ["//include/exception:base_exception.h"],
+    includes = ["//include"],
+    deps = [],
+    visibility = ["//visibility:public"],
+)
+
 # ==================== 核心库 ====================
 
 # Core库 - 核心组件 (包装器)
@@ -38,13 +48,8 @@ cc_library(
 # Execution Context库 - 执行上下文管理
 cc_library(
     name = "execution_context",
-    srcs = ["execution_context.cpp"],
     deps = [
-        "//src/core:core",
-        "//src/core:database_manager",
-    ],
-    copts = [
-        "-Iinclude",
+        "//src/core:execution_context",
     ],
     visibility = ["//visibility:public"],
 )
@@ -57,9 +62,9 @@ cc_library(
     hdrs = ["//include:database_manager"],
     deps = [
         "//include/core:core_database_manager",
-        "//include/storage:buffer_pool_sharded",
+        "//include:buffer_pool_sharded",
         "//include:page",
-        "//include:disk_manager",
+        "//include:storage_headers",
         "//include:exception",
         "//src/utils:utils",
         "//src/core:core",
@@ -96,6 +101,22 @@ cc_library(
     name = "execution",
     deps = [
         "//src/execution:execution",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+# Unified Executor库 - 统一执行器
+cc_library(
+    name = "unified_executor",
+    srcs = ["unified_executor.cpp"],
+    hdrs = ["//include:unified_query_plan"],
+    deps = [
+        ":core",
+        ":execution",
+        ":sql_parser",
+        ":storage_engine",
+        "//src/sql_executor:sql_executor",
+        "//src/logger:logger",
     ],
     visibility = ["//visibility:public"],
 )

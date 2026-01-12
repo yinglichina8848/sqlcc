@@ -206,6 +206,12 @@ cc_library(
 )
 
 cc_library(
+    name = "buffer_pool_sharded",
+    deps = ["//include/storage:buffer_pool_sharded"],
+    visibility = ["//visibility:public"],
+)
+
+cc_library(
     name = "transaction_manager",
     hdrs = ["transaction_manager.h"],
     visibility = ["//visibility:public"],
@@ -214,6 +220,12 @@ cc_library(
 cc_library(
     name = "view_manager",
     hdrs = ["view_manager.h"],
+    visibility = ["//visibility:public"],
+)
+
+cc_library(
+    name = "unified_query_plan",
+    hdrs = ["unified_query_plan.h"],
     visibility = ["//visibility:public"],
 )
 

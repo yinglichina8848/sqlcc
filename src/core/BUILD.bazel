@@ -32,12 +32,46 @@ cc_library(
         "//include/exception:exception",
         "//include:error_handler",  # 错误处理模块
         "//include:sqlcc_pch",  # 预编译头文件
-        "//include:page",  # Page类
-        "//include:disk_manager",  # 磁盘管理器
-        "//include/storage:buffer_pool_sharded",  # 缓冲池
+        "//include:storage_headers",  # 存储引擎头文件
+        "//include/core:core_database_manager",
+        "//include:disk_manager",
+        "//include:exception",
+        "//include:page",
     ],
     copts = [
         "-Iinclude",
+        "-std=c++20",
+        "-stdlib=libc++",
+        "-Wall",
+        "-Wextra",
+        "-Wno-error=maybe-uninitialized",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+    defines = [
+        "SQLCC_MODERN_CPP=1",
+        "SQLCC_CLANG18_FEATURES=1",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+# Execution Context库 - 执行上下文管理
+cc_library(
+    name = "execution_context",
+    hdrs = [
+        "//include/core:execution_context.h",
+    ],
+    includes = ["//include"],
+    deps = [
+        ":core",
+        "//include/core:core_database_manager",
+        "//include:disk_manager",
+        "//include:exception",
+        "//include:page",
+    ],
+    copts = [
         "-std=c++20",
         "-stdlib=libc++",
         "-Wall",

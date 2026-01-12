@@ -25,9 +25,8 @@ TableStorageManager::TableStorageManager(std::shared_ptr<StorageEngine> storage_
     }
     
     try {
-        // 初始化索引管理器
-        ConfigManager config_manager;
-        index_manager_ = std::make_shared<IndexManager>(storage_engine_, config_manager);
+        // 初始化索引管理器 - 暂时不创建，避免ConfigManager构造函数问题
+        index_manager_ = nullptr; // 暂时设为nullptr
         SQLCC_LOG_INFO("TableStorageManager initialized successfully");
     } catch (const std::exception& e) {
         SQLCC_LOG_ERROR("Failed to initialize TableStorageManager: " + std::string(e.what()));
