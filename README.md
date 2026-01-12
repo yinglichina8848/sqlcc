@@ -1,6 +1,6 @@
 SQLCC - SQL Cloud Computing Database System
 
-## 🚀 最新版本：v1.3.1 - 全面测试与质量保障
+## 🚀 最新版本：v1.3.2 - DDL功能完成状态标记
 
 ### 🎯 v1.3.1版本亮点
 
