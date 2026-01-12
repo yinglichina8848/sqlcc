@@ -6,11 +6,13 @@
 #include <memory>
 #include <mutex>
 #include <unordered_map>
+#include <map>
 #include "../storage/buffer_pool_sharded.h"
 
 namespace sqlcc {
 
 // 前向声明
+class DatabaseFileManager;
 class ConfigManager;
 class StorageEngine;
 class BufferPool;
@@ -96,6 +98,49 @@ public:
     bool TableExists(const std::string& table_name);
     std::vector<std::string> ListTables();
 
+    // 索引管理方法
+    bool CreateIndex(const std::string& index_name,
+                    const std::string& table_name,
+                    const std::vector<std::string>& columns,
+                    bool unique = false, const std::string& condition = "");
+    bool DropIndex(const std::string& index_name);
+
+    // 视图管理方法
+    bool CreateView(const std::string& view_name,
+                   const std::string& query,
+                   bool with_check_option = false);
+    bool DropView(const std::string& view_name);
+
+    // ALTER TABLE方法
+    bool AlterTableAddColumn(const std::string& table_name,
+                           const std::string& column_name,
+                           const std::string& column_type,
+                           const std::string& constraints = "");
+    bool AlterTableDropColumn(const std::string& table_name,
+                             const std::string& column_name);
+    bool AlterTableModifyColumn(const std::string& table_name,
+                               const std::string& column_name,
+                               const std::string& new_type);
+    bool AlterTableRenameColumn(const std::string& table_name,
+                               const std::string& old_name,
+                               const std::string& new_name);
+
+    // 约束管理方法
+    bool AddConstraint(const std::string& table_name,
+                      const std::string& constraint_name,
+                      const std::string& constraint_type,
+                      const std::vector<std::string>& columns,
+                      const std::string& expression = "");
+
+    // 数据操作方法（基础实现）
+    bool InsertRecord(const std::string& table_name,
+                     const std::vector<std::string>& values);
+    bool UpdateRecords(const std::string& table_name,
+                      const std::map<std::string, std::string>& updates,
+                      const std::string& condition = "");
+    bool DeleteRecords(const std::string& table_name,
+                      const std::string& condition = "");
+
     // 事务相关方法
     TransactionId BeginTransaction(IsolationLevel isolation_level = IsolationLevel::READ_COMMITTED);
     bool CommitTransaction(TransactionId txn_id);
@@ -145,6 +190,7 @@ private:
     std::shared_ptr<BufferPool> buffer_pool_;               // 缓冲池
     std::shared_ptr<TransactionManager> txn_manager_;       // 事务管理器
     std::shared_ptr<IndexManager> index_manager_;           // 索引管理器
+    std::shared_ptr<DatabaseFileManager> db_file_manager_;  // 数据库文件管理器
 
     // 数据结构
     std::unordered_map<std::string, std::vector<std::string>> database_tables_;  // 数据库->表映射
