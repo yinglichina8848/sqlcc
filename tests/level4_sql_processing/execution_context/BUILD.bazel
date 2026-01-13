@@ -1,0 +1,25 @@
+load("@rules_cc//cc:defs.bzl", "cc_test")
+
+cc_test(
+    name = "execution_context_test",
+    srcs = ["execution_context_test.cpp"],
+    deps = [
+        "//src/core:core",
+        "//src/core:database_manager",
+        "//src/sql_executor:sql_executor",
+        "//src/exception:exception",  # ˚†8ùV
+        "//src/transaction_manager:transaction_manager",  # ˚†ã°°hùV
+        "@com_google_googletest//:gtest_main",
+    ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+        "-Wall",
+        "-Wextra",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+    features = ["cpp20_modules"],
+)

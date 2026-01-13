@@ -1,0 +1,22 @@
+cc_test(
+    name = "permission_validator_test",
+    srcs = ["permission_validator_test.cpp"],
+    deps = [
+        "//src/core:core",
+        "//src/core:database_manager",
+        "//src/exception:exception",
+        "//src/transaction_manager:transaction_manager",
+        "@com_google_googletest//:gtest_main",
+    ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+        "-Wall",
+        "-Wextra",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+    features = ["cpp20_modules"],
+)

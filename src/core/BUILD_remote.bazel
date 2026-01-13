@@ -1,0 +1,236 @@
+# //src/core/BUILD.bazel - SQLCC核心基础组件库
+# 遵循设计文档的包层次结构
+
+load("@rules_cc//cc:defs.bzl", "cc_library")
+
+
+package(default_visibility = ["//visibility:public"])
+
+# ==============================================================================
+# Core库 - 核心基础组件（严格独立）
+# ==============================================================================
+cc_library(
+    name = "core",
+    srcs = [
+        "user_manager.cpp",
+        "error_handler.cpp",
+        "permission_validator.cpp",
+        "system_database.cpp",
+        "execution_context.cpp",
+    ],
+    hdrs = [
+        "//include/core:user_manager.h",
+        "//include/core:permission_validator.h",
+        "//include/core:system_database.h",
+        "//include/core:execution_context.h",
+    ],
+    includes = ["//include"],
+    deps = [
+        # 只依赖基础工具库，不依赖任何业务模块
+        "//src/logger:logger",
+        "//src/utils:utils",
+        "//include/exception:exception",
+        "//include:error_handler",  # 错误处理模块
+        "//include:sqlcc_pch",  # 预编译头文件
+        "//include:storage_headers",  # 存储引擎头文件
+        "//include/core:core_database_manager",
+        "//include:disk_manager",
+        "//include:exception",
+        "//include:page",
+    ],
+    copts = [
+        "-Iinclude",
+        "-std=c++20",
+        "-stdlib=libc++",
+        "-Wall",
+        "-Wextra",
+        "-Wno-error=maybe-uninitialized",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+    defines = [
+        "SQLCC_MODERN_CPP=1",
+        "SQLCC_CLANG18_FEATURES=1",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+# Execution Context库 - 执行上下文管理
+cc_library(
+    name = "execution_context",
+    hdrs = [
+        "//include/core:execution_context.h",
+    ],
+    includes = ["//include"],
+    deps = [
+        ":core",
+        "//include/core:core_database_manager",
+        "//include:disk_manager",
+        "//include:exception",
+        "//include:page",
+    ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+        "-Wall",
+        "-Wextra",
+        "-Wno-error=maybe-uninitialized",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+    defines = [
+        "SQLCC_MODERN_CPP=1",
+        "SQLCC_CLANG18_FEATURES=1",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+# ==============================================================================
+# SQLCC Core Library - 核心组件聚合库（供测试使用）
+# ==============================================================================
+cc_library(
+    name = "sqlcc_core_lib",
+    deps = [
+        ":core",
+        "//src/storage_engine:storage_engine",
+        "//src/sql_parser:sql_parser",
+        "//src/execution:execution",
+        "//src/logger:logger",
+        "//src/utils:utils",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+# ==============================================================================
+# 独立的业务模块（不属于core）
+# ==============================================================================
+
+# Database Exceptions - 数据库异常处理
+cc_library(
+    name = "database_exceptions",
+    hdrs = [
+        "database_exceptions.h",
+    ],
+    includes = ["."],
+    deps = [],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+        "-Wall",
+        "-Wextra",
+        "-Wno-error=maybe-uninitialized",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+    defines = [
+        "SQLCC_MODERN_CPP=1",
+        "SQLCC_CLANG18_FEATURES=1",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+# Database File Manager - 数据库文件管理
+cc_library(
+    name = "database_file_manager",
+    srcs = [
+        "database_file_manager.cpp",
+    ],
+    hdrs = [
+        "database_file_manager.h",
+    ],
+    includes = ["."],
+    deps = [
+        ":database_exceptions",
+        "//include/storage:table_storage",
+    ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+        "-Wall",
+        "-Wextra",
+        "-Wno-error=maybe-uninitialized",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+    defines = [
+        "SQLCC_MODERN_CPP=1",
+        "SQLCC_CLANG18_FEATURES=1",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+# Database Manager - 独立的数据库管理模块
+cc_library(
+    name = "database_manager",
+    srcs = [
+        "core_database_manager.cpp",
+    ],
+    hdrs = [
+        "//include/core:core_database_manager.h"
+    ],
+    includes = ["//include"],
+    deps = [
+        ":core",  # 可以依赖core，但core不能依赖database_manager
+        ":database_file_manager",
+        ":database_exceptions",
+        "//src/storage_engine:storage_engine",
+        "//include/storage:buffer_pool_sharded",
+        "//include/storage:table_storage",
+        "//include/storage:headers",
+        "//src/logger:logger",
+        "//src/utils:utils",
+    ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+        "-Wall",
+        "-Wextra",
+        "-Wno-error=maybe-uninitialized",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+    defines = [
+        "SQLCC_MODERN_CPP=1",
+        "SQLCC_CLANG18_FEATURES=1",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+# SQL Executor Interface - 独立的SQL执行接口模块
+cc_library(
+    name = "sql_executor_interface",
+    hdrs = [
+        "//include/core:sql_executor_interface.h",
+    ],
+    includes = ["//include"],
+    deps = [
+        ":core",  # 可以依赖core，但core不能依赖sql_executor_interface
+        "//src/logger:logger",
+    ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+        "-Wall",
+        "-Wextra",
+        "-Wno-error=maybe-uninitialized",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+    defines = [
+        "SQLCC_MODERN_CPP=1",
+        "SQLCC_CLANG18_FEATURES=1",
+    ],
+    visibility = ["//visibility:public"],
+)

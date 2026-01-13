@@ -576,8 +576,6 @@ void UserManager::UpdateUserCurrentRole(const std::string &username,
     user_current_roles_[username] = role_name;
 }
 
-} // namespace sqlcc
-
 // 高级权限管理方法实现
 bool UserManager::GrantRoleToRole(const std::string &parent_role, const std::string &child_role) {
     std::lock_guard<std::mutex> lock(mutex_);
@@ -837,5 +835,4 @@ std::vector<std::string> UserManager::GetEffectivePermissions(const std::string 
 
     effective_permissions.assign(unique_permissions.begin(), unique_permissions.end());
     return effective_permissions;
-}
-} // namespace sqlcc
+}} // namespace sqlcc

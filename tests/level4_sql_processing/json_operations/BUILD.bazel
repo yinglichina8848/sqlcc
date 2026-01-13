@@ -1,0 +1,21 @@
+cc_test(
+    name = "json_operations_test",
+    srcs = ["json_operations_test.cpp"],
+    deps = [
+        "//src/sql_parser:sql_parser",
+        "//src/exception:exception",
+        "//src/transaction_manager:transaction_manager",
+        "@com_google_googletest//:gtest_main",
+    ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+        "-Wall",
+        "-Wextra",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+    features = ["cpp20_modules"],
+)

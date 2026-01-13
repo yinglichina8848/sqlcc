@@ -1,0 +1,67 @@
+load("@rules_cc//cc:defs.bzl", "cc_test")
+
+# Level 5 Network Tests
+# These tests verify network communication components
+
+cc_test(
+    name = "network_manager_test",
+    srcs = ["network_manager/network_manager_test.cpp"],
+    deps = [
+        "//src/network:network",
+        "//src/exception:exception",
+        "@com_google_googletest//:gtest_main",
+    ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+        "-Wall",
+        "-Wextra",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+    features = ["cpp20_modules"],
+)
+
+cc_test(
+    name = "connection_pool_test",
+    srcs = ["connection_pool/connection_pool_test.cpp"],
+    deps = [
+        "//src/network:network",
+        "//src/exception:exception",
+        "@com_google_googletest//:gtest_main",
+    ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+        "-Wall",
+        "-Wextra",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+    features = ["cpp20_modules"],
+)
+
+cc_test(
+    name = "protocol_handler_test",
+    srcs = ["protocol_handler/protocol_handler_test.cpp"],
+    deps = [
+        "//src/network:network",
+        "//src/exception:exception",
+        "@com_google_googletest//:gtest_main",
+    ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+        "-Wall",
+        "-Wextra",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+    features = ["cpp20_modules"],
+)
