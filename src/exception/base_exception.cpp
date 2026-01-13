@@ -1,12 +1,9 @@
 #include <stdexcept>
 #include <string>
 
-namespace sqlcc {
+#include "../../include/exception/base_exception.h"
 
-class Exception : public std::runtime_error {
-public:
-    explicit Exception(const std::string& message);
-};
+namespace sqlcc {
 
 Exception::Exception(const std::string& message)
     : std::runtime_error(message) {

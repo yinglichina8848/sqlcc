@@ -141,13 +141,13 @@
  * 5. 诊断工具：解析问题的自动化诊断和修复建议
  */
 
-#include "sql_parser/ast_nodes.h"
+
 #ifndef SQLCC_SQL_PARSER_PARSER_H
 #define SQLCC_SQL_PARSER_PARSER_H
 
-#include "sql_parser/ast_node.h"
-#include "sql_parser/constraint.h"
-#include "sql_parser/set_operation.h"
+#include "ast_node.h"
+#include "constraint.h"
+#include "set_operation.h"
 #include "sql_parser/token.h"
 #include "sql_parser/window_function.h"
 #include "sql_parser/lexer.h"

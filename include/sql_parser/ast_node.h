@@ -95,6 +95,8 @@ enum class TokenType : int {
   KEYWORD_GRANT,
   KEYWORD_REVOKE,
   KEYWORD_DENY,
+  KEYWORD_ROLE,
+  KEYWORD_ROLES,
 
   // Keywords - TCL
   KEYWORD_BEGIN,
@@ -241,7 +243,7 @@ enum class TokenType : int {
 
 } // namespace sqlcc::sql_parser
 
-#include "sql_parser/node_visitor.h"
+#include "node_visitor.h"
 #include <memory>
 #include <string>
 
@@ -328,6 +330,10 @@ public:
     DROP_INDEX,
     CREATE_USER,
     DROP_USER,
+    CREATE_ROLE,
+    DROP_ROLE,
+    GRANT_ROLE,
+    REVOKE_ROLE,
     GRANT,
     REVOKE,
     SHOW,

@@ -70,7 +70,7 @@ TEST_F(ExceptionTest, BaseException) {
 TEST_F(ExceptionTest, IOException) {
     // 测试构造函数
     std::string io_message = "File I/O error occurred";
-    std::string expected_message = "IO Error: " + io_message;
+    std::string expected_message = "I/O Error: " + io_message;
     IOException io_ex(io_message);
 
     // 验证异常消息
@@ -84,7 +84,7 @@ TEST_F(ExceptionTest, IOException) {
     try {
         throw IOException("Test I/O exception");
     } catch (const IOException& e) {
-        EXPECT_STREQ(e.what(), "IO Error: Test I/O exception");
+        EXPECT_STREQ(e.what(), "I/O Error: Test I/O exception");
     } catch (...) {
         FAIL() << "Expected IOException to be caught";
     }
@@ -286,7 +286,7 @@ TEST_F(ExceptionTest, CopyAndAssignment) {
     // 测试赋值操作符（如果支持的话）
     // 注意：std::runtime_error不支持拷贝赋值，但我们可以测试引用
     const IOException& ref = original;
-    EXPECT_STREQ(ref.what(), "IO Error: Original I/O error");
+    EXPECT_STREQ(ref.what(), "I/O Error: Original I/O error");
 }
 
 /**
@@ -298,7 +298,7 @@ TEST_F(ExceptionTest, ExceptionHierarchy) {
         throw IOException("Test I/O exception");
     } catch (const Exception& e) {
         // 应该能够用基类捕获
-        EXPECT_STREQ(e.what(), "IO Error: Test I/O exception");
+        EXPECT_STREQ(e.what(), "I/O Error: Test I/O exception");
         EXPECT_TRUE(typeid(e) == typeid(IOException) ||
                    typeid(e) == typeid(Exception));
     }
@@ -340,7 +340,7 @@ TEST_F(ExceptionTest, MemoryManagement) {
     // 测试异常对象的动态分配
     Exception* dynamic_ex = new IOException("Dynamic exception");
 
-    EXPECT_STREQ(dynamic_ex->what(), "IO Error: Dynamic exception");
+    EXPECT_STREQ(dynamic_ex->what(), "I/O Error: Dynamic exception");
 
     // 测试智能指针
     std::unique_ptr<Exception> smart_ex = std::make_unique<PageException>("Smart pointer exception");

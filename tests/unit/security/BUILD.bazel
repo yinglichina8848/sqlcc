@@ -1,0 +1,90 @@
+cc_test(
+    name = "dcl_advanced_test",
+    srcs = ["dcl_advanced_test.cpp"],
+    deps = [
+        "//include:config_manager",
+        "//include:sql_executor",
+        "//include:storage_engine",
+        "//include:transaction_manager",
+        "//include/core:user_manager",
+        "//include/core:permission_validator",
+        "@com_google_googletest//:gtest_main",
+    ],
+    copts = [
+        "-std=c++20",
+        "-O2",
+        "-Wall",
+        "-Wextra",
+        "-pthread",
+    ],
+    linkopts = [
+        "-pthread",
+        "-ldl",
+    ],
+    timeout = "long",
+    tags = [
+        "security",
+        "dcl",
+        "exclusive",  # Run exclusively to avoid resource conflicts
+    ],
+)
+
+cc_test(
+    name = "dcl_role_management_test",
+    srcs = ["dcl_role_management_test.cpp"],
+    deps = [
+        "//include:config_manager",
+        "//include:sql_executor",
+        "//include:storage_engine",
+        "//include:transaction_manager",
+        "//include/core:user_manager",
+        "//include/core:permission_validator",
+        "@com_google_googletest//:gtest_main",
+    ],
+    copts = [
+        "-std=c++20",
+        "-O2",
+        "-Wall",
+        "-Wextra",
+        "-pthread",
+    ],
+    linkopts = [
+        "-pthread",
+        "-ldl",
+    ],
+    timeout = "long",
+    tags = [
+        "security",
+        "dcl",
+        "role_management",
+        "exclusive",
+    ],
+)
+
+cc_test(
+    name = "dcl_permission_model_advanced_test",
+    srcs = ["dcl_permission_model_advanced_test.cpp"],
+    deps = [
+        "//src/core:core",
+        "@com_google_googletest//:gtest_main",
+    ],
+    copts = [
+        "-std=c++20",
+        "-O2",
+        "-Wall",
+        "-Wextra",
+        "-pthread",
+    ],
+    linkopts = [
+        "-pthread",
+        "-ldl",
+    ],
+    timeout = "long",
+    tags = [
+        "security",
+        "dcl",
+        "permission_model",
+        "advanced",
+        "exclusive",
+    ],
+)

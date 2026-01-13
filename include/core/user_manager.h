@@ -45,6 +45,8 @@ class SystemDatabase;
 struct Role {
   std::string role_name;
   std::string created_at;
+  std::vector<std::string> parent_roles;  // 父角色列表（继承关系）
+  std::vector<std::string> child_roles;   // 子角色列表
 };
 
 // 用户数据结构
@@ -142,6 +144,21 @@ public:
   bool SetCurrentRole(const std::string &username,
                       const std::string &role_name);
   std::string GetUserCurrentRole(const std::string &username) const;
+
+  // 高级权限管理方法
+  bool GrantRoleToRole(const std::string &parent_role, const std::string &child_role);
+  bool RevokeRoleFromRole(const std::string &parent_role, const std::string &child_role);
+  bool CheckRoleInheritance(const std::string &role_name, const std::string &inherited_role) const;
+  std::vector<std::string> GetRoleHierarchy(const std::string &role_name) const;
+  bool RevokePrivilegeCascade(const std::string &grantee, const std::string &database,
+                              const std::string &table, const std::string &privilege);
+  bool CheckPermissionConflict(const std::string &grantee, const std::string &database,
+                               const std::string &table, const std::string &privilege) const;
+  bool AuditPermissionChanges(const std::string &operation, const std::string &grantee,
+                              const std::string &details);
+  std::vector<std::string> GetEffectivePermissions(const std::string &username,
+                                                    const std::string &database,
+                                                    const std::string &table) const;
 
   // 权限管理方法
   bool GrantPrivilege(const std::string &grantee, const std::string &database,

@@ -21,21 +21,7 @@ cc_library(
 # 3. 存储引擎头文件 - 使用子包引用
 # -----------------------------------------------------------------------------
 
-cc_library(
-    name = "storage_headers",
-    deps = ["//include/storage:headers"],
-    visibility = ["//visibility:public"],
-)
 
-# -----------------------------------------------------------------------------
-# 4. SQL解析器头文件 - 使用子包引用
-# -----------------------------------------------------------------------------
-
-cc_library(
-    name = "sql_parser_headers",
-    deps = ["//include/sql_parser:headers"],
-    visibility = ["//visibility:public"],
-)
 
 # -----------------------------------------------------------------------------
 # 5. 执行引擎头文件 - 使用子包引用
@@ -120,6 +106,20 @@ cc_library(
 cc_library(
     name = "security_headers",
     deps = ["//include/security:memory_monitor"],
+    visibility = ["//visibility:public"],
+)
+
+# -----------------------------------------------------------------------------
+# 14. 性能监控头文件 - 直接定义
+# -----------------------------------------------------------------------------
+
+cc_library(
+    name = "performance_monitor",
+    hdrs = ["monitoring/performance_monitor.h"],
+    deps = [
+        "//include:config_manager",
+        "//include:utils",
+    ],
     visibility = ["//visibility:public"],
 )
 
@@ -283,4 +283,4 @@ exports_files([
     "exception.h",
     "page.h",
     "disk_manager.h",
-])
+], visibility = ["//visibility:public"])

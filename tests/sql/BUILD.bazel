@@ -142,6 +142,24 @@ exports_files([
     "simple_test.sql",
 ])
 
+# DDL边界条件测试
+cc_test(
+    name = "ddl_boundary_test",
+    srcs = ["ddl_boundary_test.cpp"],
+    deps = [
+        "//src/sql_parser:sql_parser",
+        "@com_google_googletest//:gtest_main",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+    ],
+)
+
 test_suite(
     name = "sql_tests",
     tests = [
@@ -151,5 +169,6 @@ test_suite(
         ":test_dcl_parsing",
         ":test_join_functionality",
         ":test_ast_executor",
+        ":ddl_boundary_test",
     ],
 )

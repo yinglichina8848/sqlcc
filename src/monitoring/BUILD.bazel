@@ -1,0 +1,16 @@
+cc_library(
+    name = "performance_monitor",
+    srcs = ["performance_monitor.cpp"],
+    hdrs = ["//include:monitoring/performance_monitor.h"],
+    deps = [
+        "//include:config_manager",
+        "//include:utils/logger",
+        "@com_google_absl//absl/time:time",
+    ],
+    copts = [
+        "-std=c++20",
+        "-O2",
+        "-Wall",
+        "-Wextra",
+    ],
+)

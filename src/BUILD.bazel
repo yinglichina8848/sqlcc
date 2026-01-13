@@ -26,10 +26,16 @@ cc_library(
 # Exception库 - 异常处理库
 cc_library(
     name = "exception",
-    srcs = ["exception/base_exception.cpp"],
-    hdrs = ["//include/exception:base_exception.h"],
-    includes = ["//include"],
-    deps = [],
+    srcs = [
+        "exception/base_exception.cpp",
+        "exception/io_exception.cpp",
+    ],
+    hdrs = [
+        "//include:exception",
+    ],
+    deps = [
+        "//include/exception:exception",
+    ],
     visibility = ["//visibility:public"],
 )
 

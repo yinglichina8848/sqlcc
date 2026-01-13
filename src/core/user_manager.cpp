@@ -67,6 +67,8 @@
 #include "include/core/user_manager.h"
 #include <algorithm>
 #include <iostream>
+#include <queue>
+#include <unordered_set>
 
 namespace sqlcc {
 
@@ -539,6 +541,267 @@ bool UserManager::CheckPermissionInMatrix(
 void UserManager::UpdateUserCurrentRole(const std::string &username,
                                         const std::string &role_name) {
     user_current_roles_[username] = role_name;
+}
+
+// 高级权限管理方法实现
+bool UserManager::GrantRoleToRole(const std::string &parent_role, const std::string &child_role) {
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    // 检查父角色是否存在
+    if (roles_.find(parent_role) == roles_.end()) {
+        last_error_ = "Parent role does not exist: " + parent_role;
+        return false;
+    }
+
+    // 检查子角色是否存在
+    if (roles_.find(child_role) == roles_.end()) {
+        last_error_ = "Child role does not exist: " + child_role;
+        return false;
+    }
+
+    // 检查循环依赖（简化实现）
+    if (parent_role == child_role) {
+        last_error_ = "Cannot grant role to itself";
+        return false;
+    }
+
+    // 建立角色继承关系
+    roles_[parent_role].child_roles.push_back(child_role);
+    roles_[child_role].parent_roles.push_back(parent_role);
+
+    last_error_.clear();
+    return SaveToFileInternal();
+}
+
+bool UserManager::RevokeRoleFromRole(const std::string &parent_role, const std::string &child_role) {
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    // 检查父角色是否存在
+    if (roles_.find(parent_role) == roles_.end()) {
+        last_error_ = "Parent role does not exist: " + parent_role;
+        return false;
+    }
+
+    // 检查子角色是否存在
+    if (roles_.find(child_role) == roles_.end()) {
+        last_error_ = "Child role does not exist: " + child_role;
+        return false;
+    }
+
+    // 撤销角色继承关系
+    auto &parent_children = roles_[parent_role].child_roles;
+    auto &child_parents = roles_[child_role].parent_roles;
+
+    parent_children.erase(
+        std::remove(parent_children.begin(), parent_children.end(), child_role),
+        parent_children.end());
+
+    child_parents.erase(
+        std::remove(child_parents.begin(), child_parents.end(), parent_role),
+        child_parents.end());
+
+    last_error_.clear();
+    return SaveToFileInternal();
+}
+
+bool UserManager::CheckRoleInheritance(const std::string &role_name, const std::string &inherited_role) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    if (role_name == inherited_role) {
+        return true;
+    }
+
+    // 广度优先搜索检查继承关系
+    std::unordered_set<std::string> visited;
+    std::queue<std::string> to_visit;
+
+    to_visit.push(role_name);
+    visited.insert(role_name);
+
+    while (!to_visit.empty()) {
+        std::string current = to_visit.front();
+        to_visit.pop();
+
+        auto it = roles_.find(current);
+        if (it != roles_.end()) {
+            // 检查直接子角色
+            for (const auto &child : it->second.child_roles) {
+                if (child == inherited_role) {
+                    return true;
+                }
+                if (visited.find(child) == visited.end()) {
+                    visited.insert(child);
+                    to_visit.push(child);
+                }
+            }
+        }
+    }
+
+    return false;
+}
+
+std::vector<std::string> UserManager::GetRoleHierarchy(const std::string &role_name) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    std::vector<std::string> hierarchy;
+
+    auto it = roles_.find(role_name);
+    if (it == roles_.end()) {
+        return hierarchy;
+    }
+
+    // 广度优先遍历获取所有子角色
+    std::unordered_set<std::string> visited;
+    std::queue<std::string> to_visit;
+
+    to_visit.push(role_name);
+    visited.insert(role_name);
+
+    while (!to_visit.empty()) {
+        std::string current = to_visit.front();
+        to_visit.pop();
+
+        auto role_it = roles_.find(current);
+        if (role_it != roles_.end()) {
+            for (const auto &child : role_it->second.child_roles) {
+                if (visited.find(child) == visited.end()) {
+                    visited.insert(child);
+                    hierarchy.push_back(child);
+                    to_visit.push(child);
+                }
+            }
+        }
+    }
+
+    return hierarchy;
+}
+
+bool UserManager::RevokePrivilegeCascade(const std::string &grantee, const std::string &database,
+                                         const std::string &table, const std::string &privilege) {
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    // 撤销直接权限
+    bool direct_revoked = RevokePrivilege(grantee, database, table, privilege);
+    if (!direct_revoked && GetLastError() != "Privilege not found") {
+        return false;
+    }
+
+    // 如果是角色，级联撤销所有子角色的权限
+    auto role_it = roles_.find(grantee);
+    if (role_it != roles_.end()) {
+        std::vector<std::string> child_roles = GetRoleHierarchy(grantee);
+        for (const auto &child_role : child_roles) {
+            // 撤销子角色的权限（不改变错误状态，因为可能某些子角色没有该权限）
+            RevokePrivilege(child_role, database, table, privilege);
+        }
+    }
+
+    // 如果是用户，撤销其所有角色的权限
+    auto user_it = users_.find(grantee);
+    if (user_it != users_.end()) {
+        std::string user_role = user_it->second.role;
+        if (!user_role.empty()) {
+            RevokePrivilege(user_role, database, table, privilege);
+        }
+    }
+
+    last_error_.clear();
+    return true;
+}
+
+bool UserManager::CheckPermissionConflict(const std::string &grantee, const std::string &database,
+                                          const std::string &table, const std::string &privilege) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    // 检查是否已经存在相同的权限
+    for (const auto &perm : permissions_) {
+        if (perm.grantee == grantee && perm.database == database &&
+            perm.table == table && perm.privilege == privilege) {
+            return true; // 权限冲突
+        }
+    }
+
+    return false; // 无冲突
+}
+
+bool UserManager::AuditPermissionChanges(const std::string &operation, const std::string &grantee,
+                                         const std::string &details) {
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    // 记录权限变更审计信息
+    // 简化实现，实际应该写入审计日志
+    std::cout << "[AUDIT] " << GetCurrentTimeString()
+              << " Operation: " << operation
+              << " Grantee: " << grantee
+              << " Details: " << details << std::endl;
+
+    // 如果有SystemDatabase，可以同步审计信息
+    if (sys_db_) {
+        // 这里可以调用SystemDatabase的审计记录方法
+        // sys_db_->RecordAuditLog(operation, grantee, details);
+    }
+
+    return true;
+}
+
+std::vector<std::string> UserManager::GetEffectivePermissions(const std::string &username,
+                                                              const std::string &database,
+                                                              const std::string &table) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    std::vector<std::string> effective_permissions;
+
+    auto user_it = users_.find(username);
+    if (user_it == users_.end() || !user_it->second.is_active) {
+        return effective_permissions;
+    }
+
+    // 超级用户拥有所有权限
+    if (user_it->second.role == ROLE_SUPERUSER) {
+        effective_permissions = {PRIVILEGE_CREATE, PRIVILEGE_SELECT, PRIVILEGE_INSERT,
+                                PRIVILEGE_UPDATE, PRIVILEGE_DELETE, PRIVILEGE_DROP,
+                                PRIVILEGE_ALTER};
+        return effective_permissions;
+    }
+
+    // 检查用户直接权限
+    std::string user_current_role = GetUserCurrentRole(username);
+    std::unordered_set<std::string> unique_permissions;
+
+    // 用户直接权限
+    for (const auto &perm : permissions_) {
+        if (perm.grantee == username && !perm.is_role &&
+            perm.database == database && perm.table == table) {
+            unique_permissions.insert(perm.privilege);
+        }
+    }
+
+    // 用户角色权限
+    if (!user_current_role.empty()) {
+        for (const auto &perm : permissions_) {
+            if (perm.grantee == user_current_role && perm.is_role &&
+                perm.database == database && perm.table == table) {
+                unique_permissions.insert(perm.privilege);
+            }
+        }
+
+        // 检查角色继承权限
+        std::vector<std::string> parent_roles;
+        auto role_it = roles_.find(user_current_role);
+        if (role_it != roles_.end()) {
+            parent_roles = role_it->second.parent_roles;
+        }
+
+        for (const auto &parent_role : parent_roles) {
+            for (const auto &perm : permissions_) {
+                if (perm.grantee == parent_role && perm.is_role &&
+                    perm.database == database && perm.table == table) {
+                    unique_permissions.insert(perm.privilege);
+                }
+            }
+        }
+    }
+
+    effective_permissions.assign(unique_permissions.begin(), unique_permissions.end());
+    return effective_permissions;
 }
 
 } // namespace sqlcc

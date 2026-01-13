@@ -147,7 +147,7 @@
  * - 测试工具：集合操作逻辑的单元测试框架
  */
 
-#include "sql_parser/ast_nodes.h"
+#include "ast_nodes.h"
 #ifndef SQLCC_SQL_PARSER_SET_OPERATION_H
 #define SQLCC_SQL_PARSER_SET_OPERATION_H
 

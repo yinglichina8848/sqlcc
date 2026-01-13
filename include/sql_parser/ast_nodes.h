@@ -92,8 +92,8 @@
 #define SQLCC_SQL_PARSER_AST_NODES_H
 
 // First include the base AST node definitions
-#include "sql_parser/ast_node.h"
-#include "sql_parser/data_types.h"
+#include "ast_node.h"
+#include "data_types.h"
 #include "set_operation.h"
 #include "sql_parser/node_visitor.h"
 #include "../storage/table_storage.h"

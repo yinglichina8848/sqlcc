@@ -138,8 +138,7 @@
 #ifndef SQLCC_SQL_PARSER_NODE_VISITOR_H
 #define SQLCC_SQL_PARSER_NODE_VISITOR_H
 
-#include "sql_parser/ast_node.h"
-#include "sql_parser/token.h"
+#include "token.h"
 #include <memory>
 #include <string>
 #include <unordered_map>

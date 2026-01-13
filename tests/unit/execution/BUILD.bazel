@@ -184,6 +184,33 @@ cc_test(
     features = ["cpp20_modules"],
 )
 
+# DML JOIN综合测试 (v1.3.3新增)
+cc_test(
+    name = "dml_join_comprehensive_test",
+    srcs = ["dml_join_comprehensive_test.cpp"],
+    deps = [
+        "//src/core:database_manager",
+        "//src/sql_parser:sql_parser",
+        "//src/sql_executor:sql_executor",
+        "//src/storage_engine:storage_engine",
+        "//src/core:core",
+        "//src/utils:utils",
+        "@com_google_googletest//:gtest_main",
+    ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+        "-Wall",
+        "-Wextra",
+        "-Wno-error=maybe-uninitialized",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+    features = ["cpp20_modules"],
+)
+
 # 执行引擎测试套件
 test_suite(
     name = "execution_unit_tests",
@@ -195,5 +222,6 @@ test_suite(
         ":set_operation_executor_unit_test",
         ":load_data_executor_unit_test",
         ":task_executor_unit_test",
+        ":dml_join_comprehensive_test",
     ],
 )
