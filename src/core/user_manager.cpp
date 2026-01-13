@@ -535,6 +535,39 @@ bool UserManager::CheckPermissionInMatrix(
         }
     }
 
+    // 检查通配符权限 (*)
+    // 数据库级别通配符
+    PermissionKey db_wildcard_key{username, database, "*", required_privilege};
+    auto db_it = permission_matrix_.find(db_wildcard_key);
+    if (db_it != permission_matrix_.end() && db_it->second.has_permission) {
+        return true;
+    }
+
+    // 角色数据库级别通配符
+    if (!user_role.empty()) {
+        PermissionKey role_db_wildcard_key{user_role, database, "*", required_privilege};
+        auto role_db_it = permission_matrix_.find(role_db_wildcard_key);
+        if (role_db_it != permission_matrix_.end() && role_db_it->second.has_permission) {
+            return true;
+        }
+    }
+
+    // 全局通配符 (所有数据库，所有表)
+    PermissionKey global_wildcard_key{username, "*", "*", required_privilege};
+    auto global_it = permission_matrix_.find(global_wildcard_key);
+    if (global_it != permission_matrix_.end() && global_it->second.has_permission) {
+        return true;
+    }
+
+    // 角色全局通配符
+    if (!user_role.empty()) {
+        PermissionKey role_global_wildcard_key{user_role, "*", "*", required_privilege};
+        auto role_global_it = permission_matrix_.find(role_global_wildcard_key);
+        if (role_global_it != permission_matrix_.end() && role_global_it->second.has_permission) {
+            return true;
+        }
+    }
+
     return false;
 }
 
@@ -542,6 +575,8 @@ void UserManager::UpdateUserCurrentRole(const std::string &username,
                                         const std::string &role_name) {
     user_current_roles_[username] = role_name;
 }
+
+} // namespace sqlcc
 
 // 高级权限管理方法实现
 bool UserManager::GrantRoleToRole(const std::string &parent_role, const std::string &child_role) {
@@ -803,5 +838,4 @@ std::vector<std::string> UserManager::GetEffectivePermissions(const std::string 
     effective_permissions.assign(unique_permissions.begin(), unique_permissions.end());
     return effective_permissions;
 }
-
 } // namespace sqlcc

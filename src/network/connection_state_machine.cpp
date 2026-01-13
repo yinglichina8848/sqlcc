@@ -6,7 +6,6 @@
  * 防止状态机被不当使用导致的安全漏洞。
  */
 
-#include <network/network.h>
 #include <stdexcept>
 #include <unordered_map>
 

@@ -3,9 +3,28 @@
 package(default_visibility = ["//visibility:public"])
 
 cc_library(
-    name = "sqlcc_transaction_manager",
+    name = "transaction_manager",
     srcs = glob(["*.cpp"]),
-    hdrs = ["//include:transaction_manager_headers"],
-    includes = ["../include"],
-    copts = ["-std=c++17"],
+    hdrs = [
+        "//include:transaction_manager.h",
+        "//include:transaction_context.h",
+        "//include:transaction_context_impl.h",
+        "//include:wal_manager.h",
+    ],
+    includes = ["//include"],
+    deps = [
+        "//src/exception:exception",
+        "//src/storage_engine:storage_engine",
+    ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+        "-Wall",
+        "-Wextra",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+    features = ["cpp20_modules"],
 )

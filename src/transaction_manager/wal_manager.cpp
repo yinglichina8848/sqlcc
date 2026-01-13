@@ -24,8 +24,8 @@
  * 4. 回滚未完成的事务
  */
 
-#include "wal_manager.h"
-#include "utils/logger.h"
+#include "../include/wal_manager.h"
+#include "../include/utils/logger.h"
 #include <cstring>
 #include <filesystem>
 #include <fstream>

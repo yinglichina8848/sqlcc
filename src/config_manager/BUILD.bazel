@@ -3,14 +3,24 @@
 package(default_visibility = ["//visibility:public"])
 
 cc_library(
-    name = "sqlcc_config_manager",
+    name = "config_manager",
     srcs = ["config_manager.cpp"],
     hdrs = ["//include:config_manager"],
     copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+        "-Wall",
+        "-Wextra",
     ],
-    includes = ["../include"],
+    includes = ["//include"],
     deps = [
         "//src/utils:utils",
+        "//src/exception:exception",
     ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+    features = ["cpp20_modules"],
     visibility = ["//visibility:public"],
 )

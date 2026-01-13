@@ -9,10 +9,13 @@
  * - 系统稳定性保证
  */
 
-#include <network/network.h>
 #include <algorithm>
 #include <sstream>
 #include <iomanip>
+#include "network/network_exception.h"
+#include "network/network_exception_handler.h"
+#include "network/network_monitor.h"
+#include "network/network_stability_guard.h"
 
 namespace sqlcc {
 namespace network {

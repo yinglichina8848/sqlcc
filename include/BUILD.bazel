@@ -89,6 +89,12 @@ cc_library(
     visibility = ["//visibility:public"],
 )
 
+cc_library(
+    name = "transaction_manager_headers",
+    hdrs = ["transaction_manager.h"],
+    visibility = ["//visibility:public"],
+)
+
 # -----------------------------------------------------------------------------
 # 10. 类型系统头文件 - 使用子包引用
 # -----------------------------------------------------------------------------
@@ -148,12 +154,6 @@ cc_library(
 cc_library(
     name = "config_manager",
     deps = ["//include/utils:headers"],
-    visibility = ["//visibility:public"],
-)
-
-cc_library(
-    name = "wal_manager",
-    hdrs = ["wal_manager.h"],
     visibility = ["//visibility:public"],
 )
 
@@ -218,6 +218,12 @@ cc_library(
 )
 
 cc_library(
+    name = "wal_manager",
+    hdrs = ["wal_manager.h"],
+    visibility = ["//visibility:public"],
+)
+
+cc_library(
     name = "view_manager",
     hdrs = ["view_manager.h"],
     visibility = ["//visibility:public"],
@@ -271,16 +277,12 @@ cc_library(
         ":exception",
         ":page",
         ":transaction_manager",
-    ],
-    visibility = ["//visibility:public"],
-)
-
-# 导出主要头文件以供其他包使用
-exports_files([
-    "database_manager.h",
-    "sql_executor.h",
-    "error_handler.h",
-    "exception.h",
-    "page.h",
-    "disk_manager.h",
+    "transaction_manager.h",
+    "transaction_context.h",
+    "transaction_context_impl.h",
+    "wal_manager.h",
+], visibility = ["//visibility:public"])
+    "transaction_manager.h",
+    "transaction_context.h",
+    "transaction_context_impl.h",
 ], visibility = ["//visibility:public"])

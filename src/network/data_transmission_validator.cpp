@@ -56,10 +56,12 @@
  * @see docs/design/network/data_transmission_design.md
  */
 
-#include <network/network.h>
 #include <algorithm>
 #include <stdexcept>
 #include <cstring>
+#include <deque>
+#include <mutex>
+#include "network/data_transmission_validator.h"
 
 namespace sqlcc {
 namespace network {
@@ -156,7 +158,7 @@ std::vector<std::vector<char>> DataTransmissionValidator::FragmentMessage(const 
         header.length = static_cast<uint32_t>(fragment_data_size);
         header.type = QUERY; // 假设是查询消息的分片
         header.flags = 0x0001; // 设置分片标志
-        header.sequence_id = 0; // 分片序号可以后续设置
+        header.sequence = 0; // 分片序号可以后续设置
 
         // 添加消息头
         fragment.insert(fragment.end(),

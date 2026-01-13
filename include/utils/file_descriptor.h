@@ -1,59 +1,30 @@
-#pragma once
+#ifndef SQLCC_UTILS_FILE_DESCRIPTOR_H
+#define SQLCC_UTILS_FILE_DESCRIPTOR_H
 
 #include <unistd.h>
-#include <fcntl.h>
-#include <sys/socket.h>
-#include <memory>
-#include <stdexcept>
-
-// 跨平台兼容：仅在Linux系统上包含epoll相关头文件
-#ifdef __linux__
-#include <sys/epoll.h>
-#endif
+#include <utility>
 
 namespace sqlcc {
 
 /**
- * @class FileDescriptor
- * @brief RAII wrapper for file descriptors with automatic cleanup
- * @details Provides exception-safe management of file descriptors using RAII pattern
+ * @brief RAII wrapper for file descriptors
+ *
+ * Automatically closes the file descriptor when it goes out of scope.
  */
 class FileDescriptor {
 public:
-    /**
-     * @brief Default constructor
-     * @details Creates an invalid file descriptor (-1)
-     */
-    FileDescriptor() noexcept : fd_(-1) {}
+    // Default constructor
+    FileDescriptor() : fd_(-1) {}
 
-    /**
-     * @brief Constructor with file descriptor
-     * @param fd The file descriptor to manage
-     */
-    explicit FileDescriptor(int fd) noexcept : fd_(fd) {}
+    // Constructor taking ownership of a file descriptor
+    explicit FileDescriptor(int fd) : fd_(fd) {}
 
-    /**
-     * @brief Destructor
-     * @details Automatically closes the file descriptor if valid
-     */
-    ~FileDescriptor() noexcept {
-        close();
-    }
-
-    // Disable copy operations
-    FileDescriptor(const FileDescriptor&) = delete;
-    FileDescriptor& operator=(const FileDescriptor&) = delete;
-
-    /**
-     * @brief Move constructor
-     */
+    // Move constructor
     FileDescriptor(FileDescriptor&& other) noexcept : fd_(other.fd_) {
         other.fd_ = -1;
     }
 
-    /**
-     * @brief Move assignment operator
-     */
+    // Move assignment
     FileDescriptor& operator=(FileDescriptor&& other) noexcept {
         if (this != &other) {
             close();
@@ -63,158 +34,49 @@ public:
         return *this;
     }
 
-    /**
-     * @brief Get the underlying file descriptor
-     * @return The file descriptor value
-     */
-    int get() const noexcept {
-        return fd_;
-    }
-
-    /**
-     * @brief Check if the file descriptor is valid
-     * @return true if valid, false otherwise
-     */
-    bool valid() const noexcept {
-        return fd_ >= 0;
-    }
-
-    /**
-     * @brief Explicit conversion to int
-     */
-    explicit operator int() const noexcept {
-        return fd_;
-    }
-
-    /**
-     * @brief Reset the file descriptor
-     * @param fd New file descriptor value (-1 to close current)
-     */
-    void reset(int fd = -1) noexcept {
+    // Destructor
+    ~FileDescriptor() {
         close();
-        fd_ = fd;
     }
 
-    /**
-     * @brief Release ownership of the file descriptor
-     * @return The file descriptor (caller takes ownership)
-     */
-    int release() noexcept {
+    // Delete copy constructor and assignment
+    FileDescriptor(const FileDescriptor&) = delete;
+    FileDescriptor& operator=(const FileDescriptor&) = delete;
+
+    // Get the file descriptor
+    int get() const { return fd_; }
+
+    // Check if valid
+    bool valid() const { return fd_ >= 0; }
+
+    // Explicit bool conversion
+    explicit operator bool() const { return valid(); }
+
+    // Release ownership (caller takes responsibility for closing)
+    int release() {
         int temp = fd_;
         fd_ = -1;
         return temp;
     }
 
-    /**
-     * @brief Close the file descriptor if valid
-     */
-    void close() noexcept {
+    // Close the file descriptor
+    void close() {
         if (fd_ >= 0) {
             ::close(fd_);
             fd_ = -1;
         }
     }
 
-    /**
-     * @brief Create a socket file descriptor
-     * @param domain Socket domain (e.g., AF_INET)
-     * @param type Socket type (e.g., SOCK_STREAM)
-     * @param protocol Protocol (usually 0)
-     * @return FileDescriptor instance
-     */
-    static FileDescriptor create_socket(int domain, int type, int protocol) {
-        int fd = ::socket(domain, type, protocol);
-        if (fd < 0) {
-            throw std::runtime_error("Failed to create socket");
-        }
-        return FileDescriptor(fd);
-    }
-
-    /**
-     * @brief Create a TCP socket
-     * @return FileDescriptor instance for TCP socket
-     */
-    static FileDescriptor create_tcp_socket() {
-        return create_socket(AF_INET, SOCK_STREAM, 0);
-    }
-
-    /**
-     * @brief Create a UDP socket
-     * @return FileDescriptor instance for UDP socket
-     */
-    static FileDescriptor create_udp_socket() {
-        return create_socket(AF_INET, SOCK_DGRAM, 0);
-    }
-
-    /**
-     * @brief Create an epoll file descriptor
-     * @param flags Epoll flags
-     * @return FileDescriptor instance for epoll
-     * @note Linux only
-     */
-    #ifdef __linux__
-    static FileDescriptor create_epoll(int flags = 0) {
-        int fd = ::epoll_create1(flags);
-        if (fd < 0) {
-            throw std::runtime_error("Failed to create epoll");
-        }
-        return FileDescriptor(fd);
-    }
-    #endif
-
-    /**
-     * @brief Accept a connection on a listening socket
-     * @param sockfd Listening socket file descriptor
-     * @param addr Client address structure (can be nullptr)
-     * @param addrlen Address length (can be nullptr)
-     * @param flags Additional flags
-     * @return FileDescriptor instance for the accepted connection
-     */
-    static FileDescriptor accept(int sockfd, struct sockaddr* addr = nullptr,
-                                socklen_t* addrlen = nullptr, int flags = 0) {
-        int fd;
-        #ifdef __linux__
-        // Linux平台使用accept4支持flags
-        fd = ::accept4(sockfd, addr, addrlen, flags);
-        #else
-        // 其他平台（如macOS）使用标准accept，忽略flags
-        (void)flags; // 避免未使用参数警告
-        fd = ::accept(sockfd, addr, addrlen);
-        #endif
-        if (fd < 0) {
-            throw std::runtime_error("Failed to accept connection");
-        }
-        return FileDescriptor(fd);
-    }
-
-    /**
-     * @brief Open a file and return a FileDescriptor instance
-     * @param pathname Path to the file
-     * @param flags Open flags (O_RDONLY, O_WRONLY, O_RDWR, etc.)
-     * @param mode File mode (only used when creating new files)
-     * @return FileDescriptor instance for the opened file
-     */
-    static FileDescriptor open(const char* pathname, int flags, mode_t mode = 0666) {
-        int fd = ::open(pathname, flags, mode);
-        if (fd < 0) {
-            throw std::runtime_error("Failed to open file: " + std::string(pathname));
-        }
-        return FileDescriptor(fd);
-    }
-
-    /**
-     * @brief Open a file and return a FileDescriptor instance (string overload)
-     * @param pathname Path to the file
-     * @param flags Open flags (O_RDONLY, O_WRONLY, O_RDWR, etc.)
-     * @param mode File mode (only used when creating new files)
-     * @return FileDescriptor instance for the opened file
-     */
-    static FileDescriptor open(const std::string& pathname, int flags, mode_t mode = 0666) {
-        return open(pathname.c_str(), flags, mode);
+    // Reset with a new file descriptor
+    void reset(int fd = -1) {
+        close();
+        fd_ = fd;
     }
 
 private:
-    int fd_;  ///< File descriptor value
+    int fd_;
 };
 
 } // namespace sqlcc
+
+#endif // SQLCC_UTILS_FILE_DESCRIPTOR_H
