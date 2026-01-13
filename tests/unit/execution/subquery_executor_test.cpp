@@ -3,6 +3,8 @@
 #include <vector>
 #include <string>
 #include <unordered_set>
+#include <filesystem>
+#include <chrono>
 
 #include "core/core_database_manager.h"
 #include "sql_parser/parser.h"
@@ -46,15 +48,31 @@ private:
 class SubqueryExecutorTest : public ::testing::Test {
 protected:
     void SetUp() override {
+        // Create unique test directory to avoid conflicts
+        test_db_path = "/tmp/test_db_" + std::to_string(getpid()) + "_" +
+                      std::to_string(std::chrono::system_clock::now().time_since_epoch().count());
+
+        // Clean up any existing directory
+        std::filesystem::remove_all(test_db_path);
+
         // Initialize test database
-        db_manager = std::make_unique<DatabaseManager>("/tmp/test_db");
+        db_manager = std::make_unique<DatabaseManager>(test_db_path);
         db_manager->Initialize();
     }
 
     void TearDown() override {
         // Clean up test database
-        db_manager->Close();
-        db_manager.reset();
+        if (db_manager) {
+            db_manager->Close();
+            db_manager.reset();
+        }
+
+        // Remove test directory
+        try {
+            std::filesystem::remove_all(test_db_path);
+        } catch (const std::exception&) {
+            // Ignore cleanup errors
+        }
     }
 
     void CreateStandardTestTables() {
