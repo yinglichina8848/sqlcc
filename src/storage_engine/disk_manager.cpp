@@ -509,7 +509,11 @@ bool DiskManager::BatchReadPages(const std::vector<int32_t> &page_ids,
 
   // 使用RAII文件描述符进行更高效的读取
   try {
-    sqlcc::FileDescriptor fd = sqlcc::FileDescriptor::open(db_file_name_, O_RDONLY);
+    int raw_fd = ::open(db_file_name_.c_str(), O_RDONLY);
+    if (raw_fd == -1) {
+      throw std::runtime_error("Failed to open file: " + db_file_name_);
+    }
+    sqlcc::FileDescriptor fd(raw_fd);
 
     bool success = true;
 
@@ -564,7 +568,11 @@ bool DiskManager::PrefetchPage(int32_t page_id) {
 
   // 使用RAII文件描述符进行预读
   try {
-    sqlcc::FileDescriptor fd = sqlcc::FileDescriptor::open(db_file_name_, O_RDONLY);
+    int raw_fd = ::open(db_file_name_.c_str(), O_RDONLY);
+    if (raw_fd == -1) {
+      throw std::runtime_error("Failed to open file: " + db_file_name_);
+    }
+    sqlcc::FileDescriptor fd(raw_fd);
 
     // 计算页面偏移量
     off_t offset = static_cast<off_t>(page_id) * PAGE_SIZE;
@@ -617,7 +625,11 @@ bool DiskManager::BatchPrefetchPages(const std::vector<int32_t> &page_ids) {
 
   // 使用RAII文件描述符进行批量预读
   try {
-    sqlcc::FileDescriptor fd = sqlcc::FileDescriptor::open(db_file_name_, O_RDONLY);
+    int raw_fd = ::open(db_file_name_.c_str(), O_RDONLY);
+    if (raw_fd == -1) {
+      throw std::runtime_error("Failed to open file: " + db_file_name_);
+    }
+    sqlcc::FileDescriptor fd(raw_fd);
 
     bool success = true;
 
