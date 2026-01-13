@@ -1,0 +1,44 @@
+# Level 2 Core Services Tests - Unified Configuration
+# These tests verify core database services components (database management, user management, etc.)
+
+load("//tests:build_config.bzl", "sqlcc_test")
+
+# Database manager tests
+sqlcc_test(
+    name = "database_manager_test",
+    srcs = ["database_manager/database_manager_test.cpp"],
+    deps = [
+        "//src/core:database_manager",
+        "//src/exception:exception",
+    ],
+)
+
+# User management tests
+sqlcc_test(
+    name = "user_manager_test",
+    srcs = ["user_manager/user_manager_test.cpp"],
+    deps = [
+        "//src/core:core",
+        "//src/exception:exception",
+    ],
+)
+
+# Permission validation tests
+sqlcc_test(
+    name = "permission_validator_test",
+    srcs = ["permission_validator/permission_validator_test.cpp"],
+    deps = [
+        "//src/core:core",
+        "//src/exception:exception",
+    ],
+)
+
+# Configuration management tests
+sqlcc_test(
+    name = "config_manager_test",
+    srcs = ["config_manager/config_manager_test.cpp"],
+    deps = [
+        "//src/config_manager:config_manager",
+        "//src/exception:exception",
+    ],
+)

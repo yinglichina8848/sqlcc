@@ -1,0 +1,49 @@
+# Level 3 Transaction Manager Tests - Unified Configuration
+# These tests verify transaction management components
+
+load("//tests:build_config.bzl", "sqlcc_test")
+
+# Configuration tests
+sqlcc_test(
+    name = "config_test",
+    srcs = ["config/config_test.cpp"],
+    deps = [
+        "//src/core:core",
+        "//src/exception:exception",
+        "//src/transaction_manager:transaction_manager",
+    ],
+)
+
+# Database manager tests
+sqlcc_test(
+    name = "database_manager_test",
+    srcs = ["database_manager/database_manager_test.cpp"],
+    deps = [
+        "//src/core:core",
+        "//src/core:database_manager",
+        "//src/exception:exception",
+        "//src/transaction_manager:transaction_manager",
+    ],
+)
+
+# System database tests
+sqlcc_test(
+    name = "system_db_test",
+    srcs = ["system_db/system_db_test.cpp"],
+    deps = [
+        "//src/core:core",
+        "//src/exception:exception",
+        "//src/transaction_manager:transaction_manager",
+    ],
+)
+
+# User manager tests
+sqlcc_test(
+    name = "user_manager_test",
+    srcs = ["user_manager/user_manager_test.cpp"],
+    deps = [
+        "//src/core:core",
+        "//src/exception:exception",
+        "//src/transaction_manager:transaction_manager",
+    ],
+)
