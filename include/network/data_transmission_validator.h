@@ -12,7 +12,7 @@
 #include <mutex>
 #include <memory>
 
-#include "network/network.h"
+#include "network/message_types.h"
 
 namespace sqlcc {
 namespace network {

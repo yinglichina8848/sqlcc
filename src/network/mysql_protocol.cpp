@@ -405,7 +405,7 @@ bool MySQLProtocolHandler::send_query_result(const std::vector<std::vector<std::
   } catch (const std::exception& e) {
     // 发送错误包
     std::string error_msg = "Query execution failed: " + std::string(e.what());
-    send_error_packet(error_msg, sequence_id_);
+    send_error_packet(error_msg, 3); // 使用下一个序列号
     return false;
   }
 }

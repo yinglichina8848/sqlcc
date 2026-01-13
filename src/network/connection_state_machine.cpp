@@ -6,8 +6,11 @@
  * 防止状态机被不当使用导致的安全漏洞。
  */
 
+#include "network/connection_state_machine.h"
 #include <stdexcept>
 #include <unordered_map>
+#include <mutex>
+#include <chrono>
 
 namespace sqlcc {
 namespace network {

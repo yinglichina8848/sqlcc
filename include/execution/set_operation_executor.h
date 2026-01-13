@@ -171,6 +171,7 @@
 #include "core/execution_context.h"
 #include "core/execution_result.h"
 #include "sql_parser/ast_nodes.h"
+#include "sql_executor.h"
 
 namespace sqlcc {
 
@@ -184,6 +185,7 @@ public:
 
 private:
     std::shared_ptr<DatabaseManager> db_manager_;
+    std::shared_ptr<SqlExecutor> sql_executor_;
 
     // 集合操作实现
     ExecutionResult executeUnion(const ExecutionResult& left, const ExecutionResult& right, bool is_all);
@@ -194,7 +196,7 @@ private:
     void applyOrderBy(ExecutionResult& result, const std::vector<std::string>& columns, const std::vector<bool>& ascending);
     void applyLimit(ExecutionResult& result, size_t limit);
 
-    // SELECT执行器（暂时模拟）
+    // SELECT执行器（真实执行）
     ExecutionResult executeSelect(const sql_parser::SelectStatement& stmt, ExecutionContext& context);
 };
 

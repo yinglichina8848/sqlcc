@@ -1,3 +1,6 @@
+// Expected magic number for message validation
+// const uint32_t EXPECTED_MAGIC = 0x534C4343; // "SLCC" in ASCII - defined in network.h
+
 #pragma once
 
 #include <cstdint>

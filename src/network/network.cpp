@@ -64,6 +64,12 @@
  * @see include/network/network.h
  */
 
+#include "network/network.h"
+#include "network/session.h"
+#include "network/session_manager.h"
+#include "network/message_processor.h"
+#include "network/server_network_manager.h"
+#include "network/connection_handler.h"
 #include "utils/file_descriptor.h"
 #include <iostream>
 #include <cstring>
@@ -201,10 +207,11 @@ MessageProcessor::MessageProcessor(std::shared_ptr<SessionManager> session_manag
     : session_manager_(std::move(session_manager)) {}
 
 // ServerNetworkManager实现
-ServerNetworkManager::ServerNetworkManager(int port, int max_connections)
+ServerNetworkManager::ServerNetworkManager(int port, int max_connections, int thread_pool_size)
     : port_(port), max_connections_(max_connections), running_(false),
       session_manager_(std::make_shared<SessionManager>()),
-      user_manager_(std::make_shared<::sqlcc::UserManager>("./data")) {
+      user_manager_(std::make_shared<::sqlcc::UserManager>("./data")),
+      thread_pool_(thread_pool_size) {
 }
 
 ServerNetworkManager::~ServerNetworkManager() {
