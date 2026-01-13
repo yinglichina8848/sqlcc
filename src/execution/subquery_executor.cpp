@@ -1,4 +1,5 @@
 #include "execution/subquery_executor.h"
+#include "sql_executor.h"
 #include "core/execution_context.h"
 #include "core/execution_result.h"
 #include "sql_parser/ast_nodes.h"
@@ -27,13 +28,36 @@ SubqueryExecutor::~SubqueryExecutor() {
 
 ExecutionResult SubqueryExecutor::execute_subquery(
     std::unique_ptr<sql_parser::SelectStatement> subquery) {
-  // 执行基本子查询
-  // 这里简化实现，实际应该使用SqlExecutor执行子查询
-  // 目前返回空结果，后续需要完善
-  ExecutionResult result;
-  result.success = true;
-  result.message = "Subquery executed successfully";
-  return result;
+  // 使用真实的SqlExecutor执行子查询
+  if (sql_executor_) {
+    // 首先需要将AST转换为SQL字符串，因为SqlExecutor.Execute需要字符串输入
+    // 这里简化处理，实际应该有AST到SQL的转换器
+    // 暂时使用subquery的表名构建简单查询
+    std::string sql = "SELECT * FROM " + subquery->getTableName();
+
+    // 执行SQL查询
+    std::string result_str = sql_executor_->Execute(sql);
+
+    // 解析结果字符串为ExecutionResult
+    // 这里简化处理，实际应该有结果解析器
+    ExecutionResult result;
+    result.success = result_str.empty() || result_str.find("Error") == std::string::npos;
+    result.message = result_str;
+
+    // 注意：这里无法获取实际的行数据和列元数据
+    // 需要更复杂的实现来从SqlExecutor获取结构化结果
+    // 暂时返回基本结果结构
+    result.rows = {};
+    result.column_metadata = {};
+
+    return result;
+  } else {
+    // 如果SqlExecutor不可用，返回错误
+    ExecutionResult result;
+    result.success = false;
+    result.message = "SqlExecutor not available for subquery execution";
+    return result;
+  }
 }
 
 ExecutionResult SubqueryExecutor::execute_correlated_subquery(

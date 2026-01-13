@@ -27,8 +27,8 @@ ServerNetworkManager::ServerNetworkManager(int port, int max_connections, int th
       user_manager_(std::make_shared<sqlcc::UserManager>("./data")),
       thread_pool_(thread_pool_size)
 #ifdef __linux__
-      , listen_fd_(-1),
-      epoll_fd_(-1),
+      , listen_fd_(),
+      epoll_fd_(),
       tls_enabled_(false),
       ssl_ctx_(nullptr)
 #endif
@@ -53,15 +53,16 @@ bool ServerNetworkManager::Start() {
 #ifdef __linux__
     try {
         // 创建监听socket
-        listen_fd_ = socket(AF_INET, SOCK_STREAM | SOCK_NONBLOCK, 0);
-        if (listen_fd_ < 0) {
+        int fd = socket(AF_INET, SOCK_STREAM | SOCK_NONBLOCK, 0);
+        if (fd < 0) {
             throw std::system_error(errno, std::system_category(),
                                   "Failed to create listen socket");
         }
+        listen_fd_ = ::sqlcc::FileDescriptor(fd);
 
         // 设置socket选项
         int opt = 1;
-        if (setsockopt(listen_fd_, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) < 0) {
+        if (setsockopt(listen_fd_.get(), SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) < 0) {
             throw std::system_error(errno, std::system_category(),
                                   "Failed to set socket options");
         }
@@ -72,30 +73,31 @@ bool ServerNetworkManager::Start() {
         addr.sin_addr.s_addr = INADDR_ANY;
         addr.sin_port = htons(port_);
 
-        if (bind(listen_fd_, reinterpret_cast<sockaddr*>(&addr), sizeof(addr)) < 0) {
+        if (bind(listen_fd_.get(), reinterpret_cast<sockaddr*>(&addr), sizeof(addr)) < 0) {
             throw std::system_error(errno, std::system_category(),
                                   "Failed to bind socket");
         }
 
         // 监听连接
-        if (listen(listen_fd_, SOMAXCONN) < 0) {
+        if (listen(listen_fd_.get(), SOMAXCONN) < 0) {
             throw std::system_error(errno, std::system_category(),
                                   "Failed to listen on socket");
         }
 
         // 创建epoll实例
-        epoll_fd_ = epoll_create1(0);
-        if (epoll_fd_ < 0) {
+        int epoll_fd_val = epoll_create1(0);
+        if (epoll_fd_val < 0) {
             throw std::system_error(errno, std::system_category(),
                                   "Failed to create epoll instance");
         }
+        epoll_fd_ = ::sqlcc::FileDescriptor(epoll_fd_val);
 
         // 添加监听socket到epoll
         epoll_event event{};
         event.events = EPOLLIN;
-        event.data.fd = listen_fd_;
+        event.data.fd = listen_fd_.get();
 
-        if (epoll_ctl(epoll_fd_, EPOLL_CTL_ADD, listen_fd_, &event) < 0) {
+        if (epoll_ctl(epoll_fd_.get(), EPOLL_CTL_ADD, listen_fd_.get(), &event) < 0) {
             throw std::system_error(errno, std::system_category(),
                                   "Failed to add listen socket to epoll");
         }
@@ -122,18 +124,6 @@ void ServerNetworkManager::Stop() {
 #ifdef __linux__
     // 关闭所有连接
     connections_.clear();
-
-    // 关闭epoll
-    if (epoll_fd_ >= 0) {
-        close(epoll_fd_);
-        epoll_fd_ = -1;
-    }
-
-    // 关闭监听socket
-    if (listen_fd_ >= 0) {
-        close(listen_fd_);
-        listen_fd_ = -1;
-    }
 #endif
 }
 
@@ -146,7 +136,7 @@ void ServerNetworkManager::ProcessEvents() {
     const int MAX_EVENTS = 64;
     epoll_event events[MAX_EVENTS];
 
-    int num_events = epoll_wait(epoll_fd_, events, MAX_EVENTS, 100); // 100ms timeout
+    int num_events = epoll_wait(epoll_fd_.get(), events, MAX_EVENTS, 100); // 100ms timeout
 
     if (num_events < 0) {
         if (errno != EINTR) {
@@ -158,7 +148,7 @@ void ServerNetworkManager::ProcessEvents() {
     for (int i = 0; i < num_events; ++i) {
         int fd = events[i].data.fd;
 
-        if (fd == listen_fd_) {
+        if (fd == listen_fd_.get()) {
             // 新连接
             AcceptConnection();
         } else {
@@ -178,7 +168,7 @@ void ServerNetworkManager::AcceptConnection() {
     sockaddr_in client_addr{};
     socklen_t addr_len = sizeof(client_addr);
 
-    int client_fd = accept4(listen_fd_,
+    int client_fd = accept4(listen_fd_.get(),
                            reinterpret_cast<sockaddr*>(&client_addr),
                            &addr_len,
                            SOCK_NONBLOCK);
@@ -252,7 +242,7 @@ void ServerNetworkManager::AcceptConnection() {
     event.events = EPOLLIN | EPOLLET; // 边缘触发
     event.data.fd = client_fd;
 
-    if (epoll_ctl(epoll_fd_, EPOLL_CTL_ADD, client_fd, &event) < 0) {
+    if (epoll_ctl(epoll_fd_.get(), EPOLL_CTL_ADD, client_fd, &event) < 0) {
         std::cerr << "Failed to add client socket to epoll: " << strerror(errno) << std::endl;
         connections_.erase(client_fd);
         close(client_fd);

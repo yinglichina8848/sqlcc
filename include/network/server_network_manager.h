@@ -321,8 +321,8 @@ private:
 
     // Linux specific members
 #ifdef __linux__
-    int listen_fd_;                                    ///< 监听socket文件描述符
-    int epoll_fd_;                                     ///< epoll文件描述符
+    sqlcc::FileDescriptor listen_fd_;                  ///< 监听socket文件描述符
+    sqlcc::FileDescriptor epoll_fd_;                   ///< epoll文件描述符
     bool tls_enabled_;                                 ///< TLS启用标志
     struct ssl_ctx_st* ssl_ctx_;                       ///< SSL上下文
 #endif

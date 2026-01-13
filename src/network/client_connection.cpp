@@ -51,10 +51,11 @@ bool ClientConnection::ConfigureTLSClient(const std::string& ca_cert_path) {
 bool ClientConnection::Connect() {
 #ifdef __linux__
     // 创建socket
-    socket_fd_ = sqlcc::FileDescriptor::create_socket(AF_INET, SOCK_STREAM, 0);
-    if (!socket_fd_.valid()) {
+    int socket_fd = socket(AF_INET, SOCK_STREAM, 0);
+    if (socket_fd < 0) {
         return false;
     }
+    socket_fd_ = sqlcc::FileDescriptor(socket_fd);
 
     // 设置服务器地址
     struct sockaddr_in server_addr;

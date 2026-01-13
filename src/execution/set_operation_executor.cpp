@@ -2,6 +2,7 @@
 #include "execution/set_operation_executor.h"
 #include "core/execution_context.h"
 #include "core/execution_result.h"
+#include "sql_executor.h"
 #include <algorithm>
 #include <set>
 #include <unordered_map>
@@ -9,7 +10,7 @@
 namespace sqlcc {
 
 SetOperationExecutor::SetOperationExecutor(std::shared_ptr<DatabaseManager> db_manager)
-    : db_manager_(db_manager) {
+    : db_manager_(db_manager), sql_executor_(std::make_shared<SqlExecutor>(db_manager)) {
 }
 
 SetOperationExecutor::~SetOperationExecutor() = default;
@@ -432,40 +433,36 @@ void SetOperationExecutor::applyLimit(ExecutionResult& result, size_t limit) {
 
 ExecutionResult SetOperationExecutor::executeSelect(const sql_parser::SelectStatement& stmt,
                                                     ExecutionContext& context) {
-    // 这里应该调用统一的SELECT执行器
-    // 暂时返回模拟结果用于测试
-    ExecutionResult result;
-    result.success = true;
+    // 使用真实的SQL执行器执行SELECT语句
+    if (sql_executor_) {
+        // 首先需要将AST转换为SQL字符串，因为SqlExecutor.Execute需要字符串输入
+        // 这里简化处理，实际应该有AST到SQL的转换器
+        // 暂时使用stmt.getTableName()构建简单查询
+        std::string sql = "SELECT * FROM " + stmt.getTableName();
 
-    // 模拟一些测试数据
-    if (stmt.getTableName() == "employees") {
-        result.rows = {
-            Row{{Value("1"), Value("John"), Value("Engineering"), Value("50000")}},
-            Row{{Value("2"), Value("Jane"), Value("Sales"), Value("45000")}},
-            Row{{Value("3"), Value("Bob"), Value("Engineering"), Value("55000")}}
-        };
-        result.column_metadata = {
-            {"id", "INTEGER", true, true, false, ""},
-            {"name", "VARCHAR", false, false, false, ""},
-            {"department", "VARCHAR", false, false, false, ""},
-            {"salary", "INTEGER", false, false, false, ""}
-        };
-    } else if (stmt.getTableName() == "departments") {
-        result.rows = {
-            Row{{Value("Engineering"), Value("100")}},
-            Row{{Value("Sales"), Value("50")}}
-        };
-        result.column_metadata = {
-            {"name", "VARCHAR", false, false, false, ""},
-            {"budget", "INTEGER", false, false, false, ""}
-        };
-    } else {
-        // 默认空结果
+        // 执行SQL查询
+        std::string result_str = sql_executor_->Execute(sql);
+
+        // 解析结果字符串为ExecutionResult
+        // 这里简化处理，实际应该有结果解析器
+        ExecutionResult result;
+        result.success = result_str.empty() || result_str.find("Error") == std::string::npos;
+        result.message = result_str;
+
+        // 注意：这里无法获取实际的行数据和列元数据
+        // 需要更复杂的实现来从SqlExecutor获取结构化结果
+        // 暂时返回基本结果结构
         result.rows = {};
         result.column_metadata = {};
-    }
 
-    return result;
+        return result;
+    } else {
+        // 如果SqlExecutor不可用，返回错误
+        ExecutionResult result;
+        result.success = false;
+        result.message = "SqlExecutor not available";
+        return result;
+    }
 }
 
 } // namespace sqlcc
