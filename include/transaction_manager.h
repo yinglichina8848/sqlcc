@@ -157,6 +157,33 @@ struct LogEntry {
 };
 
 /**
+ * @brief 嵌套事务信息 - 支持事务嵌套的核心数据结构
+ *
+ * WHY层 - 设计意图：
+ *   NestedTransaction结构体支持复杂的企业级事务场景，实现事务的层次化管理。
+ *   通过嵌套事务，可以在不影响父事务的情况下执行子事务操作，提供更灵活的事务控制。
+ *
+ * WHAT层 - 嵌套事务属性：
+ *   - 父子关系：明确的父子事务关联
+ *   - 隔离继承：子事务继承父事务的隔离级别
+ *   - 保存点继承：继承父事务的保存点状态
+ *   - 独立回滚：子事务可以独立回滚而不影响父事务
+ *
+ * HOW层 - 嵌套机制：
+ *   - 作用域隔离：子事务的操作在独立的作用域中
+ *   - 锁继承：子事务可以继承父事务的某些锁
+ *   - 状态同步：父子事务间的状态协调机制
+ *   - 资源管理：嵌套事务的资源生命周期管理
+ */
+struct NestedTransaction {
+  TransactionId parent_txn_id;                    ///< 父事务ID
+  TransactionId nested_txn_id;                    ///< 子事务ID
+  IsolationLevel inherited_isolation;             ///< 继承的隔离级别
+  std::vector<std::string> inherited_savepoints;  ///< 继承的保存点列表
+  std::chrono::system_clock::time_point start_time; ///< 子事务开始时间
+};
+
+/**
  * @brief 事务信息结构体 - 事务元数据的完整描述
  *
  * WHY层 - 设计意图：
@@ -171,12 +198,16 @@ struct LogEntry {
  *   - 时间信息：事务的开始和结束时间
  *   - 访问信息：事务读写的表集合
  *   - 日志信息：事务的操作历史记录
+ *   - 超时管理：事务超时控制和自动回滚
+ *   - 嵌套支持：支持事务嵌套的层次管理
  *
  * HOW层 - 并发控制应用：
  *   - 读写集合：用于冲突检测和死锁预防
  *   - 隔离级别：控制事务间的可见性和冲突处理
  *   - 状态同步：确保多线程环境下的状态一致性
  *   - 性能监控：统计事务的执行时间和资源使用
+ *   - 超时检测：自动检测和处理超时的长事务
+ *   - 嵌套管理：协调父子事务间的状态和资源
  *
  * 内存管理优化：
  *   - 对象池复用：减少事务对象的创建销毁开销
@@ -190,21 +221,55 @@ struct Transaction {
   TransactionState state;                         ///< 当前事务状态
   std::chrono::system_clock::time_point start_time; ///< 事务开始时间
   std::chrono::system_clock::time_point end_time;   ///< 事务结束时间
+  std::chrono::milliseconds timeout_duration;     ///< 事务超时时间
+  bool is_nested;                                 ///< 是否为嵌套事务
+  TransactionId parent_txn_id;                    ///< 父事务ID（嵌套事务）
   std::unordered_set<std::string> read_tables;    ///< 读取的表集合
   std::unordered_set<std::string> write_tables;   ///< 写入的表集合
   std::vector<LogEntry> undo_log;                 ///< 撤销日志，用于事务回滚
+  size_t operation_count;                         ///< 事务操作计数，用于监控
+  std::chrono::system_clock::time_point last_activity; ///< 最后活动时间
 
   /**
    * 默认构造函数
    */
-  Transaction() = default;
+  Transaction();
 
   /**
    * 参数化构造函数
    * @param id 事务ID
    * @param level 隔离级别
+   * @param timeout_ms 超时时间（毫秒）
    */
-  Transaction(TransactionId id, IsolationLevel level);
+  Transaction(TransactionId id, IsolationLevel level,
+               std::chrono::milliseconds timeout_ms = std::chrono::milliseconds(30000));
+
+  /**
+   * 创建嵌套事务
+   * @param id 子事务ID
+   * @param parent_id 父事务ID
+   * @param inherited_level 继承的隔离级别
+   * @return 嵌套事务对象
+   */
+  static Transaction create_nested(TransactionId id, TransactionId parent_id,
+                                  IsolationLevel inherited_level);
+
+  /**
+   * 检查事务是否超时
+   * @return 是否已超时
+   */
+  bool is_timeout() const;
+
+  /**
+   * 更新最后活动时间
+   */
+  void update_activity();
+
+  /**
+   * 获取事务运行时间
+   * @return 运行时间（毫秒）
+   */
+  std::chrono::milliseconds get_running_time() const;
 };
 
 
@@ -419,6 +484,78 @@ public:
    * @return 新事务ID
    */
   TransactionId next_transaction_id();
+
+  /**
+   * 开始嵌套事务
+   * @param parent_txn_id 父事务ID
+   * @return 子事务ID，失败返回0
+   */
+  TransactionId begin_nested_transaction(TransactionId parent_txn_id);
+
+  /**
+   * 提交嵌套事务
+   * @param nested_txn_id 嵌套事务ID
+   * @return 是否成功
+   */
+  bool commit_nested_transaction(TransactionId nested_txn_id);
+
+  /**
+   * 检查并处理超时事务
+   * @return 处理的超时事务数量
+   */
+  size_t check_and_handle_timeouts();
+
+  /**
+   * 设置事务超时时间
+   * @param txn_id 事务ID
+   * @param timeout_ms 超时时间（毫秒）
+   * @return 是否成功
+   */
+  bool set_transaction_timeout(TransactionId txn_id,
+                              std::chrono::milliseconds timeout_ms);
+
+  /**
+   * 获取事务统计信息
+   * @return 事务统计数据
+   */
+  struct TransactionStats {
+    size_t active_transactions;
+    size_t total_transactions;
+    size_t timeout_transactions;
+    size_t nested_transactions;
+    std::chrono::milliseconds avg_transaction_time;
+  };
+  TransactionStats get_transaction_stats() const;
+
+  /**
+   * 设置事务隔离级别
+   * @param txn_id 事务ID
+   * @param level 隔离级别
+   * @return 是否成功
+   */
+  bool set_transaction_isolation_level(TransactionId txn_id, IsolationLevel level);
+
+  /**
+   * 获取事务隔离级别
+   * @param txn_id 事务ID
+   * @return 隔离级别
+   */
+  IsolationLevel get_transaction_isolation_level(TransactionId txn_id) const;
+
+  /**
+   * 检查隔离级别约束
+   * @param txn_id 事务ID
+   * @param operation 操作类型
+   * @param resource 资源标识
+   * @return 是否允许操作
+   */
+  bool check_isolation_constraints(TransactionId txn_id, const std::string& operation,
+                                  const std::string& resource);
+
+  /**
+   * 获取嵌套事务表
+   */
+  std::unordered_map<TransactionId, NestedTransaction> nested_transactions_;
 
 private:
   /**

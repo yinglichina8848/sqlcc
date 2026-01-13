@@ -562,6 +562,84 @@ public:
   bool DetectDeadlock() const;
 
   /**
+   * @brief 锁升级 - 将共享锁升级为排他锁
+   *
+   * WHY层 - 设计意图：
+   *   锁升级允许事务在持有共享锁的情况下升级为排他锁，
+   *   避免了释放共享锁再获取排他锁的复杂操作。
+   *
+   * WHAT层 - 升级条件：
+   *   事务必须持有该资源的共享锁，且没有其他事务持有排他锁。
+   *
+   * HOW层 - 升级流程：
+   *   1. 检查升级条件
+   *   2. 移除共享锁
+   *   3. 添加排他锁
+   *   4. 更新统计信息
+   *
+   * @param page_id 页面ID
+   * @param transaction_id 事务ID
+   * @return 是否成功升级
+   */
+  bool UpgradeLock(int32_t page_id, int32_t transaction_id);
+
+  /**
+   * @brief 锁降级 - 将排他锁降级为共享锁
+   *
+   * WHY层 - 设计意图：
+   *   锁降级允许事务降低锁的强度，提高并发度。
+   *   在确认不再需要排他访问后，可以降级锁级别。
+   *
+   * WHAT层 - 降级条件：
+   *   事务必须持有该资源的排他锁。
+   *
+   * HOW层 - 降级流程：
+   *   1. 查找排他锁
+   *   2. 更改为共享锁
+   *   3. 更新统计信息
+   *
+   * @param page_id 页面ID
+   * @param transaction_id 事务ID
+   * @return 是否成功降级
+   */
+  bool DowngradeLock(int32_t page_id, int32_t transaction_id);
+
+  /**
+   * @brief 获取页面锁信息 - 查询特定页面的锁状态
+   *
+   * WHY层 - 设计意图：
+   *   锁信息查询为监控和调试提供必要的状态信息。
+   *   系统管理员可以通过这些信息了解锁竞争情况。
+   *
+   * WHAT层 - 返回信息：
+   *   指定页面的所有锁信息，包括锁类型和持有事务。
+   *
+   * HOW层 - 查询实现：
+   *   使用读锁保护并发访问，返回锁信息的副本。
+   *
+   * @param page_id 页面ID
+   * @return 锁信息列表
+   */
+  std::vector<std::pair<LockType, int32_t>> GetLocks(int32_t page_id) const;
+
+  /**
+   * @brief 获取所有锁信息 - 系统级锁状态监控
+   *
+   * WHY层 - 设计意图：
+   *   完整的锁状态信息有助于系统性能分析和问题诊断。
+   *   为容量规划和性能调优提供数据支持。
+   *
+   * WHAT层 - 返回信息：
+   *   系统中所有页面的锁状态的完整映射。
+   *
+   * HOW层 - 查询实现：
+   *   返回锁表的完整副本，包含所有页面和锁信息。
+   *
+   * @return 所有锁信息的映射
+   */
+  std::unordered_map<int32_t, std::vector<std::pair<LockType, int32_t>>> GetAllLocks() const;
+
+  /**
    * @brief 清理过期锁 - 系统维护和资源回收
    *
    * WHY层 - 设计意图：

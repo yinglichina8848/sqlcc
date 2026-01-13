@@ -73,6 +73,7 @@
  */
 
 #include "transaction_manager.h"
+#include "transaction/savepoint_manager.h"
 #include <algorithm>
 #include <condition_variable>
 #include <iostream>
@@ -84,9 +85,46 @@
 namespace sqlcc {
 
 // Transaction构造函数实现
-Transaction::Transaction(TransactionId id, IsolationLevel level)
+Transaction::Transaction()
+    : txn_id(0), isolation_level(IsolationLevel::READ_COMMITTED),
+      state(TransactionState::ACTIVE),
+      start_time(std::chrono::system_clock::now()),
+      timeout_duration(std::chrono::milliseconds(30000)),
+      is_nested(false), parent_txn_id(0), operation_count(0),
+      last_activity(std::chrono::system_clock::now()) {}
+
+Transaction::Transaction(TransactionId id, IsolationLevel level,
+                         std::chrono::milliseconds timeout_ms)
     : txn_id(id), isolation_level(level), state(TransactionState::ACTIVE),
-      start_time(std::chrono::system_clock::now()) {}
+      start_time(std::chrono::system_clock::now()),
+      timeout_duration(timeout_ms), is_nested(false), parent_txn_id(0),
+      operation_count(0), last_activity(std::chrono::system_clock::now()) {}
+
+Transaction Transaction::create_nested(TransactionId id, TransactionId parent_id,
+                                      IsolationLevel inherited_level) {
+  Transaction txn(id, inherited_level);
+  txn.is_nested = true;
+  txn.parent_txn_id = parent_id;
+  return txn;
+}
+
+bool Transaction::is_timeout() const {
+  auto now = std::chrono::system_clock::now();
+  auto running_time = std::chrono::duration_cast<std::chrono::milliseconds>(
+      now - start_time);
+  return running_time > timeout_duration;
+}
+
+void Transaction::update_activity() {
+  last_activity = std::chrono::system_clock::now();
+  ++operation_count;
+}
+
+std::chrono::milliseconds Transaction::get_running_time() const {
+  auto now = std::chrono::system_clock::now();
+  return std::chrono::duration_cast<std::chrono::milliseconds>(
+      now - start_time);
+}
 
 // TransactionManager构造函数实现
 TransactionManager::TransactionManager() : next_txn_id_(1ULL) {}
@@ -210,12 +248,19 @@ bool TransactionManager::create_savepoint(TransactionId txn_id,
     return false;
   }
 
-  // 在实际实现中，应该保存当前事务的状态和日志位置
-  // 这里只是一个占位实现
-  std::cout << "Savepoint '" << savepoint_name << "' created for transaction "
-            << txn_id << std::endl;
+  // Use SavepointManager to create the savepoint with proper undo log position
+  size_t undo_position = txn.undo_log.size(); // Current position in undo log
+  bool success = SavepointManager::getInstance().createSavepoint(txn_id, savepoint_name);
 
-  return true;
+  if (success) {
+    // Update transaction activity
+    txn.update_activity();
+
+    std::cout << "Savepoint '" << savepoint_name << "' created for transaction "
+              << txn_id << " at undo position " << undo_position << std::endl;
+  }
+
+  return success;
 }
 
 bool TransactionManager::rollback_to_savepoint(
@@ -236,12 +281,41 @@ bool TransactionManager::rollback_to_savepoint(
     return false;
   }
 
-  // 在实际实现中，应该恢复到指定保存点的状态
-  // 这里只是一个占位实现
-  std::cout << "Rolled back to savepoint '" << savepoint_name
-            << "' for transaction " << txn_id << std::endl;
+  // Get savepoint information from SavepointManager
+  auto savepoint_info = SavepointManager::getInstance().getSavepoint(txn_id, savepoint_name);
+  if (!savepoint_info) {
+    std::cerr << "Savepoint '" << savepoint_name << "' not found for transaction "
+              << txn_id << std::endl;
+    return false;
+  }
 
-  return true;
+  size_t target_undo_position = savepoint_info->getUndoLogPosition();
+
+  // Rollback undo log entries from current position to savepoint position
+  while (txn.undo_log.size() > target_undo_position) {
+    const LogEntry& entry = txn.undo_log.back();
+
+    // In a real implementation, we would apply the undo operation here
+    // For now, we just log the rollback action
+    std::cout << "Rolling back operation: " << entry.operation
+              << " on table " << entry.table_name << " for transaction " << txn_id << std::endl;
+
+    // Remove the log entry
+    txn.undo_log.pop_back();
+  }
+
+  // Use SavepointManager to perform the rollback (which may clean up nested savepoints)
+  bool success = SavepointManager::getInstance().rollbackToSavepoint(txn_id, savepoint_name);
+
+  if (success) {
+    // Update transaction activity
+    txn.update_activity();
+
+    std::cout << "Rolled back to savepoint '" << savepoint_name
+              << "' for transaction " << txn_id << std::endl;
+  }
+
+  return success;
 }
 
 bool TransactionManager::acquire_lock(TransactionId txn_id,
@@ -439,6 +513,286 @@ void TransactionManager::release_all_locks_internal(TransactionId txn_id) {
 void TransactionManager::release_all_locks(TransactionId txn_id) {
   std::unique_lock<std::mutex> lock(mutex_);
   release_all_locks_internal(txn_id);
+}
+
+TransactionId TransactionManager::begin_nested_transaction(TransactionId parent_txn_id) {
+  std::unique_lock<std::mutex> lock(mutex_);
+
+  // 检查父事务是否存在且处于活跃状态
+  auto parent_it = transactions_.find(parent_txn_id);
+  if (parent_it == transactions_.end()) {
+    std::cerr << "Parent transaction " << parent_txn_id << " not found" << std::endl;
+    return 0;
+  }
+
+  const Transaction& parent_txn = parent_it->second;
+  if (parent_txn.state != TransactionState::ACTIVE) {
+    std::cerr << "Parent transaction " << parent_txn_id << " is not active" << std::endl;
+    return 0;
+  }
+
+  // 创建嵌套事务
+  TransactionId nested_txn_id = next_transaction_id();
+  Transaction nested_txn = Transaction::create_nested(nested_txn_id, parent_txn_id,
+                                                      parent_txn.isolation_level);
+
+  // 记录嵌套事务信息
+  NestedTransaction nested_info;
+  nested_info.parent_txn_id = parent_txn_id;
+  nested_info.nested_txn_id = nested_txn_id;
+  nested_info.inherited_isolation = parent_txn.isolation_level;
+  nested_info.start_time = nested_txn.start_time;
+
+  transactions_[nested_txn_id] = std::move(nested_txn);
+  nested_transactions_[nested_txn_id] = std::move(nested_info);
+
+  std::cout << "Nested transaction " << nested_txn_id << " started for parent "
+            << parent_txn_id << std::endl;
+
+  return nested_txn_id;
+}
+
+bool TransactionManager::commit_nested_transaction(TransactionId nested_txn_id) {
+  std::unique_lock<std::mutex> lock(mutex_);
+
+  // 检查是否为嵌套事务
+  auto nested_it = nested_transactions_.find(nested_txn_id);
+  if (nested_it == nested_transactions_.end()) {
+    std::cerr << "Transaction " << nested_txn_id << " is not a nested transaction" << std::endl;
+    return false;
+  }
+
+  // 检查嵌套事务状态
+  auto txn_it = transactions_.find(nested_txn_id);
+  if (txn_it == transactions_.end()) {
+    std::cerr << "Nested transaction " << nested_txn_id << " not found" << std::endl;
+    return false;
+  }
+
+  Transaction& nested_txn = txn_it->second;
+  if (nested_txn.state != TransactionState::ACTIVE) {
+    std::cerr << "Nested transaction " << nested_txn_id << " is not active" << std::endl;
+    return false;
+  }
+
+  // 提交嵌套事务（简化实现：不影响父事务）
+  nested_txn.state = TransactionState::COMMITTED;
+  nested_txn.end_time = std::chrono::system_clock::now();
+
+  // 释放嵌套事务持有的锁
+  release_all_locks_internal(nested_txn_id);
+
+  // 从嵌套事务表中移除
+  nested_transactions_.erase(nested_it);
+
+  std::cout << "Nested transaction " << nested_txn_id << " committed" << std::endl;
+
+  return true;
+}
+
+size_t TransactionManager::check_and_handle_timeouts() {
+  std::unique_lock<std::mutex> lock(mutex_);
+  size_t timeout_count = 0;
+
+  for (auto it = transactions_.begin(); it != transactions_.end();) {
+    Transaction& txn = it->second;
+    if (txn.state == TransactionState::ACTIVE && txn.is_timeout()) {
+      std::cout << "Transaction " << txn.txn_id << " timed out, rolling back" << std::endl;
+
+      // 强制回滚超时的活跃事务
+      txn.state = TransactionState::ROLLING_BACK;
+      release_all_locks_internal(txn.txn_id);
+      txn.state = TransactionState::ABORTED;
+      txn.end_time = std::chrono::system_clock::now();
+
+      ++timeout_count;
+
+      // 如果是嵌套事务，也要从嵌套事务表中移除
+      nested_transactions_.erase(txn.txn_id);
+
+      ++it; // 继续处理下一个事务
+    } else {
+      ++it;
+    }
+  }
+
+  if (timeout_count > 0) {
+    std::cout << "Handled " << timeout_count << " timeout transactions" << std::endl;
+  }
+
+  return timeout_count;
+}
+
+bool TransactionManager::set_transaction_timeout(TransactionId txn_id,
+                                                std::chrono::milliseconds timeout_ms) {
+  std::unique_lock<std::mutex> lock(mutex_);
+
+  auto it = transactions_.find(txn_id);
+  if (it == transactions_.end()) {
+    std::cerr << "Transaction " << txn_id << " not found" << std::endl;
+    return false;
+  }
+
+  Transaction& txn = it->second;
+  if (txn.state != TransactionState::ACTIVE) {
+    std::cerr << "Transaction " << txn_id << " is not active" << std::endl;
+    return false;
+  }
+
+  txn.timeout_duration = timeout_ms;
+  std::cout << "Transaction " << txn_id << " timeout set to "
+            << timeout_ms.count() << "ms" << std::endl;
+
+  return true;
+}
+
+TransactionManager::TransactionStats TransactionManager::get_transaction_stats() const {
+  std::unique_lock<std::mutex> lock(mutex_);
+
+  TransactionStats stats = {0, 0, 0, 0, std::chrono::milliseconds(0)};
+  size_t total_time_ms = 0;
+  size_t completed_count = 0;
+
+  for (const auto& [txn_id, txn] : transactions_) {
+    if (txn.state == TransactionState::ACTIVE) {
+      ++stats.active_transactions;
+    }
+
+    ++stats.total_transactions;
+
+    if (txn.is_timeout() && txn.state == TransactionState::ABORTED) {
+      ++stats.timeout_transactions;
+    }
+
+    if (txn.is_nested) {
+      ++stats.nested_transactions;
+    }
+
+    // 计算平均事务时间
+    if (txn.state == TransactionState::COMMITTED || txn.state == TransactionState::ABORTED) {
+      ++completed_count;
+      total_time_ms += txn.get_running_time().count();
+    }
+  }
+
+  if (completed_count > 0) {
+    stats.avg_transaction_time = std::chrono::milliseconds(total_time_ms / completed_count);
+  }
+
+  return stats;
+}
+
+bool TransactionManager::set_transaction_isolation_level(TransactionId txn_id, IsolationLevel level) {
+  std::unique_lock<std::mutex> lock(mutex_);
+
+  auto it = transactions_.find(txn_id);
+  if (it == transactions_.end()) {
+    std::cerr << "Transaction " << txn_id << " not found" << std::endl;
+    return false;
+  }
+
+  Transaction& txn = it->second;
+  if (txn.state != TransactionState::ACTIVE) {
+    std::cerr << "Transaction " << txn_id << " is not active" << std::endl;
+    return false;
+  }
+
+  // 只有在事务开始时才能更改隔离级别（简化实现）
+  // 在实际SQL中，可以在事务运行期间更改
+  txn.isolation_level = level;
+  txn.update_activity();
+
+  std::cout << "Transaction " << txn_id << " isolation level set to "
+            << static_cast<int>(level) << std::endl;
+
+  return true;
+}
+
+IsolationLevel TransactionManager::get_transaction_isolation_level(TransactionId txn_id) const {
+  std::unique_lock<std::mutex> lock(mutex_);
+
+  auto it = transactions_.find(txn_id);
+  if (it == transactions_.end()) {
+    throw std::runtime_error("Transaction not found");
+  }
+
+  return it->second.isolation_level;
+}
+
+bool TransactionManager::check_isolation_constraints(TransactionId txn_id, const std::string& operation,
+                                                   const std::string& resource) {
+  std::unique_lock<std::mutex> lock(mutex_);
+
+  auto txn_it = transactions_.find(txn_id);
+  if (txn_it == transactions_.end()) {
+    return false;
+  }
+
+  const Transaction& txn = txn_it->second;
+  if (txn.state != TransactionState::ACTIVE) {
+    return false;
+  }
+
+  IsolationLevel level = txn.isolation_level;
+
+  // 根据隔离级别检查约束
+  if (operation == "READ") {
+    switch (level) {
+      case IsolationLevel::READ_UNCOMMITTED:
+        // 允许读取未提交的数据
+        return true;
+
+      case IsolationLevel::READ_COMMITTED:
+        // 只允许读取已提交的数据
+        // 这里需要检查是否有其他事务对该资源持有排他锁
+        // 简化实现：总是允许读取
+        return true;
+
+      case IsolationLevel::REPEATABLE_READ:
+        // 确保可重复读：检查是否有写锁
+        // 简化实现
+        return true;
+
+      case IsolationLevel::SERIALIZABLE:
+        // 最高隔离级别：需要检查所有可能的冲突
+        // 简化实现
+        return true;
+
+      default:
+        return false;
+    }
+  } else if (operation == "WRITE") {
+    switch (level) {
+      case IsolationLevel::READ_UNCOMMITTED:
+      case IsolationLevel::READ_COMMITTED:
+      case IsolationLevel::REPEATABLE_READ:
+      case IsolationLevel::SERIALIZABLE: {
+        // 检查是否有其他事务持有锁
+        auto lock_it = lock_table_.find(resource);
+        if (lock_it != lock_table_.end()) {
+          for (const auto& lock_entry : lock_it->second) {
+            if (lock_entry.txn_id != txn_id) {
+              // 存在其他事务的锁，根据隔离级别决定是否允许
+              if (level == IsolationLevel::READ_UNCOMMITTED) {
+                // 允许脏写
+                continue;
+              } else {
+                // 其他级别不允许并发写
+                return false;
+              }
+            }
+          }
+        }
+        return true;
+      }
+
+      default:
+        return false;
+    }
+  }
+
+  // 未知操作，允许执行
+  return true;
 }
 
 } // namespace sqlcc
