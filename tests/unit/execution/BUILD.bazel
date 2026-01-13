@@ -295,6 +295,34 @@ cc_test(
     features = ["cpp20_modules"],
 )
 
+# 递归查询执行器测试 (v1.3.3新增)
+cc_test(
+    name = "recursive_query_executor_test",
+    srcs = ["recursive_query_executor_test.cpp"],
+    deps = [
+        "//src/core:database_manager",
+        "//src/sql_parser:sql_parser",
+        "//src/sql_executor:sql_executor",
+        "//src/storage_engine:storage_engine",
+        "//src/transaction_manager:transaction_manager",
+        "//src/core:core",
+        "//src/utils:utils",
+        "@com_google_googletest//:gtest_main",
+    ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+        "-Wall",
+        "-Wextra",
+        "-Wno-error=maybe-uninitialized",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+    features = ["cpp20_modules"],
+)
+
 # 执行引擎测试套件
 test_suite(
     name = "execution_unit_tests",
@@ -310,5 +338,6 @@ test_suite(
         ":subquery_executor_test",
         ":set_operation_executor_test",
         ":window_function_executor_test",
+        ":recursive_query_executor_test",
     ],
 )
