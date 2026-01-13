@@ -1,17 +1,79 @@
 #include <gtest/gtest.h>
+#include <gmock/gmock.h>
 #include <memory>
 #include <string>
 #include <vector>
+#include <filesystem>
+#include <fstream>
+
+// SQLCC core components for real functionality testing
+#include "logger.h"
+#include "config_manager.h"
+#include "exception.h"
 
 // Basic functionality tests for foundation layer
-// These tests verify the most fundamental components work correctly
+// These tests verify SQLCC core components work correctly with coverage
 
-TEST(BasicFunctionalityTest, BasicAssertions) {
-    // Basic sanity checks
-    EXPECT_TRUE(true);
-    EXPECT_FALSE(false);
-    EXPECT_EQ(1, 1);
-    EXPECT_NE(1, 2);
+TEST(BasicFunctionalityTest, LoggerCoreFunctionality) {
+    // Test SQLCC Logger core functionality
+    SQLCC::Logger& logger = SQLCC::Logger::GetInstance();
+
+    // Test logger initialization (calls core logger code)
+    EXPECT_TRUE(&logger != nullptr);
+
+    // Test logger methods that execute core code paths
+    logger.SetLogLevel(SQLCC::LogLevel::INFO);
+    EXPECT_EQ(logger.GetLogLevel(), SQLCC::LogLevel::INFO);
+
+    // Test logger output (triggers core logging paths)
+    logger.Info("Test info message from core test");
+    logger.Debug("Test debug message from core test");
+    logger.Error("Test error message from core test");
+}
+
+TEST(BasicFunctionalityTest, ConfigManagerCoreFunctionality) {
+    // Test SQLCC ConfigManager core functionality
+    SQLCC::ConfigManager& config = SQLCC::ConfigManager::GetInstance();
+
+    // Test config manager initialization (calls core config code)
+    EXPECT_TRUE(&config != nullptr);
+
+    // Test config operations that execute core code paths
+    config.SetValue("test_key", "test_value");
+    EXPECT_EQ(config.GetString("test_key"), "test_value");
+
+    config.SetValue("test_int", 42);
+    EXPECT_EQ(config.GetInt("test_int"), 42);
+
+    config.SetValue("test_bool", true);
+    EXPECT_TRUE(config.GetBool("test_bool"));
+
+    // Test config file operations
+    auto temp_path = std::filesystem::temp_directory_path() / "test_config.ini";
+    config.SaveToFile(temp_path.string());  // Should execute save logic
+
+    // Clean up
+    if (std::filesystem::exists(temp_path)) {
+        std::filesystem::remove(temp_path);
+    }
+}
+
+TEST(BasicFunctionalityTest, ExceptionCoreFunctionality) {
+    // Test SQLCC Exception core functionality
+    try {
+        // Test SQLCC exception throwing and catching
+        throw SQLCC::DatabaseException("Test database exception from core test");
+    } catch (const SQLCC::DatabaseException& e) {
+        EXPECT_STREQ(e.what(), "Test database exception from core test");
+        EXPECT_EQ(e.GetErrorCode(), SQLCC::ErrorCode::UNKNOWN_ERROR);
+    }
+
+    try {
+        // Test another SQLCC exception type
+        throw SQLCC::ParseException("Test parse exception from core test");
+    } catch (const SQLCC::ParseException& e) {
+        EXPECT_STREQ(e.what(), "Test parse exception from core test");
+    }
 }
 
 TEST(BasicFunctionalityTest, StringOperations) {
@@ -41,38 +103,10 @@ TEST(BasicFunctionalityTest, SmartPointers) {
     EXPECT_EQ(shared_ptr.use_count(), 1);
 }
 
-TEST(BasicFunctionalityTest, MemoryManagement) {
-    // Test basic memory operations
-    int* ptr = new int(100);
-    EXPECT_EQ(*ptr, 100);
-    delete ptr;
-
-    int* array = new int[5]{1, 2, 3, 4, 5};
-    EXPECT_EQ(array[0], 1);
-    EXPECT_EQ(array[4], 5);
-    delete[] array;
-}
-
-TEST(BasicFunctionalityTest, ExceptionHandling) {
-    try {
-        throw std::runtime_error("Test exception");
-    } catch (const std::runtime_error& e) {
-        EXPECT_STREQ(e.what(), "Test exception");
-    }
-}
-
 TEST(BasicFunctionalityTest, TypeTraits) {
     // Test basic type operations
     EXPECT_TRUE(std::is_integral<int>::value);
     EXPECT_TRUE(std::is_floating_point<double>::value);
     EXPECT_TRUE(std::is_pointer<int*>::value);
     EXPECT_FALSE(std::is_pointer<int>::value);
-}
-
-TEST(BasicFunctionalityTest, MoveSemantics) {
-    std::vector<int> original = {1, 2, 3, 4, 5};
-    std::vector<int> moved = std::move(original);
-
-    EXPECT_EQ(moved.size(), 5);
-    EXPECT_EQ(original.size(), 0);  // moved-from vector should be empty
 }

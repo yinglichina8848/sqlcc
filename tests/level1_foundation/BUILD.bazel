@@ -7,6 +7,11 @@ load("//tests:build_config.bzl", "sqlcc_test")
 sqlcc_test(
     name = "basic_test",
     srcs = ["basic/basic_test.cpp"],
+    deps = [
+        "//src/logger:logger",
+        "//src/config_manager:config_manager",
+        "//src/exception:exception",
+    ],
 )
 
 # Configuration management tests
