@@ -90,8 +90,8 @@ TEST_F(BufferPoolTest, LRUBasicOperations) {
     EXPECT_EQ(lru_manager->Size(), 1);
 }
 
-// 测试LRU替换策略 - 暂时禁用，存在段错误问题
-TEST_F(BufferPoolTest, DISABLED_LRUReplacementPolicy) {
+// 测试LRU替换策略
+TEST_F(BufferPoolTest, LRUReplacementPolicy) {
     // 添加多个页面
     const int num_pages = 5;
     for (int i = 0; i < num_pages; ++i) {
@@ -104,24 +104,26 @@ TEST_F(BufferPoolTest, DISABLED_LRUReplacementPolicy) {
         EXPECT_TRUE(lru_manager->Contains(i));
     }
 
-    // 获取最少使用的页面（应该是最后添加的页面，在LRU链表头部）
+    // 获取最少使用的页面（应该是最先添加的页面，在LRU链表尾部）
     int32_t lru_page = lru_manager->GetLeastRecentlyUsed();
     EXPECT_NE(lru_page, -1);  // 应该有最少使用的页面
     EXPECT_TRUE(lru_manager->Contains(lru_page));  // 该页面应该存在
+    EXPECT_EQ(lru_page, 0);  // 页面0是最先添加的，应该在尾部
 
     // 移除最少使用的页面
     lru_manager->Remove(lru_page);
     EXPECT_FALSE(lru_manager->Contains(lru_page));
     EXPECT_EQ(lru_manager->Size(), num_pages - 1);
 
-    // 再次获取最少使用的页面
+    // 再次获取最少使用的页面（现在应该是页面1）
     lru_page = lru_manager->GetLeastRecentlyUsed();
     EXPECT_NE(lru_page, -1);
     EXPECT_TRUE(lru_manager->Contains(lru_page));
+    EXPECT_EQ(lru_page, 1);  // 页面1现在是最少使用的
 }
 
-// 测试LRU边界条件 - 暂时禁用，由于存在段错误问题
-TEST_F(BufferPoolTest, DISABLED_LRUBoundaryConditions) {
+// 测试LRU边界条件
+TEST_F(BufferPoolTest, LRUBoundaryConditions) {
     // 测试空LRU管理器
     EXPECT_EQ(lru_manager->Size(), 0);
     EXPECT_EQ(lru_manager->GetLeastRecentlyUsed(), -1);
@@ -148,8 +150,8 @@ TEST_F(BufferPoolTest, DISABLED_LRUBoundaryConditions) {
     EXPECT_EQ(lru_manager->Size(), 0);
 }
 
-// 测试LRU并发访问 (暂时禁用，由于存在段错误问题)
-TEST_F(BufferPoolTest, DISABLED_LRUConcurrentAccess) {
+// 测试LRU并发访问
+TEST_F(BufferPoolTest, LRUConcurrentAccess) {
     // 简化测试：只测试单线程操作
     for (int i = 0; i < 10; ++i) {
         lru_manager->Add(i);
