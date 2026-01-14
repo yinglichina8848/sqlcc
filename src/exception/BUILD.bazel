@@ -4,8 +4,11 @@ load("@rules_cc//cc:defs.bzl", "cc_library")
 
 cc_library(
     name = "exception",
-    srcs = ["base_exception.cpp"],
-    hdrs = ["//include/exception:base_exception.h"],
-    includes = ["//include"],
+    srcs = glob(["*.cpp"]),
+    hdrs = ["//include/exception:exception"],
+    includes = ["../../include"],
+    deps = [
+        "//include/exception:exception",
+    ],
     visibility = ["//visibility:public"],
 )

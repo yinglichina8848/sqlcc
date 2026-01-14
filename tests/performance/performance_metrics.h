@@ -196,6 +196,30 @@ public:
     void GenerateReport(const std::vector<PerformanceTestResult>& results,
                        const std::string& output_dir) const;
 
+    /**
+     * 生成摘要报告
+     */
+    void GenerateSummaryReport(const std::vector<PerformanceTestResult>& results,
+                              const std::string& filename) const;
+
+    /**
+     * 生成详细报告
+     */
+    void GenerateDetailedReport(const std::vector<PerformanceTestResult>& results,
+                               const std::string& filename) const;
+
+    /**
+     * 生成回归报告
+     */
+    void GenerateRegressionReport(const std::vector<PerformanceTestResult>& results,
+                                 const std::string& filename) const;
+
+    /**
+     * 生成趋势数据
+     */
+    void GenerateTrendData(const std::vector<PerformanceTestResult>& results,
+                          const std::string& filename) const;
+
 private:
     std::map<std::string, PerformanceBenchmark> benchmarks_;
     std::map<std::string, std::map<PerformanceMetric, double>> baselines_; // 基准线数据
