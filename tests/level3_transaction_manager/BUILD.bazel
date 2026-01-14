@@ -1,5 +1,5 @@
 # Level 3 Transaction Manager Tests - Unified Configuration
-# These tests verify transaction management components
+# These tests verify transaction management components with LLVM coverage support
 
 load("//tests:build_config.bzl", "sqlcc_test")
 
@@ -11,6 +11,13 @@ sqlcc_test(
         "//src/core:core",
         "//src/exception:exception",
         "//src/transaction_manager:transaction_manager",
+    ],
+    copts = [
+        "-fprofile-instr-generate",
+        "-fcoverage-mapping",
+    ],
+    linkopts = [
+        "-fprofile-instr-generate",
     ],
 )
 
@@ -24,6 +31,13 @@ sqlcc_test(
         "//src/exception:exception",
         "//src/transaction_manager:transaction_manager",
     ],
+    copts = [
+        "-fprofile-instr-generate",
+        "-fcoverage-mapping",
+    ],
+    linkopts = [
+        "-fprofile-instr-generate",
+    ],
 )
 
 # System database tests
@@ -35,6 +49,13 @@ sqlcc_test(
         "//src/exception:exception",
         "//src/transaction_manager:transaction_manager",
     ],
+    copts = [
+        "-fprofile-instr-generate",
+        "-fcoverage-mapping",
+    ],
+    linkopts = [
+        "-fprofile-instr-generate",
+    ],
 )
 
 # User manager tests
@@ -45,5 +66,12 @@ sqlcc_test(
         "//src/core:core",
         "//src/exception:exception",
         "//src/transaction_manager:transaction_manager",
+    ],
+    copts = [
+        "-fprofile-instr-generate",
+        "-fcoverage-mapping",
+    ],
+    linkopts = [
+        "-fprofile-instr-generate",
     ],
 )

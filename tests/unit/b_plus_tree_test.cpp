@@ -17,8 +17,8 @@ protected:
     test_dir_ = fs::temp_directory_path() / "sqlcc_bplus_tree_test";
     fs::create_directories(test_dir_);
     
-    // 设置配置管理器
-    config_manager_ = std::make_unique<ConfigManager>();
+    // 设置配置管理器 (使用单例模式)
+    config_manager_ = &ConfigManager::GetInstance();
     
     // 创建StorageEngine实例，传入临时目录作为数据库路径
     storage_engine_ = std::make_shared<StorageEngine>(*config_manager_, test_dir_.string());
@@ -34,15 +34,15 @@ protected:
     // 每次测试后清理
     b_plus_tree_index_.reset();
     storage_engine_.reset();
-    config_manager_.reset();
-    
+    // config_manager_ 是单例，不需要清理
+
     // 删除临时测试目录
     if (fs::exists(test_dir_)) {
       fs::remove_all(test_dir_);
     }
   }
 
-  std::unique_ptr<ConfigManager> config_manager_;
+  ConfigManager* config_manager_;
   std::shared_ptr<StorageEngine> storage_engine_;  // 改为shared_ptr以便与BPlusTreeIndex共享
   std::unique_ptr<BPlusTreeIndex> b_plus_tree_index_;
   fs::path test_dir_;  // 添加测试目录成员变量

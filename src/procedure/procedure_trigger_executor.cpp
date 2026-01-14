@@ -19,7 +19,7 @@ void ProcedureTriggerExecutor::initialize(SqlExecutor* sql_executor) {
     sql_executor_ = sql_executor;
     // Create ProcedureVM with a null executor initially
     procedure_vm_ = std::make_unique<ProcedureVM>(nullptr);
-    trigger::TriggerManager::getInstance().initialize(sql_executor);
+    trigger::TriggerManager::getInstance().initialize(std::shared_ptr<SqlExecutor>(sql_executor, [](SqlExecutor*){}));
 }
 
 std::string ProcedureTriggerExecutor::executeCreateProcedure(sql_parser::CreateProcedureStatement* stmt) {
@@ -87,7 +87,7 @@ std::string ProcedureTriggerExecutor::executeCreateTrigger(sql_parser::CreateTri
 
     trigger->setCondition(trigger_def.getCondition());
     trigger->setBody(trigger_def.getBody());
-    trigger->setDefiner(trigger_def.getDefiner());
+    trigger->setDefiner(""); // TODO: 获取定义者信息
 
     // 注册触发器
     if (!trigger::TriggerManager::getInstance().createTrigger(std::move(trigger))) {
@@ -116,14 +116,16 @@ std::string ProcedureTriggerExecutor::executeCallProcedure(sql_parser::CallProce
     }
 
     // 创建执行上下文
-    ProcedureContext context(sql_executor_);
+    // Create ProcedureContext with a null executor for now
+    // TODO: Implement proper executor interface
+    ProcedureContext context(nullptr);
 
     // 设置参数（暂时不支持参数传递）
     // TODO: 实现参数传递
 
     // 执行过程
-    if (!procedure_vm_.execute(it->second.get(), context)) {
-        last_error_ = procedure_vm_.getLastError();
+    if (!procedure_vm_->execute(it->second.get(), context)) {
+        last_error_ = procedure_vm_->getLastError();
         return "ERROR: Procedure execution failed - " + last_error_;
     }
 

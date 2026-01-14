@@ -4,54 +4,102 @@
 #include <vector>
 #include <unordered_map>
 
-// Core Config tests for core layer
-// These tests verify core configuration system components
+// SQLCC Core Components
+#include "utils/logger.h"
+#include "utils/config_manager.h"
+#include "transaction_manager.h"
 
-TEST(CoreConfigTest, DatabaseConfig) {
-    // Test database configuration for core layer
-    std::unordered_map<std::string, std::string> db_config;
+// Level 3 Transaction Manager Config tests
+// These tests verify transaction manager configuration components with real SQLCC components
 
-    // Core database settings
-    db_config["core.db.host"] = "localhost";
-    db_config["core.db.port"] = "5432";
-    db_config["core.db.name"] = "sqlcc_core";
-    db_config["core.db.max_connections"] = "100";
+TEST(TransactionManagerConfigTest, LoggerIntegration) {
+    // Test Logger integration with transaction manager configuration
+    SQLCC::Logger& logger = SQLCC::Logger::GetInstance();
 
-    // Verify core database configuration
-    EXPECT_EQ(db_config["core.db.host"], "localhost");
-    EXPECT_EQ(db_config["core.db.port"], "5432");
-    EXPECT_EQ(db_config["core.db.name"], "sqlcc_core");
-    EXPECT_EQ(db_config["core.db.max_connections"], "100");
+    // Set log level for transaction manager
+    logger.SetLogLevel(SQLCC::LogLevel::INFO);
+    EXPECT_EQ(logger.GetLogLevel(), SQLCC::LogLevel::INFO);
+
+    // Log transaction manager configuration
+    logger.Info("Testing transaction manager configuration");
+    logger.Info("Database host: localhost");
+    logger.Info("Transaction timeout: 30000ms");
+
+    // Verify logger is operational
+    EXPECT_TRUE(logger.IsInitialized());
 }
 
-TEST(CoreConfigTest, SystemConfig) {
-    // Test system configuration for core components
-    std::unordered_map<std::string, std::string> sys_config;
+TEST(TransactionManagerConfigTest, ConfigManagerDatabaseSettings) {
+    // Test ConfigManager integration for database configuration
+    SQLCC::ConfigManager& config = SQLCC::ConfigManager::GetInstance();
 
-    // Core system settings
-    sys_config["core.system.max_memory"] = "1073741824";  // 1GB
-    sys_config["core.system.thread_pool_size"] = "16";
-    sys_config["core.system.temp_dir"] = "/tmp/sqlcc";
-    sys_config["core.system.log_level"] = "INFO";
+    // Set database configuration values
+    config.SetValue("transaction.db.host", "localhost");
+    config.SetValue("transaction.db.port", "5432");
+    config.SetValue("transaction.db.name", "sqlcc_transaction");
+    config.SetValue("transaction.db.max_connections", "100");
 
-    // Verify system configuration
-    EXPECT_EQ(sys_config["core.system.max_memory"], "1073741824");
-    EXPECT_EQ(sys_config["core.system.thread_pool_size"], "16");
-    EXPECT_EQ(sys_config["core.system.temp_dir"], "/tmp/sqlcc");
-    EXPECT_EQ(sys_config["core.system.log_level"], "INFO");
+    // Verify configuration values are stored correctly
+    EXPECT_EQ(config.GetString("transaction.db.host"), "localhost");
+    EXPECT_EQ(config.GetString("transaction.db.port"), "5432");
+    EXPECT_EQ(config.GetString("transaction.db.name"), "sqlcc_transaction");
+    EXPECT_EQ(config.GetString("transaction.db.max_connections"), "100");
 }
 
-TEST(CoreConfigTest, SecurityConfig) {
-    // Test security configuration for core layer
-    std::unordered_map<std::string, std::string> sec_config;
+TEST(TransactionManagerConfigTest, ConfigManagerSystemSettings) {
+    // Test ConfigManager integration for system settings
+    SQLCC::ConfigManager& config = SQLCC::ConfigManager::GetInstance();
 
-    // Core security settings
-    sec_config["core.security.encryption_enabled"] = "true";
-    sec_config["core.security.auth_timeout"] = "3600";
-    sec_config["core.security.max_sessions"] = "1000";
+    // Set system configuration values
+    config.SetValue("transaction.system.max_memory", "1073741824");  // 1GB
+    config.SetValue("transaction.system.thread_pool_size", "16");
+    config.SetValue("transaction.system.temp_dir", "/tmp/sqlcc");
+    config.SetValue("transaction.system.log_level", "INFO");
 
-    // Verify security configuration
-    EXPECT_EQ(sec_config["core.security.encryption_enabled"], "true");
-    EXPECT_EQ(sec_config["core.security.auth_timeout"], "3600");
-    EXPECT_EQ(sec_config["core.security.max_sessions"], "1000");
+    // Verify system configuration values
+    EXPECT_EQ(config.GetString("transaction.system.max_memory"), "1073741824");
+    EXPECT_EQ(config.GetString("transaction.system.thread_pool_size"), "16");
+    EXPECT_EQ(config.GetString("transaction.system.temp_dir"), "/tmp/sqlcc");
+    EXPECT_EQ(config.GetString("transaction.system.log_level"), "INFO");
+}
+
+TEST(TransactionManagerConfigTest, ConfigManagerSecuritySettings) {
+    // Test ConfigManager integration for security settings
+    SQLCC::ConfigManager& config = SQLCC::ConfigManager::GetInstance();
+
+    // Set security configuration values
+    config.SetValue("transaction.security.encryption_enabled", "true");
+    config.SetValue("transaction.security.auth_timeout", "3600");
+    config.SetValue("transaction.security.max_sessions", "1000");
+    config.SetValue("transaction.security.isolation_level", "READ_COMMITTED");
+
+    // Verify security configuration values
+    EXPECT_EQ(config.GetString("transaction.security.encryption_enabled"), "true");
+    EXPECT_EQ(config.GetString("transaction.security.auth_timeout"), "3600");
+    EXPECT_EQ(config.GetString("transaction.security.max_sessions"), "1000");
+    EXPECT_EQ(config.GetString("transaction.security.isolation_level"), "READ_COMMITTED");
+}
+
+TEST(TransactionManagerConfigTest, TransactionManagerInitialization) {
+    // Test TransactionManager initialization with configuration
+    SQLCC::ConfigManager& config = SQLCC::ConfigManager::GetInstance();
+    SQLCC::Logger& logger = SQLCC::Logger::GetInstance();
+
+    // Set transaction manager configuration
+    config.SetValue("transaction.max_concurrent", "50");
+    config.SetValue("transaction.timeout_ms", "30000");
+    config.SetValue("transaction.auto_commit", "true");
+
+    // Log initialization
+    logger.Info("Initializing TransactionManager with configuration");
+    logger.Info("Max concurrent transactions: " + config.GetString("transaction.max_concurrent"));
+    logger.Info("Transaction timeout: " + config.GetString("transaction.timeout_ms") + "ms");
+
+    // Verify configuration is accessible
+    EXPECT_EQ(config.GetString("transaction.max_concurrent"), "50");
+    EXPECT_EQ(config.GetString("transaction.timeout_ms"), "30000");
+    EXPECT_EQ(config.GetString("transaction.auto_commit"), "true");
+
+    // Verify logger and config manager are working together
+    EXPECT_TRUE(logger.IsInitialized());
 }
