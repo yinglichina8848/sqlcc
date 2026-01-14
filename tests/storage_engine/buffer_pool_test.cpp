@@ -20,6 +20,20 @@
 namespace fs = std::filesystem;
 namespace sqlcc {
 
+        // 获取配置管理器单例实例
+        config = std::unique_ptr<ConfigManager>(&ConfigManager::GetInstance());
+>>>>>>> a5a54b2e01eeb41f919cb1f0b1228b1296f6fce6
+        config->SetValue("storage.data_directory", test_dir.string());
+        config->SetValue("buffer_pool.size", std::string("4096"));
+
+        // 初始化存储引擎
+        storage_engine = std::make_shared<StorageEngine>(*config, test_dir.string());
+
+        // 初始化LRU管理器和统计收集器
+        lru_manager = std::make_unique<storage::LRUManager>();
+        stats_collector = std::make_unique<storage::StatisticsCollector>();
+    }
+
 class BufferPoolTest : public ::testing::Test {
 protected:
     void SetUp() override {
@@ -27,8 +41,22 @@ protected:
         test_dir = fs::temp_directory_path() / "sqlcc_buffer_pool_test";
         fs::create_directories(test_dir);
 
+        // 初始化配置管理器
+        config = &ConfigManager::GetInstance();
+        config->SetValue("storage.data_directory", test_dir.string());
+        config->SetValue("buffer_pool.size", std::string("4096"));
+
+        // 初始化存储引擎
+        storage_engine = std::make_shared<StorageEngine>(*config, test_dir.string());
+
+        // 初始化LRU管理器和统计收集器
+        lru_manager = std::make_unique<storage::LRUManager>();
+        stats_collector = std::make_unique<storage::StatisticsCollector>();
+    }
+=======
         // 获取配置管理器单例实例
         config = std::unique_ptr<ConfigManager>(&ConfigManager::GetInstance());
+>>>>>>> a5a54b2e01eeb41f919cb1f0b1228b1296f6fce6
         config->SetValue("storage.data_directory", test_dir.string());
         config->SetValue("buffer_pool.size", std::string("4096"));
 
@@ -44,7 +72,6 @@ protected:
         stats_collector.reset();
         lru_manager.reset();
         storage_engine.reset();
-        config.reset();
 
         // 清理测试目录
         if (fs::exists(test_dir)) {
@@ -58,7 +85,7 @@ protected:
     }
 
     fs::path test_dir;
-    std::unique_ptr<ConfigManager> config;
+    ConfigManager* config;
     std::shared_ptr<StorageEngine> storage_engine;
     std::unique_ptr<storage::LRUManager> lru_manager;
     std::unique_ptr<storage::StatisticsCollector> stats_collector;

@@ -28,6 +28,33 @@ cc_test(
 )
 
 cc_test(
+<<<<<<< HEAD
+    name = "permission_validator_test",
+    srcs = ["permission_validator_test.cpp"],
+    includes = ["../../../include"],
+    deps = [
+        "//src/core:core",
+        "//src/core:database_manager",
+        "//src/sql_executor:sql_executor",
+        "@com_google_googletest//:gtest_main"
+    ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+        "-Wall",
+        "-Wextra",
+        "-Wno-error=maybe-uninitialized",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+    features = ["cpp20_modules"],
+)
+
+cc_test(
+=======
+>>>>>>> a5a54b2e01eeb41f919cb1f0b1228b1296f6fce6
     name = "data_types_test",
     srcs = ["data_types_test.cpp"],
     includes = ["../../../include"],
