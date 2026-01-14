@@ -145,7 +145,28 @@ private:
      */
     std::string executeRawSQL(const std::string& sql);
 
-    std::unique_ptr<SqlExecutor> sql_executor_;
+    /**
+     * 构建INSERT SQL语句
+     * @param stmt INSERT语句
+     * @return SQL语句字符串
+     */
+    std::string buildInsertSQL(sql_parser::InsertStatement* stmt);
+
+    /**
+     * 构建UPDATE SQL语句
+     * @param stmt UPDATE语句
+     * @return SQL语句字符串
+     */
+    std::string buildUpdateSQL(sql_parser::UpdateStatement* stmt);
+
+    /**
+     * 构建DELETE SQL语句
+     * @param stmt DELETE语句
+     * @return SQL语句字符串
+     */
+    std::string buildDeleteSQL(sql_parser::DeleteStatement* stmt);
+
+    SqlExecutor* sql_executor_;
     ProcedureParser procedure_parser_;
     std::unique_ptr<ProcedureVM> procedure_vm_;
     std::unordered_map<std::string, std::unique_ptr<ProcedureDefinition>> stored_procedures_;

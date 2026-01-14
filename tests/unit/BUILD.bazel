@@ -14,7 +14,11 @@ cc_test(
         "//src/storage_engine:storage_engine",
         "//src/sql_parser:sql_parser",
         "//src/execution:execution",
-        "//src/config_manager:sqlcc_config_manager",
+        "//src/config_manager:config_manager",
+        "//src/transaction_manager:transaction_manager",
+        "//src/procedure:procedure_trigger_executor",
+        "//src/execution:task_result",
+        "//src/sql_parser:recursive_query",
     ],
     # C++20 + Clang-18 配置
     copts = [
@@ -42,7 +46,7 @@ cc_test(
         "//src/storage_engine:storage_engine",
         "//src/sql_parser:sql_parser",
         "//src/execution:execution",
-        "//src/config_manager:sqlcc_config_manager",
+        "//src/config_manager:config_manager",
     ],
     copts = [
         "-std=c++20",

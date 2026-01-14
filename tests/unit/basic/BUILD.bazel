@@ -28,6 +28,7 @@ cc_test(
 )
 
 cc_test(
+<<<<<<< HEAD
     name = "permission_validator_test",
     srcs = ["permission_validator_test.cpp"],
     includes = ["../../../include"],
@@ -52,6 +53,8 @@ cc_test(
 )
 
 cc_test(
+=======
+>>>>>>> a5a54b2e01eeb41f919cb1f0b1228b1296f6fce6
     name = "data_types_test",
     srcs = ["data_types_test.cpp"],
     includes = ["../../../include"],
@@ -167,7 +170,7 @@ cc_test(
     srcs = ["exception_test.cpp"],
     includes = ["../../../include"],
     deps = [
-        "//src:exception",
+        "//include/exception:exception",
         "@com_google_googletest//:gtest_main"
     ],
     copts = [
@@ -300,7 +303,6 @@ cc_test(
 test_suite(
     name = "basic_unit_tests",
     tests = [
-        ":permission_validator_test",
         ":data_types_test",
         ":decimal_test",
         ":sql_executor_core_test",

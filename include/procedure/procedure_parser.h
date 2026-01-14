@@ -216,6 +216,7 @@ public:
     ~ProcedureDefinition() override;
 
     const std::string& getName() const;
+    void setName(const std::string& name);
     const std::vector<std::unique_ptr<Statement>>& getBody() const;
 
     void addStatement(std::unique_ptr<Statement> stmt);

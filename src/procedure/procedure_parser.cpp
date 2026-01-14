@@ -532,6 +532,10 @@ ProcedureDefinition::~ProcedureDefinition() {}
 
 const std::string& ProcedureDefinition::getName() const { return name_; }
 
+void ProcedureDefinition::setName(const std::string& name) {
+    name_ = name;
+}
+
 const std::vector<std::unique_ptr<Statement>>& ProcedureDefinition::getBody() const {
     return body_;
 }

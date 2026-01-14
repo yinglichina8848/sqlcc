@@ -30,6 +30,9 @@ void LRUManager::Access(int32_t page_id) {
     lru_list_.push_front(page_id);
     // 更新映射
     lru_map_[page_id] = lru_list_.begin();
+  } else {
+    // 如果页面不存在，静默忽略（符合测试期望）
+    SQLCC_LOG_DEBUG("Access called on non-existent page_id: " + std::to_string(page_id));
   }
 }
 

@@ -116,6 +116,16 @@ cc_library(
 )
 
 cc_library(
+    name = "task_result",
+    srcs = ["task_result.cpp"],
+    hdrs = ["//include/execution:task_result.h"],
+    visibility = ["//visibility:public"],
+    deps = [
+        "//include/execution:task_result",
+    ],
+)
+
+cc_library(
     name = "task_executor",
     srcs = ["task_executor_simple.cpp"],
 
@@ -184,6 +194,7 @@ cc_library(
         ":recursive_query_executor",
         ":load_data_executor",
         ":task_executor",
+        ":task_result",
         ":procedure_trigger_task",
         ":query_plan_factory",
         ":unified_query_plan",
