@@ -28,7 +28,7 @@ protected:
         fs::create_directories(test_dir);
 
         // 初始化配置管理器
-        config = std::make_unique<ConfigManager>();
+        config = &ConfigManager::GetInstance();
         config->SetValue("storage.data_directory", test_dir.string());
         config->SetValue("buffer_pool.size", std::string("4096"));
 
@@ -44,7 +44,6 @@ protected:
         stats_collector.reset();
         lru_manager.reset();
         storage_engine.reset();
-        config.reset();
 
         // 清理测试目录
         if (fs::exists(test_dir)) {
@@ -58,7 +57,7 @@ protected:
     }
 
     fs::path test_dir;
-    std::unique_ptr<ConfigManager> config;
+    ConfigManager* config;
     std::shared_ptr<StorageEngine> storage_engine;
     std::unique_ptr<storage::LRUManager> lru_manager;
     std::unique_ptr<storage::StatisticsCollector> stats_collector;
