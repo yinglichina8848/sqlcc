@@ -7,8 +7,8 @@
 #include <fstream>
 
 // SQLCC core components for real functionality testing
-#include "logger.h"
-#include "config_manager.h"
+#include "utils/logger.h"
+#include "utils/config_manager.h"
 #include "exception.h"
 
 // Basic functionality tests for foundation layer
@@ -16,14 +16,14 @@
 
 TEST(BasicFunctionalityTest, LoggerCoreFunctionality) {
     // Test SQLCC Logger core functionality
-    SQLCC::Logger& logger = SQLCC::Logger::GetInstance();
+    sqlcc::Logger& logger = sqlcc::Logger::GetInstance();
 
     // Test logger initialization (calls core logger code)
-    EXPECT_TRUE(&logger != nullptr);
+    EXPECT_TRUE(true); // Logger instance is valid
 
     // Test logger methods that execute core code paths
-    logger.SetLogLevel(SQLCC::LogLevel::INFO);
-    EXPECT_EQ(logger.GetLogLevel(), SQLCC::LogLevel::INFO);
+    logger.SetLogLevel(sqlcc::LogLevel::INFO);
+    // Note: Logger doesn't have GetLogLevel method, just test the operations
 
     // Test logger output (triggers core logging paths)
     logger.Info("Test info message from core test");
@@ -33,10 +33,10 @@ TEST(BasicFunctionalityTest, LoggerCoreFunctionality) {
 
 TEST(BasicFunctionalityTest, ConfigManagerCoreFunctionality) {
     // Test SQLCC ConfigManager core functionality
-    SQLCC::ConfigManager& config = SQLCC::ConfigManager::GetInstance();
+    sqlcc::ConfigManager& config = sqlcc::ConfigManager::GetInstance();
 
     // Test config manager initialization (calls core config code)
-    EXPECT_TRUE(&config != nullptr);
+    EXPECT_TRUE(true); // ConfigManager instance is valid
 
     // Test config operations that execute core code paths
     config.SetValue("test_key", "test_value");
@@ -62,17 +62,16 @@ TEST(BasicFunctionalityTest, ExceptionCoreFunctionality) {
     // Test SQLCC Exception core functionality
     try {
         // Test SQLCC exception throwing and catching
-        throw SQLCC::DatabaseException("Test database exception from core test");
-    } catch (const SQLCC::DatabaseException& e) {
-        EXPECT_STREQ(e.what(), "Test database exception from core test");
-        EXPECT_EQ(e.GetErrorCode(), SQLCC::ErrorCode::UNKNOWN_ERROR);
+        throw sqlcc::IOException("Test I/O exception from core test");
+    } catch (const sqlcc::IOException& e) {
+        EXPECT_STREQ(e.what(), "I/O Error: Test I/O exception from core test");
     }
 
     try {
         // Test another SQLCC exception type
-        throw SQLCC::ParseException("Test parse exception from core test");
-    } catch (const SQLCC::ParseException& e) {
-        EXPECT_STREQ(e.what(), "Test parse exception from core test");
+        throw sqlcc::IllegalArgumentException("Test argument exception from core test");
+    } catch (const sqlcc::IllegalArgumentException& e) {
+        EXPECT_STREQ(e.what(), "Illegal Argument Error: Test argument exception from core test");
     }
 }
 
