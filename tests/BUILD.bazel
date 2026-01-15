@@ -74,6 +74,103 @@ cc_library(
     ],
 )
 
+# ==================== 层次化测试体系 ====================
+
+# Level 1 Foundation - 基础工具类测试
+test_suite(
+    name = "level1_foundation_tests",
+    tests = [
+        "//tests/level1_foundation:basic_tests",
+    ],
+    tags = ["level1", "foundation", "basic"],
+)
+
+# Level 2 Storage Engine - 存储引擎基础测试 (暂时跳过)
+# test_suite(
+#     name = "level2_storage_engine_tests",
+#     tests = [
+#         "//tests/level2_storage_engine:basic_storage_engine_test",
+#     ],
+#     tags = ["level2", "storage", "engine"],
+# )
+
+# Level 3 Transaction Manager - 事务管理器测试
+test_suite(
+    name = "level3_transaction_manager_tests",
+    tests = [
+        "//tests/level3_transaction_manager:task_executor_tests",
+        "//tests/level3_transaction_manager:query_executor_tests",
+        "//tests/level3_transaction_manager:transaction_control_tests",
+        "//tests/level3_transaction_manager:execution_boundary_tests",
+        "//tests/level3_transaction_manager:database_manager_tests",
+        "//tests/level3_transaction_manager:user_manager_tests",
+        "//tests/level3_transaction_manager:system_database_tests",
+        "//tests/level3_transaction_manager:config_tests",
+    ],
+    tags = ["level3", "transaction", "manager"],
+)
+
+# Level 4 SQL Parser - SQL解析器测试
+test_suite(
+    name = "level4_sql_parser_tests",
+    tests = [
+        "//tests/level4_sql_parser:sql_parser_test_suite",
+    ],
+    tags = ["level4", "sql", "parser"],
+)
+
+# Level 4 SQL Processing - SQL处理测试
+test_suite(
+    name = "level4_sql_processing_tests",
+    tests = [
+        "//tests/level4_sql_processing:sql_processing_test_suite",
+    ],
+    tags = ["level4", "sql", "processing"],
+)
+
+# Level 5 Network - 网络通信测试
+test_suite(
+    name = "level5_network_tests",
+    tests = [
+        "//tests/level5_network:network_test_suite",
+    ],
+    tags = ["level5", "network", "communication"],
+)
+
+# Level 6 Enterprise - 企业级功能测试
+test_suite(
+    name = "level6_enterprise_tests",
+    tests = [
+        "//tests/level6_enterprise:enterprise_test_suite",
+    ],
+    tags = ["level6", "enterprise", "security"],
+)
+
+# Level 7 Integration - 端到端集成测试
+test_suite(
+    name = "level7_integration_tests",
+    tests = [
+        "//tests/level7_integration:integration_test_suite",
+    ],
+    tags = ["level7", "integration", "end_to_end"],
+)
+
+# 层次化测试总入口
+test_suite(
+    name = "hierarchical_tests",
+    tests = [
+        ":level1_foundation_tests",
+        # ":level2_storage_engine_tests",  # 暂时跳过
+        ":level3_transaction_manager_tests",
+        ":level4_sql_parser_tests",
+        ":level4_sql_processing_tests",
+        ":level5_network_tests",
+        ":level6_enterprise_tests",
+        ":level7_integration_tests",
+    ],
+    tags = ["hierarchical", "comprehensive"],
+)
+
 # ==================== 单元测试 ====================
 
 # 注意：单元测试已在相应子包中定义

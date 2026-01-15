@@ -4,3 +4,11 @@ cc_library(
     hdrs = ["memory_monitor.h"],
     visibility = ["//visibility:public"],
 )
+
+cc_library(
+    name = "audit_trail",
+    includes = ["."],
+    hdrs = ["audit_trail.h"],
+    srcs = ["//src/security:audit_trail.cpp"],
+    visibility = ["//visibility:public"],
+)

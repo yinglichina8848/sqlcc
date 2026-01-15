@@ -1,0 +1,292 @@
+load("@rules_cc//cc:defs.bzl", "cc_test")
+
+# Level 4 SQL Parser Tests
+# This level contains all SQL parsing related tests, organized by functionality
+
+# Lexer tests
+cc_test(
+    name = "lexer_tests",
+    srcs = glob([
+        "lexer/*.cpp",
+    ]),
+    deps = [
+        "//include:sqlcc_pch",
+        "//src/logger:logger",
+        "@com_google_googletest//:gtest_main",
+    ],
+    copts = [
+        "-std=c++20",
+        "-Iinclude",
+    ],
+    linkopts = [
+        "-pthread",
+    ],
+)
+
+# Parser tests
+cc_test(
+    name = "parser_tests",
+    srcs = glob([
+        "parser/*.cpp",
+    ]),
+    deps = [
+        "//include:sqlcc_pch",
+        "//include/sql_parser:ast_nodes",
+        "//src/logger:logger",
+        "@com_google_googletest//:gtest_main",
+    ],
+    copts = [
+        "-std=c++20",
+        "-Iinclude",
+    ],
+    linkopts = [
+        "-pthread",
+    ],
+)
+
+# AST tests
+cc_test(
+    name = "ast_tests",
+    srcs = glob([
+        "ast/*.cpp",
+    ]),
+    deps = [
+        "//include:sqlcc_pch",
+        "//include/sql_parser:node_visitor",
+        "//src/logger:logger",
+        "@com_google_googletest//:gtest_main",
+    ],
+    copts = [
+        "-std=c++20",
+        "-Iinclude",
+    ],
+    linkopts = [
+        "-pthread",
+    ],
+)
+
+# Token tests
+cc_test(
+    name = "token_tests",
+    srcs = glob([
+        "token/*.cpp",
+    ]),
+    deps = [
+        "//include:sqlcc_pch",
+        "//include/sql_parser:token",
+        "//src/sql_parser:token",
+        "//src/logger:logger",
+        "@com_google_googletest//:gtest_main",
+    ],
+    copts = [
+        "-std=c++20",
+        "-Iinclude",
+    ],
+    linkopts = [
+        "-pthread",
+    ],
+)
+
+# Expression tests
+cc_test(
+    name = "expression_tests",
+    srcs = glob([
+        "expression/*.cpp",
+    ]),
+    deps = [
+        "//include:sqlcc_pch",
+        "//src/logger:logger",
+        "@com_google_googletest//:gtest_main",
+    ],
+    copts = [
+        "-std=c++20",
+        "-Iinclude",
+    ],
+    linkopts = [
+        "-pthread",
+    ],
+)
+
+# Constraint tests
+cc_test(
+    name = "constraint_tests",
+    srcs = glob([
+        "constraint/*.cpp",
+    ]),
+    deps = [
+        "//include:sqlcc_pch",
+        "//include/sql_parser:constraint",
+        "//src/logger:logger",
+        "@com_google_googletest//:gtest_main",
+    ],
+    copts = [
+        "-std=c++20",
+        "-Iinclude",
+    ],
+    linkopts = [
+        "-pthread",
+    ],
+)
+
+# JSON tests
+cc_test(
+    name = "json_tests",
+    srcs = glob([
+        "json/*.cpp",
+    ]),
+    deps = [
+        "//include:sqlcc_pch",
+        "//src/sql_parser:json",
+        "//src/logger:logger",
+        "@com_google_googletest//:gtest_main",
+    ],
+    copts = [
+        "-std=c++20",
+        "-Iinclude",
+    ],
+    linkopts = [
+        "-pthread",
+    ],
+)
+
+# Aggregate tests
+cc_test(
+    name = "aggregate_tests",
+    srcs = glob([
+        "aggregate/*.cpp",
+    ]),
+    deps = [
+        "//include:sqlcc_pch",
+        "//src/logger:logger",
+        "@com_google_googletest//:gtest_main",
+    ],
+    copts = [
+        "-std=c++20",
+        "-Iinclude",
+    ],
+    linkopts = [
+        "-pthread",
+    ],
+)
+
+# Select tests
+cc_test(
+    name = "select_tests",
+    srcs = glob([
+        "select/*.cpp",
+    ]),
+    deps = [
+        "//include:sqlcc_pch",
+        "//src/logger:logger",
+        "@com_google_googletest//:gtest_main",
+    ],
+    copts = [
+        "-std=c++20",
+        "-Iinclude",
+    ],
+    linkopts = [
+        "-pthread",
+    ],
+)
+
+# Window function tests
+cc_test(
+    name = "window_tests",
+    srcs = glob([
+        "window/*.cpp",
+    ]),
+    deps = [
+        "//include:sqlcc_pch",
+        "//include/sql_parser:window_function",
+        "//src/sql_parser:window_function",
+        "//src/logger:logger",
+        "@com_google_googletest//:gtest_main",
+    ],
+    copts = [
+        "-std=c++20",
+        "-Iinclude",
+    ],
+    linkopts = [
+        "-pthread",
+    ],
+)
+
+# Complex query tests
+cc_test(
+    name = "complex_query_tests",
+    srcs = glob([
+        "complex_queries/*.cpp",
+    ]),
+    deps = [
+        "//include:sqlcc_pch",
+        "//src/logger:logger",
+        "@com_google_googletest//:gtest_main",
+    ],
+    copts = [
+        "-std=c++20",
+        "-Iinclude",
+    ],
+    linkopts = [
+        "-pthread",
+    ],
+)
+
+# Performance tests
+cc_test(
+    name = "performance_tests",
+    srcs = glob([
+        "performance/*.cpp",
+    ]),
+    deps = [
+        "//include:sqlcc_pch",
+        "//src/logger:logger",
+        "@com_google_googletest//:gtest_main",
+    ],
+    copts = [
+        "-std=c++20",
+        "-Iinclude",
+    ],
+    linkopts = [
+        "-pthread",
+    ],
+)
+
+# Integration tests
+cc_test(
+    name = "integration_tests",
+    srcs = glob([
+        "integration/*.cpp",
+    ]),
+    deps = [
+        "//include:sqlcc_pch",
+        "//src/logger:logger",
+        "@com_google_googletest//:gtest_main",
+    ],
+    copts = [
+        "-std=c++20",
+        "-Iinclude",
+    ],
+    linkopts = [
+        "-pthread",
+    ],
+)
+
+# Test suite combining all SQL parser tests
+test_suite(
+    name = "sql_parser_test_suite",
+    tests = [
+        ":lexer_tests",
+        ":parser_tests",
+        ":ast_tests",
+        ":token_tests",
+        ":expression_tests",
+        ":constraint_tests",
+        ":json_tests",
+        ":aggregate_tests",
+        ":select_tests",
+        ":window_tests",
+        ":complex_query_tests",
+        ":performance_tests",
+        ":integration_tests",
+    ],
+)

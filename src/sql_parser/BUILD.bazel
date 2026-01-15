@@ -175,6 +175,33 @@ cc_library(
 )
 
 cc_library(
+    name = "json",
+    srcs = ["json.cpp"],
+    includes = [
+        "../../include",
+        "../../src/sql_parser",
+    ],
+    deps = [
+        "//include/sql_parser:data_types",
+        "//src/logger:logger",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+cc_library(
+    name = "token",
+    srcs = ["token.cpp"],
+    includes = [
+        "../../include",
+        "../../src/sql_parser",
+    ],
+    deps = [
+        "//include/sql_parser:token",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+cc_library(
     name = "sqlcc_parser_light",
     srcs = glob([
         "lexer_new.cpp",

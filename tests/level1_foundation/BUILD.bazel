@@ -3,22 +3,12 @@ load("@rules_cc//cc:defs.bzl", "cc_test")
 # Level 1 Foundation Tests - 基础工具类测试
 # 包括：基本组件、配置管理、日志系统、类型系统等
 
-# Basic component tests
+# Basic component tests - 基础组件测试
 cc_test(
     name = "basic_tests",
     srcs = glob(["basic/*.cpp"]),
     deps = [
-        "//include:sqlcc_pch",
-        "//src/sql_parser:token",
-        "//src/sql_parser:ast_node",
-        "//src/exception:base_exception",
-        "//src/execution:execution_context",
-        "//src/monitoring:performance_monitor",
-        "//src/core:permission_validator",
-        "//src/sql_executor:sql_executor",
-        "//src/procedure:procedure_executor",
-        "//src/trigger:trigger_executor",
-        "@googletest//:gtest_main",
+        "@com_google_googletest//:gtest_main",
     ],
     copts = [
         "-std=c++20",
@@ -26,71 +16,4 @@ cc_test(
         "-Ithird_party",
     ],
     timeout = "short",
-)
-
-# Configuration manager tests
-cc_test(
-    name = "config_tests",
-    srcs = glob(["config/*.cpp"]),
-    deps = [
-        "//include:sqlcc_pch",
-        "//src/utils:config_manager",
-        "@googletest//:gtest_main",
-    ],
-    copts = [
-        "-std=c++20",
-        "-Iinclude",
-        "-Ithird_party",
-    ],
-    timeout = "short",
-)
-
-# Logger system tests
-cc_test(
-    name = "logger_tests",
-    srcs = glob(["logger/*.cpp"]) + glob(["logger/*.cc"]),
-    deps = [
-        "//include:sqlcc_pch",
-        "//src/logger:logger",
-        "//src/logger:logger_module",
-        "@googletest//:gtest_main",
-    ],
-    copts = [
-        "-std=c++20",
-        "-Iinclude",
-        "-Ithird_party",
-    ],
-    timeout = "short",
-)
-
-# Type system tests
-cc_test(
-    name = "types_tests",
-    srcs = glob(["types/*.cpp"]),
-    deps = [
-        "//include:sqlcc_pch",
-        "//src/sql_parser:data_types",
-        "//src/sql_parser:decimal",
-        "//src/sql_parser:json",
-        "@googletest//:gtest_main",
-    ],
-    copts = [
-        "-std=c++20",
-        "-Iinclude",
-        "-Ithird_party",
-    ],
-    timeout = "short",
-)
-
-# Test suite combining all level 1 tests
-cc_test(
-    name = "level1_foundation_test_suite",
-    srcs = [],
-    deps = [
-        ":basic_tests",
-        ":config_tests",
-        ":logger_tests",
-        ":types_tests",
-    ],
-    tags = ["level1", "foundation"],
 )

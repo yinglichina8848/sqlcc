@@ -1,2 +1,147 @@
-# Level 4 SQL Processing Tests - LLVM Coverage Support
-# Tests are defined in subdirectories to avoid Bazel subpackage issues
+load("@rules_cc//cc:defs.bzl", "cc_test")
+
+# Level 4 SQL Processing Tests
+# This level contains SQL processing and execution related tests, organized by functionality
+
+# Execution context tests
+cc_test(
+    name = "execution_context_tests",
+    srcs = glob([
+        "execution_context/*.cpp",
+    ], allow_empty = True),
+    deps = [
+        "//include:sqlcc_pch",
+        "//include/core:execution_context",
+        "//src/core:execution_context",
+        "//src/logger:logger",
+        "@com_google_googletest//:gtest_main",
+    ],
+    copts = [
+        "-std=c++20",
+        "-Iinclude",
+    ],
+    linkopts = [
+        "-pthread",
+    ],
+)
+
+# JSON operations tests
+cc_test(
+    name = "json_operations_tests",
+    srcs = glob([
+        "json_operations/*.cpp",
+    ], allow_empty = True),
+    deps = [
+        "//include:sqlcc_pch",
+        "//src/sql_parser:json",
+        "//src/logger:logger",
+        "@com_google_googletest//:gtest_main",
+    ],
+    copts = [
+        "-std=c++20",
+        "-Iinclude",
+    ],
+    linkopts = [
+        "-pthread",
+    ],
+)
+
+# Permission validator tests
+cc_test(
+    name = "permission_validator_tests",
+    srcs = glob([
+        "permission_validator/*.cpp",
+    ], allow_empty = True),
+    deps = [
+        "//include:sqlcc_pch",
+        "//src/logger:logger",
+        "@com_google_googletest//:gtest_main",
+    ],
+    copts = [
+        "-std=c++20",
+        "-Iinclude",
+    ],
+    linkopts = [
+        "-pthread",
+    ],
+)
+
+# SQL executor core tests
+cc_test(
+    name = "sql_executor_core_tests",
+    srcs = glob([
+        "sql_executor_core/*.cpp",
+    ], allow_empty = True),
+    deps = [
+        "//include:sqlcc_pch",
+        "//include/core:execution_context",
+        "//include/storage_engine:storage_engine",
+        "//src/core:execution_context",
+        "//src/storage_engine:storage_engine",
+        "//src/logger:logger",
+        "@com_google_googletest//:gtest_main",
+    ],
+    copts = [
+        "-std=c++20",
+        "-Iinclude",
+    ],
+    linkopts = [
+        "-pthread",
+    ],
+)
+
+# Stored procedure tests
+cc_test(
+    name = "stored_procedure_tests",
+    srcs = glob([
+        "stored_procedure/*.cpp",
+    ], allow_empty = True),
+    deps = [
+        "//include:sqlcc_pch",
+        "//src/sql_executor:procedure_executor",
+        "//src/logger:logger",
+        "@com_google_googletest//:gtest_main",
+    ],
+    copts = [
+        "-std=c++20",
+        "-Iinclude",
+    ],
+    linkopts = [
+        "-pthread",
+    ],
+)
+
+# Trigger tests
+cc_test(
+    name = "trigger_tests",
+    srcs = glob([
+        "trigger/*.cpp",
+    ], allow_empty = True),
+    deps = [
+        "//include:sqlcc_pch",
+        "//src/trigger:trigger_manager",
+        "//src/trigger:sql_trigger_executor",
+        "//src/logger:logger",
+        "@com_google_googletest//:gtest_main",
+    ],
+    copts = [
+        "-std=c++20",
+        "-Iinclude",
+    ],
+    linkopts = [
+        "-pthread",
+    ],
+)
+
+# Test suite combining all SQL processing tests
+test_suite(
+    name = "sql_processing_test_suite",
+    tests = [
+        ":execution_context_tests",
+        ":json_operations_tests",
+        ":permission_validator_tests",
+        ":sql_executor_core_tests",
+        ":stored_procedure_tests",
+        ":trigger_tests",
+    ],
+)

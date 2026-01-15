@@ -1,77 +1,308 @@
-# Level 3 Transaction Manager Tests - Unified Configuration
-# These tests verify transaction management components with LLVM coverage support
+# Level 3 Transaction Manager Tests
+# This directory contains tests for transaction management, task execution, and system coordination
 
-load("//tests:build_config.bzl", "sqlcc_test")
+load("@rules_cc//cc:defs.bzl", "cc_test")
 
-# Configuration tests
-sqlcc_test(
-    name = "config_test",
-    srcs = ["config/config_test.cpp"],
-    deps = [
-        "//src/core:core",
-        "//src/exception:exception",
-        "//src/transaction_manager:transaction_manager",
-    ],
+# Task Executor Tests
+cc_test(
+    name = "task_executor_tests",
+    srcs = glob([
+        "task_executor/*.cpp",
+    ]),
     copts = [
-        "-fprofile-instr-generate",
-        "-fcoverage-mapping",
+        "-std=c++20",
+        "-Iinclude",
+        "-Isrc",
     ],
-    linkopts = [
-        "-fprofile-instr-generate",
+    deps = [
+        "//include/execution/task_executor.h",
+        "//include/execution/task_result.h",
+        "//include/execution/query_plan_factory.h",
+        "//include/execution/unified_query_plan.h",
+        "//include/execution/cost_estimator.h",
+        "//include/execution/function_executor.h",
+        "//include/execution/load_data_executor.h",
+        "//include/execution/window_function_executor.h",
+        "//include/execution/recursive_query_executor.h",
+        "//include/execution/join_executor.h",
+        "//include/execution/ddl_execution_strategy.h",
+        "//include/execution/dml_execution_strategy.h",
+        "//include/execution/execution_strategy.h",
+        "//include/execution/comprehensive_task_executor.h",
+        "//include/execution/task_executor_simple.h",
+        "//include/execution/aggregate_engine.h",
+        "//include/execution/group_by_executor.h",
+        "//include/execution/unified_executor.h",
+        "//include/execution/test_runner.h",
+        "//include/execution/standalone_test.h",
+        "//include/sql_executor/transaction_control_manager.h",
+        "//include/sql_executor/domain_manager.h",
+        "//include/sql_executor/procedure_executor.h",
+        "//include/sql_executor/procedure_function_manager.h",
+        "//include/sql_executor/enhanced_alter_table_manager.h",
+        "//include/sql_executor/enhanced_trigger_manager.h",
+        "//include/core/execution_context.h",
+        "//include/core/execution_result.h",
+        "//include/core/system_database.h",
+        "//include/core/core_database_manager.h",
+        "//include/core/user_manager.h",
+        "//include/core/permission_validator.h",
+        "//include/exception:base_exception",
+        "//include/exception:io_exception",
+        "//include/utils:logger",
+        "@com_google_googletest//:gtest_main",
     ],
+    tags = ["level3", "transaction_manager", "task_executor"],
 )
 
-# Database manager tests
-sqlcc_test(
-    name = "database_manager_test",
-    srcs = ["database_manager/database_manager_test.cpp"],
-    deps = [
-        "//src/core:core",
-        "//src/core:database_manager",
-        "//src/exception:exception",
-        "//src/transaction_manager:transaction_manager",
-    ],
+# Query Executor Tests
+cc_test(
+    name = "query_executor_tests",
+    srcs = glob([
+        "query_executor/*.cpp",
+    ]),
     copts = [
-        "-fprofile-instr-generate",
-        "-fcoverage-mapping",
+        "-std=c++20",
+        "-Iinclude",
+        "-Isrc",
     ],
-    linkopts = [
-        "-fprofile-instr-generate",
+    deps = [
+        "//include/execution/task_executor.h",
+        "//include/execution/task_result.h",
+        "//include/execution/query_plan_factory.h",
+        "//include/execution/unified_query_plan.h",
+        "//include/execution/cost_estimator.h",
+        "//include/execution/function_executor.h",
+        "//include/execution/load_data_executor.h",
+        "//include/execution/window_function_executor.h",
+        "//include/execution/recursive_query_executor.h",
+        "//include/execution/join_executor.h",
+        "//include/execution/ddl_execution_strategy.h",
+        "//include/execution/dml_execution_strategy.h",
+        "//include/execution/execution_strategy.h",
+        "//include/execution/comprehensive_task_executor.h",
+        "//include/execution/task_executor_simple.h",
+        "//include/execution/aggregate_engine.h",
+        "//include/execution/group_by_executor.h",
+        "//include/execution/unified_executor.h",
+        "//include/execution/test_runner.h",
+        "//include/execution/standalone_test.h",
+        "//include/sql_executor/transaction_control_manager.h",
+        "//include/sql_executor/domain_manager.h",
+        "//include/sql_executor/procedure_executor.h",
+        "//include/sql_executor/procedure_function_manager.h",
+        "//include/sql_executor/enhanced_alter_table_manager.h",
+        "//include/sql_executor/enhanced_trigger_manager.h",
+        "//include/core/execution_context.h",
+        "//include/core/execution_result.h",
+        "//include/core/system_database.h",
+        "//include/core/core_database_manager.h",
+        "//include/core/user_manager.h",
+        "//include/core/permission_validator.h",
+        "//include/exception:base_exception",
+        "//include/exception:io_exception",
+        "//include/utils:logger",
+        "@com_google_googletest//:gtest_main",
     ],
+    tags = ["level3", "transaction_manager", "query_executor"],
 )
 
-# System database tests
-sqlcc_test(
-    name = "system_db_test",
-    srcs = ["system_db/system_db_test.cpp"],
-    deps = [
-        "//src/core:core",
-        "//src/exception:exception",
-        "//src/transaction_manager:transaction_manager",
-    ],
+# Transaction Control Tests
+cc_test(
+    name = "transaction_control_tests",
+    srcs = glob([
+        "transaction_control/*.cpp",
+    ], allow_empty = True),
     copts = [
-        "-fprofile-instr-generate",
-        "-fcoverage-mapping",
+        "-std=c++20",
+        "-Iinclude",
+        "-Isrc",
     ],
-    linkopts = [
-        "-fprofile-instr-generate",
+    deps = [
+        "//include/sql_executor/transaction_control_manager.h",
+        "//include/transaction_manager.h",
+        "//include/transaction_context.h",
+        "//include/transaction_context_impl.h",
+        "//include/transaction/savepoint_manager.h",
+        "//include/transaction/BUILD.bazel",
+        "//include/core/execution_context.h",
+        "//include/core/execution_result.h",
+        "//include/exception:base_exception",
+        "//include/exception:io_exception",
+        "//include/utils:logger",
+        "@com_google_googletest//:gtest_main",
     ],
+    tags = ["level3", "transaction_manager", "transaction_control"],
 )
 
-# User manager tests
-sqlcc_test(
-    name = "user_manager_test",
-    srcs = ["user_manager/user_manager_test.cpp"],
-    deps = [
-        "//src/core:core",
-        "//src/exception:exception",
-        "//src/transaction_manager:transaction_manager",
-    ],
+# Execution Boundary Tests
+cc_test(
+    name = "execution_boundary_tests",
+    srcs = glob([
+        "execution_boundary/*.cpp",
+    ]),
     copts = [
-        "-fprofile-instr-generate",
-        "-fcoverage-mapping",
+        "-std=c++20",
+        "-Iinclude",
+        "-Isrc",
     ],
-    linkopts = [
-        "-fprofile-instr-generate",
+    deps = [
+        "//include/execution/task_executor.h",
+        "//include/execution/task_result.h",
+        "//include/execution/query_plan_factory.h",
+        "//include/execution/unified_query_plan.h",
+        "//include/execution/cost_estimator.h",
+        "//include/execution/function_executor.h",
+        "//include/execution/load_data_executor.h",
+        "//include/execution/window_function_executor.h",
+        "//include/execution/recursive_query_executor.h",
+        "//include/execution/join_executor.h",
+        "//include/execution/ddl_execution_strategy.h",
+        "//include/execution/dml_execution_strategy.h",
+        "//include/execution/execution_strategy.h",
+        "//include/execution/comprehensive_task_executor.h",
+        "//include/execution/task_executor_simple.h",
+        "//include/execution/aggregate_engine.h",
+        "//include/execution/group_by_executor.h",
+        "//include/execution/unified_executor.h",
+        "//include/execution/test_runner.h",
+        "//include/execution/standalone_test.h",
+        "//include/sql_executor/transaction_control_manager.h",
+        "//include/sql_executor/domain_manager.h",
+        "//include/sql_executor/procedure_executor.h",
+        "//include/sql_executor/procedure_function_manager.h",
+        "//include/sql_executor/enhanced_alter_table_manager.h",
+        "//include/sql_executor/enhanced_trigger_manager.h",
+        "//include/core/execution_context.h",
+        "//include/core/execution_result.h",
+        "//include/core/system_database.h",
+        "//include/core/core_database_manager.h",
+        "//include/core/user_manager.h",
+        "//include/core/permission_validator.h",
+        "//include/exception:base_exception",
+        "//include/exception:io_exception",
+        "//include/utils:logger",
+        "@com_google_googletest//:gtest_main",
     ],
+    tags = ["level3", "transaction_manager", "execution_boundary"],
+)
+
+# Database Manager Tests
+cc_test(
+    name = "database_manager_tests",
+    srcs = glob([
+        "database_manager/*.cpp",
+    ]),
+    copts = [
+        "-std=c++20",
+        "-Iinclude",
+        "-Isrc",
+    ],
+    deps = [
+        "//include/database_manager/BUILD.bazel",
+        "//include/database_manager.h",
+        "//include/core/core_database_manager.h",
+        "//include/core/system_database.h",
+        "//include/core/user_manager.h",
+        "//include/core/permission_validator.h",
+        "//include/sql_executor/domain_manager.h",
+        "//include/storage_engine:storage_engine",
+        "//include/storage_engine:b_plus_tree",
+        "//include/storage_engine:buffer_pool",
+        "//include/storage_engine:index_manager",
+        "//include/transaction_manager.h",
+        "//include/exception:base_exception",
+        "//include/exception:io_exception",
+        "//include/utils:logger",
+        "//include/utils:config_manager",
+        "@com_google_googletest//:gtest_main",
+    ],
+    tags = ["level3", "transaction_manager", "database_manager"],
+)
+
+# User Manager Tests
+cc_test(
+    name = "user_manager_tests",
+    srcs = glob([
+        "user_manager/*.cpp",
+    ]),
+    copts = [
+        "-std=c++20",
+        "-Iinclude",
+        "-Isrc",
+    ],
+    deps = [
+        "//include/core/user_manager.h",
+        "//include/core/permission_validator.h",
+        "//include/core/execution_context.h",
+        "//include/core/execution_result.h",
+        "//include/core/system_database.h",
+        "//include/core/core_database_manager.h",
+        "//include/sql_executor/domain_manager.h",
+        "//include/exception:base_exception",
+        "//include/exception:io_exception",
+        "//include/utils:logger",
+        "//include/utils:config_manager",
+        "@com_google_googletest//:gtest_main",
+    ],
+    tags = ["level3", "transaction_manager", "user_manager"],
+)
+
+# System Database Tests
+cc_test(
+    name = "system_database_tests",
+    srcs = glob([
+        "system_db/*.cpp",
+    ]),
+    copts = [
+        "-std=c++20",
+        "-Iinclude",
+        "-Isrc",
+    ],
+    deps = [
+        "//include/core/system_database.h",
+        "//include/core/core_database_manager.h",
+        "//include/core/user_manager.h",
+        "//include/core/permission_validator.h",
+        "//include/core/execution_context.h",
+        "//include/core/execution_result.h",
+        "//include/sql_executor/domain_manager.h",
+        "//include/storage_engine:storage_engine",
+        "//include/storage_engine:b_plus_tree",
+        "//include/storage_engine:buffer_pool",
+        "//include/storage_engine:index_manager",
+        "//include/transaction_manager.h",
+        "//include/exception:base_exception",
+        "//include/exception:io_exception",
+        "//include/utils:logger",
+        "//include/utils:config_manager",
+        "@com_google_googletest//:gtest_main",
+    ],
+    tags = ["level3", "transaction_manager", "system_database"],
+)
+
+# Config Tests
+cc_test(
+    name = "config_tests",
+    srcs = glob([
+        "config/*.cpp",
+    ]),
+    copts = [
+        "-std=c++20",
+        "-Iinclude",
+        "-Isrc",
+    ],
+    deps = [
+        "//include/utils/config_manager.h",
+        "//include/utils/smart_config_manager.h",
+        "//include/utils/config_lifecycle.h",
+        "//include/utils/config_snapshot.h",
+        "//include/core/execution_context.h",
+        "//include/core/execution_result.h",
+        "//include/exception:base_exception",
+        "//include/exception:io_exception",
+        "//include/utils:logger",
+        "@com_google_googletest//:gtest_main",
+    ],
+    tags = ["level3", "transaction_manager", "config"],
 )

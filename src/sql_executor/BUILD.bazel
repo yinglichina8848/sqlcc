@@ -33,6 +33,18 @@ cc_library(
     visibility = ["//visibility:public"],
 )
 
+# Procedure executor for stored procedure functionality
+cc_library(
+    name = "procedure_executor",
+    srcs = ["procedure_executor.cpp"],
+    deps = [
+        "//include/sql_executor:headers",
+        "//src/core:core",
+        "//src/logger:logger",
+    ],
+    visibility = ["//visibility:public"],
+)
+
 # Placeholder target - TODO: implement actual functionality
 cc_library(
     name = "sqlcc_executor",

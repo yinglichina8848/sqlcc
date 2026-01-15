@@ -1,16 +1,19 @@
 load("@rules_cc//cc:defs.bzl", "cc_test")
 
-# Level 5 Network Tests
-# This level contains all network communication related tests, organized by functionality
+# Level 7 Integration Tests
+# This level contains end-to-end integration tests that test the complete system functionality
 
-# Connection pool tests
+# Core integration tests
 cc_test(
-    name = "connection_pool_tests",
+    name = "core_integration_tests",
     srcs = glob([
-        "connection_pool/*.cpp",
+        "core/*.cpp",
     ], allow_empty = True),
     deps = [
         "//include:sqlcc_pch",
+        "//src/core:database_manager",
+        "//src/storage_engine:storage_engine",
+        "//src/transaction_manager:transaction_manager",
         "//src/logger:logger",
         "@com_google_googletest//:gtest_main",
     ],
@@ -23,14 +26,16 @@ cc_test(
     ],
 )
 
-# Network manager tests
+# Demo integration tests
 cc_test(
-    name = "network_manager_tests",
+    name = "demo_integration_tests",
     srcs = glob([
-        "network_manager/*.cpp",
+        "demo/*.cpp",
     ], allow_empty = True),
     deps = [
         "//include:sqlcc_pch",
+        "//src/core:database_manager",
+        "//src/storage_engine:storage_engine",
         "//src/logger:logger",
         "@com_google_googletest//:gtest_main",
     ],
@@ -43,14 +48,16 @@ cc_test(
     ],
 )
 
-# Protocol handler tests
+# Performance integration tests
 cc_test(
-    name = "protocol_handler_tests",
+    name = "performance_integration_tests",
     srcs = glob([
-        "protocol_handler/*.cpp",
+        "performance/*.cpp",
     ], allow_empty = True),
     deps = [
         "//include:sqlcc_pch",
+        "//src/core:database_manager",
+        "//src/storage_engine:storage_engine",
         "//src/logger:logger",
         "@com_google_googletest//:gtest_main",
     ],
@@ -63,12 +70,12 @@ cc_test(
     ],
 )
 
-# Test suite combining all network tests
+# Test suite combining all integration tests
 test_suite(
-    name = "network_test_suite",
+    name = "integration_test_suite",
     tests = [
-        ":connection_pool_tests",
-        ":network_manager_tests",
-        ":protocol_handler_tests",
+        ":core_integration_tests",
+        ":demo_integration_tests",
+        ":performance_integration_tests",
     ],
 )
