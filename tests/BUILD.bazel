@@ -85,14 +85,17 @@ test_suite(
     tags = ["level1", "foundation", "basic"],
 )
 
-# Level 2 Storage Engine - 存储引擎基础测试 (暂时跳过)
-# test_suite(
-#     name = "level2_storage_engine_tests",
-#     tests = [
-#         "//tests/level2_storage_engine:basic_storage_engine_test",
-#     ],
-#     tags = ["level2", "storage", "engine"],
-# )
+# Level 2 Storage Engine - 存储引擎基础测试
+test_suite(
+    name = "level2_storage_engine_tests",
+    tests = [
+        "//tests/level2_storage_engine/buffer_pool:buffer_pool_test",
+        "//tests/level2_storage_engine/buffer_pool:buffer_pool_quick_test",
+        "//tests/level2_storage_engine/buffer_pool:buffer_pool_performance_benchmark_test",
+        "//tests/level2_storage_engine/buffer_pool:buffer_pool_v3_test",
+    ],
+    tags = ["level2", "storage", "engine"],
+)
 
 # Level 3 Transaction Manager - 事务管理器测试
 test_suite(
@@ -160,7 +163,7 @@ test_suite(
     name = "hierarchical_tests",
     tests = [
         ":level1_foundation_tests",
-        # ":level2_storage_engine_tests",  # 暂时跳过
+        ":level2_storage_engine_tests",
         ":level3_transaction_manager_tests",
         ":level4_sql_parser_tests",
         ":level4_sql_processing_tests",

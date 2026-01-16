@@ -1,0 +1,96 @@
+cc_test(
+    name = "buffer_pool_test",
+    srcs = ["buffer_pool_test.cpp"],
+    deps = [
+        "//include:storage_engine",
+        "//include/storage:buffer_pool",
+        "//include/storage:buffer_pool_sharded",
+        "//include/storage:table_storage",
+        "//include/storage_engine:buffer_pool_lru_manager",
+        "//include/storage_engine:buffer_pool_statistics_collector",
+        "//include:page",
+        "//include:disk_manager",
+        "//include/utils:headers",
+        "//include/exception",
+        "@com_google_googletest//:gtest_main",
+        "@com_google_googletest//:gtest",
+    ],
+    copts = [
+        "-std=c++20",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-fprofile-instr-generate",
+        "-fcoverage-mapping",
+    ],
+    linkopts = [
+        "-fprofile-instr-generate",
+    ],
+    tags = ["coverage"],
+)
+
+cc_test(
+    name = "buffer_pool_quick_test",
+    srcs = ["buffer_pool_quick_test.cpp"],
+    deps = [
+        "//include/storage:buffer_pool",
+        "@com_google_googletest//:gtest_main",
+        "@com_google_googletest//:gtest",
+    ],
+    copts = [
+        "-std=c++20",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-fprofile-instr-generate",
+        "-fcoverage-mapping",
+    ],
+    linkopts = [
+        "-fprofile-instr-generate",
+    ],
+    tags = ["coverage"],
+)
+
+cc_test(
+    name = "buffer_pool_performance_benchmark_test",
+    srcs = ["buffer_pool_performance_benchmark_test.cpp"],
+    deps = [
+        "//include/storage:buffer_pool",
+        "@com_google_googletest//:gtest_main",
+        "@com_google_googletest//:gtest",
+    ],
+    copts = [
+        "-std=c++20",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-fprofile-instr-generate",
+        "-fcoverage-mapping",
+    ],
+    linkopts = [
+        "-fprofile-instr-generate",
+    ],
+    tags = ["coverage"],
+)
+
+cc_test(
+    name = "buffer_pool_v3_test",
+    srcs = ["buffer_pool_v3_test.cpp"],
+    deps = [
+        "//include/storage:buffer_pool",
+        "@com_google_googletest//:gtest_main",
+        "@com_google_googletest//:gtest",
+    ],
+    copts = [
+        "-std=c++20",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-fprofile-instr-generate",
+        "-fcoverage-mapping",
+    ],
+    linkopts = [
+        "-fprofile-instr-generate",
+    ],
+    tags = ["coverage"],
+)

@@ -13,26 +13,12 @@
 
 #include "include/storage_engine/buffer_pool/lru_manager.h"
 #include "include/storage_engine/buffer_pool/statistics_collector.h"
-#include "storage_engine.h"
+#include "include/storage_engine.h"
 #include "include/page.h"
-#include "utils/config_manager.h"
+#include "include/utils/config_manager.h"
 
 namespace fs = std::filesystem;
 namespace sqlcc {
-
-        // 获取配置管理器单例实例
-        config = std::unique_ptr<ConfigManager>(&ConfigManager::GetInstance());
->>>>>>> a5a54b2e01eeb41f919cb1f0b1228b1296f6fce6
-        config->SetValue("storage.data_directory", test_dir.string());
-        config->SetValue("buffer_pool.size", std::string("4096"));
-
-        // 初始化存储引擎
-        storage_engine = std::make_shared<StorageEngine>(*config, test_dir.string());
-
-        // 初始化LRU管理器和统计收集器
-        lru_manager = std::make_unique<storage::LRUManager>();
-        stats_collector = std::make_unique<storage::StatisticsCollector>();
-    }
 
 class BufferPoolTest : public ::testing::Test {
 protected:
@@ -43,20 +29,6 @@ protected:
 
         // 初始化配置管理器
         config = &ConfigManager::GetInstance();
-        config->SetValue("storage.data_directory", test_dir.string());
-        config->SetValue("buffer_pool.size", std::string("4096"));
-
-        // 初始化存储引擎
-        storage_engine = std::make_shared<StorageEngine>(*config, test_dir.string());
-
-        // 初始化LRU管理器和统计收集器
-        lru_manager = std::make_unique<storage::LRUManager>();
-        stats_collector = std::make_unique<storage::StatisticsCollector>();
-    }
-=======
-        // 获取配置管理器单例实例
-        config = std::unique_ptr<ConfigManager>(&ConfigManager::GetInstance());
->>>>>>> a5a54b2e01eeb41f919cb1f0b1228b1296f6fce6
         config->SetValue("storage.data_directory", test_dir.string());
         config->SetValue("buffer_pool.size", std::string("4096"));
 

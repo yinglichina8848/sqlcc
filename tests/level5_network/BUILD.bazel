@@ -63,6 +63,32 @@ cc_test(
     ],
 )
 
+# MySQL protocol boundary tests
+cc_test(
+    name = "mysql_protocol_boundary_test",
+    srcs = glob([
+        "mysql_protocol/*.cpp",
+    ], allow_empty = True),
+    deps = [
+        "//include/network:mysql_protocol",
+        "//include/network:connection_state",
+        "//include/utils:utils_lib",
+        "@com_google_googletest//:gtest_main",
+    ],
+    copts = [
+        "-std=c++20",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-fprofile-instr-generate",
+        "-fcoverage-mapping",
+    ],
+    linkopts = [
+        "-fprofile-instr-generate",
+    ],
+    tags = ["coverage"],
+)
+
 # Test suite combining all network tests
 test_suite(
     name = "network_test_suite",
@@ -70,5 +96,6 @@ test_suite(
         ":connection_pool_tests",
         ":network_manager_tests",
         ":protocol_handler_tests",
+        ":mysql_protocol_boundary_test",
     ],
 )
