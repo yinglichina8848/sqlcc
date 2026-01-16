@@ -1,5 +1,21 @@
 # SQLCC Release Notes
 
+## Version 1.3.5 (2026-01-17)
+
+### 🎯 版本更新和文档完善完成 ✅ COMPLETED
+
+#### 版本管理更新 ✅ COMPLETED
+- **VERSION文件更新**: 从v1.3.4升级至v1.3.5
+- **文档同步**: CHANGELOG.md、RELEASE_NOTES.md、README.md版本信息同步更新
+- **Git提交**: 所有更改已提交并准备推送到Gitee
+
+#### 发布准备完成 ✅ COMPLETED
+- **版本号更新**: 所有相关文档中的版本号已更新为v1.3.5
+- **文档一致性**: 确保所有文档中的版本信息保持一致
+- **仓库同步**: 本地仓库与Gitee远程仓库准备同步
+
+---
+
 ## Version 1.3.3 (2026-01-13)
 
 ### 🎯 DDL/DCL功能补全和测试验证完成 ✅ COMPLETED
