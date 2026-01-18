@@ -1,3 +1,11 @@
+load("@rules_cc//cc:defs.bzl", "cc_library")
+
+exports_files([
+    "enterprise_security.h",
+    "audit_trail.h",
+    "memory_monitor.h",
+])
+
 cc_library(
     name = "memory_monitor",
     includes = ["."],
@@ -10,5 +18,12 @@ cc_library(
     includes = ["."],
     hdrs = ["audit_trail.h"],
     srcs = ["//src/security:audit_trail.cpp"],
+    visibility = ["//visibility:public"],
+)
+
+cc_library(
+    name = "enterprise_security",
+    includes = ["."],
+    hdrs = ["enterprise_security.h"],
     visibility = ["//visibility:public"],
 )

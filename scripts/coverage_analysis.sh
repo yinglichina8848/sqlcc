@@ -18,15 +18,43 @@ COVERAGE_DIR="${PROJECT_ROOT}/coverage_report"
 HISTORY_FILE="${COVERAGE_DIR}/coverage_history.json"
 TIMESTAMP=$(date '+%Y%m%d_%H%M%S')
 
-# 默认测试目标
+# 默认测试目标 - 包含所有可用的测试
 DEFAULT_TESTS=(
-    "//tests/unit:logger_test"
-    # 添加更多测试目标...
+    # Level 1: Foundation
+    "//tests/level1_foundation:basic_tests"
+
+    # Level 2: Storage Engine (buffer_pool tests)
+    "//tests/level2_storage_engine/buffer_pool:buffer_pool_test"
+    "//tests/level2_storage_engine/buffer_pool:buffer_pool_quick_test"
+    "//tests/level2_storage_engine/buffer_pool:buffer_pool_performance_benchmark_test"
+    "//tests/level2_storage_engine/buffer_pool:buffer_pool_v3_test"
+
+    # Level 3: Transaction Manager
+    "//tests/level3_transaction_manager:task_executor_tests"
+    "//tests/level3_transaction_manager:query_executor_tests"
+    "//tests/level3_transaction_manager:transaction_control_tests"
+    "//tests/level3_transaction_manager:execution_boundary_tests"
+    "//tests/level3_transaction_manager:database_manager_tests"
+    "//tests/level3_transaction_manager:user_manager_tests"
+    "//tests/level3_transaction_manager:system_database_tests"
+    "//tests/level3_transaction_manager:config_tests"
+
+    # Level 4: SQL Parser
+    "//tests/level4_sql_parser:sql_parser_test_suite"
+
+    # Level 6: Enterprise (已修复)
+    "//tests/level6_enterprise:audit_trail_tests"
+    "//tests/level6_enterprise:compliance_manager_tests"
+    "//tests/level6_enterprise:enterprise_security_tests"
+
+    # Level 7: Integration (部分可用)
+    "//tests/level7_integration:encrypted_integration_test"
 )
 
 # 核心组件库
 CORE_LIBS=(
     "//src/logger:logger"
+    "//src/security:enterprise_security"
     # "//src/core:core"
     # "//src/storage_engine:storage_engine"
     # "//src/sql_parser:sql_parser"
@@ -97,13 +125,20 @@ collect_coverage() {
 merge_profdata() {
     local test_target="$1"
     local test_name=$(echo "${test_target}" | sed 's/.*://')
-    local testlog_dir="${PROJECT_ROOT}/bazel-out/k8-fastbuild/testlogs/_coverage/tests/unit/${test_name}/test"
-    
-    if [[ -d "${testlog_dir}" ]]; then
-        cd "${testlog_dir}"
-        if ls *.profraw 1> /dev/null 2>&1; then
-            llvm-profdata-18 merge -sparse *.profraw -o coverage.profdata 2>/dev/null
-            echo "${testlog_dir}/coverage.profdata"
+    local testlog_dir="${PROJECT_ROOT}/bazel-out/_coverage/_coverage_report.dat"
+
+    # Bazel 8.5使用新的覆盖率输出位置
+    if [[ -f "${testlog_dir}" ]]; then
+        echo "${testlog_dir}"
+    else
+        # 尝试旧的位置
+        testlog_dir="${PROJECT_ROOT}/bazel-out/k8-fastbuild/testlogs/_coverage/tests/unit/${test_name}/test"
+        if [[ -d "${testlog_dir}" ]]; then
+            cd "${testlog_dir}"
+            if ls *.profraw 1> /dev/null 2>&1; then
+                llvm-profdata merge -sparse *.profraw -o coverage.profdata 2>/dev/null
+                echo "${testlog_dir}/coverage.profdata"
+            fi
         fi
     fi
 }
@@ -126,8 +161,8 @@ analyze_lib_coverage() {
     fi
     
     # 获取覆盖率报告
-    local report=$(llvm-cov-18 report "${lib_so}" -instr-profile="${profdata_file}" 2>/dev/null)
-    
+    local report=$(llvm-cov report "${lib_so}" -instr-profile="${profdata_file}" 2>/dev/null)
+
     # 解析覆盖率数据
     local line_cov=$(echo "${report}" | grep "TOTAL" | awk '{print $10}' | sed 's/%//')
     local func_cov=$(echo "${report}" | grep "TOTAL" | awk '{print $6}' | sed 's/%//')
@@ -147,7 +182,7 @@ generate_report() {
     log_info "生成覆盖率报告..."
     
     # 找到profdata文件
-    local profdata_file=$(merge_profdata "//tests/unit:logger_test")
+    local profdata_file=$(merge_profdata "//tests/level1_foundation:basic_tests")
     
     if [[ -z "${profdata_file}" ]]; then
         log_error "无法找到或生成profdata文件"
@@ -164,7 +199,7 @@ generate_report() {
             log_info "  分析: ${lib_name}"
             
             # 生成HTML报告
-            llvm-cov-18 show "${lib_so}" \
+            llvm-cov show "${lib_so}" \
                 -instr-profile="${profdata_file}" \
                 -path-equivalence=/proc/self/cwd,"${PROJECT_ROOT}" \
                 -format=html \

@@ -1,5 +1,4 @@
-#include "client_test.h"
-#include "server_manager.h"
+#include "../../../tests/unit/parser/client_test.h"
 #include <gtest/gtest.h>
 #include <string>
 #include <memory>

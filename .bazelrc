@@ -54,11 +54,17 @@ test --test_tag_filters=-manual,-slow
 build --show_timestamps
 build --verbose_failures
 
-# 覆盖率配置
+# 覆盖率配置 - 使用LLVM coverage (Clang 20原生支持)
 coverage --instrumentation_filter="//src/.*"
 coverage --instrumentation_filter="//include/.*"
 coverage --combined_report=lcov
-coverage --experimental_generate_llvm_lcov
+coverage --experimental_use_llvm_covmap=true
+coverage --experimental_generate_llvm_lcov=true
+
+# LLVM coverage 配置
+build:coverage --copt=-fprofile-instr-generate
+build:coverage --copt=-fcoverage-mapping
+build:coverage --linkopt=-fprofile-instr-generate
 
 # 测试配置
 test --test_output=all

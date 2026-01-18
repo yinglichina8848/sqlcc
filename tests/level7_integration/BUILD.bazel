@@ -3,26 +3,61 @@ load("@rules_cc//cc:defs.bzl", "cc_test")
 # Level 7 Integration Tests
 # This level contains end-to-end integration tests that test the complete system functionality
 
-# Core integration tests
+# Individual core integration tests
 cc_test(
-    name = "core_integration_tests",
-    srcs = glob([
-        "core/*.cpp",
-    ], allow_empty = True),
+    name = "encrypted_integration_test",
+    srcs = [
+        "core/encrypted_integration_test.cpp",
+    ],
     deps = [
         "//include:sqlcc_pch",
         "//src/core:database_manager",
         "//src/storage_engine:storage_engine",
         "//src/transaction_manager:transaction_manager",
         "//src/logger:logger",
+        "//tests/unit/parser:client_test",
         "@com_google_googletest//:gtest_main",
     ],
     copts = [
         "-std=c++20",
         "-Iinclude",
+        "-Itests",
     ],
     linkopts = [
         "-pthread",
+    ],
+)
+
+cc_test(
+    name = "client_server_integration_test",
+    srcs = [
+        "core/client_server_integration_test.cpp",
+    ],
+    deps = [
+        "//include:sqlcc_pch",
+        "//src/core:database_manager",
+        "//src/storage_engine:storage_engine",
+        "//src/transaction_manager:transaction_manager",
+        "//src/logger:logger",
+        "//tests/unit/parser:client_test",
+        "@com_google_googletest//:gtest_main",
+    ],
+    copts = [
+        "-std=c++20",
+        "-Iinclude",
+        "-Itests",
+    ],
+    linkopts = [
+        "-pthread",
+    ],
+)
+
+# Combined core integration test suite
+test_suite(
+    name = "core_integration_tests",
+    tests = [
+        ":encrypted_integration_test",
+        ":client_server_integration_test",
     ],
 )
 

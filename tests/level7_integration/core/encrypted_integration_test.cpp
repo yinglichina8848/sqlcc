@@ -5,8 +5,7 @@
  * 测试启用AES-256-CBC加密的客户端-服务器通信，验证加密通信下的SQL语句执行
  */
 
-#include "client_test.h"
-#include "server_manager.h"
+#include "../../../tests/unit/parser/client_test.h"
 #include <gtest/gtest.h>
 #include <string>
 #include <array>

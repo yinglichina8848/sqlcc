@@ -1,3 +1,85 @@
 load("@rules_cc//cc:defs.bzl", "cc_library")
 
-exports_files(["audit_trail.cpp"])
+# 导出安全模块的源文件
+exports_files([
+    "audit_trail.cpp",
+    "memory_monitor.cpp",
+])
+
+# Audit trail library
+cc_library(
+    name = "audit_trail",
+    srcs = [
+        "audit_trail.cpp",
+    ],
+    hdrs = [
+        "//include/security:audit_trail.h",
+    ],
+    deps = [
+        "//include:sqlcc_pch",
+        "//src/logger:logger",
+    ],
+    copts = [
+        "-std=c++20",
+        "-Iinclude",
+    ],
+    linkopts = [
+        "-pthread",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+# Memory monitor library
+cc_library(
+    name = "memory_monitor",
+    srcs = [
+        "memory_monitor.cpp",
+    ],
+    hdrs = [
+        "//include/security:memory_monitor.h",
+    ],
+    deps = [
+        "//include:sqlcc_pch",
+        "//src/logger:logger",
+    ],
+    copts = [
+        "-std=c++20",
+        "-Iinclude",
+    ],
+    linkopts = [
+        "-pthread",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+# 导出所有安全模块
+exports_files([
+    "audit_trail.cpp",
+    "memory_monitor.cpp",
+    "enterprise_security.cpp",
+])
+
+# Security module - enterprise security components
+cc_library(
+    name = "enterprise_security",
+    srcs = [
+        "enterprise_security.cpp",
+    ],
+    hdrs = [
+        "//include/security:enterprise_security.h",
+    ],
+    deps = [
+        "//include:sqlcc_pch",
+        "//src/logger:logger",
+        ":audit_trail",
+        ":memory_monitor",
+    ],
+    copts = [
+        "-std=c++20",
+        "-Iinclude",
+    ],
+    linkopts = [
+        "-pthread",
+    ],
+    visibility = ["//visibility:public"],
+)
