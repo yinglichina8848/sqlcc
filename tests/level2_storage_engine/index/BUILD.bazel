@@ -1,0 +1,16 @@
+cc_test(
+    name = "index_tests",
+    srcs = glob(["*.cpp"]),
+    deps = [
+        "//include/storage_engine:b_plus_tree_index",
+        "//src/storage_engine:storage_engine",
+        "@com_google_googletest//:gtest_main",
+    ],
+    copts = [
+        "-std=c++20",
+        "-fprofile-instr-generate",
+        "-fcoverage-mapping",
+    ],
+    linkopts = ["-fprofile-instr-generate"],
+    tags = ["coverage", "level2", "storage_engine"],
+)

@@ -1,0 +1,18 @@
+cc_test(
+    name = "database_manager_tests",
+    srcs = glob(["*.cpp"]),
+    deps = [
+        "//include/core:core_headers",           # DatabaseManager, SystemDatabase
+        "//src/core:core_libs",                  # Implementation
+        "//include/logger:logger_headers",       # Logger
+        "//src/logger:logger_libs",              # Logger implementation
+        "@com_google_googletest//:gtest_main",
+    ],
+    copts = [
+        "-std=c++20",
+        "-fprofile-instr-generate",    # LLVM覆盖率编译
+        "-fcoverage-mapping",          # 源码映射
+    ],
+    linkopts = ["-fprofile-instr-generate"],  # LLVM覆盖率链接
+    tags = ["coverage", "level2", "core_services", "database_manager"],
+)

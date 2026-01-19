@@ -1,0 +1,14 @@
+cc_test(
+    name = "wal_tests",
+    srcs = glob(["*.cpp"]),
+    deps = [
+        "@com_google_googletest//:gtest_main",
+    ],
+    copts = [
+        "-std=c++20",
+        "-fprofile-instr-generate",    # LLVM覆盖率编译
+        "-fcoverage-mapping",          # 源码映射
+    ],
+    linkopts = ["-fprofile-instr-generate"],  # LLVM覆盖率链接
+    tags = ["coverage", "level2", "storage_engine", "wal"],
+)
