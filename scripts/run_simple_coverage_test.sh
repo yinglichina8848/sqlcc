@@ -33,10 +33,10 @@ echo "========================================="
 echo "运行 Level 2 存储引擎测试"
 echo "========================================="
 
-echo "运行测试: //tests/level2_storage_engine/buffer_pool:buffer_pool_test"
+echo "运行测试: //tests/level2_storage_engine/buffer_pool:buffer_pool_tests"
 
 # 运行测试并收集覆盖率
-if bazel coverage "//tests/level2_storage_engine/buffer_pool:buffer_pool_test" \
+if bazel coverage "//tests/level2_storage_engine/buffer_pool:buffer_pool_tests" \
     --combined_report=lcov \
     --test_timeout=300 \
     --coverage_report_generator=@bazel_tools//tools/test/CoverageOutputGenerator/java/com/google/devtools/coverageoutputgenerator:Main; then
@@ -155,7 +155,7 @@ $(date)
 ## 测试结果
 
 ### Level 2 存储引擎测试
-- **测试目标**: //tests/level2_storage_engine/buffer_pool:buffer_pool_test
+- **测试目标**: //tests/level2_storage_engine/buffer_pool:buffer_pool_tests
 - **测试内容**:
   - LRU管理器功能测试
   - 统计收集器功能测试
