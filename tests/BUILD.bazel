@@ -80,7 +80,7 @@ cc_library(
 test_suite(
     name = "level1_foundation_tests",
     tests = [
-        "//tests/level1_foundation:basic_tests",
+        "//tests/level1_foundation/basic:basic_test",
     ],
     tags = ["level1", "foundation", "basic"],
 )
@@ -89,10 +89,7 @@ test_suite(
 test_suite(
     name = "level2_storage_engine_tests",
     tests = [
-        "//tests/level2_storage_engine/buffer_pool:buffer_pool_test",
-        "//tests/level2_storage_engine/buffer_pool:buffer_pool_quick_test",
-        "//tests/level2_storage_engine/buffer_pool:buffer_pool_performance_benchmark_test",
-        "//tests/level2_storage_engine/buffer_pool:buffer_pool_v3_test",
+        "//tests/level2_storage_engine/buffer_pool:buffer_pool_tests",
     ],
     tags = ["level2", "storage", "engine"],
 )
@@ -211,5 +208,5 @@ pkg_tar(
 
 # ==================== 测试配置文件 ====================
 
-# 导出测试配置文件
-exports_files(["build_config.bzl"])
+# 注意：测试配置文件已在子包中定义
+# 如果需要特定的测试配置，请在相应子包中定义

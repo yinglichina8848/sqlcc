@@ -1,33 +1,29 @@
+package(default_visibility = ["//visibility:public"])
+
 cc_test(
-    name = "buffer_pool_tests",
-    srcs = glob(["*.cpp"]),
+    name = "buffer_pool_fast",
+    srcs = [
+        "buffer_pool_test.cpp",
+        "buffer_pool_quick_test.cpp",
+        "buffer_pool_v3_test.cpp",
+    ],
     deps = [
-        "//include/storage:buffer_pool",
-        "//include/storage:buffer_pool_sharded",
-        "//include/storage_engine:buffer_pool",
-        "//include/storage_engine:buffer_pool_sharded",
-        "//include/storage_engine:buffer_pool/lru_manager",
-        "//include/storage_engine:buffer_pool/statistics_collector",
-        "//include/storage_engine:storage_engine",
-        "//include:page",
-        "//include/utils:config_manager",
-        "//include:disk_manager",
-        "//include:exception",
-        "//include/exception:base_exception",
-        "//include/exception:io_exception",
-        "//include/exception:buffer_exception",
-        "//include/exception:page_exception",
-        "//include/exception:disk_exception",
-        "//include/exception:lock_exception",
-        "//include/exception:feature_exception",
-        "//include/exception:argument_exception",
+        "//src/storage_engine:storage_engine",
         "@com_google_googletest//:gtest_main",
     ],
-    copts = [
-        "-std=c++20",
-        "-fprofile-instr-generate",
-        "-fcoverage-mapping",
+)
+
+cc_test(
+    name = "buffer_pool_benchmark",
+    srcs = ["buffer_pool_performance_benchmark_test.cpp"],
+    tags = ["benchmark", "manual"],
+    deps = [
+        "//src/storage_engine:storage_engine",
+        "@com_google_googletest//:gtest_main",
     ],
-    linkopts = ["-fprofile-instr-generate"],
-    tags = ["coverage", "level2", "storage_engine"],
+)
+
+test_suite(
+    name = "all",
+    tests = [":buffer_pool_fast"],
 )

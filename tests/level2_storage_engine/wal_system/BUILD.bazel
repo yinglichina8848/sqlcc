@@ -1,36 +1,15 @@
+package(default_visibility = ["//visibility:public"])
+
 cc_test(
-    name = "wal_system_tests",
-    srcs = glob(["*.cpp"]),
+    name = "wal_system_fast",
+    srcs = ["wal_system_test.cpp"],
     deps = [
-        # Storage Engine Core
-        "//include/storage_engine:storage_engine_headers",  # StorageEngine
-        "//src/storage_engine:storage_engine_libs",         # StorageEngine implementation
-
-        # WAL System Components
-        "//include/storage:wal_writer_headers",             # WALWriter
-        "//src/storage_engine:wal_writer_libs",             # WALWriter implementation
-        "//include/storage:wal_buffer_headers",             # WALBuffer
-        "//src/storage_engine:wal_buffer_libs",             # WALBuffer implementation
-        "//include/storage:checkpoint_headers",             # CheckpointManager
-        "//src/storage_engine:checkpoint_libs",             # CheckpointManager implementation
-
-        # Configuration and Utils
-        "//include/utils:config_manager_headers",          # ConfigManager
-        "//src/utils:config_manager_libs",                # ConfigManager implementation
-
-        "//include/utils:logger_headers",                  # Logger
-        "//src/utils:logger_libs",                         # Logger implementation
-
+        "//src/storage_engine:storage_engine",
         "@com_google_googletest//:gtest_main",
     ],
-    copts = [
-        "-std=c++20",
-        "-fprofile-instr-generate",    # LLVM覆盖率编译
-        "-fcoverage-mapping",          # 源码映射
-        "-Wno-unused-variable",        # 忽略未使用变量警告
-        "-Wno-unused-parameter",       # 忽略未使用参数警告
-        "-Wno-unused-but-set-variable", # 忽略未使用但已设置变量警告
-    ],
-    linkopts = ["-fprofile-instr-generate"],  # LLVM覆盖率链接
-    tags = ["coverage", "level2", "storage_engine", "wal_system"],
+)
+
+test_suite(
+    name = "all",
+    tests = [":wal_system_fast"],
 )

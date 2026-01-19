@@ -26,19 +26,17 @@ protected:
         test_dir = fs::temp_directory_path() / "sqlcc_btree_test";
         fs::create_directories(test_dir);
 
-        // Initialize configuration
-        config = std::make_unique<ConfigManager>();
-        config->SetValue("storage.data_directory", test_dir.string());
-        config->SetValue("buffer_pool.size", std::string("1024"));  // 1MB buffer pool
+        // Initialize configuration (singleton)
+        ConfigManager::GetInstance().SetValue("storage.data_directory", test_dir.string());
+        ConfigManager::GetInstance().SetValue("buffer_pool.size", std::string("1024"));  // 1MB buffer pool
 
         // Initialize storage engine
-        storage_engine = std::make_shared<StorageEngine>(*config, test_dir.string());
+        storage_engine = std::make_shared<StorageEngine>(ConfigManager::GetInstance(), test_dir.string());
     }
 
     void TearDown() override {
         // Clean up resources
         storage_engine.reset();
-        config.reset();
 
         // Remove test directory
         if (fs::exists(test_dir)) {
@@ -47,7 +45,6 @@ protected:
     }
 
     fs::path test_dir;
-    std::unique_ptr<ConfigManager> config;
     std::shared_ptr<StorageEngine> storage_engine;
 };
 

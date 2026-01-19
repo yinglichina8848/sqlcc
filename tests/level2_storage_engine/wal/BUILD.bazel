@@ -1,14 +1,15 @@
+package(default_visibility = ["//visibility:public"])
+
 cc_test(
-    name = "wal_tests",
-    srcs = glob(["*.cpp"]),
+    name = "wal_fast",
+    srcs = ["wal_test.cpp"],
     deps = [
+        "//src/storage_engine:storage_engine",
         "@com_google_googletest//:gtest_main",
     ],
-    copts = [
-        "-std=c++20",
-        "-fprofile-instr-generate",    # LLVM覆盖率编译
-        "-fcoverage-mapping",          # 源码映射
-    ],
-    linkopts = ["-fprofile-instr-generate"],  # LLVM覆盖率链接
-    tags = ["coverage", "level2", "storage_engine", "wal"],
+)
+
+test_suite(
+    name = "all",
+    tests = [":wal_fast"],
 )

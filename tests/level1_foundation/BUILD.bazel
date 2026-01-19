@@ -4,17 +4,4 @@ load("@rules_cc//cc:defs.bzl", "cc_test")
 # 包括：基本组件、配置管理、日志系统、类型系统等
 
 # Basic component tests - 基础组件测试
-cc_test(
-    name = "basic_tests",
-    srcs = glob(["basic/basic_test.cpp"]),
-    allow_empty = False,
-    deps = [
-        "@com_google_googletest//:gtest_main",
-    ],
-    copts = [
-        "-std=c++20",
-        "-Iinclude",
-        "-Ithird_party",
-    ],
-    timeout = "short",
-)
+# Note: Tests are defined in subpackages

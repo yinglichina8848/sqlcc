@@ -1,116 +1,16 @@
-load("@rules_cc//cc:defs.bzl", "cc_test")
-
 # Level 7 Integration Tests
 # This level contains end-to-end integration tests that test the complete system functionality
+# Tests are defined in subpackages for better organization.
 
-# Individual core integration tests
-cc_test(
-    name = "encrypted_integration_test",
-    srcs = [
-        "core/encrypted_integration_test.cpp",
-    ],
-    deps = [
-        "//include:sqlcc_pch",
-        "//src/core:database_manager",
-        "//src/storage_engine:storage_engine",
-        "//src/transaction_manager:transaction_manager",
-        "//src/logger:logger",
-        "//tests/unit/parser:client_test",
-        "@com_google_googletest//:gtest_main",
-    ],
-    copts = [
-        "-std=c++20",
-        "-Iinclude",
-        "-Itests",
-    ],
-    linkopts = [
-        "-pthread",
-    ],
-)
-
-cc_test(
-    name = "client_server_integration_test",
-    srcs = [
-        "core/client_server_integration_test.cpp",
-    ],
-    deps = [
-        "//include:sqlcc_pch",
-        "//src/core:database_manager",
-        "//src/storage_engine:storage_engine",
-        "//src/transaction_manager:transaction_manager",
-        "//src/logger:logger",
-        "//tests/unit/parser:client_test",
-        "@com_google_googletest//:gtest_main",
-    ],
-    copts = [
-        "-std=c++20",
-        "-Iinclude",
-        "-Itests",
-    ],
-    linkopts = [
-        "-pthread",
-    ],
-)
-
-# Combined core integration test suite
 test_suite(
-    name = "core_integration_tests",
+    name = "level7_integration_tests",
     tests = [
-        ":encrypted_integration_test",
-        ":client_server_integration_test",
+        "//tests/level7_integration/core:encrypted_integration_test",
+        "//tests/level7_integration/core:client_server_integration_test",
+        "//tests/level7_integration/demo:demo_integration_tests",
+        "//tests/level7_integration/performance:performance_integration_tests",
     ],
+    tags = ["level7", "integration"],
 )
 
-# Demo integration tests
-cc_test(
-    name = "demo_integration_tests",
-    srcs = glob([
-        "demo/*.cpp",
-    ], allow_empty = True),
-    deps = [
-        "//include:sqlcc_pch",
-        "//src/core:database_manager",
-        "//src/storage_engine:storage_engine",
-        "//src/logger:logger",
-        "@com_google_googletest//:gtest_main",
-    ],
-    copts = [
-        "-std=c++20",
-        "-Iinclude",
-    ],
-    linkopts = [
-        "-pthread",
-    ],
-)
-
-# Performance integration tests
-cc_test(
-    name = "performance_integration_tests",
-    srcs = glob([
-        "performance/*.cpp",
-    ], allow_empty = True),
-    deps = [
-        "//include:sqlcc_pch",
-        "//src/core:database_manager",
-        "//src/storage_engine:storage_engine",
-        "//src/logger:logger",
-        "@com_google_googletest//:gtest_main",
-    ],
-    copts = [
-        "-std=c++20",
-        "-Iinclude",
-    ],
-    linkopts = [
-        "-pthread",
-    ],
-)
-
-# Test suite combining all integration tests
-test_suite(
-    name = "integration_test_suite",
-    tests = [
-        ":core_integration_tests",
-        ":demo_integration_tests",
-        ":performance_integration_tests",
-    ],
-)
+package(default_visibility = ["//visibility:public"])

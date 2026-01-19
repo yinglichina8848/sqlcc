@@ -1,98 +1,14 @@
 # Level 2 Core Services Tests - Core Database Services
 # These tests verify core database services components (database management, user management, etc.)
+# Tests are defined in subpackages for better organization.
 
-load("@rules_cc//cc:defs.bzl", "cc_test")
-
-# Database manager tests
-cc_test(
-    name = "database_manager_tests",
-    srcs = ["database_manager/database_manager_test.cpp"],
-    deps = [
-        "//include/core:core_database_manager",
-        "//include/core:system_database",
-        "//include/utils:logger",
-        "//src/core:core_database_manager",
-        "//src/core:system_database",
-        "//src/logger:logger",
-        "@com_google_googletest//:gtest_main",
+test_suite(
+    name = "level2_core_services_tests",
+    tests = [
+        "//tests/level2_core_services/config_manager:config_manager_tests",
+        "//tests/level2_core_services/database_manager:database_manager_tests",
+        "//tests/level2_core_services/permission_validator:permission_validator_tests",
+        "//tests/level2_core_services/user_manager:user_manager_tests",
     ],
-    copts = [
-        "-std=c++20",
-        "-fprofile-instr-generate",
-        "-fcoverage-mapping",
-        "-Wno-unused-variable",
-        "-Wno-unused-parameter",
-        "-Wno-unused-but-set-variable",
-    ],
-    linkopts = ["-fprofile-instr-generate"],
-    tags = ["coverage", "level2", "core_services", "database_manager"],
-)
-
-# User management tests
-cc_test(
-    name = "user_manager_tests",
-    srcs = ["user_manager/user_manager_test.cpp"],
-    deps = [
-        "//include/core:core",
-        "//include/exception:exception",
-        "//src/core:core",
-        "//src/exception:exception",
-        "@com_google_googletest//:gtest_main",
-    ],
-    copts = [
-        "-std=c++20",
-        "-fprofile-instr-generate",
-        "-fcoverage-mapping",
-        "-Wno-unused-variable",
-        "-Wno-unused-parameter",
-        "-Wno-unused-but-set-variable",
-    ],
-    linkopts = ["-fprofile-instr-generate"],
-    tags = ["coverage", "level2", "core_services", "user_manager"],
-)
-
-# Permission validation tests
-cc_test(
-    name = "permission_validator_tests",
-    srcs = ["permission_validator/permission_validator_test.cpp"],
-    deps = [
-        "//include/core:core",
-        "//include/exception:exception",
-        "//src/core:core",
-        "//src/exception:exception",
-        "@com_google_googletest//:gtest_main",
-    ],
-    copts = [
-        "-std=c++20",
-        "-fprofile-instr-generate",
-        "-fcoverage-mapping",
-        "-Wno-unused-variable",
-        "-Wno-unused-parameter",
-        "-Wno-unused-but-set-variable",
-    ],
-    linkopts = ["-fprofile-instr-generate"],
-    tags = ["coverage", "level2", "core_services", "permission_validator"],
-)
-
-# Configuration management tests
-cc_test(
-    name = "config_manager_tests",
-    srcs = ["config_manager/config_manager_test.cpp"],
-    deps = [
-        "//include/utils:config_manager",
-        "//include/exception:exception",
-        "//src/utils:config_manager",
-        "//src/exception:exception",
-        "@com_google_googletest//:gtest_main",
-    ],
-    copts = [
-        "-std=c++20",
-        "-fprofile-instr-generate",
-        "-fcoverage-mapping",
-        "-Wno-unused-variable",
-        "-Wno-unused-parameter",
-        "-Wno-unused-but-set-variable",
-    ],
-    linkopts = ["-fprofile-instr-generate"],
-    tags = ["coverage", "level2", "core_services", "config_manager"],
+    tags = ["level2", "core_services"],
 )

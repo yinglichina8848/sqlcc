@@ -1,22 +1,49 @@
+package(default_visibility = ["//visibility:public"])
+
 cc_test(
-    name = "b_plus_tree_tests",
-    srcs = glob(["*.cpp"]),
+    name = "bplus_tree_fast",
+    srcs = [
+        "simple_bplus_tree_test.cpp",
+        "minimal_bplus_tree_test.cpp",
+        "b_plus_tree_test.cpp",
+        "b_plus_tree_core_test.cpp",
+    ],
     deps = [
-        "//include/storage_engine:b_plus_tree",
-        "//include/storage_engine:b_plus_tree_index",
-        "//include/storage_engine:b_plus_tree_node",
-        "//include/storage_engine:b_plus_tree_leaf_node",
-        "//include/storage_engine:b_plus_tree_internal_node",
-        "//src/storage_engine:b_plus_tree_lib",
-        "//src/storage_engine:b_plus_tree_index_lib",
-        "//src/storage_engine:b_plus_tree_node_lib",
+        "//src/storage_engine:storage_engine",
         "@com_google_googletest//:gtest_main",
     ],
-    copts = [
-        "-std=c++20",
-        "-fprofile-instr-generate",
-        "-fcoverage-mapping",
+)
+
+cc_test(
+    name = "bplus_tree_slow",
+    srcs = [
+        "final_bplus_tree_test.cpp",
+        "comprehensive_bplus_tree_test.cpp",
     ],
-    linkopts = ["-fprofile-instr-generate"],
-    tags = ["coverage", "level2", "storage_engine"],
+    tags = ["slow"],
+    deps = [
+        "//src/storage_engine:storage_engine",
+        "@com_google_googletest//:gtest_main",
+    ],
+)
+
+cc_test(
+    name = "bplus_tree_debug",
+    srcs = [
+        "debug_bplus_tree.cpp",
+        "test_bplus_tree_fix.cpp",
+    ],
+    tags = ["manual", "debug"],
+    deps = [
+        "//src/storage_engine:storage_engine",
+        "@com_google_googletest//:gtest_main",
+    ],
+)
+
+test_suite(
+    name = "all",
+    tests = [
+        ":bplus_tree_fast",
+        ":bplus_tree_slow",
+    ],
 )
