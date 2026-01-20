@@ -9,7 +9,6 @@ package(
 cc_library(
     name = "page",
     hdrs = ["//include:page.h"],
-    includes = [".."],
     copts = [
         "-std=c++20",
         "-stdlib=libc++",
@@ -26,6 +25,7 @@ cc_library(
         "SQLCC_CLANG18_FEATURES=1",
     ],
     deps = [
-        "//include/utils:headers",
+        "//include/exception:exception",
+        "//src/utils:utils",
     ],
 )

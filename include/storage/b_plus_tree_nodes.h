@@ -130,7 +130,7 @@
 #include <memory>
 #include <string>
 #include <vector>
-#include "page.h"
+#include "../page.h"
 
 // 前向声明解决循环依赖
 namespace sqlcc {
@@ -152,10 +152,14 @@ public:
     void SetParentPageId(int32_t parent_page_id) { parent_page_id_ = parent_page_id; }
     bool IsLeaf() const { return is_leaf_; }
 
+    // 页面访问方法
+    char* GetData();
+    const char* GetData() const;
+
     // 序列化和反序列化方法
     virtual void SerializeToPage() = 0;
     virtual void DeserializeFromPage() = 0;
-    
+
     // 清空节点数据方法
     virtual void Clear() = 0;
 

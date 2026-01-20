@@ -1,0 +1,30 @@
+load("@rules_cc//cc:defs.bzl", "cc_library")
+
+cc_library(
+    name = "disk_manager",
+    srcs = ["disk_manager.cpp"],
+    hdrs = ["disk_manager.h"],
+    includes = ["."],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+        "-Wall",
+        "-Wextra",
+        "-Wno-error=maybe-uninitialized",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+    defines = [
+        "SQLCC_MODERN_CPP=1",
+        "SQLCC_CLANG18_FEATURES=1",
+    ],
+    deps = [
+        "//include/exception:exception",
+        "//include/page:page",
+        "//include/utils:utils",
+        "//src/utils:utils",
+    ],
+    visibility = ["//visibility:public"],
+)

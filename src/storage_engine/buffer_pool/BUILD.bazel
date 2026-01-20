@@ -1,23 +1,21 @@
 cc_library(
-    name = "lru_manager",
-    srcs = ["lru_manager.cpp"],
-    hdrs = ["//include/storage_engine/buffer_pool:lru_manager.h"],
-    deps = [
-        "//src/utils:utils",
-        "//include/exception:exception",
+    name = "buffer_pool",
+    srcs = [
+        "buffer_pool_sharded.cpp",
+        "replace_strategy.cpp",
     ],
-    includes = ["include"],
-    visibility = ["//visibility:public"],
-)
-
-cc_library(
-    name = "statistics_collector",
-    srcs = ["statistics_collector.cpp"],
-    hdrs = ["//include/storage_engine/buffer_pool:statistics_collector.h"],
-    deps = [
-        "//src/utils:utils",
-        "//include/exception:exception",
+    hdrs = [
+        "buffer_pool.h",
+        "buffer_pool_sharded.h",
+        "replace_strategy.h",
+        "prefetcher.h",
     ],
-    includes = ["include"],
+    includes = ["."],
+    deps = [
+        "//include:disk_manager",
+        "//src/storage_engine/disk_manager:disk_manager",
+        "//src/logger:logger",
+        "//src/config_manager:config_manager",
+    ],
     visibility = ["//visibility:public"],
 )

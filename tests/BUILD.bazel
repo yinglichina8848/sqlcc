@@ -25,42 +25,7 @@ cc_library(
 
 # ==================== 测试框架基础库 ====================
 
-# 测试辅助工具库
-cc_library(
-    name = "test_framework",
-    srcs = [
-        "framework/test_base.cpp",
-        "framework/test_helpers.cpp",
-        "framework/performance_timer.cpp",
-    ],
-    hdrs = [
-        "framework/test_base.h",
-        "framework/test_helpers.h",
-        "framework/performance_timer.h",
-    ],
-    deps = [
-        ":gtest",
-        "//include:sql_executor",
-        "//include:storage_engine",
-        "//include:transaction_manager",
-        "//include:core_database_manager",
-        "//src/mocks:storage_engine_mock",
-        "//src/mocks:database_manager_mock",
-        "//src/mocks:transaction_manager_mock",
-        "//src/mocks:index_manager_mock",
-    ],
-    includes = ["../include"],
-    copts = [
-        "-std=c++20",
-        "-stdlib=libc++",
-        "-Wall",
-        "-Wextra",
-    ],
-    linkopts = [
-        "-stdlib=libc++",
-        "-lc++abi",
-    ],
-)
+# 注意：测试框架文件不存在，已移除
 
 # ==================== Mock库 ====================
 
@@ -89,7 +54,7 @@ test_suite(
 test_suite(
     name = "level2_storage_engine_tests",
     tests = [
-        "//tests/level2_storage_engine/buffer_pool:buffer_pool_tests",
+        "//tests/level2_storage_engine:level2_storage_engine_all",
     ],
     tags = ["level2", "storage", "engine"],
 )

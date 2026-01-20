@@ -7,7 +7,7 @@
  * How: 使用RAII模式管理配置资源的获取和释放
  */
 
-#include "include/utils/config_lifecycle.h"
+#include "config_lifecycle.h"
 #include <sstream>
 #include <iomanip>
 #include <chrono>

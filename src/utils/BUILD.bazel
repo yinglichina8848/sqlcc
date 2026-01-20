@@ -3,15 +3,30 @@
 
 load("@rules_cc//cc:defs.bzl", "cc_library")
 
+# Headers filegroup - 头文件集合
+filegroup(
+    name = "headers",
+    srcs = [
+        "config_lifecycle.h",
+        "config_manager.h",
+        "config_snapshot.h",
+        "connection_pool.h",
+        "file_descriptor.h",
+        "logger.h",
+        "smart_config_manager.h",
+        "ssl_wrapper.h",
+        "thread_pool.h",
+        "version.h",
+    ],
+    visibility = ["//visibility:public"],
+)
 
 # Thread Pool库 - 多线程任务执行器
 cc_library(
     name = "thread_pool",
     srcs = ["thread_pool.cpp"],
-    hdrs = ["//include/utils:thread_pool.h"],
-    includes = ["//include"],
+    hdrs = ["thread_pool.h"],
     copts = [
-        "-Iinclude",
         "-std=c++20",
         "-stdlib=libc++",
         "-Wall",
@@ -25,6 +40,25 @@ cc_library(
     visibility = ["//visibility:public"],
 )
 
+# Logger库 - 日志系统
+cc_library(
+    name = "logger",
+    srcs = ["logger.cpp"],
+    hdrs = ["logger.h"],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+        "-Wall",
+        "-Wextra",
+        "-Wno-uninitialized",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+    visibility = ["//visibility:public"],
+)
+
 # Utils库 - 工具库
 cc_library(
     name = "utils",
@@ -34,9 +68,13 @@ cc_library(
         "config_snapshot.cpp",
         "smart_config_manager.cpp",
     ],
-    includes = ["//include"],
+    hdrs = [
+        "config_lifecycle.h",
+        "config_manager.h",
+        "config_snapshot.h",
+        "smart_config_manager.h",
+    ],
     copts = [
-        "-Iinclude",
         "-std=c++20",
         "-stdlib=libc++",
         "-Wall",
@@ -45,12 +83,8 @@ cc_library(
         "-fprofile-instr-generate",
         "-fcoverage-mapping",
     ],
-    hdrs = [
-        "//include/utils:smart_config_manager.h",
-    ],
     deps = [
-        "//include/utils:headers",
-        "//src/logger:logger",
+        ":logger",
     ],
     linkopts = [
         "-stdlib=libc++",

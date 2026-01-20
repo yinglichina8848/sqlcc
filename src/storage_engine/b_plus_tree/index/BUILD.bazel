@@ -1,0 +1,14 @@
+cc_library(
+    name = "bptree_index",
+    srcs = ["b_plus_tree_index.cpp"],
+    hdrs = ["b_plus_tree_index.h"],
+    includes = ["."],
+    deps = [
+        "//src/storage_engine/b_plus_tree/core:bptree_core",
+        "//include/utils:utils",
+        "//include:storage_engine",
+        "//include:disk_manager",
+        "//include:exception",
+    ],
+    visibility = ["//visibility:public"],
+)

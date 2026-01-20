@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 #include <functional>
-#include "storage/b_plus_tree_nodes.h"
+#include "b_plus_tree_nodes.h"
 
 // 前向声明解决循环依赖
 namespace sqlcc {

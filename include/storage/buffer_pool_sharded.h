@@ -15,7 +15,7 @@
 #include "../disk_manager.h"
 #include "../page.h"
 #include "../utils/config_manager.h"
-#include "../exception.h"
+#include "../exception/exception.h"
 
 namespace sqlcc {
 
