@@ -1,4 +1,4 @@
-#include "../../include/security/memory_monitor.h"
+#include "security/memory_monitor.h"
 #include <sys/resource.h>
 #include <unistd.h>
 #include <sstream>

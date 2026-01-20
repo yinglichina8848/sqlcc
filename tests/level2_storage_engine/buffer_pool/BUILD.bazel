@@ -1,5 +1,3 @@
-package(default_visibility = ["//visibility:public"])
-
 cc_test(
     name = "buffer_pool_fast",
     srcs = [
@@ -8,22 +6,7 @@ cc_test(
         "buffer_pool_v3_test.cpp",
     ],
     deps = [
-        "//src/storage_engine:storage_engine",
+        "//src/storage_engine/buffer_pool",
         "@com_google_googletest//:gtest_main",
     ],
-)
-
-cc_test(
-    name = "buffer_pool_benchmark",
-    srcs = ["buffer_pool_performance_benchmark_test.cpp"],
-    tags = ["benchmark", "manual"],
-    deps = [
-        "//src/storage_engine:storage_engine",
-        "@com_google_googletest//:gtest_main",
-    ],
-)
-
-test_suite(
-    name = "all",
-    tests = [":buffer_pool_fast"],
 )

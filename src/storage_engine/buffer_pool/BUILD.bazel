@@ -4,18 +4,11 @@ cc_library(
         "buffer_pool_sharded.cpp",
         "replace_strategy.cpp",
     ],
-    hdrs = [
-        "buffer_pool.h",
-        "buffer_pool_sharded.h",
-        "replace_strategy.h",
-        "prefetcher.h",
-    ],
-    includes = ["."],
     deps = [
-        "//include:disk_manager",
-        "//src/storage_engine/disk_manager:disk_manager",
-        "//src/logger:logger",
-        "//src/config_manager:config_manager",
+        "//include/storage_engine:storage_engine_headers",
+        "//src/storage_engine/disk_manager",
+        "//src/logger",
+        "//src/config_manager",
     ],
     visibility = ["//visibility:public"],
 )

@@ -5,8 +5,8 @@
 #include <vector>
 #include <unordered_map>
 #include <variant>
-#include "../../include/procedure/procedure_parser.h"
-#include "../../include/core/execution_result.h"
+#include "procedure/procedure_parser.h"
+#include "core/execution_result.h"
 
 namespace sqlcc {
 namespace sql_executor {

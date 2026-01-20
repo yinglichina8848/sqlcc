@@ -233,14 +233,10 @@
 #ifndef SQLCC_EXCEPTION_H_
 #define SQLCC_EXCEPTION_H_
 
-// Why: 防止头文件被多次包含，避免编译错误和链接冲突
-// What: 使用#pragma once指令确保头文件只被编译一次
-// How: 在文件开头添加#pragma once预处理指令，编译器级别的重复包含防护
 #pragma once
 
-// Why: 临时简化异常系统，避免编译错误
-// What: 提供基本的异常类定义，确保代码能编译
-// How: 直接定义简单的异常类，避免包含不存在的头文件
+#include <exception>
+#include <string>
 
 // Why: 定义数据库系统专用的命名空间，避免全局命名污染
 // What: 将所有异常类放入sqlcc命名空间，提供模块化的异常管理
@@ -257,14 +253,6 @@ public:
     virtual const char* what() const noexcept override { return message_.c_str(); }
 private:
     std::string message_;
-};
-
-// Why: 提供I/O异常类
-// What: IOException用于处理I/O相关错误
-// How: 继承Exception，提供I/O异常功能
-class IOException : public Exception {
-public:
-    explicit IOException(const std::string& msg) : Exception(msg) {}
 };
 
 // Why: 提供缓冲池异常类

@@ -8,7 +8,7 @@
  */
 
 #include "include/storage/buffer_pool_sharded.h"
-#include "include/disk_manager.h"
+#include "disk_manager.h"
 #include "exception.h"
 #include "include/utils/logger.h"
 

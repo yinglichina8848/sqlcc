@@ -1,4 +1,4 @@
-#include "../../include/trigger/trigger_executor.h"
+#include "trigger/trigger_executor.h"
 
 #include <iostream>
 #include <algorithm>

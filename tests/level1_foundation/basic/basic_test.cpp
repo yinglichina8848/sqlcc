@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "exception/base_exception.h"
+#include "exception/exception.h"
 #include "exception/io_exception.h"
 
 // Basic test for foundation level

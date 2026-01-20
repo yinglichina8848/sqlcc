@@ -1,12 +1,9 @@
 cc_library(
     name = "storage_engine_api",
     srcs = ["storage_engine.cpp"],
-    includes = ["."],
     deps = [
         "//src/storage_engine/disk_manager:disk_manager",
-        "//include/storage_engine:index_manager",
-        "//include:storage_engine",
-        "//include:disk_manager",
+        "//src/storage_engine/index_manager:index_manager",
         # 后续添加其他模块依赖
     ],
     visibility = ["//visibility:public"],

@@ -12,9 +12,9 @@
 #include <unordered_map>
 #include <vector>
 
-#include "../../include/page.h"
-#include "../../include/utils/config_manager.h"
-#include "../../include/exception/exception.h"
+#include "storage_engine/page/page.h"
+#include "utils/config_manager.h"
+#include "exception/exception.h"
 
 namespace sqlcc {
 

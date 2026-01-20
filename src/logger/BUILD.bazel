@@ -1,41 +1,6 @@
-# //src/logger/BUILD.bazel - Logger模块
-# 遵循设计文档的包层次结构
-
-load("@rules_cc//cc:defs.bzl", "cc_library")
-
-
-
-
-# 导出源文件以供其他包使用
-exports_files([
-    "logger.cpp",
-    "logger_module_impl.cpp",
-])
-
-# Logger库 - 现代化日志系统
 cc_library(
     name = "logger",
-    srcs = [
-        "logger.cpp",
-    ],
-    hdrs = [
-        "//include/utils:logger.h",
-    ],
-    deps = [
-        "//include/utils:utils",
-    ],
-    copts = [
-        "-std=c++20",
-        "-Wall",
-        "-Wextra",
-        "-Wno-error=maybe-uninitialized",
-        "-fprofile-instr-generate",
-        "-fcoverage-mapping",
-    ],
-    linkopts = [],
-    defines = [
-        "SQLCC_MODERN_CPP=1",
-        "SQLCC_CLANG18_FEATURES=1",
-    ],
+    srcs = ["logger.cpp"],
+    hdrs = ["logger.h"],
     visibility = ["//visibility:public"],
 )

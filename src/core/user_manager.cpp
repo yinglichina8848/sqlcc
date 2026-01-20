@@ -64,7 +64,7 @@
  * @see include/core/user_manager.h
  */
 
-#include "include/core/user_manager.h"
+#include "user_manager.h"
 #include <algorithm>
 #include <iostream>
 #include <queue>

@@ -1,4 +1,4 @@
-#include "core/system_database.h"
+#include "system_database.h"
 
 namespace sqlcc {
 

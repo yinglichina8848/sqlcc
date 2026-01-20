@@ -11,8 +11,8 @@
 #include <filesystem>
 #include <unordered_set>
 
-#include "include/storage_engine/buffer_pool/lru_manager.h"
-#include "include/storage_engine/buffer_pool/statistics_collector.h"
+#include "src/storage_engine/buffer_pool/lru_manager.h"
+#include "src/storage_engine/buffer_pool/statistics_collector.h"
 #include "include/storage_engine.h"
 #include "include/page.h"
 #include "include/utils/config_manager.h"

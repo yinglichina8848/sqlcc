@@ -64,7 +64,7 @@
  * @see include/config_manager.h
  */
 
-#include "../../include/utils/config_manager.h"
+#include "utils/config_manager.h"
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -102,6 +102,26 @@ bool ConfigManager::ReloadConfig() {
         return false;
     }
     return ParseConfigFile(config_file_path_);
+}
+
+// 加载配置文件（带参数版本）
+bool ConfigManager::ReloadConfig(const std::string& path) {
+    // 清除现有配置
+    config_map_.clear();
+
+    std::ifstream file(path);
+    if (!file.is_open()) {
+        return false;
+    }
+
+    std::string line;
+    std::string current_section;
+
+    while (std::getline(file, line)) {
+        ParseConfigLine(line, current_section);
+    }
+
+    return true;
 }
 
 // 加载默认配置
@@ -311,5 +331,16 @@ std::vector<std::string> ConfigManager::GetKeysWithPrefix(const std::string& pre
     }
     return keys;
 }
+
+#ifdef SQLCC_TEST
+// 测试专用：重置内部状态
+void ConfigManager::ResetForTest() {
+    std::lock_guard<std::mutex> lock(config_mutex_);
+    config_map_.clear();
+    config_file_path_.clear();
+    env_.clear();
+    operation_timeout_ms_ = kDefaultOperationTimeoutMs;
+}
+#endif
 
 }  // namespace sqlcc

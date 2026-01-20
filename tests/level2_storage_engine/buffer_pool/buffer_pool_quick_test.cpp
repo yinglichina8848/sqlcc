@@ -12,9 +12,13 @@
 
 #include "storage_engine/buffer_pool/lru_manager.h"
 #include "storage_engine/buffer_pool/statistics_collector.h"
+
 #include "storage_engine.h"
 #include "page.h"
 #include "utils/config_manager.h"
+
+using sqlcc::LRUManager;
+using sqlcc::StatisticsCollector;
 
 namespace fs = std::filesystem;
 namespace sqlcc {
@@ -26,8 +30,8 @@ protected:
         test_dir = fs::temp_directory_path() / "sqlcc_buffer_pool_quick_test";
         fs::create_directories(test_dir);
 
-        // 初始化配置管理器
-        config = std::make_unique<ConfigManager>();
+        // 初始化配置管理器（使用单例模式）
+        config = &ConfigManager::GetInstance();
         config->SetValue("storage.data_directory", test_dir.string());
         config->SetValue("buffer_pool.size", std::string("4096"));
 
@@ -35,8 +39,8 @@ protected:
         storage_engine = std::make_shared<StorageEngine>(*config, test_dir.string());
 
         // 初始化LRU管理器和统计收集器
-        lru_manager = std::make_unique<LRUManager>();
-        stats_collector = std::make_unique<StatisticsCollector>();
+        lru_manager = std::make_unique<LRUManager>(1000);  // 容量1000
+        stats_collector = std::make_unique<StatisticsCollector>("buffer_pool_test");
     }
 
     void TearDown() override {
@@ -57,10 +61,10 @@ protected:
     }
 
     fs::path test_dir;
-    std::unique_ptr<ConfigManager> config;
+    ConfigManager* config;
     std::shared_ptr<StorageEngine> storage_engine;
-    std::unique_ptr<storage::LRUManager> lru_manager;
-    std::unique_ptr<storage::StatisticsCollector> stats_collector;
+    std::unique_ptr<LRUManager> lru_manager;
+    std::unique_ptr<StatisticsCollector> stats_collector;
 };
 
 // 测试LRU管理器的基本功能

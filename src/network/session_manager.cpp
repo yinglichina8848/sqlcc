@@ -1,5 +1,5 @@
-#include "../../include/network/session_manager.h"
-#include "../../include/network/session.h"
+#include "network/session_manager.h"
+#include "network/session.h"
 
 namespace sqlcc {
 namespace network {

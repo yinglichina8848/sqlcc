@@ -3,7 +3,7 @@
  * @brief Enterprise security component implementation
  */
 
-#include "../../include/security/enterprise_security.h"
+#include "security/enterprise_security.h"
 #include <iostream>
 #include <cstring>
 #include <memory>

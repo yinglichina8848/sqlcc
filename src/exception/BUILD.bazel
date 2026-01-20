@@ -1,10 +1,12 @@
+package(default_visibility = ["//visibility:public"])
+
 cc_library(
     name = "exception",
-    srcs = glob(["src/**/*.cpp"]),
-    hdrs = glob(["include/exception/**/*.h"]),
-    includes = ["include"],
-    visibility = ["//visibility:public"],
-    deps = [
-
+    srcs = [
+        "src/io_exception.cpp",
+    ],
+    hdrs = [
+        "//include/exception:exception.h",
+        "//include/exception:io_exception.h",
     ],
 )

@@ -2,12 +2,18 @@ cc_test(
     name = "config_manager_tests",
     srcs = glob(["*.cpp"]),
     deps = [
+        "//src/config_manager:config_manager",
         "@com_google_googletest//:gtest_main",
     ],
     copts = [
+        "-Iinclude",
         "-std=c++20",
+        "-DSQLCC_TEST=1",              # 启用测试模式，包含ResetForTest方法
         "-fprofile-instr-generate",    # LLVM覆盖率编译
         "-fcoverage-mapping",          # 源码映射
+    ],
+    defines = [
+        "SQLCC_TEST=1",                # 确保宏定义传递给所有依赖
     ],
     linkopts = ["-fprofile-instr-generate"],  # LLVM覆盖率链接
     tags = ["coverage", "level2", "core_services", "config_manager"],

@@ -57,7 +57,8 @@ public:
 
     // 文件操作
     bool LoadConfig(const std::string& config_file_path, const std::string& env = "");
-    bool ReloadConfig();
+    bool ReloadConfig();  // 重新加载当前文件
+    bool ReloadConfig(const std::string& new_config_path);  // 加载新文件（完整替换）
     bool SaveToFile(const std::string& file_path) const;
 
     // 批量操作
@@ -66,6 +67,10 @@ public:
 
     // 测试辅助方法
     void ClearAll();
+
+#ifdef SQLCC_TEST
+    void ResetForTest();
+#endif
 
     // 超时设置
     void SetOperationTimeout(int timeout_ms);

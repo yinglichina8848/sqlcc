@@ -12,7 +12,7 @@
 #include <unordered_set>
 #include <bitset>
 
-#include "../disk_manager.h"
+#include "../../../src/storage_engine/disk_manager/disk_manager.h"
 #include "../page.h"
 #include "../utils/config_manager.h"
 #include "../exception/exception.h"

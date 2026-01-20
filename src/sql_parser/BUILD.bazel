@@ -1,74 +1,105 @@
-# SQL解析器组件Bazel构建配置
+# src/sql_parser/BUILD.bazel
+# SQL解析器模块 Bazel 构建配置
+# 注意：include/sql_parser/BUILD.bazel 已废弃，全部迁移到此文件
 
 package(default_visibility = ["//visibility:public"])
 
+# -----------------------------------------------------------------------------
+# SQL解析器头文件库
+# -----------------------------------------------------------------------------
 cc_library(
-    name = "sql_parser",
+    name = "headers",
+    hdrs = glob(["*.h", "**/*.h"], allow_empty=True),
+    strip_include_prefix = "src/sql_parser",
+    include_prefix = "sql_parser",
+    visibility = ["//visibility:public"],
+)
+
+# -----------------------------------------------------------------------------
+# 核心 SQL 解析器库
+# -----------------------------------------------------------------------------
+cc_library(
+    name = "sql_parser_core",
     srcs = glob([
         "*.cpp",
         "ast/*.cpp",
-    ], exclude = [
-        "window_function.cpp",
-        "recursive_query.cpp",
-        "function_ast.cpp",
-        "function_definition.cpp",  # 单独添加，避免glob重复包含
-        "advanced_sql92_features.cpp",  # 暂时移除，缺少Statement::Type枚举
-        "ast_dcl_statements.cpp",  # 暂时排除，存在编译错误
+    ], exclude=[
+        "function_definition.cpp",       # 单独模块
+        "advanced_sql92_features.cpp",   # 暂时缺少 Statement::Type 枚举
+        "ast_dcl_statements.cpp",        # 存在编译错误
+        "window_function.cpp",           # 单独模块
+        "recursive_query.cpp",           # 单独模块
+        "function_ast.cpp",              # 单独模块
+        "set_operation.cpp",             # 单独模块
     ]),
-    hdrs = glob([
-        "*.h",
-    ], allow_empty = True),
+    hdrs = [":headers"],
     includes = [
         "../../include",
         "../../src/types",
     ],
     deps = [
+        "//src/sql_parser:headers",
         "//src/types:types",
-        "//include/sql_parser:headers",
         "//include/storage:storage_headers_lib",
-        "//include/sql_parser:ast_node",
     ],
     visibility = ["//visibility:public"],
 )
 
+# -----------------------------------------------------------------------------
+# Function AST 模块
+# -----------------------------------------------------------------------------
 cc_library(
     name = "function_ast",
     srcs = ["function_ast.cpp"],
+    hdrs = [":headers"],
     includes = [
         "../../include",
         "../../src/sql_parser",
     ],
     deps = [
-        "//include/sql_parser:function_ast",
-        "//include/sql_parser:ast_node",
-        "//include/sql_parser:node_visitor",
-        "//include/sql_parser:token",
-        "//include/sql_parser:function_definition",
+        "//src/sql_parser:headers",
         ":function_definition_impl",
     ],
     visibility = ["//visibility:public"],
 )
 
+# Function Definition 实现
+cc_library(
+    name = "function_definition_impl",
+    srcs = ["function_definition.cpp"],
+    hdrs = [":headers"],
+    includes = [
+        "../../include",
+        "../../src/sql_parser",
+    ],
+    deps = [
+        "//src/sql_parser:headers",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+# -----------------------------------------------------------------------------
+# Set Operation 模块
+# -----------------------------------------------------------------------------
 cc_library(
     name = "set_operation",
     srcs = ["set_operation.cpp"],
+    hdrs = [":headers"],
     includes = [
         "../../include",
         "../../src/sql_parser",
         "../../src/storage_engine",
     ],
     deps = [
-        "//include/sql_parser:set_operation",
-        "//include/sql_parser:ast_node",
-        "//include/sql_parser:ast_nodes",
-        "//include/sql_parser:node_visitor",
-        "//include/sql_parser:token",
-        "//include/sql_parser:data_types",
+        "//src/sql_parser:headers",
         "//include/storage:table_storage",
     ],
     visibility = ["//visibility:public"],
 )
 
+# -----------------------------------------------------------------------------
+# Window Function 模块
+# -----------------------------------------------------------------------------
 cc_library(
     name = "window_function",
     srcs = ["window_function.cpp"],
@@ -78,35 +109,124 @@ cc_library(
         "../../src/sql_parser",
     ],
     deps = [
-        "//include/sql_parser:window_function",
-        "//include/sql_parser:ast_node",
-        "//include/sql_parser:node_visitor",
-        "//include/sql_parser:token",
+        "//src/sql_parser:headers",
     ],
     visibility = ["//visibility:public"],
 )
 
+# -----------------------------------------------------------------------------
+# Recursive Query 模块
+# -----------------------------------------------------------------------------
 cc_library(
     name = "recursive_query",
     srcs = ["recursive_query.cpp"],
+    hdrs = [":headers"],
     includes = [
         "../../include",
         "../../src/sql_parser",
         "../../src/storage_engine",
     ],
     deps = [
-        "//include/sql_parser:recursive_query",
-        "//include/sql_parser:ast_node",
-        "//include/sql_parser:ast_nodes",
-        "//include/sql_parser:node_visitor",
-        "//include/sql_parser:token",
-        "//include/sql_parser:data_types",
+        "//src/sql_parser:headers",
         ":set_operation",
         "//include/storage:table_storage",
     ],
     visibility = ["//visibility:public"],
 )
 
+# -----------------------------------------------------------------------------
+# 数据类型实现模块
+# -----------------------------------------------------------------------------
+cc_library(
+    name = "data_types_impl",
+    srcs = ["data_types.cpp"],
+    hdrs = [":headers"],
+    includes = [
+        "../../include",
+        "../../src/sql_parser",
+    ],
+    deps = [
+        "//src/sql_parser:headers",
+        "//src/sql_parser:datetime",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+cc_library(
+    name = "datetime_impl",
+    srcs = ["datetime.cpp"],
+    hdrs = [":headers"],
+    includes = [
+        "../../include",
+        "../../src/sql_parser",
+    ],
+    deps = [
+        "//src/sql_parser:headers",
+        "//src/sql_parser:datetime",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+cc_library(
+    name = "decimal_impl",
+    srcs = ["decimal.cpp"],
+    hdrs = [":headers"],
+    includes = [
+        "../../include",
+        "../../src/sql_parser",
+    ],
+    deps = [
+        "//src/sql_parser:headers",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+# -----------------------------------------------------------------------------
+# Token 模块
+# -----------------------------------------------------------------------------
+cc_library(
+    name = "token",
+    srcs = ["token.cpp"],
+    hdrs = [":headers"],
+    includes = [
+        "../../include",
+        "../../src/sql_parser",
+    ],
+    deps = [
+        "//src/sql_parser:headers",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+# -----------------------------------------------------------------------------
+# Light parser 模块（可选）
+# -----------------------------------------------------------------------------
+cc_library(
+    name = "sqlcc_parser_light",
+    srcs = glob([
+        "lexer_new.cpp",
+        "parser_new.cpp",
+        "token_new.cpp",
+        "set_operation_node.cpp",
+    ], allow_empty=True),
+    hdrs = glob([
+        "lexer_new.h",
+        "parser_new.h",
+        "token_new.h",
+    ], allow_empty=True),
+    includes = [
+        "../../include",
+        "../../src/sql_parser",
+    ],
+    deps = [
+        "//src/sql_parser:headers",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+# -----------------------------------------------------------------------------
+# Load Data AST 模块
+# -----------------------------------------------------------------------------
 cc_library(
     name = "load_data_ast",
     hdrs = ["load_data_ast.h"],
@@ -115,114 +235,25 @@ cc_library(
         "../../src/sql_parser",
     ],
     deps = [
-        "//include/sql_parser:ast_node",
+        "//src/sql_parser:headers",
     ],
     visibility = ["//visibility:public"],
 )
 
-cc_library(
-    name = "function_definition_impl",
-    srcs = ["function_definition.cpp"],
-    includes = [
-        "../../include",
-        "../../src/sql_parser",
-    ],
-    deps = [
-        "//include/sql_parser:function_definition",
-    ],
-    visibility = ["//visibility:public"],
-)
-
-cc_library(
-    name = "data_types_impl",
-    srcs = ["data_types.cpp"],
-    includes = [
-        "../../include",
-        "../../src/sql_parser",
-    ],
-    deps = [
-        "//include/sql_parser:data_types",
-        "//include/sql_parser:datetime",
-    ],
-    visibility = ["//visibility:public"],
-)
-
-cc_library(
-    name = "decimal_impl",
-    srcs = ["decimal.cpp"],
-    includes = [
-        "../../include",
-        "../../src/sql_parser",
-    ],
-    deps = [
-        "//include/sql_parser:data_types",
-    ],
-    visibility = ["//visibility:public"],
-)
-
-cc_library(
-    name = "datetime_impl",
-    srcs = ["datetime.cpp"],
-    includes = [
-        "../../include",
-        "../../src/sql_parser",
-    ],
-    deps = [
-        "//include/sql_parser:data_types",
-        "//include/sql_parser:datetime",
-    ],
-    visibility = ["//visibility:public"],
-)
-
+# -----------------------------------------------------------------------------
+# JSON 模块
+# -----------------------------------------------------------------------------
 cc_library(
     name = "json",
     srcs = ["json.cpp"],
+    hdrs = [":headers"],
     includes = [
         "../../include",
         "../../src/sql_parser",
     ],
     deps = [
-        "//include/sql_parser:data_types",
+        "//src/sql_parser:headers",
         "//src/logger:logger",
-    ],
-    visibility = ["//visibility:public"],
-)
-
-cc_library(
-    name = "token",
-    srcs = ["token.cpp"],
-    includes = [
-        "../../include",
-        "../../src/sql_parser",
-    ],
-    deps = [
-        "//include/sql_parser:token",
-    ],
-    visibility = ["//visibility:public"],
-)
-
-cc_library(
-    name = "sqlcc_parser_light",
-    srcs = glob([
-        "lexer_new.cpp",
-        "parser_new.cpp",
-        "token_new.cpp",
-        "set_operation_node.cpp",
-    ], allow_empty = True),
-    hdrs = glob([
-        "lexer_new.h",
-        "parser_new.h",
-        "token_new.h",
-    ], allow_empty = True),
-    includes = [
-        "../../include",
-        "../../src/sql_parser",
-    ],
-    deps = [
-        # light parser variant has no direct core dependency
-        "//include/sql_parser:ast_node",
-        "//include/sql_parser:ast_nodes",
-        "//include/sql_parser:node_visitor",
     ],
     visibility = ["//visibility:public"],
 )

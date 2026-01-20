@@ -19,12 +19,11 @@ cc_library(
         "execution_context.cpp",
     ],
     hdrs = [
-        "//include/core:user_manager.h",
-        "//include/core:permission_validator.h",
-        "//include/core:system_database.h",
-        "//include/core:execution_context.h",
+        "user_manager.h",
+        "permission_validator.h",
+        "system_database.h",
+        "execution_context.h",
     ],
-    includes = ["//include"],
     deps = [
         # 只依赖基础工具库，不依赖任何业务模块
         "//src/logger:logger",
@@ -34,8 +33,8 @@ cc_library(
         "//include:sqlcc_pch",  # 预编译头文件
         "//include:storage_headers",  # 存储引擎头文件
         "//include/core:core_database_manager",
-        "//include:disk_manager",
-        "//src/exception:exception",
+
+        "//src/exception:io_exception",
         "//include:page",
     ],
     copts = [
@@ -63,14 +62,13 @@ cc_library(
 cc_library(
     name = "execution_context",
     hdrs = [
-        "//include/core:execution_context.h",
+        "execution_context.h",
     ],
-    includes = ["//include"],
     deps = [
         ":core",
         "//include/core:core_database_manager",
-        "//include:disk_manager",
-        "//src/exception:exception",
+
+        "//src/exception:io_exception",
         "//include:page",
     ],
     copts = [
@@ -117,7 +115,6 @@ cc_library(
     hdrs = [
         "database_exceptions.h",
     ],
-    includes = ["."],
     deps = [],
     copts = [
         "-std=c++20",
@@ -146,7 +143,6 @@ cc_library(
     hdrs = [
         "database_file_manager.h",
     ],
-    includes = ["."],
     deps = [
         ":database_exceptions",
         "//include/storage:table_storage",
@@ -176,9 +172,8 @@ cc_library(
         "core_database_manager.cpp",
     ],
     hdrs = [
-        "//include/core:core_database_manager.h"
+        "core_database_manager.h"
     ],
-    includes = ["//include"],
     deps = [
         ":core",  # 可以依赖core，但core不能依赖database_manager
         ":database_file_manager",
@@ -212,9 +207,8 @@ cc_library(
 cc_library(
     name = "sql_executor_interface",
     hdrs = [
-        "//include/core:sql_executor_interface.h",
+        "sql_executor_interface.h"
     ],
-    includes = ["//include"],
     deps = [
         ":core",  # 可以依赖core，但core不能依赖sql_executor_interface
         "//src/logger:logger",

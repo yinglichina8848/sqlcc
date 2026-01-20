@@ -1,10 +1,24 @@
 load("@rules_cc//cc:defs.bzl", "cc_library")
 
+# disk_manager 头文件库
+cc_library(
+    name = "disk_manager_headers",
+    hdrs = ["disk_manager.h"],
+    strip_include_prefix = "src/storage_engine",
+    include_prefix = "storage_engine",
+    visibility = ["//visibility:public"],
+)
+
+# disk_manager 实现库
 cc_library(
     name = "disk_manager",
     srcs = ["disk_manager.cpp"],
-    hdrs = ["disk_manager.h"],
-    includes = ["."],
+    deps = [
+        ":disk_manager_headers",
+        "//src/storage_engine:storage_engine_headers",
+        "//src/utils:utils_headers",
+        "//src/exception:exception_headers",
+    ],
     copts = [
         "-std=c++20",
         "-stdlib=libc++",
@@ -19,12 +33,6 @@ cc_library(
     defines = [
         "SQLCC_MODERN_CPP=1",
         "SQLCC_CLANG18_FEATURES=1",
-    ],
-    deps = [
-        "//include/exception:exception",
-        "//include/page:page",
-        "//include/utils:utils",
-        "//src/utils:utils",
     ],
     visibility = ["//visibility:public"],
 )

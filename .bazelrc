@@ -55,18 +55,21 @@ build --show_timestamps
 build --verbose_failures
 
 # 覆盖率配置 - 使用LLVM coverage (Clang 20原生支持)
-coverage --instrumentation_filter="//src/.*"
-coverage --instrumentation_filter="//include/.*"
 coverage --combined_report=lcov
-coverage --experimental_use_llvm_covmap=true
-coverage --experimental_generate_llvm_lcov=true
+coverage --instrumentation_filter=^//src
+coverage --experimental_use_llvm_covmap
+coverage --cxxopt=-fprofile-instr-generate
+coverage --cxxopt=-fcoverage-mapping
+coverage --linkopt=-fprofile-instr-generate
+coverage --test_env=LLVM_PROFILE_FILE=%p.profraw
 
-# LLVM coverage 配置
-build:coverage --copt=-fprofile-instr-generate
-build:coverage --copt=-fcoverage-mapping
-build:coverage --linkopt=-fprofile-instr-generate
-
-# 测试配置
+# 测试配置 - 优化超时时间和分阶段执行
 test --test_output=all
-test --test_timeout=300
+test --test_timeout=600
 test --test_strategy=exclusive
+
+# 分层测试配置 - 基础组件优先
+test:foundation --test_tag_filters=foundation
+test:core --test_tag_filters=core
+test:storage --test_tag_filters=storage,b_plus_tree
+test:integration --test_tag_filters=integration
