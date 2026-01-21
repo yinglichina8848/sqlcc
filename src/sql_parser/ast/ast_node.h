@@ -1,6 +1,11 @@
 #ifndef SQLCC_SQL_PARSER_AST_NODE_H
 #define SQLCC_SQL_PARSER_AST_NODE_H
 
+#include "source_location.h"
+#include "node_visitor.h"
+#include <memory>
+#include <string>
+
 namespace sqlcc::sql_parser {
 
 // Independent token type enum to avoid circular dependency
@@ -249,19 +254,33 @@ enum class TokenType : int {
 
 namespace sqlcc::sql_parser {
 
+namespace ast {
+
 /**
  * AST节点基类
  */
 class Node {
 public:
+  Node() = default;
+  Node(const SourceLocation& location) : location_(location) {}
   virtual ~Node();
+
+  const SourceLocation& getLocation() const { return location_; }
+  void setLocation(const SourceLocation& location) { location_ = location; }
+  bool isValid() const { return location_.isValid(); }
+
   virtual void accept(NodeVisitor &visitor) { /* default empty implementation */ }
+
+private:
+  SourceLocation location_;
 };
+
+} // namespace ast
 
 /**
  * 表达式节点基类
  */
-class Expression : public Node {
+class Expression : public ast::Node {
 public:
   enum Type {
     IDENTIFIER,
@@ -313,7 +332,7 @@ private:
 /**
  * 语句节点基类
  */
-class Statement : public Node {
+class Statement : public ast::Node {
 public:
   enum Type {
     CREATE,

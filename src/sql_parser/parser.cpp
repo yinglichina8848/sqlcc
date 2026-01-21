@@ -1,4 +1,4 @@
-#include "ast_node.h"
+#include "ast/ast_node.h"
 #include "parser.h"
 #include "lexer.h"
 #include "token.h"

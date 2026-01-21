@@ -1,0 +1,49 @@
+# AST 子模块 BUILD 文件
+# 定义AST抽象语法树相关的库和测试
+
+package(default_visibility = ["//visibility:public"])
+
+# --------------------------
+# AST 头文件库
+# --------------------------
+cc_library(
+    name = "ast_headers",
+    hdrs = [
+        "ast_node.h",
+        "ast_nodes.h",
+        "ast_dcl_statements.h",
+        "node_visitor.h",
+        "load_data_ast.h",
+        "ast_fwd.h",
+        "source_location.h",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+# --------------------------
+# AST 实现库
+# --------------------------
+cc_library(
+    name = "ast",
+    srcs = [
+        "ast_node.cpp",
+        "source_location.cpp",
+        "view_statements.cpp",
+    ],
+    hdrs = [
+        "ast_node.h",
+        "ast_nodes.h",
+        "ast_dcl_statements.h",
+        "node_visitor.h",
+        "load_data_ast.h",
+        "ast_fwd.h",
+        "source_location.h",
+    ],
+    deps = [
+        ":ast_headers",
+        "//include/storage:headers",
+        "//src/exception:exception",
+        "//src/sql_parser:headers",  # 添加对上级模块头文件的依赖
+    ],
+    visibility = ["//visibility:public"],
+)

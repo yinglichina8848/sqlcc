@@ -145,7 +145,7 @@
 #ifndef SQLCC_SQL_PARSER_PARSER_H
 #define SQLCC_SQL_PARSER_PARSER_H
 
-#include "ast_node.h"
+#include "ast/ast_node.h"
 #include "constraint.h"
 #include "set_operation.h"
 #include "token.h"

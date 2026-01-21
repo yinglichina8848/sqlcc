@@ -2,8 +2,10 @@
 #ifndef SQLCC_SQL_PARSER_ADVANCED_SQL92_FEATURES_H
 #define SQLCC_SQL_PARSER_ADVANCED_SQL92_FEATURES_H
 
-#include "ast_nodes.h"
-#include "node_visitor.h"
+#include "ast/node_visitor.h"
+#include "ast/ast_nodes.h"
+
+#include "include/trigger/trigger_definition.h"
 #include <memory>
 #include <string>
 #include <vector>

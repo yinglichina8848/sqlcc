@@ -216,7 +216,7 @@ public:
 /**
  * @brief 窗口规格类
  */
-class WindowSpecification : public Node {
+class WindowSpecification : public Statement {
 private:
     std::vector<std::string> partitionByColumns_;
     std::vector<std::string> orderByColumns_;

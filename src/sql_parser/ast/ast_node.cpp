@@ -1,23 +1,3 @@
-#include "ast_node.h"
-#include "source_location.h"
-#include <memory>
-#include <string>
-
-namespace sqlcc::sql_parser::ast {
-
-Node::Node(const SourceLocation& location)
-    : location_(location) {}
-
-const SourceLocation& Node::getLocation() const {
-    return location_;
-}
-
-void Node::setLocation(const SourceLocation& location) {
-    location_ = location;
-}
-
-bool Node::isValid() const {
-    return location_.isValid();
-}
-
-} // namespace sqlcc::sql_parser::ast
+// AST节点实现文件
+// 由于大部分方法已在头文件中内联定义，此文件目前为空
+// 将来可以在这里添加复杂的实现逻辑

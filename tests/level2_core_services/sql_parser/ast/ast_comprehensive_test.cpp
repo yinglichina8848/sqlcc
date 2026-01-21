@@ -1,9 +1,9 @@
-#include "sql_parser/ast_node.h"
+#include "src/sql_parser/ast/ast_node.h"
 #include <gtest/gtest.h>
 #include <memory>
 #include <string>
 #include <vector>
-#include "sql_parser/parser.h"
+#include "src/sql_parser/parser.h"
 
 namespace sqlcc {
 namespace sql_parser {

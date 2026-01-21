@@ -71,7 +71,8 @@ void WindowFunction::accept(NodeVisitor& visitor) {
 
 
 WindowSpecification::WindowSpecification()
-    : frameStart_(FrameBoundary::UNBOUNDED_PRECEDING),
+    : Statement(Statement::Type::SELECT),
+      frameStart_(FrameBoundary::UNBOUNDED_PRECEDING),
       frameEnd_(FrameBoundary::CURRENT_ROW) {
 }
 

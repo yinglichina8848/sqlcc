@@ -2,8 +2,8 @@
 #include <memory>
 #include <vector>
 #include <string>
-#include "sql_parser/ast/core/ast_node.h"
-#include "sql_parser/ast/core/source_location.h"
+#include "src/sql_parser/ast/ast_node.h"
+#include "src/sql_parser/ast/source_location.h"
 
 using namespace sqlcc::sql_parser::ast;
 

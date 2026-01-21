@@ -3,28 +3,12 @@
 package(default_visibility = ["//visibility:public"])
 
 # --------------------------
-# AST 库
+# AST 库 - 引用子模块
 # --------------------------
 cc_library(
     name = "ast",
-    srcs = [
-        "ast/ast_node.cpp",
-        "ast_nodes.cpp",
-        "ast/source_location.cpp",
-        "ast/view_statements.cpp",
-    ],
-    hdrs = [
-        "ast/ast_node.h",
-        "ast/ast_nodes.h",
-        "ast/ast_dcl_statements.h",
-        "ast/node_visitor.h",
-        "ast/load_data_ast.h",
-        "ast/ast_fwd.h",
-        "ast/source_location.h",
-    ],
     deps = [
-        ":headers",
-        "//include/storage:headers",
+        "//src/sql_parser/ast:ast",  # 引用子模块的ast库
     ],
     visibility = ["//visibility:public"],
 )
