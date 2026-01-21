@@ -1,6 +1,6 @@
-#include "storage/checkpoint.h"
+#include "src/storage/checkpoint.h"
 #include "include/storage_engine.h"
-#include "storage/wal_writer.h"
+#include "src/storage/wal_writer.h"
 #include "utils/config_manager.h"
 #include <algorithm>
 #include <chrono>

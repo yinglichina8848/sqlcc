@@ -9,7 +9,7 @@
  * - 并发访问控制验证
  */
 
-#include "storage/record_boundary_validator.h"
+#include "src/storage/record_boundary_validator.h"
 #include "include/storage/table_storage.h"
 #include "exception.h"
 #include "utils/logger.h"

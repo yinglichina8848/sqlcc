@@ -10,8 +10,8 @@
  * - 不同一致性策略的支持
  */
 
-#include "storage/cache_consistency_manager.h"
-#include "storage/buffer_pool_sharded.h"
+#include "src/storage/cache_consistency_manager.h"
+#include "src/storage/buffer_pool_sharded.h"
 #include "exception.h"
 #include "utils/logger.h"
 #include <algorithm>

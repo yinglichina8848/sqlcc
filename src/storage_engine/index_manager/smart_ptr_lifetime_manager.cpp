@@ -1,5 +1,5 @@
 #include "storage_engine/index_manager/smart_ptr_lifetime_manager.h"
-#include "storage/b_plus_tree.h"
+#include "src/storage/b_plus_tree.h"
 #include "utils/logger.h"
 
 namespace sqlcc {

@@ -10,7 +10,7 @@
  * - 错误统计和报告机制
  */
 
-#include "storage/disk_error_handler.h"
+#include "src/storage/disk_error_handler.h"
 #include "disk_manager.h"
 #include "exception.h"
 #include "utils/logger.h"

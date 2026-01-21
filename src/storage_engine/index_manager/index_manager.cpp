@@ -64,8 +64,8 @@
  * @see include/storage/index_manager.h
  */
 
-#include "storage/index_manager.h"
-#include "storage/b_plus_tree.h"
+#include "src/storage/index_manager.h"
+#include "src/storage/b_plus_tree.h"
 #include "include/storage_engine.h"
 #include "utils/config_manager.h"
 #include "utils/logger.h"

@@ -9,8 +9,8 @@
  * - 异常安全的资源管理
  */
 
-#include "storage/index_manager.h"
-#include "storage/b_plus_tree.h"
+#include "src/storage/index_manager.h"
+#include "src/storage/b_plus_tree.h"
 #include "include/storage_engine.h"
 #include "transaction_manager.h"
 #include "utils/config_manager.h"

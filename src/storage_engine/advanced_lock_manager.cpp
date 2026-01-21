@@ -52,7 +52,7 @@
  * @see docs/design/storage_engine/advanced_lock_manager_design.md
  */
 
-#include "storage/advanced_lock_manager.h"
+#include "src/storage/advanced_lock_manager.h"
 #include "exception/exception.h"
 #include "utils/logger.h"
 #include <algorithm>
