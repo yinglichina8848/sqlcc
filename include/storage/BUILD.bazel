@@ -81,6 +81,10 @@ cc_library(
 
 cc_library(
     name = "headers",
-    hdrs = glob(["*.h"]),
+    hdrs = glob([
+        "*.h",
+        "replace_strategy/*.h",
+    ], allow_empty = True),
+    include_prefix = "storage",
     visibility = ["//visibility:public"],
 )

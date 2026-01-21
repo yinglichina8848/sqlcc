@@ -2,81 +2,87 @@
 
 package(default_visibility = ["//visibility:public"])
 
-# SQL解析器头文件库
-filegroup(
-    name = "sqlcc_parser_headers",
-    srcs = glob(["*.h"]),
-)
-
+# --------------------------
+# AST 头文件库
+# --------------------------
 cc_library(
-    name = "ast_node",
-    hdrs = ["ast_node.h"],
+    name = "ast_headers",
+    hdrs = [
+        "ast_node.h",
+        "ast_nodes.h",
+        "ast_dcl_statements.h",
+        "node_visitor.h",
+        "load_data_ast.h",
+        "ast_fwd.h",
+    ],
+    visibility = ["//src/sql_parser:__subpackages__"],
 )
 
+# --------------------------
+# Lexer 头文件库
+# --------------------------
 cc_library(
-    name = "ast_nodes",
-    hdrs = ["ast_nodes.h"],
+    name = "lexer_headers",
+    hdrs = [
+        "token.h",
+        "lexer_new.h",
+    ],
+    visibility = ["//src/sql_parser:__subpackages__"],
 )
 
+# --------------------------
+# Parser 头文件库
+# --------------------------
 cc_library(
-    name = "node_visitor",
-    hdrs = ["node_visitor.h"],
+    name = "parser_headers",
+    hdrs = [
+        "parser.h",
+        "set_operation.h",
+        "recursive_query.h",
+        "function_ast.h",
+        "function/function_definition.h",
+        "constraint.h",
+        "data_types.h",
+        "datetime.h",
+        "decimal.h",
+        "advanced_sql92_features.h",
+    ],
+    visibility = ["//src/sql_parser:__subpackages__"],
 )
 
+# --------------------------
+# JSON 头文件库
+# --------------------------
 cc_library(
-    name = "function_ast",
-    hdrs = ["function_ast.h"],
+    name = "json_headers",
+    hdrs = [
+        "json.h",
+        "json_parser.h",
+        "json/json_value.h",
+        "json/json_null.h",
+        "json/json_boolean.h",
+        "json/json_number.h",
+        "json/json_string.h",
+        "json/json_array.h",
+        "json/json_object.h",
+    ],
+    visibility = ["//src/sql_parser:__subpackages__"],
 )
 
+# --------------------------
+# Window Function 头文件库
+# --------------------------
 cc_library(
-    name = "function_definition",
-    hdrs = ["function/function_definition.h"],
+    name = "window_headers",
+    hdrs = [
+        "window_function.h",
+    ],
+    visibility = ["//src/sql_parser:__subpackages__"],
 )
 
-cc_library(
-    name = "set_operation",
-    hdrs = ["set_operation.h"],
-)
-
-cc_library(
-    name = "window_function",
-    hdrs = ["window_function.h"],
-)
-
-cc_library(
-    name = "recursive_query",
-    hdrs = ["recursive_query.h"],
-)
-
-cc_library(
-    name = "token",
-    hdrs = ["token.h"],
-)
-
-cc_library(
-    name = "constraint",
-    hdrs = ["constraint.h"],
-)
-
-cc_library(
-    name = "data_types",
-    hdrs = ["data_types.h"],
-)
-
-cc_library(
-    name = "datetime",
-    hdrs = ["datetime.h"],
-)
-
-cc_library(
-    name = "decimal",
-    hdrs = ["decimal.h"],
-)
-
-# -----------------------------------------------------------------------------
-# 综合头文件库 - 所有 sql_parser 头文件的集合
-# -----------------------------------------------------------------------------
-
+# --------------------------
+# 向后兼容的综合头文件库
+# --------------------------
 cc_library(
     name = "headers",
     hdrs = glob(["*.h", "**/*.h"]),

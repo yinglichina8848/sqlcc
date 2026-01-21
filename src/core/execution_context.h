@@ -7,7 +7,7 @@
 #include <vector>
 
 // 包含完整类型定义，避免前向声明问题
-#include "core_database_manager.h"
+#include "include/core/core_database_manager.h"
 
 namespace sqlcc {
 

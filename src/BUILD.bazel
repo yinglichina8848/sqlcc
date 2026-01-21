@@ -1,185 +1,38 @@
-# //src/BUILD.bazel - 源代码包定义
-# 包含所有源代码库的目标定义
+# src/BUILD.bazel - SQLCC 源码包顶层聚合
+# 包含所有源码库的目标定义和顶层工具
 
-load("@rules_cc//cc:defs.bzl", "cc_library", "cc_test")
+load("@rules_cc//cc:defs.bzl", "cc_library", "cc_binary")
 
-# ==================== 工具库 ====================
+package(default_visibility = ["//src:__subpackages__"])
 
-# Logger库 - 现代化日志系统 (包装器)
+# ==================== 顶层胶水代码 ====================
 cc_library(
-    name = "logger",
+    name = "src_root",
+    srcs = [
+        "database_manager.cpp",
+        "dcl_executor.cpp",
+        "execution_engine.cpp",
+        "transaction_context_impl.cpp",
+        "unified_executor.cpp",
+        "unified_query_plan.cpp",
+    ],
     deps = [
-        "//src/logger:logger",
+        "//src/core",
+        "//src/sql_executor",
+        "//src/storage_engine",
+        "//src/transaction_manager",
+        "//src/utils",
     ],
     visibility = ["//visibility:public"],
 )
 
-# Utils库 - 工具库 (包装器)
-cc_library(
-    name = "utils",
+# ==================== 二进制工具 ====================
+cc_binary(
+    name = "isql",
+    srcs = ["bin/isql_main.cpp"],
     deps = [
-        "//src/utils:utils",
+        "//src/sql_executor",
+        "//src/network",
+        "//src/utils",
     ],
-    visibility = ["//visibility:public"],
-)
-
-# Exception库 - 异常处理库
-cc_library(
-    name = "exception",
-    deps = [
-        "//src/exception:exception",
-    ],
-    visibility = ["//visibility:public"],
-)
-
-# ==================== 核心库 ====================
-
-# Core库 - 核心组件 (包装器)
-cc_library(
-    name = "core",
-    deps = [
-        "//src/core:core",
-        ":database_manager",
-        ":execution_context",
-    ],
-    visibility = ["//visibility:public"],
-)
-# Execution Context库 - 执行上下文管理
-cc_library(
-    name = "execution_context",
-    deps = [
-        "//src/core:execution_context",
-    ],
-    visibility = ["//visibility:public"],
-)
-
-
-# Database Manager库 - 数据库管理器
-cc_library(
-    name = "database_manager",
-    srcs = ["database_manager.cpp"],
-    hdrs = ["//include:database_manager"],
-    deps = [
-        "//include/core:core_database_manager",
-        "//include:buffer_pool_sharded",
-        "//include:page",
-        "//include:storage_headers",
-        "//src/exception:exception",
-        "//src/utils:utils",
-        "//src/core:core",
-    ],
-    visibility = ["//visibility:public"],
-)
-
-# ==================== 存储引擎库 ====================
-
-# StorageEngine库 - 智能指针存储引擎
-cc_library(
-    name = "storage_engine",
-    deps = [
-        "//src/storage_engine:storage_engine",
-    ],
-    visibility = ["//visibility:public"],
-)
-
-# ==================== SQL解析器 ====================
-
-# SQL Parser库
-cc_library(
-    name = "sql_parser",
-    deps = [
-        "//src/sql_parser:sql_parser",
-    ],
-    visibility = ["//visibility:public"],
-)
-
-# ==================== 执行引擎 ====================
-
-# Execution库
-cc_library(
-    name = "execution",
-    deps = [
-        "//src/execution:execution",
-    ],
-    visibility = ["//visibility:public"],
-)
-
-# Unified Executor库 - 统一执行器
-cc_library(
-    name = "unified_executor",
-    srcs = ["unified_executor.cpp"],
-    hdrs = ["//include:unified_query_plan"],
-    deps = [
-        ":core",
-        ":execution",
-        ":sql_parser",
-        ":storage_engine",
-        "//src/sql_executor:sql_executor",
-        "//src/logger:logger",
-    ],
-    visibility = ["//visibility:public"],
-)
-
-# ==================== 网络库 ====================
-
-# Network库
-cc_library(
-    name = "network",
-    deps = [
-        "//src/network:network",
-    ],
-    visibility = ["//visibility:public"],
-)
-
-# ==================== 存储过程和触发器 ====================
-
-# Procedure库
-cc_library(
-    name = "procedure",
-    deps = [
-        "//src/procedure:procedure",
-    ],
-    visibility = ["//visibility:public"],
-)
-
-# Trigger库
-cc_library(
-    name = "trigger",
-    deps = [
-        "//src/trigger:trigger",
-    ],
-    visibility = ["//visibility:public"],
-)
-
-# ==================== 事务管理 ====================
-
-# Transaction库
-cc_library(
-    name = "transaction",
-    deps = [
-        "//src/transaction:transaction",
-    ],
-    visibility = ["//visibility:public"],
-)
-
-# ==================== 类型系统 ====================
-
-# Types库
-cc_library(
-    name = "types",
-    deps = [
-        "//src/types:types",
-    ],
-    visibility = ["//visibility:public"],
-)
-
-# ==================== 安全模块 ====================
-
-# Security库
-cc_library(
-    name = "security",
-    deps = [
-        "//src/security:security",
-    ],
-    visibility = ["//visibility:public"],
 )

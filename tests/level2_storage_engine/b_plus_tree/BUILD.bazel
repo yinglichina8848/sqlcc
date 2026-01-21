@@ -40,10 +40,23 @@ cc_test(
     ],
 )
 
+cc_test(
+    name = "b_plus_tree_tests",
+    srcs = glob([
+        "*.cpp",
+        "**/*.cpp",
+    ]),
+    deps = [
+        "//src/storage_engine:storage_engine",
+        "@com_google_googletest//:gtest_main",
+    ],
+)
+
 test_suite(
     name = "all",
     tests = [
         ":bplus_tree_fast",
         ":bplus_tree_slow",
+        ":b_plus_tree_tests",
     ],
 )

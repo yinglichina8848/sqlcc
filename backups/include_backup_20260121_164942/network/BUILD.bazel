@@ -1,0 +1,126 @@
+package(default_visibility = ["//visibility:public"])
+
+# 导出头文件供其他包使用
+exports_files([
+    "session.h",
+    "session_manager.h",
+    "client_connection.h",
+    "client_network_manager.h",
+    "connection_handler.h",
+    "connection_state_machine.h",
+    "server_network_manager.h",
+    "data_transmission_validator.h",
+    "message_processor.h",
+    "network_exception_handler.h",
+    "network_exception.h",
+    "network_monitor.h",
+    "network_stability_guard.h",
+    "key_rotation_policy.h",
+])
+
+cc_library(
+    name = "connection_state",
+    hdrs = ["connection_state.h"],
+)
+
+cc_library(
+    name = "encryption",
+    hdrs = ["encryption.h"],
+)
+
+cc_library(
+    name = "multi_threaded_network_manager",
+    hdrs = ["multi_threaded_network_manager.h"],
+)
+
+cc_library(
+    name = "mysql_protocol",
+    hdrs = ["mysql_protocol.h"],
+)
+
+cc_library(
+    name = "network_server",
+    hdrs = ["network_server.h"],
+)
+
+cc_library(
+    name = "network",
+    hdrs = ["network.h"],
+)
+
+cc_library(
+    name = "session",
+    hdrs = ["session.h"],
+)
+
+cc_library(
+    name = "session_manager",
+    hdrs = ["session_manager.h"],
+)
+
+cc_library(
+    name = "client_connection",
+    hdrs = ["client_connection.h"],
+)
+
+cc_library(
+    name = "client_network_manager",
+    hdrs = ["client_network_manager.h"],
+)
+
+cc_library(
+    name = "connection_handler",
+    hdrs = ["connection_handler.h"],
+)
+
+cc_library(
+    name = "connection_state_machine",
+    hdrs = ["connection_state_machine.h"],
+)
+
+cc_library(
+    name = "server_network_manager",
+    hdrs = ["server_network_manager.h"],
+)
+
+cc_library(
+    name = "data_transmission_validator",
+    hdrs = ["data_transmission_validator.h"],
+)
+
+cc_library(
+    name = "message_processor",
+    hdrs = ["message_processor.h"],
+)
+
+cc_library(
+    name = "network_exception_handler",
+    hdrs = ["network_exception_handler.h"],
+)
+
+cc_library(
+    name = "network_exception",
+    hdrs = ["network_exception.h"],
+)
+
+cc_library(
+    name = "network_monitor",
+    hdrs = ["network_monitor.h"],
+)
+
+cc_library(
+    name = "network_stability_guard",
+    hdrs = ["network_stability_guard.h"],
+)
+
+cc_library(
+    name = "key_rotation_policy",
+    hdrs = ["key_rotation_policy.h"],
+)
+
+# 综合头文件库 - 所有 network 头文件的集合
+cc_library(
+    name = "network_headers",
+    hdrs = glob(["*.h"]),
+    visibility = ["//visibility:public"],
+)

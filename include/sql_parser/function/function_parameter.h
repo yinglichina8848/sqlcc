@@ -1,5 +1,5 @@
 /**
-#include "sql_parser/data_types.h"
+#include "data_types.h"
  * @file function_parameter.h
  * @brief 函数参数定义头文件
  */
@@ -10,7 +10,7 @@
 #include <string>
 #include <memory>
 
-#include "sql_parser/datatype.h"
+#include "datatype.h"
 
 namespace sqlcc {
 

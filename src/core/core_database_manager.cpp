@@ -1,4 +1,4 @@
-#include "core/core_database_manager.h"
+#include "core_database_manager.h"
 #include "database_file_manager.h"
 #include "database_exceptions.h"
 #include "storage/index_manager.h"

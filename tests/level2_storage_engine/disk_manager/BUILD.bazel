@@ -9,7 +9,19 @@ cc_test(
     ],
 )
 
+cc_test(
+    name = "disk_manager_tests",
+    srcs = glob([
+        "*.cpp",
+        "**/*.cpp",
+    ]),
+    deps = [
+        "//src/storage_engine",
+        "@com_google_googletest//:gtest_main",
+    ],
+)
+
 test_suite(
     name = "all",
-    tests = [":disk_manager_fast"],
+    tests = [":disk_manager_fast", ":disk_manager_tests"],
 )

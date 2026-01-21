@@ -1,4 +1,4 @@
-#include "sql_parser/errors/error_core.h"
+#include "errors/error_core.h"
 #include <algorithm>
 #include <sstream>
 

@@ -1,6 +1,6 @@
 #include "sql_parser/ast_node.h"
-#include "sql_parser/recursive_query.h"
-#include "sql_parser/ast_nodes.h"
+#include "recursive_query.h"
+#include "ast_nodes.h"
 
 namespace sqlcc {
 namespace sql_parser {

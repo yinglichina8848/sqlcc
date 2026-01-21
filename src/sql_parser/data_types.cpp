@@ -1,4 +1,4 @@
-#include "sql_parser/data_types.h"
+#include "data_types.h"
 #include <algorithm>
 #include <sstream>
 #include <iomanip>

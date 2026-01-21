@@ -7,12 +7,14 @@
 #include <chrono>
 #include <thread>
 #include <algorithm>
+#include <fstream>
+#include <cstdio>
 
 // Utils tests for foundation layer
-// These tests verify utility components work correctly
+// These tests verify utility concepts and provide basic coverage
 
 TEST(UtilsTest, StringUtilities) {
-    // Test string utility functions
+    // Test string utility functions (concept)
     std::string str = "  Hello, World!  ";
 
     // Test trim operations (concept)

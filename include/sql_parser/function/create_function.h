@@ -1,5 +1,5 @@
 /**
-#include "sql_parser/data_types.h"
+#include "data_types.h"
  * @file create_function.h
  * @brief 创建函数语句头文件
  */
@@ -11,9 +11,9 @@
 #include <vector>
 #include <memory>
 
-#include "sql_parser/ast_node.h"
-#include "sql_parser/function/function_parameter.h"
-#include "sql_parser/datatype.h"
+#include "ast_node.h"
+#include "function/function_parameter.h"
+#include "datatype.h"
 
 namespace sqlcc {
 

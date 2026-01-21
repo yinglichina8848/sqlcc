@@ -1,4 +1,3 @@
-#include "sql_parser/token.h"
 #ifndef SQLCC_SQL_PARSER_WINDOW_FUNCTION_H
 #define SQLCC_SQL_PARSER_WINDOW_FUNCTION_H
 
@@ -7,56 +6,85 @@
 #include <memory>
 
 namespace sqlcc {
-namespace parser {
+namespace sql_parser {
 
-// 前向声明
 class ASTNode;
-class NodeVisitor;
-class Token;
+class Expression;
 
-// 窗口函数节点类
-class WindowFunctionNode : public ASTNode {
-public:
-    WindowFunctionNode();
-    virtual ~WindowFunctionNode();
-
-    void accept(NodeVisitor& visitor) override;
-    std::string to_string() const override;
-
-    // 窗口函数相关属性
-    std::string function_name;
-    std::vector<std::shared_ptr<ASTNode>> arguments;
-    std::string window_name;
-
-    // PARTITION BY 子句
-    std::vector<std::shared_ptr<ASTNode>> partition_by;
-
-    // ORDER BY 子句
-    std::vector<std::shared_ptr<ASTNode>> order_by;
-
-    // 窗口帧
-    std::string frame_type;  // ROWS, RANGE, GROUPS
-    std::shared_ptr<ASTNode> frame_start;
-    std::shared_ptr<ASTNode> frame_end;
+// 窗口函数类型枚举
+enum class FunctionType {
+    ROW_NUMBER,
+    RANK,
+    DENSE_RANK,
+    SUM,
+    AVG,
+    COUNT,
+    MIN,
+    MAX,
+    UNKNOWN
 };
 
-// 窗口函数解析器类
-class WindowFunctionParser {
-public:
-    WindowFunctionParser();
-    ~WindowFunctionParser();
+// 窗口帧边界枚举
+enum class FrameBoundary {
+    UNBOUNDED_PRECEDING,
+    PRECEDING,
+    CURRENT_ROW,
+    FOLLOWING,
+    UNBOUNDED_FOLLOWING
+};
 
-    std::shared_ptr<WindowFunctionNode> parse_window_function(Token& token);
-    std::shared_ptr<WindowFunctionNode> parse_window_specification(Token& token);
+// 窗口函数类
+class WindowFunction {
+public:
+    WindowFunction(FunctionType type);
+    ~WindowFunction();
+
+    FunctionType getFunctionType() const;
+    const std::string& getFunctionName() const;
+
+    void setExpression(std::unique_ptr<Expression> expr);
+    Expression* getExpression() const;
+
+    void setWindowSpecification(std::unique_ptr<class WindowSpecification> spec);
+    class WindowSpecification* getWindowSpecification() const;
 
 private:
-    // 辅助解析方法
-    std::vector<std::shared_ptr<ASTNode>> parse_partition_by(Token& token);
-    std::vector<std::shared_ptr<ASTNode>> parse_order_by(Token& token);
-    std::pair<std::shared_ptr<ASTNode>, std::shared_ptr<ASTNode>> parse_frame_clause(Token& token);
+    FunctionType functionType_;
+    std::string functionName_;
+    std::unique_ptr<Expression> expression_;
+    std::unique_ptr<class WindowSpecification> windowSpec_;
 };
 
-} // namespace parser
+// 窗口规范类
+class WindowSpecification {
+public:
+    WindowSpecification();
+    ~WindowSpecification();
+
+    void setPartitionBy(std::vector<std::string> columns);
+    const std::vector<std::string>& getPartitionBy() const;
+
+    void setOrderBy(std::vector<std::string> columns, std::vector<bool> ascending);
+    const std::vector<std::string>& getOrderBy() const;
+    const std::vector<bool>& getOrderByAscending() const;
+
+    void setFrame(FrameBoundary start, FrameBoundary end);
+    FrameBoundary getFrameStart() const;
+    FrameBoundary getFrameEnd() const;
+
+    bool hasPartitionBy() const;
+    bool hasOrderBy() const;
+    bool hasFrame() const;
+
+private:
+    std::vector<std::string> partitionByColumns_;
+    std::vector<std::string> orderByColumns_;
+    std::vector<bool> orderByAscending_;
+    FrameBoundary frameStart_;
+    FrameBoundary frameEnd_;
+};
+
+} // namespace sql_parser
 } // namespace sqlcc
 
 #endif // SQLCC_SQL_PARSER_WINDOW_FUNCTION_H

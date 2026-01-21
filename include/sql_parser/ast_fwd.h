@@ -120,8 +120,8 @@
  * 5. 性能监控：监控声明策略对编译性能的影响
  */
 
-#include "sql_parser/ast_node.h"
-#include "sql_parser/ast_nodes.h"
+#include "ast_node.h"
+#include "ast_nodes.h"
 #ifndef SQLCC_SQL_PARSER_AST_FWD_H
 #define SQLCC_SQL_PARSER_AST_FWD_H
 

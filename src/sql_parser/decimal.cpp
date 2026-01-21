@@ -1,4 +1,4 @@
-#include "sql_parser/decimal.h"
+#include "decimal.h"
 #include <algorithm>
 #include <cctype>
 #include <cmath>

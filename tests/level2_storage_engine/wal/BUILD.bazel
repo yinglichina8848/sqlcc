@@ -10,6 +10,17 @@ cc_test(
 )
 
 test_suite(
+cc_test(
+    name = "wal_tests",
+    srcs = glob([
+        "*.cpp",
+        "**/*.cpp",
+    ]),
+    deps = [
+        "//src/storage_engine",
+        "@com_google_googletest//:gtest_main",
+    ],
+)
     name = "all",
     tests = [":wal_fast"],
 )

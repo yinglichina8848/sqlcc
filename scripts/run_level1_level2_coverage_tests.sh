@@ -29,7 +29,7 @@ echo "  - 运行Level1基础工具类测试..."
 # 运行基础测试
 echo "    > 运行basic_test..."
 export LLVM_PROFILE_FILE="$COVERAGE_DIR/level1_level2_basic_%p.profraw"
-bazel run //tests/level1_foundation:basic_test --copt=-fprofile-instr-generate --copt=-fcoverage-mapping --linkopt=-fprofile-instr-generate --linkopt=-fcoverage-mapping || echo "basic_test 失败，继续执行..."
+bazel run //tests/level1_foundation/basic:basic_test --copt=-fprofile-instr-generate --copt=-fcoverage-mapping --linkopt=-fprofile-instr-generate --linkopt=-fcoverage-mapping || echo "basic_test 失败，继续执行..."
 echo "      ✓ basic_test 完成"
 
 echo
@@ -41,55 +41,55 @@ echo "  - 运行Level2存储引擎测试..."
 # B+ Tree 测试
 echo "    > 运行B+ Tree测试..."
 export LLVM_PROFILE_FILE="$COVERAGE_DIR/level1_level2_b_plus_tree_%p.profraw"
-bazel run //tests/level2_storage_engine:b_plus_tree_tests --copt=-fprofile-instr-generate --copt=-fcoverage-mapping --linkopt=-fprofile-instr-generate --linkopt=-fcoverage-mapping || echo "b_plus_tree_tests 失败，继续执行..."
+bazel run //tests/level2_storage_engine/b_plus_tree:b_plus_tree_tests --copt=-fprofile-instr-generate --copt=-fcoverage-mapping --linkopt=-fprofile-instr-generate --linkopt=-fcoverage-mapping || echo "b_plus_tree_tests 失败，继续执行..."
 echo "      ✓ b_plus_tree_tests 完成"
 
 # Buffer Pool 测试
 echo "    > 运行Buffer Pool测试..."
 export LLVM_PROFILE_FILE="$COVERAGE_DIR/level1_level2_buffer_pool_%p.profraw"
-bazel run //tests/level2_storage_engine:buffer_pool_tests --copt=-fprofile-instr-generate --copt=-fcoverage-mapping --linkopt=-fprofile-instr-generate --linkopt=-fcoverage-mapping || echo "buffer_pool_tests 失败，继续执行..."
+bazel run //tests/level2_storage_engine/buffer_pool:buffer_pool_tests --copt=-fprofile-instr-generate --copt=-fcoverage-mapping --linkopt=-fprofile-instr-generate --linkopt=-fcoverage-mapping || echo "buffer_pool_tests 失败，继续执行..."
 echo "      ✓ buffer_pool_tests 完成"
 
 # Disk Manager 测试
 echo "    > 运行Disk Manager测试..."
 export LLVM_PROFILE_FILE="$COVERAGE_DIR/level1_level2_disk_manager_%p.profraw"
-bazel run //tests/level2_storage_engine:disk_manager_tests --copt=-fprofile-instr-generate --copt=-fcoverage-mapping --linkopt=-fprofile-instr-generate --linkopt=-fcoverage-mapping || echo "disk_manager_tests 失败，继续执行..."
+bazel run //tests/level2_storage_engine/disk_manager:disk_manager_tests --copt=-fprofile-instr-generate --copt=-fcoverage-mapping --linkopt=-fprofile-instr-generate --linkopt=-fcoverage-mapping || echo "disk_manager_tests 失败，继续执行..."
 echo "      ✓ disk_manager_tests 完成"
 
 # Disk Management 测试
 echo "    > 运行Disk Management测试..."
 export LLVM_PROFILE_FILE="$COVERAGE_DIR/level1_level2_disk_management_%p.profraw"
-bazel run //tests/level2_storage_engine:disk_management_tests --copt=-fprofile-instr-generate --copt=-fcoverage-mapping --linkopt=-fprofile-instr-generate --linkopt=-fcoverage-mapping || echo "disk_management_tests 失败，继续执行..."
+bazel run //tests/level2_storage_engine/disk_management:disk_management_tests --copt=-fprofile-instr-generate --copt=-fcoverage-mapping --linkopt=-fprofile-instr-generate --linkopt=-fcoverage-mapping || echo "disk_management_tests 失败，继续执行..."
 echo "      ✓ disk_management_tests 完成"
 
 # Index 测试
 echo "    > 运行Index测试..."
 export LLVM_PROFILE_FILE="$COVERAGE_DIR/level1_level2_index_%p.profraw"
-bazel run //tests/level2_storage_engine:index_tests --copt=-fprofile-instr-generate --copt=-fcoverage-mapping --linkopt=-fprofile-instr-generate --linkopt=-fcoverage-mapping || echo "index_tests 失败，继续执行..."
+bazel run //tests/level2_storage_engine/index:index_tests --copt=-fprofile-instr-generate --copt=-fcoverage-mapping --linkopt=-fprofile-instr-generate --linkopt=-fcoverage-mapping || echo "index_tests 失败，继续执行..."
 echo "      ✓ index_tests 完成"
 
 # Index Manager 测试
 echo "    > 运行Index Manager测试..."
 export LLVM_PROFILE_FILE="$COVERAGE_DIR/level1_level2_index_manager_%p.profraw"
-bazel run //tests/level2_storage_engine:index_manager_tests --copt=-fprofile-instr-generate --copt=-fcoverage-mapping --linkopt=-fprofile-instr-generate --linkopt=-fcoverage-mapping || echo "index_manager_tests 失败，继续执行..."
+bazel run //tests/level2_storage_engine/index_manager:index_manager_tests --copt=-fprofile-instr-generate --copt=-fcoverage-mapping --linkopt=-fprofile-instr-generate --linkopt=-fcoverage-mapping || echo "index_manager_tests 失败，继续执行..."
 echo "      ✓ index_manager_tests 完成"
 
 # Storage Engine 测试
 echo "    > 运行Storage Engine测试..."
 export LLVM_PROFILE_FILE="$COVERAGE_DIR/level1_level2_storage_engine_%p.profraw"
-bazel run //tests/level2_storage_engine:storage_engine_tests --copt=-fprofile-instr-generate --copt=-fcoverage-mapping --linkopt=-fprofile-instr-generate --linkopt=-fcoverage-mapping || echo "storage_engine_tests 失败，继续执行..."
+bazel run //tests/level2_storage_engine/storage_engine:storage_engine_tests --copt=-fprofile-instr-generate --copt=-fcoverage-mapping --linkopt=-fprofile-instr-generate --linkopt=-fcoverage-mapping || echo "storage_engine_tests 失败，继续执行..."
 echo "      ✓ storage_engine_tests 完成"
 
 # WAL 测试
 echo "    > 运行WAL测试..."
 export LLVM_PROFILE_FILE="$COVERAGE_DIR/level1_level2_wal_%p.profraw"
-bazel run //tests/level2_storage_engine:wal_tests --copt=-fprofile-instr-generate --copt=-fcoverage-mapping --linkopt=-fprofile-instr-generate --linkopt=-fcoverage-mapping || echo "wal_tests 失败，继续执行..."
+bazel run //tests/level2_storage_engine/wal:wal_tests --copt=-fprofile-instr-generate --copt=-fcoverage-mapping --linkopt=-fprofile-instr-generate --linkopt=-fcoverage-mapping || echo "wal_tests 失败，继续执行..."
 echo "      ✓ wal_tests 完成"
 
 # WAL System 测试
 echo "    > 运行WAL System测试..."
 export LLVM_PROFILE_FILE="$COVERAGE_DIR/level1_level2_wal_system_%p.profraw"
-bazel run //tests/level2_storage_engine:wal_system_tests --copt=-fprofile-instr-generate --copt=-fcoverage-mapping --linkopt=-fprofile-instr-generate --linkopt=-fcoverage-mapping || echo "wal_system_tests 失败，继续执行..."
+bazel run //tests/level2_storage_engine/wal_system:wal_system_tests --copt=-fprofile-instr-generate --copt=-fcoverage-mapping --linkopt=-fprofile-instr-generate --linkopt=-fcoverage-mapping || echo "wal_system_tests 失败，继续执行..."
 echo "      ✓ wal_system_tests 完成"
 
 # Level2 核心服务测试
@@ -98,30 +98,31 @@ echo "  - 运行Level2核心服务测试..."
 # Config Manager 测试
 echo "    > 运行Config Manager测试..."
 export LLVM_PROFILE_FILE="$COVERAGE_DIR/level1_level2_config_manager_%p.profraw"
-bazel run //tests/level2_core_services:config_manager_tests --copt=-fprofile-instr-generate --copt=-fcoverage-mapping --linkopt=-fprofile-instr-generate --linkopt=-fcoverage-mapping || echo "config_manager_tests 失败，继续执行..."
+bazel run //tests/level2_core_services/config_manager:config_manager_tests --copt=-fprofile-instr-generate --copt=-fcoverage-mapping --linkopt=-fprofile-instr-generate --linkopt=-fcoverage-mapping || echo "config_manager_tests 失败，继续执行..."
 echo "      ✓ config_manager_tests 完成"
 
 # Database Manager 测试
 echo "    > 运行Database Manager测试..."
 export LLVM_PROFILE_FILE="$COVERAGE_DIR/level1_level2_database_manager_%p.profraw"
-bazel run //tests/level2_core_services:database_manager_tests --copt=-fprofile-instr-generate --copt=-fcoverage-mapping --linkopt=-fprofile-instr-generate --linkopt=-fcoverage-mapping || echo "database_manager_tests 失败，继续执行..."
+bazel run //tests/level2_core_services/database_manager:database_manager_tests --copt=-fprofile-instr-generate --copt=-fcoverage-mapping --linkopt=-fprofile-instr-generate --linkopt=-fcoverage-mapping || echo "database_manager_tests 失败，继续执行..."
 echo "      ✓ database_manager_tests 完成"
 
 # Permission Validator 测试
 echo "    > 运行Permission Validator测试..."
 export LLVM_PROFILE_FILE="$COVERAGE_DIR/level1_level2_permission_validator_%p.profraw"
-bazel run //tests/level2_core_services:permission_validator_tests --copt=-fprofile-instr-generate --copt=-fcoverage-mapping --linkopt=-fprofile-instr-generate --linkopt=-fcoverage-mapping || echo "permission_validator_tests 失败，继续执行..."
+bazel run //tests/level2_core_services/permission_validator:permission_validator_tests --copt=-fprofile-instr-generate --copt=-fcoverage-mapping --linkopt=-fprofile-instr-generate --linkopt=-fcoverage-mapping || echo "permission_validator_tests 失败，继续执行..."
 echo "      ✓ permission_validator_tests 完成"
 
 # User Manager 测试
 echo "    > 运行User Manager测试..."
 export LLVM_PROFILE_FILE="$COVERAGE_DIR/level1_level2_user_manager_%p.profraw"
-bazel run //tests/level2_core_services:user_manager_tests --copt=-fprofile-instr-generate --copt=-fcoverage-mapping --linkopt=-fprofile-instr-generate --linkopt=-fcoverage-mapping || echo "user_manager_tests 失败，继续执行..."
+bazel run //tests/level2_core_services/user_manager:user_manager_tests --copt=-fprofile-instr-generate --copt=-fcoverage-mapping --linkopt=-fprofile-instr-generate --linkopt=-fcoverage-mapping || echo "user_manager_tests 失败，继续执行..."
 echo "      ✓ user_manager_tests 完成"
 
 echo
 echo "4. 合并覆盖率数据..."
-llvm-profdata-18 merge $COVERAGE_DIR/level1_level2_*.profraw -o $COVERAGE_DIR/level1_level2_comprehensive.profdata
+echo "  - 合并所有.profraw文件..."
+llvm-profdata-20 merge $COVERAGE_DIR/level1_level2_*.profraw -o $COVERAGE_DIR/level1_level2_comprehensive.profdata
 echo "    ✓ 覆盖率数据合并完成"
 
 echo
@@ -160,7 +161,7 @@ llvm-cov-18 report \
     $BINARY_ARGS \
     --ignore-filename-regex='.*test.*|.*Test.*|.*gtest.*|.*gmock.*|third_party/.*|/usr/include/.*|external/.*' \
     --show-region-summary \
-    > coverage_data/level1_level2/comprehensive_coverage_report.txt
+    > coverage_data/level1_level2/comprehensive_coverage_report.txt 2>/dev/null || echo "文本报告生成失败，跳过..."
 
 echo "    ✓ 文本报告生成完成: coverage_data/level1_level2/comprehensive_coverage_report.txt"
 

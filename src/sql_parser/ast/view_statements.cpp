@@ -1,6 +1,6 @@
 #include "sql_parser/ast_node.h"
-#include "sql_parser/ast_nodes.h"
-#include "sql_parser/node_visitor.h"
+#include "ast_nodes.h"
+#include "node_visitor.h"
 #include <memory>
 
 namespace sqlcc {

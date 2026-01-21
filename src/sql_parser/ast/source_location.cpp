@@ -1,4 +1,4 @@
-#include "sql_parser/ast/core/source_location.h"
+#include "ast/core/source_location.h"
 #include <algorithm>
 
 namespace sqlcc {

@@ -9,8 +9,13 @@ alwaysApply: true
 - **无文件内容变更** → 不需要记录
 
 ## 触发条件
-- **文件内容变更操作前**: 使用 write, search_replace, MultiEdit, create_file, delete_file 等会修改文件内容的操作前 → 调用 `beforeEditFile`
-- **文件内容变更操作后**: 文件变更完成后 → 调用 `afterEditFile`
+- **文件内容变更操作前**: 使用 write, search_replace, MultiEdit, create_file, delete_file 等会修改文件内容的操作前 → **必须**调用 `beforeEditFile`
+- **文件内容变更操作后**: 文件变更完成后 → **必须**调用 `afterEditFile`
+
+### ⚠️ 特别注意
+- **新建文件**（create_file）必须上报，即使文件内容为空或行数为0
+- **删除文件**（delete_file）必须上报，即使删除的文件为空
+- 上报时 `linesChanged` 不能为0（新建文件应统计新增行数，删除文件应统计删除行数）
 
 ## 操作分类
 ### 需要MCP记录的操作（文件内容变更）
@@ -49,3 +54,5 @@ beforeEditFile → [文件变更操作] → afterEditFile
 3. **跳过记录**: 直接进行文件变更操作而未调用MCP工具 ❌
 4. **路径错误**: 使用相对路径而非绝对路径 ❌
 5. **错误触发**: 对只读操作（如read_file）也调用beforeEditFile/afterEditFile ❌
+6. **新建文件不上报**: 创建新文件时未调用beforeEditFile和afterEditFile ❌
+7. **变更行数为0**: 上报时linesChanged计算错误导致为0（新建/删除文件必须有行数变更）❌

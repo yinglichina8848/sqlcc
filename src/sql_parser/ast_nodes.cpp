@@ -1,7 +1,7 @@
 #include "sql_parser/ast_node.h"
-#include "sql_parser/data_types.h"
-#include "sql_parser/token.h"
-#include "sql_parser/ast_nodes.h"
+#include "data_types.h"
+#include "token.h"
+#include "ast_nodes.h"
 #include <algorithm>
 #include <cctype>
 #include <iostream>

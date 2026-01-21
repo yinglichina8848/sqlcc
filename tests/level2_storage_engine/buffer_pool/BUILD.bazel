@@ -10,3 +10,15 @@ cc_test(
         "@com_google_googletest//:gtest_main",
     ],
 )
+
+cc_test(
+    name = "buffer_pool_tests",
+    srcs = glob([
+        "*.cpp",
+        "**/*.cpp",
+    ]),
+    deps = [
+        "//src/storage_engine/buffer_pool",
+        "@com_google_googletest//:gtest_main",
+    ],
+)

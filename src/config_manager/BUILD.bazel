@@ -5,7 +5,7 @@ package(default_visibility = ["//visibility:public"])
 cc_library(
     name = "config_manager",
     srcs = ["config_manager.cpp"],
-    hdrs = ["//include/utils:utils"],
+    hdrs = ["//src/utils:utils"],
     copts = [
         "-Iinclude",
         "-std=c++20",
@@ -17,7 +17,7 @@ cc_library(
         "SQLCC_TEST=1",  # 启用测试模式，包含ResetForTest方法
     ],
     deps = [
-        "//include/utils:utils",
+        "//src/utils:utils",
         "//src/exception:exception",
     ],
     linkopts = [

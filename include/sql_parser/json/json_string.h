@@ -1,6 +1,6 @@
 #pragma once
 
-#include "sql_parser/json/json_value.h"
+#include "json/json_value.h"
 #include <string>
 
 namespace sqlcc {

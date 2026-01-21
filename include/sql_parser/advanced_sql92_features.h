@@ -1,9 +1,9 @@
-#include "sql_parser/ast_node.h"
+#include "ast_node.h"
 #ifndef SQLCC_SQL_PARSER_ADVANCED_SQL92_FEATURES_H
 #define SQLCC_SQL_PARSER_ADVANCED_SQL92_FEATURES_H
 
-#include "sql_parser/ast_nodes.h"
-#include "sql_parser/node_visitor.h"
+#include "ast_nodes.h"
+#include "node_visitor.h"
 #include <memory>
 #include <string>
 #include <vector>

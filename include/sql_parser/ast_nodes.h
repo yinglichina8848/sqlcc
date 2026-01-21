@@ -95,8 +95,8 @@
 #include "ast_node.h"
 #include "data_types.h"
 #include "set_operation.h"
-#include "sql_parser/node_visitor.h"
-#include "../storage/table_storage.h"
+#include "node_visitor.h"
+#include "../include/storage/table_storage.h"
 #include <memory>
 #include <string>
 #include <unordered_map>

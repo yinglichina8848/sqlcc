@@ -148,9 +148,9 @@
 #include "ast_node.h"
 #include "constraint.h"
 #include "set_operation.h"
-#include "sql_parser/token.h"
-#include "sql_parser/window_function.h"
-#include "sql_parser/lexer.h"
+#include "token.h"
+#include "window_function.h"
+#include "lexer.h"
 #include <memory>
 #include <string>
 #include <unordered_set>

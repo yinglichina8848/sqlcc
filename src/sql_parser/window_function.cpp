@@ -64,9 +64,7 @@ WindowSpecification* WindowFunction::getWindowSpecification() const {
     return windowSpec_.get();
 }
 
-void WindowFunction::accept(NodeVisitor& visitor) {
-    visitor.visit(*this);
-}
+
 
 WindowSpecification::WindowSpecification()
     : frameStart_(FrameBoundary::UNBOUNDED_PRECEDING),

@@ -1,10 +1,10 @@
-#include "core/unified_executor.h"
-#include "core/execution_result.h"
-#include "core/execution_context.h"
+#include "unified_executor.h"
+#include "execution_result.h"
+#include "execution_context.h"
 #include "execution_engine.h"
-#include "core/core_database_manager.h"
-#include "core/user_manager.h"
-#include "core/system_database.h"
+#include "core_database_manager.h"
+#include "user_manager.h"
+#include "system_database.h"
 #include <algorithm>
 #include <iostream>
 #include <memory>
