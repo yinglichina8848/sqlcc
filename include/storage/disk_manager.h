@@ -14,7 +14,7 @@
 
 #include "storage/page.h"
 #include "src/utils/config_manager.h"
-#include "exception.h"
+#include "src/exception/exception.h"
 
 namespace sqlcc {
 
