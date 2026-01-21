@@ -1,4 +1,4 @@
-#include "sql_parser/ast_node.h"
+#include "ast_node.h"
 #include "data_types.h"
 #include "token.h"
 #include "ast_nodes.h"

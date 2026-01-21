@@ -1,12 +1,26 @@
-# src/exception/BUILD.bazel - SQLCC异常处理（严格规范化）
+package(default_visibility = ["//visibility:public"])
 
-load("@rules_cc//cc:defs.bzl", "cc_library")
+# -----------------------------------------------------------------------------
+# 源文件库 - exception 模块的核心实现
+# -----------------------------------------------------------------------------
 
 cc_library(
     name = "exception",
-    srcs = glob(["src/*.cpp"]),
-    hdrs = glob(["include/exception/*.h"]),
-    strip_include_prefix = "include",
+    hdrs = glob(["*.h"]),
+    strip_include_prefix = "",
     include_prefix = "",
-    visibility = ["//src:__subpackages__"],
+    deps = [
+        # exception 层级较低，无需依赖其他模块
+    ],
+    visibility = ["//visibility:public"],
+)
+
+# -----------------------------------------------------------------------------
+# 头文件库 - 向后兼容的头文件导出 (已迁移)
+# -----------------------------------------------------------------------------
+
+cc_library(
+    name = "headers",
+    hdrs = glob(["*.h"]),
+    visibility = ["//visibility:public"],
 )

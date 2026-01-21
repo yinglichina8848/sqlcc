@@ -1,5 +1,5 @@
 #include "storage/partition_manager.h"
-#include "storage/table_storage.h"
+#include "include/storage/table_storage.h"
 #include "storage/b_plus_tree.h"
 #include <algorithm>
 #include <sstream>

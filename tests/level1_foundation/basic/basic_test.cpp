@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
-#include "exception/exception.h"
-#include "exception/io_exception.h"
+#include "src/exception/exception.h"
+#include "src/exception/io_exception.h"
 
 // Basic test for foundation level
 TEST(BasicTest, SimpleTest) {

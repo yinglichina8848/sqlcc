@@ -1,5 +1,5 @@
 #include "storage/checkpoint.h"
-#include "storage_engine.h"
+#include "include/storage_engine.h"
 #include "storage/wal_writer.h"
 #include "utils/config_manager.h"
 #include <algorithm>

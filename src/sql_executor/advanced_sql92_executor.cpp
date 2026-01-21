@@ -4,10 +4,10 @@
 #include "sql_executor/domain_manager.h"
 #include "sql_executor/enhanced_trigger_manager.h"
 #include "sql_executor/enhanced_alter_table_manager.h"
-#include "core/core_database_manager.h"
-#include "core/user_manager.h"
-#include "core/system_database.h"
-#include "storage_engine.h"
+#include "src/core/core_database_manager.h"
+#include "src/core/user_manager.h"
+#include "src/core/system_database.h"
+#include "include/storage_engine.h"
 #include <memory>
 #include <unordered_map>
 #include <vector>

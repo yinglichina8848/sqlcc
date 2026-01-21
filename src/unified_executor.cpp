@@ -1,9 +1,9 @@
 #include "sql_parser/ast_node.h"
 #include "sql_parser/ast_nodes.h"
 #include "execution/join_executor.h"
-#include "core/unified_executor.h"
-#include "core/execution_result.h"
-#include "storage/table_storage.h"
+#include "src/core/unified_executor.h"
+#include "src/core/execution_result.h"
+#include "include/storage/table_storage.h"
 #include <map>
 #include <algorithm>
 #include <limits>

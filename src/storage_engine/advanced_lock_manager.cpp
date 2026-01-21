@@ -53,7 +53,7 @@
  */
 
 #include "storage/advanced_lock_manager.h"
-#include "exception.h"
+#include "exception/exception.h"
 #include "utils/logger.h"
 #include <algorithm>
 #include <chrono>

@@ -11,7 +11,7 @@
 
 #include "storage/index_manager.h"
 #include "storage/b_plus_tree.h"
-#include "storage_engine.h"
+#include "include/storage_engine.h"
 #include "transaction_manager.h"
 #include "utils/config_manager.h"
 #include "utils/logger.h"

@@ -96,7 +96,7 @@
 #include "data_types.h"
 #include "set_operation.h"
 #include "node_visitor.h"
-#include "../include/storage/table_storage.h"
+#include "storage/table_storage.h"
 #include <memory>
 #include <string>
 #include <unordered_map>

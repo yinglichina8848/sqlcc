@@ -1,6 +1,6 @@
-#include "sql_parser/ast_node.h"
-#include "sql_parser/set_operation.h"
-#include "../include/sql_parser/ast_nodes.h"
+#include "ast_node.h"
+#include "set_operation.h"
+#include "ast_nodes.h"
 #include <stdexcept>
 #include <algorithm>
 

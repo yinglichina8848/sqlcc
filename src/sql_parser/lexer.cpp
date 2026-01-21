@@ -64,9 +64,9 @@
  * @see include/sql_parser/lexer.h
  */
 
-#include "sql_parser/ast_node.h"
-#include "token.h"
-#include "lexer.h"
+#include "include/sql_parser/ast_node.h"
+#include "include/sql_parser/token.h"
+#include "include/sql_parser/lexer.h"
 #include <algorithm>
 #include <cctype>
 #include <iostream>

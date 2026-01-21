@@ -12,7 +12,7 @@
 #include <unordered_map>
 #include <vector>
 
-#include "page.h"
+#include "storage/page.h"
 #include "utils/config_manager.h"
 #include "exception/exception.h"
 

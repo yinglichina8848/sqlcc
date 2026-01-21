@@ -1,7 +1,7 @@
-#include "sql_parser/window_function.h"
-#include "sql_parser/ast_node.h"
-#include "sql_parser/node_visitor.h"
-#include "sql_parser/token.h"
+#include "window_function.h"
+#include "ast_node.h"
+#include "node_visitor.h"
+#include "token.h"
 #include <algorithm>
 
 namespace sqlcc {
@@ -62,6 +62,10 @@ void WindowFunction::setWindowSpecification(std::unique_ptr<WindowSpecification>
 
 WindowSpecification* WindowFunction::getWindowSpecification() const {
     return windowSpec_.get();
+}
+
+void WindowFunction::accept(NodeVisitor& visitor) {
+    visitor.visitWindowFunction(*this);
 }
 
 

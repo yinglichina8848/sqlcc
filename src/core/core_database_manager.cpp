@@ -1,10 +1,10 @@
 #include "core_database_manager.h"
 #include "database_file_manager.h"
 #include "database_exceptions.h"
-#include "storage/index_manager.h"
+#include "storage_engine/index_manager/index_manager.h"
 #include "storage/buffer_pool_sharded.h"
-#include "storage/table_storage.h"
-#include "storage_engine.h"
+#include "include/storage/table_storage.h"
+#include "include/storage_engine.h"
 #include "utils/config_manager.h"
 #include <algorithm>
 #include <filesystem>

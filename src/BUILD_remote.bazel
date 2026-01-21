@@ -1,0 +1,286 @@
+# ==============================================================================
+# SQLCC 头文件包定义 - 采用清晰的分层标签格式
+# ==============================================================================
+
+load("@rules_cc//cc:defs.bzl", "cc_library")
+
+
+# -----------------------------------------------------------------------------
+# 2. 核心库头文件 - 使用子包引用
+# -----------------------------------------------------------------------------
+
+cc_library(
+    name = "core_headers",
+    deps = [
+        "//include/core:headers",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+# -----------------------------------------------------------------------------
+# 3. 存储引擎头文件 - 使用子包引用
+# -----------------------------------------------------------------------------
+
+
+
+# -----------------------------------------------------------------------------
+# 5. 执行引擎头文件 - 使用子包引用
+# -----------------------------------------------------------------------------
+
+cc_library(
+    name = "execution_headers",
+    deps = ["//include/execution:headers"],
+    visibility = ["//visibility:public"],
+)
+
+# -----------------------------------------------------------------------------
+# 6. SQL Executor头文件 - 使用子包引用
+# -----------------------------------------------------------------------------
+
+cc_library(
+    name = "sql_executor_headers",
+    deps = ["//include/sql_executor/*.h"],
+    visibility = ["//visibility:public"],
+)
+
+# -----------------------------------------------------------------------------
+# 6. 网络库头文件 - 使用子包引用
+# -----------------------------------------------------------------------------
+
+cc_library(
+    name = "network_headers",
+    deps = ["//include/network:network_headers"],
+    visibility = ["//visibility:public"],
+)
+
+# -----------------------------------------------------------------------------
+# 7. 工具库头文件 - 使用子包引用
+# -----------------------------------------------------------------------------
+
+cc_library(
+    name = "utils",
+    deps = ["//include/utils:headers"],
+    visibility = ["//visibility:public"],
+)
+
+# -----------------------------------------------------------------------------
+# 8. 存储过程和触发器头文件 - 使用子包引用
+# -----------------------------------------------------------------------------
+
+cc_library(
+    name = "procedure_headers",
+    deps = ["//include/procedure:procedure_headers"],
+    visibility = ["//visibility:public"],
+)
+
+cc_library(
+    name = "trigger_headers",
+    deps = ["//include/trigger:trigger_headers"],
+    visibility = ["//visibility:public"],
+)
+
+# -----------------------------------------------------------------------------
+# 9. 事务管理头文件 - 使用子包引用
+# -----------------------------------------------------------------------------
+
+cc_library(
+    name = "transaction_headers",
+    deps = ["//include/transaction:savepoint_manager"],
+    visibility = ["//visibility:public"],
+)
+
+# -----------------------------------------------------------------------------
+# 10. 类型系统头文件 - 使用子包引用
+# -----------------------------------------------------------------------------
+
+cc_library(
+    name = "types_headers",
+    deps = ["//include/types:domain_manager"],
+    visibility = ["//visibility:public"],
+)
+
+# -----------------------------------------------------------------------------
+# 11. 安全模块头文件 - 使用子包引用
+# -----------------------------------------------------------------------------
+
+cc_library(
+    name = "security_headers",
+    deps = ["//include/security:memory_monitor"],
+    visibility = ["//visibility:public"],
+)
+
+# -----------------------------------------------------------------------------
+# 14. 性能监控头文件 - 直接定义
+# -----------------------------------------------------------------------------
+
+cc_library(
+    name = "performance_monitor",
+    hdrs = ["monitoring/performance_monitor.h"],
+    deps = [
+        "//include:config_manager",
+        "//include:utils",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+# -----------------------------------------------------------------------------
+# 12. 主要接口头文件 - 直接定义（根级）
+# -----------------------------------------------------------------------------
+
+cc_library(
+    name = "storage_engine",
+    hdrs = ["storage_engine.h"],
+    visibility = ["//visibility:public"],
+)
+
+cc_library(
+    name = "storage_index_manager",
+    deps = ["//include/storage:headers"],
+    visibility = ["//visibility:public"],
+)
+
+cc_library(
+    name = "sql_executor",
+    hdrs = ["sql_executor.h"],
+    visibility = ["//visibility:public"],
+)
+
+cc_library(
+    name = "config_manager",
+    deps = ["//include/utils:headers"],
+    visibility = ["//visibility:public"],
+)
+
+cc_library(
+    name = "wal_manager",
+    hdrs = ["wal_manager.h"],
+    visibility = ["//visibility:public"],
+)
+
+cc_library(
+    name = "constraint_executor",
+    hdrs = ["constraint_executor.h"],
+    visibility = ["//visibility:public"],
+)
+
+cc_library(
+    name = "database_manager",
+    hdrs = ["database_manager.h"],
+    visibility = ["//visibility:public"],
+)
+
+cc_library(
+    name = "core_database_manager",
+    deps = ["//include/core:core_database_manager"],
+    visibility = ["//visibility:public"],
+)
+
+cc_library(
+    name = "execution_engine",
+    hdrs = ["execution_engine.h"],
+    visibility = ["//visibility:public"],
+)
+
+cc_library(
+    name = "disk_manager",
+    hdrs = ["disk_manager.h"],
+    visibility = ["//visibility:public"],
+)
+
+cc_library(
+    name = "error_handler",
+    hdrs = ["error_handler.h"],
+    visibility = ["//visibility:public"],
+)
+
+cc_library(
+    name = "exception",
+    hdrs = ["exception.h"],
+    visibility = ["//visibility:public"],
+)
+
+cc_library(
+    name = "page",
+    hdrs = ["page.h"],
+    visibility = ["//visibility:public"],
+)
+
+cc_library(
+    name = "buffer_pool_sharded",
+    deps = ["//include/storage:buffer_pool_sharded"],
+    visibility = ["//visibility:public"],
+)
+
+cc_library(
+    name = "transaction_manager",
+    hdrs = ["transaction_manager.h"],
+    visibility = ["//visibility:public"],
+)
+
+cc_library(
+    name = "view_manager",
+    hdrs = ["view_manager.h"],
+    visibility = ["//visibility:public"],
+)
+
+cc_library(
+    name = "unified_query_plan",
+    hdrs = ["unified_query_plan.h"],
+    visibility = ["//visibility:public"],
+)
+
+# -----------------------------------------------------------------------------
+# 13. 预编译头文件库 - 预编译头文件
+# -----------------------------------------------------------------------------
+cc_library(
+    name = "sqlcc_pch",
+    hdrs = ["sqlcc_pch.h"],
+    visibility = ["//visibility:public"],
+)
+
+# -----------------------------------------------------------------------------
+# 14. 综合头文件库 - 所有头文件的集合
+# -----------------------------------------------------------------------------
+
+cc_library(
+    name = "all_headers",
+    deps = [
+        # 子包模块
+        ":core_headers",
+        ":storage_headers",
+        ":sql_parser_headers",
+        ":execution_headers",
+        ":network_headers",
+        ":utils",
+        ":procedure_headers",
+        ":trigger_headers",
+        ":transaction_headers",
+        ":types_headers",
+        ":security_headers",
+
+        # 主要接口
+        ":storage_engine",
+        ":sql_executor",
+        ":config_manager",
+        ":wal_manager",
+        ":constraint_executor",
+        ":database_manager",
+        ":execution_engine",
+        ":disk_manager",
+        ":error_handler",
+        ":exception",
+        ":page",
+        ":transaction_manager",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+# 导出主要头文件以供其他包使用
+exports_files([
+    "database_manager.h",
+    "sql_executor.h",
+    "error_handler.h",
+    "exception.h",
+    "page.h",
+    "disk_manager.h",
+], visibility = ["//visibility:public"])

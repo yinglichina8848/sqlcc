@@ -1,4 +1,4 @@
-#include "ast_nodes.h"
+#include "src/sql_parser/ast_nodes.h"
 #ifndef SQLCC_SQL_PARSER_AST_CORE_AST_NODE_H
 #define SQLCC_SQL_PARSER_AST_CORE_AST_NODE_H
 

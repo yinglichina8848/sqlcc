@@ -62,10 +62,10 @@
 
 #include "sql_executor.h"
 #include "sql_parser/parser.h"
-#include "storage_engine.h"
+#include "include/storage_engine.h"
 #include "transaction_manager.h"
-#include "core/execution_context.h"
-#include "storage/table_storage.h"
+#include "src/core/execution_context.h"
+#include "include/storage/table_storage.h"
 #include <iostream>
 #include <chrono>
 #include <algorithm>

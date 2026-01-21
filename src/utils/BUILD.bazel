@@ -1,12 +1,13 @@
-# src/utils/BUILD.bazel - 基础设施工具库（严格规范化）
-
-load("@rules_cc//cc:defs.bzl", "cc_library")
+package(default_visibility = ["//visibility:public"])
 
 cc_library(
     name = "utils",
     srcs = glob(["*.cpp"]),
     hdrs = glob(["*.h"]),
-    # strip_include_prefix = "src/utils",
-    # utils 作为基础层级，无依赖
-    visibility = ["//src:__subpackages__"],
+    strip_include_prefix = "",
+    include_prefix = "",
+    deps = [
+        # utils 层级最低，无需依赖其他模块
+    ],
+    visibility = ["//visibility:public"],
 )

@@ -1,7 +1,7 @@
 #include "sql_parser/ast_nodes.h"
 #include "execution/set_operation_executor.h"
-#include "core/execution_context.h"
-#include "core/execution_result.h"
+#include "src/core/execution_context.h"
+#include "src/core/execution_result.h"
 #include "sql_executor.h"
 #include <algorithm>
 #include <set>

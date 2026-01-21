@@ -5,8 +5,8 @@
 #include "utils/file_descriptor.h"
 #include "utils/logger.h"
 #include "sql_executor.h"
-#include "core/user_manager.h"
-#include "core/permission_validator.h"
+#include "src/core/user_manager.h"
+#include "src/core/permission_validator.h"
 #include <unistd.h>
 #include <cstring>
 #include <algorithm>

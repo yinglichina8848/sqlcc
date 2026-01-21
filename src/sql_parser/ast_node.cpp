@@ -63,7 +63,7 @@
  * @see include/sql_parser/ast_node.h
  */
 
-#include "sql_parser/ast_node.h"
+#include "ast_node.h"
 
 namespace sqlcc {
 namespace sql_parser {

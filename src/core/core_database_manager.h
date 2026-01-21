@@ -7,7 +7,6 @@
 #include <mutex>
 #include <unordered_map>
 #include <map>
-#include "storage/buffer_pool_sharded.h"
 
 namespace sqlcc {
 

@@ -84,10 +84,10 @@
 #ifndef SQLCC_EXECUTION_ENGINE_H
 #define SQLCC_EXECUTION_ENGINE_H
 
-#include "core/execution_context.h" // 包含ExecutionContext定义
-#include "core/execution_result.h"  // 包含完整的ExecutionResult定义
-#include "core/system_database.h"
-#include "core/user_manager.h"
+#include "src/core/execution_context.h" // 包含ExecutionContext定义
+#include "src/core/execution_result.h"  // 包含完整的ExecutionResult定义
+#include "src/core/system_database.h"
+#include "src/core/user_manager.h"
 #include "sql_parser/ast_nodes.h"
 #include "storage/b_plus_tree.h"
 #include "storage/table_storage.h"

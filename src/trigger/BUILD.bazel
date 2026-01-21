@@ -1,43 +1,33 @@
+# SQLCC触发器模块头文件构建配置
+
+package(default_visibility = ["//visibility:public"])
+
+load("@rules_cc//cc:defs.bzl", "cc_library")
+
+
+# 导出头文件供其他包使用
+exports_files([
+    "trigger_definition.h",
+    "trigger_executor.h",
+    "recursion_guard.h",
+    "trigger_manager.h",
+    "sql_trigger_executor.h",
+])
+
+# 触发器模块头文件库
 cc_library(
+    name = "trigger_headers",
+    hdrs = [
+        "trigger_manager.h",
+        "trigger_definition.h",
+        "trigger_executor.h",
+        "recursion_guard.h",
+        "sql_trigger_executor.h",
+    ],
+)
+
+# SQL触发器执行器头文件库
+filegroup(
     name = "sql_trigger_executor",
-    srcs = ["sql_trigger_executor.cpp"],
-    deps = [
-        "//include/trigger:trigger_headers",
-        "//src/core:core",
-        "//src/sql_executor:sql_executor",
-        # "//src/trigger:trigger",  # 移除循环依赖 - 通过接口调用
-        # "//src/execution:execution",  # 移除循环依赖
-    ],
-    visibility = ["//visibility:public"],
-)
-
-cc_library(
-    name = "trigger_manager",
-    srcs = ["trigger_manager.cpp"],
-    hdrs = ["//include/trigger:trigger_manager.h"],
-    visibility = ["//visibility:public"],
-    deps = [
-        ":sql_trigger_executor",
-        "//src/core:core",
-        "//src/logger:logger",
-        "//src/sql_executor:sql_executor",
-    ],
-)
-
-cc_library(
-    name = "trigger",
-    srcs = [
-        "trigger_definition.cpp",
-        "trigger_executor.cpp",
-        "recursion_guard.cpp",
-    ],
-    hdrs = ["//include/trigger:trigger_definition.h"],
-    visibility = ["//visibility:public"],
-    deps = [
-        ":trigger_manager",
-        ":sql_trigger_executor",
-        "//src/core:core",
-        "//src/sql_parser:sql_parser",
-        "//src/logger:logger",
-    ],
+    srcs = ["sql_trigger_executor.h"],
 )

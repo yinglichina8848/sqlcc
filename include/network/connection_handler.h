@@ -230,7 +230,7 @@
 #include "utils/file_descriptor.h"
 #include "sql_executor.h"
 #include "message_types.h"
-#include "core/permission_validator.h"
+#include "src/core/permission_validator.h"
 #include "network/encryption.h"
 
 // Forward declarations for OpenSSL

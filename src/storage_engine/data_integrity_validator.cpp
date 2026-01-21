@@ -11,7 +11,7 @@
  */
 
 #include "storage/data_integrity_validator.h"
-#include "storage/table_storage.h"
+#include "include/storage/table_storage.h"
 #include "exception.h"
 #include "utils/logger.h"
 #include <algorithm>

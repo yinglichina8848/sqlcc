@@ -1,29 +1,12 @@
-# 配置管理器组件Bazel构建配置
-
-package(default_visibility = ["//visibility:public"])
-
 cc_library(
     name = "config_manager",
     srcs = ["config_manager.cpp"],
-    hdrs = ["//src/utils:utils"],
-    copts = [
-        "-Iinclude",
-        "-std=c++20",
-        "-stdlib=libc++",
-        "-Wall",
-        "-Wextra",
-    ],
-    defines = [
-        "SQLCC_TEST=1",  # 启用测试模式，包含ResetForTest方法
-    ],
+    hdrs = ["config_manager.h"],
+    strip_include_prefix = "",
+    include_prefix = "",
     deps = [
         "//src/utils:utils",
         "//src/exception:exception",
     ],
-    linkopts = [
-        "-stdlib=libc++",
-        "-lc++abi",
-    ],
-    features = ["cpp20_modules"],
     visibility = ["//visibility:public"],
 )

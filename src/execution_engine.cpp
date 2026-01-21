@@ -68,9 +68,9 @@
 #include "sql_parser/ast_node.h"
 #include "sql_parser/ast_nodes.h"
 #include "execution_engine.h"
-#include "core/core_database_manager.h"
-#include "core/execution_context.h"
-#include "core/unified_executor.h"
+#include "src/core/core_database_manager.h"
+#include "src/core/execution_context.h"
+#include "src/core/unified_executor.h"
 #include <memory>
 
 namespace sqlcc {

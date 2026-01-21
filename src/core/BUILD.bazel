@@ -13,6 +13,8 @@ cc_library(
         "//src/logger:logger",
         # 执行器需要解析SQL语句，因此必须依赖sql_parser
         "//src/sql_parser:sql_parser",
+        # database_file_manager 需要 table_storage 头文件
+        "//src/storage_engine:table_storage",
         # 不允许依赖任何业务模块（如 storage_engine 等）
     ],
     visibility = ["//src:__subpackages__"],

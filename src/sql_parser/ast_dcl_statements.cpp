@@ -1,4 +1,4 @@
-#include "../include/sql_parser/ast_dcl_statements.h"
+#include "ast_dcl_statements.h"
 #include "node_visitor.h"
 
 namespace sqlcc::sql_parser {

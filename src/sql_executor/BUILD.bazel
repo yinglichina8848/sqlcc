@@ -1,55 +1,16 @@
-# //src/sql_executor/BUILD.bazel - SQL执行器模块
-# 遵循设计文档的包层次结构
+# //include/sql_executor/BUILD.bazel - SQL Executor头文件库
 
-load("@rules_cc//cc:defs.bzl", "cc_library")
+package(default_visibility = ["//visibility:public"])
 
-# SQL Executor库 - SQL语句执行协调
+# SQL Executor头文件库
 cc_library(
-    name = "sql_executor",
-    srcs = ["sql_executor.cpp", "view_manager.cpp"],
-    deps = [
-        "//include/sql_executor:sql_executor_headers",
-        "//src/core:core",
-        "//src/core:database_manager",
-        "//src/utils:utils",
-        "//src/sql_parser:sql_parser",
-        "//src/logger:logger",
-    ],
-    copts = [
-        "-std=c++20",
-        "-stdlib=libc++",
-        "-Wall",
-        "-Wextra",
-        "-Wno-error=maybe-uninitialized",
-    ],
-    linkopts = [
-        "-stdlib=libc++",
-        "-lc++abi",
-    ],
-    defines = [
-        "SQLCC_MODERN_CPP=1",
-        "SQLCC_CLANG18_FEATURES=1",
-    ],
+    name = "headers",
+    hdrs = glob(["*.h"]),
     visibility = ["//visibility:public"],
 )
 
-# Procedure executor for stored procedure functionality
 cc_library(
-    name = "procedure_executor",
-    srcs = ["procedure_executor.cpp"],
-    deps = [
-        "//include/sql_executor:headers",
-        "//src/core:core",
-        "//src/logger:logger",
-    ],
-    visibility = ["//visibility:public"],
-)
-
-# Placeholder target - TODO: implement actual functionality
-cc_library(
-    name = "sqlcc_executor",
-    srcs = [],  # TODO: add source files
-    hdrs = [],  # TODO: add header files
-    deps = [],  # TODO: add dependencies
+    name = "sql_executor_headers",
+    hdrs = glob(["*.h"]),
     visibility = ["//visibility:public"],
 )

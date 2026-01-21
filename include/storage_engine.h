@@ -26,8 +26,8 @@
 #include <string>          // std::string
 
 // Storage subsystem headers
-#include "disk_manager.h"
-#include "page.h"
+#include "storage/disk_manager.h"
+#include "storage/page.h"
 #include "storage/buffer_pool_sharded.h"
 #include "storage/table_storage.h"
 #include "utils/config_manager.h"

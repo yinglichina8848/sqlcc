@@ -1,65 +1,9 @@
-load("@rules_cc//cc:defs.bzl", "cc_library", "cc_test")
+# 类型系统头文件库
 
+package(default_visibility = ["//visibility:public"])
 
-package(
-    default_visibility = ["//visibility:public"],
-    features = ["-parse_headers"],
-)
-
+# 类型管理器头文件库
 cc_library(
-    name = "types",
-    srcs = [
-        "domain_manager.cpp",
-    ],
-    hdrs = [
-        "//include/types:domain_manager.h",
-    ],
-    copts = [
-        "-Iinclude",
-        "-std=c++20",
-        "-stdlib=libc++",
-        "-Wall",
-        "-Wextra",
-        "-Wno-error=maybe-uninitialized",
-    ],
-    linkopts = [
-        "-stdlib=libc++",
-        "-lc++abi",
-    ],
-    defines = [
-        "SQLCC_MODERN_CPP=1",
-        "SQLCC_CLANG18_FEATURES=1",
-    ],
-    deps = [
-        "//src/core:core",
-        "//src/utils:utils",
-    ],
-)
-
-cc_test(
-    name = "types_test",
-    size = "small",
-    srcs = [
-        # Test files to be added later
-    ],
-    copts = [
-        "-std=c++20",
-        "-stdlib=libc++",
-        "-Wall",
-        "-Wextra",
-        "-Wno-error=maybe-uninitialized",
-    ],
-    linkopts = [
-        "-stdlib=libc++",
-        "-lc++abi",
-    ],
-    defines = [
-        "SQLCC_MODERN_CPP=1",
-        "SQLCC_CLANG18_FEATURES=1",
-    ],
-    deps = [
-        ":types",
-        "//include/utils:headers",
-        "@gtest//:gtest",
-    ],
+    name = "domain_manager",
+    hdrs = ["domain_manager.h"],
 )

@@ -69,7 +69,7 @@
 #include <memory>
 #include "version.h"
 #include "utils/config_manager.h"
-#include "storage_engine.h"
+#include "include/storage_engine.h"
 #include "exception.h"
 
 // 使用声明简化代码，引入核心组件类

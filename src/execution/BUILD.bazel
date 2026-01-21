@@ -1,202 +1,33 @@
-# //src/execution/BUILD.bazel - Execution模块
-# 遵循设计文档的包层次结构
+package(default_visibility = ["//visibility:public"])
 
-load("@rules_cc//cc:defs.bzl", "cc_library", "cc_test")
-
-# 导出源文件以供其他包使用
-exports_files([
-    "function_executor.cpp",
-    "join_executor.cpp",
-    "set_operation_executor.cpp",
-    "window_function_executor.cpp",
-    "recursive_query_executor.cpp",
-    "load_data_executor.cpp",
-    "query_plan_factory.cpp",
-    "unified_query_plan.cpp",
-])
+# -----------------------------------------------------------------------------
+# 源文件库 - execution 模块的核心实现
+# -----------------------------------------------------------------------------
 
 cc_library(
-    name = "function_executor",
-    srcs = ["function_executor.cpp"],
-
-    visibility = ["//visibility:public"],
+    name = "execution",
+    srcs = glob(["*.cpp"]),
+    hdrs = glob(["*.h"]),
+    strip_include_prefix = "",
+    include_prefix = "",
     deps = [
-        "//src/core:core",
-        "//src/sql_parser:sql_parser",
-        "//src/sql_parser:function_definition_impl",
-        "//src/procedure:procedure",
-        "//include/execution:headers",
-        "//include/execution:task_executor_hdr",
-        "//include/procedure:procedure_headers",
-        "//include/sql_parser:function_ast",
-    ],
-)
-
-cc_library(
-    name = "join_executor",
-    srcs = ["join_executor.cpp"],
-
-    visibility = ["//visibility:public"],
-    deps = [
-        "//src/core:core",
-        "//src/sql_parser:sql_parser",
-        "//src/storage_engine:storage_engine",
-        "//include/sql_parser:ast_node",
-    ],
-)
-
-cc_library(
-    name = "set_operation_executor",
-    srcs = ["set_operation_executor.cpp"],
-
-    visibility = ["//visibility:public"],
-    deps = [
-        "//include/execution:set_operation_executor_hdr",
-        "//src/sql_parser:set_operation",
-        "//src/core:core",
-        "//src/sql_parser:sql_parser",
-        "//src/storage_engine:storage_engine",
-    ],
-)
-
-cc_library(
-    name = "window_function_executor",
-    srcs = ["window_function_executor.cpp"],
-
-    visibility = ["//visibility:public"],
-    deps = [
-        "//include/execution:window_function_executor_hdr",
-        "//src/sql_parser:window_function",
-        "//src/core:core",
-        "//src/sql_parser:sql_parser",
-        "//src/storage_engine:storage_engine",
-    ],
-)
-
-cc_library(
-    name = "recursive_query_executor",
-    srcs = ["recursive_query_executor.cpp"],
-
-    visibility = ["//visibility:public"],
-    deps = [
-        "//include/execution:recursive_query_executor_hdr",
-        "//src/sql_parser:sql_parser",
-        "//src/core:core",
-        "//src/storage_engine:storage_engine",
-    ],
-)
-
-cc_library(
-    name = "load_data_executor",
-    srcs = ["load_data_executor.cpp"],
-
-    visibility = ["//visibility:public"],
-    deps = [
-        "//include/execution:load_data_executor_hdr",
-        "//src/core:core",
-        "//src/sql_parser:sql_parser",
-        "//src/storage_engine:storage_engine",
-
-    ],
-)
-
-# Subquery Executor
-cc_library(
-    name = "subquery_executor",
-    srcs = ["subquery_executor.cpp"],
-
-    visibility = ["//visibility:public"],
-    deps = [
-        "//include/execution:subquery_executor_hdr",
-        "//include/execution_ast",
-        "//src/core:core",
-        "//src/sql_parser:sql_parser",
-        "//src/storage_engine:storage_engine",
-    ],
-)
-
-cc_library(
-    name = "task_result",
-    srcs = ["task_result.cpp"],
-    hdrs = ["//include/execution:task_result.h"],
-    visibility = ["//visibility:public"],
-    deps = [
-        "//include/execution:task_result",
-    ],
-)
-
-cc_library(
-    name = "task_executor",
-    srcs = ["task_executor_simple.cpp"],
-
-    visibility = ["//visibility:public"],
-    deps = [
-        "//include/execution:task_executor_hdr",
         "//src/core:core",
         "//src/sql_parser:sql_parser",
         "//src/utils:utils",
+        "//src/exception:exception",
+        "//src/logger:logger",
+        # 注意：暂时移除对storage_engine的直接依赖，避免迁移冲突
+        # "//src/storage_engine:storage_engine",
     ],
+    visibility = ["//src:__subpackages__"],
 )
 
-cc_library(
-    name = "procedure_trigger_task",
-    srcs = ["procedure_trigger_task.cpp"],
+# -----------------------------------------------------------------------------
+# 头文件库 - 向后兼容的头文件导出 (已迁移)
+# -----------------------------------------------------------------------------
 
-    visibility = ["//visibility:public"],
-    deps = [
-        "//include/execution:task_executor_hdr",
-        "//include/sql_parser:ast_node",
-        "//include/sql_parser:ast_nodes",
-        "//include/procedure:procedure_headers",
-        "//include/trigger:trigger_headers",
-        "//src/core:core",
-        "//src/sql_parser:sql_parser",
-        "//src/procedure:procedure",
-        "//src/trigger:trigger",
-    ],
-)
-
-# Query Plan Factory
 cc_library(
-    name = "query_plan_factory",
-    srcs = ["query_plan_factory.cpp"],
-    hdrs = ["//include/execution:query_plan_factory"],
+    name = "headers",
+    hdrs = glob(["*.h"]),
     visibility = ["//visibility:public"],
-    deps = [
-        ":unified_query_plan",
-        "//src/core:core",
-        "//src/sql_parser:sql_parser",
-    ],
-)
-
-# Unified Query Plan
-cc_library(
-    name = "unified_query_plan",
-    srcs = ["unified_query_plan.cpp"],
-    hdrs = ["//include/execution:unified_query_plan"],
-    visibility = ["//visibility:public"],
-    deps = [
-        "//src/core:core",
-        "//src/sql_parser:sql_parser",
-    ],
-)
-
-# 执行模块聚合库
-cc_library(
-    name = "execution",
-    visibility = ["//visibility:public"],
-    deps = [
-        ":function_executor",
-        ":join_executor",
-        ":set_operation_executor",
-        ":subquery_executor",
-        ":window_function_executor",
-        ":recursive_query_executor",
-        ":load_data_executor",
-        ":task_executor",
-        ":task_result",
-        ":procedure_trigger_task",
-        ":query_plan_factory",
-        ":unified_query_plan",
-    ],
 )

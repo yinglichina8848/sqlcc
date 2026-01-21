@@ -22,7 +22,7 @@
 #include "utils/config_manager.h"
 #include "sql_executor.h"
 #include "exception.h"
-#include "storage_engine.h"
+#include "include/storage_engine.h"
 #include "version.h"
 
 // 使用sqlcc命名空间
