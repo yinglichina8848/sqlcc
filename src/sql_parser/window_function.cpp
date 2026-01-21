@@ -1,6 +1,6 @@
 #include "window_function.h"
-#include "ast_node.h"
-#include "node_visitor.h"
+#include "ast/ast_node.h"
+#include "ast/node_visitor.h"
 #include "token.h"
 #include <algorithm>
 

@@ -13,7 +13,7 @@ cc_test(
     ], allow_empty = True),
     deps = [
         "//include:sqlcc_pch",
-        "//include/sql_parser:node_visitor",
+        "//src/sql_parser:headers",
         "//src/sql_parser:ast",  # 依赖拆分后的ast子库
         "//src/logger:logger",
         "@com_google_googletest//:gtest_main",
@@ -60,7 +60,7 @@ cc_test(
     ], allow_empty = True),
     deps = [
         "//include:sqlcc_pch",
-        "//include/sql_parser:ast_nodes",
+        "//src/sql_parser:headers",  # 使用headers库
         "//src/sql_parser:parser",  # 依赖拆分后的parser子库
         "//src/logger:logger",
         "@com_google_googletest//:gtest_main",
@@ -82,8 +82,8 @@ cc_test(
     ], allow_empty = True),
     deps = [
         "//include:sqlcc_pch",
-        "//include/sql_parser:token",
-        "//src/sql_parser:token",
+        "//src/sql_parser:headers",
+        "//src/sql_parser:lexer",
         "//src/logger:logger",
         "@com_google_googletest//:gtest_main",
     ],
@@ -124,7 +124,7 @@ cc_test(
     ], allow_empty = True),
     deps = [
         "//include:sqlcc_pch",
-        "//include/sql_parser:constraint",
+        "//src/sql_parser:headers",
         "//src/logger:logger",
         "@com_google_googletest//:gtest_main",
     ],
@@ -206,8 +206,8 @@ cc_test(
     ], allow_empty = True),
     deps = [
         "//include:sqlcc_pch",
-        "//include/sql_parser:window_function",
-        "//src/sql_parser:window_function",
+        "//src/sql_parser:headers",
+        "//src/sql_parser:window",
         "//src/logger:logger",
         "@com_google_googletest//:gtest_main",
     ],

@@ -1,25 +1,23 @@
-#include "include/sql_parser/ast/core/ast_node.h"
-#include "include/sql_parser/ast/core/source_location.h"
+#include "ast_node.h"
+#include "source_location.h"
+#include <memory>
+#include <string>
 
-namespace sqlcc {
-namespace sql_parser {
-namespace ast {
+namespace sqlcc::sql_parser::ast {
 
-ASTNode::ASTNode(const SourceLocation& location)
+Node::Node(const SourceLocation& location)
     : location_(location) {}
 
-const SourceLocation& ASTNode::getLocation() const {
+const SourceLocation& Node::getLocation() const {
     return location_;
 }
 
-void ASTNode::setLocation(const SourceLocation& location) {
+void Node::setLocation(const SourceLocation& location) {
     location_ = location;
 }
 
-bool ASTNode::isValid() const {
+bool Node::isValid() const {
     return location_.isValid();
 }
 
-} // namespace ast
-} // namespace sql_parser
-} // namespace sqlcc
+} // namespace sqlcc::sql_parser::ast

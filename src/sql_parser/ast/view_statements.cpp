@@ -1,6 +1,7 @@
-#include "../ast_node.h"
-#include "../ast_nodes.h"
-#include "../node_visitor.h"
+#include "ast_node.h"
+#include "ast_nodes.h"
+#include "node_visitor.h"
+#include "ast_fwd.h"
 #include <memory>
 
 namespace sqlcc {

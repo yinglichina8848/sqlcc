@@ -3,10 +3,16 @@
 package(default_visibility = ["//visibility:public"])
 
 # --------------------------
-# AST 头文件库
+# AST 库
 # --------------------------
 cc_library(
-    name = "ast_headers",
+    name = "ast",
+    srcs = [
+        "ast/ast_node.cpp",
+        "ast_nodes.cpp",
+        "ast/source_location.cpp",
+        "ast/view_statements.cpp",
+    ],
     hdrs = [
         "ast/ast_node.h",
         "ast/ast_nodes.h",
@@ -14,27 +20,53 @@ cc_library(
         "ast/node_visitor.h",
         "ast/load_data_ast.h",
         "ast/ast_fwd.h",
+        "ast/source_location.h",
     ],
-    visibility = ["//src/sql_parser:__subpackages__"],
+    deps = [
+        ":headers",
+        "//include/storage:headers",
+    ],
+    visibility = ["//visibility:public"],
 )
 
 # --------------------------
-# Lexer 头文件库
+# Lexer 库
 # --------------------------
 cc_library(
-    name = "lexer_headers",
+    name = "lexer",
+    srcs = [
+        "lexer.cpp",
+        "token.cpp",
+    ],
     hdrs = [
         "token.h",
         "lexer_new.h",
     ],
-    visibility = ["//src/sql_parser:__subpackages__"],
+    deps = [
+        ":ast",
+        "//src/exception:exception",
+        "//src/utils:utils",
+    ],
+    visibility = ["//visibility:public"],
 )
 
 # --------------------------
-# Parser 头文件库
+# Parser 库
 # --------------------------
 cc_library(
-    name = "parser_headers",
+    name = "parser",
+    srcs = [
+        "parser.cpp",
+        "set_operation.cpp",
+        "recursive_query.cpp",
+        "function_ast.cpp",
+        "function_definition.cpp",
+        "constraint.cpp",
+        "data_types.cpp",
+        "datetime.cpp",
+        "decimal.cpp",
+        "advanced_sql92_features.cpp",
+    ],
     hdrs = [
         "parser.h",
         "set_operation.h",
@@ -47,37 +79,47 @@ cc_library(
         "decimal.h",
         "advanced_sql92_features.h",
     ],
-    visibility = ["//src/sql_parser:__subpackages__"],
+    deps = [
+        ":lexer",
+        ":ast",
+        ":json",
+        "//src/exception:exception",
+        "//src/utils:utils",
+    ],
+    visibility = ["//visibility:public"],
 )
 
 # --------------------------
-# JSON 头文件库
+# JSON 库
 # --------------------------
 cc_library(
-    name = "json_headers",
+    name = "json",
+    srcs = [
+        "json.cpp",
+    ],
     hdrs = [
         "json.h",
-        "json_parser.h",
-        "json/json_value.h",
-        "json/json_null.h",
-        "json/json_boolean.h",
-        "json/json_number.h",
-        "json/json_string.h",
-        "json/json_array.h",
-        "json/json_object.h",
     ],
-    visibility = ["//src/sql_parser:__subpackages__"],
+    visibility = ["//visibility:public"],
 )
 
 # --------------------------
-# Window Function 头文件库
+# Window Function 库
 # --------------------------
 cc_library(
-    name = "window_headers",
+    name = "window",
+    srcs = [
+        "window_function.cpp",
+    ],
     hdrs = [
         "window_function.h",
     ],
-    visibility = ["//src/sql_parser:__subpackages__"],
+    deps = [
+        ":parser",
+        ":ast",
+        "//src/exception:exception",
+    ],
+    visibility = ["//visibility:public"],
 )
 
 # --------------------------
@@ -86,7 +128,7 @@ cc_library(
 cc_library(
     name = "sql_parser",
     srcs = glob(["*.cpp", "**/*.cpp"]),
-    hdrs = glob(["*.h", "**/*.h"]),
+    hdrs = glob(["*.h", "**/*.h"]) + ["ast_node.h", "ast_nodes.h"],
     deps = [
         "//src/exception:exception",
         "//src/utils:utils",

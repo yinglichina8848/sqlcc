@@ -93,8 +93,8 @@
 
 // First include the base AST node definitions
 #include "ast_node.h"
-#include "data_types.h"
-#include "set_operation.h"
+#include "../data_types.h"
+#include "../set_operation.h"
 #include "node_visitor.h"
 #include "include/storage/table_storage.h"
 #include <memory>

@@ -150,7 +150,7 @@
 #include <memory>
 #include <string>
 #include <vector>
-#include "ast_node.h"
+#include "ast/ast_node.h"
 
 namespace sqlcc {
 namespace sql_parser {

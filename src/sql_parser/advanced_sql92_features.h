@@ -1,4 +1,4 @@
-#include "ast_node.h"
+#include "ast/ast_node.h"
 #ifndef SQLCC_SQL_PARSER_ADVANCED_SQL92_FEATURES_H
 #define SQLCC_SQL_PARSER_ADVANCED_SQL92_FEATURES_H
 
