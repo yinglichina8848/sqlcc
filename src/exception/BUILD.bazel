@@ -1,26 +1,6 @@
-package(default_visibility = ["//visibility:public"])
-
-# -----------------------------------------------------------------------------
-# 源文件库 - exception 模块的核心实现
-# -----------------------------------------------------------------------------
-
 cc_library(
     name = "exception",
-    hdrs = glob(["*.h"]),
-    strip_include_prefix = "",
+    hdrs = ["exception.h", "io_exception.h"],
     include_prefix = "",
-    deps = [
-        # exception 层级较低，无需依赖其他模块
-    ],
-    visibility = ["//visibility:public"],
-)
-
-# -----------------------------------------------------------------------------
-# 头文件库 - 向后兼容的头文件导出 (已迁移)
-# -----------------------------------------------------------------------------
-
-cc_library(
-    name = "headers",
-    hdrs = glob(["*.h"]),
     visibility = ["//visibility:public"],
 )

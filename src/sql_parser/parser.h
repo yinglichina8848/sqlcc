@@ -210,13 +210,13 @@ private:
   // Error recovery
   std::vector<std::string> errors_;
   bool panicMode_;
-  std::unordered_set<Token::Type> syncTokens_;
+  std::unordered_set<Type> syncTokens_;
 
   // Core parsing methods
   void advance();
-  bool match(Token::Type type);
-  void consume(Token::Type type);
-  bool check(Token::Type type) const;
+  bool match(Type type);
+  void consume(Type type);
+  bool check(Type type) const;
   bool isAtEnd() const;
   Token peek() const;
   Token previous() const;

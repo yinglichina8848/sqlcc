@@ -12,10 +12,9 @@
 #include <unordered_set>
 #include <bitset>
 
-#include "../../../src/storage_engine/disk_manager/disk_manager.h"
-#include "../page.h"
-#include "../utils/config_manager.h"
-#include "../exception/exception.h"
+#include "disk_manager.h"
+#include "src/utils/config_manager.h"
+#include "src/exception/exception.h"
 
 namespace sqlcc {
 

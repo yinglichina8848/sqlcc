@@ -30,6 +30,7 @@ filegroup(
 cc_library(
     name = "storage_headers_lib",
     hdrs = glob(["*.h"]),
+    deps = ["//src/exception:exception"],
     visibility = ["//visibility:public"],
 )
 
@@ -51,6 +52,7 @@ cc_library(
 cc_library(
     name = "buffer_pool_sharded",
     hdrs = ["buffer_pool_sharded.h"],
+    deps = ["//src/exception:exception"],
     visibility = ["//visibility:public"],
 )
 
@@ -86,5 +88,6 @@ cc_library(
         "replace_strategy/*.h",
     ], allow_empty = True),
     include_prefix = "storage",
+    deps = ["//src/exception:exception"],
     visibility = ["//visibility:public"],
 )

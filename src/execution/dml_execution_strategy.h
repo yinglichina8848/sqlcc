@@ -245,7 +245,7 @@
 #include <vector>
 #include <memory>
 
-#include "src/core/execution_result.h"
+#include "core/execution_result.h"
 #include "execution/execution_strategy.h"
 
 namespace sqlcc {

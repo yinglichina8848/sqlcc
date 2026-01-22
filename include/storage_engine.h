@@ -30,7 +30,7 @@
 #include "storage/page.h"
 #include "storage/buffer_pool_sharded.h"
 #include "storage/table_storage.h"
-#include "utils/config_manager.h"
+#include "src/utils/config_manager.h"
 
 // Forward declarations for components that may have circular dependencies
 namespace sqlcc {
@@ -217,9 +217,9 @@ public:
    * @brief 获取索引管理器
    * @return 索引管理器指针
    */
-  IndexManager *GetIndexManager() const { 
+  IndexManager *GetIndexManager() const {
     const_cast<StorageEngine*>(this)->InitializeIndexManager();
-    return index_manager_.get(); 
+    return index_manager_.get();
   }
 
 private:

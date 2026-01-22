@@ -271,7 +271,7 @@
 #include <chrono>
 
 #include "execution/task_executor.h"
-#include "src/core/execution_result.h"
+#include "core/execution_result.h"
 /**
  * @file comprehensive_task_executor.h
  * @brief 综合任务执行器头文件
@@ -286,7 +286,7 @@
 #include <chrono>
 
 #include "execution/task_executor.h"
-#include "src/core/execution_result.h"
+#include "core/execution_result.h"
 
 namespace sqlcc {
 

@@ -185,7 +185,7 @@
 #include <vector>
 #include <fstream>
 #include <sstream>
-#include "src/core/execution_result.h"
+#include "core/execution_result.h"
 #include "sql_parser/load_data_ast.h"
 #include "storage_engine.h"
 #include "sql_executor.h"

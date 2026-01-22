@@ -1,4 +1,4 @@
-#include "ast_node.h"
+#include "ast/ast_node.h"
 #include "constraint.h"
 
 namespace sqlcc {

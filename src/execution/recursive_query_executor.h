@@ -189,9 +189,9 @@
 #include <vector>
 #include <string>
 #include "sql_parser/recursive_query.h"
-#include "src/core/core_database_manager.h"
-#include "src/core/execution_context.h"
-#include "src/core/execution_result.h"
+#include "core/core_database_manager.h"
+#include "core/execution_context.h"
+#include "core/execution_result.h"
 
 namespace sqlcc {
 

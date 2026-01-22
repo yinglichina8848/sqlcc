@@ -207,7 +207,7 @@
 #include <memory>
 #include <string>
 
-#include "src/core/execution_result.h"
+#include "core/execution_result.h"
 
 namespace sqlcc {
 

@@ -64,7 +64,6 @@
  * @see include/sql_parser/lexer.h
  */
 
-#include "ast/ast_node.h"
 #include "token.h"
 #include "lexer.h"
 #include <algorithm>
@@ -324,7 +323,7 @@ Token Lexer::createToken(LexerState state, const std::string &lexeme, int line,
     return createPunctuationToken(lexeme, line, column);
   default:
     // Handle other states as identifiers for now
-    return Token(Token::IDENTIFIER, lexeme, line, column);
+    return Token(Type::IDENTIFIER, lexeme, line, column);
   }
 }
 
@@ -343,180 +342,180 @@ Token Lexer::createIdentifierToken(const std::string &lexeme, int line,
   }
 
   // It's a regular identifier
-  return Token(Token::IDENTIFIER, lexeme, line, column);
+  return Token(Type::IDENTIFIER, lexeme, line, column);
 }
 
 // Create a keyword token
 Token Lexer::createKeywordToken(const std::string &lexeme) {
-  static std::unordered_map<std::string, Token::Type> keywordMap;
+  static std::unordered_map<std::string, Type> keywordMap;
 
   // Initialize on first use
   if (keywordMap.empty()) {
     // DDL Keywords
-    keywordMap["create"] = Token::KEYWORD_CREATE;
-    keywordMap["alter"] = Token::KEYWORD_ALTER;
-    keywordMap["drop"] = Token::KEYWORD_DROP;
-    keywordMap["truncate"] = Token::KEYWORD_TRUNCATE;
-    keywordMap["rename"] = Token::KEYWORD_RENAME;
-    keywordMap["comment"] = Token::KEYWORD_COMMENT;
-    keywordMap["add"] = Token::KEYWORD_ADD;
-    keywordMap["column"] = Token::KEYWORD_COLUMN;
-    keywordMap["modify"] = Token::KEYWORD_MODIFY;
-    keywordMap["constraint"] = Token::KEYWORD_CONSTRAINT;
+    keywordMap["create"] = Type::KEYWORD_CREATE;
+    keywordMap["alter"] = Type::KEYWORD_ALTER;
+    keywordMap["drop"] = Type::KEYWORD_DROP;
+    keywordMap["truncate"] = Type::KEYWORD_TRUNCATE;
+    keywordMap["rename"] = Type::KEYWORD_RENAME;
+    keywordMap["comment"] = Type::KEYWORD_COMMENT;
+    keywordMap["add"] = Type::KEYWORD_ADD;
+    keywordMap["column"] = Type::KEYWORD_COLUMN;
+    keywordMap["modify"] = Type::KEYWORD_MODIFY;
+    keywordMap["constraint"] = Type::KEYWORD_CONSTRAINT;
 
     // DML Keywords
-    keywordMap["select"] = Token::KEYWORD_SELECT;
-    keywordMap["insert"] = Token::KEYWORD_INSERT;
-    keywordMap["update"] = Token::KEYWORD_UPDATE;
-    keywordMap["delete"] = Token::KEYWORD_DELETE;
-    keywordMap["merge"] = Token::KEYWORD_MERGE;
-    keywordMap["into"] = Token::KEYWORD_INTO;
-    keywordMap["values"] = Token::KEYWORD_VALUES;
+    keywordMap["select"] = Type::KEYWORD_SELECT;
+    keywordMap["insert"] = Type::KEYWORD_INSERT;
+    keywordMap["update"] = Type::KEYWORD_UPDATE;
+    keywordMap["delete"] = Type::KEYWORD_DELETE;
+    keywordMap["merge"] = Type::KEYWORD_MERGE;
+    keywordMap["into"] = Type::KEYWORD_INTO;
+    keywordMap["values"] = Type::KEYWORD_VALUES;
 
     // DCL Keywords
-    keywordMap["grant"] = Token::KEYWORD_GRANT;
-    keywordMap["revoke"] = Token::KEYWORD_REVOKE;
-    keywordMap["deny"] = Token::KEYWORD_DENY;
+    keywordMap["grant"] = Type::KEYWORD_GRANT;
+    keywordMap["revoke"] = Type::KEYWORD_REVOKE;
+    keywordMap["deny"] = Type::KEYWORD_DENY;
 
     // TCL Keywords
-    keywordMap["begin"] = Token::KEYWORD_BEGIN;
-    keywordMap["commit"] = Token::KEYWORD_COMMIT;
-    keywordMap["rollback"] = Token::KEYWORD_ROLLBACK;
-    keywordMap["savepoint"] = Token::KEYWORD_SAVEPOINT;
-    keywordMap["set"] = Token::KEYWORD_SET;
-    keywordMap["transaction"] = Token::KEYWORD_TRANSACTION;
+    keywordMap["begin"] = Type::KEYWORD_BEGIN;
+    keywordMap["commit"] = Type::KEYWORD_COMMIT;
+    keywordMap["rollback"] = Type::KEYWORD_ROLLBACK;
+    keywordMap["savepoint"] = Type::KEYWORD_SAVEPOINT;
+    keywordMap["set"] = Type::KEYWORD_SET;
+    keywordMap["transaction"] = Type::KEYWORD_TRANSACTION;
 
     // Query Keywords
-    keywordMap["from"] = Token::KEYWORD_FROM;
-    keywordMap["where"] = Token::KEYWORD_WHERE;
-    keywordMap["group"] = Token::KEYWORD_GROUP;
-    keywordMap["by"] = Token::KEYWORD_BY;
-    keywordMap["having"] = Token::KEYWORD_HAVING;
-    keywordMap["order"] = Token::KEYWORD_ORDER;
-    keywordMap["limit"] = Token::KEYWORD_LIMIT;
-    keywordMap["offset"] = Token::KEYWORD_OFFSET;
-    keywordMap["distinct"] = Token::KEYWORD_DISTINCT;
-    keywordMap["all"] = Token::KEYWORD_ALL;
-    keywordMap["as"] = Token::KEYWORD_AS;
-    keywordMap["join"] = Token::KEYWORD_JOIN;
-    keywordMap["inner"] = Token::KEYWORD_INNER;
-    keywordMap["left"] = Token::KEYWORD_LEFT;
-    keywordMap["right"] = Token::KEYWORD_RIGHT;
-    keywordMap["full"] = Token::KEYWORD_FULL;
-    keywordMap["outer"] = Token::KEYWORD_OUTER;
-    keywordMap["on"] = Token::KEYWORD_ON;
-    keywordMap["using"] = Token::KEYWORD_USING;
+    keywordMap["from"] = Type::KEYWORD_FROM;
+    keywordMap["where"] = Type::KEYWORD_WHERE;
+    keywordMap["group"] = Type::KEYWORD_GROUP;
+    keywordMap["by"] = Type::KEYWORD_BY;
+    keywordMap["having"] = Type::KEYWORD_HAVING;
+    keywordMap["order"] = Type::KEYWORD_ORDER;
+    keywordMap["limit"] = Type::KEYWORD_LIMIT;
+    keywordMap["offset"] = Type::KEYWORD_OFFSET;
+    keywordMap["distinct"] = Type::KEYWORD_DISTINCT;
+    keywordMap["all"] = Type::KEYWORD_ALL;
+    keywordMap["as"] = Type::KEYWORD_AS;
+    keywordMap["join"] = Type::KEYWORD_JOIN;
+    keywordMap["inner"] = Type::KEYWORD_INNER;
+    keywordMap["left"] = Type::KEYWORD_LEFT;
+    keywordMap["right"] = Type::KEYWORD_RIGHT;
+    keywordMap["full"] = Type::KEYWORD_FULL;
+    keywordMap["outer"] = Type::KEYWORD_OUTER;
+    keywordMap["on"] = Type::KEYWORD_ON;
+    keywordMap["using"] = Type::KEYWORD_USING;
 
     // Logical Operators
-    keywordMap["and"] = Token::KEYWORD_AND;
-    keywordMap["or"] = Token::KEYWORD_OR;
-    keywordMap["in"] = Token::KEYWORD_IN;
-    keywordMap["exists"] = Token::KEYWORD_EXISTS;
-    keywordMap["between"] = Token::KEYWORD_BETWEEN;
-    keywordMap["like"] = Token::KEYWORD_LIKE;
-    keywordMap["is"] = Token::KEYWORD_IS;
+    keywordMap["and"] = Type::KEYWORD_AND;
+    keywordMap["or"] = Type::KEYWORD_OR;
+    keywordMap["in"] = Type::KEYWORD_IN;
+    keywordMap["exists"] = Type::KEYWORD_EXISTS;
+    keywordMap["between"] = Type::KEYWORD_BETWEEN;
+    keywordMap["like"] = Type::KEYWORD_LIKE;
+    keywordMap["is"] = Type::KEYWORD_IS;
 
     // Set Operations
-    keywordMap["union"] = Token::KEYWORD_UNION;
-    keywordMap["intersect"] = Token::KEYWORD_INTERSECT;
-    keywordMap["except"] = Token::KEYWORD_EXCEPT;
+    keywordMap["union"] = Type::KEYWORD_UNION;
+    keywordMap["intersect"] = Type::KEYWORD_INTERSECT;
+    keywordMap["except"] = Type::KEYWORD_EXCEPT;
 
     // Control Flow
-    keywordMap["case"] = Token::KEYWORD_CASE;
-    keywordMap["when"] = Token::KEYWORD_WHEN;
-    keywordMap["then"] = Token::KEYWORD_THEN;
-    keywordMap["else"] = Token::KEYWORD_ELSE;
-    keywordMap["end"] = Token::KEYWORD_END;
-    keywordMap["if"] = Token::KEYWORD_IF;
-    keywordMap["while"] = Token::KEYWORD_WHILE;
-    keywordMap["for"] = Token::KEYWORD_FOR;
-    keywordMap["do"] = Token::KEYWORD_DO;
+    keywordMap["case"] = Type::KEYWORD_CASE;
+    keywordMap["when"] = Type::KEYWORD_WHEN;
+    keywordMap["then"] = Type::KEYWORD_THEN;
+    keywordMap["else"] = Type::KEYWORD_ELSE;
+    keywordMap["end"] = Type::KEYWORD_END;
+    keywordMap["if"] = Type::KEYWORD_IF;
+    keywordMap["while"] = Type::KEYWORD_WHILE;
+    keywordMap["for"] = Type::KEYWORD_FOR;
+    keywordMap["do"] = Type::KEYWORD_DO;
 
     // Database Objects
-    keywordMap["database"] = Token::KEYWORD_DATABASE;
-    keywordMap["table"] = Token::KEYWORD_TABLE;
-    keywordMap["index"] = Token::KEYWORD_INDEX;
-    keywordMap["view"] = Token::KEYWORD_VIEW;
-    keywordMap["sequence"] = Token::KEYWORD_SEQUENCE;
-    keywordMap["trigger"] = Token::KEYWORD_TRIGGER;
-    keywordMap["procedure"] = Token::KEYWORD_PROCEDURE;
-    keywordMap["function"] = Token::KEYWORD_FUNCTION;
+    keywordMap["database"] = Type::KEYWORD_DATABASE;
+    keywordMap["table"] = Type::KEYWORD_TABLE;
+    keywordMap["index"] = Type::KEYWORD_INDEX;
+    keywordMap["view"] = Type::KEYWORD_VIEW;
+    keywordMap["sequence"] = Type::KEYWORD_SEQUENCE;
+    keywordMap["trigger"] = Type::KEYWORD_TRIGGER;
+    keywordMap["procedure"] = Type::KEYWORD_PROCEDURE;
+    keywordMap["function"] = Type::KEYWORD_FUNCTION;
 
     // Constraints
-    keywordMap["primary"] = Token::KEYWORD_PRIMARY;
-    keywordMap["key"] = Token::KEYWORD_KEY;
-    keywordMap["foreign"] = Token::KEYWORD_FOREIGN;
-    keywordMap["references"] = Token::KEYWORD_REFERENCES;
-    keywordMap["unique"] = Token::KEYWORD_UNIQUE;
-    keywordMap["check"] = Token::KEYWORD_CHECK;
-    keywordMap["not"] = Token::KEYWORD_NOT;
-    keywordMap["null"] = Token::KEYWORD_NULL;
-    keywordMap["default"] = Token::KEYWORD_DEFAULT;
-    keywordMap["auto_increment"] = Token::KEYWORD_AUTO_INCREMENT;
+    keywordMap["primary"] = Type::KEYWORD_PRIMARY;
+    keywordMap["key"] = Type::KEYWORD_KEY;
+    keywordMap["foreign"] = Type::KEYWORD_FOREIGN;
+    keywordMap["references"] = Type::KEYWORD_REFERENCES;
+    keywordMap["unique"] = Type::KEYWORD_UNIQUE;
+    keywordMap["check"] = Type::KEYWORD_CHECK;
+    keywordMap["not"] = Type::KEYWORD_NOT;
+    keywordMap["null"] = Type::KEYWORD_NULL;
+    keywordMap["default"] = Type::KEYWORD_DEFAULT;
+    keywordMap["auto_increment"] = Type::KEYWORD_AUTO_INCREMENT;
 
     // Data Types
-    keywordMap["int"] = Token::KEYWORD_INT;
-    keywordMap["integer"] = Token::KEYWORD_INTEGER;
-    keywordMap["smallint"] = Token::KEYWORD_SMALLINT;
-    keywordMap["bigint"] = Token::KEYWORD_BIGINT;
-    keywordMap["tinyint"] = Token::KEYWORD_TINYINT;
-    keywordMap["varchar"] = Token::KEYWORD_VARCHAR;
-    keywordMap["char"] = Token::KEYWORD_CHAR;
-    keywordMap["text"] = Token::KEYWORD_TEXT;
-    keywordMap["blob"] = Token::KEYWORD_BLOB;
-    keywordMap["clob"] = Token::KEYWORD_CLOB;
-    keywordMap["decimal"] = Token::KEYWORD_DECIMAL;
-    keywordMap["numeric"] = Token::KEYWORD_NUMERIC;
-    keywordMap["float"] = Token::KEYWORD_FLOAT;
-    keywordMap["double"] = Token::KEYWORD_DOUBLE;
-    keywordMap["real"] = Token::KEYWORD_REAL;
-    keywordMap["date"] = Token::KEYWORD_DATE;
-    keywordMap["time"] = Token::KEYWORD_TIME;
-    keywordMap["timestamp"] = Token::KEYWORD_TIMESTAMP;
-    keywordMap["datetime"] = Token::KEYWORD_DATETIME;
-    keywordMap["year"] = Token::KEYWORD_YEAR;
-    keywordMap["boolean"] = Token::KEYWORD_BOOLEAN;
-    keywordMap["bool"] = Token::KEYWORD_BOOL;
+    keywordMap["int"] = Type::KEYWORD_INT;
+    keywordMap["integer"] = Type::KEYWORD_INTEGER;
+    keywordMap["smallint"] = Type::KEYWORD_SMALLINT;
+    keywordMap["bigint"] = Type::KEYWORD_BIGINT;
+    keywordMap["tinyint"] = Type::KEYWORD_TINYINT;
+    keywordMap["varchar"] = Type::KEYWORD_VARCHAR;
+    keywordMap["char"] = Type::KEYWORD_CHAR;
+    keywordMap["text"] = Type::KEYWORD_TEXT;
+    keywordMap["blob"] = Type::KEYWORD_BLOB;
+    keywordMap["clob"] = Type::KEYWORD_CLOB;
+    keywordMap["decimal"] = Type::KEYWORD_DECIMAL;
+    keywordMap["numeric"] = Type::KEYWORD_NUMERIC;
+    keywordMap["float"] = Type::KEYWORD_FLOAT;
+    keywordMap["double"] = Type::KEYWORD_DOUBLE;
+    keywordMap["real"] = Type::KEYWORD_REAL;
+    keywordMap["date"] = Type::KEYWORD_DATE;
+    keywordMap["time"] = Type::KEYWORD_TIME;
+    keywordMap["timestamp"] = Type::KEYWORD_TIMESTAMP;
+    keywordMap["datetime"] = Type::KEYWORD_DATETIME;
+    keywordMap["year"] = Type::KEYWORD_YEAR;
+    keywordMap["boolean"] = Type::KEYWORD_BOOLEAN;
+    keywordMap["bool"] = Type::KEYWORD_BOOL;
 
     // Other Keywords
-    keywordMap["use"] = Token::KEYWORD_USE;
-    keywordMap["show"] = Token::KEYWORD_SHOW;
-    keywordMap["describe"] = Token::KEYWORD_DESCRIBE;
-    keywordMap["explain"] = Token::KEYWORD_EXPLAIN;
-    keywordMap["help"] = Token::KEYWORD_HELP;
-    keywordMap["status"] = Token::KEYWORD_STATUS;
-    keywordMap["asc"] = Token::KEYWORD_ASC;
-    keywordMap["desc"] = Token::KEYWORD_DESC;
-    keywordMap["user"] = Token::KEYWORD_USER;
-    keywordMap["to"] = Token::KEYWORD_TO;
-    keywordMap["privileges"] = Token::KEYWORD_PRIVILEGES;
-    keywordMap["with"] = Token::KEYWORD_WITH;
-    keywordMap["password"] = Token::KEYWORD_PASSWORD;
-    keywordMap["identified"] = Token::KEYWORD_IDENTIFIED;
-    keywordMap["columns"] = Token::KEYWORD_COLUMNS;
-    keywordMap["indexes"] = Token::KEYWORD_INDEXES;
-    keywordMap["grants"] = Token::KEYWORD_GRANTS;
-    keywordMap["databases"] = Token::KEYWORD_DATABASES;
-    keywordMap["tables"] = Token::KEYWORD_TABLES;
-    
+    keywordMap["use"] = Type::KEYWORD_USE;
+    keywordMap["show"] = Type::KEYWORD_SHOW;
+    keywordMap["describe"] = Type::KEYWORD_DESCRIBE;
+    keywordMap["explain"] = Type::KEYWORD_EXPLAIN;
+    keywordMap["help"] = Type::KEYWORD_HELP;
+    keywordMap["status"] = Type::KEYWORD_STATUS;
+    keywordMap["asc"] = Type::KEYWORD_ASC;
+    keywordMap["desc"] = Type::KEYWORD_DESC;
+    keywordMap["user"] = Type::KEYWORD_USER;
+    keywordMap["to"] = Type::KEYWORD_TO;
+    keywordMap["privileges"] = Type::KEYWORD_PRIVILEGES;
+    keywordMap["with"] = Type::KEYWORD_WITH;
+    keywordMap["password"] = Type::KEYWORD_PASSWORD;
+    keywordMap["identified"] = Type::KEYWORD_IDENTIFIED;
+    keywordMap["columns"] = Type::KEYWORD_COLUMNS;
+    keywordMap["indexes"] = Type::KEYWORD_INDEXES;
+    keywordMap["grants"] = Type::KEYWORD_GRANTS;
+    keywordMap["databases"] = Type::KEYWORD_DATABASES;
+    keywordMap["tables"] = Type::KEYWORD_TABLES;
+
     // LOAD DATA Statement Keywords
-    keywordMap["load"] = Token::KEYWORD_LOAD;
-    keywordMap["data"] = Token::KEYWORD_DATA;
-    keywordMap["infile"] = Token::KEYWORD_INFILE;
-    keywordMap["replace"] = Token::KEYWORD_REPLACE;
-    keywordMap["ignore"] = Token::KEYWORD_IGNORE;
-    keywordMap["low_priority"] = Token::KEYWORD_LOW_PRIORITY;
-    keywordMap["concurrent"] = Token::KEYWORD_CONCURRENT;
-    keywordMap["local"] = Token::KEYWORD_LOCAL;
-    keywordMap["partition"] = Token::KEYWORD_PARTITION;
-    keywordMap["character"] = Token::KEYWORD_CHARACTER;
-    keywordMap["fields"] = Token::KEYWORD_FIELDS;
-    keywordMap["terminated"] = Token::KEYWORD_TERMINATED;
-    keywordMap["optionally"] = Token::KEYWORD_OPTIONALLY;
-    keywordMap["enclosed"] = Token::KEYWORD_ENCLOSED;
-    keywordMap["escaped"] = Token::KEYWORD_ESCAPED;
-    keywordMap["lines"] = Token::KEYWORD_LINES;
-    keywordMap["starting"] = Token::KEYWORD_STARTING;
+    keywordMap["load"] = Type::KEYWORD_LOAD;
+    keywordMap["data"] = Type::KEYWORD_DATA;
+    keywordMap["infile"] = Type::KEYWORD_INFILE;
+    keywordMap["replace"] = Type::KEYWORD_REPLACE;
+    keywordMap["ignore"] = Type::KEYWORD_IGNORE;
+    keywordMap["low_priority"] = Type::KEYWORD_LOW_PRIORITY;
+    keywordMap["concurrent"] = Type::KEYWORD_CONCURRENT;
+    keywordMap["local"] = Type::KEYWORD_LOCAL;
+    keywordMap["partition"] = Type::KEYWORD_PARTITION;
+    keywordMap["character"] = Type::KEYWORD_CHARACTER;
+    keywordMap["fields"] = Type::KEYWORD_FIELDS;
+    keywordMap["terminated"] = Type::KEYWORD_TERMINATED;
+    keywordMap["optionally"] = Type::KEYWORD_OPTIONALLY;
+    keywordMap["enclosed"] = Type::KEYWORD_ENCLOSED;
+    keywordMap["escaped"] = Type::KEYWORD_ESCAPED;
+    keywordMap["lines"] = Type::KEYWORD_LINES;
+    keywordMap["starting"] = Type::KEYWORD_STARTING;
   }
 
   auto it = keywordMap.find(lexeme);
@@ -525,7 +524,7 @@ Token Lexer::createKeywordToken(const std::string &lexeme) {
   }
 
   // Fallback to identifier if not found in map
-  return Token(Token::IDENTIFIER, lexeme, line_, column_);
+  return Token(Type::IDENTIFIER, lexeme, line_, column_);
 }
 
 // Create a number token
@@ -536,15 +535,15 @@ Token Lexer::createNumberToken(const std::string &lexeme, int line, int column) 
                  (lexeme.find('E') != std::string::npos);
 
   if (isFloat) {
-    return Token(Token::FLOAT_LITERAL, lexeme, line, column);
+    return Token(Type::FLOAT_LITERAL, lexeme, line, column);
   } else {
-    return Token(Token::INTEGER_LITERAL, lexeme, line, column);
+    return Token(Type::INTEGER_LITERAL, lexeme, line, column);
   }
 }
 
 // Create a string token
 Token Lexer::createStringToken(const std::string &lexeme, int line, int column) {
-  return Token(Token::STRING_LITERAL, lexeme, line, column);
+  return Token(Type::STRING_LITERAL, lexeme, line, column);
 }
 
 // Create an operator token
@@ -552,48 +551,48 @@ Token Lexer::createOperatorToken(const std::string &lexeme, int line,
                                  int column) {
   // Handle multi-character operators
   if (lexeme == "=") {
-    return Token(Token::OPERATOR_EQUAL, lexeme, line, column);
+    return Token(Type::OPERATOR_EQUAL, lexeme, line, column);
   } else if (lexeme == "==") {
-    return Token(Token::OPERATOR_EQUAL, lexeme, line, column);
+    return Token(Type::OPERATOR_EQUAL, lexeme, line, column);
   } else if (lexeme == "!=") {
-    return Token(Token::OPERATOR_NOT_EQUAL, lexeme, line, column);
+    return Token(Type::OPERATOR_NOT_EQUAL, lexeme, line, column);
   } else if (lexeme == "<>") {
-    return Token(Token::OPERATOR_NOT_EQUAL, lexeme, line, column);
+    return Token(Type::OPERATOR_NOT_EQUAL, lexeme, line, column);
   } else if (lexeme == "<") {
-    return Token(Token::OPERATOR_LESS_THAN, lexeme, line, column);
+    return Token(Type::OPERATOR_LESS_THAN, lexeme, line, column);
   } else if (lexeme == "<=") {
-    return Token(Token::OPERATOR_LESS_EQUAL, lexeme, line, column);
+    return Token(Type::OPERATOR_LESS_EQUAL, lexeme, line, column);
   } else if (lexeme == ">") {
-    return Token(Token::OPERATOR_GREATER_THAN, lexeme, line, column);
+    return Token(Type::OPERATOR_GREATER_THAN, lexeme, line, column);
   } else if (lexeme == ">=") {
-    return Token(Token::OPERATOR_GREATER_EQUAL, lexeme, line, column);
+    return Token(Type::OPERATOR_GREATER_EQUAL, lexeme, line, column);
   } else if (lexeme == "+") {
-    return Token(Token::OPERATOR_PLUS, lexeme, line, column);
+    return Token(Type::OPERATOR_PLUS, lexeme, line, column);
   } else if (lexeme == "-") {
-    return Token(Token::OPERATOR_MINUS, lexeme, line, column);
+    return Token(Type::OPERATOR_MINUS, lexeme, line, column);
   } else if (lexeme == "*") {
-    return Token(Token::OPERATOR_MULTIPLY, lexeme, line, column);
+    return Token(Type::OPERATOR_MULTIPLY, lexeme, line, column);
   } else if (lexeme == "/") {
-    return Token(Token::OPERATOR_DIVIDE, lexeme, line, column);
+    return Token(Type::OPERATOR_DIVIDE, lexeme, line, column);
   } else if (lexeme == "%") {
-    return Token(Token::OPERATOR_MODULO, lexeme, line, column);
+    return Token(Type::OPERATOR_MODULO, lexeme, line, column);
   } else if (lexeme == "&") {
-    return Token(Token::OPERATOR_BITWISE_AND, lexeme, line, column);
+    return Token(Type::OPERATOR_BITWISE_AND, lexeme, line, column);
   } else if (lexeme == "|") {
-    return Token(Token::OPERATOR_BITWISE_OR, lexeme, line, column);
+    return Token(Type::OPERATOR_BITWISE_OR, lexeme, line, column);
   } else if (lexeme == "^") {
-    return Token(Token::OPERATOR_BITWISE_XOR, lexeme, line, column);
+    return Token(Type::OPERATOR_BITWISE_XOR, lexeme, line, column);
   } else if (lexeme == "~") {
-    return Token(Token::OPERATOR_BITWISE_NOT, lexeme, line, column);
+    return Token(Type::OPERATOR_BITWISE_NOT, lexeme, line, column);
   } else if (lexeme == "!") {
-    return Token(Token::OPERATOR_NOT, lexeme, line, column);
+    return Token(Type::OPERATOR_NOT, lexeme, line, column);
   } else if (lexeme == "&&") {
-    return Token(Token::OPERATOR_AND, lexeme, line, column);
+    return Token(Type::OPERATOR_AND, lexeme, line, column);
   } else if (lexeme == "||") {
-    return Token(Token::OPERATOR_OR, lexeme, line, column);
+    return Token(Type::OPERATOR_OR, lexeme, line, column);
   } else {
     // Unknown operator
-    return Token(Token::UNKNOWN, lexeme, line, column);
+    return Token(Type::UNKNOWN, lexeme, line, column);
   }
 }
 
@@ -601,28 +600,28 @@ Token Lexer::createOperatorToken(const std::string &lexeme, int line,
 Token Lexer::createPunctuationToken(const std::string &lexeme, int line,
                                     int column) {
   if (lexeme == ";") {
-    return Token(Token::SEMICOLON, lexeme, line, column);
+    return Token(Type::SEMICOLON, lexeme, line, column);
   } else if (lexeme == "(") {
-    return Token(Token::LPAREN, lexeme, line, column);
+    return Token(Type::LPAREN, lexeme, line, column);
   } else if (lexeme == ")") {
-    return Token(Token::RPAREN, lexeme, line, column);
+    return Token(Type::RPAREN, lexeme, line, column);
   } else if (lexeme == ",") {
-    return Token(Token::COMMA, lexeme, line, column);
+    return Token(Type::COMMA, lexeme, line, column);
   } else if (lexeme == ".") {
-    return Token(Token::DOT, lexeme, line, column);
+    return Token(Type::DOT, lexeme, line, column);
   } else if (lexeme == ":") {
-    return Token(Token::COLON, lexeme, line, column);
+    return Token(Type::COLON, lexeme, line, column);
   } else if (lexeme == "{") {
-    return Token(Token::LEFT_BRACE, lexeme, line, column);
+    return Token(Type::LEFT_BRACE, lexeme, line, column);
   } else if (lexeme == "}") {
-    return Token(Token::RIGHT_BRACE, lexeme, line, column);
+    return Token(Type::RIGHT_BRACE, lexeme, line, column);
   } else if (lexeme == "[") {
-    return Token(Token::LEFT_BRACKET, lexeme, line, column);
+    return Token(Type::LEFT_BRACKET, lexeme, line, column);
   } else if (lexeme == "]") {
-    return Token(Token::RIGHT_BRACKET, lexeme, line, column);
+    return Token(Type::RIGHT_BRACKET, lexeme, line, column);
   } else {
     // Unknown punctuation
-    return Token(Token::UNKNOWN, lexeme, line, column);
+    return Token(Type::UNKNOWN, lexeme, line, column);
   }
 }
 
@@ -667,7 +666,7 @@ Token Lexer::nextToken() {
 
   // Check for end of input
   if (isAtEnd()) {
-    return Token(Token::END_OF_INPUT, "", line_, column_);
+    return Token(Type::END_OF_INPUT, "", line_, column_);
   }
 
   // Start of token

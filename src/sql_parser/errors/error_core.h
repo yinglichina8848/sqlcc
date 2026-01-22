@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-#include "ast/ast_fwd.h"
+#include "../ast/source_location.h"
 
 namespace sqlcc {
 namespace sql_parser {

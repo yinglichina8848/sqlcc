@@ -13,7 +13,7 @@
 #include <unordered_map>
 
 #include "execution/aggregate_engine.h"
-#include "src/core/execution_result.h"
+#include "core/execution_result.h"
 
 namespace sqlcc {
 

@@ -14,7 +14,7 @@
 #include "execution/execution_strategy.h"
 #include "execution/aggregate_engine.h"
 #include "execution/group_by_executor.h"
-#include "src/core/execution_result.h"
+#include "core/execution_result.h"
 
 namespace sqlcc {
 

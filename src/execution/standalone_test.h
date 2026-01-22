@@ -13,7 +13,7 @@
 #include <chrono>
 
 #include "execution/test_runner.h"
-#include "src/core/execution_result.h"
+#include "core/execution_result.h"
 
 namespace sqlcc {
 

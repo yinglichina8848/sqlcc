@@ -141,7 +141,7 @@
 
 #pragma once
 
-#include "ast_node.h"
+#include "ast/ast_node.h"
 #include <memory>
 #include <string>
 

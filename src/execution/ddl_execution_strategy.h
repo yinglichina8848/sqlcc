@@ -233,7 +233,7 @@
 #include <string>
 
 #include "execution/execution_strategy.h"
-#include "src/core/execution_result.h"
+#include "core/execution_result.h"
 
 namespace sqlcc {
 

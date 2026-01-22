@@ -1,4 +1,4 @@
-#include "ast_node.h"
+#include "ast/ast_node.h"
 #include "function/function_definition.h"
 #include "function/function_call.h"
 #include "function/function_ddl.h"

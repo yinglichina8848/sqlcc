@@ -2,11 +2,11 @@
 
 #include <memory>
 #include <stdexcept>
+#include "../../storage/page.h"
+#include "../../storage_engine.h"
 
 namespace sqlcc {
 namespace storage_engine {
-    class Page;
-    class StorageEngine;
 } // namespace storage_engine
 } // namespace sqlcc
 

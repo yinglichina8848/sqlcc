@@ -26,6 +26,19 @@ cc_library(
     ],
 )
 
+# 向后兼容的头文件库
+cc_library(
+    name = "headers",
+    hdrs = [
+        "trigger_manager.h",
+        "trigger_definition.h",
+        "trigger_executor.h",
+        "recursion_guard.h",
+        "sql_trigger_executor.h",
+    ],
+    visibility = ["//visibility:public"],
+)
+
 # SQL触发器执行器头文件库
 filegroup(
     name = "sql_trigger_executor",

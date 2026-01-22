@@ -8,7 +8,7 @@ package(default_visibility = ["//visibility:public"])
 cc_library(
     name = "ast",
     deps = [
-        "//src/sql_parser/ast:ast",  # 引用子模块的ast库
+        "//src/sql_parser/ast:ast_headers",  # 引用子模块的ast头文件库
     ],
     visibility = ["//visibility:public"],
 )
@@ -24,7 +24,7 @@ cc_library(
     ],
     hdrs = [
         "token.h",
-        "lexer_new.h",
+        "lexer.h",
     ],
     deps = [
         ":ast",
@@ -57,11 +57,15 @@ cc_library(
         "recursive_query.h",
         "function_ast.h",
         "function/function_definition.h",
+        "function/function_call.h",
+        "function/function_ddl.h",
         "constraint.h",
         "data_types.h",
         "datetime.h",
         "decimal.h",
         "advanced_sql92_features.h",
+        "window_function.h",
+        "token.h",
     ],
     deps = [
         ":lexer",
@@ -70,6 +74,7 @@ cc_library(
         "//src/exception:exception",
         "//src/utils:utils",
         "//include/trigger:headers",
+        "//include/storage:table_storage",
     ],
     visibility = ["//visibility:public"],
 )
@@ -98,10 +103,12 @@ cc_library(
     ],
     hdrs = [
         "window_function.h",
+        "token.h",
     ],
     deps = [
         ":parser",
         ":ast",
+        ":lexer",
         "//src/exception:exception",
     ],
     visibility = ["//visibility:public"],
@@ -113,12 +120,17 @@ cc_library(
 cc_library(
     name = "sql_parser",
     srcs = glob(["*.cpp", "**/*.cpp"]),
-    hdrs = glob(["*.h", "**/*.h"]) + ["ast_node.h", "ast_nodes.h"],
+    hdrs = glob(["*.h", "**/*.h"]),
     deps = [
         "//src/exception:exception",
         "//src/utils:utils",
         "//include/storage:headers",
         ":headers",
+        ":ast",
+        ":lexer",
+        ":parser",
+        ":json",
+        ":window",
     ],
     visibility = ["//visibility:public"],
 )
