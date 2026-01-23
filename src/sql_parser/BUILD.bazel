@@ -115,6 +115,84 @@ cc_library(
 )
 
 # --------------------------
+# TokenStream 库
+# --------------------------
+cc_library(
+    name = "token_stream",
+    srcs = [
+        "token_stream.cpp",
+    ],
+    hdrs = [
+        "token_stream.h",
+    ],
+    deps = [
+        ":lexer",
+        ":ast",
+        "//src/exception:exception",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+# --------------------------
+# ExpressionParser 库
+# --------------------------
+cc_library(
+    name = "expression_parser",
+    srcs = [
+        "expression_parser.cpp",
+    ],
+    hdrs = [
+        "expression_parser.h",
+    ],
+    deps = [
+        ":token_stream",
+        ":ast",
+        "//src/exception:exception",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+# --------------------------
+# SelectParser 库
+# --------------------------
+cc_library(
+    name = "select_parser",
+    srcs = [
+        "select_parser.cpp",
+    ],
+    hdrs = [
+        "select_parser.h",
+    ],
+    deps = [
+        ":token_stream",
+        ":expression_parser",
+        ":ast",
+        "//src/exception:exception",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+# --------------------------
+# StatementParser 库
+# --------------------------
+cc_library(
+    name = "statement_parser",
+    srcs = [
+        "statement_parser.cpp",
+    ],
+    hdrs = [
+        "statement_parser.h",
+    ],
+    deps = [
+        ":token_stream",
+        ":expression_parser",
+        ":ast",
+        "//src/exception:exception",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+# --------------------------
 # 主要SQL解析器库
 # --------------------------
 cc_library(
@@ -131,6 +209,10 @@ cc_library(
         ":parser",
         ":json",
         ":window",
+        ":token_stream",
+        ":expression_parser",
+        ":select_parser",
+        ":statement_parser",
     ],
     visibility = ["//visibility:public"],
 )
