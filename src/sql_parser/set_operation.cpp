@@ -53,7 +53,7 @@ bool SetOperation::isAll() const {
     return allFlag_;
 }
 
-void SetOperation::accept(NodeVisitor& visitor) {
+void SetOperation::accept(NodeVisitor& visitor) override {
     visitor.visit(*this);
 }
 

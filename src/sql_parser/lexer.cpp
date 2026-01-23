@@ -589,7 +589,7 @@ Token Lexer::createOperatorToken(const std::string &lexeme, int line,
   } else if (lexeme == "&&") {
     return Token(Type::OPERATOR_AND, lexeme, line, column);
   } else if (lexeme == "||") {
-    return Token(Type::OPERATOR_OR, lexeme, line, column);
+    return Token(Type::OPERATOR_CONCATENATE, lexeme, line, column);
   } else {
     // Unknown operator
     return Token(Type::UNKNOWN, lexeme, line, column);
@@ -780,6 +780,10 @@ Token Lexer::nextToken() {
     } else if (ch == ':') {
       if (peek() == '=') {
         advance(); // Consume =
+      }
+    } else if (ch == '|') {
+      if (peek() == '|') {
+        advance(); // Consume second |
       }
     }
     break;

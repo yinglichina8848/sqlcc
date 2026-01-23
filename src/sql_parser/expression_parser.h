@@ -187,7 +187,16 @@ private:
   // Token流引用，通过依赖注入获得
   TokenStream& tokens_;
 
-  // 二元运算符解析辅助函数
+  // Binary expression parsing with precedence
+  std::unique_ptr<Expression> parseBinaryExpression(int minPrecedence);
+
+  // Get operator precedence (higher number = higher precedence)
+  int getPrecedence(OperatorKind op) const;
+
+  // Convert token to OperatorKind
+  OperatorKind tokenToOperatorKind(Type tokenType) const;
+
+  // Legacy binary operator parsing (to be removed)
   std::unique_ptr<Expression> parseBinaryOp(
       std::function<std::unique_ptr<Expression>()> parseNextLevel,
       const std::vector<Type>& operators);

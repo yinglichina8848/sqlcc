@@ -11,6 +11,8 @@ class NullLiteralExpression;
 class IdentifierExpression;
 class FunctionCallExpression;
 class BinaryExpression;
+class SetOperation;
+class WithRecursiveClause;
 
 class NodeVisitor {
 public:
@@ -24,6 +26,8 @@ public:
   virtual void visit(IdentifierExpression&) {}
   virtual void visit(FunctionCallExpression&) {}
   virtual void visit(BinaryExpression&) {}
+  virtual void visit(SetOperation&) {}
+  virtual void visit(WithRecursiveClause&) {}
 };
 
 } // namespace sql_parser

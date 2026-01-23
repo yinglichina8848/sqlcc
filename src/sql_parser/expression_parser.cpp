@@ -10,7 +10,9 @@
 #include "ast/literal_expressions.h"
 #include "ast/identifier_expression.h"
 #include "ast/function_call_expression.h"
+#include "ast/binary_expression.h"
 #include "token.h"
+#include "operator_kind.h"
 #include <vector>
 #include <iostream>
 #include <sstream>
@@ -23,9 +25,76 @@ ExpressionParser::ExpressionParser(TokenStream& tokens)
   std::cout << "[EXPRESSION_PARSER] ExpressionParser initialized" << std::endl;
 }
 
+// New precedence-based binary expression parsing
+std::unique_ptr<Expression> ExpressionParser::parseBinaryExpression(int minPrecedence) {
+  // Parse left operand (could be literal, identifier, or parenthesized expression)
+  auto left = parsePrimary();
+
+  while (true) {
+    // Check if current token is a binary operator
+    OperatorKind op;
+    bool isBinaryOp = false;
+
+    if (tokens_.check(Type::OPERATOR_PLUS)) {
+      op = OperatorKind::Add;
+      isBinaryOp = true;
+    } else if (tokens_.check(Type::OPERATOR_MINUS)) {
+      op = OperatorKind::Subtract;
+      isBinaryOp = true;
+    } else if (tokens_.check(Type::OPERATOR_MULTIPLY)) {
+      op = OperatorKind::Multiply;
+      isBinaryOp = true;
+    } else if (tokens_.check(Type::OPERATOR_DIVIDE)) {
+      op = OperatorKind::Divide;
+      isBinaryOp = true;
+    }
+
+    // If not a binary operator or lower precedence, stop
+    if (!isBinaryOp || getPrecedence(op) <= minPrecedence) {
+      break;
+    }
+
+    // Consume the operator
+    tokens_.advance();
+
+    // Parse right operand with higher precedence
+    auto right = parseBinaryExpression(getPrecedence(op));
+
+    // Create binary expression AST node
+    left = std::make_unique<BinaryExpression>(
+        std::move(left), std::move(right), op);
+  }
+
+  return left;
+}
+
+int ExpressionParser::getPrecedence(OperatorKind op) const {
+  switch (op) {
+    case OperatorKind::Add:
+    case OperatorKind::Subtract:
+      return 1;  // Lower precedence
+    case OperatorKind::Multiply:
+    case OperatorKind::Divide:
+      return 2;  // Higher precedence
+    default:
+      return 0;
+  }
+}
+
+OperatorKind ExpressionParser::tokenToOperatorKind(Type tokenType) const {
+  switch (tokenType) {
+    case Type::OPERATOR_PLUS: return OperatorKind::Add;
+    case Type::OPERATOR_MINUS: return OperatorKind::Subtract;
+    case Type::OPERATOR_MULTIPLY: return OperatorKind::Multiply;
+    case Type::OPERATOR_DIVIDE: return OperatorKind::Divide;
+    default: throw std::runtime_error("Unknown binary operator");
+  }
+}
+
 std::unique_ptr<Expression> ExpressionParser::parseExpression() {
   std::cout << "[EXPRESSION_PARSER] parseExpression() called" << std::endl;
-  return parseLogicalOr();
+  // Use new precedence-based binary expression parsing
+  return parseBinaryExpression(0);
 }
 
 std::unique_ptr<Expression> ExpressionParser::parseLogicalOr() {

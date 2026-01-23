@@ -1,4 +1,5 @@
-#pragma once
+#ifndef SQLCC_SQL_PARSER_AST_BINARY_EXPRESSION_H
+#define SQLCC_SQL_PARSER_AST_BINARY_EXPRESSION_H
 
 #include "ast_node.h"
 #include "../operator_kind.h"

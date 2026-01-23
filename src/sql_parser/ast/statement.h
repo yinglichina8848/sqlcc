@@ -20,6 +20,18 @@ public:
         CREATE_INDEX,
         DROP_INDEX,
         COMPOSITE_SELECT,  // Added for CompositeSelectStatement
+        SAVEPOINT,
+        RELEASE_SAVEPOINT,
+        SET_TRANSACTION,
+        ALTER,
+        CREATE_DOMAIN,
+        ALTER_DOMAIN,
+        DROP_DOMAIN,
+        ALTER_TABLE_ENHANCED,
+        CALL_PROCEDURE,
+        CREATE,
+        DROP,
+        WITH_RECURSIVE,
     };
 
     explicit Statement(Type type) : type_(type) {}

@@ -1,4 +1,5 @@
 #include "binary_expression.h"
+#include "literal_expressions.h"
 #include "node_visitor.h"
 #include "debug_printer.h"
 
@@ -8,22 +9,12 @@
 using namespace sqlcc::sql_parser;
 using namespace sqlcc::sql_parser::ast;
 
-// 最小化数字字面量实现，用于测试
-class NumericLiteralExpression : public Expression {
-public:
-    explicit NumericLiteralExpression(int v) : value(v) {}
-    int value;
-    void accept(NodeVisitor& visitor) override {
-        // 空实现即可
-    }
-};
-
 // 简单 DebugPrintVisitor，只输出 BinaryExpression 操作符
 class TestPrintVisitor : public NodeVisitor {
 public:
-    void visit(BinaryExpression& expr) override {
+    void visitBinaryExpression(BinaryExpression& expr) override {
         std::cout << "BinaryExpression(";
-        switch(expr.op()) {
+        switch(expr.getOperator()) {
             case OperatorKind::Add: std::cout << "Add"; break;
             case OperatorKind::Subtract: std::cout << "Subtract"; break;
             case OperatorKind::Multiply: std::cout << "Multiply"; break;
@@ -36,10 +27,10 @@ public:
 
 int main() {
     // 构造测试 BinaryExpression
-    ExprPtr lhs = std::make_unique<NumericLiteralExpression>(1);
-    ExprPtr rhs = std::make_unique<NumericLiteralExpression>(2);
+    auto lhs = std::make_unique<NumericLiteralExpression>(1.0);
+    auto rhs = std::make_unique<NumericLiteralExpression>(2.0);
 
-    BinaryExpression expr(OperatorKind::Add, std::move(lhs), std::move(rhs));
+    BinaryExpression expr(std::move(lhs), OperatorKind::Add, std::move(rhs));
 
     // 调试输出
     TestPrintVisitor visitor;

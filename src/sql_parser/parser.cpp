@@ -99,69 +99,69 @@ Parser::Parser(const std::string& input)
     };
 }
 
-std::vector<std::unique_ptr<Statement>> sql_parser::Parser::parse() {
-  std::vector<std::unique_ptr<Statement>> statements;
+  std::vector<std::unique_ptr<Statement>> parse() {
+    std::vector<std::unique_ptr<Statement>> statements;
 
-  std::cout << "[PARSER DEBUG] 开始解析SQL语句" << std::endl;
-  std::cout << "[PARSER DEBUG] 当前token在parse开始时: "
-            << currentToken_.getLexeme()
-            << " (类型: " << static_cast<int>(currentToken_.getType()) << ")"
-            << std::endl;
-  std::cout << "[PARSER DEBUG] 准备检查isAtEnd()" << std::endl;
-  std::cout << "[PARSER DEBUG] 解析循环开始，isAtEnd(): "
-            << (isAtEnd() ? "true" : "false") << std::endl;
-
-  while (!isAtEnd()) {
-    std::cout << "[PARSER DEBUG] 进入解析循环，当前token: "
+    std::cout << "[PARSER DEBUG] 开始解析SQL语句" << std::endl;
+    std::cout << "[PARSER DEBUG] 当前token在parse开始时: "
               << currentToken_.getLexeme()
               << " (类型: " << static_cast<int>(currentToken_.getType()) << ")"
               << std::endl;
-    try {
-      std::cout << "[PARSER DEBUG] 当前token: " << currentToken_.getLexeme()
-                << " (类型: " << static_cast<int>(currentToken_.getType())
-                << ")" << std::endl;
+    std::cout << "[PARSER DEBUG] 准备检查isAtEnd()" << std::endl;
+    std::cout << "[PARSER DEBUG] 解析循环开始，isAtEnd(): "
+              << (isAtEnd() ? "true" : "false") << std::endl;
 
-      if (match(Type::SEMICOLON)) {
-        std::cout << "[PARSER DEBUG] 跳过空语句，继续循环" << std::endl;
-        continue; // Skip empty statements
-      }
-
-      // 记录当前token
-      Token current = currentToken_;
-
-      std::cout << "[PARSER DEBUG] 准备调用parseStatement()方法" << std::endl;
-
-      std::unique_ptr<Statement> stmt = parseStatement();
-      std::cout << "[PARSER DEBUG] parseStatement()返回，stmt是否为空: "
-                << (stmt ? "false" : "true") << std::endl;
-
-      if (stmt) {
-        statements.push_back(std::move(stmt));
-        std::cout << "[PARSER DEBUG] 成功添加语句到statements向量" << std::endl;
-      }
-
-      // Consume semicolon if present
-      if (check(Type::SEMICOLON)) {
-        std::cout << "[PARSER DEBUG] 发现分号，准备消费" << std::endl;
-        consume(Type::SEMICOLON);
-        std::cout << "[PARSER DEBUG] 分号消费完成" << std::endl;
-      }
-
-      std::cout << "[PARSER DEBUG] 循环结束，准备下次迭代" << std::endl;
-    } catch (const std::exception &e) {
-      std::cout << "[PARSER DEBUG] 解析过程中发生异常: " << e.what()
+    while (!isAtEnd()) {
+      std::cout << "[PARSER DEBUG] 进入解析循环，当前token: "
+                << currentToken_.getLexeme()
+                << " (类型: " << static_cast<int>(currentToken_.getType()) << ")"
                 << std::endl;
-      if (!panicMode_) {
-        reportError(e.what());
-      }
-      synchronize();
-    }
-  }
+      try {
+        std::cout << "[PARSER DEBUG] 当前token: " << currentToken_.getLexeme()
+                  << " (类型: " << static_cast<int>(currentToken_.getType())
+                  << ")" << std::endl;
 
-  std::cout << "[PARSER DEBUG] 解析循环结束，总共解析了 " << statements.size()
-            << " 条语句" << std::endl;
-  return statements;
-}
+        if (match(Type::SEMICOLON)) {
+          std::cout << "[PARSER DEBUG] 跳过空语句，继续循环" << std::endl;
+          continue; // Skip empty statements
+        }
+
+        // 记录当前token
+        Token current = currentToken_;
+
+        std::cout << "[PARSER DEBUG] 准备调用parseStatement()方法" << std::endl;
+
+        std::unique_ptr<Statement> stmt = parseStatement();
+        std::cout << "[PARSER DEBUG] parseStatement()返回，stmt是否为空: "
+                  << (stmt ? "false" : "true") << std::endl;
+
+        if (stmt) {
+          statements.push_back(std::move(stmt));
+          std::cout << "[PARSER DEBUG] 成功添加语句到statements向量" << std::endl;
+        }
+
+        // Consume semicolon if present
+        if (check(Type::SEMICOLON)) {
+          std::cout << "[PARSER DEBUG] 发现分号，准备消费" << std::endl;
+          consume(Type::SEMICOLON);
+          std::cout << "[PARSER DEBUG] 分号消费完成" << std::endl;
+        }
+
+        std::cout << "[PARSER DEBUG] 循环结束，准备下次迭代" << std::endl;
+      } catch (const std::exception &e) {
+        std::cout << "[PARSER DEBUG] 解析过程中发生异常: " << e.what()
+                  << std::endl;
+        if (!panicMode_) {
+          reportError(e.what());
+        }
+        synchronize();
+      }
+    }
+
+    std::cout << "[PARSER DEBUG] 解析循环结束，总共解析了 " << statements.size()
+              << " 条语句" << std::endl;
+    return statements;
+  }
 
 /**
  * @brief 语句类型识别和分派函数 - 根据当前token决定解析哪种SQL语句
