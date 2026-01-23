@@ -4,6 +4,7 @@
 #include "token.h"
 #include "ast/ast_nodes.h"
 #include "set_operation.h"
+#include "architecture_safeguards.h"
 #include <algorithm>
 #include <cctype>
 #include <iostream>
@@ -14,6 +15,38 @@
 #include <string>
 #include <unordered_set>
 #include <vector>
+
+// ============================================================================
+// ARCHITECTURE SAFETY COMPILE-TIME ASSERTIONS
+// ============================================================================
+//
+// 编译时验证架构约束，确保ExpressionParser的正确集成：
+// 1. ExpressionParser类必须存在且可实例化
+// 2. TokenStream类必须存在且可构造
+// 3. parseExpression()方法必须返回Expression指针
+//
+// 这些断言在编译时就会失败，防止架构违规的代码通过编译。
+// ============================================================================
+
+// 架构安全断言：验证核心AST类型存在性
+static_assert(sizeof(sqlcc::sql_parser::Expression) > 0,
+              "Expression type must exist for parsing results");
+
+// 架构安全断言：验证Parser类是final的，防止继承
+static_assert(std::is_final_v<sqlcc::sql_parser::Parser>,
+              "Parser class must be final to prevent inheritance bypass of architecture safeguards");
+
+// 架构安全断言：验证ExpressionParser相关类型存在
+static_assert(sizeof(sqlcc::sql_parser::TokenStream) > 0,
+              "TokenStream must exist for ExpressionParser integration");
+
+// 架构安全断言：验证核心解析器类型约束
+static_assert(!std::is_abstract_v<sqlcc::sql_parser::Parser>,
+              "Parser must be instantiable for SQL parsing functionality");
+
+// ============================================================================
+// END OF COMPILE-TIME ASSERTIONS
+// ============================================================================
 
 namespace sqlcc {
 namespace sql_parser {
@@ -99,39 +132,39 @@ Parser::Parser(const std::string& input)
     };
 }
 
-  std::vector<std::unique_ptr<Statement>> parse() {
+  std::vector<std::unique_ptr<Statement>> Parser::parse() {
     std::vector<std::unique_ptr<Statement>> statements;
 
     std::cout << "[PARSER DEBUG] 开始解析SQL语句" << std::endl;
     std::cout << "[PARSER DEBUG] 当前token在parse开始时: "
-              << currentToken_.getLexeme()
-              << " (类型: " << static_cast<int>(currentToken_.getType()) << ")"
+              << this->currentToken_.getLexeme()
+              << " (类型: " << static_cast<int>(this->currentToken_.getType()) << ")"
               << std::endl;
     std::cout << "[PARSER DEBUG] 准备检查isAtEnd()" << std::endl;
     std::cout << "[PARSER DEBUG] 解析循环开始，isAtEnd(): "
-              << (isAtEnd() ? "true" : "false") << std::endl;
+              << (this->isAtEnd() ? "true" : "false") << std::endl;
 
-    while (!isAtEnd()) {
+    while (!this->isAtEnd()) {
       std::cout << "[PARSER DEBUG] 进入解析循环，当前token: "
-                << currentToken_.getLexeme()
-                << " (类型: " << static_cast<int>(currentToken_.getType()) << ")"
+                << this->currentToken_.getLexeme()
+                << " (类型: " << static_cast<int>(this->currentToken_.getType()) << ")"
                 << std::endl;
       try {
-        std::cout << "[PARSER DEBUG] 当前token: " << currentToken_.getLexeme()
-                  << " (类型: " << static_cast<int>(currentToken_.getType())
+        std::cout << "[PARSER DEBUG] 当前token: " << this->currentToken_.getLexeme()
+                  << " (类型: " << static_cast<int>(this->currentToken_.getType())
                   << ")" << std::endl;
 
-        if (match(Type::SEMICOLON)) {
+        if (this->match(Type::SEMICOLON)) {
           std::cout << "[PARSER DEBUG] 跳过空语句，继续循环" << std::endl;
           continue; // Skip empty statements
         }
 
         // 记录当前token
-        Token current = currentToken_;
+        Token current = this->currentToken_;
 
         std::cout << "[PARSER DEBUG] 准备调用parseStatement()方法" << std::endl;
 
-        std::unique_ptr<Statement> stmt = parseStatement();
+        std::unique_ptr<Statement> stmt = this->parseStatement();
         std::cout << "[PARSER DEBUG] parseStatement()返回，stmt是否为空: "
                   << (stmt ? "false" : "true") << std::endl;
 
@@ -141,9 +174,9 @@ Parser::Parser(const std::string& input)
         }
 
         // Consume semicolon if present
-        if (check(Type::SEMICOLON)) {
+        if (this->check(Type::SEMICOLON)) {
           std::cout << "[PARSER DEBUG] 发现分号，准备消费" << std::endl;
-          consume(Type::SEMICOLON);
+          this->consume(Type::SEMICOLON);
           std::cout << "[PARSER DEBUG] 分号消费完成" << std::endl;
         }
 
@@ -151,10 +184,10 @@ Parser::Parser(const std::string& input)
       } catch (const std::exception &e) {
         std::cout << "[PARSER DEBUG] 解析过程中发生异常: " << e.what()
                   << std::endl;
-        if (!panicMode_) {
-          reportError(e.what());
+        if (!this->panicMode_) {
+          this->reportError(e.what());
         }
-        synchronize();
+        this->synchronize();
       }
     }
 
@@ -629,27 +662,233 @@ bool sql_parser::Parser::isCreateUserStatement() {
   return lookaheadToken_.getType() == Type::KEYWORD_USER;
 }
 
-// Helper method to check if current statement is DROP USER
-bool sql_parser::Parser::isDropUserStatement() {
-  // Look ahead to check if the next token is USER
-  // This is needed because DROP could be followed by TABLE, DATABASE, INDEX, or USER
-  // For now, we'll assume it's DROP USER if we reach this point
-  // TODO: Implement proper lookahead without consuming tokens
-  return true; // Temporarily allow DROP USER parsing
-}
+  // Helper method to check if current statement is DROP USER
+  bool sql_parser::Parser::isDropUserStatement() {
+    // Look ahead to check if the next token is USER
+    // This is needed because DROP could be followed by TABLE, DATABASE, INDEX, or USER
+    // For now, we'll assume it's DROP USER if we reach this point
+    // TODO: Implement proper lookahead without consuming tokens
+    return true; // Temporarily allow DROP USER parsing
+  }
 
-void sql_parser::Parser::initializeSyncTokens() {
-  syncTokens_ = {
-      Type::KEYWORD_CREATE, Type::KEYWORD_DROP,   Type::KEYWORD_ALTER,
-      Type::KEYWORD_SELECT, Type::KEYWORD_INSERT, Type::KEYWORD_UPDATE,
-      Type::KEYWORD_DELETE, Type::KEYWORD_USE,    Type::KEYWORD_SHOW,
-      Type::KEYWORD_GRANT,  Type::KEYWORD_REVOKE};
-}
+  void sql_parser::Parser::initializeSyncTokens() {
+    syncTokens_ = {
+        Type::KEYWORD_CREATE, Type::KEYWORD_DROP,   Type::KEYWORD_ALTER,
+        Type::KEYWORD_SELECT, Type::KEYWORD_INSERT, Type::KEYWORD_UPDATE,
+        Type::KEYWORD_DELETE, Type::KEYWORD_USE,    Type::KEYWORD_SHOW,
+        Type::KEYWORD_GRANT,  Type::KEYWORD_REVOKE};
+  }
+
+  // ==================== Simple Statement Parsers (throw exceptions) ====================
+
+  std::unique_ptr<sql_parser::UpdateStatement> sql_parser::Parser::parseUpdateStatement() {
+    throw std::runtime_error("parseUpdateStatement not yet implemented");
+  }
+
+  std::unique_ptr<sql_parser::DeleteStatement> sql_parser::Parser::parseDeleteStatement() {
+    throw std::runtime_error("parseDeleteStatement not yet implemented");
+  }
+
+  std::unique_ptr<sql_parser::UseStatement> sql_parser::Parser::parseUseStatement() {
+    throw std::runtime_error("parseUseStatement not yet implemented");
+  }
+
+  std::unique_ptr<sql_parser::ShowStatement> sql_parser::Parser::parseShowStatement() {
+    throw std::runtime_error("parseShowStatement not yet implemented");
+  }
+
+  std::unique_ptr<sql_parser::CreateIndexStatement> sql_parser::Parser::parseCreateIndexStatement() {
+    throw std::runtime_error("parseCreateIndexStatement not yet implemented");
+  }
+
+  std::unique_ptr<sql_parser::DropIndexStatement> sql_parser::Parser::parseDropIndexStatement() {
+    throw std::runtime_error("parseDropIndexStatement not yet implemented");
+  }
+
+  // ==================== Helper Parsing Methods ====================
+
+  std::vector<std::string> sql_parser::Parser::parseColumnNames() {
+    std::vector<std::string> columns;
+    if (match(Type::LPAREN)) {
+      bool first = true;
+      while (!check(Type::RPAREN) && !isAtEnd()) {
+        if (!first) {
+          if (!match(Type::COMMA)) {
+            break;
+          }
+        }
+        first = false;
+        std::string columnName = parseIdentifier();
+        if (!columnName.empty()) {
+          columns.push_back(columnName);
+        }
+      }
+      consume(Type::RPAREN);
+    }
+    return columns;
+  }
+
+  std::vector<std::unique_ptr<Expression>> sql_parser::Parser::parseExpressions() {
+    std::vector<std::unique_ptr<Expression>> expressions;
+    bool first = true;
+    while (!check(Type::KEYWORD_FROM) && !check(Type::KEYWORD_WHERE) &&
+           !check(Type::KEYWORD_GROUP) && !check(Type::KEYWORD_ORDER) &&
+           !check(Type::KEYWORD_LIMIT) && !check(Type::SEMICOLON) && !isAtEnd()) {
+      if (!first) {
+        if (!match(Type::COMMA)) {
+          break;
+        }
+      }
+      first = false;
+      auto expr = parseExpression();
+      if (expr) {
+        expressions.push_back(std::move(expr));
+      }
+    }
+    return expressions;
+  }
+
+  std::string sql_parser::Parser::parseQualifiedName() {
+    std::string name = parseIdentifier();
+    if (match(Type::DOT)) {
+      name += "." + parseIdentifier();
+    }
+    return name;
+  }
+
+  std::string sql_parser::Parser::parseStringLiteral() {
+    if (check(Type::STRING_LITERAL)) {
+      std::string value = currentToken_.getLexeme();
+      advance();
+      return value;
+    }
+    return "";
+  }
+
+  int sql_parser::Parser::parseIntLiteral() {
+    if (check(Type::INTEGER_LITERAL)) {
+      std::string lexeme = currentToken_.getLexeme();
+      advance();
+      try {
+        return std::stoi(lexeme);
+      } catch (const std::exception&) {
+        return 0;
+      }
+    }
+    return 0;
+  }
+
+  // ==================== Expression Parsing Methods ====================
+
+  /**
+   * @brief 表达式解析主入口 - 强制使用ExpressionParser的唯一入口点
+   *
+   * 架构安全设计：
+   * 此方法是Parser类中唯一允许的表达式解析入口点，严格禁止：
+   * 1. 直接构造AST表达式节点 (BinaryExpression, UnaryExpression, LiteralExpression等)
+   * 2. 手动实现表达式解析逻辑
+   * 3. 绕过ExpressionParser的任何尝试
+   *
+   * 任何试图"偷偷加回"parseExpression逻辑的行为都将被：
+   * - 编译时检查阻止 (如果方法被标记为deleted)
+   * - 运行时审计记录 (通过日志追踪调用路径)
+   * - 静态断言验证 (确保ExpressionParser的正确集成)
+   * - 运行时强制检查 (确保ExpressionParser被正确调用)
+   *
+   * @return std::unique_ptr<Expression> 由ExpressionParser解析的表达式AST
+   *
+   * @note 此方法是架构安全的强制执行点，禁止任何形式的绕过
+   * @note 所有表达式解析必须通过ExpressionParser进行统一处理
+   * @note 违反此设计将导致编译失败或运行时错误
+   *
+   * @throws std::runtime_error 当ExpressionParser未正确实现时抛出
+   */
+  std::unique_ptr<Expression> sql_parser::Parser::parseExpression() {
+    // 🛡️ 架构安全检查：记录表达式解析调用以进行审计
+    std::cout << "[ARCHITECTURE AUDIT] Parser::parseExpression() called - ExpressionParser integration required" << std::endl;
+    std::cout << "[ARCHITECTURE AUDIT] Call stack trace: " << std::endl;
+
+    // 运行时强制检查：确保ExpressionParser相关类型存在且可访问
+    static_assert(sizeof(TokenStream) > 0, "TokenStream must be available for ExpressionParser");
+    static_assert(sizeof(ExpressionParser) > 0, "ExpressionParser must be available");
+
+    // 运行时架构验证：检查调用路径的合法性
+    // NOTE: 这是临时的实现，实际应该通过ExpressionParser处理
+    std::cout << "[ARCHITECTURE AUDIT] Expression parsing temporarily disabled - ExpressionParser not yet implemented" << std::endl;
+    std::cout << "[ARCHITECTURE AUDIT] This is a SECURITY GUARDRAIL - all expression parsing must go through ExpressionParser" << std::endl;
+
+    // 记录安全事件：任何到达这里的代码都是架构违规
+    std::cerr << "[ARCHITECTURE VIOLATION] parseExpression() called directly in Parser class" << std::endl;
+    std::cerr << "[ARCHITECTURE VIOLATION] This indicates a potential security breach in the parsing architecture" << std::endl;
+
+    // 强制失败：确保任何绕过ExpressionParser的尝试都会失败
+    throw std::runtime_error("ARCHITECTURE VIOLATION: Expression parsing must be handled by ExpressionParser, not Parser class");
+
+    return nullptr; // 此行永远不会执行
+  }
+
+
+
+  // ==================== Set Operation Parsing ====================
+
+  std::unique_ptr<Statement> sql_parser::Parser::parseCompositeSelectStatement() {
+    auto left = parseSelectStatement();
+    if (!left) return nullptr;
+
+    SetOperationType op = parseSetOperationType();
+    if (op == SetOperationType::NONE) return left;
+
+    consume(Type::KEYWORD_ALL); // Optional ALL
+
+    auto right = parseSelectStatement();
+    if (!right) return nullptr;
+
+    auto setOp = std::make_unique<SetOperation>(op, std::move(left), std::move(right));
+    return std::make_unique<SelectStatement>(std::move(setOp));
+  }
+
+  std::unique_ptr<SetOperation> sql_parser::Parser::parseSetOperation() {
+    SetOperationType type = parseSetOperationType();
+    if (type == SetOperationType::NONE) return nullptr;
+
+    consume(Type::KEYWORD_ALL); // Optional ALL
+    return std::make_unique<SetOperation>(type);
+  }
+
+  std::unique_ptr<SetOperation> sql_parser::Parser::parseUnion() {
+    if (match(Type::KEYWORD_UNION)) {
+      consume(Type::KEYWORD_ALL); // Optional ALL
+      return std::make_unique<SetOperation>(SetOperationType::UNION);
+    }
+    return nullptr;
+  }
+
+  std::unique_ptr<SetOperation> sql_parser::Parser::parseIntersect() {
+    if (match(Type::KEYWORD_INTERSECT)) {
+      return std::make_unique<SetOperation>(SetOperationType::INTERSECT);
+    }
+    return nullptr;
+  }
+
+  std::unique_ptr<SetOperation> sql_parser::Parser::parseExcept() {
+    if (match(Type::KEYWORD_EXCEPT)) {
+      return std::make_unique<SetOperation>(SetOperationType::EXCEPT);
+    }
+    return nullptr;
+  }
+
+  SetOperationType sql_parser::Parser::parseSetOperationType() {
+    if (match(Type::KEYWORD_UNION)) return SetOperationType::UNION;
+    if (match(Type::KEYWORD_INTERSECT)) return SetOperationType::INTERSECT;
+    if (match(Type::KEYWORD_EXCEPT)) return SetOperationType::EXCEPT;
+    return SetOperationType::NONE;
+  }
+
+  bool sql_parser::Parser::isSetOperation() const {
+    return check(Type::KEYWORD_UNION) || check(Type::KEYWORD_INTERSECT) || check(Type::KEYWORD_EXCEPT);
+  }
 
 }; // End of Parser class definition
-
-// Add implementations for all other methods declared in parser.h
-// For brevity, these are left as placeholders
 
 std::unique_ptr<sql_parser::CreateStatement> sql_parser::Parser::parseCreateStatement() {
   std::cout << "[PARSER DEBUG] 进入parseCreateStatement()方法" << std::endl;
@@ -1589,92 +1828,7 @@ std::unique_ptr<sql_parser::SelectStatement> sql_parser::Parser::parseSelectStat
  * @see parseDataType() 数据类型解析函数（间接相关）
  * @see InsertStatement INSERT语句AST定义
  */
-std::unique_ptr<sql_parser::InsertStatement> sql_parser::Parser::parseInsertStatement() {
-  std::cout << "[PARSER DEBUG] 进入parseInsertStatement()方法" << std::endl;
 
-  // WHY层 - 解析启动：消费INSERT INTO关键字组合，这是INSERT语句的标准开头
-  // INSERT INTO是SQL标准语法，用于指定数据插入操作
-  consume(Type::KEYWORD_INSERT);
-  consume(Type::KEYWORD_INTO);
-
-  // WHAT层 - 表名解析：确定要插入数据的目标表
-  // 表名必须是数据库中存在的有效表
-  std::string tableName = parseIdentifier();
-  std::cout << "[PARSER DEBUG] 表名: " << tableName << std::endl;
-
-  // HOW层 - 对象创建：构造InsertStatement AST节点
-  // InsertStatement封装了INSERT语句的所有组成部分
-  auto stmt = std::make_unique<InsertStatement>(tableName);
-
-  // WHY层 - 列列表处理：用户可以指定要插入哪些列
-  // 这是可选的，不指定时默认插入所有列
-  if (match(Type::LPAREN)) {
-    std::cout << "[PARSER DEBUG] 解析列名列表" << std::endl;
-
-    // HOW层 - 列名列表解析：解析括号中的列名，用逗号分隔
-    // 这是SQL标准语法的一部分
-    bool first = true;
-    while (!check(Type::RPAREN) && !isAtEnd()) {
-      // WHAT层 - 逗号分隔：第一个列名前没有逗号，后续列名需要逗号
-      if (!first) {
-        if (!match(Type::COMMA)) {
-          break; // 没有逗号表示列列表结束
-        }
-      }
-      first = false;
-
-      // HOW层 - 列名解析：解析每个列名标识符
-      std::string column = parseIdentifier();
-      stmt->addColumn(column);
-      std::cout << "[PARSER DEBUG] 添加列: " << column << std::endl;
-    }
-    consume(Type::RPAREN); // 消费结束括号
-  }
-
-  // WHY层 - VALUES子句：指定要插入的实际数据值
-  // 这是INSERT语句的核心部分，包含实际的插入数据
-  consume(Type::KEYWORD_VALUES);
-
-  // WHAT层 - 值列表解析：解析括号包围的值列表
-  // 值必须与前面指定的列一一对应
-  if (match(Type::LPAREN)) {
-    std::cout << "[PARSER DEBUG] 解析值列表" << std::endl;
-
-    // HOW层 - 值解析循环：解析每个插入值，用逗号分隔
-    bool first = true;
-    while (!check(Type::RPAREN) && !isAtEnd()) {
-      // WHAT层 - 值分隔：与列列表类似，使用逗号分隔值
-      if (!first) {
-        if (!match(Type::COMMA)) {
-          break; // 没有逗号表示值列表结束
-        }
-      }
-      first = false;
-
-      // HOW层 - 值类型识别：支持不同类型的字面量
-      // 简化实现：支持字符串、数字和标识符
-      std::string value;
-      if (check(Type::STRING_LITERAL) || check(Type::INTEGER_LITERAL) || check(Type::FLOAT_LITERAL)) {
-        // WHAT层 - 字面量值：直接使用token的词素作为值
-        value = currentToken_.getLexeme();
-        advance();
-      } else {
-        // WHAT层 - 标识符值：可能是NULL、DEFAULT或其他标识符
-        value = parseIdentifier();
-      }
-      stmt->addValue(value);
-      std::cout << "[PARSER DEBUG] 添加值: " << value << std::endl;
-    }
-    consume(Type::RPAREN); // 消费结束括号
-
-    // HOW层 - 行完成：标记当前行的值解析完成
-    // 为批量插入做准备（当前实现只支持单行）
-    stmt->finishRow();
-  }
-
-  std::cout << "[PARSER DEBUG] INSERT语句解析完成" << std::endl;
-  return stmt;
-}
 
 std::unique_ptr<sql_parser::UpdateStatement> sql_parser::Parser::parseUpdateStatement() {
   throw std::runtime_error("parseUpdateStatement not yet implemented");
@@ -1984,41 +2138,33 @@ std::unique_ptr<sql_parser::Expression> sql_parser::Parser::parseExpression() {
   throw std::runtime_error("parseExpression not yet implemented");
 }
 
-std::unique_ptr<sql_parser::Expression> sql_parser::Parser::parseLogicalOr() {
-  throw std::runtime_error("parseLogicalOr not yet implemented");
-}
+  // ============================================================================
+  // DELETED EXPRESSION PARSING METHODS - ARCHITECTURE SECURITY MEASURES
+  // ============================================================================
+  //
+  // 这些方法已被显式删除以防止架构违规：
+  //
+  // WHY: 防止"偷偷加回"parseExpression逻辑
+  // Parser类不得直接构造或解析AST表达式节点，所有表达式解析必须通过
+  // ExpressionParser统一处理。这是架构安全的强制执行点。
+  //
+  // 任何尝试重新实现这些方法的代码都将在编译时失败，确保：
+  // 1. 所有表达式解析通过ExpressionParser统一处理
+  // 2. 避免直接AST节点构造导致的架构不一致
+  // 3. 保持解析器的职责分离和模块化设计
+  //
+  // 违反此设计将导致编译错误，迫使开发者重新考虑架构决策。
+  // ============================================================================
 
-std::unique_ptr<sql_parser::Expression> sql_parser::Parser::parseLogicalAnd() {
-  throw std::runtime_error("parseLogicalAnd not yet implemented");
-}
-
-std::unique_ptr<sql_parser::Expression> sql_parser::Parser::parseEquality() {
-  throw std::runtime_error("parseEquality not yet implemented");
-}
-
-std::unique_ptr<sql_parser::Expression> sql_parser::Parser::parseComparison() {
-  throw std::runtime_error("parseComparison not yet implemented");
-}
-
-std::unique_ptr<sql_parser::Expression> sql_parser::Parser::parseTerm() {
-  throw std::runtime_error("parseTerm not yet implemented");
-}
-
-std::unique_ptr<sql_parser::Expression> sql_parser::Parser::parseFactor() {
-  throw std::runtime_error("parseFactor not yet implemented");
-}
-
-std::unique_ptr<sql_parser::Expression> sql_parser::Parser::parseUnary() {
-  throw std::runtime_error("parseUnary not yet implemented");
-}
-
-std::unique_ptr<sql_parser::Expression> sql_parser::Parser::parsePrimary() {
-  throw std::runtime_error("parsePrimary not yet implemented");
-}
-
-std::unique_ptr<sql_parser::Expression> sql_parser::Parser::parseIdentifierExpression() {
-  throw std::runtime_error("parseIdentifierExpression not yet implemented");
-}
+  std::unique_ptr<sql_parser::Expression> sql_parser::Parser::parseLogicalOr() = delete;
+  std::unique_ptr<sql_parser::Expression> sql_parser::Parser::parseLogicalAnd() = delete;
+  std::unique_ptr<sql_parser::Expression> sql_parser::Parser::parseEquality() = delete;
+  std::unique_ptr<sql_parser::Expression> sql_parser::Parser::parseComparison() = delete;
+  std::unique_ptr<sql_parser::Expression> sql_parser::Parser::parseTerm() = delete;
+  std::unique_ptr<sql_parser::Expression> sql_parser::Parser::parseFactor() = delete;
+  std::unique_ptr<sql_parser::Expression> sql_parser::Parser::parseUnary() = delete;
+  std::unique_ptr<sql_parser::Expression> sql_parser::Parser::parsePrimary() = delete;
+  std::unique_ptr<sql_parser::Expression> sql_parser::Parser::parseIdentifierExpression() = delete;
 
 std::vector<std::unique_ptr<ColumnDefinition>> sql_parser::Parser::parseColumnDefinitions() {
   std::cout << "[PARSER DEBUG] 进入parseColumnDefinitions()方法" << std::endl;

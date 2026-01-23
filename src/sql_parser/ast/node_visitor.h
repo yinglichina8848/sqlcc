@@ -1,23 +1,16 @@
 #pragma once
 
+#include "expression.h"
+
 namespace sqlcc {
 namespace sql_parser {
-
-class Expression;
-class NumericLiteralExpression;
-class StringLiteralExpression;
-class BooleanLiteralExpression;
-class NullLiteralExpression;
-class IdentifierExpression;
-class FunctionCallExpression;
-class BinaryExpression;
-class SetOperation;
-class WithRecursiveClause;
+namespace ast {
 
 class NodeVisitor {
 public:
   virtual ~NodeVisitor() = default;
 
+  // Expression visitor methods
   virtual void visit(Expression&) {}
   virtual void visit(NumericLiteralExpression&) {}
   virtual void visit(StringLiteralExpression&) {}
@@ -26,9 +19,8 @@ public:
   virtual void visit(IdentifierExpression&) {}
   virtual void visit(FunctionCallExpression&) {}
   virtual void visit(BinaryExpression&) {}
-  virtual void visit(SetOperation&) {}
-  virtual void visit(WithRecursiveClause&) {}
 };
 
+} // namespace ast
 } // namespace sql_parser
 } // namespace sqlcc

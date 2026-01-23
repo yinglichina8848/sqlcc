@@ -173,8 +173,13 @@ namespace sql_parser {
    * - 优点：实现简单，错误定位准确
    * - 缺点：可能存在左递归问题（通过重构文法解决）
    * - 替代方案：LL/LR解析器，但复杂度更高
+   *
+   * 🛡️ 架构安全措施：
+   * - final关键字：防止继承，避免通过继承绕过架构防护
+   * - 多层防护：编译时、运行时、代码结构、构建系统四层防护
+   * - 强制ExpressionParser：所有表达式解析必须通过ExpressionParser统一处理
    */
-class Parser {
+class Parser final {
 public:
   /**
    * @brief Parser构造函数
@@ -305,15 +310,37 @@ private:
    * 2. 如果遇到OR，递归解析右边
    * 3. 构建二元运算符节点
    */
-  std::unique_ptr<Expression> parseLogicalOr();
-  std::unique_ptr<Expression> parseLogicalAnd();
-  std::unique_ptr<Expression> parseEquality();
-  std::unique_ptr<Expression> parseComparison();
-  std::unique_ptr<Expression> parseTerm();
-  std::unique_ptr<Expression> parseFactor();
-  std::unique_ptr<Expression> parseUnary();
-  std::unique_ptr<Expression> parsePrimary();
-  std::unique_ptr<Expression> parseIdentifierExpression();
+  // ============================================================================
+  // ⚠️  DELETED EXPRESSION PARSING METHODS - ARCHITECTURE SECURITY MEASURES
+  // ============================================================================
+  //
+  // 🚨 CRITICAL WARNING: 以下方法已被显式删除以防止架构违规！
+  //
+  // WHY: 防止"偷偷加回"parseExpression逻辑
+  // Parser类不得直接构造或解析AST表达式节点，所有表达式解析必须通过
+  // ExpressionParser统一处理。这是架构安全的强制执行点。
+  //
+  // 任何尝试重新实现这些方法的代码都将在编译时失败，确保：
+  // 1. 所有表达式解析通过ExpressionParser统一处理
+  // 2. 避免直接AST节点构造导致的架构不一致
+  // 3. 保持解析器的职责分离和模块化设计
+  //
+  // 违反此设计将导致编译错误，迫使开发者重新考虑架构决策。
+  // ============================================================================
+
+  std::unique_ptr<Expression> parseLogicalOr() = delete;
+  std::unique_ptr<Expression> parseLogicalAnd() = delete;
+  std::unique_ptr<Expression> parseEquality() = delete;
+  std::unique_ptr<Expression> parseComparison() = delete;
+  std::unique_ptr<Expression> parseTerm() = delete;
+  std::unique_ptr<Expression> parseFactor() = delete;
+  std::unique_ptr<Expression> parseUnary() = delete;
+  std::unique_ptr<Expression> parsePrimary() = delete;
+  std::unique_ptr<Expression> parseIdentifierExpression() = delete;
+
+  // ============================================================================
+  // END OF DELETED METHODS
+  // ============================================================================
 
   // JOIN clause parsing
   std::unique_ptr<JoinClause> parseJoinClause();

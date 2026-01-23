@@ -10,6 +10,7 @@ cc_library(
     name = "ast_headers",
     hdrs = [
         "ast_node.h",
+        "expression.h",
         "statement.h",
         "ast_nodes.h",
         "ast_dcl_statements.h",
@@ -19,6 +20,9 @@ cc_library(
         "ast_fwd.h",
         "source_location.h",
         "binary_expression.h",
+        "literal_expressions.h",
+        "identifier_expression.h",
+        "function_call_expression.h",
     ],
     visibility = ["//visibility:public"],
 )
@@ -30,12 +34,14 @@ cc_library(
     name = "ast",
     srcs = [
         "ast_node.cpp",
+        "expression.cpp",
         "source_location.cpp",
         "view_statements.cpp",
         "binary_expression.cpp",
     ],
     hdrs = [
         "ast_node.h",
+        "expression.h",
         "statement.h",
         "ast_nodes.h",
         "ast_dcl_statements.h",

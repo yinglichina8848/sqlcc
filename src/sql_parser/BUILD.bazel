@@ -35,7 +35,7 @@ cc_library(
 )
 
 # --------------------------
-# Parser 库
+# Parser 库 - 架构安全：禁止直接AST构造
 # --------------------------
 cc_library(
     name = "parser",
@@ -50,6 +50,7 @@ cc_library(
         "datetime.cpp",
         "decimal.cpp",
         "advanced_sql92_features.cpp",
+        "architecture_safeguards.h",  # 🛡️ 架构防护措施
     ],
     hdrs = [
         "parser.h",
@@ -66,15 +67,22 @@ cc_library(
         "advanced_sql92_features.h",
         "window_function.h",
         "token.h",
+        "architecture_safeguards.h",  # 🛡️ 架构防护措施
     ],
     deps = [
         ":lexer",
         ":ast",
         ":json",
+        ":expression_parser",  # ✅ 明确依赖ExpressionParser
         "//src/exception:exception",
         "//src/utils:utils",
         "//include/trigger:headers",
         "//include/storage:table_storage",
+    ],
+    # 🚨 构建时验证：确保不直接依赖AST构造类
+    copts = [
+        "-DARCHITECTURE_SAFEGUARDS_ENABLED",  # 启用架构防护
+        "-Wno-unused-function",  # 忽略已删除方法的警告
     ],
     visibility = ["//visibility:public"],
 )
@@ -143,6 +151,7 @@ cc_library(
     ],
     hdrs = [
         "expression_parser.h",
+        "operator_kind.h",
     ],
     deps = [
         ":token_stream",

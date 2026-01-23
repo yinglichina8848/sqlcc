@@ -1,10 +1,8 @@
 #include "src/sql_parser/ast/ast_node.h"
 #include "src/sql_parser/ast/ast_nodes.h"
-#include "sql_parser/token.h"
-#include "sql_parser/lexer.h"
-#include "sql_parser/lexer_new.h"
-#include "sql_parser/parser_new.h"
-#include "sql_parser/token_new.h"
+#include "src/sql_parser/token.h"
+#include "src/sql_parser/lexer.h"
+#include "src/sql_parser/parser_new.h"
 #include <gtest/gtest.h>
 #include <memory>
 #include <string>

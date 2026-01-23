@@ -28,7 +28,7 @@ SelectStatement* WithRecursiveClause::getRecursiveQuery() const {
     return recursive_query_.get();
 }
 
-void WithRecursiveClause::accept(NodeVisitor& visitor) override {
+void WithRecursiveClause::accept(NodeVisitor& visitor) {
     visitor.visit(*this);
 }
 

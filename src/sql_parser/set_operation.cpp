@@ -53,9 +53,7 @@ bool SetOperation::isAll() const {
     return allFlag_;
 }
 
-void SetOperation::accept(NodeVisitor& visitor) override {
-    visitor.visit(*this);
-}
+
 
 // 添加ORDER BY支持
 void SetOperation::setOrderBy(std::vector<std::string> columns,

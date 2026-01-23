@@ -1,6 +1,6 @@
 #include "sql_parser/token.h"
 #include "sql_parser/lexer_new.h"
-#include "sql_parser/parser_new.h"
+#include "sql_parser/parser.h"
 #include <cassert>
 #include <chrono>
 #include <iostream>

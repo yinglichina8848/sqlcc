@@ -56,12 +56,16 @@
 
 #include "token_stream.h"
 #include "ast/ast_node.h"
+#include "ast/expression.h"
+#include "operator_kind.h"
 #include <memory>
 #include <functional>
 #include <vector>
 
 namespace sqlcc {
 namespace sql_parser {
+
+
 
 /**
  * ExpressionParser - SQL表达式解析器

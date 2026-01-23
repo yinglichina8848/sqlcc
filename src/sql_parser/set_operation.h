@@ -167,6 +167,7 @@ class SelectStatement;
  * 集合操作类型枚举
  */
 enum class SetOperationType {
+    NONE,       // 无操作（用于表示未找到集合操作）
     UNION,      // UNION操作
     INTERSECT,  // INTERSECT操作
     EXCEPT      // EXCEPT操作
