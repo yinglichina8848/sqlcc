@@ -157,7 +157,8 @@
 #include <string>
 #include <vector>
 
-namespace sql::ast {
+namespace sqlcc {
+namespace sql_parser {
 
 // Forward declarations
 class SelectStatement;
@@ -228,6 +229,7 @@ private:
     bool hasLimit_;
 };
 
-} // namespace sql::ast
+} // namespace sql_parser
+} // namespace sqlcc
 
 #endif // SQLCC_SQL_PARSER_SET_OPERATION_H

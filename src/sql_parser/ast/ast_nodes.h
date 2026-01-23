@@ -91,12 +91,14 @@
 #ifndef SQLCC_SQL_PARSER_AST_NODES_H
 #define SQLCC_SQL_PARSER_AST_NODES_H
 
-// First include the base AST node definitions
+#pragma once
+
+// Include base AST node definitions
 #include "ast_node.h"
+#include "statement.h"
 #include "../data_types.h"
 #include "../set_operation.h"
 #include "node_visitor.h"
-#include "include/storage/table_storage.h"
 #include <memory>
 #include <string>
 #include <unordered_map>
@@ -104,8 +106,6 @@
 
 // Forward declaration for TableMetadata
 class TableMetadata;
-
-// All other forward declarations are now handled by the included headers
 
 namespace sqlcc {
 namespace sql_parser {

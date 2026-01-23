@@ -3,7 +3,8 @@
 #include "ast_nodes.h"
 #include <iostream>
 
-namespace sql::ast {
+namespace sqlcc {
+namespace sql_parser {
 
 class DebugPrintVisitor : public NodeVisitor {
 public:
@@ -45,6 +46,32 @@ public:
     --indent_;
   }
 
+  void visit(BinaryExpression& expr) override {
+    indent();
+    os_ << "BinaryExpression(";
+    switch (expr.getOperator()) {
+      case OperatorKind::Add: os_ << "Add"; break;
+      case OperatorKind::Subtract: os_ << "Subtract"; break;
+      case OperatorKind::Multiply: os_ << "Multiply"; break;
+      case OperatorKind::Divide: os_ << "Divide"; break;
+      case OperatorKind::Equal: os_ << "Equal"; break;
+      case OperatorKind::NotEqual: os_ << "NotEqual"; break;
+      case OperatorKind::Less: os_ << "Less"; break;
+      case OperatorKind::LessEqual: os_ << "LessEqual"; break;
+      case OperatorKind::Greater: os_ << "Greater"; break;
+      case OperatorKind::GreaterEqual: os_ << "GreaterEqual"; break;
+      case OperatorKind::And: os_ << "And"; break;
+      case OperatorKind::Or: os_ << "Or"; break;
+      case OperatorKind::Not: os_ << "Not"; break;
+      case OperatorKind::Negate: os_ << "Negate"; break;
+    }
+    os_ << ")\n";
+    ++indent_;
+    expr.getLeft().accept(*this);
+    expr.getRight().accept(*this);
+    --indent_;
+  }
+
 private:
   void indent() {
     for (int i = 0; i < indent_; ++i) {
@@ -56,4 +83,5 @@ private:
   std::ostream& os_;
 };
 
-} // namespace sql::ast
+} // namespace sql_parser
+} // namespace sqlcc

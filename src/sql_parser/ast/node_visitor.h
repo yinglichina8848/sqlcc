@@ -1,6 +1,7 @@
 #pragma once
 
-namespace sql::ast {
+namespace sqlcc {
+namespace sql_parser {
 
 class Expression;
 class NumericLiteralExpression;
@@ -9,6 +10,7 @@ class BooleanLiteralExpression;
 class NullLiteralExpression;
 class IdentifierExpression;
 class FunctionCallExpression;
+class BinaryExpression;
 
 class NodeVisitor {
 public:
@@ -21,6 +23,8 @@ public:
   virtual void visit(NullLiteralExpression&) {}
   virtual void visit(IdentifierExpression&) {}
   virtual void visit(FunctionCallExpression&) {}
+  virtual void visit(BinaryExpression&) {}
 };
 
-} // namespace sql::ast
+} // namespace sql_parser
+} // namespace sqlcc

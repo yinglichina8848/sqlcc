@@ -10,12 +10,15 @@ cc_library(
     name = "ast_headers",
     hdrs = [
         "ast_node.h",
+        "statement.h",
         "ast_nodes.h",
         "ast_dcl_statements.h",
         "node_visitor.h",
+        "debug_printer.h",
         "load_data_ast.h",
         "ast_fwd.h",
         "source_location.h",
+        "binary_expression.h",
     ],
     visibility = ["//visibility:public"],
 )
@@ -29,15 +32,19 @@ cc_library(
         "ast_node.cpp",
         "source_location.cpp",
         "view_statements.cpp",
+        "binary_expression.cpp",
     ],
     hdrs = [
         "ast_node.h",
+        "statement.h",
         "ast_nodes.h",
         "ast_dcl_statements.h",
         "node_visitor.h",
+        "debug_printer.h",
         "load_data_ast.h",
         "ast_fwd.h",
         "source_location.h",
+        "binary_expression.h",
     ],
     deps = [
         ":ast_headers",
@@ -46,4 +53,20 @@ cc_library(
         "//src/sql_parser:headers",  # 添加对上级模块头文件的依赖
     ],
     visibility = ["//visibility:public"],
+)
+
+# ----------------------------
+# BinaryExpression 独立测试
+# ----------------------------
+cc_test(
+    name = "binary_expression_test",
+    srcs = [
+        "binary_expression_test.cpp",
+        "binary_expression.cpp",
+        "binary_expression.h",
+    ],
+    deps = [
+        ":ast_headers",
+        "//src/sql_parser:headers",
+    ],
 )
