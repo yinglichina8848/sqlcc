@@ -64,6 +64,7 @@
 #include "token_stream.h"
 #include "expression_parser.h"
 #include "ast/ast_node.h"
+#include "ast/ast_nodes.h"
 #include <memory>
 #include <vector>
 

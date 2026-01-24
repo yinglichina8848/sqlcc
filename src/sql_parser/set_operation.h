@@ -212,7 +212,7 @@ public:
     bool hasLimit() const;
 
     // Node interface
-    void accept(NodeVisitor& visitor) override;
+    void accept(NodeVisitor& visitor);
 
 private:
     SetOperationType operationType_;

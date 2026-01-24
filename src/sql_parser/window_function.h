@@ -151,6 +151,8 @@
 #include <string>
 #include <vector>
 #include "ast/ast_node.h"
+#include "ast/expression.h"
+#include "ast/node_visitor.h"
 
 namespace sqlcc {
 namespace sql_parser {
@@ -201,8 +203,8 @@ public:
 
     // 实现基类方法
     std::string getTypeName() const override { return "WindowFunction"; }
-    void accept(NodeVisitor& visitor) override;
-    Type getType() const override { return FUNCTION; }
+    void accept(ast::NodeVisitor& visitor) override;
+    ast::ExpressionType getType() const override { return ast::ExpressionType::FunctionCall; }
 
     // 窗口函数特定方法
     FunctionType getFunctionType() const;
@@ -216,7 +218,7 @@ public:
 /**
  * @brief 窗口规格类
  */
-class WindowSpecification : public Statement {
+class WindowSpecification : public ast::Statement {
 private:
     std::vector<std::string> partitionByColumns_;
     std::vector<std::string> orderByColumns_;
@@ -228,7 +230,7 @@ public:
     WindowSpecification();
     ~WindowSpecification() override = default;
 
-    void accept(NodeVisitor& visitor) override { /* 默认实现 */ }
+    void accept(ast::NodeVisitor& visitor) override { /* 默认实现 */ }
 
     // 分区相关方法
     void setPartitionBy(std::vector<std::string> columns);

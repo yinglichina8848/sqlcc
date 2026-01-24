@@ -61,6 +61,7 @@
 #include "token_stream.h"
 #include "expression_parser.h"
 #include "ast/ast_node.h"
+#include "ast/ast_nodes.h"
 #include <memory>
 
 namespace sqlcc {
@@ -131,7 +132,7 @@ private:
    *
    * @return CreateStatement AST节点
    */
-  std::unique_ptr<CreateStatement> parseCreateStatement();
+  std::unique_ptr<Statement> parseCreateStatement();
 
   /**
    * parseDropStatement - 解析DROP语句
@@ -209,8 +210,7 @@ private:
    *
    * @return ColumnDefinition对象
    */
-  // 简化实现：暂时移除ColumnDefinition的返回类型
-  // std::unique_ptr<ColumnDefinition> parseColumnDefinition();
+  std::unique_ptr<ColumnDefinition> parseColumnDefinition();
 
   /**
    * parseDataType - 解析数据类型

@@ -433,7 +433,7 @@ public:
   std::string getObjectName();
   CreateStatement::ObjectType getObjectType();
 
-  void accept(NodeVisitor &visitor) override;
+  void accept(NodeVisitor &visitor);
 
 private:
   ObjectType objectType_;
@@ -458,7 +458,7 @@ public:
 
   bool hasColumnNames() const;
 
-  void accept(NodeVisitor &visitor) override;
+  void accept(NodeVisitor &visitor);
 
 private:
   std::string viewName_;
@@ -482,7 +482,7 @@ public:
 
   bool hasColumnNames() const;
 
-  void accept(NodeVisitor &visitor) override;
+  void accept(NodeVisitor &visitor);
 
 private:
   std::string viewName_;
@@ -506,7 +506,7 @@ public:
   bool isIfExists() const;
   void setIfExists(bool ifExists);
 
-  void accept(NodeVisitor &visitor) override;
+  void accept(NodeVisitor &visitor);
 
 private:
   std::string viewName_;
@@ -598,7 +598,7 @@ public:
   bool hasLimit() const;
   bool hasOffset() const;
 
-  void accept(NodeVisitor &visitor) override;
+  void accept(NodeVisitor &visitor);
 
 private:
   std::vector<std::string> selectColumns_;
@@ -648,7 +648,7 @@ public:
   size_t getOperationCount() const { return operations_.size(); }
   bool hasSetOperations() const { return !operations_.empty(); }
 
-  void accept(NodeVisitor &visitor) override;
+  void accept(NodeVisitor &visitor);
 
 private:
   std::vector<std::unique_ptr<SelectStatement>> selectStatements_;
@@ -673,7 +673,7 @@ public:
   void finishRow();
   void addValueRow(const std::vector<std::unique_ptr<Expression>> &values);
 
-  void accept(NodeVisitor &visitor) override;
+  void accept(NodeVisitor &visitor);
 
 private:
   std::string tableName_;
@@ -700,7 +700,7 @@ public:
   const WhereClause &getWhereClause() const;
   bool hasWhereClause() const;
 
-  void accept(NodeVisitor &visitor) override;
+  void accept(NodeVisitor &visitor);
 
 private:
   std::string tableName_;
@@ -724,7 +724,7 @@ public:
   const WhereClause &getWhereClause() const;
   bool hasWhereClause() const;
 
-  void accept(NodeVisitor &visitor) override;
+  void accept(NodeVisitor &visitor);
 
 private:
   std::string tableName_;
@@ -754,7 +754,7 @@ public:
   std::string getObjectName();
   DropStatement::ObjectType getObjectType();
 
-  void accept(NodeVisitor &visitor) override;
+  void accept(NodeVisitor &visitor);
 
 private:
   ObjectType objectType_;
@@ -781,7 +781,7 @@ public:
   ~AlterStatement();
 
   Type getType() const { return ALTER; }
-  void accept(NodeVisitor &visitor) override;
+  void accept(NodeVisitor &visitor);
 
   // Getters
   Target getTarget() const;
@@ -823,7 +823,7 @@ public:
   const std::string &getDatabaseName() const;
   std::string getDatabaseName();
 
-  void accept(NodeVisitor &visitor) override;
+  void accept(NodeVisitor &visitor);
 
 private:
   std::string databaseName_;
@@ -848,7 +848,7 @@ public:
   void setUnique(bool unique); // 设置UNIQUE标记
   bool isUnique() const;       // 获取UNIQUE标记
 
-  void accept(NodeVisitor &visitor) override;
+  void accept(NodeVisitor &visitor);
 
 private:
   std::string indexName_;
@@ -874,7 +874,7 @@ public:
   void setIfExists(bool ifExists); // 设置IF EXISTS标记
   bool isIfExists() const;         // 获取IF EXISTS标记
 
-  void accept(NodeVisitor &visitor) override;
+  void accept(NodeVisitor &visitor);
 
 private:
   std::string indexName_;
@@ -896,7 +896,7 @@ public:
   bool isWithPassword() const;
   void setWithPassword(bool withPassword);
 
-  void accept(NodeVisitor &visitor) override;
+  void accept(NodeVisitor &visitor);
 
 private:
   std::string username_;
@@ -916,7 +916,7 @@ public:
   bool isIfExists() const;
   void setIfExists(bool ifExists);
 
-  void accept(NodeVisitor &visitor) override;
+  void accept(NodeVisitor &visitor);
 
 private:
   std::string username_;
@@ -943,7 +943,7 @@ public:
   const std::string &getGrantee() const;
   std::string getGrantee();
 
-  void accept(NodeVisitor &visitor) override;
+  void accept(NodeVisitor &visitor);
 
 private:
   std::vector<std::string> privileges_;
@@ -972,7 +972,7 @@ public:
   const std::string &getGrantee() const;
   std::string getGrantee();
 
-  void accept(NodeVisitor &visitor) override;
+  void accept(NodeVisitor &visitor);
 
 private:
   std::vector<std::string> privileges_;
@@ -1008,7 +1008,7 @@ public:
   const std::string &getFromDatabase() const;
   bool hasFromDatabase() const;
 
-  void accept(NodeVisitor &visitor) override;
+  void accept(NodeVisitor &visitor);
 
 private:
   ShowType type_;
@@ -1026,8 +1026,8 @@ public:
 
   const std::string &getName() const;
   virtual std::string getTypeName() const override;
-  virtual void accept(NodeVisitor &visitor) override;
-  virtual Type getType() const override { return IDENTIFIER; }
+  virtual void accept(NodeVisitor &visitor);
+  virtual ast::ExpressionType getType() const override { return ast::ExpressionType::Identifier; }
 
 private:
   std::string name_;
@@ -1040,8 +1040,8 @@ public:
 
   const std::string &getValue() const;
   virtual std::string getTypeName() const override;
-  virtual void accept(NodeVisitor &visitor) override;
-  virtual Type getType() const override { return STRING_LITERAL; }
+  virtual void accept(NodeVisitor &visitor);
+  virtual ast::ExpressionType getType() const override { return ast::ExpressionType::StringLiteral; }
 
 private:
   std::string value_;
@@ -1054,8 +1054,8 @@ public:
 
   double getValue() const;
   virtual std::string getTypeName() const override;
-  virtual void accept(NodeVisitor &visitor) override;
-  virtual Type getType() const override { return NUMERIC_LITERAL; }
+  virtual void accept(NodeVisitor &visitor);
+  virtual ast::ExpressionType getType() const override { return ast::ExpressionType::NumericLiteral; }
 
 private:
   double value_;
@@ -1068,8 +1068,8 @@ public:
 
   bool getValue() const;
   virtual std::string getTypeName() const override;
-  virtual void accept(NodeVisitor &visitor) override;
-  virtual Type getType() const override { return BOOLEAN_LITERAL; }
+  virtual void accept(NodeVisitor &visitor);
+  virtual ast::ExpressionType getType() const override { return ast::ExpressionType::BooleanLiteral; }
 
 private:
   bool value_;
@@ -1081,8 +1081,8 @@ public:
   ~NullLiteralExpression();
 
   virtual std::string getTypeName() const override;
-  virtual void accept(NodeVisitor &visitor) override;
-  virtual Type getType() const override { return NULL_LITERAL; }
+  virtual void accept(NodeVisitor &visitor);
+  virtual ast::ExpressionType getType() const override { return ast::ExpressionType::NullLiteral; }
 };
 
 // ==================== CommitStatement ====================
@@ -1092,7 +1092,7 @@ public:
   CommitStatement();
   ~CommitStatement();
 
-  void accept(NodeVisitor &visitor) override;
+  void accept(NodeVisitor &visitor);
 
 private:
 };
@@ -1104,7 +1104,7 @@ public:
   RollbackStatement();
   ~RollbackStatement();
 
-  void accept(NodeVisitor &visitor) override;
+  void accept(NodeVisitor &visitor);
 
 private:
 };
@@ -1145,7 +1145,7 @@ public:
 
   const std::string &getName() const;
 
-  void accept(NodeVisitor &visitor) override;
+  void accept(NodeVisitor &visitor);
 
 private:
   std::string name_;
@@ -1165,7 +1165,7 @@ public:
 
   const std::string &getName() const;
 
-  void accept(NodeVisitor &visitor) override;
+  void accept(NodeVisitor &visitor);
 
 private:
   std::string name_;
@@ -1181,7 +1181,7 @@ public:
 
   const std::string &getName() const;
 
-  void accept(NodeVisitor &visitor) override;
+  void accept(NodeVisitor &visitor);
 
 private:
   std::string name_;
@@ -1238,7 +1238,7 @@ public:
 
   const TriggerDefinition &getTriggerDefinition() const;
 
-  void accept(NodeVisitor &visitor) override;
+  void accept(NodeVisitor &visitor);
 
 private:
   TriggerDefinition triggerDef_;
@@ -1253,7 +1253,7 @@ public:
 
   const std::string &getName() const;
 
-  void accept(NodeVisitor &visitor) override;
+  void accept(NodeVisitor &visitor);
 
 private:
   std::string name_;
@@ -1272,7 +1272,7 @@ public:
   Action getAction() const;
   std::string getActionString() const;
 
-  void accept(NodeVisitor &visitor) override;
+  void accept(NodeVisitor &visitor);
 
 private:
   std::string name_;

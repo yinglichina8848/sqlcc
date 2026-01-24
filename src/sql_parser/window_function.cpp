@@ -64,15 +64,14 @@ WindowSpecification* WindowFunction::getWindowSpecification() const {
     return windowSpec_.get();
 }
 
-void WindowFunction::accept(NodeVisitor& visitor) {
+void WindowFunction::accept(ast::NodeVisitor& visitor) {
     visitor.visitWindowFunction(*this);
 }
 
 
 
 WindowSpecification::WindowSpecification()
-    : Statement(Statement::Type::SELECT),
-      frameStart_(FrameBoundary::UNBOUNDED_PRECEDING),
+    : frameStart_(FrameBoundary::UNBOUNDED_PRECEDING),
       frameEnd_(FrameBoundary::CURRENT_ROW) {
 }
 

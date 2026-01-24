@@ -89,7 +89,8 @@ void SelectParser::parseFromClause(SelectStatement& stmt) {
   }
 
   // 解析表名
-  std::string tableName = tokens_.consume(Type::IDENTIFIER).getLexeme();
+  tokens_.expect(Type::IDENTIFIER);
+  std::string tableName = tokens_.current().getLexeme();
   stmt.setTableName(tableName);
   stmt.addFromTable(tableName);
   std::cout << "[SELECT_PARSER] FROM table: " << tableName << std::endl;
@@ -147,10 +148,11 @@ std::unique_ptr<JoinClause> SelectParser::parseJoinClause() {
   }
 
   // 消费JOIN关键字
-  tokens_.consume(Type::KEYWORD_JOIN);
+  tokens_.expect(Type::KEYWORD_JOIN), tokens_.advance();
 
   // 解析表名
-  std::string tableName = tokens_.consume(Type::IDENTIFIER).getLexeme();
+  tokens_.expect(Type::IDENTIFIER);
+  std::string tableName = tokens_.current().getLexeme();
   std::cout << "[SELECT_PARSER] JOIN table: " << tableName << std::endl;
 
   // 解析ON条件（简化实现）
@@ -189,7 +191,7 @@ void SelectParser::parseGroupByClause(SelectStatement& stmt) {
     return;
   }
 
-  tokens_.consume(Type::KEYWORD_BY);
+  tokens_.expect(Type::KEYWORD_BY), tokens_.advance();
 
   // 解析GROUP BY列列表
   bool first = true;
@@ -205,7 +207,8 @@ void SelectParser::parseGroupByClause(SelectStatement& stmt) {
     }
     first = false;
 
-    std::string column = tokens_.consume(Type::IDENTIFIER).getLexeme();
+    tokens_.expect(Type::IDENTIFIER);
+    std::string column = tokens_.current().getLexeme();
     stmt.addGroupByColumn(column);
     std::cout << "[SELECT_PARSER] GROUP BY column: " << column << std::endl;
   }
@@ -234,10 +237,11 @@ void SelectParser::parseOrderByClause(SelectStatement& stmt) {
     return;
   }
 
-  tokens_.consume(Type::KEYWORD_BY);
+  tokens_.expect(Type::KEYWORD_BY), tokens_.advance();
 
   // 解析ORDER BY列
-  std::string orderByColumn = tokens_.consume(Type::IDENTIFIER).getLexeme();
+  tokens_.expect(Type::IDENTIFIER);
+  std::string orderByColumn = tokens_.current().getLexeme();
   stmt.setOrderByColumn(orderByColumn);
 
   // 检查排序方向
@@ -267,11 +271,12 @@ std::string SelectParser::parseSelectItem() {
     if (tokens_.peek().getType() == Type::IDENTIFIER) {
       // 这里需要改进：应该检查下一个token是否是LPAREN
       // 暂时简化实现
-      item = tokens_.consume(Type::IDENTIFIER).getLexeme();
+      tokens_.expect(Type::IDENTIFIER);
+      item = tokens_.current().getLexeme();
 
       // 检查是否是函数调用
       if (tokens_.check(Type::LPAREN)) {
-        tokens_.consume(Type::LPAREN);
+        tokens_.expect(Type::LPAREN), tokens_.advance();
         // 简化：跳过参数
         int parenCount = 1;
         while (parenCount > 0 && !tokens_.isAtEnd()) {
@@ -284,7 +289,9 @@ std::string SelectParser::parseSelectItem() {
               item += ")";
             }
           } else {
-            item += tokens_.consume(tokens_.peek().getType()).getLexeme();
+            auto tokenType = tokens_.peek().getType();
+            tokens_.expect(tokenType);
+            item += tokens_.current().getLexeme();
             if (parenCount > 0) {
               item += " ";
             }
@@ -297,16 +304,21 @@ std::string SelectParser::parseSelectItem() {
 
   // 如果还没有解析到内容，当作简单标识符
   if (item.empty()) {
-    item = tokens_.consume(Type::IDENTIFIER).getLexeme();
+    tokens_.expect(Type::IDENTIFIER);
+    item = tokens_.current().getLexeme();
     std::cout << "[SELECT_PARSER] Simple identifier: " << item << std::endl;
   }
 
   // 检查是否有AS别名
   if (tokens_.check(Type::KEYWORD_AS)) {
-    std::string alias = tokens_.consume(Type::IDENTIFIER).getLexeme();
+    tokens_.expect(Type::KEYWORD_AS);
+    tokens_.expect(Type::IDENTIFIER);
+    std::string alias = tokens_.current().getLexeme();
     item += " AS " + alias;
     std::cout << "[SELECT_PARSER] Added alias: " << alias << std::endl;
   }
+
+  std::cout << "[SELECT_PARSER] parseSelectItem completed: " << item << std::endl;
 
   return item;
 }

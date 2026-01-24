@@ -13,9 +13,8 @@
 
 #include "src/storage_engine/buffer_pool/lru_manager.h"
 #include "src/storage_engine/buffer_pool/statistics_collector.h"
-#include "include/storage_engine.h"
-#include "include/page.h"
-#include "utils/config_manager.h"
+
+#include "include/utils/config_manager.h"
 
 namespace fs = std::filesystem;
 namespace sqlcc {

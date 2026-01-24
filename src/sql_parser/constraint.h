@@ -138,6 +138,7 @@
 #define SQLCC_SQL_PARSER_CONSTRAINT_H
 
 #include "ast/ast_node.h"
+#include "ast/expression.h"
 #include <memory>
 #include <string>
 #include <vector>

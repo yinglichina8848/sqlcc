@@ -55,56 +55,57 @@ std::unique_ptr<Statement> StatementParser::parseStatement() {
 std::unique_ptr<InsertStatement> StatementParser::parseInsertStatement() {
   std::cout << "[STATEMENT_PARSER] parseInsertStatement() called" << std::endl;
 
-  tokens_.consume(Type::KEYWORD_INSERT);
-  tokens_.consume(Type::KEYWORD_INTO);
+  tokens_.expect(Type::KEYWORD_INSERT);
+  tokens_.expect(Type::KEYWORD_INTO);
 
   std::string tableName = parseIdentifier();
   auto stmt = std::make_unique<InsertStatement>(tableName);
 
   // 可选的列列表
   if (tokens_.check(Type::LPAREN)) {
-    tokens_.consume(Type::LPAREN);
+    tokens_.expect(Type::LPAREN);
     bool first = true;
     while (!tokens_.check(Type::RPAREN) && !tokens_.isAtEnd()) {
       if (!first) {
         if (!tokens_.check(Type::COMMA)) {
           break;
         }
-        tokens_.consume(Type::COMMA);
+        tokens_.expect(Type::COMMA);
       }
       first = false;
 
       std::string column = parseIdentifier();
       stmt->addColumn(column);
     }
-    tokens_.consume(Type::RPAREN);
+    tokens_.expect(Type::RPAREN);
   }
 
   // VALUES子句
-  tokens_.consume(Type::KEYWORD_VALUES);
+  tokens_.expect(Type::KEYWORD_VALUES);
   if (tokens_.check(Type::LPAREN)) {
-    tokens_.consume(Type::LPAREN);
+    tokens_.expect(Type::LPAREN);
     bool first = true;
     while (!tokens_.check(Type::RPAREN) && !tokens_.isAtEnd()) {
       if (!first) {
         if (!tokens_.check(Type::COMMA)) {
           break;
         }
-        tokens_.consume(Type::COMMA);
+        tokens_.expect(Type::COMMA);
       }
       first = false;
 
-      // 简化处理：支持字符串、数字和标识符
-      std::string value;
-      if (tokens_.check(Type::STRING_LITERAL) || tokens_.check(Type::INTEGER_LITERAL) ||
-          tokens_.check(Type::FLOAT_LITERAL)) {
-        value = tokens_.consume(tokens_.peek().getType()).getLexeme();
-      } else {
-        value = parseIdentifier();
-      }
+  // 简化处理：支持字符串、数字和标识符
+  std::string value;
+  if (tokens_.check(Type::STRING_LITERAL) || tokens_.check(Type::INTEGER_LITERAL) ||
+      tokens_.check(Type::FLOAT_LITERAL)) {
+    tokens_.expect(tokens_.peek().getType());
+    value = tokens_.current().getLexeme();
+  } else {
+    value = parseIdentifier();
+  }
       stmt->addValue(value);
     }
-    tokens_.consume(Type::RPAREN);
+    tokens_.expect(Type::RPAREN);
     stmt->finishRow();
   }
 
@@ -116,7 +117,7 @@ std::unique_ptr<InsertStatement> StatementParser::parseInsertStatement() {
 std::unique_ptr<UpdateStatement> StatementParser::parseUpdateStatement() {
   std::cout << "[STATEMENT_PARSER] parseUpdateStatement() called" << std::endl;
 
-  tokens_.consume(Type::KEYWORD_UPDATE);
+  tokens_.expect(Type::KEYWORD_UPDATE);
 
   // 这里应该实现UPDATE语句的完整解析
   // 暂时抛出异常表示未实现
@@ -127,15 +128,15 @@ std::unique_ptr<UpdateStatement> StatementParser::parseUpdateStatement() {
 std::unique_ptr<DeleteStatement> StatementParser::parseDeleteStatement() {
   std::cout << "[STATEMENT_PARSER] parseDeleteStatement() called" << std::endl;
 
-  tokens_.consume(Type::KEYWORD_DELETE);
-  tokens_.consume(Type::KEYWORD_FROM);
+  tokens_.expect(Type::KEYWORD_DELETE);
+  tokens_.expect(Type::KEYWORD_FROM);
 
   std::string tableName = parseIdentifier();
   auto stmt = std::make_unique<DeleteStatement>(tableName);
 
   // 可选的WHERE子句
   if (tokens_.check(Type::KEYWORD_WHERE)) {
-    tokens_.consume(Type::KEYWORD_WHERE);
+    tokens_.expect(Type::KEYWORD_WHERE);
     // 简化实现：解析简单的条件表达式
     std::cout << "[STATEMENT_PARSER] WHERE clause found in DELETE (simplified)" << std::endl;
   }
@@ -145,10 +146,10 @@ std::unique_ptr<DeleteStatement> StatementParser::parseDeleteStatement() {
 }
 
 // CREATE语句解析
-std::unique_ptr<CreateStatement> StatementParser::parseCreateStatement() {
+std::unique_ptr<Statement> StatementParser::parseCreateStatement() {
   std::cout << "[STATEMENT_PARSER] parseCreateStatement() called" << std::endl;
 
-  tokens_.consume(Type::KEYWORD_CREATE);
+  tokens_.expect(Type::KEYWORD_CREATE);
 
   if (tokens_.check(Type::KEYWORD_TABLE)) {
     return parseCreateTableStatement();
@@ -175,7 +176,7 @@ std::unique_ptr<CreateStatement> StatementParser::parseCreateStatement() {
 std::unique_ptr<DropStatement> StatementParser::parseDropStatement() {
   std::cout << "[STATEMENT_PARSER] parseDropStatement() called" << std::endl;
 
-  tokens_.consume(Type::KEYWORD_DROP);
+  tokens_.expect(Type::KEYWORD_DROP);
 
   DropStatement::ObjectType objectType;
   if (tokens_.check(Type::KEYWORD_TABLE)) {
@@ -194,7 +195,7 @@ std::unique_ptr<DropStatement> StatementParser::parseDropStatement() {
 
   bool ifExists = false;
   if (tokens_.check(Type::KEYWORD_IF)) {
-    tokens_.consume(Type::KEYWORD_EXISTS);
+    tokens_.expect(Type::KEYWORD_EXISTS);
     ifExists = true;
   }
 
@@ -211,7 +212,7 @@ std::unique_ptr<DropStatement> StatementParser::parseDropStatement() {
 std::unique_ptr<AlterStatement> StatementParser::parseAlterStatement() {
   std::cout << "[STATEMENT_PARSER] parseAlterStatement() called" << std::endl;
 
-  tokens_.consume(Type::KEYWORD_ALTER);
+  tokens_.expect(Type::KEYWORD_ALTER);
 
   AlterStatement::Target target;
   if (tokens_.check(Type::KEYWORD_TABLE)) {
@@ -252,7 +253,7 @@ std::unique_ptr<AlterStatement> StatementParser::parseAlterStatement() {
       }
     }
   } else if (tokens_.check(Type::KEYWORD_RENAME)) {
-    tokens_.consume(Type::KEYWORD_TO);
+    tokens_.expect(Type::KEYWORD_TO);
     stmt->setAction(AlterStatement::RENAME_TABLE);
     std::string newName = parseIdentifier();
     stmt->setNewTableName(newName);
@@ -266,7 +267,7 @@ std::unique_ptr<AlterStatement> StatementParser::parseAlterStatement() {
 std::unique_ptr<GrantStatement> StatementParser::parseGrantStatement() {
   std::cout << "[STATEMENT_PARSER] parseGrantStatement() called" << std::endl;
 
-  tokens_.consume(Type::KEYWORD_GRANT);
+  tokens_.expect(Type::KEYWORD_GRANT);
 
   auto stmt = std::make_unique<GrantStatement>();
 
@@ -284,14 +285,14 @@ std::unique_ptr<GrantStatement> StatementParser::parseGrantStatement() {
     stmt->addPrivilege(privilege);
   }
 
-  tokens_.consume(Type::KEYWORD_ON);
-  tokens_.consume(Type::KEYWORD_TABLE);
+  tokens_.expect(Type::KEYWORD_ON);
+  tokens_.expect(Type::KEYWORD_TABLE);
 
   std::string tableName = parseIdentifier();
   stmt->setObjectName(tableName);
   stmt->setObjectType("TABLE");
 
-  tokens_.consume(Type::KEYWORD_TO);
+  tokens_.expect(Type::KEYWORD_TO);
   std::string grantee = parseIdentifier();
   stmt->setGrantee(grantee);
 
@@ -303,7 +304,7 @@ std::unique_ptr<GrantStatement> StatementParser::parseGrantStatement() {
 std::unique_ptr<RevokeStatement> StatementParser::parseRevokeStatement() {
   std::cout << "[STATEMENT_PARSER] parseRevokeStatement() called" << std::endl;
 
-  tokens_.consume(Type::KEYWORD_REVOKE);
+  tokens_.expect(Type::KEYWORD_REVOKE);
 
   auto stmt = std::make_unique<RevokeStatement>();
 
@@ -321,14 +322,14 @@ std::unique_ptr<RevokeStatement> StatementParser::parseRevokeStatement() {
     stmt->addPrivilege(privilege);
   }
 
-  tokens_.consume(Type::KEYWORD_ON);
-  tokens_.consume(Type::KEYWORD_TABLE);
+  tokens_.expect(Type::KEYWORD_ON);
+  tokens_.expect(Type::KEYWORD_TABLE);
 
   std::string tableName = parseIdentifier();
   stmt->setObjectName(tableName);
   stmt->setObjectType("TABLE");
 
-  tokens_.consume(Type::KEYWORD_FROM);
+  tokens_.expect(Type::KEYWORD_FROM);
   std::string grantee = parseIdentifier();
   stmt->setGrantee(grantee);
 
@@ -340,7 +341,7 @@ std::unique_ptr<RevokeStatement> StatementParser::parseRevokeStatement() {
 std::unique_ptr<UseStatement> StatementParser::parseUseStatement() {
   std::cout << "[STATEMENT_PARSER] parseUseStatement() called" << std::endl;
 
-  tokens_.consume(Type::KEYWORD_USE);
+  tokens_.expect(Type::KEYWORD_USE);
   std::string databaseName = parseIdentifier();
 
   auto stmt = std::make_unique<UseStatement>(databaseName);
@@ -353,10 +354,10 @@ std::unique_ptr<UseStatement> StatementParser::parseUseStatement() {
 std::unique_ptr<ShowStatement> StatementParser::parseShowStatement() {
   std::cout << "[STATEMENT_PARSER] parseShowStatement() called" << std::endl;
 
-  tokens_.consume(Type::KEYWORD_SHOW);
+  tokens_.expect(Type::KEYWORD_SHOW);
 
   // 简化实现
-  auto stmt = std::make_unique<ShowStatement>();
+  auto stmt = std::make_unique<ShowStatement>(ShowStatement::DATABASES);
 
   std::cout << "[STATEMENT_PARSER] SHOW statement parsed successfully" << std::endl;
   return stmt;
@@ -366,8 +367,8 @@ std::unique_ptr<ShowStatement> StatementParser::parseShowStatement() {
 std::unique_ptr<Statement> StatementParser::parseLoadDataStatement() {
   std::cout << "[STATEMENT_PARSER] parseLoadDataStatement() called" << std::endl;
 
-  tokens_.consume(Type::KEYWORD_LOAD);
-  tokens_.consume(Type::KEYWORD_DATA);
+  tokens_.expect(Type::KEYWORD_LOAD);
+  tokens_.expect(Type::KEYWORD_DATA);
 
   // LOAD DATA语句暂不支持
   std::cout << "[STATEMENT_PARSER] LOAD DATA statement not supported" << std::endl;
@@ -382,7 +383,7 @@ std::unique_ptr<CreateStatement> StatementParser::parseCreateTableStatement() {
   auto stmt = std::make_unique<CreateStatement>(CreateStatement::TABLE);
   stmt->setObjectName(tableName);
 
-  tokens_.consume(Type::LPAREN);
+  tokens_.expect(Type::LPAREN);
 
   bool first = true;
   while (!tokens_.check(Type::RPAREN) && !tokens_.isAtEnd()) {
@@ -406,7 +407,7 @@ std::unique_ptr<CreateStatement> StatementParser::parseCreateTableStatement() {
     }
   }
 
-  tokens_.consume(Type::RPAREN);
+  tokens_.expect(Type::RPAREN);
 
   std::cout << "[STATEMENT_PARSER] CREATE TABLE statement parsed successfully" << std::endl;
   return stmt;
@@ -425,7 +426,7 @@ std::unique_ptr<CreateUserStatement> StatementParser::parseCreateUserStatement()
   std::string password;
 
   if (tokens_.check(Type::KEYWORD_IDENTIFIED)) {
-    tokens_.consume(Type::KEYWORD_BY);
+    tokens_.expect(Type::KEYWORD_BY);
     password = parseIdentifier();
   }
 
@@ -436,7 +437,7 @@ std::unique_ptr<CreateUserStatement> StatementParser::parseCreateUserStatement()
 std::unique_ptr<DropUserStatement> StatementParser::parseDropUserStatement() {
   bool ifExists = false;
   if (tokens_.check(Type::KEYWORD_IF)) {
-    tokens_.consume(Type::KEYWORD_EXISTS);
+    tokens_.expect(Type::KEYWORD_EXISTS);
     ifExists = true;
   }
 
@@ -474,25 +475,19 @@ std::unique_ptr<Statement> StatementParser::parseCreateViewStatement() {
 
 std::unique_ptr<CreateIndexStatement> StatementParser::parseCreateIndexStatement() {
   std::string indexName = parseIdentifier();
-  tokens_.consume(Type::KEYWORD_ON);
+  tokens_.expect(Type::KEYWORD_ON);
   std::string tableName = parseIdentifier();
 
-  auto stmt = std::make_unique<CreateIndexStatement>(indexName, tableName);
-
-  tokens_.consume(Type::LPAREN);
-  bool first = true;
-  while (!tokens_.check(Type::RPAREN) && !tokens_.isAtEnd()) {
-    if (!first) {
-      if (!tokens_.check(Type::COMMA)) {
-        break;
-      }
-    }
-    first = false;
-
-    std::string column = parseIdentifier();
-    stmt->addColumn(column);
+  // 简化实现：假设只有一个列
+  std::string columnName = "id"; // 默认列名
+  tokens_.expect(Type::LPAREN);
+  if (!tokens_.check(Type::RPAREN)) {
+    columnName = parseIdentifier();
   }
-  tokens_.consume(Type::RPAREN);
+  tokens_.expect(Type::RPAREN);
+
+  auto stmt = std::make_unique<CreateIndexStatement>(indexName, tableName, columnName);
+  stmt->addColumn(columnName);
 
   return stmt;
 }
@@ -505,7 +500,8 @@ std::unique_ptr<DropIndexStatement> StatementParser::parseDropIndexStatement() {
 
 // 辅助方法实现
 std::string StatementParser::parseIdentifier() {
-  return tokens_.consume(Type::IDENTIFIER).getLexeme();
+  tokens_.expect(Type::IDENTIFIER);
+  return tokens_.previous().getLexeme();
 }
 
 std::unique_ptr<ColumnDefinition> StatementParser::parseColumnDefinition() {
@@ -517,12 +513,12 @@ std::unique_ptr<ColumnDefinition> StatementParser::parseColumnDefinition() {
   // 解析约束
   while (!tokens_.check(Type::COMMA) && !tokens_.check(Type::RPAREN) && !tokens_.isAtEnd()) {
     if (tokens_.check(Type::KEYWORD_NOT)) {
-      tokens_.consume(Type::KEYWORD_NULL);
+      tokens_.expect(Type::KEYWORD_NULL);
       columnDef->setNullable(false);
     } else if (tokens_.check(Type::KEYWORD_NULL)) {
       columnDef->setNullable(true);
     } else if (tokens_.check(Type::KEYWORD_PRIMARY)) {
-      tokens_.consume(Type::KEYWORD_KEY);
+      tokens_.expect(Type::KEYWORD_KEY);
       columnDef->setPrimaryKey(true);
     } else if (tokens_.check(Type::KEYWORD_UNIQUE)) {
       columnDef->setUnique(true);
@@ -545,36 +541,43 @@ std::string StatementParser::parseDataType() {
   std::stringstream dataType;
 
   if (tokens_.check(Type::KEYWORD_INT) || tokens_.check(Type::KEYWORD_INTEGER)) {
-    dataType << tokens_.consume(tokens_.peek().getType()).getLexeme();
+    tokens_.expect(tokens_.peek().getType());
+    dataType << tokens_.previous().getLexeme();
   } else if (tokens_.check(Type::KEYWORD_VARCHAR)) {
-    dataType << tokens_.consume(Type::KEYWORD_VARCHAR).getLexeme();
+    tokens_.expect(Type::KEYWORD_VARCHAR);
+    dataType << tokens_.previous().getLexeme();
     if (tokens_.check(Type::LPAREN)) {
       dataType << "(";
       if (tokens_.check(Type::INTEGER_LITERAL)) {
-        dataType << tokens_.consume(Type::INTEGER_LITERAL).getLexeme();
+        tokens_.expect(Type::INTEGER_LITERAL);
+        dataType << tokens_.previous().getLexeme();
       }
-      tokens_.consume(Type::RPAREN);
+      tokens_.expect(Type::RPAREN);
       dataType << ")";
     }
   } else if (tokens_.check(Type::KEYWORD_DECIMAL) || tokens_.check(Type::KEYWORD_NUMERIC)) {
-    dataType << tokens_.consume(tokens_.peek().getType()).getLexeme();
+    tokens_.expect(tokens_.peek().getType());
+    dataType << tokens_.previous().getLexeme();
     if (tokens_.check(Type::LPAREN)) {
       dataType << "(";
       if (tokens_.check(Type::INTEGER_LITERAL)) {
-        dataType << tokens_.consume(Type::INTEGER_LITERAL).getLexeme();
+        tokens_.expect(Type::INTEGER_LITERAL);
+        dataType << tokens_.previous().getLexeme();
         if (tokens_.check(Type::COMMA)) {
           dataType << ",";
           if (tokens_.check(Type::INTEGER_LITERAL)) {
-            dataType << tokens_.consume(Type::INTEGER_LITERAL).getLexeme();
+            tokens_.expect(Type::INTEGER_LITERAL);
+            dataType << tokens_.previous().getLexeme();
           }
         }
       }
-      tokens_.consume(Type::RPAREN);
+      tokens_.expect(Type::RPAREN);
       dataType << ")";
     }
   } else {
     // 默认当作标识符处理
-    dataType << tokens_.consume(Type::IDENTIFIER).getLexeme();
+    tokens_.expect(Type::IDENTIFIER);
+    dataType << tokens_.previous().getLexeme();
   }
 
   std::cout << "[STATEMENT_PARSER] Data type parsed: " << dataType.str() << std::endl;
@@ -587,11 +590,14 @@ std::string StatementParser::parseDefaultValue() {
   std::string value;
   if (tokens_.check(Type::STRING_LITERAL) || tokens_.check(Type::INTEGER_LITERAL) ||
       tokens_.check(Type::FLOAT_LITERAL)) {
-    value = tokens_.consume(tokens_.peek().getType()).getLexeme();
+    tokens_.expect(tokens_.peek().getType());
+    value = tokens_.previous().getLexeme();
   } else if (tokens_.check(Type::KEYWORD_NULL)) {
+    tokens_.expect(Type::KEYWORD_NULL);
     value = "NULL";
   } else {
-    value = tokens_.consume(Type::IDENTIFIER).getLexeme();
+    tokens_.expect(Type::IDENTIFIER);
+    value = tokens_.previous().getLexeme();
   }
 
   std::cout << "[STATEMENT_PARSER] Default value parsed: " << value << std::endl;
