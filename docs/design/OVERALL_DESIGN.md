@@ -253,15 +253,15 @@ SQLCC采用多层架构设计，将系统划分为清晰的功能层次，实现
 
 #### 3.6.3 数据结构
 - **BufferFrame**：缓冲帧，包含页面数据和元数据
-- **BufferPool**：缓冲池，管理所有缓冲帧
+- **BufferPoolSharded**：分片缓冲池，管理所有缓冲帧并提高并发性能
 - **LRUList**：LRU列表，跟踪页面使用顺序
 
 #### 3.6.4 核心接口
 - `Page* PinPage(page_id)`：获取并固定页面
 - `void UnpinPage(page_id, is_dirty)`：解除页面固定
 - `void FlushAllDirtyPages()`：刷新所有脏页
-- `void ResizeBufferPool(size)`：调整缓冲池大小
-- `void ClearBufferPool()`：清空缓冲池
+- `void ResizeBufferPool(size)`：调整分片缓冲池大小
+- `void ClearBufferPool()`：清空分片缓冲池
 
 ### 3.7 配置管理器
 

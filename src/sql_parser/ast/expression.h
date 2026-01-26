@@ -4,6 +4,7 @@
 #include "../operator_kind.h"
 #include <memory>
 #include <string>
+#include <vector>
 
 namespace sqlcc {
 namespace sql_parser {

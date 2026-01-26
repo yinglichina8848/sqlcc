@@ -90,6 +90,13 @@ public:
     bool check(Type type) const;
 
     /**
+     * @brief 如果当前token匹配指定类型，则消费它并返回true
+     * @param type 要检查并消费的token类型
+     * @return 如果匹配并消费返回true，否则返回false
+     */
+    bool match(Type type);
+
+    /**
      * @brief 强制消费指定类型的token
      * @param type 期望的token类型
      * @param message 错误消息（当类型不匹配时使用）

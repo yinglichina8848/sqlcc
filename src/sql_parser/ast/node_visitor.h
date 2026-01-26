@@ -4,6 +4,9 @@
 
 namespace sqlcc {
 namespace sql_parser {
+
+class WindowFunction;
+
 namespace ast {
 
 class NodeVisitor {
@@ -19,6 +22,7 @@ public:
   virtual void visit(IdentifierExpression&) {}
   virtual void visit(FunctionCallExpression&) {}
   virtual void visit(BinaryExpression&) {}
+  virtual void visit(WindowFunction&) {}
 };
 
 } // namespace ast

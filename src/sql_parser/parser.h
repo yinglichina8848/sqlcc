@@ -151,6 +151,12 @@
 #include "token.h"
 #include "window_function.h"
 #include "lexer.h"
+#include "token_stream.h"
+#include "parsers/parser_core.h"
+#include "parsers/ddl/parser_ddl.h"
+#include "parsers/dml/parser_dml.h"
+#include "parsers/dcl/parser_dcl.h"
+#include "parsers/tcl/parser_tcl.h"
 #include <memory>
 #include <string>
 #include <unordered_set>
@@ -179,7 +185,7 @@ namespace sql_parser {
    * - 多层防护：编译时、运行时、代码结构、构建系统四层防护
    * - 强制ExpressionParser：所有表达式解析必须通过ExpressionParser统一处理
    */
-class Parser final {
+class Parser final : public ParserCore {
 public:
   /**
    * @brief Parser构造函数
@@ -189,14 +195,8 @@ public:
 
   /**
    * WHAT: parse - 解析SQL语句的主入口
-
+   *
    * 处理完整的SQL脚本，包含多个语句。返回解析后的AST节点列表。
-
-   * HOW: 循环调用parseStatement()直到输入结束
-   * 1. 初始化词法分析器
-   * 2. 循环解析每个语句
-   * 3. 处理语句分隔符（分号）
-   * 4. 收集所有解析结果
    */
   std::vector<std::unique_ptr<Statement>> parse();
 
@@ -208,165 +208,24 @@ public:
 private:
   // Token stream management
   Lexer lexer_;
-  Token currentToken_;
-  Token lookaheadToken_;
-  bool hasLookahead_;
+  TokenStream tokenStream_;
 
-  // Error recovery
-  std::vector<std::string> errors_;
-  bool panicMode_;
-  std::unordered_set<Type> syncTokens_;
+  // Sub-parsers for modular parsing logic
+  std::unique_ptr<ParserDDL> ddl_parser_;
+  std::unique_ptr<ParserDML> dml_parser_;
+  std::unique_ptr<ParserDCL> dcl_parser_;
+  std::unique_ptr<ParserTCL> tcl_parser_;
 
   // Core parsing methods
-  void advance();
-  bool match(Type type);
-  void consume(Type type);
-  bool check(Type type) const;
-  bool isAtEnd() const;
-  Token peek() const;
-  Token previous() const;
-
-  // Error handling
-  void reportError(const std::string &message);
-  std::string getErrorContext() const;
+  std::unique_ptr<Statement> parseStatement();
 
   /**
    * WHAT: synchronize - 错误恢复机制
-   *
-   * 当解析遇到语法错误时，不是简单停止，而是尝试恢复到可以继续解析的状态。
-   * 这使得解析器能够报告多个错误，而不是只报告第一个错误。
-   *
-   * HOW: 使用同步词集合
-   * - 维护当前语句的同步词列表（如SELECT, FROM, WHERE等关键字）
-   * - 跳过错误token直到遇到同步词
-   * - 重新开始解析下一个语句
    */
   void synchronize();
 
-  // Helper method to check if current statement is CREATE VIEW
-  bool isCreateViewStatement();
-
-  // Helper method to check if current statement is CREATE USER
-  bool isCreateUserStatement();
-
-  // Helper method to check if current statement is DROP USER
-  bool isDropUserStatement();
-
-  // Statement parsing (strict BNF compliance)
-  std::unique_ptr<Statement> parseStatement();
-  std::unique_ptr<CreateStatement> parseCreateStatement();
-  std::unique_ptr<CreateStatement> parseCreateTableStatement();
-  std::unique_ptr<CreateStatement> parseCreateDatabaseStatement();
-  std::unique_ptr<CreateStatement> parseCreateProcedureStatement();
-  std::unique_ptr<CreateStatement> parseCreateTriggerStatement();
-  std::unique_ptr<Statement> parseCreateViewStatement();
-  std::unique_ptr<DropStatement> parseDropStatement();
-  std::unique_ptr<AlterStatement> parseAlterStatement();
-  std::unique_ptr<SelectStatement> parseSelectStatement();
-  std::unique_ptr<InsertStatement> parseInsertStatement();
-  std::unique_ptr<UpdateStatement> parseUpdateStatement();
-  std::unique_ptr<DeleteStatement> parseDeleteStatement();
-  std::unique_ptr<UseStatement> parseUseStatement();
-  std::unique_ptr<ShowStatement> parseShowStatement();
-  std::unique_ptr<CreateIndexStatement> parseCreateIndexStatement();
-  std::unique_ptr<DropIndexStatement> parseDropIndexStatement();
-  std::unique_ptr<CreateUserStatement> parseCreateUserStatement();
-  std::unique_ptr<DropUserStatement> parseDropUserStatement();
-  std::unique_ptr<GrantStatement> parseGrantStatement();
-  std::unique_ptr<RevokeStatement> parseRevokeStatement();
-
-  // LOAD DATA statement parsing
-  std::unique_ptr<Statement> parseLoadDataStatement();
-
-  // Clause parsing
-  std::vector<std::string> parseColumnNames();
-  std::vector<std::unique_ptr<Expression>> parseExpressions();
-
-  /**
-   * WHAT: parseExpression - 解析SQL表达式
-   *
-   * 处理SQL中的各种表达式类型：
-   * - 算术表达式：a + b * c
-   * - 逻辑表达式：a > b AND c < d
-   * - 函数调用：COUNT(*), MAX(price)
-   * - 子查询：(SELECT ... FROM ...)
-   *
-   * HOW: 使用运算符优先级驱动的递归解析
-   * 1. 从低优先级开始解析（OR, AND, NOT）
-   * 2. 递归调用更高优先级的解析函数
-   * 3. 处理括号和函数调用
-   * 4. 构建AST节点表示表达式树
-   */
-  std::unique_ptr<Expression> parseExpression();
-
-  /**
-   * WHAT: parseLogicalOr - 解析逻辑或表达式
-   *
-   * 处理OR运算符，具有最低的优先级。
-   * 表达式：expr1 OR expr2 OR expr3
-   *
-   * HOW: 左结合解析
-   * 1. 先解析左边的AND表达式
-   * 2. 如果遇到OR，递归解析右边
-   * 3. 构建二元运算符节点
-   */
-  // ============================================================================
-  // ⚠️  DELETED EXPRESSION PARSING METHODS - ARCHITECTURE SECURITY MEASURES
-  // ============================================================================
-  //
-  // 🚨 CRITICAL WARNING: 以下方法已被显式删除以防止架构违规！
-  //
-  // WHY: 防止"偷偷加回"parseExpression逻辑
-  // Parser类不得直接构造或解析AST表达式节点，所有表达式解析必须通过
-  // ExpressionParser统一处理。这是架构安全的强制执行点。
-  //
-  // 任何尝试重新实现这些方法的代码都将在编译时失败，确保：
-  // 1. 所有表达式解析通过ExpressionParser统一处理
-  // 2. 避免直接AST节点构造导致的架构不一致
-  // 3. 保持解析器的职责分离和模块化设计
-  //
-  // 违反此设计将导致编译错误，迫使开发者重新考虑架构决策。
-  // ============================================================================
-
-  std::unique_ptr<Expression> parseLogicalOr() = delete;
-  std::unique_ptr<Expression> parseLogicalAnd() = delete;
-  std::unique_ptr<Expression> parseEquality() = delete;
-  std::unique_ptr<Expression> parseComparison() = delete;
-  std::unique_ptr<Expression> parseTerm() = delete;
-  std::unique_ptr<Expression> parseFactor() = delete;
-  std::unique_ptr<Expression> parseUnary() = delete;
-  std::unique_ptr<Expression> parsePrimary() = delete;
-  std::unique_ptr<Expression> parseIdentifierExpression() = delete;
-
-  // ============================================================================
-  // END OF DELETED METHODS
-  // ============================================================================
-
-  // JOIN clause parsing
-  std::unique_ptr<JoinClause> parseJoinClause();
-
-  std::vector<std::unique_ptr<ColumnDefinition>> parseColumnDefinitions();
-  std::unique_ptr<ColumnDefinition> parseColumnDefinition();
-  std::string parseDataType();
-  std::string parseDefaultValue();
-  void parseTableConstraint(CreateStatement& stmt);
-
   // Helper methods
   void initializeSyncTokens();
-  std::string parseQualifiedName();
-  std::string parseIdentifier();
-  std::string parseStringLiteral();
-  int parseIntLiteral();
-
-  // Set operation parsing
-  std::unique_ptr<Statement> parseCompositeSelectStatement();
-  std::unique_ptr<SetOperation> parseSetOperation();
-  std::unique_ptr<SetOperation> parseUnion();
-  std::unique_ptr<SetOperation> parseIntersect();
-  std::unique_ptr<SetOperation> parseExcept();
-  // Helpers for set-operation parsing
-  SetOperationType parseSetOperationType();
-  bool isSetOperation() const;
 };
 
 } // namespace sql_parser

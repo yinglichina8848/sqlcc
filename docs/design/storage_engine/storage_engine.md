@@ -2,7 +2,7 @@
 
 ## 概述
 
-StorageEngine是存储引擎的核心类，负责协调磁盘管理器(DiskManager)和缓冲池(BufferPool)的工作，为上层应用提供统一的页面管理接口。
+StorageEngine是存储引擎的核心类，负责协调磁盘管理器(DiskManager)和分片缓冲池(BufferPoolSharded)的工作，为上层应用提供统一的页面管理接口。
 
 ## 类定义
 
@@ -28,7 +28,7 @@ public:
 private:
     ConfigManager& config_manager_;
     std::unique_ptr<DiskManager> disk_manager_;
-    std::unique_ptr<BufferPool> buffer_pool_;
+    std::unique_ptr<BufferPoolSharded> buffer_pool_;
     std::unique_ptr<IndexManager> index_manager_;
 };
 ```
@@ -41,7 +41,7 @@ private:
 
 1. 从配置管理器获取数据库文件路径和缓冲池大小
 2. 创建DiskManager实例
-3. 创建BufferPool实例
+3. 创建BufferPoolSharded实例
 4. 创建IndexManager实例
 
 ## 析构函数
@@ -82,28 +82,28 @@ private:
 
 刷新页面到磁盘：
 
-1. 调用缓冲池的FlushPage方法
-2. 由缓冲池协调与磁盘管理器的交互
+1. 调用分片缓冲池的FlushPage方法
+2. 由分片缓冲池协调与磁盘管理器的交互
 
 ### bool DeletePage(int32_t page_id)
 
 删除页面：
 
-1. 调用缓冲池的DeletePage方法
-2. 由缓冲池协调与磁盘管理器的交互
+1. 调用分片缓冲池的DeletePage方法
+2. 由分片缓冲池协调与磁盘管理器的交互
 
 ### void FlushAllPages()
 
 刷新所有页面到磁盘：
 
-1. 调用缓冲池的FlushAllPages方法
-2. 由缓冲池协调与磁盘管理器的交互
+1. 调用分片缓冲池的FlushAllPages方法
+2. 由分片缓冲池协调与磁盘管理器的交互
 
 ### std::string GetStats() const
 
 获取数据库统计信息：
 
-1. 调用缓冲池的GetStats方法获取缓冲池统计信息
+1. 调用分片缓冲池的GetStats方法获取缓冲池统计信息
 2. 结合磁盘管理器的信息生成完整统计报告
 
 ### IndexManager* GetIndexManager()
@@ -123,9 +123,9 @@ private:
 
 磁盘管理器智能指针，负责磁盘I/O操作。
 
-### std::unique_ptr<BufferPool> buffer_pool_
+### std::unique_ptr<BufferPoolSharded> buffer_pool_
 
-缓冲池智能指针，负责内存中的页面管理。
+分片缓冲池智能指针，负责内存中的页面管理并提高并发性能。
 
 ### std::unique_ptr<IndexManager> index_manager_
 

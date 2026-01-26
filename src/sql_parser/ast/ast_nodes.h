@@ -99,6 +99,8 @@
 #include "../data_types.h"
 #include "../set_operation.h"
 #include "node_visitor.h"
+#include "ddl/ast_ddl_nodes.h"
+#include "dml/ast_dml_nodes.h"
 #include <memory>
 #include <string>
 #include <unordered_map>
@@ -127,69 +129,6 @@ class DropUserStatement;
 class GrantStatement;
 class RevokeStatement;
 class ShowStatement;
-class NodeVisitor;
-
-// ==================== ColumnDefinition ====================
-
-class ColumnDefinition {
-public:
-  ColumnDefinition(const std::string &name, const std::string &type);
-  ~ColumnDefinition(); // 显式声明析构函数
-
-  // Getters
-  const std::string &getName() const { return name_; }
-  DataType getDataType() const { return dataType_; }
-  const std::string &getTypeString() const { return type_; }
-  bool isPrimaryKey() const { return isPrimaryKey_; }
-  bool isNullable() const { return isNullable_; }
-  bool isUnique() const { return isUnique_; }
-  bool isAutoIncrement() const { return isAutoIncrement_; }
-  bool isForeignKey() const { return isForeignKey_; }
-  const std::string &getDefaultValue() const { return defaultValue_; }
-
-  // DECIMAL相关
-  int getPrecision() const { return precision_; }
-  int getScale() const { return scale_; }
-
-  // Setters
-  void setName(const std::string &name) { name_ = name; }
-  void setType(const std::string &type);
-  void setPrimaryKey(bool primaryKey = true) { isPrimaryKey_ = primaryKey; }
-  void setNullable(bool nullable = true) { isNullable_ = nullable; }
-  void setUnique(bool unique = true) { isUnique_ = unique; }
-  void setForeignKey(bool foreignKey = true) { isForeignKey_ = foreignKey; }
-  void setAutoIncrement(bool autoIncrement = true) {
-    isAutoIncrement_ = autoIncrement;
-  }
-  void setDefaultValue(const std::string &defaultValue);
-
-  // DECIMAL设置
-  void setPrecision(int precision) { precision_ = precision; }
-  void setScale(int scale) { scale_ = scale; }
-
-  // 兼容旧方法名
-  void setIsPrimaryKey(bool isPrimaryKey) { setPrimaryKey(isPrimaryKey); }
-  void setIsNullable(bool isNullable) { setNullable(isNullable); }
-  void setIsUnique(bool isUnique) { setUnique(isUnique); }
-  void setIsAutoIncrement(bool isAutoIncrement) {
-    setAutoIncrement(isAutoIncrement);
-  }
-
-private:
-  std::string name_;
-  std::string type_;
-  DataType dataType_;
-  bool isPrimaryKey_;
-  bool isNullable_;
-  bool isUnique_;
-  bool isForeignKey_;
-  bool isAutoIncrement_;
-  std::string defaultValue_;
-
-  // DECIMAL相关属性
-  int precision_;
-  int scale_;
-};
 
 // ==================== ConstraintValidator ====================
 
@@ -357,114 +296,16 @@ private:
 };
 
 // ==================== TableConstraint ====================
-
-class TableConstraint {
-public:
-  enum Type { PRIMARY_KEY, FOREIGN_KEY, UNIQUE, CHECK };
-
-  TableConstraint(Type type, const std::string &name = "");
-  ~TableConstraint();
-
-  Type getType() const;
-  const std::string &getConstraintName() const;
-  const std::vector<std::string> &getColumns() const;
-  const std::string &getReferencedTable() const;
-  const std::vector<std::string> &getReferencedColumns() const;
-  const std::string &getCheckExpression() const;
-
-  void addColumn(const std::string &column);
-  void setReferencedTable(const std::string &table);
-  void addReferencedColumn(const std::string &column);
-  void setCheckExpression(const std::string &expression);
-
-private:
-  Type type_;
-  std::string constraintName_;
-  std::vector<std::string> columns_;
-  std::string referencedTable_;
-  std::vector<std::string> referencedColumns_;
-  std::string checkExpression_;
-};
+// Moved to ast_ddl_nodes.h
 
 // ==================== WhereClause ====================
-
-class WhereClause {
-public:
-  WhereClause(const std::string &columnName, const std::string &op,
-              const std::string &value);
-  ~WhereClause();
-
-  const std::string &getColumnName() const;
-  const std::string &getOp() const;
-  const std::string &getValue() const;
-
-private:
-  std::string columnName_;
-  std::string op_;
-  std::string value_;
-};
+// Moved to ast_dml_nodes.h
 
 // ==================== CreateStatement ====================
-
-class CreateStatement : public Statement {
-public:
-  enum ObjectType { DATABASE, TABLE, INDEX, VIEW, PROCEDURE, TRIGGER };
-
-  CreateStatement(ObjectType objectType, const std::string &objectName);
-  CreateStatement(ObjectType objectType); // 兼容旧用法：后续通过setter设置名称
-  ~CreateStatement();
-
-  ObjectType getObjectType() const;
-  const std::string &getObjectName() const;
-  const std::vector<ColumnDefinition> &getColumns() const;
-  const std::vector<TableConstraint> &getConstraints() const;
-
-  void addColumn(ColumnDefinition &&column);
-  void addConstraint(TableConstraint &&constraint);
-
-  // 兼容旧测试API的setter
-  void setObjectName(const std::string &name) { objectName_ = name; }
-  void setDatabaseName(const std::string &name) { objectName_ = name; }
-  void setTableName(const std::string &name) { objectName_ = name; }
-
-  // 兼容旧API的非const getter
-  // (removed non-const compatibility getters to keep a single canonical API)
-  // 兼容旧API的非const getter（保留以兼容已编译的对象文件）
-  std::string getObjectName();
-  CreateStatement::ObjectType getObjectType();
-
-  void accept(NodeVisitor &visitor);
-
-private:
-  ObjectType objectType_;
-  std::string objectName_;
-  std::vector<ColumnDefinition> columns_;
-  std::vector<TableConstraint> constraints_;
-};
+// Moved to ast_ddl_nodes.h
 
 // ==================== CreateViewStatement ====================
-
-class CreateViewStatement : public Statement {
-public:
-  CreateViewStatement(const std::string &viewName);
-  ~CreateViewStatement();
-
-  const std::string &getViewName() const;
-  const std::vector<std::string> &getColumnNames() const;
-  const SelectStatement &getSelectStatement() const;
-
-  void addColumnName(const std::string &columnName);
-  void setSelectStatement(std::unique_ptr<SelectStatement> selectStmt);
-
-  bool hasColumnNames() const;
-
-  void accept(NodeVisitor &visitor);
-
-private:
-  std::string viewName_;
-  std::vector<std::string> columnNames_;
-  std::unique_ptr<SelectStatement> selectStatement_;
-};
+// Moved to ast_ddl_nodes.h
 
 // ==================== AlterViewStatement ====================
 
@@ -515,111 +356,7 @@ private:
 };
 
 // ==================== SelectStatement ====================
-
-// ==================== JoinClause ====================
-
-class JoinClause {
-public:
-  enum JoinType {
-    INNER_JOIN,
-    LEFT_JOIN,
-    RIGHT_JOIN,
-    FULL_JOIN,
-    CROSS_JOIN
-  };
-
-  JoinClause(JoinType type, const std::string &tableName,
-             std::unique_ptr<Expression> condition = nullptr);
-  ~JoinClause();
-
-  JoinType getJoinType() const;
-  void setJoinType(JoinType type);
-  const std::string &getTableName() const;
-  const Expression *getCondition() const;
-  std::unique_ptr<Expression> takeCondition(); // Transfer ownership
-
-  void setCondition(std::unique_ptr<Expression> condition);
-
-private:
-  JoinType joinType_;
-  std::string tableName_;
-  std::unique_ptr<Expression> condition_;
-};
-
-class SelectStatement : public Statement {
-public:
-  SelectStatement();
-  ~SelectStatement();
-
-  void addSelectColumn(const std::string &column);
-  void addSelectItem(const std::string &column);
-  void setTableName(const std::string &table);
-  void addFromTable(const std::string &table);
-  void addJoinClause(std::unique_ptr<JoinClause> join);
-  void setWhereClause(const WhereClause &where);
-  void setWhereExpression(std::unique_ptr<Expression> expr);
-  void setGroupByColumn(const std::string &column);
-  void addGroupByColumn(const std::string &column); // New method for multiple GROUP BY columns
-  void setHavingClause(std::unique_ptr<Expression> expr); // New method for HAVING clause
-  void setDistinct(bool distinct = true);
-  bool isDistinct() const;
-  void setOrderByColumn(const std::string &column);
-  void setOrderDirection(const std::string &direction);
-  void setSelectAll(bool selectAll);
-  void setJoinCondition(const std::string &condition);
-  void setLimit(int limit);
-  void setOffset(int offset);
-
-  const std::vector<std::string> &getSelectColumns() const;
-  const std::vector<std::string> &getSelectItems() const {
-    return selectColumns_;
-  }
-  const std::vector<std::string> &getFromTables() const { return fromTables_; }
-  const std::vector<std::unique_ptr<JoinClause>> &getJoinClauses() const { return joinClauses_; }
-  const std::string &getTableName() const;
-  const WhereClause &getWhereClause() const;
-  const Expression *getWhereExpression() const;
-  const std::string &getGroupByColumn() const;
-  const std::vector<std::string> &getGroupByColumns() const; // New method for multiple GROUP BY columns
-  const Expression *getHavingClause() const; // New method for HAVING clause
-  const std::string &getOrderByColumn() const;
-  const std::string &getOrderDirection() const;
-  const std::string &getJoinCondition() const;
-  int getLimit() const;
-  int getOffset() const;
-  bool isSelectAll() const;
-  bool hasWhereClause() const;
-  bool hasWhereExpression() const;
-  bool hasGroupBy() const;
-  bool hasHavingClause() const; // New method
-  bool hasOrderBy() const;
-  bool hasJoinCondition() const;
-  bool hasJoins() const { return !joinClauses_.empty(); }
-  bool hasLimit() const;
-  bool hasOffset() const;
-
-  void accept(NodeVisitor &visitor);
-
-private:
-  std::vector<std::string> selectColumns_;
-  std::vector<std::string> fromTables_;
-  std::vector<std::unique_ptr<JoinClause>> joinClauses_;
-  std::string tableName_;
-  WhereClause whereClause_{"", "", ""}; // 初始化空的WhereClause
-  std::unique_ptr<Expression> whereExpression_; // 完整的WHERE表达式
-  std::string groupByColumn_;
-  std::vector<std::string> groupByColumns_; // Support for multiple GROUP BY columns
-  std::unique_ptr<Expression> havingClause_; // HAVING clause expression
-  std::string orderByColumn_;
-  std::string orderDirection_;
-  std::string joinCondition_;
-  int limit_;
-  int offset_;
-  bool selectAll_;
-  bool distinct_; // 是否使用DISTINCT
-  bool hasLimit_;
-  bool hasOffset_;
-};
+// Moved to dml/ast_dml_nodes.h
 
 // ==================== CompositeSelectStatement (复合SELECT，包含集合操作) ====================
 
@@ -656,162 +393,19 @@ private:
 };
 
 // ==================== InsertStatement ====================
-
-class InsertStatement : public Statement {
-public:
-  InsertStatement();
-  InsertStatement(const std::string &tableName);
-  ~InsertStatement();
-
-  void setTableName(const std::string &tableName) { tableName_ = tableName; }
-  const std::string &getTableName() const;
-  const std::vector<std::string> &getColumns() const;
-  const std::vector<std::vector<std::string>> &getValues() const;
-
-  void addColumn(const std::string &column);
-  void addValue(const std::string &value);
-  void finishRow();
-  void addValueRow(const std::vector<std::unique_ptr<Expression>> &values);
-
-  void accept(NodeVisitor &visitor);
-
-private:
-  std::string tableName_;
-  std::vector<std::string> columns_;
-  std::vector<std::string> currentRow_;
-  std::vector<std::vector<std::string>> values_;
-};
+// Moved to dml/ast_dml_nodes.h
 
 // ==================== UpdateStatement ====================
-
-class UpdateStatement : public Statement {
-public:
-  UpdateStatement();
-  UpdateStatement(const std::string &tableName);
-  ~UpdateStatement();
-
-  void addUpdateValue(const std::string &column, const std::string &value);
-  void setWhereClause(const WhereClause &where);
-  void setTableName(const std::string &tableName) { tableName_ = tableName; }
-
-  const std::string &getTableName() const;
-  std::string getTableName();
-  const std::unordered_map<std::string, std::string> &getUpdateValues() const;
-  const WhereClause &getWhereClause() const;
-  bool hasWhereClause() const;
-
-  void accept(NodeVisitor &visitor);
-
-private:
-  std::string tableName_;
-  std::unordered_map<std::string, std::string> updateValues_;
-  WhereClause whereClause_{"", "", ""}; // 初始化空的WhereClause
-};
+// Moved to dml/ast_dml_nodes.h
 
 // ==================== DeleteStatement ====================
-
-class DeleteStatement : public Statement {
-public:
-  DeleteStatement();
-  DeleteStatement(const std::string &tableName);
-  ~DeleteStatement();
-
-  void setWhereClause(const WhereClause &where);
-  void setTableName(const std::string &tableName) { tableName_ = tableName; }
-
-  const std::string &getTableName() const;
-  std::string getTableName();
-  const WhereClause &getWhereClause() const;
-  bool hasWhereClause() const;
-
-  void accept(NodeVisitor &visitor);
-
-private:
-  std::string tableName_;
-  WhereClause whereClause_{"", "", ""}; // 初始化空的WhereClause
-};
+// Moved to dml/ast_dml_nodes.h
 
 // ==================== DropStatement ====================
-
-class DropStatement : public Statement {
-public:
-  enum ObjectType { DATABASE, TABLE, INDEX, USER };
-
-  DropStatement(ObjectType objectType, const std::string &objectName);
-  DropStatement(ObjectType objectType); // 兼容旧用法：后续通过setter设置名称
-  ~DropStatement();
-
-  ObjectType getObjectType() const;
-  const std::string &getObjectName() const;
-  bool isIfExists() const;
-  void setIfExists(bool ifExists);
-  // 兼容旧测试API的setter
-  void setObjectName(const std::string &name) { objectName_ = name; }
-  void setDatabaseName(const std::string &name) { objectName_ = name; }
-  void setTableName(const std::string &name) { objectName_ = name; }
-
-  // 兼容旧API的非const getter
-  std::string getObjectName();
-  DropStatement::ObjectType getObjectType();
-
-  void accept(NodeVisitor &visitor);
-
-private:
-  ObjectType objectType_;
-  std::string objectName_;
-  bool ifExists_;
-};
+// Moved to ddl/ast_ddl_nodes.h
 
 // ==================== AlterStatement ====================
-
-class AlterStatement : public Statement {
-public:
-  enum Target { DATABASE, TABLE };
-  
-  enum Action {
-    ADD_COLUMN,
-    DROP_COLUMN,
-    MODIFY_COLUMN,
-    RENAME_TABLE,
-    ADD_INDEX,
-    DROP_INDEX
-  };
-
-  AlterStatement(Target target);
-  ~AlterStatement();
-
-  Type getType() const { return ALTER; }
-  void accept(NodeVisitor &visitor);
-
-  // Getters
-  Target getTarget() const;
-  Action getAction() const;
-  const std::string& getDatabaseName() const;
-  const std::string& getTableName() const;
-  const std::string& getColumnName() const;
-  const ColumnDefinition& getColumnDefinition() const;
-  const std::string& getIndexName() const;
-  const std::string& getNewTableName() const;
-
-  // Setters
-  void setDatabaseName(const std::string& name);
-  void setTableName(const std::string& name);
-  void setAction(Action action);
-  void setColumnName(const std::string& name);
-  void setColumnDefinition(ColumnDefinition&& columnDef);
-  void setIndexName(const std::string& name);
-  void setNewTableName(const std::string& newName);
-
-private:
-  Target target_;
-  Action action_;
-  std::string databaseName_;
-  std::string tableName_;
-  std::string columnName_;
-  ColumnDefinition columnDef_;
-  std::string indexName_;
-  std::string newTableName_;
-};
+// Moved to ddl/ast_ddl_nodes.h
 
 // ==================== UseStatement ====================
 
@@ -830,98 +424,16 @@ private:
 };
 
 // ==================== CreateIndexStatement ====================
-
-class CreateIndexStatement : public Statement {
-public:
-  CreateIndexStatement(const std::string &indexName,
-                       const std::string &tableName,
-                       const std::string &columnName);
-  ~CreateIndexStatement();
-
-  const std::string &getIndexName() const;
-  const std::string &getTableName() const;
-  std::string getTableName();
-  const std::string &getColumnName() const;
-  void addColumn(const std::string &column);
-  const std::vector<std::string> &getColumns() const;
-
-  void setUnique(bool unique); // 设置UNIQUE标记
-  bool isUnique() const;       // 获取UNIQUE标记
-
-  void accept(NodeVisitor &visitor);
-
-private:
-  std::string indexName_;
-  std::string tableName_;
-  std::vector<std::string> columns_;
-  bool unique_; // 是否为UNIQUE索引
-};
+// Moved to ddl/ast_ddl_nodes.h
 
 // ==================== DropIndexStatement ====================
-
-class DropIndexStatement : public Statement {
-public:
-  DropIndexStatement(const std::string &indexName);
-  ~DropIndexStatement();
-
-  const std::string &getIndexName() const;
-
-  void setTableName(const std::string &tableName); // 设置表名
-  const std::string &getTableName() const;         // 获取表名
-  std::string getTableName();
-  bool hasTableName() const;                       // 是否指定了表名
-
-  void setIfExists(bool ifExists); // 设置IF EXISTS标记
-  bool isIfExists() const;         // 获取IF EXISTS标记
-
-  void accept(NodeVisitor &visitor);
-
-private:
-  std::string indexName_;
-  std::string tableName_; // 表名（可选）
-  bool ifExists_;         // IF EXISTS标记
-  bool hasTableName_;     // 是否指定表名
-};
+// Moved to ddl/ast_ddl_nodes.h
 
 // ==================== CreateUserStatement ====================
-
-class CreateUserStatement : public Statement {
-public:
-  CreateUserStatement(const std::string &username, const std::string &password);
-  ~CreateUserStatement();
-
-  const std::string &getUsername() const;
-  std::string getUsername();
-  const std::string &getPassword() const;
-  bool isWithPassword() const;
-  void setWithPassword(bool withPassword);
-
-  void accept(NodeVisitor &visitor);
-
-private:
-  std::string username_;
-  std::string password_;
-  bool withPassword_;
-};
+// Moved to ddl/ast_ddl_nodes.h
 
 // ==================== DropUserStatement ====================
-
-class DropUserStatement : public Statement {
-public:
-  DropUserStatement(const std::string &username);
-  ~DropUserStatement();
-
-  const std::string &getUsername() const;
-  std::string getUsername();
-  bool isIfExists() const;
-  void setIfExists(bool ifExists);
-
-  void accept(NodeVisitor &visitor);
-
-private:
-  std::string username_;
-  bool ifExists_;
-};
+// Moved to ddl/ast_ddl_nodes.h
 
 // ==================== GrantStatement ====================
 
@@ -1017,74 +529,6 @@ private:
   bool hasFromDb_;           // 是否有FROM子句
 };
 
-// ==================== Expression Classes ====================
-
-class IdentifierExpression : public Expression {
-public:
-  IdentifierExpression(const std::string &name);
-  ~IdentifierExpression();
-
-  const std::string &getName() const;
-  virtual std::string getTypeName() const override;
-  virtual void accept(NodeVisitor &visitor);
-  virtual ast::ExpressionType getType() const override { return ast::ExpressionType::Identifier; }
-
-private:
-  std::string name_;
-};
-
-class StringLiteralExpression : public Expression {
-public:
-  StringLiteralExpression(const std::string &value);
-  ~StringLiteralExpression();
-
-  const std::string &getValue() const;
-  virtual std::string getTypeName() const override;
-  virtual void accept(NodeVisitor &visitor);
-  virtual ast::ExpressionType getType() const override { return ast::ExpressionType::StringLiteral; }
-
-private:
-  std::string value_;
-};
-
-class NumericLiteralExpression : public Expression {
-public:
-  NumericLiteralExpression(double value);
-  ~NumericLiteralExpression();
-
-  double getValue() const;
-  virtual std::string getTypeName() const override;
-  virtual void accept(NodeVisitor &visitor);
-  virtual ast::ExpressionType getType() const override { return ast::ExpressionType::NumericLiteral; }
-
-private:
-  double value_;
-};
-
-class BooleanLiteralExpression : public Expression {
-public:
-  BooleanLiteralExpression(bool value);
-  ~BooleanLiteralExpression();
-
-  bool getValue() const;
-  virtual std::string getTypeName() const override;
-  virtual void accept(NodeVisitor &visitor);
-  virtual ast::ExpressionType getType() const override { return ast::ExpressionType::BooleanLiteral; }
-
-private:
-  bool value_;
-};
-
-class NullLiteralExpression : public Expression {
-public:
-  NullLiteralExpression();
-  ~NullLiteralExpression();
-
-  virtual std::string getTypeName() const override;
-  virtual void accept(NodeVisitor &visitor);
-  virtual ast::ExpressionType getType() const override { return ast::ExpressionType::NullLiteral; }
-};
-
 // ==================== CommitStatement ====================
 
 class CommitStatement : public Statement {
@@ -1131,27 +575,7 @@ private:
 };
 
 // ==================== CreateProcedureStatement ====================
-
-class CreateProcedureStatement : public CreateStatement {
-public:
-  CreateProcedureStatement(const std::string &name);
-  ~CreateProcedureStatement();
-
-  void addParameter(const ProcedureParameter &param);
-  const std::vector<ProcedureParameter> &getParameters() const;
-
-  void setBody(const std::string &body);
-  const std::string &getBody() const;
-
-  const std::string &getName() const;
-
-  void accept(NodeVisitor &visitor);
-
-private:
-  std::string name_;
-  std::vector<ProcedureParameter> parameters_;
-  std::string body_;
-};
+// Moved to ddl/ast_ddl_nodes.h
 
 // ==================== CallProcedureStatement ====================
 
@@ -1173,19 +597,7 @@ private:
 };
 
 // ==================== DropProcedureStatement ====================
-
-class DropProcedureStatement : public Statement {
-public:
-  DropProcedureStatement(const std::string &name);
-  ~DropProcedureStatement();
-
-  const std::string &getName() const;
-
-  void accept(NodeVisitor &visitor);
-
-private:
-  std::string name_;
-};
+// Moved to ddl/ast_ddl_nodes.h
 
 // ==================== TriggerDefinition ====================
 
@@ -1230,34 +642,10 @@ private:
 };
 
 // ==================== CreateTriggerStatement ====================
-
-class CreateTriggerStatement : public CreateStatement {
-public:
-  CreateTriggerStatement(const TriggerDefinition &triggerDef);
-  ~CreateTriggerStatement();
-
-  const TriggerDefinition &getTriggerDefinition() const;
-
-  void accept(NodeVisitor &visitor);
-
-private:
-  TriggerDefinition triggerDef_;
-};
+// Moved to ddl/ast_ddl_nodes.h
 
 // ==================== DropTriggerStatement ====================
-
-class DropTriggerStatement : public Statement {
-public:
-  DropTriggerStatement(const std::string &name);
-  ~DropTriggerStatement();
-
-  const std::string &getName() const;
-
-  void accept(NodeVisitor &visitor);
-
-private:
-  std::string name_;
-};
+// Moved to ddl/ast_ddl_nodes.h
 
 // ==================== AlterTriggerStatement ====================
 

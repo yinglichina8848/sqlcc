@@ -4,7 +4,7 @@
 
 ### 1. 当前协议架构
 - **自定义二进制协议**：基于 `// ... existing code ...
-`[network.h](/home/liying/sqlcc/include/network/network.h) 实现的私有通信协议
+`[network.h](include/network/network.h) 实现的私有通信协议
 - **核心缺陷**：
   ```cpp
   void NetworkServer::handle_client(int client_fd) {
@@ -126,9 +126,9 @@ bool AuthHandler::sha2_password_auth() {
 ### 3. 资源需求
 - **必须复用现有模块**：
   - 加密模块：`// ... existing code ...
-`[encryption.h](/home/liying/sqlcc/include/network/encryption.h)
+`[encryption.h](include/network/encryption.h)
   - 执行引擎：`// ... existing code ...
-`[unified_executor.h](/home/liying/sqlcc/include/core/unified_executor.h)
+`[unified_executor.h](src/core/unified_executor.h)
 - **新增依赖**：
   ```cmake
   # 在 CMakeLists.txt 中新增
@@ -149,4 +149,4 @@ bool AuthHandler::sha2_password_auth() {
 
 > **实施建议**：优先实现 Phase 1+2（共5周），即可支持基本的 `mysql` 命令行客户端和 JDBC 连接。关键验证点：确保通过 `// ... existing code ...
 `[test_encrypted_communication.sh](/home/liying/sqlcc/scripts/shell/test_encrypted_communication.sh) 的安全测试，同时保持与 `// ... existing code ...
-`[transaction_manager.h](/home/liying/sqlcc/include/transaction_manager.h) 的事务一致性。
+`[transaction_manager.h](src/transaction_manager.h) 的事务一致性。

@@ -152,6 +152,7 @@
 #include <vector>
 #include "ast/ast_node.h"
 #include "ast/expression.h"
+#include "ast/statement.h"
 #include "ast/node_visitor.h"
 
 namespace sqlcc {
@@ -190,11 +191,11 @@ enum class FrameBoundary {
 /**
  * @brief 窗口函数表达式节点
  */
-class WindowFunction : public Expression {
+class WindowFunction : public ast::Expression {
 private:
     FunctionType functionType_;
     std::string functionName_;
-    std::unique_ptr<Expression> expression_;
+    std::unique_ptr<ast::Expression> expression_;
     std::unique_ptr<class WindowSpecification> windowSpec_;
 
 public:
@@ -209,8 +210,8 @@ public:
     // 窗口函数特定方法
     FunctionType getFunctionType() const;
     const std::string& getFunctionName() const;
-    void setExpression(std::unique_ptr<Expression> expr);
-    Expression* getExpression() const;
+    void setExpression(std::unique_ptr<ast::Expression> expr);
+    ast::Expression* getExpression() const;
     void setWindowSpecification(std::unique_ptr<class WindowSpecification> spec);
     class WindowSpecification* getWindowSpecification() const;
 };
@@ -218,7 +219,7 @@ public:
 /**
  * @brief 窗口规格类
  */
-class WindowSpecification : public ast::Statement {
+class WindowSpecification : public Statement {
 private:
     std::vector<std::string> partitionByColumns_;
     std::vector<std::string> orderByColumns_;

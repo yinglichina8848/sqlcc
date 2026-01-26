@@ -65,7 +65,7 @@ WindowSpecification* WindowFunction::getWindowSpecification() const {
 }
 
 void WindowFunction::accept(ast::NodeVisitor& visitor) {
-    visitor.visitWindowFunction(*this);
+    visitor.visit(*this);
 }
 
 

@@ -32,10 +32,18 @@ void TokenStream::advance() {
 }
 
 bool TokenStream::check(Type type) const {
-    if (isAtEnd()) {
+    if (isAtEnd() && type != Type::END_OF_INPUT) {
         return false;
     }
     return currentToken_.getType() == type;
+}
+
+bool TokenStream::match(Type type) {
+    if (check(type)) {
+        advance();
+        return true;
+    }
+    return false;
 }
 
 void TokenStream::expect(Type type, const std::string& message) {

@@ -5,7 +5,8 @@
 namespace sqlcc {
 namespace sql_parser {
 
-class NodeVisitor;
+namespace ast { class NodeVisitor; }
+using NodeVisitor = ast::NodeVisitor;
 
 class Statement : public ASTNode {
 public:
@@ -36,6 +37,8 @@ public:
 
     explicit Statement(Type type) : type_(type) {}
     virtual ~Statement() = default;
+
+    virtual void accept(ast::NodeVisitor& visitor) = 0;
 
     Type getType() const { return type_; }
 

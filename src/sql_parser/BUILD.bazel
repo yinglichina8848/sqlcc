@@ -77,7 +77,7 @@ cc_library(
         "//src/exception:exception",
         "//src/utils:utils",
         "//include/trigger:headers",
-        "//include/storage:table_storage",
+        "//include/storage_engine:table_storage_headers",
     ],
     # 🚨 构建时验证：确保不直接依赖AST构造类
     copts = [
@@ -213,7 +213,7 @@ cc_library(
     deps = [
         "//src/exception:exception",
         "//src/utils:utils",
-        "//include/storage:headers",
+        "//include/storage_engine:headers",
         ":headers",
         ":ast",
         ":lexer",
