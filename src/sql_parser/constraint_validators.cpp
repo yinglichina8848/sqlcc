@@ -3,6 +3,27 @@
 #include <stdexcept>
 #include <unordered_set>
 
+// TableMetadata定义（包含column_index_map）
+namespace sqlcc {
+    struct TableColumn {
+        std::string name;
+        std::string type;
+        size_t size;
+        bool nullable;
+        std::string default_value;
+    };
+
+    struct TableMetadata {
+        int64_t table_id;
+        std::string table_name;
+        std::string database_name;
+        std::vector<TableColumn> columns;
+        std::unordered_map<std::string, int> column_index_map;
+        size_t record_size;
+        bool is_fixed_length;
+    };
+}
+
 namespace sqlcc {
 namespace sql_parser {
 

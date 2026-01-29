@@ -106,8 +106,10 @@
 #include <unordered_map>
 #include <vector>
 
-// Forward declaration for TableMetadata
-class TableMetadata;
+// Forward declaration for TableMetadata from storage_engine
+namespace sqlcc {
+  struct TableMetadata;
+}
 
 namespace sqlcc {
 namespace sql_parser {

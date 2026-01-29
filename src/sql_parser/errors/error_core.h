@@ -300,6 +300,10 @@ public:
      * @return JSON字符串
      */
     std::string toJson() const;
+
+private:
+    std::vector<std::unique_ptr<ParseError>> errors_;
+    std::vector<std::unique_ptr<ParseError>> warnings_;
 };
 
 } // namespace errors
