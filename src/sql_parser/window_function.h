@@ -219,7 +219,7 @@ public:
 /**
  * @brief 窗口规格类
  */
-class WindowSpecification : public Statement {
+class WindowSpecification : public ASTNode {
 private:
     std::vector<std::string> partitionByColumns_;
     std::vector<std::string> orderByColumns_;
@@ -231,7 +231,7 @@ public:
     WindowSpecification();
     ~WindowSpecification() override = default;
 
-    void accept(ast::NodeVisitor& visitor) override { /* 默认实现 */ }
+    void accept(ast::NodeVisitor& visitor) { visitor.visit(*this); }  // 移除override标记
 
     // 分区相关方法
     void setPartitionBy(std::vector<std::string> columns);

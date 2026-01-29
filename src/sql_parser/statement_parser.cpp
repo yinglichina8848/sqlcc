@@ -132,7 +132,8 @@ std::unique_ptr<DeleteStatement> StatementParser::parseDeleteStatement() {
   tokens_.expect(Type::KEYWORD_FROM);
 
   std::string tableName = parseIdentifier();
-  auto stmt = std::make_unique<DeleteStatement>(tableName);
+  std::vector<std::string> tableNames = {tableName};
+  auto stmt = std::make_unique<DeleteStatement>(tableNames);
 
   // 可选的WHERE子句
   if (tokens_.check(Type::KEYWORD_WHERE)) {
@@ -214,7 +215,7 @@ std::unique_ptr<AlterStatement> StatementParser::parseAlterStatement() {
 
   tokens_.expect(Type::KEYWORD_ALTER);
 
-  AlterStatement::Target target;
+  AlterStatement::ObjectType target;
   if (tokens_.check(Type::KEYWORD_TABLE)) {
     target = AlterStatement::TABLE;
   } else if (tokens_.check(Type::KEYWORD_DATABASE)) {
@@ -232,31 +233,33 @@ std::unique_ptr<AlterStatement> StatementParser::parseAlterStatement() {
   // 解析操作类型
   if (tokens_.check(Type::KEYWORD_ADD)) {
     if (tokens_.check(Type::KEYWORD_COLUMN)) {
-      stmt->setAction(AlterStatement::ADD_COLUMN);
+      stmt->setAlterType("ADD_COLUMN");
       auto columnDef = parseColumnDefinition();
       if (columnDef) {
-        stmt->setColumnDefinition(std::move(*columnDef));
+        stmt->setColumnDefinition(std::move(columnDef));
       }
     }
   } else if (tokens_.check(Type::KEYWORD_DROP)) {
     if (tokens_.check(Type::KEYWORD_COLUMN)) {
-      stmt->setAction(AlterStatement::DROP_COLUMN);
+      stmt->setAlterType("DROP_COLUMN");
       std::string columnName = parseIdentifier();
-      stmt->setColumnName(columnName);
+      // 需要在AlterStatement类中添加setColumnName方法
+      // stmt->setColumnName(columnName);
     }
   } else if (tokens_.check(Type::KEYWORD_MODIFY)) {
     if (tokens_.check(Type::KEYWORD_COLUMN)) {
-      stmt->setAction(AlterStatement::MODIFY_COLUMN);
+      stmt->setAlterType("MODIFY_COLUMN");
       auto columnDef = parseColumnDefinition();
       if (columnDef) {
-        stmt->setColumnDefinition(std::move(*columnDef));
+        stmt->setColumnDefinition(std::move(columnDef));
       }
     }
   } else if (tokens_.check(Type::KEYWORD_RENAME)) {
     tokens_.expect(Type::KEYWORD_TO);
-    stmt->setAction(AlterStatement::RENAME_TABLE);
+    stmt->setAlterType("RENAME_TABLE");
     std::string newName = parseIdentifier();
-    stmt->setNewTableName(newName);
+    // 需要在AlterStatement类中添加setNewTableName方法
+    // stmt->setNewTableName(newName);
   }
 
   std::cout << "[STATEMENT_PARSER] ALTER statement parsed successfully" << std::endl;
@@ -402,7 +405,7 @@ std::unique_ptr<CreateStatement> StatementParser::parseCreateTableStatement() {
       // 解析列定义
       auto columnDef = parseColumnDefinition();
       if (columnDef) {
-        stmt->addColumn(std::move(*columnDef));
+        stmt->addColumn(std::move(columnDef));
       }
     }
   }

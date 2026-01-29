@@ -67,10 +67,7 @@ public:
 
     // 测试辅助方法
     void ClearAll();
-
-#ifdef SQLCC_TEST
     void ResetForTest();
-#endif
 
     // 超时设置
     void SetOperationTimeout(int timeout_ms);
@@ -81,6 +78,9 @@ private:
     void LoadDefaultConfig();
     bool ParseConfigFile(const std::string& file_path);
     bool ParseConfigLine(const std::string& line, std::string& current_section);
+    // 新增一个内部解析方法，用于在不获取锁的情况下解析配置行
+    bool ParseConfigLineInternal(const std::string& line, std::string& current_section, 
+                                 std::unordered_map<std::string, ConfigValue>& temp_config) const;
 };
 
 } // namespace sqlcc

@@ -2,7 +2,7 @@
 #include <fstream>
 #include <cstdio>
 #include <filesystem>
-#include "utils/config_manager.h"
+#include "src/utils/config_manager.h"
 
 using sqlcc::ConfigManager;
 using namespace std::filesystem;
@@ -13,14 +13,20 @@ class ConfigManagerCoverageTest : public ::testing::Test {
 protected:
     void SetUp() override {
         // Reset singleton state for each test
+        std::cout << "SetUp: Resetting singleton state..." << std::endl;
         ConfigManager::GetInstance().ResetForTest();
 
         // Create a temporary config file for testing
         temp_config_file = "test_config.ini";
+        std::cout << "SetUp: Cleaning up temp file: " << temp_config_file << std::endl;
         CleanupTempFile();
 
         // Create test config content
+        std::cout << "SetUp: Creating config file..." << std::endl;
         std::ofstream config_file(temp_config_file);
+        if (!config_file.is_open()) {
+            std::cout << "SetUp: Failed to create config file!" << std::endl;
+        }
         config_file << "# Test configuration file\n";
         config_file << "[database]\n";
         config_file << "port=5432\n";
@@ -34,6 +40,7 @@ protected:
         config_file << "compression_level=6\n";
         config_file << "enable_logging=false\n";
         config_file.close();
+        std::cout << "SetUp: Config file created successfully!" << std::endl;
     }
 
     void TearDown() override {
@@ -55,15 +62,44 @@ TEST_F(ConfigManagerCoverageTest, LoadConfigFromFile) {
     auto& config = ConfigManager::GetInstance();
 
     // Test loading config file
+    std::cout << "Loading config file: " << temp_config_file << std::endl;
     bool result = config.LoadConfig(temp_config_file, "test");
-    EXPECT_TRUE(result);
-
+    std::cout << "LoadConfig result: " << result << std::endl;
+    
+    // 如果加载失败，直接返回，避免后续断言失败
+    if (!result) {
+        std::cout << "LoadConfig failed, skipping value checks" << std::endl;
+        EXPECT_TRUE(result); // 这会失败，但会给出明确的错误信息
+        return;
+    }
+    
     // Verify loaded values
-    EXPECT_EQ(config.GetInt("database.port"), 5432);
-    EXPECT_EQ(config.GetString("database.host"), "localhost");
-    EXPECT_EQ(config.GetInt("database.timeout"), 30000);
-    EXPECT_TRUE(config.GetBool("database.debug"));
-    EXPECT_EQ(config.GetInt("database.max_connections"), 100);
+    std::cout << "Checking database.port..." << std::endl;
+    int port = config.GetInt("database.port");
+    std::cout << "database.port = " << port << std::endl;
+    EXPECT_EQ(port, 5432);
+    
+    std::cout << "Checking database.host..." << std::endl;
+    std::string host = config.GetString("database.host");
+    std::cout << "database.host = '" << host << "'" << std::endl;
+    EXPECT_EQ(host, "localhost");
+    
+    std::cout << "Checking database.timeout..." << std::endl;
+    int timeout = config.GetInt("database.timeout");
+    std::cout << "database.timeout = " << timeout << std::endl;
+    EXPECT_EQ(timeout, 30000);
+    
+    std::cout << "Checking database.debug..." << std::endl;
+    bool debug = config.GetBool("database.debug");
+    std::cout << "database.debug = " << (debug ? "true" : "false") << std::endl;
+    EXPECT_TRUE(debug);
+    
+    std::cout << "Checking database.max_connections..." << std::endl;
+    int max_conn = config.GetInt("database.max_connections");
+    std::cout << "database.max_connections = " << max_conn << std::endl;
+    EXPECT_EQ(max_conn, 100);
+    
+    std::cout << "Test completed successfully!" << std::endl;
 }
 
 // Test configuration value type conversions

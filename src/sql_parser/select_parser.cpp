@@ -74,7 +74,7 @@ void SelectParser::parseSelectClause(SelectStatement& stmt) {
       first = false;
 
       std::string selectItem = parseSelectItem();
-      stmt.addSelectColumn(selectItem);
+      stmt.addSelectColumn(std::make_unique<IdentifierExpression>(selectItem));
       std::cout << "[SELECT_PARSER] Added select column: " << selectItem << std::endl;
     }
   }

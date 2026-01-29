@@ -323,7 +323,7 @@ public:
 
   bool hasColumnNames() const;
 
-  void accept(NodeVisitor &visitor);
+  void accept(NodeVisitor &visitor) override;
 
 private:
   std::string viewName_;
@@ -347,7 +347,7 @@ public:
   bool isIfExists() const;
   void setIfExists(bool ifExists);
 
-  void accept(NodeVisitor &visitor);
+  void accept(NodeVisitor &visitor) override;
 
 private:
   std::string viewName_;
@@ -385,7 +385,7 @@ public:
   size_t getOperationCount() const { return operations_.size(); }
   bool hasSetOperations() const { return !operations_.empty(); }
 
-  void accept(NodeVisitor &visitor);
+  void accept(NodeVisitor &visitor) override;
 
 private:
   std::vector<std::unique_ptr<SelectStatement>> selectStatements_;
@@ -417,7 +417,7 @@ public:
   const std::string &getDatabaseName() const;
   std::string getDatabaseName();
 
-  void accept(NodeVisitor &visitor);
+  void accept(NodeVisitor &visitor) override;
 
 private:
   std::string databaseName_;
@@ -455,7 +455,7 @@ public:
   const std::string &getGrantee() const;
   std::string getGrantee();
 
-  void accept(NodeVisitor &visitor);
+  void accept(NodeVisitor &visitor) override;
 
 private:
   std::vector<std::string> privileges_;
@@ -484,7 +484,7 @@ public:
   const std::string &getGrantee() const;
   std::string getGrantee();
 
-  void accept(NodeVisitor &visitor);
+  void accept(NodeVisitor &visitor) override;
 
 private:
   std::vector<std::string> privileges_;
@@ -520,7 +520,7 @@ public:
   const std::string &getFromDatabase() const;
   bool hasFromDatabase() const;
 
-  void accept(NodeVisitor &visitor);
+  void accept(NodeVisitor &visitor) override;
 
 private:
   ShowType type_;
@@ -536,7 +536,7 @@ public:
   CommitStatement();
   ~CommitStatement();
 
-  void accept(NodeVisitor &visitor);
+  void accept(NodeVisitor &visitor) override;
 
 private:
 };
@@ -548,7 +548,19 @@ public:
   RollbackStatement();
   ~RollbackStatement();
 
-  void accept(NodeVisitor &visitor);
+  void accept(NodeVisitor &visitor) override;
+
+private:
+};
+
+// ==================== BeginStatement ====================
+
+class BeginStatement : public Statement {
+public:
+  BeginStatement();
+  ~BeginStatement();
+
+  void accept(NodeVisitor &visitor) override;
 
 private:
 };

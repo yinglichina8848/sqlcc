@@ -26,6 +26,17 @@
 #include <iostream>
 #include <stdexcept>
 #include <string>
+#include <type_traits>
+
+// 前向声明所需类型
+namespace sqlcc {
+namespace sql_parser {
+class Parser;
+class ExpressionParser;
+class TokenStream;
+class Expression;
+} // namespace sql_parser
+} // namespace sqlcc
 
 // ============================================================================
 // 🛡️ 架构安全宏定义 - 防止架构违规
@@ -70,11 +81,11 @@
 #define EXPRESSION_PARSER_CHECK() \
     do { \
         /* 编译时检查：验证ExpressionParser类型存在 */ \
-        static_assert(sizeof(ExpressionParser) > 0, \
+        static_assert(!std::is_void_v<ExpressionParser>, \
                       "ExpressionParser must be implemented for expression parsing"); \
         \
         /* 编译时检查：验证TokenStream类型存在 */ \
-        static_assert(sizeof(TokenStream) > 0, \
+        static_assert(!std::is_void_v<TokenStream>, \
                       "TokenStream must be available for ExpressionParser"); \
         \
         /* 运行时日志：记录检查通过 */ \
@@ -154,14 +165,14 @@ ARCHITECTURE_SAFETY_ASSERT(std::is_final_v<Parser>,
     "Parser class must be final to prevent inheritance-based architecture bypass");
 
 // 编译时验证：Expression类型必须存在
-ARCHITECTURE_SAFETY_ASSERT(sizeof(Expression) > 0,
+ARCHITECTURE_SAFETY_ASSERT(!std::is_void_v<Expression>,
     "Expression type must exist for type safety checks");
 
 // 编译时验证：关键类型必须可用
-ARCHITECTURE_SAFETY_ASSERT(sizeof(TokenStream) > 0,
+ARCHITECTURE_SAFETY_ASSERT(!std::is_void_v<TokenStream>,
     "TokenStream must be available for ExpressionParser integration");
 
-ARCHITECTURE_SAFETY_ASSERT(sizeof(ExpressionParser) > 0,
+ARCHITECTURE_SAFETY_ASSERT(!std::is_void_v<ExpressionParser>,
     "ExpressionParser must be available for expression parsing");
 
 /**
@@ -177,16 +188,16 @@ inline void validateArchitectureConstraints() {
         throw std::runtime_error("ARCHITECTURE VIOLATION: Parser class must be final");
     }
 
-    // 检查关键类型是否存在
-    if constexpr (sizeof(Expression) == 0) {
+    // 检查关键类型是否存在（使用类型特征而不是sizeof）
+    if constexpr (std::is_void_v<Expression>) {
         throw std::runtime_error("ARCHITECTURE VIOLATION: Expression type missing");
     }
 
-    if constexpr (sizeof(TokenStream) == 0) {
+    if constexpr (std::is_void_v<TokenStream>) {
         throw std::runtime_error("ARCHITECTURE VIOLATION: TokenStream type missing");
     }
 
-    if constexpr (sizeof(ExpressionParser) == 0) {
+    if constexpr (std::is_void_v<ExpressionParser>) {
         throw std::runtime_error("ARCHITECTURE VIOLATION: ExpressionParser type missing");
     }
 

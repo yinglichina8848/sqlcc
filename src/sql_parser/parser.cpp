@@ -97,7 +97,7 @@ std::unique_ptr<Statement> Parser::parseStatement() {
 
     // DML Statements
     if (tokenStream_.check(Type::KEYWORD_SELECT)) {
-        auto node = dml_parser_->parseSelectStatement();
+        auto node = dml_parser_->parseCompositeSelectStatement();
         return std::unique_ptr<Statement>(static_cast<Statement*>(node.release()));
     }
     if (tokenStream_.check(Type::KEYWORD_INSERT)) {

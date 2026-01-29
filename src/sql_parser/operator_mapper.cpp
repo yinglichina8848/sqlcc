@@ -4,40 +4,40 @@
 namespace sqlcc {
 namespace sql_parser {
 
-OperatorKind tokenToOperatorKind(Token::Type type) {
+OperatorKind tokenToOperatorKind(Type type) {
   switch (type) {
     // Arithmetic operators
-    case Token::Type::OPERATOR_PLUS:
+    case Type::OPERATOR_PLUS:
       return OperatorKind::Add;
-    case Token::Type::OPERATOR_MINUS:
+    case Type::OPERATOR_MINUS:
       return OperatorKind::Subtract;
-    case Token::Type::OPERATOR_MULTIPLY:
+    case Type::OPERATOR_MULTIPLY:
       return OperatorKind::Multiply;
-    case Token::Type::OPERATOR_DIVIDE:
+    case Type::OPERATOR_DIVIDE:
       return OperatorKind::Divide;
 
     // Comparison operators
-    case Token::Type::OPERATOR_EQUAL:
+    case Type::OPERATOR_EQUAL:
       return OperatorKind::Equal;
-    case Token::Type::OPERATOR_NOT_EQUAL:
+    case Type::OPERATOR_NOT_EQUAL:
       return OperatorKind::NotEqual;
-    case Token::Type::OPERATOR_LESS_THAN:
+    case Type::OPERATOR_LESS_THAN:
       return OperatorKind::Less;
-    case Token::Type::OPERATOR_LESS_EQUAL:
+    case Type::OPERATOR_LESS_EQUAL:
       return OperatorKind::LessEqual;
-    case Token::Type::OPERATOR_GREATER_THAN:
+    case Type::OPERATOR_GREATER_THAN:
       return OperatorKind::Greater;
-    case Token::Type::OPERATOR_GREATER_EQUAL:
+    case Type::OPERATOR_GREATER_EQUAL:
       return OperatorKind::GreaterEqual;
 
     // Logical operators
-    case Token::Type::KEYWORD_AND:
+    case Type::KEYWORD_AND:
       return OperatorKind::And;
-    case Token::Type::KEYWORD_OR:
+    case Type::KEYWORD_OR:
       return OperatorKind::Or;
 
     // Unary operators
-    case Token::Type::KEYWORD_NOT:
+    case Type::KEYWORD_NOT:
       return OperatorKind::Not;
 
     default:

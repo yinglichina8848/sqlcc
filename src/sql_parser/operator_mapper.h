@@ -1,4 +1,5 @@
-#pragma once
+#ifndef SQLCC_SQL_PARSER_OPERATOR_MAPPER_H
+#define SQLCC_SQL_PARSER_OPERATOR_MAPPER_H
 
 #include "token.h"
 #include "operator_kind.h"
@@ -16,7 +17,7 @@ namespace sql_parser {
  * @return 对应的OperatorKind
  * @throws std::runtime_error 当Token类型不支持映射时
  */
-OperatorKind tokenToOperatorKind(Token::Type type);
+OperatorKind tokenToOperatorKind(Type type);
 
 /**
  * @brief 获取操作符优先级

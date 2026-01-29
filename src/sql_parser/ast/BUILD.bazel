@@ -23,6 +23,9 @@ cc_library(
         "literal_expressions.h",
         "identifier_expression.h",
         "function_call_expression.h",
+        "operator_kind.h",
+        "dml/ast_dml_nodes.h",
+        "ddl/ast_ddl_nodes.h",
     ],
     visibility = ["//visibility:public"],
 )
@@ -38,6 +41,7 @@ cc_library(
         "source_location.cpp",
         "view_statements.cpp",
         "binary_expression.cpp",
+        "dml/ast_dml_nodes.cpp",
     ],
     hdrs = [
         "ast_node.h",
@@ -51,12 +55,14 @@ cc_library(
         "ast_fwd.h",
         "source_location.h",
         "binary_expression.h",
+        "dml/ast_dml_nodes.h",
+        "ddl/ast_ddl_nodes.h",
     ],
     deps = [
         ":ast_headers",
         "//include/storage_engine:headers",
         "//src/exception:exception",
-        "//src/sql_parser:headers",  # 添加对上级模块头文件的依赖
+        "//src/sql_parser:common_ast",  # 依赖核心模块的共通AST
     ],
     visibility = ["//visibility:public"],
 )

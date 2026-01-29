@@ -18,32 +18,65 @@ namespace sql_parser {
 
 // ==================== WhereClause ====================
 
-WhereClause::WhereClause(const std::string &columnName, const std::string &op,
-                         const std::string &value)
-    : columnName_(columnName), op_(op), value_(value) {}
+WhereClause::WhereClause(std::unique_ptr<Expression> condition)
+    : condition_(std::move(condition)) {}
 
 WhereClause::~WhereClause() {}
 
-const std::string &WhereClause::getColumnName() const { return columnName_; }
-
-const std::string &WhereClause::getOp() const { return op_; }
-
-const std::string &WhereClause::getValue() const { return value_; }
+void WhereClause::setCondition(std::unique_ptr<Expression> condition) {
+    condition_ = std::move(condition);
+}
 
 // ==================== SelectStatement ====================
 
 SelectStatement::SelectStatement()
-    : Statement(SELECT), joinCondition_(""), limit_(-1), offset_(0),
-      selectAll_(false), distinct_(false), hasLimit_(false), hasOffset_(false) {}
+    : Statement(SELECT), distinct_(false), selectAll_(false) {}
 
 SelectStatement::~SelectStatement() {}
+
+void SelectStatement::setSelectList(std::vector<std::unique_ptr<Expression>> selectList) {
+    selectList_ = std::move(selectList);
+}
+
+void SelectStatement::setWhereClause(std::unique_ptr<WhereClause> where) {
+    whereClause_ = std::move(where);
+}
+
+void SelectStatement::setJoinClauses(std::vector<std::unique_ptr<JoinClause>> joins) {
+    joinClauses_ = std::move(joins);
+}
+
+void SelectStatement::setGroupBy(std::vector<std::unique_ptr<Expression>> groupBy) {
+    groupBy_ = std::move(groupBy);
+}
+
+void SelectStatement::setHaving(std::unique_ptr<Expression> having) {
+    having_ = std::move(having);
+}
+
+void SelectStatement::setOrderBy(std::vector<std::unique_ptr<Expression>> orderBy) {
+    orderBy_ = std::move(orderBy);
+}
 
 void SelectStatement::addJoinClause(std::unique_ptr<JoinClause> join) {
   joinClauses_.push_back(std::move(join));
 }
 
-void SelectStatement::accept(NodeVisitor &visitor) {
+void SelectStatement::accept(ast::NodeVisitor &visitor) {
   visitor.visit(*this);
+}
+
+void SelectStatement::addGroupByColumn(const std::string &column) {
+  groupBy_.push_back(std::make_unique<IdentifierExpression>(column));
+}
+
+void SelectStatement::setOrderByColumn(const std::string &column) {
+  orderBy_.clear();
+  orderBy_.push_back(std::make_unique<IdentifierExpression>(column));
+}
+
+void SelectStatement::setOrderDirection(const std::string &direction) {
+  orderDirection_ = direction;
 }
 
 // ==================== InsertStatement ====================
@@ -53,28 +86,34 @@ InsertStatement::InsertStatement(const std::string &tableName)
 
 InsertStatement::~InsertStatement() {}
 
-void InsertStatement::accept(NodeVisitor &visitor) {
+void InsertStatement::accept(ast::NodeVisitor &visitor) {
   visitor.visit(*this);
 }
 
-void InsertStatement::setColumnNames(const std::vector<std::string> &columnNames) {
-  columnNames_ = columnNames;
+void InsertStatement::addValue(const std::string &value) {
+  // 确保至少有一行
+  if (values_.empty()) {
+    values_.emplace_back();
+  }
+  // 添加值到当前行
+  values_.back().push_back(std::make_unique<StringLiteralExpression>(value));
 }
 
-void InsertStatement::setValues(const std::vector<std::string> &values) {
-  values_ = values;
+void InsertStatement::finishRow() {
+  // 准备新的一行
+  values_.emplace_back();
 }
 
-const std::string &InsertStatement::getTableName() const {
-  return tableName_;
+void InsertStatement::setValues(std::vector<std::vector<std::unique_ptr<Expression>>> values) {
+  values_ = std::move(values);
 }
 
-const std::vector<std::string> &InsertStatement::getColumnNames() const {
-  return columnNames_;
+void InsertStatement::setSelectStatement(std::unique_ptr<SelectStatement> select) {
+    selectStatement_ = std::move(select);
 }
 
-const std::vector<std::string> &InsertStatement::getValues() const {
-  return values_;
+void InsertStatement::addColumn(const std::string &column) {
+    columnNames_.push_back(column);
 }
 
 // ==================== UpdateStatement ====================
@@ -84,14 +123,22 @@ UpdateStatement::UpdateStatement(const std::string &tableName)
 
 UpdateStatement::~UpdateStatement() {}
 
-void UpdateStatement::accept(NodeVisitor &visitor) {
+void UpdateStatement::accept(ast::NodeVisitor &visitor) {
   visitor.visit(*this);
+}
+
+void UpdateStatement::setAssignments(std::vector<std::pair<std::string, std::unique_ptr<Expression>>> assignments) {
+    assignments_ = std::move(assignments);
+}
+
+void UpdateStatement::setWhereClause(std::unique_ptr<WhereClause> where) {
+    whereClause_ = std::move(where);
 }
 
 // ==================== DeleteStatement ====================
 
-DeleteStatement::DeleteStatement(const std::string &tableName)
-    : Statement(DELETE), tableName_(tableName) {}
+DeleteStatement::DeleteStatement(const std::vector<std::string> &tableNames)
+    : Statement(DELETE), tableNames_(tableNames) {}
 
 DeleteStatement::~DeleteStatement() {}
 
@@ -103,47 +150,17 @@ void DeleteStatement::setWhereClause(std::unique_ptr<WhereClause> whereClause) {
   whereClause_ = std::move(whereClause);
 }
 
-const std::string &DeleteStatement::getTableName() const {
-  return tableName_;
-}
-
-const WhereClause *DeleteStatement::getWhereClause() const {
-  return whereClause_.get();
-}
-
 // ==================== JoinClause ====================
 
 JoinClause::JoinClause(JoinType type, const std::string &tableName,
                        std::unique_ptr<Expression> condition)
-    : type_(type), tableName_(tableName), condition_(std::move(condition)) {}
+    : tableName_(tableName), type_(type), condition_(std::move(condition)) {}
 
 JoinClause::~JoinClause() {}
 
-JoinClause::JoinType JoinClause::getType() const { return type_; }
-
-const std::string &JoinClause::getTableName() const { return tableName_; }
-
-const Expression *JoinClause::getCondition() const { return condition_.get(); }
-
-// ==================== SetOperation ====================
-
-SetOperation::SetOperation(SetOperationType type,
-                           std::unique_ptr<SelectStatement> left,
-                           std::unique_ptr<SelectStatement> right)
-    : Statement(SET_OPERATION), type_(type), left_(std::move(left)),
-      right_(std::move(right)) {}
-
-SetOperation::~SetOperation() {}
-
-void SetOperation::accept(NodeVisitor &visitor) {
-  visitor.visit(*this);
+void JoinClause::setCondition(std::unique_ptr<Expression> condition) {
+    condition_ = std::move(condition);
 }
-
-SetOperationType SetOperation::getType() const { return type_; }
-
-const SelectStatement *SetOperation::getLeft() const { return left_.get(); }
-
-const SelectStatement *SetOperation::getRight() const { return right_.get(); }
 
 } // namespace sql_parser
 } // namespace sqlcc

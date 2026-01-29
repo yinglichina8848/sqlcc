@@ -172,6 +172,22 @@ pkg_tar(
 )
 
 # ==================== 测试配置文件 ====================
-
 # 注意：测试配置文件已在子包中定义
 # 如果需要特定的测试配置，请在相应子包中定义
+
+# 测试并发访问ConfigManager以验证死锁修复
+cc_test(
+    name = "deadlock_fix_test",
+    srcs = ["deadlock_fix_test.cpp"],
+    deps = [
+        "//src/utils:utils",
+        "@com_google_googletest//:gtest_main",
+    ],
+    copts = [
+        "-std=c++20",
+        "-pthread",
+    ],
+    linkopts = [
+        "-pthread",
+    ],
+)

@@ -196,7 +196,7 @@ public:
      * @brief 接受访问者
      * @param visitor 访问者对象
      */
-    void accept(NodeVisitor& visitor);
+    void accept(NodeVisitor& visitor) override;
 
 private:
     std::string cte_name_;                           ///< CTE名称

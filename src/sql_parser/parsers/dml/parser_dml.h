@@ -18,28 +18,38 @@
 
 #include "../parser_core.h"
 #include "../../ast/ast_node.h"
-#include "../../select_parser.h"
+#include "../../ast/dml/ast_dml_nodes.h"
+#include "../../ast/expression.h"
+#include "../../set_operation.h"
+#include "../../select_parser_fwd.h"
+
+// 前向声明
+class SelectParser;
 
 namespace sqlcc {
 namespace sql_parser {
 
 class ParserDML : public ParserCore {
-private:
-    std::unique_ptr<SelectParser> select_parser_;
-
 public:
     ParserDML(TokenStream& tokens);
     
+    /**
+     * @brief 析构函数
+     */
+    ~ParserDML();
+    
     // DML语句解析方法
-    std::unique_ptr<ASTNode> parseSelectStatement();
+    std::unique_ptr<SelectStatement> parseSelectStatement();
     std::unique_ptr<ASTNode> parseInsertStatement();
     std::unique_ptr<ASTNode> parseUpdateStatement();
     std::unique_ptr<ASTNode> parseDeleteStatement();
+    std::unique_ptr<ASTNode> parseCompositeSelectStatement();
     
     // DML辅助解析方法
     std::unique_ptr<WhereClause> parseWhereClause();
     std::unique_ptr<JoinClause> parseJoinClause();
     std::unique_ptr<SetOperation> parseSetOperation();
+    SetOperationType parseSetOperationType();
     
     // INSERT语句辅助方法
     std::vector<std::string> parseInsertColumnNames();
@@ -51,6 +61,10 @@ public:
     
     // DELETE语句辅助方法
     std::vector<std::string> parseDeleteTableNames();
+
+private:
+    class Impl;  // 使用PIMPL模式隐藏实现细节
+    std::unique_ptr<Impl> impl_;  ///< 实现类指针
 };
 
 } // namespace sql_parser

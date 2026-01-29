@@ -13,15 +13,34 @@
 #include "../../token.h"
 #include "../../ast/ast_nodes.h"
 #include "../../select_parser.h"
+#include "../../expression_parser.h"
 #include <iostream>
 #include <stdexcept>
 
 namespace sqlcc {
 namespace sql_parser {
 
-ParserDML::ParserDML(TokenStream& tokens) : ParserCore(tokens) {
+// PIMPL实现类
+class ParserDML::Impl {
+public:
+    explicit Impl(TokenStream& tokens) 
+        : expr_parser_(tokens), select_parser_(tokens, expr_parser_) {}
+    
+    std::unique_ptr<SelectStatement> parseSelectStatement() {
+        std::cout << "[PARSER DEBUG] parseSelectStatement() called" << std::endl;
+        return select_parser_.parse();
+    }
+    
+private:
+    ExpressionParser expr_parser_;
+    SelectParser select_parser_;
+};
+
+ParserDML::ParserDML(TokenStream& tokens) : ParserCore(tokens), impl_(std::make_unique<Impl>(tokens)) {
     // 初始化DML解析器
 }
+
+ParserDML::~ParserDML() = default;
 
 // ==================== INSERT语句解析 ====================
 
@@ -57,7 +76,6 @@ std::unique_ptr<ASTNode> ParserDML::parseInsertStatement() {
     consume(Type::KEYWORD_VALUES);
     consume(Type::LPAREN);
     
-    std::vector<std::string> values;
     bool firstValue = true;
     
     while (!check(Type::RPAREN) && !isAtEnd()) {
@@ -66,22 +84,15 @@ std::unique_ptr<ASTNode> ParserDML::parseInsertStatement() {
         }
         firstValue = false;
         
-        std::string value;
-        if (check(Type::STRING_LITERAL)) {
-            value = current().getLexeme();
-            advance();
-        } else if (check(Type::INTEGER_LITERAL)) {
-            value = current().getLexeme();
+        if (check(Type::STRING_LITERAL) || check(Type::INTEGER_LITERAL)) {
+            stmt->addValue(current().getLexeme());
             advance();
         } else {
             throw std::runtime_error("Expected string or integer literal in VALUES clause");
         }
-        
-        values.push_back(value);
     }
     
     consume(Type::RPAREN);
-    stmt->setValues(values);
     
     return stmt;
 }
@@ -101,27 +112,14 @@ std::unique_ptr<ASTNode> ParserDML::parseDeleteStatement() {
     consume(Type::KEYWORD_FROM);
     
     std::string tableName = parseIdentifier();
-    auto stmt = std::make_unique<DeleteStatement>(tableName);
+    std::vector<std::string> tableNames = {tableName};
+    auto stmt = std::make_unique<DeleteStatement>(tableNames);
     
     // 解析WHERE子句（可选）
     if (match(Type::KEYWORD_WHERE)) {
-        std::string columnName = parseIdentifier();
-        std::string op = current().getLexeme();
-        advance(); // 消费操作符
-        
-        std::string value;
-        if (check(Type::STRING_LITERAL)) {
-            value = current().getLexeme();
-            advance();
-        } else if (check(Type::INTEGER_LITERAL)) {
-            value = current().getLexeme();
-            advance();
-        } else {
-            throw std::runtime_error("Expected string or integer literal in WHERE clause");
-        }
-        
-        auto whereClause = std::make_unique<WhereClause>(columnName, op, value);
-        stmt->setWhereClause(std::move(whereClause));
+        // 临时方案：暂时注释WHERE子句解析，待完整实现Expression架构
+        // TODO: 实现基于Expression的WHERE子句解析
+        throw std::runtime_error("WHERE clause parsing not yet adapted to new Expression architecture");
     }
     
     return stmt;
@@ -129,12 +127,9 @@ std::unique_ptr<ASTNode> ParserDML::parseDeleteStatement() {
 
 // ==================== SELECT语句解析 ====================
 
-std::unique_ptr<ASTNode> ParserDML::parseSelectStatement() {
-    std::cout << "[PARSER DEBUG] parseSelectStatement() called" << std::endl;
-    
-    // 委托给SelectParser处理
-    SelectParser selectParser(tokens_);
-    return selectParser.parse();
+std::unique_ptr<SelectStatement> ParserDML::parseSelectStatement() {
+    std::cout << "[PARSER DEBUG] ParserDML::parseSelectStatement() called" << std::endl;
+    return impl_->parseSelectStatement();
 }
 
 std::unique_ptr<ASTNode> ParserDML::parseCompositeSelectStatement() {
@@ -144,13 +139,32 @@ std::unique_ptr<ASTNode> ParserDML::parseCompositeSelectStatement() {
     SetOperationType op = parseSetOperationType();
     if (op == SetOperationType::NONE) return left;
 
-    consume(Type::KEYWORD_ALL); // Optional ALL
+    bool all = match(Type::KEYWORD_ALL);
 
     auto right = parseSelectStatement();
     if (!right) return nullptr;
 
-    auto setOp = std::make_unique<SetOperation>(op, std::move(left), std::move(right));
+    auto setOp = std::make_unique<SetOperation>(op, std::move(left), std::move(right), all);
     return setOp;
+}
+
+SetOperationType ParserDML::parseSetOperationType() {
+    if (match(Type::KEYWORD_UNION)) return SetOperationType::UNION;
+    if (match(Type::KEYWORD_INTERSECT)) return SetOperationType::INTERSECT;
+    if (match(Type::KEYWORD_EXCEPT)) return SetOperationType::EXCEPT;
+    return SetOperationType::NONE;
+}
+
+std::unique_ptr<SetOperation> ParserDML::parseSetOperation() {
+    auto node = parseCompositeSelectStatement();
+    // 尝试将 ASTNode 转换为 SetOperation
+    if (auto setOp = dynamic_cast<SetOperation*>(node.get())) {
+        // 由于 node 是 unique_ptr，我们不能直接 release 并返回，
+        // 且 parseCompositeSelectStatement 可能返回 SelectStatement。
+        // 这里简化处理，如果确实需要 SetOperation，调用方应该知道。
+        // 但由于接口限制，这里可能需要重构。
+    }
+    return nullptr; // 临时占位，待进一步处理
 }
 
 } // namespace sql_parser

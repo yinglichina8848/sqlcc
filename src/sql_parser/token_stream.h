@@ -110,8 +110,16 @@ public:
      */
     bool isAtEnd() const;
 
+public:
+    /**
+     * @brief 获取前一个token
+     * @return 前一个处理过的token
+     */
+    const Token& previous() const;
+
 private:
     Lexer& lexer_;              ///< 词法分析器引用
+    Token previousToken_;       ///< 前一个处理过的token
     Token currentToken_;        ///< 当前正在处理的token
     Token lookaheadToken_;      ///< 缓存的前瞻token
     bool hasLookahead_;         ///< 是否有缓存的前瞻token

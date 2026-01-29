@@ -50,7 +50,13 @@ std::unique_ptr<ASTNode> ParserDCL::parseGrantStatement() {
     // 解析用户名
     std::string userName = parseIdentifier();
     
-    auto stmt = std::make_unique<GrantStatement>(privileges, objectType, objectName, userName);
+    auto stmt = std::make_unique<GrantStatement>();
+    for (const auto& privilege : privileges) {
+        stmt->addPrivilege(privilege);
+    }
+    stmt->setObjectType(objectType);
+    stmt->setObjectName(objectName);
+    stmt->setGrantee(userName);
     
     return stmt;
 }
@@ -87,7 +93,13 @@ std::unique_ptr<ASTNode> ParserDCL::parseRevokeStatement() {
     // 解析用户名
     std::string userName = parseIdentifier();
     
-    auto stmt = std::make_unique<RevokeStatement>(privileges, objectType, objectName, userName);
+    auto stmt = std::make_unique<RevokeStatement>();
+    for (const auto& privilege : privileges) {
+        stmt->addPrivilege(privilege);
+    }
+    stmt->setObjectType(objectType);
+    stmt->setObjectName(objectName);
+    stmt->setGrantee(userName);
     
     return stmt;
 }

@@ -11,6 +11,7 @@
 
 #include "../ast/ast_node.h"
 #include "../ast/statement.h"
+#include "../ast/expression.h"
 #include <memory>
 #include <string>
 #include <vector>

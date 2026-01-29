@@ -147,7 +147,7 @@ class DropStatement : public Statement {
 public:
     enum ObjectType { DATABASE, TABLE, INDEX, VIEW, PROCEDURE, TRIGGER, USER };
 
-    DropStatement(ObjectType objectType, const std::string &objectName);
+    DropStatement(ObjectType objectType, const std::string &objectName = "");
     ~DropStatement() override;
     
     void accept(NodeVisitor &visitor) override;
@@ -250,9 +250,13 @@ public:
     void accept(NodeVisitor &visitor) override;
 
     const std::string &getUserName() const { return userName_; }
+    bool isIfExists() const { return ifExists_; }
+    
+    void setIfExists(bool ifExists) { ifExists_ = ifExists; }
 
 private:
     std::string userName_;
+    bool ifExists_ = false;
 };
 
 // ==================== Procedure Management ====================
