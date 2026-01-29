@@ -76,6 +76,7 @@ public:
 private:
     // 私有辅助方法
     void LoadDefaultConfig();
+    void LoadDefaultConfigInternal(std::unordered_map<std::string, ConfigValue>& temp_config);
     bool ParseConfigFile(const std::string& file_path);
     bool ParseConfigLine(const std::string& line, std::string& current_section);
     // 新增一个内部解析方法，用于在不获取锁的情况下解析配置行

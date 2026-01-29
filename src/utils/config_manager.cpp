@@ -171,6 +171,14 @@ bool ConfigManager::ReloadConfig(const std::string& new_config_path) {
 }
 
 // 加载默认配置
+// 内部加载默认配置，不获取锁
+void ConfigManager::LoadDefaultConfigInternal(std::unordered_map<std::string, ConfigValue>& temp_config) {
+  temp_config["buffer_pool.read_lock_timeout_ms"] = 2000;
+  temp_config["buffer_pool.write_lock_timeout_ms"] = 5000;
+  temp_config["buffer_pool.default_lock_timeout_ms"] = 3000;
+  operation_timeout_ms_ = kDefaultOperationTimeoutMs;
+}
+
 void ConfigManager::LoadDefaultConfig() {
   // 设置默认配置值
   std::lock_guard<std::mutex> lock(config_mutex_);
@@ -188,13 +196,15 @@ bool ConfigManager::ParseConfigFile(const std::string& file_path) {
   if (!file.is_open()) {
     std::cout << "ParseConfigFile: File not found, loading default config" << std::endl;
     // 文件不存在时加载默认配置
-    // 注意：这里不能调用LoadDefaultConfig，因为它会尝试获取锁，而当前方法可能已经在锁内被调用
-    // 直接在这里设置默认配置值
+    // 使用临时配置映射来避免在持有锁期间进行SetValue调用
+    std::unordered_map<std::string, ConfigValue> temp_config;
+    LoadDefaultConfigInternal(temp_config);  // 使用内部方法，不获取锁
+    
+    // 在持有锁的情况下一次性应用所有配置
     std::lock_guard<std::mutex> lock(config_mutex_);
-    config_map_["buffer_pool.read_lock_timeout_ms"] = 2000;
-    config_map_["buffer_pool.write_lock_timeout_ms"] = 5000;
-    config_map_["buffer_pool.default_lock_timeout_ms"] = 3000;
-    operation_timeout_ms_ = kDefaultOperationTimeoutMs;
+    for (const auto& [key, value] : temp_config) {
+      config_map_[key] = value;
+    }
     return true;
   }
 
@@ -297,29 +307,12 @@ bool ConfigManager::ParseConfigLine(const std::string& line, std::string& curren
     
     std::cout << "ParseConfigLine: Setting full key: '" << full_key << "'" << std::endl;
     
-    // 尝试解析值类型
+    // 创建临时配置映射来处理配置行
+    std::unordered_map<std::string, ConfigValue> temp_config;
+    
+    // 尝试解析值类型 - 使用内部方法，不直接访问config_map_
     try {
-      // 尝试解析为整数
-      if (value.find('.') == std::string::npos) {
-        size_t end_pos;
-        int int_val = std::stoi(value, &end_pos);
-        if (end_pos == value.length()) {
-          std::cout << "ParseConfigLine: Setting integer value: " << int_val << std::endl;
-          return SetValue(full_key, int_val);
-        }
-      }
-      
-      // 尝试解析为浮点数
-      if (value.find('.') != std::string::npos) {
-        size_t end_pos;
-        double double_val = std::stod(value, &end_pos);
-        if (end_pos == value.length()) {
-          std::cout << "ParseConfigLine: Setting double value: " << double_val << std::endl;
-          return SetValue(full_key, double_val);
-        }
-      }
-      
-      // 尝试解析为布尔值
+      // 尝试解析为布尔值（首先检查，避免将true/false误认为数字）
       std::string lower_value = value;
       std::transform(lower_value.begin(), lower_value.end(), lower_value.begin(), ::tolower);
       if (lower_value == "true" || lower_value == "false" || 
@@ -329,18 +322,50 @@ bool ConfigManager::ParseConfigLine(const std::string& line, std::string& curren
         bool bool_val = (lower_value == "true" || lower_value == "yes" || 
                         lower_value == "on" || lower_value == "1");
         std::cout << "ParseConfigLine: Setting boolean value: " << (bool_val ? "true" : "false") << std::endl;
-        return SetValue(full_key, bool_val);
+        temp_config[full_key] = bool_val;
       }
-      
+      // 尝试解析为整数
+      else if (value.find('.') == std::string::npos) {
+        size_t end_pos;
+        int int_val = std::stoi(value, &end_pos);
+        if (end_pos == value.length()) {
+          std::cout << "ParseConfigLine: Setting integer value: " << int_val << std::endl;
+          temp_config[full_key] = int_val;
+        } else {
+          // 解析失败，作为字符串处理
+          temp_config[full_key] = value;
+        }
+      }
+      // 尝试解析为浮点数
+      else if (value.find('.') != std::string::npos) {
+        size_t end_pos;
+        double double_val = std::stod(value, &end_pos);
+        if (end_pos == value.length()) {
+          std::cout << "ParseConfigLine: Setting double value: " << double_val << std::endl;
+          temp_config[full_key] = double_val;
+        } else {
+          // 解析失败，作为字符串处理
+          temp_config[full_key] = value;
+        }
+      }
       // 默认为字符串
-      std::cout << "ParseConfigLine: Setting string value: '" << value << "'" << std::endl;
-      return SetValue(full_key, value);
-      
+      else {
+        std::cout << "ParseConfigLine: Setting string value: '" << value << "'" << std::endl;
+        temp_config[full_key] = value;
+      }
     } catch (const std::exception& e) {
       std::cout << "ParseConfigLine: Exception caught: " << e.what() << std::endl;
       // 解析失败，作为字符串处理
-      return SetValue(full_key, value);
+      temp_config[full_key] = value;
     }
+    
+    // 在持有锁的情况下一次性应用配置
+    std::lock_guard<std::mutex> lock(config_mutex_);
+    for (const auto& [key, val] : temp_config) {
+      config_map_[key] = val;
+    }
+    
+    return true;
   }
   
   std::cout << "ParseConfigLine: Skipping invalid line" << std::endl;

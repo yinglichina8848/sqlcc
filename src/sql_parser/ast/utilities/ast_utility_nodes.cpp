@@ -8,8 +8,8 @@
  * - 其他辅助节点（UseStatement, ShowStatement, LoadDataStatement）
  */
 
-#include "ast_node.h"
-#include "ast_nodes.h"
+#include "../ast_node.h"
+#include "../ast_nodes.h"
 #include <iostream>
 
 namespace sqlcc {

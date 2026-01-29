@@ -26,6 +26,11 @@ cc_library(
         "operator_kind.h",
         "dml/ast_dml_nodes.h",
         "ddl/ast_ddl_nodes.h",
+        "utilities/ast_utility_nodes.h",
+        "expressions/ast_expression_nodes.h",
+    ],
+    deps = [
+        "//src/sql_parser:common_ast",  # 添加common_ast依赖以获取data_types.h等
     ],
     visibility = ["//visibility:public"],
 )
@@ -42,6 +47,8 @@ cc_library(
         "view_statements.cpp",
         "binary_expression.cpp",
         "dml/ast_dml_nodes.cpp",
+        "utilities/ast_utility_nodes.cpp",
+        "expressions/ast_expression_nodes.cpp",
     ],
     hdrs = [
         "ast_node.h",
@@ -57,7 +64,10 @@ cc_library(
         "binary_expression.h",
         "dml/ast_dml_nodes.h",
         "ddl/ast_ddl_nodes.h",
+        "utilities/ast_utility_nodes.h",
+        "expressions/ast_expression_nodes.h",
     ],
+    strip_include_prefix = ".",  # 允许子目录使用相对路径包含父目录头文件
     deps = [
         ":ast_headers",
         "//include/storage_engine:headers",
