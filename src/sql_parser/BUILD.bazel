@@ -6,29 +6,9 @@ package(default_visibility = ["//visibility:public"])
 # AST 库 - 引用子模块
 # --------------------------
 cc_library(
-    name = "common_ast",
-    srcs = [
-        "data_types.cpp",
-        "datetime.cpp",
-        "decimal.cpp",
-    ],
-    hdrs = [
-        "data_types.h",
-        "datetime.h",
-        "decimal.h",
-        "operator_kind.h",
-    ],
-    deps = [
-        "//src/exception:exception",
-    ],
-    visibility = ["//visibility:public"],
-)
-
-cc_library(
     name = "ast",
     deps = [
         "//src/sql_parser/ast:ast_headers",  # 引用子模块的ast头文件库
-        ":common_ast",
     ],
     visibility = ["//visibility:public"],
 )
@@ -61,10 +41,14 @@ cc_library(
     name = "parser",
     srcs = [
         "parser.cpp",
+        "set_operation.cpp",
         "recursive_query.cpp",
         "function_ast.cpp",
         "function_definition.cpp",
         "constraint.cpp",
+        "data_types.cpp",
+        "datetime.cpp",
+        "decimal.cpp",
         "advanced_sql92_features.cpp",
         "architecture_safeguards.h", 
         "parsers/parser_core.cpp",
@@ -76,32 +60,34 @@ cc_library(
     ],
     hdrs = [
         "parser.h",
+        "set_operation.h",
         "recursive_query.h",
         "function_ast.h",
         "function/function_definition.h",
         "function/function_call.h",
         "function/function_ddl.h",
         "constraint.h",
+        "data_types.h",
+        "datetime.h",
+        "decimal.h",
         "advanced_sql92_features.h",
         "window_function.h",
         "token.h",
         "architecture_safeguards.h",  # 🛡️ 架构防护措施
-        "ddl_parser.h",  # 添加缺失的头文件依赖
+        "select_parser.h",
         "parsers/parser_core.h",
         "parsers/ddl/parser_ddl.h",
         "parsers/dml/parser_dml.h",
         "parsers/dcl/parser_dcl.h",
         "parsers/tcl/parser_tcl.h",
         "parsers/helpers/parser_helpers.h",
-        "select_parser_fwd.h",  # 添加缺失的头文件依赖
     ],
     deps = [
         ":lexer",
         ":ast",
-        ":common_ast",
         ":json",
         ":expression_parser",  # ✅ 明确依赖ExpressionParser
-        ":select_parser",      # ✅ 添加SelectParser依赖
+        ":select_parser",  # ✅ 添加对select_parser的依赖
         "//src/exception:exception",
         "//src/utils:utils",
         "//include/trigger:headers",
@@ -199,14 +185,13 @@ cc_library(
     ],
     hdrs = [
         "select_parser.h",
-        "select_parser_fwd.h",
     ],
     deps = [
         ":token_stream",
         ":expression_parser",
         ":ast",
         ":lexer",  # 添加lexer依赖以获得token.h
-        "//src/exception:exception",
+        ":exception",
     ],
     visibility = ["//visibility:public"],
 )

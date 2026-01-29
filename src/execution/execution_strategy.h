@@ -200,41 +200,48 @@
  * @file execution_strategy.h
  * @brief 执行策略基类头文件
  */
-
 #ifndef SQLCC_EXECUTION_EXECUTION_STRATEGY_H
 #define SQLCC_EXECUTION_EXECUTION_STRATEGY_H
 
 #include <memory>
 #include <string>
-
+#include <vector>
+#include <unordered_map>
 #include "core/execution_result.h"
+#include "storage/table_storage.h"  // 包含TableMetadata定义
 
 namespace sqlcc {
 
 namespace sql_parser {
 class Statement;
+class WhereClause;
 } // namespace sql_parser
 
 class ExecutionContext;
+class TableMetadata;
+struct TableColumn;
 
 // 执行策略基类 - 定义SQL语句执行的策略模式
 class ExecutionStrategy {
 public:
-    ExecutionStrategy();
     virtual ~ExecutionStrategy() = default;
-
+    
     // 执行SQL语句
     virtual ExecutionResult execute(std::unique_ptr<sql_parser::Statement> stmt,
                                    ExecutionContext& context) = 0;
-
     // 权限检查
     virtual bool checkPermission(const sql_parser::Statement& stmt,
-                                const ExecutionContext& context) = 0;
-
+                                const ExecutionContext& context) {
+        // 默认实现
+        return true;
+    }
     // 语句验证
     virtual bool validate(const sql_parser::Statement& stmt,
-                         const ExecutionContext& context) = 0;
-
+                         const ExecutionContext& context) {
+        // 默认实现
+        return true;
+    }
+    
     // 获取策略名称
     virtual std::string getStrategyName() const = 0;
 
@@ -242,11 +249,95 @@ protected:
     // 辅助方法
     bool hasRequiredPermissions(const ExecutionContext& context,
                                const std::vector<std::string>& required_permissions) const;
-
+    
     ExecutionResult createErrorResult(const std::string& error_message,
                                      ExecutionResult::ErrorCode error_code = ExecutionResult::ErrorCode::EXECUTION_ERROR) const;
-
+    
     ExecutionResult createSuccessResult(const std::string& message = "") const;
+    
+    // 验证数据库上下文
+    bool validateDatabaseContext(const ExecutionContext &context);
+
+    // 验证表是否存在
+    bool validateTableExists(const std::string &table_name,
+                             const ExecutionContext &context);
+
+    // 更新执行统计信息
+    void updateExecutionStats(ExecutionContext &context, size_t records_affected);
+
+    // 生成默认权限检查结果
+    bool defaultPermissionCheck(const ExecutionContext &context);
+
+    // 匹配WHERE子句
+    bool matchesWhereClause(const std::vector<std::string> &record,
+                            const sql_parser::WhereClause &where_clause,
+                            std::shared_ptr<TableMetadata> metadata);
+
+    std::string getColumnValue(const std::vector<std::string> &record,
+                               const std::string &column_name,
+                               std::shared_ptr<TableMetadata> metadata);
+
+    bool compareValues(const std::string &left, const std::string &right,
+                       const std::string &op);
+
+    // 约束验证方法
+    bool validateColumnConstraints(const std::vector<std::string> &record,
+                                   std::shared_ptr<TableMetadata> metadata,
+                                   const std::string &table_name);
+
+    bool checkPrimaryKeyConstraints(const std::vector<std::string> &record,
+                                    std::shared_ptr<TableMetadata> metadata,
+                                    const std::string &table_name);
+
+    bool checkUniqueKeyConstraints(const std::vector<std::string> &record,
+                                   std::shared_ptr<TableMetadata> metadata,
+                                   const std::string &table_name);
+
+    // 索引维护方法
+    void maintainIndexesOnInsert(const std::vector<std::string> &record,
+                                 const std::string &table_name, int32_t page_id,
+                                 size_t offset, ExecutionContext &context);
+
+    void maintainIndexesOnUpdate(const std::vector<std::string> &old_record,
+                                 const std::vector<std::string> &new_record,
+                                 const std::string &table_name, int32_t page_id,
+                                 size_t offset, ExecutionContext &context);
+
+    void maintainIndexesOnDelete(const std::vector<std::string> &record,
+                                 const std::string &table_name, int32_t page_id,
+                                 size_t offset, ExecutionContext &context);
+
+    // 权限检查辅助方法
+    bool checkCreatePermission(const sql_parser::CreateStatement& stmt,
+                               const ExecutionContext& context);
+    bool checkSelectPermission(const sql_parser::SelectStatement& stmt,
+                               const ExecutionContext& context);
+    bool checkInsertPermission(const sql_parser::InsertStatement& stmt,
+                               const ExecutionContext& context);
+    bool checkUpdatePermission(const sql_parser::UpdateStatement& stmt,
+                               const ExecutionContext& context);
+    bool checkDeletePermission(const sql_parser::DeleteStatement& stmt,
+                               const ExecutionContext& context);
+    bool checkDropPermission(const sql_parser::DropStatement& stmt,
+                             const ExecutionContext& context);
+    bool checkAlterPermission(const sql_parser::AlterStatement& stmt,
+                              const ExecutionContext& context);
+    bool checkUsePermission(const sql_parser::UseStatement& stmt,
+                            const ExecutionContext& context);
+    bool checkCreateIndexPermission(const sql_parser::CreateIndexStatement& stmt,
+                                    const ExecutionContext& context);
+    bool checkDropIndexPermission(const sql_parser::DropIndexStatement& stmt,
+                                  const ExecutionContext& context);
+    bool checkCreateUserPermission(const sql_parser::CreateUserStatement& stmt,
+                                   const ExecutionContext& context);
+    bool checkDropUserPermission(const sql_parser::DropUserStatement& stmt,
+                                 const ExecutionContext& context);
+    bool checkGrantPermission(const sql_parser::GrantStatement& stmt,
+                              const ExecutionContext& context);
+    bool checkRevokePermission(const sql_parser::RevokeStatement& stmt,
+                               const ExecutionContext& context);
+    bool checkShowPermission(const sql_parser::ShowStatement& stmt,
+                             const ExecutionContext& context);
 };
 
 } // namespace sqlcc

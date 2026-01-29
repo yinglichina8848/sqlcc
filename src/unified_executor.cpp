@@ -792,664 +792,102 @@ std::string DMLExecutionStrategy::getColumnValue(const std::vector<std::string>&
   return ::getColumnValue(record, column_name, metadata);
 }
 
-// ==================== ExecutionStrategy 实现 ====================
-
-bool ExecutionStrategy::validateDatabaseContext(const ExecutionContext &context) {
-  // 简化的数据库上下文验证
-  return context.db_manager != nullptr;
-}
-
-void ExecutionStrategy::updateExecutionStats(ExecutionContext &context, size_t affected_rows) {
-  // 更新执行统计信息
-  context.records_affected = affected_rows;
-}
-
-bool ExecutionStrategy::checkInsertPermission(const sql_parser::InsertStatement &stmt,
-                                              const ExecutionContext &context) {
-  // 简化的插入权限检查
-  return true;
-}
-
-bool ExecutionStrategy::checkUpdatePermission(const sql_parser::UpdateStatement &stmt,
-                                              const ExecutionContext &context) {
-  // 简化的更新权限检查
-  return true;
-}
-
-bool ExecutionStrategy::checkDeletePermission(const sql_parser::DeleteStatement &stmt,
-                                              const ExecutionContext &context) {
-  // 简化的删除权限检查
-  return true;
-}
-
-bool ExecutionStrategy::checkSelectPermission(const sql_parser::SelectStatement &stmt,
-                                              const ExecutionContext &context) {
-  // 简化的查询权限检查
-  return true;
-}
-
-std::string ExecutionStrategy::getColumnValue(const std::vector<std::string> &record,
-                                              const std::string &column_name,
-                                              std::shared_ptr<TableMetadata> metadata) {
-  if (!metadata) {
-    throw std::runtime_error("Table metadata is null");
-  }
-
-  if (column_name.empty()) {
-    throw std::runtime_error("Column name is empty");
-  }
-
-  const auto& columns = metadata->columns;
-
-  // 查找列的索引
-  size_t col_index = std::numeric_limits<size_t>::max();
-  for (size_t i = 0; i < columns.size(); ++i) {
-    if (columns[i].name == column_name) {
-      col_index = i;
-      break;
-    }
-  }
-
-  if (col_index == std::numeric_limits<size_t>::max()) {
-    throw std::runtime_error("Column not found: " + column_name);
-  }
-
-  // 安全地检查记录是否包含足够的列
-  if (col_index >= record.size()) {
-    throw std::runtime_error("Record does not have enough columns for column: " + column_name);
-  }
-
-  return record[col_index];
-}
-
-// ==================== AggregateEngine 实现 ====================
-
-AggregateEngine::AggregateEngine() {}
-
-void AggregateEngine::addValue(const std::string& group_key, const std::string& value,
-                               AggregateType type) {
-  // 简化的聚合值添加逻辑
-  std::string key = group_key + "_" + std::to_string(static_cast<int>(type));
-
-  switch (type) {
-    case COUNT:
-      aggregates_[group_key][type].count = 1;  // COUNT计数
-      break;
-    case SUM:
-      aggregates_[group_key][type].sum = std::stod(value);  // SUM累加
-      break;
-    case AVG:
-      aggregates_[group_key][type].sum += std::stod(value);  // AVG累加
-      aggregates_[group_key][type].count_for_avg++;
-      break;
-    case MIN:
-      aggregates_[group_key][type].min_values.push_back(std::stod(value));
-      aggregates_[group_key][type].min_strings.push_back(value);
-      break;
-    case MAX:
-      aggregates_[group_key][type].max_values.push_back(std::stod(value));
-      aggregates_[group_key][type].max_strings.push_back(value);
-      break;
-  }
-}
-
-std::string AggregateEngine::getResult(const std::string& group_key, AggregateType type) const {
-  auto group_it = aggregates_.find(group_key);
-  if (group_it == aggregates_.end()) {
-    return "0";
-  }
-
-  auto type_it = group_it->second.find(type);
-  if (type_it == group_it->second.end()) {
-    return "0";
-  }
-
-  const AggregateData& data = type_it->second;
-
-  switch (type) {
-    case COUNT:
-      return std::to_string(data.count);
-    case SUM:
-      return std::to_string(data.sum);
-    case AVG:
-      if (data.count_for_avg > 0) {
-        return std::to_string(data.sum / data.count_for_avg);
-      }
-      return "0";
-    case MIN:
-      if (!data.min_strings.empty()) {
-        return *std::min_element(data.min_strings.begin(), data.min_strings.end());
-      }
-      return "0";
-    case MAX:
-      if (!data.max_strings.empty()) {
-        return *std::max_element(data.max_strings.begin(), data.max_strings.end());
-      }
-      return "0";
-  }
-
-  return "0";
-}
-
-// ==================== GroupByExecutor 实现 ====================
-
-GroupByExecutor::GroupByExecutor() {}
-
-// 评估HAVING条件（简化实现）
-bool GroupByExecutor::evaluateHavingCondition(const std::map<std::string, std::string>& group_aggregates,
-                                              const sql_parser::Expression* having_expr) {
-  if (!having_expr) {
-    return true; // 没有HAVING条件，默认通过
-  }
-
-  // 简化的HAVING条件评估
-  // 这里应该实现完整的表达式评估器，但暂时使用简单的条件解析
-  // 对于测试中的HAVING条件，我们硬编码一些常见的模式
-
-  // 示例：COUNT(*) > 1
-  if (group_aggregates.count("COUNT") && group_aggregates.at("COUNT") > "1") {
-    return true;
-  }
-
-  // 示例：AVG(salary) > 60000
-  if (group_aggregates.count("AVG")) {
-    try {
-      double avg_value = std::stod(group_aggregates.at("AVG"));
-      if (avg_value > 60000) {
-        return true;
-      }
-    } catch (const std::exception&) {
-      // 转换失败，跳过
-    }
-  }
-
-  // 示例：SUM(salary) > 100000
-  if (group_aggregates.count("SUM")) {
-    try {
-      double sum_value = std::stod(group_aggregates.at("SUM"));
-      if (sum_value > 100000) {
-        return true;
-      }
-    } catch (const std::exception&) {
-      // 转换失败，跳过
-    }
-  }
-
-  // 示例：MIN(salary) > 50000
-  if (group_aggregates.count("MIN")) {
-    try {
-      double min_value = std::stod(group_aggregates.at("MIN"));
-      if (min_value > 50000) {
-        return true;
-      }
-    } catch (const std::exception&) {
-      // 转换失败，跳过
-    }
-  }
-
-  // 示例：MAX(salary) < 100000
-  if (group_aggregates.count("MAX")) {
-    try {
-      double max_value = std::stod(group_aggregates.at("MAX"));
-      if (max_value < 100000) {
-        return true;
-      }
-    } catch (const std::exception&) {
-      // 转换失败，跳过
-    }
-  }
-
-  // 默认情况下，对于复杂的HAVING条件，我们暂时返回true
-  // 在实际系统中，应该实现完整的表达式评估器
-  return true;
-}
-
-ExecutionResult GroupByExecutor::executeGroupBy(const sql_parser::SelectStatement& stmt,
-                                                 const std::vector<std::vector<std::string>>& records,
-                                                 std::shared_ptr<TableMetadata> metadata,
-                                                 ExecutionContext& context) {
-  // 获取GROUP BY列
-  const auto& group_by_columns = stmt.getGroupByColumns();
-  if (group_by_columns.empty()) {
-    return {false, "No GROUP BY columns specified"};
-  }
-
-  // 获取选择列（用于聚合函数）
-  const auto& select_columns = stmt.getSelectColumns();
-
-  // 创建分组映射：group_key -> 记录列表
-  std::map<std::string, std::vector<std::vector<std::string>>> groups;
-
-  // 对记录进行分组
-  for (const auto& record : records) {
-    std::string group_key;
-
-    // 构建分组键
-    for (size_t i = 0; i < group_by_columns.size(); ++i) {
-      if (i > 0) group_key += "|"; // 分隔符
-
-      std::string col_value = getColumnValue(record, group_by_columns[i], metadata);
-      group_key += col_value;
-    }
-
-    groups[group_key].push_back(record);
-  }
-
-  // 为每个组计算聚合结果
-  std::vector<std::vector<std::string>> result_rows;
-  AggregateEngine aggregate_engine;
-
-  // 检查是否有HAVING子句
-  const auto* having_clause = stmt.getHavingClause();
-
-  for (const auto& group_pair : groups) {
-    const std::string& group_key = group_pair.first;
-    const auto& group_records = group_pair.second;
-
-    std::vector<std::string> result_row;
-
-    // 首先添加GROUP BY列的值
-    std::vector<std::string> key_parts = splitString(group_key, "|");
-    for (size_t i = 0; i < group_by_columns.size(); ++i) {
-      if (i < key_parts.size()) {
-        result_row.push_back(key_parts[i]);
-      } else {
-        result_row.push_back(""); // 错误情况下的默认值
-      }
-    }
-
-    // 存储组的聚合结果，用于HAVING条件评估
-    std::map<std::string, std::string> group_aggregates;
-
-    // 然后计算聚合函数
-    for (const auto& select_col : select_columns) {
-      if (select_col.empty()) continue;
-
-      std::string upper_select = select_col;
-      std::transform(upper_select.begin(), upper_select.end(), upper_select.begin(), ::toupper);
-
-      std::string aggregate_result;
-
-      // 检查是否是聚合函数
-      if (upper_select.find("COUNT(") == 0) {
-        // COUNT函数
-        if (upper_select.find("COUNT(*)") == 0) {
-          // COUNT(*)
-          aggregate_result = std::to_string(group_records.size());
-        } else if (upper_select.find("COUNT(DISTINCT ") == 0) {
-          // COUNT(DISTINCT column)
-          size_t start = upper_select.find('(');
-          size_t end = upper_select.find(')', start);
-          if (start != std::string::npos && end != std::string::npos) {
-            std::string col_name = select_col.substr(start + 1, end - start - 1);
-            col_name.erase(std::remove_if(col_name.begin(), col_name.end(), ::isspace), col_name.end());
-
-            std::set<std::string> distinct_values;
-            for (const auto& record : group_records) {
-              std::string value = getColumnValue(record, col_name, metadata);
-              distinct_values.insert(value);
-            }
-            aggregate_result = std::to_string(distinct_values.size());
-          } else {
-            aggregate_result = "0";
-          }
-        } else {
-          // 普通的COUNT(column)
-          size_t start = upper_select.find('(');
-          size_t end = upper_select.find(')', start);
-          if (start != std::string::npos && end != std::string::npos) {
-            std::string col_name = select_col.substr(start + 1, end - start - 1);
-            col_name.erase(std::remove_if(col_name.begin(), col_name.end(), ::isspace), col_name.end());
-
-            size_t non_null_count = 0;
-            for (const auto& record : group_records) {
-              std::string value = getColumnValue(record, col_name, metadata);
-              if (!value.empty() && value != "NULL") {
-                non_null_count++;
-              }
-            }
-            aggregate_result = std::to_string(non_null_count);
-          } else {
-            aggregate_result = "0";
-          }
-        }
-        group_aggregates["COUNT"] = aggregate_result;
-      } else if (upper_select.find("SUM(") == 0) {
-        // SUM函数
-        size_t start = upper_select.find('(');
-        size_t end = upper_select.find(')', start);
-        if (start != std::string::npos && end != std::string::npos) {
-          std::string col_name = select_col.substr(start + 1, end - start - 1);
-          col_name.erase(std::remove_if(col_name.begin(), col_name.end(), ::isspace), col_name.end());
-
-          // 使用AggregateEngine计算SUM
-          AggregateEngine engine;
-          for (const auto& record : group_records) {
-            std::string value_str = getColumnValue(record, col_name, metadata);
-            if (!value_str.empty() && value_str != "NULL") {
-              engine.addValue(group_key, value_str, AggregateEngine::SUM);
-            }
-          }
-          aggregate_result = engine.getResult(group_key, AggregateEngine::SUM);
-        } else {
-          aggregate_result = "0";
-        }
-        group_aggregates["SUM"] = aggregate_result;
-      } else if (upper_select.find("AVG(") == 0) {
-        // AVG函数
-        size_t start = upper_select.find('(');
-        size_t end = upper_select.find(')', start);
-        if (start != std::string::npos && end != std::string::npos) {
-          std::string col_name = select_col.substr(start + 1, end - start - 1);
-          col_name.erase(std::remove_if(col_name.begin(), col_name.end(), ::isspace), col_name.end());
-
-          // 使用AggregateEngine计算AVG
-          AggregateEngine engine;
-          for (const auto& record : group_records) {
-            std::string value_str = getColumnValue(record, col_name, metadata);
-            if (!value_str.empty() && value_str != "NULL") {
-              engine.addValue(group_key, value_str, AggregateEngine::AVG);
-            }
-          }
-          aggregate_result = engine.getResult(group_key, AggregateEngine::AVG);
-        } else {
-          aggregate_result = "0";
-        }
-        group_aggregates["AVG"] = aggregate_result;
-      } else if (upper_select.find("MIN(") == 0) {
-        // MIN函数
-        size_t start = upper_select.find('(');
-        size_t end = upper_select.find(')', start);
-        if (start != std::string::npos && end != std::string::npos) {
-          std::string col_name = select_col.substr(start + 1, end - start - 1);
-          col_name.erase(std::remove_if(col_name.begin(), col_name.end(), ::isspace), col_name.end());
-
-          // 使用AggregateEngine计算MIN
-          AggregateEngine engine;
-          for (const auto& record : group_records) {
-            std::string value_str = getColumnValue(record, col_name, metadata);
-            if (!value_str.empty() && value_str != "NULL") {
-              engine.addValue(group_key, value_str, AggregateEngine::MIN);
-            }
-          }
-          aggregate_result = engine.getResult(group_key, AggregateEngine::MIN);
-        } else {
-          aggregate_result = "0";
-        }
-        group_aggregates["MIN"] = aggregate_result;
-      } else if (upper_select.find("MAX(") == 0) {
-        // MAX函数
-        size_t start = upper_select.find('(');
-        size_t end = upper_select.find(')', start);
-        if (start != std::string::npos && end != std::string::npos) {
-          std::string col_name = select_col.substr(start + 1, end - start - 1);
-          col_name.erase(std::remove_if(col_name.begin(), col_name.end(), ::isspace), col_name.end());
-
-          // 使用AggregateEngine计算MAX
-          AggregateEngine engine;
-          for (const auto& record : group_records) {
-            std::string value_str = getColumnValue(record, col_name, metadata);
-            if (!value_str.empty() && value_str != "NULL") {
-              engine.addValue(group_key, value_str, AggregateEngine::MAX);
-            }
-          }
-          aggregate_result = engine.getResult(group_key, AggregateEngine::MAX);
-        } else {
-          aggregate_result = "0";
-        }
-        group_aggregates["MAX"] = aggregate_result;
-      } else {
-        // 非聚合列，应该已经在GROUP BY列中处理了
-        // 这里跳过，避免重复添加
-        continue;
-      }
-
-      result_row.push_back(aggregate_result);
-    }
-
-    // 评估HAVING条件
-    bool having_condition_met = true;
-    if (having_clause) {
-      // 简化的HAVING条件评估
-      // 这里应该实现完整的表达式评估器，但暂时使用简单的条件解析
-      having_condition_met = evaluateHavingCondition(group_aggregates, having_clause);
-    }
-
-    // 只有满足HAVING条件的组才包含在结果中
-    if (having_condition_met) {
-      result_rows.push_back(result_row);
-    }
-  }
-
-  // 应用ORDER BY排序（如果指定了）
-  if (stmt.hasOrderBy()) {
-    const std::string& order_by_col = stmt.getOrderByColumn();
-    bool ascending = (stmt.getOrderDirection() == "DESC") ? false : true;
-
-    // 找到ORDER BY列的索引
-    size_t order_col_index = 0;
-    bool found = false;
-    for (size_t i = 0; i < group_by_columns.size(); ++i) {
-      if (group_by_columns[i] == order_by_col) {
-        order_col_index = i;
-        found = true;
-        break;
-      }
-    }
-
-    if (found) {
-      std::sort(result_rows.begin(), result_rows.end(),
-                [order_col_index, ascending](const std::vector<std::string>& a,
-                                            const std::vector<std::string>& b) {
-                  if (order_col_index >= a.size() || order_col_index >= b.size()) {
-                    return false;
-                  }
-                  if (ascending) {
-                    return a[order_col_index] < b[order_col_index];
-                  } else {
-                    return a[order_col_index] > b[order_col_index];
-                  }
-                });
-    }
-  }
-
-  // 构建结果消息
-  std::string result_msg = "GROUP BY query executed successfully.\n";
-  result_msg += "Total groups: " + std::to_string(result_rows.size()) + "\n";
-  result_msg += "Records processed: " + std::to_string(records.size()) + "\n";
-
-  // 添加分组结果
-  if (!result_rows.empty()) {
-    result_msg += "Group results:\n";
-    for (const auto& row : result_rows) {
-      for (size_t i = 0; i < row.size(); ++i) {
-        if (i > 0) result_msg += ", ";
-        result_msg += row[i];
-      }
-      result_msg += "\n";
-    }
-  }
-
-  // 设置ExecutionResult
-  ExecutionResult result;
-  result.success = true;
-  result.message = result_msg;
-  result.rows.reserve(result_rows.size());
-
-  for (const auto& row_data : result_rows) {
-    Row row;
-    row.values.reserve(row_data.size());
-    for (const auto& value : row_data) {
-      row.values.emplace_back(value);
-    }
-    result.rows.push_back(row);
-  }
-
-  // 设置列元数据
-  result.column_metadata.reserve(group_by_columns.size() + select_columns.size());
-  for (const auto& col : group_by_columns) {
-    ColumnMeta cm;
-    cm.name = col;
-    cm.data_type = "VARCHAR";
-    cm.is_nullable = true;
-    cm.is_primary_key = false;
-    cm.is_unique_key = false;
-    cm.default_value = "";
-    result.column_metadata.push_back(cm);
-  }
-
-  // 为聚合函数添加列元数据
-  for (const auto& select_col : select_columns) {
-    if (!select_col.empty()) {
-      std::string col_name = select_col;
-      // 如果是聚合函数，提取函数名作为列名
-      if (col_name.find("(") != std::string::npos) {
-        size_t end_pos = col_name.find(")");
-        if (end_pos != std::string::npos) {
-          col_name = col_name.substr(0, end_pos + 1);
-        }
-      }
-
-      ColumnMeta cm;
-      cm.name = col_name;
-      cm.data_type = "VARCHAR";
-      cm.is_nullable = true;
-      cm.is_primary_key = false;
-      cm.is_unique_key = false;
-      cm.default_value = "";
-      result.column_metadata.push_back(cm);
-    }
-  }
-
-  context.records_affected = result_rows.size();
-  return result;
-}
-
-// ==================== UnifiedExecutor 实现 ====================
+#include "unified_executor.h"
+#include "execution_result.h"
+#include "execution/execution_strategy.h"
+#include "execution/ddl_execution_strategy.h"
+#include "execution/dml_execution_strategy.h"
+#include "execution/dcl_execution_strategy.h"
+#include "execution/utility_execution_strategy.h"
+#include "sql_parser/ast_nodes.h"
+#include <memory>
+#include <stdexcept>
+
+namespace sqlcc {
 
 UnifiedExecutor::UnifiedExecutor(std::shared_ptr<DatabaseManager> db_manager)
-    : ExecutionEngine(db_manager), db_manager_(db_manager) {}
+    : ExecutionEngine(db_manager), db_manager_(db_manager) {
+    initializeStrategies();
+}
 
 UnifiedExecutor::UnifiedExecutor(std::shared_ptr<DatabaseManager> db_manager,
                                  std::shared_ptr<UserManager> user_manager,
                                  std::shared_ptr<SystemDatabase> system_db)
-    : ExecutionEngine(db_manager), db_manager_(db_manager), user_manager_(user_manager), system_db_(system_db) {}
+    : ExecutionEngine(db_manager), db_manager_(db_manager), user_manager_(user_manager), system_db_(system_db) {
+    initializeStrategies();
+}
 
-UnifiedExecutor::~UnifiedExecutor() {}
+UnifiedExecutor::~UnifiedExecutor() = default;
+
+void UnifiedExecutor::initializeStrategies() {
+    // 创建各种执行策略实例
+    strategies_[sql_parser::Statement::Type::CREATE] = std::make_unique<DDLExecutionStrategy>(db_manager_);
+    strategies_[sql_parser::Statement::Type::DROP] = std::make_unique<DDLExecutionStrategy>(db_manager_);
+    strategies_[sql_parser::Statement::Type::ALTER] = std::make_unique<DDLExecutionStrategy>(db_manager_);
+    
+    strategies_[sql_parser::Statement::Type::SELECT] = std::make_unique<DMLExecutionStrategy>(db_manager_);
+    strategies_[sql_parser::Statement::Type::INSERT] = std::make_unique<DMLExecutionStrategy>(db_manager_);
+    strategies_[sql_parser::Statement::Type::UPDATE] = std::make_unique<DMLExecutionStrategy>(db_manager_);
+    strategies_[sql_parser::Statement::Type::DELETE] = std::make_unique<DMLExecutionStrategy>(db_manager_);
+    
+    strategies_[sql_parser::Statement::Type::GRANT] = std::make_unique<DCLExecutionStrategy>(db_manager_);
+    strategies_[sql_parser::Statement::Type::REVOKE] = std::make_unique<DCLExecutionStrategy>(db_manager_);
+    
+    strategies_[sql_parser::Statement::Type::USE] = std::make_unique<UtilityExecutionStrategy>(db_manager_);
+    strategies_[sql_parser::Statement::Type::SHOW] = std::make_unique<UtilityExecutionStrategy>(db_manager_);
+    strategies_[sql_parser::Statement::Type::DESCRIBE] = std::make_unique<UtilityExecutionStrategy>(db_manager_);
+}
 
 ExecutionResult UnifiedExecutor::execute(std::unique_ptr<sql_parser::Statement> stmt) {
-  // 简化的统一执行器实现
-  ExecutionContext context;
-  context.db_manager = db_manager_;
-
-  // 根据语句类型创建相应的策略
-  auto stmt_type = stmt->getType();
-
-  switch (stmt_type) {
-    case sql_parser::Statement::Type::SELECT: {
-      DMLExecutionStrategy strategy;
-      return strategy.execute(std::move(stmt), context);
-    }
-    case sql_parser::Statement::Type::INSERT:
-    case sql_parser::Statement::Type::UPDATE:
-    case sql_parser::Statement::Type::DELETE: {
-      DMLExecutionStrategy strategy;
-      return strategy.execute(std::move(stmt), context);
-    }
-    case sql_parser::Statement::Type::CREATE:
-    case sql_parser::Statement::Type::DROP: {
-      DDLExecutionStrategy strategy;
-      return strategy.execute(std::move(stmt), context);
-    }
-    default:
-      return {false, "Unsupported statement type"};
-  }
+    ExecutionContext context;
+    context.db_manager = db_manager_;
+    
+    return execute(std::move(stmt), std::make_shared<ExecutionContext>(context));
 }
 
 ExecutionResult UnifiedExecutor::execute(std::unique_ptr<sql_parser::Statement> stmt,
-                                         std::shared_ptr<ExecutionContext> context) {
-  // 使用提供的上下文执行语句
-  if (!context) {
-    return {false, "ExecutionContext is null"};
-  }
-
-  // 根据语句类型创建相应的策略
-  auto stmt_type = stmt->getType();
-
-  switch (stmt_type) {
-    case sql_parser::Statement::Type::SELECT: {
-      DMLExecutionStrategy strategy;
-      return strategy.execute(std::move(stmt), *context);
+                                        std::shared_ptr<ExecutionContext> context) {
+    if (!stmt) {
+        return {false, "Statement is null"};
     }
-    case sql_parser::Statement::Type::INSERT:
-    case sql_parser::Statement::Type::UPDATE:
-    case sql_parser::Statement::Type::DELETE: {
-      DMLExecutionStrategy strategy;
-      return strategy.execute(std::move(stmt), *context);
+    
+    if (!context) {
+        return {false, "ExecutionContext is null"};
     }
-    case sql_parser::Statement::Type::CREATE:
-    case sql_parser::Statement::Type::DROP: {
-      DDLExecutionStrategy strategy;
-      return strategy.execute(std::move(stmt), *context);
+    
+    // 获取语句类型
+    auto stmt_type = stmt->getType();
+    
+    // 获取对应的策略
+    ExecutionStrategy* strategy = getStrategy(stmt_type);
+    if (!strategy) {
+        return {false, "No strategy found for statement type: " + std::to_string(static_cast<int>(stmt_type))};
     }
-    default:
-      return {false, "Unsupported statement type"};
-  }
+    
+    // 检查权限
+    if (!strategy->checkPermission(*stmt, *context)) {
+        return {false, "Permission denied for statement type: " + std::to_string(static_cast<int>(stmt_type))};
+    }
+    
+    // 验证上下文
+    if (!strategy->validate(*stmt, *context)) {
+        return {false, "Validation failed for statement type: " + std::to_string(static_cast<int>(stmt_type))};
+    }
+    
+    // 执行语句
+    return strategy->execute(std::move(stmt), *context);
 }
 
-// ==================== DDLExecutionStrategy 实现 ====================
-
-DDLExecutionStrategy::DDLExecutionStrategy() {}
-
-DDLExecutionStrategy::~DDLExecutionStrategy() {}
-
-ExecutionResult DDLExecutionStrategy::execute(std::unique_ptr<sql_parser::Statement> stmt,
-                                              ExecutionContext& context) {
-  // 简化的DDL执行逻辑
-  auto stmt_type = stmt->getType();
-
-  switch (stmt_type) {
-    case sql_parser::Statement::Type::CREATE:
-      return {true, "CREATE TABLE executed successfully"};
-    case sql_parser::Statement::Type::CREATE_VIEW: {
-      // 处理CREATE VIEW语句
-      auto* create_view_stmt = dynamic_cast<sql_parser::CreateViewStatement*>(stmt.get());
-      if (!create_view_stmt) {
-        return {false, "Invalid CREATE VIEW statement"};
-      }
-
-      const std::string& view_name = create_view_stmt->getViewName();
-      const sql_parser::SelectStatement& select_stmt = create_view_stmt->getSelectStatement();
-
-      // 使用ViewManager创建视图
-      // 注意：这里需要访问SqlExecutor的ViewManager，但context中没有提供
-      // 暂时使用简化的实现
-      std::string view_definition = "SELECT ..."; // 简化处理
-      std::string owner = "root"; // 默认所有者
-      bool is_updatable = false; // 默认为不可更新
-
-      // 这里应该调用ViewManager::CreateView，但需要访问SqlExecutor实例
-      // 暂时返回成功消息
-      std::string result_msg = "CREATE VIEW '" + view_name + "' executed successfully";
-      return {true, result_msg};
+ExecutionStrategy* UnifiedExecutor::getStrategy(sql_parser::Statement::Type type) {
+    auto it = strategies_.find(type);
+    if (it != strategies_.end()) {
+        return it->second.get();
     }
-    case sql_parser::Statement::Type::DROP:
-      return {true, "DROP TABLE executed successfully"};
-    default:
-      return {false, "Unsupported DDL statement type"};
-  }
+    return nullptr;
 }
 
-bool DDLExecutionStrategy::checkPermission(const sql_parser::Statement& stmt,
-                                           const ExecutionContext& context) {
-  // 简化的DDL权限检查
-  return true;
-}
-
-bool DDLExecutionStrategy::validate(const sql_parser::Statement& stmt,
-                                    const ExecutionContext& context) {
-  // 简化的DDL验证
-  return true;
+const ExecutionContext& UnifiedExecutor::getLastExecutionContext() const {
+    return last_context_;
 }
 
 } // namespace sqlcc

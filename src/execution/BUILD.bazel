@@ -16,8 +16,9 @@ cc_library(
         "//src/utils:utils",
         "//src/exception:exception",
         "//src/logger:logger",
-        # 注意：暂时移除对storage_engine的直接依赖，避免迁移冲突
-        # "//src/storage_engine:storage_engine",
+        "//src/storage_engine:storage_engine",
+        "//src/database_manager:database_manager",
+        "//src/execution_ast:execution_ast",
     ],
     visibility = ["//src:__subpackages__"],
 )
