@@ -147,12 +147,12 @@
  * - 测试工具：集合操作逻辑的单元测试框架
  */
 
-#include "ast/ast_nodes.h"
 #ifndef SQLCC_SQL_PARSER_SET_OPERATION_H
 #define SQLCC_SQL_PARSER_SET_OPERATION_H
 
-#include "ast/ast_node.h"
-#include "ast/node_visitor.h"
+#include "ast_node.h"
+#include "statement.h"
+#include "node_visitor.h"
 #include <memory>
 #include <string>
 #include <vector>

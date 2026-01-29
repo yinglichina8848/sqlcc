@@ -17,7 +17,7 @@
 #include "../ast_node.h"
 #include "../statement.h"
 #include "../expression.h"
-#include "../../set_operation.h"
+#include "../set_operation.h"
 #include <memory>
 #include <string>
 #include <vector>

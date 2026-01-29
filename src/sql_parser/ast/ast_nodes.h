@@ -96,8 +96,6 @@
 // Include base AST node definitions
 #include "ast_node.h"
 #include "statement.h"
-#include "data_types.h"  // 从 common_ast 依赖获取
-#include "set_operation.h"  // 从 common_ast 依赖获取
 #include "node_visitor.h"
 #include "ddl/ast_ddl_nodes.h"
 #include "dml/ast_dml_nodes.h"
@@ -105,6 +103,14 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
+
+// Forward declarations for common_ast types
+namespace sqlcc {
+namespace sql_parser {
+    class SetOperation;
+    // data_types.h types will be forward declared when needed
+}
+}
 
 // Forward declaration for TableMetadata from storage_engine
 namespace sqlcc {
