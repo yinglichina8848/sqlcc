@@ -137,10 +137,9 @@ ConfigManager& ConfigManager::GetInstance() {
 }
 
 // 从文件加载配置
+// 修改：不再预先获取锁，让 ParseConfigFile 自己管理锁
 bool ConfigManager::LoadConfig(const std::string& config_file_path, const std::string& env) {
-  std::lock_guard<std::mutex> lock(config_mutex_);
-  
-  // 首先清除现有配置
+  // 清除现有配置（不获取锁，ParseConfigFile 会负责加锁）
   config_map_.clear();
   config_file_path_ = config_file_path;
   env_ = env;
@@ -150,7 +149,6 @@ bool ConfigManager::LoadConfig(const std::string& config_file_path, const std::s
 
 // 重新加载配置文件
 bool ConfigManager::ReloadConfig() {
-  std::lock_guard<std::mutex> lock(config_mutex_);
   if (config_file_path_.empty()) {
     return false;
   }
@@ -159,7 +157,6 @@ bool ConfigManager::ReloadConfig() {
 
 // 重新加载配置文件（完整替换）
 bool ConfigManager::ReloadConfig(const std::string& new_config_path) {
-  std::lock_guard<std::mutex> lock(config_mutex_);
   config_map_.clear(); // 清除现有配置
   config_file_path_ = new_config_path;
   return ParseConfigFile(new_config_path);
@@ -183,17 +180,14 @@ void ConfigManager::LoadDefaultConfig() {
   operation_timeout_ms_ = kDefaultOperationTimeoutMs;
 }
 
-// 解析配置文件
-bool ConfigManager::ParseConfigFile(const std::string& file_path) {
+// 解析配置文件（内部方法，不获取锁）
+bool ConfigManager::ParseConfigFileInternal(const std::string& file_path,
+                                            std::unordered_map<std::string, ConfigValue>& result_config) {
   std::ifstream file(file_path);
   if (!file.is_open()) {
     std::unordered_map<std::string, ConfigValue> temp_config;
     LoadDefaultConfigInternal(temp_config);
-    
-    std::lock_guard<std::mutex> lock(config_mutex_);
-    for (const auto& [key, value] : temp_config) {
-      config_map_[key] = value;
-    }
+    result_config = std::move(temp_config);
     return true;
   }
   
@@ -228,12 +222,21 @@ bool ConfigManager::ParseConfigFile(const std::string& file_path) {
   }
   
   file.close();
-  
-  std::lock_guard<std::mutex> lock(config_mutex_);
-  for (const auto& [key, value] : temp_config) {
-    config_map_[key] = value;
+  result_config = std::move(temp_config);
+  return true;
+}
+
+// 解析配置文件（公开方法，获取锁）
+bool ConfigManager::ParseConfigFile(const std::string& file_path) {
+  std::unordered_map<std::string, ConfigValue> new_config;
+  if (!ParseConfigFileInternal(file_path, new_config)) {
+    return false;
   }
   
+  std::lock_guard<std::mutex> lock(config_mutex_);
+  for (const auto& [key, value] : new_config) {
+    config_map_[key] = value;
+  }
   return true;
 }
 
