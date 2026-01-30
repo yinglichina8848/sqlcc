@@ -4,9 +4,8 @@
 
 namespace sqlcc {
 
-PermissionValidator::PermissionValidator(std::shared_ptr<UserManager> user_manager,
-                                        std::shared_ptr<DatabaseManager> db_manager)
-    : user_manager_(user_manager), db_manager_(db_manager) {
+PermissionValidator::PermissionValidator(std::shared_ptr<UserManager> user_manager)
+    : user_manager_(user_manager) {
     // 设置默认用户和数据库
     default_user_ = "root"; // 默认管理员用户
     default_database_ = ""; // 默认无数据库

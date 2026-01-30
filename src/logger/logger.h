@@ -167,6 +167,9 @@ namespace sqlcc {
         void Warn(std::string&& message);
         void Error(std::string&& message);
 
+        // Flush method to ensure all logs are written to file
+        void Flush() noexcept;
+
     private:
         // Private constructor for singleton
         Logger();

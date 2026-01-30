@@ -1,6 +1,6 @@
 #pragma once
 
-#include "storage_engine.h"
+#include "../storage_engine/storage_engine.h"
 #include <memory>
 #include <string>
 #include <unordered_map>
@@ -65,7 +65,7 @@ public:
     std::string GetStats() const;
 
 private:
-    void RecordCall const(const std::string& method, const std::vector<std::string>& args = {});
+    void RecordCall(const std::string& method, const std::vector<std::string>& args = {});
 
     // Mock配置
     bool new_page_success_ = true;
@@ -83,5 +83,3 @@ private:
 
 } // namespace mocks
 } // namespace sqlcc
-
-#endif // SQLCC_MOCKS_STORAGE_ENGINE_MOCK_H

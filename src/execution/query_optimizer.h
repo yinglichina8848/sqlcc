@@ -6,7 +6,7 @@
 #include <vector>
 #include <unordered_map>
 
-#include "../execution_context.h"
+#include "../core/execution_context.h"
 #include "../sql_parser/ast/ast_nodes.h"
 
 namespace sqlcc {

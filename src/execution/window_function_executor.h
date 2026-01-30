@@ -174,7 +174,7 @@
 #include <vector>
 #include <string>
 #include "../sql_parser/window_function.h"
-#include "../core/database_manager.h"
+#include "../core/core_database_manager.h"
 #include "../core/execution_context.h"
 #include "../core/execution_result.h"
 

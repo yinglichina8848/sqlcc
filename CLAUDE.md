@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 SQLCC is an enterprise-grade, AI-driven, memory-safe cloud-native database system that implements complete SQL-92 standard support with a custom storage engine. Built with C++20 and Bazel, it features a comprehensive test suite with 56.1% code coverage.
 
-**Current Version**: v1.3.8
+**Current Version**: v1.3.9
 **Language**: C++20
 **Build System**: Bazel 8.5.0+
 **Test Framework**: Google Test (GTest)
@@ -102,12 +102,19 @@ src/
 | Layer | Description | Key Components |
 |-------|-------------|---------------|
 | Level1_Foundation | Basic infrastructure | config, logger, types, utils |
-| Level2_Core | Core services | database manager, SQL parser, execution |
+| Level2_Core_Services | Core services | database manager, SQL parser, execution, permission validator |
 | Level2_Storage_Engine | Storage engine | B+ tree, buffer pool, disk manager |
 | Level3_Transaction_Manager | Transactions | WAL, concurrency control |
 | Level4_SQL_Processing | SQL execution | DDL, DML, DCL executors |
 | Level5_Network | Network | MySQL protocol, encryption |
 | Level6_Enterprise | Enterprise features | Security, monitoring |
+
+### Recent Test Architecture Improvements (v1.3.9)
+
+- **Level 2 Core Services 重构**: 合并了原 level2_core 和 level2_core_services 目录
+- **新增测试组件**: 添加了 permission_validator 测试模块
+- **模块化测试结构**: 每个测试组件都有独立的子目录和 BUILD.bazel 文件
+- **重复测试清理**: 删除了 6 个重复的测试文件，优化了测试结构
 
 ## Important Patterns and Conventions
 

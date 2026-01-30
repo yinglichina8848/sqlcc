@@ -1,12 +1,13 @@
-#include "../../src/sql_parser/ast/ast_node.h"
 #ifndef SQLCC_UNIFIED_EXECUTOR_H
 #define SQLCC_UNIFIED_EXECUTOR_H
 
-#include "execution_context.h" // 使用统一的ExecutionContext定义
-#include "../../src/execution/execution_engine.h"
-#include "../../src/sql_parser/ast/ast_nodes.h"
-#include "system_database.h"
-#include "user_manager.h"
+#include "../core/execution_context.h" // 使用统一的ExecutionContext定义
+#include "execution_engine.h"
+#include "execution_plan_generator.h"
+#include "query_optimizer.h"
+#include "../sql_parser/ast/ast_nodes.h"
+#include "../core/system_database.h"
+#include "../core/user_manager.h"
 #include <functional>
 #include <map>
 #include <memory>
@@ -384,7 +385,7 @@ private:
 
   // 评估HAVING条件
   bool evaluateHavingCondition(const std::map<std::string, std::string>& group_aggregates,
-                               const sql_parser::Expression* having_expr);
+                               const sql_parser::ast::Expression* having_expr);
 };
 
 /**
@@ -405,111 +406,6 @@ struct ExecutionPlan {
 
   // 生成执行计划描述
   std::string toString() const;
-};
-
-/**
- * @brief 执行计划生成器
- * 负责生成和优化执行计划
- */
-class ExecutionPlanGenerator {
-public:
-  ExecutionPlanGenerator();
-  ~ExecutionPlanGenerator() = default;
-
-  // 生成执行计划
-  ExecutionPlan generatePlan(const sql_parser::SelectStatement &stmt,
-                             const ExecutionContext &context);
-
-  // 优化执行计划
-  ExecutionPlan optimizePlan(const ExecutionPlan &plan,
-                             const ExecutionContext &context);
-
-  // 评估执行计划成本
-  double estimateCost(const ExecutionPlan &plan,
-                      const ExecutionContext &context);
-
-private:
-  // 生成全表扫描计划
-  ExecutionPlan
-  generateFullTableScanPlan(const sql_parser::SelectStatement &stmt);
-
-  // 生成索引扫描计划
-  ExecutionPlan generateIndexScanPlan(const sql_parser::SelectStatement &stmt,
-                                      const ExecutionContext &context);
-
-  // 生成索引查找计划
-  ExecutionPlan generateIndexSeekPlan(const sql_parser::SelectStatement &stmt,
-                                      const ExecutionContext &context);
-};
-
-/**
- * @brief 查询优化器接口
- * 负责查询计划的优化
- */
-class QueryOptimizer {
-public:
-  virtual ~QueryOptimizer() = default;
-
-  // 优化查询计划
-  virtual ExecutionPlan optimize(const ExecutionPlan &plan,
-                                 const ExecutionContext &context) = 0;
-
-  // 生成执行计划
-  virtual ExecutionPlan generatePlan(const sql_parser::SelectStatement &stmt,
-                                     const ExecutionContext &context) = 0;
-
-  // 评估执行计划成本
-  virtual double estimateCost(const ExecutionPlan &plan,
-                              const ExecutionContext &context) = 0;
-
-  // 获取优化规则
-  virtual std::vector<std::string> getOptimizationRules() const = 0;
-
-  // 启用/禁用特定优化规则
-  virtual void enableRule(const std::string &rule_name) = 0;
-  virtual void disableRule(const std::string &rule_name) = 0;
-
-  // 检查特定优化规则是否启用
-  virtual bool isRuleEnabled(const std::string &rule_name) const = 0;
-};
-
-/**
- * @brief 基于规则的查询优化器
- * 实现基于规则的查询优化
- */
-class RuleBasedOptimizer : public QueryOptimizer {
-public:
-  RuleBasedOptimizer();
-  ~RuleBasedOptimizer() override = default;
-
-  // 优化查询计划
-  ExecutionPlan optimize(const ExecutionPlan &plan,
-                         const ExecutionContext &context) override;
-
-  // 生成执行计划
-  ExecutionPlan generatePlan(const sql_parser::SelectStatement &stmt,
-                             const ExecutionContext &context) override;
-
-  // 评估执行计划成本
-  double estimateCost(const ExecutionPlan &plan,
-                      const ExecutionContext &context) override;
-
-  // 获取优化规则
-  std::vector<std::string> getOptimizationRules() const override;
-
-  // 启用/禁用特定优化规则
-  void enableRule(const std::string &rule_name) override;
-  void disableRule(const std::string &rule_name) override;
-
-  // 检查特定优化规则是否启用
-  bool isRuleEnabled(const std::string &rule_name) const override;
-
-private:
-  // 优化规则
-  std::unordered_map<std::string, bool> optimization_rules_;
-
-  // 执行计划生成器
-  ExecutionPlanGenerator plan_generator_;
 };
 
 /**

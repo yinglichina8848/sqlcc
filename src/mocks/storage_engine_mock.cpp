@@ -87,7 +87,9 @@ void StorageEngineMock::FlushAllPages() {
 }
 
 std::string StorageEngineMock::GetStats() const {
-    RecordCall("GetStats");
+    // Use const_cast to call non-const method from const context
+    // This is safe because RecordCall doesn't modify observable state in this context
+    const_cast<StorageEngineMock*>(this)->RecordCall("GetStats");
     return stats_result_;
 }
 

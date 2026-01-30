@@ -153,6 +153,17 @@ void Logger::Error(std::string&& message) {
     Log(LogLevel::ERROR, std::move(message));
 }
 
+void Logger::Flush() noexcept {
+    try {
+        std::lock_guard<std::mutex> lock(mutex_);
+        if (log_file_ && log_file_->is_open()) {
+            log_file_->flush();
+        }
+    } catch (...) {
+        // Swallow any exceptions during flush
+    }
+}
+
 // Private constructor - singleton pattern
 Logger::Logger()
     : log_level_(LogLevel::INFO)

@@ -1,9 +1,9 @@
 #ifndef SQLCC_SUBQUERY_EXECUTOR_H
 #define SQLCC_SUBQUERY_EXECUTOR_H
 
-#include "core/execution_context.h"
-#include "core/execution_result.h"
-#include "sql_parser/ast_nodes.h"
+#include "../core/execution_context.h"
+#include "../core/execution_result.h"
+#include "../sql_parser/ast/ast_nodes.h"
 #include <memory>
 #include <string>
 

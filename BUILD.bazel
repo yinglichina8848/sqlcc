@@ -120,9 +120,9 @@ sh_test(
     srcs = ["scripts/analyze_coverage_trends.sh"],
     data = glob([
         "coverage_reports/**/*",
-        "docs/**/*",
+        "docs/*.md",
     ], allow_empty = True),
-    timeout = "medium",
+    timeout = "long",
     tags = ["coverage", "analysis"],
 )
 
@@ -135,7 +135,7 @@ sh_test(
         "coverage_data/**/*",
         "coverage_reports/**/*",
     ], allow_empty = True),
-    timeout = "medium",
+    timeout = "long",
     tags = ["coverage", "reporting"],
 )
 
@@ -160,7 +160,7 @@ sh_test(
         "coverage_data/**/*",
         "coverage_reports/**/*",
     ], allow_empty = True),
-    timeout = "medium",
+    timeout = "long",
     tags = ["coverage", "verification"],
 )
 

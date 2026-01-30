@@ -48,9 +48,10 @@ SQLCC（SQL Cloud-native Cluster）是一个企业级内存安全的云原生数
 - [**版本功能对比**](releases/version_summary_v1.2.3.md) - 各版本特性总览
 
 ### 🚀 最新版本特性
-- [**v1.3.8 Release Notes**](project/versions/v1.3.8/) - 最新版本发布说明
-- [**v1.3.7 Release Notes**](project/versions/v1.3.7/) - Level1模块迁移
-- [**v1.3.6 Release Notes**](project/versions/v1.3.6/) - LLVM覆盖率测试
+- [**v1.3.9 Release Notes**](project/versions/v1.3.9/) - Level 1 Foundation完整单元测试
+- [**v1.3.8 Release Notes**](project/versions/v1.3.8/) - SQL Parser模块化重构
+- [**v1.3.7 Release Notes**](project/versions/v1.3.7/) - Bazel构建系统重构
+- [**v1.3.6 Release Notes**](project/versions/v1.3.6/) - LLVM覆盖率工具链完善
 - [v1.2.x系列](project/versions/) - v1.2.0-v1.2.15版本特性
 
 ## 🔧 API文档
@@ -135,10 +136,11 @@ SQLCC（SQL Cloud-native Cluster）是一个企业级内存安全的云原生数
 ## 📝 项目进展记录
 
 ### 🎯 最新版本 (v1.3.x)
-- [**v1.3.8 版本报告**](project/versions/v1.3.8/) - 最新版本发布说明
-- [**v1.3.7 版本报告**](project/versions/v1.3.7/) - Level1模块迁移
-- [**v1.3.6 版本报告**](project/versions/v1.3.6/) - LLVM覆盖率测试
-- [**v1.3.x系列**](project/versions/) - v1.3.0-v1.3.8版本特性
+- [**v1.3.9 版本报告**](project/versions/v1.3.9/) - Level 1 Foundation完整单元测试
+- [**v1.3.8 版本报告**](project/versions/v1.3.8/) - SQL Parser模块化重构
+- [**v1.3.7 版本报告**](project/versions/v1.3.7/) - Bazel构建系统重构
+- [**v1.3.6 版本报告**](project/versions/v1.3.6/) - LLVM覆盖率工具链完善
+- [**v1.3.x系列**](project/versions/) - v1.3.0-v1.3.9版本特性
 
 ### 🚀 v1.2.x系列
 - [**v1.2.6 版本报告**](project/versions/v1.2.6/) - 核心组件注释补全计划
@@ -172,6 +174,10 @@ SQLCC（SQL Cloud-native Cluster）是一个企业级内存安全的云原生数
 
 ### 📜 变更日志
 - [**完整变更日志**](CHANGELOG.md) - 所有版本变更记录
+- [**v1.3.9 ChangeLog**](releases/CHANGELOG_v1.3.9.md) - Level 1 Foundation完整单元测试
+- [**v1.3.8 ChangeLog**](releases/CHANGELOG_v1.3.8.md) - SQL Parser模块化重构
+- [**v1.3.7 ChangeLog**](releases/CHANGELOG_v1.3.7.md) - Bazel构建系统重构
+- [**v1.3.6 ChangeLog**](releases/CHANGELOG_v1.3.6.md) - LLVM覆盖率工具链完善
 - [**Bazel重构日志**](CHANGELOG_BAZEL_REFACTORING.md) - 构建系统变更
 
 ### 📈 版本发布
@@ -236,6 +242,6 @@ docs/
 
 **📖 快速导航**: [项目概述](../README.md) • [开发者指南](development/guides/) • [API文档](api/) • [架构设计](design/)
 
-**🆕 最新更新**: v1.3.8 发布 • 文档目录结构重组 • 完整索引更新
+**🆕 最新更新**: v1.3.9 发布 • Level 1 Foundation完整单元测试 • 文档索引更新
 
-*最后更新: 2026-01-29*
+*最后更新: 2026-01-30*

@@ -10,7 +10,7 @@
 #include <string>
 #include <memory>
 
-#include "datatype.h"
+#include "../data_types.h"
 
 namespace sqlcc {
 

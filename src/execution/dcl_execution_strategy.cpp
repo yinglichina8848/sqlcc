@@ -16,7 +16,7 @@ ExecutionResult DCLExecutionStrategy::execute(std::unique_ptr<sql_parser::Statem
         return createErrorResult("Statement is null");
     }
 
-    switch (stmt->type) {
+    switch (stmt->type_) {
         case sql_parser::Statement::Type::CREATE_USER: {
             auto create_stmt = dynamic_cast<sql_parser::CreateUserStatement*>(stmt.get());
             if (create_stmt) {
@@ -55,10 +55,18 @@ ExecutionResult DCLExecutionStrategy::execute(std::unique_ptr<sql_parser::Statem
 bool DCLExecutionStrategy::checkPermission(const sql_parser::Statement& stmt,
                                          const ExecutionContext &context) {
     // 对于DCL操作，需要管理员权限
-    if (context.getUserManager()) {
-        auto currentUser = context.getCurrentUser();
-        if (currentUser && currentUser->is_admin) {
-            return true;
+    if (context.get_user_manager()) {
+        auto currentUser = context.get_current_user();
+        if (!currentUser.empty()) {
+            // 检查用户是否有ADMIN或SUPERUSER角色
+            auto userManager = context.get_user_manager();
+            std::vector<User> users = userManager->ListUsers();
+            for (const auto& user : users) {
+                if (user.username == currentUser &&
+                    (user.role == UserManager::ROLE_ADMIN || user.role == UserManager::ROLE_SUPERUSER)) {
+                    return true;
+                }
+            }
         }
     }
     return false;
@@ -67,7 +75,7 @@ bool DCLExecutionStrategy::checkPermission(const sql_parser::Statement& stmt,
 bool DCLExecutionStrategy::validate(const sql_parser::Statement& stmt,
                                   const ExecutionContext &context) {
     // 验证DCL语句的基本有效性
-    switch (stmt.type) {
+    switch (stmt.type_) {
         case sql_parser::Statement::Type::CREATE_USER:
         case sql_parser::Statement::Type::DROP_USER:
         case sql_parser::Statement::Type::GRANT:
@@ -80,16 +88,11 @@ bool DCLExecutionStrategy::validate(const sql_parser::Statement& stmt,
 
 ExecutionResult DCLExecutionStrategy::executeCreateUser(const sql_parser::CreateUserStatement& stmt,
                                                       ExecutionContext &context) {
-    if (auto db_manager = context.getDatabaseManager()) {
+    if (auto db_manager = context.get_db_manager()) {
         auto userManager = db_manager->getUserManager();
         if (userManager) {
             // 创建新用户
-            User newUser;
-            newUser.username = stmt.username;
-            newUser.password = stmt.password;  // 在实际实现中应进行哈希处理
-            newUser.is_admin = stmt.is_admin;
-            
-            if (userManager->createUser(newUser)) {
+            if (userManager->CreateUser(stmt.getUserName(), stmt.getPassword())) {
                 return createSuccessResult("User created successfully");
             } else {
                 return createErrorResult("Failed to create user: username may already exist");
@@ -101,10 +104,10 @@ ExecutionResult DCLExecutionStrategy::executeCreateUser(const sql_parser::Create
 
 ExecutionResult DCLExecutionStrategy::executeDropUser(const sql_parser::DropUserStatement& stmt,
                                                      ExecutionContext &context) {
-    if (auto db_manager = context.getDatabaseManager()) {
+    if (auto db_manager = context.get_db_manager()) {
         auto userManager = db_manager->getUserManager();
         if (userManager) {
-            if (userManager->dropUser(stmt.username)) {
+            if (userManager->DropUser(stmt.getUserName())) {
                 return createSuccessResult("User dropped successfully");
             } else {
                 return createErrorResult("Failed to drop user: user may not exist");
@@ -116,14 +119,42 @@ ExecutionResult DCLExecutionStrategy::executeDropUser(const sql_parser::DropUser
 
 ExecutionResult DCLExecutionStrategy::executeGrant(const sql_parser::GrantStatement& stmt,
                                                   ExecutionContext &context) {
-    if (auto db_manager = context.getDatabaseManager()) {
+    if (auto db_manager = context.get_db_manager()) {
         auto userManager = db_manager->getUserManager();
         if (userManager) {
-            if (userManager->grantPermission(stmt.username, stmt.permission, stmt.resource)) {
-                return createSuccessResult("Permission granted successfully");
-            } else {
-                return createErrorResult("Failed to grant permission");
+            // 处理GRANT语句
+            const auto& users = stmt.getUsers();
+            const auto& privileges = stmt.getPrivileges();
+            const auto& objectType = stmt.getObjectType();
+            const auto& objectName = stmt.getObjectName();
+
+            for (const auto& user : users) {
+                for (const auto& privilege : privileges) {
+                    if (objectType == "TABLE") {
+                        // 解析表名，格式可能是 "database.table" 或 "table"
+                        size_t dotPos = objectName.find('.');
+                        std::string database = context.get_current_database();
+                        std::string table = objectName;
+
+                        if (dotPos != std::string::npos) {
+                            database = objectName.substr(0, dotPos);
+                            table = objectName.substr(dotPos + 1);
+                        }
+
+                        if (!userManager->GrantPrivilege(user, database, table, privilege)) {
+                            return createErrorResult("Failed to grant privilege to user " + user);
+                        }
+                    } else if (objectType == "DATABASE") {
+                        if (!userManager->GrantPrivilege(user, objectName, "", privilege)) {
+                            return createErrorResult("Failed to grant privilege to user " + user);
+                        }
+                    } else {
+                        return createErrorResult("Unsupported object type: " + objectType);
+                    }
+                }
             }
+
+            return createSuccessResult("Permission granted successfully");
         }
     }
     return createErrorResult("User manager not available");
@@ -131,14 +162,42 @@ ExecutionResult DCLExecutionStrategy::executeGrant(const sql_parser::GrantStatem
 
 ExecutionResult DCLExecutionStrategy::executeRevoke(const sql_parser::RevokeStatement& stmt,
                                                    ExecutionContext &context) {
-    if (auto db_manager = context.getDatabaseManager()) {
+    if (auto db_manager = context.get_db_manager()) {
         auto userManager = db_manager->getUserManager();
         if (userManager) {
-            if (userManager->revokePermission(stmt.username, stmt.permission, stmt.resource)) {
-                return createSuccessResult("Permission revoked successfully");
-            } else {
-                return createErrorResult("Failed to revoke permission");
+            // 处理REVOKE语句
+            const auto& users = stmt.getUsers();
+            const auto& privileges = stmt.getPrivileges();
+            const auto& objectType = stmt.getObjectType();
+            const auto& objectName = stmt.getObjectName();
+
+            for (const auto& user : users) {
+                for (const auto& privilege : privileges) {
+                    if (objectType == "TABLE") {
+                        // 解析表名，格式可能是 "database.table" 或 "table"
+                        size_t dotPos = objectName.find('.');
+                        std::string database = context.get_current_database();
+                        std::string table = objectName;
+
+                        if (dotPos != std::string::npos) {
+                            database = objectName.substr(0, dotPos);
+                            table = objectName.substr(dotPos + 1);
+                        }
+
+                        if (!userManager->RevokePrivilege(user, database, table, privilege)) {
+                            return createErrorResult("Failed to revoke privilege from user " + user);
+                        }
+                    } else if (objectType == "DATABASE") {
+                        if (!userManager->RevokePrivilege(user, objectName, "", privilege)) {
+                            return createErrorResult("Failed to revoke privilege from user " + user);
+                        }
+                    } else {
+                        return createErrorResult("Unsupported object type: " + objectType);
+                    }
+                }
             }
+
+            return createSuccessResult("Permission revoked successfully");
         }
     }
     return createErrorResult("User manager not available");

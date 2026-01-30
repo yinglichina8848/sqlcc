@@ -86,8 +86,8 @@
 
 #include "../core/execution_context.h" // 包含ExecutionContext定义
 #include "../core/execution_result.h"  // 包含完整的ExecutionResult定义
-#include "../sql_executor/system_database.h"
-#include "../sql_executor/user_manager.h"
+#include "../core/system_database.h"
+#include "../core/user_manager.h"
 #include "../sql_parser/ast/ast_nodes.h"
 #include "../storage_engine/b_plus_tree.h"
 #include "../storage_engine/table_storage.h"
