@@ -10,10 +10,10 @@ namespace index_manager {
 TransactionalIndexManager::TransactionalIndexManager(std::shared_ptr<StorageEngine> storage_engine)
     : storage_engine_(storage_engine) {}
 
-bool TransactionalIndexManager::CreateIndexTransactional(const std::string& index_name,
+bool TransactionalIndexManager::CreateIndexInTransaction(const std::string& index_name,
                                                         const std::string& table_name,
                                                         const std::string& column_name,
-                                                        int32_t transaction_id) {
+                                                        int transaction_id) {
     // 记录事务操作
     IndexOperation op{index_name, table_name, column_name, OperationType::CREATE, transaction_id};
     transaction_log_[transaction_id].push_back(op);
@@ -33,9 +33,10 @@ bool TransactionalIndexManager::CreateIndexTransactional(const std::string& inde
     return true;
 }
 
-bool TransactionalIndexManager::DropIndexTransactional(const std::string& index_name,
+bool TransactionalIndexManager::DropIndexInTransaction(const std::string& index_name,
                                                       const std::string& table_name,
-                                                      int32_t transaction_id) {
+                                                      const std::string& column_name,
+                                                      int transaction_id) {
     // 记录事务操作
     IndexOperation op{index_name, table_name, "", OperationType::DROP, transaction_id};
     transaction_log_[transaction_id].push_back(op);
