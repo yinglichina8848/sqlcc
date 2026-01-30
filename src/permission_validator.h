@@ -108,8 +108,8 @@
 #ifndef SQLCC_PERMISSION_VALIDATOR_H
 #define SQLCC_PERMISSION_VALIDATOR_H
 
-#include "../../backups/core_backup_20260121_001034/user_manager.h"
-#include "../../backups/core_backup_20260121_001034/core_database_manager.h"
+#include "core_backup_20260121_001034/user_manager.h"
+#include "core_backup_20260121_001034/core_database_manager.h"
 #include "error_handler.h"
 #include "sql_parser/ast/ast_nodes.h"
 #include <memory>

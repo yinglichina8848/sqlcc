@@ -1,4 +1,4 @@
-#include "../../backups/core_backup_20260121_001034/system_database.h"
+#include "core_backup_20260121_001034/system_database.h"
 #include "system_schema_manager.h"
 #include "system_data_initializer.h"
 #include "system_permission_manager.h"

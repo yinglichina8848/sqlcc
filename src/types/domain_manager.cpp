@@ -56,7 +56,7 @@ std::string Value::toString() const {
         case DOUBLE: return std::to_string(double_value_);
         case STRING: return string_value_;
         case BOOLEAN: return bool_value_ ? "true" : "false";
-        case NULL_VALUE: return "null";
+        case NULL_VALUE: return "NULL";  // 返回大写NULL
         default: return "unknown";
     }
 }
@@ -98,19 +98,51 @@ bool DomainDefinition::evaluateCheckConstraint(const Value& value) const {
     // 简化的约束检查实现
     // 实际应实现完整的表达式求值器
 
-    // 示例：检查正整数约束
-    if (check_constraint_.find("VALUE > 0") != std::string::npos) {
+    // 检查正整数约束（支持多种格式）
+    std::string lower_constraint = check_constraint_;
+    std::transform(lower_constraint.begin(), lower_constraint.end(), lower_constraint.begin(), ::tolower);
+    
+    if (lower_constraint.find("value > 0") != std::string::npos) {
         if (value.getType() == Value::INTEGER) {
             return value.asInteger() > 0;
         }
         return false;
     }
+    
+    if (lower_constraint.find("value >= 0") != std::string::npos) {
+        if (value.getType() == Value::INTEGER) {
+            return value.asInteger() >= 0;
+        }
+        return false;
+    }
+    
+    if (lower_constraint.find("value <= 150") != std::string::npos) {
+        if (value.getType() == Value::INTEGER) {
+            return value.asInteger() <= 150;
+        }
+        return false;
+    }
+    
+    if (lower_constraint.find("value >= 0 and value <= 150") != std::string::npos) {
+        if (value.getType() == Value::INTEGER) {
+            int v = value.asInteger();
+            return v >= 0 && v <= 150;
+        }
+        return false;
+    }
 
     // 示例：检查邮箱格式约束
-    if (check_constraint_.find("LIKE '%@%'") != std::string::npos) {
+    if (lower_constraint.find("like '%@%'") != std::string::npos) {
         if (value.getType() == Value::STRING) {
             const std::string& str = value.asString();
             return str.find('@') != std::string::npos;
+        }
+        return false;
+    }
+    
+    if (lower_constraint.find("length(value) > 0") != std::string::npos) {
+        if (value.getType() == Value::STRING) {
+            return !value.asString().empty();
         }
         return false;
     }

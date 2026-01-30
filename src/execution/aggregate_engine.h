@@ -13,7 +13,7 @@
 #include <unordered_map>
 
 #include "../core/execution_strategy.h"
-#include "../../backups/core_backup_20260121_001034/execution_result.h"
+#include "core_backup_20260121_001034/execution_result.h"
 
 namespace sqlcc {
 

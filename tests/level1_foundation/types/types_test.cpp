@@ -210,6 +210,15 @@ protected:
     void SetUp() override {
         // 每个测试前获取管理器实例
         manager = &DomainManager::getInstance();
+        // 清理所有可能的测试域名，确保测试隔离
+        manager->dropDomain("TEST_DOMAIN1");
+        manager->dropDomain("TEST_DOMAIN2");
+        manager->dropDomain("AGE_DOMAIN");
+        manager->dropDomain("STATUS_DOMAIN");
+        manager->dropDomain("NULLABLE_DOMAIN");
+        manager->dropDomain("NOT_NULL_DOMAIN");
+        manager->dropDomain("REQUIRED_DOMAIN");
+        manager->dropDomain("TEST_DOMAIN");
     }
 
     void TearDown() override {
@@ -217,6 +226,11 @@ protected:
         manager->dropDomain("TEST_DOMAIN1");
         manager->dropDomain("TEST_DOMAIN2");
         manager->dropDomain("AGE_DOMAIN");
+        manager->dropDomain("STATUS_DOMAIN");
+        manager->dropDomain("NULLABLE_DOMAIN");
+        manager->dropDomain("NOT_NULL_DOMAIN");
+        manager->dropDomain("REQUIRED_DOMAIN");
+        manager->dropDomain("TEST_DOMAIN");
     }
 
     DomainManager* manager;
@@ -495,6 +509,9 @@ class TypesIntegrationTest : public ::testing::Test {
 protected:
     void SetUp() override {
         manager = &DomainManager::getInstance();
+        // 清理所有可能的测试域名
+        manager->dropDomain("INTEGRATION_DOMAIN1");
+        manager->dropDomain("INTEGRATION_DOMAIN2");
     }
 
     void TearDown() override {

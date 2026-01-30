@@ -68,9 +68,9 @@
 #include "sql_parser/ast/ast_node.h"
 #include "sql_parser/ast_nodes.h"
 #include "execution_engine.h"
-#include "../../backups/core_backup_20260121_001034/core_database_manager.h"
-#include "../../backups/core_backup_20260121_001034/execution_context.h"
-#include "../../backups/core_backup_20260121_001034/unified_executor.h"
+#include "core_backup_20260121_001034/core_database_manager.h"
+#include "core_backup_20260121_001034/execution_context.h"
+#include "core_backup_20260121_001034/unified_executor.h"
 #include <memory>
 
 namespace sqlcc {
