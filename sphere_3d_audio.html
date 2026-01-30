@@ -1,0 +1,1342 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Glowing Sphere with Audio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            overflow: hidden;
+            background: radial-gradient(ellipse at center, #1a1a2e 0%, #0f0f1a 50%, #000000 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            user-select: none;
+        }
+
+        #canvas-container {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        canvas {
+            display: block;
+        }
+
+        .cursor-default { cursor: default; }
+        .cursor-orbit { cursor: move; }
+        .cursor-pan { cursor: grabbing; }
+
+        /* 控制面板 */
+        #controls-panel {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.85);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            font-size: 13px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            min-width: 220px;
+        }
+
+        #controls-panel h3 {
+            margin: 0 0 15px 0;
+            font-size: 16px;
+            color: #00ff88;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            padding-bottom: 8px;
+        }
+
+        #controls-panel .control-item {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+            gap: 12px;
+        }
+
+        #controls-panel .key {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 12px;
+            min-width: 80px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.2s;
+        }
+
+        #controls-panel .key.active {
+            background: rgba(0, 255, 136, 0.3);
+            border-color: #00ff88;
+            color: #00ff88;
+            box-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+        }
+
+        #controls-panel .action {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* 状态面板 */
+        #status-panel {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.85);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 12px;
+            font-size: 12px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            min-width: 180px;
+        }
+
+        #status-panel h3 {
+            margin: 0 0 12px 0;
+            font-size: 14px;
+            color: #00ff88;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            padding-bottom: 8px;
+        }
+
+        #status-panel .stat-row {
+            display: flex;
+            justify-content: space-between;
+            margin: 6px 0;
+            align-items: center;
+        }
+
+        #status-panel .stat-label {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        #status-panel .stat-value {
+            color: #00ff88;
+            font-family: 'Consolas', monospace;
+            font-size: 11px;
+        }
+
+        #status-panel .color-preview {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-left: 5px;
+            vertical-align: middle;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        /* 颜色提示 */
+        #color-toast {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.8);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            opacity: 0;
+            transition: all 0.3s ease;
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        #color-toast.show {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        #color-toast .color-circle {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 4px solid white;
+            box-shadow: 0 0 40px currentColor, 0 0 80px currentColor, inset 0 0 20px rgba(255,255,255,0.3);
+            animation: pulse 1s ease-in-out infinite alternate;
+        }
+
+        @keyframes pulse {
+            from { transform: scale(1); }
+            to { transform: scale(1.1); }
+        }
+
+        #color-toast .color-text {
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(0,0,0,0.9), 0 0 20px rgba(0,0,0,0.9);
+            background: rgba(0,0,0,0.6);
+            padding: 8px 20px;
+            border-radius: 25px;
+            letter-spacing: 2px;
+        }
+
+        /* 音频控制面板 */
+        #audio-panel {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.85);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 12px;
+            font-size: 12px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            min-width: 220px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        #audio-panel h3 {
+            margin: 0 0 12px 0;
+            font-size: 14px;
+            color: #ff6b6b;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            padding-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .audio-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            width: 100%;
+            margin: 5px 0;
+        }
+
+        .audio-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .audio-btn.playing {
+            background: rgba(0, 255, 136, 0.2);
+            border-color: #00ff88;
+            color: #00ff88;
+        }
+
+        .audio-btn.speaking {
+            background: rgba(255, 107, 107, 0.2);
+            border-color: #ff6b6b;
+            color: #ff6b6b;
+            animation: speaking-pulse 0.5s ease-in-out infinite alternate;
+        }
+
+        @keyframes speaking-pulse {
+            from { box-shadow: 0 0 5px rgba(255, 107, 107, 0.3); }
+            to { box-shadow: 0 0 15px rgba(255, 107, 107, 0.6); }
+        }
+
+        .audio-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* 语音选择器 */
+        .voice-selector {
+            margin: 10px 0;
+        }
+
+        .voice-selector label {
+            display: block;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 5px;
+            font-size: 11px;
+        }
+
+        .voice-selector select {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+            padding: 8px;
+            color: white;
+            font-size: 11px;
+            cursor: pointer;
+        }
+
+        .voice-selector select:focus {
+            outline: none;
+            border-color: #ff6b6b;
+        }
+
+        .voice-selector select option {
+            background: #1a1a2e;
+            color: white;
+        }
+
+        /* 语音文本输入 */
+        #voice-text {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+            padding: 8px;
+            color: white;
+            font-size: 12px;
+            margin-top: 10px;
+            resize: none;
+            font-family: inherit;
+        }
+
+        #voice-text::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        #voice-text:focus {
+            outline: none;
+            border-color: #ff6b6b;
+        }
+
+        /* 音量滑块 */
+        .volume-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .volume-slider {
+            flex: 1;
+            -webkit-appearance: none;
+            height: 4px;
+            border-radius: 2px;
+            background: rgba(255, 255, 255, 0.2);
+            outline: none;
+        }
+
+        .volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #ff6b6b;
+            cursor: pointer;
+        }
+
+        /* 语音状态提示 */
+        .voice-status {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.5);
+            margin-top: 5px;
+            text-align: center;
+        }
+
+        .voice-status.ready {
+            color: #00ff88;
+        }
+
+        .voice-status.error {
+            color: #ff6b6b;
+        }
+
+        /* 底部帮助 */
+        #help-bar {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 25px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 12px 30px;
+            border-radius: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .help-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 12px;
+        }
+
+        .help-item .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .dot.orbit { background: #ff6b6b; }
+        .dot.pan { background: #4ecdc4; }
+        .dot.zoom { background: #ffe66d; }
+        .dot.color { background: #00ff88; box-shadow: 0 0 8px #00ff88; }
+        .dot.reset { background: #95e1d3; }
+
+        /* 重置按钮 */
+        #reset-btn {
+            position: fixed;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 255, 136, 0.2);
+            color: #00ff88;
+            border: 1px solid #00ff88;
+            padding: 10px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 13px;
+            opacity: 0;
+            transition: all 0.3s;
+            pointer-events: none;
+            font-weight: bold;
+        }
+
+        #reset-btn.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        #reset-btn:hover {
+            background: rgba(0, 255, 136, 0.4);
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+        }
+
+        /* 初始提示 */
+        #start-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 0.5s;
+        }
+
+        #start-overlay.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        #start-overlay h2 {
+            color: #00ff88;
+            font-size: 32px;
+            margin-bottom: 20px;
+            text-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
+        }
+
+        #start-overlay p {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+
+        #start-btn {
+            background: linear-gradient(135deg, #00ff88, #00ccff);
+            border: none;
+            color: black;
+            padding: 15px 40px;
+            border-radius: 30px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 0 30px rgba(0, 255, 136, 0.4);
+        }
+
+        #start-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 50px rgba(0, 255, 136, 0.6);
+        }
+    </style>
+</head>
+<body>
+    <!-- 启动遮罩 -->
+    <div id="start-overlay">
+        <h2>🎵 3D 发光球体</h2>
+        <p>点击开始，体验音乐与语音的沉浸式交互</p>
+        <button id="start-btn">✨ 开始体验</button>
+    </div>
+
+    <div id="canvas-container"></div>
+    
+    <!-- 控制面板 -->
+    <div id="controls-panel">
+        <h3>🎮 3D 控制器</h3>
+        <div class="control-item">
+            <span class="key" id="key-lmb">🖱️ 左键</span>
+            <span class="action">旋转球体</span>
+        </div>
+        <div class="control-item">
+            <span class="key" id="key-rmb">🖱️ 右键</span>
+            <span class="action">平移位置</span>
+        </div>
+        <div class="control-item">
+            <span class="key" id="key-wheel">🎡 滚轮</span>
+            <span class="action">缩放距离</span>
+        </div>
+        <div class="control-item">
+            <span class="key" id="key-color">⌨️ C+滚轮</span>
+            <span class="action">改变颜色</span>
+        </div>
+    </div>
+
+    <!-- 状态面板 -->
+    <div id="status-panel">
+        <h3>📊 状态</h3>
+        <div class="stat-row">
+            <span class="stat-label">颜色:</span>
+            <span class="stat-value" id="color-value">
+                #00FF88<span class="color-preview" style="background: #00ff88;"></span>
+            </span>
+        </div>
+        <div class="stat-row">
+            <span class="stat-label">距离:</span>
+            <span class="stat-value" id="dist-value">5.00</span>
+        </div>
+        <div class="stat-row">
+            <span class="stat-label">音乐:</span>
+            <span class="stat-value" id="music-status">🎵 暂停</span>
+        </div>
+    </div>
+
+    <!-- 音频控制面板 -->
+    <div id="audio-panel">
+        <h3>🎵 音频控制</h3>
+        <button class="audio-btn" id="music-btn">
+            <span id="music-icon">▶️</span>
+            <span id="music-text">播放背景音乐</span>
+        </button>
+        <div class="volume-control">
+            <span>🔊</span>
+            <input type="range" class="volume-slider" id="music-volume" min="0" max="100" value="50">
+            <span id="volume-text">50%</span>
+        </div>
+        
+        <div class="voice-selector">
+            <label>🎙️ 选择语音:</label>
+            <select id="voice-select">
+                <option value="">加载中...</option>
+            </select>
+        </div>
+        <div class="voice-status" id="voice-status">正在检测语音引擎...</div>
+        
+        <textarea id="voice-text" rows="3" placeholder="输入要朗读的文字...">欢迎来到3D发光球体世界。这是一个充满未来感的交互体验。您可以用鼠标旋转球体，用右键平移，用滚轮缩放。按住C键并滚动滚轮可以改变球体颜色。双击可重置所有设置。</textarea>
+        <button class="audio-btn" id="speak-btn">
+            <span>🗣️</span>
+            <span>朗读文字</span>
+        </button>
+    </div>
+
+    <!-- 颜色提示 -->
+    <div id="color-toast">
+        <div class="color-circle" id="color-circle" style="background: #00ff88; color: #00ff88;"></div>
+        <div class="color-text" id="color-text">#00FF88</div>
+    </div>
+
+    <!-- 底部帮助 -->
+    <div id="help-bar">
+        <div class="help-item">
+            <span class="dot orbit"></span>
+            <span>左键旋转</span>
+        </div>
+        <div class="help-item">
+            <span class="dot pan"></span>
+            <span>右键平移</span>
+        </div>
+        <div class="help-item">
+            <span class="dot zoom"></span>
+            <span>滚轮缩放</span>
+        </div>
+        <div class="help-item">
+            <span class="dot color"></span>
+            <span>C+滚轮变色</span>
+        </div>
+        <div class="help-item">
+            <span class="dot reset"></span>
+            <span>双击重置</span>
+        </div>
+    </div>
+
+    <!-- 重置按钮 -->
+    <button id="reset-btn">↺ 重置视角与颜色</button>
+
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+            }
+        }
+    </script>
+
+    <script type="module">
+        import * as THREE from 'three';
+        import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+        import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+        import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
+
+        // ============================================
+        // 配置
+        // ============================================
+        const CONFIG = {
+            MIN_DIST: 3,
+            MAX_DIST: 15,
+            ZOOM_SPEED: 0.05,
+            ROTATE_SPEED: 2.0,
+            PAN_SPEED: 0.02,
+            COLOR_SPEED: 0.003,
+            DAMPING: 0.08
+        };
+
+        // ============================================
+        // 状态
+        // ============================================
+        const state = {
+            hue: 0.44,
+            distance: 5,
+            targetDist: 5,
+            pos: { x: 0, y: 0 },
+            targetPos: { x: 0, y: 0 },
+            rot: { x: 0, y: 0 },
+            targetRot: { x: 0, y: 0 },
+            mode: 'none',
+            isColorMode: false,
+            isPlaying: false
+        };
+
+        // ============================================
+        // 音频管理器
+        // ============================================
+        class AudioManager {
+            constructor() {
+                this.audioContext = null;
+                this.bgMusic = null;
+                this.isPlaying = false;
+                this.volume = 0.5;
+                this.voices = [];
+                this.selectedVoice = null;
+                this.onVoicesLoaded = null;
+            }
+
+            init() {
+                this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                this.createAmbientMusic();
+                this.loadVoices();
+            }
+
+            loadVoices() {
+                const loadVoiceList = () => {
+                    this.voices = window.speechSynthesis.getVoices();
+                    console.log('可用语音列表:', this.voices.map(v => `${v.name} (${v.lang})`));
+                    
+                    if (this.onVoicesLoaded) {
+                        this.onVoicesLoaded(this.voices);
+                    }
+                };
+
+                // Chrome需要等待voiceschanged事件
+                if (window.speechSynthesis.onvoiceschanged !== undefined) {
+                    window.speechSynthesis.onvoiceschanged = loadVoiceList;
+                }
+                
+                // 立即尝试加载（对Firefox有效）
+                loadVoiceList();
+            }
+
+            // 获取中文语音
+            getChineseVoices() {
+                const chineseLangs = ['zh-CN', 'zh', 'zh-Hans', 'zh-Hans-CN', 'zh-TW', 'zh-HK', 'zh-Hant'];
+                return this.voices.filter(voice => {
+                    return chineseLangs.some(lang => voice.lang.toLowerCase().startsWith(lang.toLowerCase()));
+                });
+            }
+
+            // 获取最佳中文语音
+            getBestChineseVoice() {
+                const chineseVoices = this.getChineseVoices();
+                
+                // 优先选择 Google 或 Microsoft 的中文语音
+                const preferred = chineseVoices.find(v => 
+                    v.name.includes('Google') || v.name.includes('Microsoft')
+                );
+                
+                if (preferred) return preferred;
+                
+                // 其次选择默认中文语音
+                const defaultVoice = chineseVoices.find(v => v.default);
+                if (defaultVoice) return defaultVoice;
+                
+                // 返回第一个中文语音
+                return chineseVoices[0] || null;
+            }
+
+            createAmbientMusic() {
+                const ctx = this.audioContext;
+                this.masterGain = ctx.createGain();
+                this.masterGain.gain.value = this.volume * 0.3;
+                this.masterGain.connect(ctx.destination);
+                this.createReverb();
+                this.playAmbientLoop();
+            }
+
+            createReverb() {
+                const ctx = this.audioContext;
+                const convolver = ctx.createConvolver();
+                const rate = ctx.sampleRate;
+                const length = rate * 2;
+                const impulse = ctx.createBuffer(2, length, rate);
+                
+                for (let channel = 0; channel < 2; channel++) {
+                    const data = impulse.getChannelData(channel);
+                    for (let i = 0; i < length; i++) {
+                        data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / length, 2);
+                    }
+                }
+                
+                convolver.buffer = impulse;
+                this.reverb = convolver;
+            }
+
+            playAmbientLoop() {
+                const ctx = this.audioContext;
+                const notes = [261.63, 293.66, 329.63, 392.00, 440.00, 523.25];
+                let noteIndex = 0;
+                
+                const playNote = () => {
+                    if (!this.isPlaying) return;
+                    
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    const filter = ctx.createBiquadFilter();
+                    
+                    osc.type = 'sine';
+                    osc.frequency.value = notes[noteIndex] / 2;
+                    
+                    filter.type = 'lowpass';
+                    filter.frequency.value = 800;
+                    
+                    gain.gain.setValueAtTime(0, ctx.currentTime);
+                    gain.gain.linearRampToValueAtTime(0.1, ctx.currentTime + 0.5);
+                    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 3);
+                    
+                    osc.connect(filter);
+                    filter.connect(gain);
+                    gain.connect(this.masterGain);
+                    gain.connect(this.reverb);
+                    this.reverb.connect(this.masterGain);
+                    
+                    osc.start(ctx.currentTime);
+                    osc.stop(ctx.currentTime + 3);
+                    
+                    noteIndex = (noteIndex + Math.floor(Math.random() * 3) + 1) % notes.length;
+                    setTimeout(playNote, 1000 + Math.random() * 2000);
+                };
+                
+                this.noteLoop = playNote;
+            }
+
+            play() {
+                if (this.audioContext.state === 'suspended') {
+                    this.audioContext.resume();
+                }
+                this.isPlaying = true;
+                this.noteLoop();
+                return true;
+            }
+
+            pause() {
+                this.isPlaying = false;
+                return false;
+            }
+
+            toggle() {
+                return this.isPlaying ? this.pause() : this.play();
+            }
+
+            setVolume(value) {
+                this.volume = value / 100;
+                if (this.masterGain) {
+                    this.masterGain.gain.value = this.volume * 0.3;
+                }
+            }
+
+            setVoice(voice) {
+                this.selectedVoice = voice;
+            }
+
+            speak(text) {
+                if (!window.speechSynthesis) {
+                    alert('您的浏览器不支持语音合成');
+                    return null;
+                }
+                
+                window.speechSynthesis.cancel();
+                
+                const utterance = new SpeechSynthesisUtterance(text);
+                
+                // 使用选定的语音或最佳中文语音
+                const voice = this.selectedVoice || this.getBestChineseVoice();
+                if (voice) {
+                    utterance.voice = voice;
+                    utterance.lang = voice.lang;
+                    console.log('使用语音:', voice.name, voice.lang);
+                } else {
+                    // 备选：尝试设置语言
+                    utterance.lang = 'zh-CN';
+                    console.warn('未找到中文语音，使用默认设置');
+                }
+                
+                utterance.rate = 0.9;
+                utterance.pitch = 1;
+                utterance.volume = 1;
+                
+                return utterance;
+            }
+        }
+
+        const audioManager = new AudioManager();
+
+        // ============================================
+        // 场景设置
+        // ============================================
+        const container = document.getElementById('canvas-container');
+        const scene = new THREE.Scene();
+        scene.fog = new THREE.FogExp2(0x0f0f1a, 0.03);
+        scene.background = new THREE.Color(0x0f0f1a);
+
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 100);
+        camera.position.z = state.distance;
+
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        renderer.toneMappingExposure = 1.2;
+        container.appendChild(renderer.domElement);
+
+        const composer = new EffectComposer(renderer);
+        const renderPass = new RenderPass(scene, camera);
+        composer.addPass(renderPass);
+
+        const bloomPass = new UnrealBloomPass(
+            new THREE.Vector2(window.innerWidth, window.innerHeight),
+            1.8, 0.5, 0.8
+        );
+        composer.addPass(bloomPass);
+
+        // ============================================
+        // 颜色工具
+        // ============================================
+        function getColor() {
+            const c = new THREE.Color();
+            c.setHSL(state.hue, 1.0, 0.5);
+            return c;
+        }
+
+        function getHex(color) {
+            const r = Math.round(color.r * 255).toString(16).padStart(2, '0');
+            const g = Math.round(color.g * 255).toString(16).padStart(2, '0');
+            const b = Math.round(color.b * 255).toString(16).padStart(2, '0');
+            return `#${r}${g}${b}`.toUpperCase();
+        }
+
+        function updateColorUI() {
+            const color = getColor();
+            const hex = getHex(color);
+            
+            document.getElementById('color-value').innerHTML = 
+                `${hex}<span class="color-preview" style="background: ${hex.toLowerCase()};"></span>`;
+            
+            const toast = document.getElementById('color-toast');
+            const circle = document.getElementById('color-circle');
+            const text = document.getElementById('color-text');
+            
+            circle.style.backgroundColor = hex;
+            circle.style.color = hex;
+            circle.style.boxShadow = `0 0 40px ${hex}, 0 0 80px ${hex}`;
+            text.textContent = hex;
+            
+            toast.classList.add('show');
+            clearTimeout(window.colorTimeout);
+            window.colorTimeout = setTimeout(() => toast.classList.remove('show'), 1200);
+        }
+
+        // ============================================
+        // 创建球体
+        // ============================================
+        const sphereGroup = new THREE.Group();
+        scene.add(sphereGroup);
+
+        const sphereGeo = new THREE.SphereGeometry(1.5, 64, 64);
+        const sphereMat = new THREE.ShaderMaterial({
+            uniforms: {
+                time: { value: 0 },
+                glowColor: { value: getColor() },
+                glowIntensity: { value: 1.0 }
+            },
+            vertexShader: `
+                varying vec3 vNormal;
+                varying vec3 vPosition;
+
+                void main() {
+                    vNormal = normalize(normalMatrix * normal);
+                    vPosition = position;
+                    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+                }
+            `,
+            fragmentShader: `
+                uniform float time;
+                uniform vec3 glowColor;
+                uniform float glowIntensity;
+
+                varying vec3 vNormal;
+                varying vec3 vPosition;
+
+                void main() {
+                    float noise = sin(vPosition.x * 10.0 + time) * 
+                                  cos(vPosition.y * 10.0 + time * 0.7) * 
+                                  sin(vPosition.z * 10.0 + time * 0.5);
+                    
+                    vec3 viewDir = normalize(cameraPosition - vPosition);
+                    float fresnel = pow(1.0 - abs(dot(viewDir, vNormal)), 2.0);
+                    
+                    vec3 baseColor = glowColor + vec3(0.1, 0.2, 0.3) * sin(time * 0.5);
+                    
+                    float alpha = 0.3 + fresnel * 0.7 + noise * 0.1;
+                    vec3 finalColor = baseColor * glowIntensity * (1.0 + fresnel * 0.5);
+                    
+                    gl_FragColor = vec4(finalColor, alpha);
+                }
+            `,
+            transparent: true,
+            side: THREE.DoubleSide,
+            blending: THREE.AdditiveBlending
+        });
+
+        const sphere = new THREE.Mesh(sphereGeo, sphereMat);
+        sphereGroup.add(sphere);
+
+        const coreGeo = new THREE.SphereGeometry(1.3, 32, 32);
+        const coreMat = new THREE.MeshBasicMaterial({
+            color: getColor(),
+            transparent: true,
+            opacity: 0.5,
+            blending: THREE.AdditiveBlending
+        });
+        const coreSphere = new THREE.Mesh(coreGeo, coreMat);
+        sphere.add(coreSphere);
+
+        const outerGeo = new THREE.SphereGeometry(1.9, 32, 32);
+        const outerMat = new THREE.ShaderMaterial({
+            uniforms: {
+                time: { value: 0 },
+                glowColor: { value: getColor() }
+            },
+            vertexShader: `
+                varying vec3 vNormal;
+                void main() {
+                    vNormal = normalize(normalMatrix * normal);
+                    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+                }
+            `,
+            fragmentShader: `
+                uniform float time;
+                uniform vec3 glowColor;
+                varying vec3 vNormal;
+
+                void main() {
+                    float intensity = pow(0.6 - dot(vNormal, vec3(0.0, 0.0, 1.0)), 2.0);
+                    vec3 glow = glowColor * intensity * (0.5 + 0.5 * sin(time));
+                    gl_FragColor = vec4(glow, intensity * 0.6);
+                }
+            `,
+            transparent: true,
+            side: THREE.BackSide,
+            blending: THREE.AdditiveBlending,
+            depthWrite: false
+        });
+        const outerSphere = new THREE.Mesh(outerGeo, outerMat);
+        sphere.add(outerSphere);
+
+        const particleCount = 200;
+        const pGeo = new THREE.BufferGeometry();
+        const pPos = new Float32Array(particleCount * 3);
+        const pSizes = new Float32Array(particleCount);
+
+        for (let i = 0; i < particleCount; i++) {
+            const r = 3 + Math.random() * 2;
+            const theta = Math.random() * Math.PI * 2;
+            const phi = Math.random() * Math.PI;
+
+            pPos[i * 3] = r * Math.sin(phi) * Math.cos(theta);
+            pPos[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
+            pPos[i * 3 + 2] = r * Math.cos(phi);
+            pSizes[i] = Math.random() * 2 + 0.5;
+        }
+
+        pGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
+        pGeo.setAttribute('size', new THREE.BufferAttribute(pSizes, 1));
+
+        const pMat = new THREE.ShaderMaterial({
+            uniforms: {
+                time: { value: 0 },
+                color: { value: getColor() }
+            },
+            vertexShader: `
+                attribute float size;
+                uniform float time;
+                varying float vAlpha;
+
+                void main() {
+                    vec3 pos = position;
+                    pos.x += sin(time * 0.5 + position.y) * 0.1;
+                    pos.y += cos(time * 0.3 + position.x) * 0.1;
+                    pos.z += sin(time * 0.7 + position.z) * 0.1;
+
+                    vec4 mv = modelViewMatrix * vec4(pos, 1.0);
+                    gl_PointSize = size * (300.0 / -mv.z);
+                    gl_Position = projectionMatrix * mv;
+                    vAlpha = 0.5 + 0.5 * sin(time + position.x);
+                }
+            `,
+            fragmentShader: `
+                uniform vec3 color;
+                varying float vAlpha;
+
+                void main() {
+                    float d = length(gl_PointCoord - vec2(0.5));
+                    if (d > 0.5) discard;
+                    float a = (1.0 - d * 2.0) * vAlpha;
+                    gl_FragColor = vec4(color, a * 0.8);
+                }
+            `,
+            transparent: true,
+            blending: THREE.AdditiveBlending,
+            depthWrite: false
+        });
+
+        const particles = new THREE.Points(pGeo, pMat);
+        sphereGroup.add(particles);
+
+        const pLight1 = new THREE.PointLight(getColor(), 2, 10);
+        pLight1.position.set(2, 2, 2);
+        scene.add(pLight1);
+
+        const pLight2 = new THREE.PointLight(0x0088ff, 1, 10);
+        pLight2.position.set(-2, -2, 2);
+        scene.add(pLight2);
+
+        const aLight = new THREE.AmbientLight(0x111122, 0.4);
+        scene.add(aLight);
+
+        function updateAllColors() {
+            const c = getColor();
+            sphereMat.uniforms.glowColor.value = c;
+            outerMat.uniforms.glowColor.value = c;
+            pMat.uniforms.color.value = c;
+            coreMat.color = c;
+            pLight1.color = c;
+        }
+
+        // ============================================
+        // 交互控制
+        // ============================================
+        const canvas = renderer.domElement;
+        let lastMouse = { x: 0, y: 0 };
+
+        canvas.addEventListener('contextmenu', e => e.preventDefault());
+
+        canvas.addEventListener('mousedown', e => {
+            lastMouse = { x: e.clientX, y: e.clientY };
+            if (e.button === 0) state.mode = 'rotate';
+            else if (e.button === 2) state.mode = 'pan';
+            updateCursor();
+            updateKeyHighlight();
+        });
+
+        document.addEventListener('mousemove', e => {
+            if (state.mode === 'none') return;
+            const dx = e.clientX - lastMouse.x;
+            const dy = e.clientY - lastMouse.y;
+            lastMouse = { x: e.clientX, y: e.clientY };
+            
+            if (state.mode === 'rotate') {
+                state.targetRot.y += dx * 0.01 * CONFIG.ROTATE_SPEED;
+                state.targetRot.x += dy * 0.01 * CONFIG.ROTATE_SPEED;
+            } else if (state.mode === 'pan') {
+                state.targetPos.x += dx * CONFIG.PAN_SPEED;
+                state.targetPos.y -= dy * CONFIG.PAN_SPEED;
+            }
+        });
+
+        document.addEventListener('mouseup', () => {
+            state.mode = 'none';
+            updateCursor();
+            updateKeyHighlight();
+        });
+
+        canvas.addEventListener('wheel', e => {
+            e.preventDefault();
+            if (state.isColorMode) {
+                state.hue += e.deltaY * CONFIG.COLOR_SPEED;
+                state.hue = ((state.hue % 1) + 1) % 1;
+                updateAllColors();
+                updateColorUI();
+            } else {
+                state.targetDist += e.deltaY * 0.01;
+                state.targetDist = Math.max(CONFIG.MIN_DIST, Math.min(CONFIG.MAX_DIST, state.targetDist));
+            }
+        }, { passive: false });
+
+        document.addEventListener('keydown', e => {
+            if (e.key === 'c' || e.key === 'C') {
+                state.isColorMode = true;
+                canvas.style.cursor = 'ew-resize';
+                document.getElementById('key-color').classList.add('active');
+            }
+        });
+
+        document.addEventListener('keyup', e => {
+            if (e.key === 'c' || e.key === 'C') {
+                state.isColorMode = false;
+                updateCursor();
+                document.getElementById('key-color').classList.remove('active');
+            }
+        });
+
+        document.addEventListener('dblclick', () => {
+            state.hue = 0.44;
+            state.targetDist = 5;
+            state.targetPos = { x: 0, y: 0 };
+            state.targetRot = { x: 0, y: 0 };
+            updateAllColors();
+            updateColorUI();
+        });
+
+        document.getElementById('reset-btn').addEventListener('click', () => {
+            state.hue = 0.44;
+            state.targetDist = 5;
+            state.targetPos = { x: 0, y: 0 };
+            state.targetRot = { x: 0, y: 0 };
+            updateAllColors();
+            updateColorUI();
+        });
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            composer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        function updateCursor() {
+            if (state.isColorMode) {
+                canvas.style.cursor = 'ew-resize';
+                return;
+            }
+            canvas.className = state.mode === 'rotate' ? 'cursor-orbit' : 
+                              state.mode === 'pan' ? 'cursor-pan' : 'cursor-default';
+        }
+
+        function updateKeyHighlight() {
+            document.getElementById('key-lmb').classList.toggle('active', state.mode === 'rotate');
+            document.getElementById('key-rmb').classList.toggle('active', state.mode === 'pan');
+        }
+
+        function updateStatus() {
+            state.distance += (state.targetDist - state.distance) * CONFIG.DAMPING;
+            state.pos.x += (state.targetPos.x - state.pos.x) * CONFIG.DAMPING;
+            state.pos.y += (state.targetPos.y - state.pos.y) * CONFIG.DAMPING;
+            state.rot.x += (state.targetRot.x - state.rot.x) * CONFIG.DAMPING;
+            state.rot.y += (state.targetRot.y - state.rot.y) * CONFIG.DAMPING;
+            
+            camera.position.z = state.distance;
+            camera.position.x = state.pos.x;
+            camera.position.y = state.pos.y;
+            camera.lookAt(state.pos.x, state.pos.y, 0);
+            
+            document.getElementById('dist-value').textContent = state.distance.toFixed(2);
+            
+            const changed = Math.abs(state.distance - 5) > 0.1 || 
+                          Math.abs(state.pos.x) > 0.1 || 
+                          Math.abs(state.pos.y) > 0.1 ||
+                          Math.abs(state.hue - 0.44) > 0.01;
+            document.getElementById('reset-btn').classList.toggle('visible', changed);
+        }
+
+        // ============================================
+        // 音频UI控制
+        // ============================================
+        const musicBtn = document.getElementById('music-btn');
+        const musicIcon = document.getElementById('music-icon');
+        const musicText = document.getElementById('music-text');
+        const musicStatus = document.getElementById('music-status');
+        const volumeSlider = document.getElementById('music-volume');
+        const volumeText = document.getElementById('volume-text');
+        const speakBtn = document.getElementById('speak-btn');
+        const voiceText = document.getElementById('voice-text');
+        const voiceSelect = document.getElementById('voice-select');
+        const voiceStatus = document.getElementById('voice-status');
+
+        // 填充语音选择器
+        function populateVoiceList(voices) {
+            voiceSelect.innerHTML = '';
+            
+            const chineseVoices = audioManager.getChineseVoices();
+            
+            if (chineseVoices.length === 0) {
+                voiceStatus.textContent = '⚠️ 未找到中文语音，请安装中文语言包';
+                voiceStatus.className = 'voice-status error';
+                
+                // 添加所有可用语音
+                voices.forEach((voice, index) => {
+                    const option = document.createElement('option');
+                    option.value = index;
+                    option.textContent = `${voice.name} (${voice.lang})`;
+                    voiceSelect.appendChild(option);
+                });
+            } else {
+                voiceStatus.textContent = `✅ 找到 ${chineseVoices.length} 个中文语音`;
+                voiceStatus.className = 'voice-status ready';
+                
+                // 添加中文语音
+                chineseVoices.forEach(voice => {
+                    const option = document.createElement('option');
+                    option.value = audioManager.voices.indexOf(voice);
+                    option.textContent = `${voice.name} (${voice.lang})${voice.default ? ' [默认]' : ''}`;
+                    voiceSelect.appendChild(option);
+                });
+                
+                // 自动选择最佳语音
+                const bestVoice = audioManager.getBestChineseVoice();
+                if (bestVoice) {
+                    voiceSelect.value = audioManager.voices.indexOf(bestVoice);
+                    audioManager.setVoice(bestVoice);
+                }
+            }
+        }
+
+        // 语音选择变化
+        voiceSelect.addEventListener('change', (e) => {
+            const selectedIndex = parseInt(e.target.value);
+            if (audioManager.voices[selectedIndex]) {
+                audioManager.setVoice(audioManager.voices[selectedIndex]);
+            }
+        });
+
+        // 开始按钮
+        document.getElementById('start-btn').addEventListener('click', () => {
+            document.getElementById('start-overlay').classList.add('hidden');
+            audioManager.init();
+            
+            // 等待语音加载
+            audioManager.onVoicesLoaded = (voices) => {
+                populateVoiceList(voices);
+            };
+            
+            // 自动播放音乐和语音
+            setTimeout(() => {
+                toggleMusic();
+                setTimeout(() => speakText(), 1500);
+            }, 500);
+        });
+
+        function toggleMusic() {
+            const isPlaying = audioManager.toggle();
+            musicBtn.classList.toggle('playing', isPlaying);
+            musicIcon.textContent = isPlaying ? '⏸️' : '▶️';
+            musicText.textContent = isPlaying ? '暂停背景音乐' : '播放背景音乐';
+            musicStatus.textContent = isPlaying ? '🎵 播放中' : '🎵 暂停';
+        }
+
+        function speakText() {
+            const text = voiceText.value.trim();
+            if (!text) return;
+            
+            const utterance = audioManager.speak(text);
+            if (!utterance) return;
+            
+            speakBtn.classList.add('speaking');
+            speakBtn.disabled = true;
+            
+            utterance.onend = () => {
+                speakBtn.classList.remove('speaking');
+                speakBtn.disabled = false;
+            };
+            
+            utterance.onerror = (e) => {
+                console.error('语音合成错误:', e);
+                speakBtn.classList.remove('speaking');
+                speakBtn.disabled = false;
+                voiceStatus.textContent = '❌ 朗读失败，请检查语音设置';
+                voiceStatus.className = 'voice-status error';
+            };
+            
+            window.speechSynthesis.speak(utterance);
+        }
+
+        musicBtn.addEventListener('click', toggleMusic);
+        
+        volumeSlider.addEventListener('input', (e) => {
+            const value = e.target.value;
+            audioManager.setVolume(value);
+            volumeText.textContent = value + '%';
+        });
+        
+        speakBtn.addEventListener('click', speakText);
+
+        // ============================================
+        // 动画循环
+        // ============================================
+        let time = 0;
+
+        function animate() {
+            requestAnimationFrame(animate);
+            
+            time += 0.016;
+            
+            sphereMat.uniforms.time.value = time;
+            outerMat.uniforms.time.value = time;
+            pMat.uniforms.time.value = time;
+            
+            sphere.rotation.y = state.rot.y + time * 0.1;
+            sphere.rotation.x = state.rot.x + Math.sin(time * 0.2) * 0.1;
+            
+            particles.rotation.y = time * 0.05;
+            particles.rotation.x = time * 0.03;
+            
+            pLight1.position.x = state.pos.x + Math.sin(time * 0.5) * 3;
+            pLight1.position.z = Math.cos(time * 0.5) * 3;
+            pLight2.position.x = state.pos.x + Math.cos(time * 0.3) * 3;
+            pLight2.position.z = Math.sin(time * 0.3) * 3;
+            
+            updateStatus();
+            composer.render();
+        }
+
+        animate();
+    </script>
+</body>
+</html>
