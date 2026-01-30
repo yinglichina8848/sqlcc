@@ -1,10 +1,10 @@
-#include "../sql_parser/ast/ast_node.h"
+#include "../../src/sql_parser/ast/ast_node.h"
 #ifndef SQLCC_UNIFIED_EXECUTOR_H
 #define SQLCC_UNIFIED_EXECUTOR_H
 
 #include "execution_context.h" // 使用统一的ExecutionContext定义
-#include "../execution/execution_engine.h"
-#include "../sql_parser/ast/ast_nodes.h"
+#include "../../src/execution/execution_engine.h"
+#include "../../src/sql_parser/ast/ast_nodes.h"
 #include "system_database.h"
 #include "user_manager.h"
 #include <functional>

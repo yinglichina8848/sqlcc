@@ -2,7 +2,7 @@
 #define SQLCC_PERMISSION_VALIDATOR_H
 
 #include "user_manager.h"
-#include "../error_handler.h"
+#include "../../src/error_handler.h"
 #include <memory>
 #include <string>
 #include <unordered_map>
