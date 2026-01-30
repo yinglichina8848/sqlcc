@@ -1,8 +1,8 @@
 #include "enhanced_index_manager.h"
 #include "smart_index_cache.h"
-#include "storage_engine/index_manager/transactional_index_manager.h"
+#include "transactional_index_manager.h"
 #include "../b_plus_tree.h"
-#include "../../logger/logger.h"
+#include "logger/logger.h"
 #include <thread>
 #include <chrono>
 
