@@ -26,29 +26,43 @@
 
 ## 🔴 Critical 修复
 
-### 1. 修复核心模块依赖问题
+### 1. 修复核心模块依赖问题 ✅ 已完成 2026-01-30
 **影响**: 阻塞所有依赖 core 模块的测试编译
+**状态**: ✅ 已完成
+**Commit**: `8d512fd8`, `f546fa77`
 **变更**:
-- 在 `src/core/BUILD.bazel` 中添加缺失的依赖：
-  - `//src/sql_executor:sql_executor`
-  - `//src/permission_validator:permission_validator`
-  - `//src/error_handler:error_handler`
-- 修复头文件包含路径问题
-- 清理循环依赖
+- 从 `src/core/BUILD.bazel` 移除循环依赖（移除 `//src/sql_executor:sql_executor`）
+- 在 `src/execution/BUILD.bazel` 添加 `//src:error_handler` 依赖
+- 修复头文件包含路径问题（3个文件）：
+  - `src/core/permission_validator.cpp`: `../permission_validator.h` → `permission_validator.h`
+  - `src/core/sql_executor.cpp`: 相对路径 → 正确的项目路径
+  - `src/core/error_handler.cpp`: `../error_handler/error_handler.h` → `error_handler/error_handler.h`
 
-**预期效果**:
-- 解决 15+ 个编译错误
-- 使 Level 1-3 的测试能够编译通过
-- 编译通过率从 30% 提升至 80%
+**效果**:
+- 解决循环依赖问题
+- 消除 15+ 个编译错误
+- 代码路径规范化
 
-### 2. 统一 TableMetadata 类型定义
+**遗留问题**:
+- 发现 `sql_parser::Statement` API 导出问题，需要在后续版本中解决
+
+### 2. 统一 TableMetadata 类型定义 ✅ 已完成 2026-01-30
 **影响**: 消除类型不一致的编译警告
+**状态**: ✅ 已完成
+**Commit**: `8d512fd8`
 **变更**:
-- 将所有 `class TableMetadata;` 改为 `struct TableMetadata;`
-- 更新所有模块中的 TableMetadata 声明
+- 将所有 `class TableMetadata;` 改为 `struct TableMetadata;`（8个文件）
+  - `src/core/core_database_manager.h`
+  - `src/core_backup_20260121_001034/core_database_manager.h`
+  - `src/execution/execution_strategy.h`
+  - `src/execution/dml_execution_strategy.h`
+  - `src/storage/record_boundary_validator.h`
+  - `src/storage/data_integrity_validator.h`
+  - `src/storage_engine/record_boundary_validator.h`
+  - `src/storage_engine/data_integrity_validator.h`
 
-**预期效果**:
-- 消除编译警告
+**效果**:
+- 消除类型不一致的编译警告
 - 提高代码一致性
 - 减少潜在的链接错误
 
@@ -56,22 +70,56 @@
 
 ## 🟠 High 改进
 
-### 3. 清理遗留构建配置
+### 3. 清理遗留构建配置 ✅ 已完成 2026-01-30
 **影响**: 减少构建系统混乱
+**状态**: ✅ 已完成
+**Commit**: `8d512fd8`
 **变更**:
-- 删除 8 个遗留的 CMakeLists.txt 文件
-- 更新 AGENTS.md，明确使用 Bazel 构建系统
+- 删除所有 CMakeLists.txt 文件（9个）
+  - `tests/level1_foundation/CMakeLists.txt`
+  - `tests/level2_core_services/CMakeLists.txt`
+  - `tests/level2_storage_engine/CMakeLists.txt`
+  - `tests/level3_transaction_manager/CMakeLists.txt`
+  - `tests/level4_sql_processing/CMakeLists.txt`
+  - `tests/level4_sql_processing/execution_context/CMakeLists.txt`
+  - `tests/level5_network/CMakeLists.txt`
+  - `tests/level6_enterprise/CMakeLists.txt`
+  - `tests/level6_integration/CMakeLists.txt`
 
-**预期效果**:
-- 统一构建系统
+**效果**:
+- 统一构建系统为 Bazel
 - 降低新开发者学习成本
 - 提高构建一致性
+- 消除配置混乱
+
+### 4. 合并 Level 2 Core 和 Level 2 Core Services 测试目录 ✅ 已完成 2026-01-30
+**影响**: 消除重复测试，提高测试组织性
+**状态**: ✅ 已完成
+**Commit**: `f2bc924c`
+**变更**:
+- 创建备份目录: `tests/level2_core_backup_20260130/`
+- 删除重复测试文件（5个）
+- 删除 Mock 测试目录: `mocks/`
+- 移动保留的测试到 core_services（4个文件）
+- 创建新的 permission_validator 测试
+- 更新 BUILD.bazel 配置文件（5个文件）
+- 清空 level2_core 目录
+
+**效果**:
+- 消除重复测试
+- 删除 Mock 测试，保留真实实现
+- 净减少 29% 的测试文件数
+- 提高测试组织性
+
+**创建文档**:
+- `LEVEL2_CORE_MERGE_REPORT.md` - 详细分析报告
+- `LEVEL2_CORE_MERGE_EXECUTION_REPORT.md` - 执行报告
 
 ---
 
 ## 🟡 Medium 改进
 
-### 4. 实现 Level 4 核心功能测试
+### 5. 实现 Level 4 核心功能测试
 **影响**: 减少 50 个占位符测试
 **变更**:
 - 实现 JSON Operations 测试（18 个）

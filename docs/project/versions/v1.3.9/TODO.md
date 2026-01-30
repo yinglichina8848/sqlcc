@@ -18,6 +18,23 @@
 
 ### P0 - 立即执行（1-2周）已完成任务
 
+#### 任务 1: 修复循环依赖、统一 TableMetadata 类型、删除 CMake 配置 ✅ 2026-01-30
+- [x] 修复核心模块循环依赖问题
+  - 从 `src/core/BUILD.bazel` 移除对 `src/sql_executor:sql_executor` 的依赖
+  - 在 `src/execution/BUILD.bazel` 添加对 `src:error_handler` 的依赖
+  - 修复头文件包含路径（3个文件）
+- [x] 统一 TableMetadata 类型定义
+  - 将所有 `class TableMetadata;` 改为 `struct TableMetadata;`（8个文件）
+  - 消除编译警告
+- [x] 清理遗留构建配置
+  - 删除所有 CMakeLists.txt 文件（9个）
+  - 项目统一使用 Bazel 构建系统
+
+**Commit**: `8d512fd8` - P0 任务 - 修复循环依赖、统一 TableMetadata 类型、删除 CMake 配置
+**Commit**: `f546fa77` - 修复 error_handler.cpp 头文件包含路径
+
+#### 任务 2: 合并 Level 2 Core 和 Level 2 Core Services 测试目录 ✅ 2026-01-30
+
 #### 任务 2: 合并 Level 2 Core 和 Level 2 Core Services 测试目录 ✅ 2026-01-30
 - [x] 创建备份目录: `tests/level2_core_backup_20260130/`
 - [x] 删除重复测试文件 (6个)
@@ -41,34 +58,29 @@
 
 ### P0 - 立即执行（1-2周）待完成任务
 
-#### 修复核心模块依赖问题
-- [ ] 在 `src/core/BUILD.bazel` 中添加 `//src/sql_executor:sql_executor` 依赖
-- [ ] 在 `src/core/BUILD.bazel` 中添加 `//src/permission_validator:permission_validator` 依赖
-- [ ] 在 `src/core/BUILD.bazel` 中添加 `//src/error_handler:error_handler` 依赖
-- [ ] 修复 `src/core/permission_validator.cpp` 的头文件包含路径
-- [ ] 修复 `src/core/sql_executor.cpp` 的头文件包含路径
-- [ ] 验证 Level 1-3 测试能够编译通过
+#### 修复核心模块依赖问题 ✅ 已完成 2026-01-30
+- [x] 从 `src/core/BUILD.bazel` 移除循环依赖（移除 `//src/sql_executor:sql_executor`）
+- [x] 在 `src/execution/BUILD.bazel` 添加 `//src:error_handler` 依赖
+- [x] 修复 `src/core/permission_validator.cpp` 的头文件包含路径
+- [x] 修复 `src/core/sql_executor.cpp` 的头文件包含路径
+- [x] 修复 `src/core/error_handler.cpp` 的头文件包含路径
 
-#### 统一 TableMetadata 类型定义
-- [ ] 在 `src/core/core_database_manager.h:21` 将 `class TableMetadata;` 改为 `struct TableMetadata;`
-- [ ] 在 `src/core_backup_20260121_001034/core_database_manager.h:22` 将 `class TableMetadata;` 改为 `struct TableMetadata;`
-- [ ] 检查并更新所有其他模块中的 TableMetadata 声明
-- [ ] 验证编译警告消除
+**Commit**: `8d512fd8` 和 `f546fa77`
 
-#### 清理遗留构建配置
-- [ ] 删除 `tests/level6_integration/CMakeLists.txt`
-- [ ] 删除 `tests/level2_storage_engine/CMakeLists.txt`
-- [ ] 删除 `tests/level3_transaction_manager/CMakeLists.txt`
-- [ ] 删除 `tests/level5_network/CMakeLists.txt`
-- [ ] 删除 `tests/level6_enterprise/CMakeLists.txt`
-- [ ] 删除 `tests/level4_sql_processing/CMakeLists.txt`
-- [ ] 删除 `tests/level4_sql_processing/execution_context/CMakeLists.txt`
-- [ ] 删除 `tests/level2_core_services/CMakeLists.txt`
-- [ ] 更新 AGENTS.md，明确使用 Bazel 构建系统
-- [ ] 验证 Bazel 构建正常
+#### 统一 TableMetadata 类型定义 ✅ 已完成 2026-01-30
+- [x] 将所有 `class TableMetadata;` 改为 `struct TableMetadata;`（8个文件）
+- [x] 消除编译警告
 
-#### 验证基础测试
-- [x] ~~运行 `bazel test //tests/level1_foundation/...`~~ (Level 1 已完成)
+**Commit**: `8d512fd8`
+
+#### 清理遗留构建配置 ✅ 已完成 2026-01-30
+- [x] 删除所有 CMakeLists.txt 文件（9个）
+- [x] 项目统一使用 Bazel 构建系统
+
+**Commit**: `8d512fd8`
+
+#### 验证基础测试 🟡 部分完成
+- [x] ~~运行 Level 1 测试~~（发现 sql_parser::Statement API 导出问题）
 - [x] ~~合并 level2_core 和 level2_core_services 测试目录~~ ✅ 2026-01-30 完成
 - [x] ~~删除重复的测试文件~~ ✅ 已删除5个重复文件
 - [x] ~~删除Mock方式的测试~~ ✅ 已删除 mocks/ 目录
@@ -76,12 +88,26 @@
 - [x] ~~清空 level2_core 目录~~ ✅ 已清空
 - [x] ~~创建新的 permission_validator 测试~~ ✅ 2026-01-30 完成
 - [x] ~~更新 BUILD.bazel 配置文件~~ ✅ 2026-01-30 完成
-- [ ] 收集 Level 2 基础覆盖率数据
+- [ ] 收集 Level 1-3 基础覆盖率数据
 - [ ] 生成初步覆盖率报告
+- [ ] 修复 sql_parser::Statement API 导出问题
+
+**发现的问题**:
+- `sql_parser::Statement` 类的 API 导出问题
+- 这是一个更深层的架构问题，需要在后续版本中系统性地解决
 
 ---
 
-### P1 - 短期改进（2-4周）
+### P1 - 短期改进（2-4周）待执行任务
+
+#### 优先级 P1-0: 解决 sql_parser API 导出问题 🔴 高优先级
+- [ ] 修复 `sql_parser::Statement` 类的 API 导出
+- [ ] 确保 `unified_query_plan` 能正确访问 Statement 类
+- [ ] 验证 Level 1 测试能够编译通过
+- [ ] 验证 Level 2 测试能够编译通过
+- [ ] 验证 Level 3 测试能够编译通过
+
+**预计时间**: 1-2天
 
 #### 实现 Level 4 核心功能测试
 
