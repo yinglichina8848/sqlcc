@@ -72,8 +72,8 @@
  * @see include/transaction_manager.h
  */
 
-#include "transaction_manager.h"
-#include "transaction/savepoint_manager.h"
+#include "src/transaction_manager/transaction_manager.h"
+#include "src/transaction/savepoint_manager.h"
 #include <algorithm>
 #include <condition_variable>
 #include <iostream>

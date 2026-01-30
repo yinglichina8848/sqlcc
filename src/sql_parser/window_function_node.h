@@ -1,7 +1,7 @@
 #ifndef SQLCC_SQL_PARSER_WINDOW_FUNCTION_NODE_H
 #define SQLCC_SQL_PARSER_WINDOW_FUNCTION_NODE_H
 
-#include "window_function.h"
+#include "src/sql_parser/window_function.h"
 
 namespace sqlcc {
 namespace sql_parser {

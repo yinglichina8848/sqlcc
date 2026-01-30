@@ -9,9 +9,19 @@ cc_library(
         "//src/exception:exception",
         "//src/utils:utils",
         "//src/logger:logger",
+        "//src/page:page",
         "//src/storage:storage",
-        "//include/page:page",
+        "//src/storage_engine/buffer_pool:buffer_pool",
     ],
+    copts = [
+        "-std=c++20",
+        "-g",
+        "-Wall",
+        "-Wextra",
+        "-fprofile-instr-generate",
+        "-fcoverage-mapping",
+    ],
+    linkopts = ["-fprofile-instr-generate"],
     visibility = ["//visibility:public"],
 )
 
@@ -26,15 +36,22 @@ cc_library(
         "//src/exception:exception",
         "//src/utils:utils",
         "//src/logger:logger",
-        "//include/storage:headers",
-        "//include/page:page",
-        "//include/storage_engine:headers",
-        "//include/storage_engine/table_storage:table_storage_headers",
-        "//include:storage_engine",
+        "//src/page:page",
+        "//src/storage:storage",
+        ":storage_engine",
     ],
     strip_include_prefix = "",
     include_prefix = "",
     visibility = ["//src:__subpackages__"],
+)
+
+# --------------------------
+# 表存储头文件库
+# --------------------------
+cc_library(
+    name = "table_storage_headers",
+    hdrs = glob(["table_storage/*.h"]),
+    visibility = ["//visibility:public"],
 )
 
 # --------------------------

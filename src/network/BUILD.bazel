@@ -1,12 +1,19 @@
 # SQLCC Network Core Library
 # This file contains only core network functionality, no test programs
 
+# 向后兼容的头文件库
+cc_library(
+    name = "network_headers",
+    hdrs = glob(["*.h"]),
+    visibility = ["//visibility:public"],
+)
+
 cc_library(
     name = "session",
     srcs = ["session.cpp"],
-    hdrs = ["//include/network:session.h"],
+    hdrs = ["//src/network:session.h"],
     deps = [
-        "//include/network/encryption:aes_encryptor",
+        "//src/network/encryption:aes_encryptor",
     ],
     copts = [
         "-std=c++20",
@@ -18,7 +25,7 @@ cc_library(
 cc_library(
     name = "session_manager",
     srcs = ["session_manager.cpp"],
-    hdrs = ["//include/network:session_manager.h"],
+    hdrs = ["//src/network:session_manager.h"],
     deps = [
         ":session",
         "//src/utils:utils",
@@ -50,14 +57,14 @@ cc_library(
         "-lcrypto",
     ],
     hdrs = [
-        "//include/network:client_connection.h",
-        "//include/network:client_network_manager.h",
-        "//include/network:connection_handler.h",
-        "//include/network:message_serializer.h",
-        "//include/network:message_types.h",
-        # "//include/network:server_network_manager.h",  # Temporarily disabled
-        "//include/network:mysql_protocol.h",
-        "//include/network:encryption.h",
+        "//src/network:client_connection.h",
+        "//src/network:client_network_manager.h",
+        "//src/network:connection_handler.h",
+        "//src/network:message_serializer.h",
+        "//src/network:message_types.h",
+        # "//src/network:server_network_manager.h",  # Temporarily disabled
+        "//src/network:mysql_protocol.h",
+        "//src/network:encryption.h",
     ],
     copts = [
         "-Iinclude",
@@ -74,7 +81,7 @@ cc_library(
         "//src/sql_parser:sql_parser",
         "//src/storage_engine:storage_engine",
         "//src/sql_executor:sql_executor",
-        "//include/network/encryption:encryption_headers",
+        "//src/network/encryption:encryption_headers",
 
         "//src/transaction:transaction",
     ],

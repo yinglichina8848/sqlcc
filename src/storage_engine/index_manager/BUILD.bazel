@@ -9,7 +9,7 @@ cc_library(
     hdrs = ["smart_index_cache.h"],
     deps = [
         "//src/exception:exception",
-        "//include:utils",
+        "//src/utils:utils",
     ],
     copts = [
         "-std=c++20",
@@ -61,8 +61,8 @@ cc_library(
         ":smart_index_cache",
         ":smart_index_factory",
         "//src/exception:exception",
-        "//include:config_manager",
-        "//include:storage_engine",
+        "//src/utils:utils",
+        "//src/storage_engine:storage_engine_headers",
         "//src/storage_engine/b_plus_tree:b_plus_tree",
     ],
     copts = [

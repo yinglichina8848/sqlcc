@@ -1,7 +1,7 @@
-#include "window_function.h"
+#include "src/sql_parser/window_function.h"
 #include "ast/ast_node.h"
 #include "ast/node_visitor.h"
-#include "token.h"
+#include "src/sql_parser/token.h"
 #include <algorithm>
 
 namespace sqlcc {

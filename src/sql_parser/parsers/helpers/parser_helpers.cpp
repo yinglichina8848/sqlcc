@@ -6,7 +6,7 @@
  * 这些方法被多个解析模块共享使用。
  */
 
-#include "parser_helpers.h"
+#include "src/sql_parser/parsers/helpers/parser_helpers.h"
 #include "../parser_core.h"
 #include "../../expression_parser.h"
 #include "../../token.h"

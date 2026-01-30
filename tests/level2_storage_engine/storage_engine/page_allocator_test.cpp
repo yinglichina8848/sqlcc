@@ -12,7 +12,7 @@
 
 #include "storage/page_allocator.h"
 #include "page.h"
-#include "utils/config_manager.h"
+#include "src/utils/config_manager.h"
 
 namespace fs = std::filesystem;
 namespace sqlcc {

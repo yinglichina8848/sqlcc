@@ -19,6 +19,7 @@
 #include "../../ast/ast_node.h"
 #include "../../expression_parser.h"
 #include "../../set_operation.h"
+#include "../../ast/utilities/ast_utility_nodes.h"
 
 namespace sqlcc {
 namespace sql_parser {

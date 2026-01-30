@@ -9,9 +9,9 @@
 #include <unordered_map>
 #include <vector>
 
-#include "utils/config_manager.h"
-#include "include/storage_engine.h"
-#include "wal_writer.h"
+#include "src/utils/config_manager.h"
+#include "src/storage_engine/storage_engine.h"
+#include "src/storage_engine/wal_writer.h"
 
 namespace sqlcc {
 

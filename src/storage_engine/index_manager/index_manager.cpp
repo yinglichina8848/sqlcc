@@ -66,9 +66,9 @@
 
 #include "src/storage/index_manager.h"
 #include "src/storage/b_plus_tree.h"
-#include "include/storage_engine.h"
-#include "utils/config_manager.h"
-#include "utils/logger.h"
+#include "src/storage_engine/storage_engine.h"
+#include "src/utils/config_manager.h"
+#include "src/utils/logger.h"
 
 namespace sqlcc {
 

@@ -7,8 +7,8 @@
 #include <memory>
 #include <vector>
 #include <string>
-#include "include/sql_executor/sql_executor.h"
-#include "include/network/distributed_executor.h"
+#include "src/sql_executor/sql_executor.h"
+#include "src/network/distributed_executor.h"
 
 /**
  * @class DistributedQueryTest

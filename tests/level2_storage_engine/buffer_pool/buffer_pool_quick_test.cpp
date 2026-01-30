@@ -14,7 +14,7 @@
 #include "storage_engine/buffer_pool/statistics_collector.h"
 
 
-#include "utils/config_manager.h"
+#include "src/utils/config_manager.h"
 
 using sqlcc::LRUManager;
 using sqlcc::StatisticsCollector;

@@ -1,16 +1,59 @@
-# //include/sql_executor/BUILD.bazel - SQL Executor头文件库
+# //src/sql_executor/BUILD.bazel - SQL执行器库
 
 package(default_visibility = ["//visibility:public"])
 
-# SQL Executor头文件库
+load("@rules_cc//cc:defs.bzl", "cc_library", "cc_binary")
+
+# --------------------------
+# SQL执行器头文件库
+# --------------------------
 cc_library(
     name = "headers",
     hdrs = glob(["*.h"]),
     visibility = ["//visibility:public"],
 )
 
+# --------------------------
+# 主要SQL执行器库
+# --------------------------
 cc_library(
-    name = "sql_executor_headers",
+    name = "sql_executor",
+    srcs = [
+        "sql_executor.cpp",
+        "sql_executor_stub.cpp",
+        "advanced_sql92_executor.cpp",
+        "constraint_executor.cpp",
+        "data_type.cpp",
+        "domain_manager.cpp",
+        "enhanced_alter_table_manager.cpp",
+        "enhanced_trigger_manager.cpp",
+        "permission_validator.cpp",
+        "procedure_executor.cpp",
+        "procedure_function_manager.cpp",
+        "schema_manager.cpp",
+        "system_database.cpp",
+        "system_data_initializer.cpp",
+        "system_metadata_manager.cpp",
+        "system_permission_manager.cpp",
+        "system_schema_manager.cpp",
+        "transaction_control_manager.cpp",
+        "unified_query_plan.cpp",
+        "user_manager.cpp",
+        "view_manager.cpp",
+        "window_function_executor.cpp",
+    ],
     hdrs = glob(["*.h"]),
+    deps = [
+        "//src/utils:utils",
+        "//src/exception:exception",
+        "//src/logger:logger",
+        "//src/core:core",
+        "//src/storage_engine:storage_engine",
+        "//src/sql_parser:sql_parser",
+        "//src/transaction_manager:transaction_manager",
+    ],
+    copts = [
+        "-std=c++20",
+    ],
     visibility = ["//visibility:public"],
 )

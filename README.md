@@ -86,6 +86,10 @@ SQLCC - SQL Cloud Computing Database System
   - `tests/temporary/test_deadlock_fix_simple.cc` - 死锁修复验证测试
 - 详细文档: [TEMPORARY_TEST_FILES.md](docs/testing/TEMPORARY_TEST_FILES.md)
 
+### 📖 文档索引
+- 完整文档索引: [docs/index.md](docs/index.md) - 所有文档的统一入口
+- 英文文档: [docs/README.en.md](docs/README.en.md) - 英文项目说明
+
 ### 核心性能指标
 | 测试类型 | 吞吐量 | 延迟 | 扩展性 |
 |----------|--------|------|--------|
@@ -297,19 +301,19 @@ CRUD操作 	插入、点查、范围扫描、更新、删除功能 	15%
 📚 学习资源
 📖 核心教材
 
-    📖 《数据库系统原理与开发实践》简化内容 - 包含序言、10章节、后记和附录
-    📖 《数据库系统原理与开发实践》教材提纲 - 16章完整教材框架
-    📖 第1章：数据处理的起源与思想演变 - 千年数据处理史
-    📖 第2章：计算机技术的发展与数据处理革命 - 软硬件技术发展史
-    📖 第3章：关系数据库的数学基础与形式化表达 - 关系代数与元组演算
+    📖 [《数据库系统原理与开发实践》](docs/textbook/《数据库系统原理与开发实践》.md) - 包含序言、10章节、后记和附录
+    📖 [《数据库系统原理与开发实践》教材提纲](docs/textbook/teachers/教材提纲.md) - 16章完整教材框架
+    📖 [第1章：数据处理的起源与思想演变](docs/textbook/第1章.md) - 千年数据处理史
+    📖 [第2章：计算机技术的发展与数据处理革命](docs/textbook/第2章.md) - 软硬件技术发展史
+    📖 [第3章：关系数据库的数学基础与形式化表达](docs/textbook/第3章.md) - 关系代数与元组演算
 
 🎬 PPT课件
 
-    📖 第一章PPT：千年数据演化启示录
-    📖 第二章PPT：计算与数据共生史
-    📖 第二章PPT（补充）：关系数据库演进之路
-    📖 第三章PPT：RDBMS设计思想与工程实现
-    📖 第四章PPT：存储引擎-操作系统到数据库的桥梁
+    📖 [第一章PPT：千年数据演化启示录](docs/textbook/slides/第一章：千年数据演化启示录 .pptx)
+    📖 [第二章PPT：计算与数据共生史](docs/textbook/slides/第二章：计算与数据共生史.pptx)
+    📖 [第二章PPT（补充）：关系数据库演进之路](docs/textbook/slides/第二章：从数学到PB级电商：关系数据库演进之路（补充学习）.pptx)
+    📖 [第三章PPT：RDBMS设计思想与工程实现](docs/textbook/slides/第三章：RDBMS设计思想与工程实现全景解析（SQLCC）.pptx)
+    📖 [第四章PPT：存储引擎-操作系统到数据库的桥梁](docs/textbook/slides/第四章：存储引擎-操作系统到RDBMS的桥梁-思想算法全栈透视.pptx)
 
 🎯 教学资源体系 (v1.2.7新增)
 
@@ -319,10 +323,10 @@ CRUD操作 	插入、点查、范围扫描、更新、删除功能 	15%
 
 🛠️ 开发指南
 
-    �🛠️ 开发环境安装配置 - Ubuntu C++环境配置
-    🤖 AI工具使用指南 - 字节Trae最佳实践
-    🧪 测试驱动开发指南 - TDD理念与实践
-    📚 Doxygen文档配置 - API文档生成
+    🛠️ [开发环境安装配置](docs/development/guides/DEVELOPMENT_ENVIRONMENT_SETUP.md) - Ubuntu C++环境配置
+    🤖 [AI工具使用指南](docs/development/guides/AI_TOOLS_USAGE_GUIDE.md) - 字节Trae最佳实践
+    🧪 [测试驱动开发指南](docs/development/guides/TEST_DRIVEN_DEVELOPMENT_GUIDE.md) - TDD理念与实践
+    📚 [Doxygen文档配置](docs/development/guides/DOXYGEN_COVERAGE_CONFIGURATION.md) - API文档生成
 
 📊 SQLCC 全面介绍与评估
 🎯 项目概述
@@ -447,20 +451,21 @@ DELETE 	1138-1190 	0.84-0.88 	11.01-11.57
 
 所有历史版本的详细信息已整理到版本总览页面，包括ReleaseNote和ChangeLog：
 
-    📖 版本总览 - 所有版本的简要说明和链接
+    📖 [版本总览](docs/index.md) - 所有版本的简要说明和链接
+    📖 [版本历史](docs/project/versions/) - 完整的版本历史记录
 
 📚 版本管理文档
 
-    📖 版本摘要 - 最简略的版本说明
-    📖 版本详情 - 完整的版本信息
-    📖 发布流程 - 自动化发布流程说明
+    📖 [版本摘要](docs/releases/version_summary_v1.2.3.md) - 最简略的版本说明
+    📖 [版本详情](docs/project/versions/) - 完整的版本信息
+    📖 [发布流程](docs/project/) - 自动化发布流程说明
 
 🚀 未来版本规划
 v1.3.0 企业级特性与性能监控 (规划中)
 
-    📖 v1.3.0评估报告 - 全面的技术评估和市场分析
-    📖 v1.3.0企业级特性实施计划 - 8大企业级特性详细规划
-    📖 v1.3.0任务清单 - 版本开发任务跟踪
+    📖 [v1.3.0评估报告](docs/project/versions/v1.3.0/evaluation_v1.3.0.md) - 全面的技术评估和市场分析
+    📖 [v1.3.0企业级特性实施计划](docs/project/versions/v1.3.0/v1.3.0_企业级特性实施计划.md) - 8大企业级特性详细规划
+    📖 [v1.3.0任务清单](docs/project/versions/v1.3.0/v1.3.0_TODO.md) - 版本开发任务跟踪
 
 v1.3.0核心特性预览:
 
@@ -475,14 +480,16 @@ v1.3.0核心特性预览:
 
 🔗 最新版本
 
-    📄 SQLCC v1.2.10 测试重构改进项目发布说明 - 最新版本详细特性说明和功能矩阵
-    📄 SQLCC v1.2.9 功能矩阵和特性说明 - v1.2.9版本详细特性说明和功能矩阵
-    📄 v1.2.9 ReleaseNotes - 详细的版本发布说明
-    📄 v1.2.9 ChangeLog - 详细的版本变更记录
+    📄 [SQLCC v1.3.8 Release Notes](docs/project/versions/v1.3.8/) - 最新版本详细特性说明和功能矩阵
+    📄 [SQLCC v1.3.7 Release Notes](docs/project/versions/v1.3.7/) - Level1模块迁移完成
+    📄 [SQLCC v1.3.6 Release Notes](docs/project/versions/v1.3.6/) - LLVM覆盖率测试
+    📄 [版本变更日志](docs/releases/CHANGELOG.md) - 详细的版本变更记录
 
 📊 性能报告
 
-    📈 综合性能评估报告 - v1.1.2性能分析
+    📈 [综合性能评估报告](docs/reports/evaluation/) - v1.1.2性能分析
+    📊 [真实CRUD性能测试报告](docs/reports/evaluation/) - v1.1.3真实CRUD测试结果
+    📊 [覆盖率测试报告](docs/reports/coverage/) - 完整的代码覆盖率分析
     📊 实际测试数据报告 - 真实性能测量数据
     📊 真实CRUD性能测试报告 - v1.1.3真实CRUD测试结果
 
@@ -526,26 +533,26 @@ Vibe Coding是一种以AI辅助为核心的编程方式，强调开发者与AI�
 📚 相关资源
 🔗 核心文档索引
 
-    📖 项目文档索引 - 完整的文档导航系统 (70+文档的统一入口)
+    📖 [项目文档索引](docs/index.md) - 完整的文档导航系统 (70+文档的统一入口)
+    📖 [英文文档](docs/README.en.md) - 英文项目说明
 
 📚 开发指南合集
 🚀 开发者手册套餐
 
 新手学习路径 - 从零开始全面掌握:
 
-    🛠️ 开发环境安装配置 - Ubuntu C++环境+CMake+测试工具链配置 (必读第一步)
-    🤖 AI工具使用指南 - 字节Trae最佳实践+人机协作模式 (效率翻倍)
-    🧪 测试驱动开发指南 - TDD理念+FIRST原则+测试用例设计 (质量保证)
-    📚 Doxygen文档配置 - API文档生成+代码覆盖率报告 (专业文档)
+    🛠️ [开发环境安装配置](docs/development/guides/DEVELOPMENT_ENVIRONMENT_SETUP.md) - Ubuntu C++环境+CMake+测试工具链配置 (必读第一步)
+    🤖 [AI工具使用指南](docs/development/guides/AI_TOOLS_USAGE_GUIDE.md) - 字节Trae最佳实践+人机协作模式 (效率翻倍)
+    🧪 [测试驱动开发指南](docs/development/guides/TEST_DRIVEN_DEVELOPMENT_GUIDE.md) - TDD理念+FIRST原则+测试用例设计 (质量保证)
+    📚 [Doxygen文档配置](docs/development/guides/DOXYGEN_COVERAGE_CONFIGURATION.md) - API文档生成+代码覆盖率报告 (专业文档)
 
 💡 进阶技能提升
 
 从实践到理论的深度学习路径:
 
-    数据库知识生态系统 - CS各领域知识交织全景图
-    🐘 数据库开发全程指南 - 从单机到分布式演进蓝图
-    🚀 AI增强软件工程 - 大二学生AI编程学习路径
-    🌐 分布式协同开发 - Git/Gitee团队协作企业规范
+    🐘 [数据库开发全程指南](docs/development/guides/) - 从单机到分布式演进蓝图
+    🚀 [AI增强软件工程](docs/development/ai_development_principles.md) - 大二学生AI编程学习路径
+    🌐 [分布式协同开发](docs/development/guides/) - Git/Gitee团队协作企业规范
 
 🚀 快速开始
 环境要求
@@ -645,11 +652,11 @@ cat performance_test_real_results.md
 
 � 最终交付清单
 交付物 	说明 	链接
-源码 	完整可编译的源代码 	GitHub仓库
-可执行程序 	可直接运行，包含启动脚本 	请参考构建指南
-实验报告 	详细完整的项目开发报告 	EXPERIMENT_REPORT.md
+源码 	完整可编译的源代码 	[Gitee仓库](https://gitee.com/yinglichina/sqlcc.git)
+可执行程序 	可直接运行，包含启动脚本 	[构建指南](docs/development/guides/BUILD_AND_TEST_GUIDE.md)
+实验报告 	详细完整的项目开发报告 	[项目总结](docs/project/PROJECT_SUMMARY.md)
 演示视频 	5分钟以内的功能演示 	请联系开发团队获取
-覆盖率报告 	代码覆盖率测试报告 	COVERAGE_REPORT.md
+覆盖率报告 	代码覆盖率测试报告 	[覆盖率分析](docs/reports/coverage/)
 
 推荐使用 Qoder 使用 AI-IDE 类似系统的开发： 
 https://qoder.com/referral?referral_code=wHDGRB7MAxIKcsOHSer05mrBTGznYO2L

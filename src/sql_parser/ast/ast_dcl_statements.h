@@ -1,7 +1,7 @@
 #ifndef SQLCC_SQL_PARSER_AST_DCL_STATEMENTS_H
 #define SQLCC_SQL_PARSER_AST_DCL_STATEMENTS_H
 
-#include "ast_node.h"
+#include "src/sql_parser/ast/ast_node.h"
 #include <string>
 #include <vector>
 

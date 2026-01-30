@@ -1,9 +1,9 @@
 #include "sql_parser/ast_node.h"
 #include <gtest/gtest.h>
-#include "include/sql_parser/parser.h"
-#include "include/execution/load_data_executor.h"
-#include "include/storage_engine.h"
-#include "include/core/sql_executor.h"
+#include "src/sql_parser/parser.h"
+#include "src/execution/load_data_executor.h"
+#include "src/storage_engine.h"
+#include "src/core/sql_executor.h"
 #include <filesystem>
 #include <fstream>
 #include <memory>

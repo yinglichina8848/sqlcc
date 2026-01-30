@@ -1,7 +1,7 @@
-#include "binary_expression.h"
-#include "literal_expressions.h"
-#include "node_visitor.h"
-#include "debug_printer.h"
+#include "src/sql_parser/ast/binary_expression.h"
+#include "src/sql_parser/ast/literal_expressions.h"
+#include "src/sql_parser/ast/node_visitor.h"
+#include "src/sql_parser/ast/debug_printer.h"
 
 #include <memory>
 #include <iostream>

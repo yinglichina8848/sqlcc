@@ -187,8 +187,8 @@
 #include <sstream>
 #include "core/execution_result.h"
 #include "sql_parser/load_data_ast.h"
-#include "storage_engine.h"
-#include "sql_executor.h"
+#include "src/storage_engine/storage_engine.h"
+#include "src/sql_executor.h"
 
 namespace sqlcc {
 

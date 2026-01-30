@@ -15,7 +15,7 @@
 #include "storage/wal_writer.h"
 #include "storage/wal_buffer.h"
 #include "storage/checkpoint.h"
-#include "utils/config_manager.h"
+#include "src/utils/config_manager.h"
 
 namespace fs = std::filesystem;
 namespace sqlcc {

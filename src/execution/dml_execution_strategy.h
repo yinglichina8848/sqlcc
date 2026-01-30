@@ -231,8 +231,6 @@
  * - 审计日志：完整的DML操作审计日志记录
  */
 
-#include "sql_parser/ast_node.h"
-#include "sql_parser/ast_nodes.h"
 /**
  * @file dml_execution_strategy.h
  * @brief DML执行策略头文件
@@ -241,12 +239,14 @@
 #ifndef SQLCC_EXECUTION_DML_EXECUTION_STRATEGY_H
 #define SQLCC_EXECUTION_DML_EXECUTION_STRATEGY_H
 
+#include "src/sql_parser/ast/ast_node.h"
+#include "src/sql_parser/ast/ast_nodes.h"
 #include <string>
 #include <vector>
 #include <memory>
 
-#include "core/execution_result.h"
-#include "execution/execution_strategy.h"
+#include "src/core/execution_result.h"
+#include "src/execution/execution_strategy.h"
 
 namespace sqlcc {
 
@@ -264,6 +264,7 @@ public:
                         const ExecutionContext &context) override;
     bool validate(const sql_parser::Statement& stmt,
                  const ExecutionContext &context) override;
+    std::string getStrategyName() const override { return "DMLExecutionStrategy"; }
 
 private:
     ExecutionResult executeInsert(const sql_parser::InsertStatement& stmt,

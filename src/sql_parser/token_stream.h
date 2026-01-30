@@ -1,8 +1,8 @@
 #ifndef SQLCC_SQL_PARSER_TOKEN_STREAM_H
 #define SQLCC_SQL_PARSER_TOKEN_STREAM_H
 
-#include "token.h"
-#include "lexer.h"
+#include "src/sql_parser/token.h"
+#include "src/sql_parser/lexer.h"
 #include <string>
 
 namespace sqlcc {

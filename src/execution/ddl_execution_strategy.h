@@ -217,23 +217,22 @@
  * - 状态监控：监控系统状态和元数据的变化
  * - 可视化工具：DDL执行过程和结果的可视化展示
  * - 审计日志：完整的DDL操作审计日志记录
- */
-
-#include "sql_parser/ast_node.h"
-#include "sql_parser/ast_nodes.h"
-/**
- * @file ddl_execution_strategy.h
- * @brief DDL执行策略头文件
- */
-
-#ifndef SQLCC_EXECUTION_DDL_EXECUTION_STRATEGY_H
-#define SQLCC_EXECUTION_DDL_EXECUTION_STRATEGY_H
-
-#include <memory>
+  */
+ 
+ /**
+  * @file ddl_execution_strategy.h
+  * @brief DDL执行策略头文件
+  */
+ #ifndef SQLCC_EXECUTION_DDL_EXECUTION_STRATEGY_H
+ #define SQLCC_EXECUTION_DDL_EXECUTION_STRATEGY_H
+ 
+ #include "src/sql_parser/ast/ast_node.h"
+ #include "src/sql_parser/ast/ast_nodes.h"
+ #include <memory>
 #include <string>
 
-#include "execution/execution_strategy.h"
-#include "core/execution_result.h"
+#include "src/execution/execution_strategy.h"
+#include "src/core/execution_result.h"
 
 namespace sqlcc {
 

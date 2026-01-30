@@ -1,10 +1,10 @@
 #include "ast/ast_node.h"
-#include "parser.h"
-#include "lexer.h"
-#include "token.h"
+#include "src/sql_parser/parser.h"
+#include "src/sql_parser/lexer.h"
+#include "src/sql_parser/token.h"
 #include "ast/ast_nodes.h"
-#include "set_operation.h"
-#include "architecture_safeguards.h"
+#include "src/sql_parser/set_operation.h"
+#include "src/sql_parser/architecture_safeguards.h"
 #include <algorithm>
 #include <cctype>
 #include <iostream>

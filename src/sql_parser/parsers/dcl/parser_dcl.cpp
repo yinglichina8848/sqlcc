@@ -7,7 +7,7 @@
  * - REVOKE语句（权限撤销）
  */
 
-#include "parser_dcl.h"
+#include "src/sql_parser/parsers/dcl/parser_dcl.h"
 #include "../../token.h"
 #include "../../ast/ast_nodes.h"
 #include <iostream>

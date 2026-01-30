@@ -5,8 +5,8 @@
  * 采用分步骤解析策略，每个子句都有专门的处理方法。
  */
 
-#include "select_parser.h"
-#include "token.h"
+#include "src/sql_parser/select_parser.h"
+#include "src/sql_parser/token.h"
 #include <iostream>
 #include <sstream>
 

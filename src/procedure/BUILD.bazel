@@ -1,76 +1,16 @@
-# SQLCC存储过程模块构建配置
+# SQLCC存储过程模块头文件构建配置
 
 package(default_visibility = ["//visibility:public"])
 
-load("@rules_cc//cc:defs.bzl", "cc_library", "cc_test")
+load("@rules_cc//cc:defs.bzl", "cc_library")
 
 
-# 存储过程解析器库
+# 存储过程模块头文件库
 cc_library(
-    name = "procedure_parser",
-    srcs = ["procedure_parser.cpp"],
-    hdrs = ["//include/procedure:procedure_parser.h"],
-    deps = [
-        "//src/sql_parser:sql_parser",
-        # "//src/procedure:procedure",  # 移除循环依赖
+    name = "procedure_headers",
+    hdrs = [
+        "procedure_parser.h",
+        "procedure_vm.h",
+        "procedure_trigger_executor.h",
     ],
-)
-
-# 存储过程虚拟机库
-cc_library(
-    name = "procedure_vm",
-    srcs = ["procedure_vm.cpp"],
-    hdrs = ["//include/procedure:procedure_vm.h"],
-    deps = [
-        ":procedure_parser",
-        "//src/core:core",
-        # "//src/sql_executor:sql_executor",  # 暂时移除复杂依赖
-    ],
-)
-
-# 存储过程触发器执行器库
-cc_library(
-    name = "procedure_trigger_executor",
-    srcs = ["procedure_trigger_executor.cpp"],
-    deps = [
-        ":procedure_parser",
-        ":procedure_vm",
-        "//src/core:core",
-        # "//src/trigger:trigger_manager",  # 移除循环依赖 - 通过接口调用
-        # "//src/sql_executor:sql_executor",  # 移除循环依赖
-    ],
-)
-
-# 存储过程模块聚合库
-
-
-# 存储过程解析器单元测试
-cc_test(
-    name = "procedure_parser_test",
-    srcs = ["procedure_parser_test.cpp"],
-    deps = [
-        ":procedure_parser",
-        "@com_google_googletest//:gtest_main",
-    ],
-)
-
-# 存储过程虚拟机单元测试
-cc_test(
-    name = "procedure_vm_test",
-    srcs = ["procedure_vm_test.cpp"],
-    deps = [
-        ":procedure_vm",
-        "@com_google_googletest//:gtest_main",
-    ],
-)
-# 简化版procedure模块，只包含基本解析功能
-cc_library(
-    name = "procedure",
-    deps = [
-        ":procedure_parser",
-        # 暂时移除复杂的VM和执行器依赖
-        # ":procedure_vm",
-        # ":procedure_trigger_executor",
-    ],
-    visibility = ["//visibility:public"],
 )

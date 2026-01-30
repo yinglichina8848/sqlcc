@@ -257,8 +257,8 @@
 #ifndef SQLCC_SMART_CONFIG_MANAGER_H_
 #define SQLCC_SMART_CONFIG_MANAGER_H_
 
-#include "config_snapshot.h"
-#include "config_lifecycle.h"
+#include "src/utils/config_snapshot.h"
+#include "src/utils/config_lifecycle.h"
 #include <memory>
 #include <string>
 #include <unordered_map>

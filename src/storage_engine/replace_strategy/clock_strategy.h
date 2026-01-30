@@ -9,7 +9,7 @@
 
 #pragma once
 
-#include "abstract_strategy.h"
+#include "src/storage_engine/replace_strategy/abstract_strategy.h"
 #include <list>
 #include <unordered_map>
 

@@ -12,7 +12,6 @@ cc_test(
     ],
 )
 
-test_suite(
 cc_test(
     name = "index_manager_tests",
     srcs = glob([
@@ -20,10 +19,12 @@ cc_test(
         "**/*.cpp",
     ]),
     deps = [
-        "//src/storage_engine",
+        "//src/storage_engine:storage_engine",
         "@com_google_googletest//:gtest_main",
     ],
 )
+
+test_suite(
     name = "all",
     tests = [":index_manager_fast"],
 )

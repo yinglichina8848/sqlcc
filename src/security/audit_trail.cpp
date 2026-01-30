@@ -3,7 +3,7 @@
  * @brief Implementation of audit trail component for SQLCC enterprise features
  */
 
-#include "include/security/audit_trail.h"
+#include "src/security/audit_trail.h"
 #include <algorithm>
 #include <sstream>
 #include <iomanip>

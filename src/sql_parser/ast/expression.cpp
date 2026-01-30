@@ -1,5 +1,5 @@
-#include "expression.h"
-#include "node_visitor.h"
+#include "src/sql_parser/ast/expression.h"
+#include "src/sql_parser/ast/node_visitor.h"
 
 namespace sqlcc {
 namespace sql_parser {

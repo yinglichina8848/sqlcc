@@ -1,0 +1,57 @@
+# Storage headers package
+
+package(default_visibility = ["//visibility:public"])
+
+# Storage headers library with correct include paths
+cc_library(
+    name = "headers",
+    hdrs = glob(["*.h"], allow_empty = True),
+    deps = [
+        "//src/exception:exception",
+        "//src/storage:storage",
+    ],
+    # Export include directory so dependent targets can find storage/*.h
+    includes = [".."],  # This makes include/ available as an include path
+    visibility = ["//visibility:public"],
+)
+
+# Individual storage component headers
+cc_library(
+    name = "disk_manager",
+    hdrs = ["disk_manager.h"],
+    deps = [
+        "//src/exception:exception",
+    ],
+    includes = [".."],
+    visibility = ["//visibility:public"],
+)
+
+cc_library(
+    name = "page",
+    hdrs = ["page.h"],
+    deps = [
+        "//src/exception:exception",
+    ],
+    includes = [".."],
+    visibility = ["//visibility:public"],
+)
+
+cc_library(
+    name = "buffer_pool_sharded",
+    hdrs = ["buffer_pool_sharded.h"],
+    deps = [
+        "//src/exception:exception",
+    ],
+    includes = [".."],
+    visibility = ["//visibility:public"],
+)
+
+cc_library(
+    name = "table_storage",
+    hdrs = ["table_storage.h"],
+    deps = [
+        "//src/exception:exception",
+    ],
+    includes = [".."],
+    visibility = ["//visibility:public"],
+)

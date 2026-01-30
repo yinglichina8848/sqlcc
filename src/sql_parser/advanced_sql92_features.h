@@ -5,7 +5,7 @@
 #include "ast/node_visitor.h"
 #include "ast/ast_nodes.h"
 
-#include "include/trigger/trigger_definition.h"
+#include "src/trigger/trigger_definition.h"
 #include <memory>
 #include <string>
 #include <vector>

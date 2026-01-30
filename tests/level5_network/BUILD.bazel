@@ -10,7 +10,7 @@ cc_test(
         "connection_pool/*.cpp",
     ], allow_empty = True),
     deps = [
-        "//include:sqlcc_pch",
+        "//src:sqlcc_pch",
         "//src/logger:logger",
         "@com_google_googletest//:gtest_main",
     ],
@@ -30,7 +30,7 @@ cc_test(
         "network_manager/*.cpp",
     ], allow_empty = True),
     deps = [
-        "//include:sqlcc_pch",
+        "//src:sqlcc_pch",
         "//src/logger:logger",
         "@com_google_googletest//:gtest_main",
     ],
@@ -50,7 +50,7 @@ cc_test(
         "protocol_handler/*.cpp",
     ], allow_empty = True),
     deps = [
-        "//include:sqlcc_pch",
+        "//src:sqlcc_pch",
         "//src/logger:logger",
         "@com_google_googletest//:gtest_main",
     ],
@@ -70,9 +70,9 @@ cc_test(
         "mysql_protocol/*.cpp",
     ], allow_empty = True),
     deps = [
-        "//include/network:mysql_protocol",
-        "//include/network:connection_state",
-        "//include/utils:utils_lib",
+        "//src/network:mysql_protocol",
+        "//src/network:connection_state",
+        "//src/utils:utils_lib",
         "@com_google_googletest//:gtest_main",
     ],
     copts = [

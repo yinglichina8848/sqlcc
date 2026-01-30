@@ -9,9 +9,9 @@
 #include <thread>
 #include <unordered_map>
 
-#include "disk_manager.h"
-#include "page.h"
-#include "utils/config_manager.h"
+#include "src/storage/disk_manager.h"
+#include "src/page/page.h"
+#include "src/utils/config_manager.h"
 
 namespace sqlcc {
 

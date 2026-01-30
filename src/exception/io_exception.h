@@ -16,7 +16,7 @@
 
 #pragma once
 
-#include "exception.h"
+#include "src/exception/exception.h"
 
 namespace sqlcc {
 

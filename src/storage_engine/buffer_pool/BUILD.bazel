@@ -4,9 +4,13 @@ cc_library(
         "buffer_pool_sharded.cpp",
         "replace_strategy.cpp",
     ],
+    hdrs = [
+        "buffer_pool_sharded.h",
+    ],
     deps = [
-        "//include/storage_engine:storage_engine_headers",
+        "//src/storage_engine:storage_engine_headers",
         "//src/storage_engine/disk_manager",
+        "//src/storage_engine/replace_strategy:replace_strategy_headers",
         "//src/logger",
         "//src/config_manager",
     ],

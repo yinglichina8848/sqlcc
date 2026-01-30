@@ -67,10 +67,10 @@
 
 #include <iostream>
 #include <memory>
-#include "version.h"
-#include "utils/config_manager.h"
-#include "include/storage_engine.h"
-#include "exception.h"
+#include "src/utils/version.h"
+#include "src/utils/config_manager.h"
+#include "src/storage_engine/storage_engine.h"
+#include "src/exception/exception.h"
 
 // 使用声明简化代码，引入核心组件类
 using sqlcc::ConfigManager;

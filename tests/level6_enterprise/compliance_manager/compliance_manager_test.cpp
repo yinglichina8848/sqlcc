@@ -5,7 +5,7 @@
 
 #include <gtest/gtest.h>
 #include <memory>
-#include "include/security/compliance_manager.h"
+#include "src/security/compliance_manager.h"
 
 /**
  * @class ComplianceManagerTest

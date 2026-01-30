@@ -7,8 +7,8 @@
 #include <memory>
 #include <thread>
 #include <chrono>
-#include "include/network/network_manager.h"
-#include "include/network/connection_pool.h"
+#include "src/network/network_manager.h"
+#include "src/network/connection_pool.h"
 
 /**
  * @class NetworkCommunicationTest

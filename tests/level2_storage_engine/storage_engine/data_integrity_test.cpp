@@ -16,7 +16,7 @@
 #include "storage/data_integrity_validator.h"
 #include "storage/record_boundary_validator.h"
 #include "storage_engine.h"
-#include "utils/config_manager.h"
+#include "src/utils/config_manager.h"
 
 namespace fs = std::filesystem;
 namespace sqlcc {

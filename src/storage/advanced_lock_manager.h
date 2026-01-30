@@ -140,7 +140,7 @@
 #include <functional>
 #include <thread>
 
-#include "concurrency_control.h"
+#include "src/storage_engine/concurrency_control.h"
 
 namespace sqlcc {
 

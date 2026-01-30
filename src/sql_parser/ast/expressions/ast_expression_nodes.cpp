@@ -1,7 +1,7 @@
 /**
  * @file ast_expression_nodes.cpp
  * @brief 表达式相关AST节点实现
- * 
+ *
  * 包含表达式相关的AST节点实现，包括：
  * - BinaryExpression（二元表达式）
  * - UnaryExpression（一元表达式）
@@ -9,8 +9,9 @@
  * - FunctionCallExpression（函数调用表达式）
  */
 
-#include "ast_node.h"
-#include "ast_nodes.h"
+#include "src/sql_parser/ast/ast_node.h"
+#include "src/sql_parser/ast/ast_nodes.h"
+#include "src/sql_parser/ast/expressions/ast_expression_nodes.h"
 #include <iostream>
 
 namespace sqlcc {

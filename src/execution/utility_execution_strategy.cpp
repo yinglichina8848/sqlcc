@@ -32,13 +32,14 @@ ExecutionResult UtilityExecutionStrategy::execute(std::unique_ptr<sql_parser::St
             }
             break;
         }
-        case sql_parser::Statement::Type::DESCRIBE: {
-            auto desc_stmt = dynamic_cast<sql_parser::DescribeStatement*>(stmt.get());
-            if (desc_stmt) {
-                return executeDescribe(*desc_stmt, context);
-            }
-            break;
-        }
+        // TODO: DescribeStatement is not defined, use ShowStatement::COLUMNS instead
+        // case sql_parser::Statement::Type::DESCRIBE: {
+        //     auto desc_stmt = dynamic_cast<sql_parser::DescribeStatement*>(stmt.get());
+        //     if (desc_stmt) {
+        //         return executeDescribe(*desc_stmt, context);
+        //     }
+        //     break;
+        // }
         default:
             return createErrorResult("Unsupported utility statement type");
     }
@@ -58,7 +59,8 @@ bool UtilityExecutionStrategy::validate(const sql_parser::Statement& stmt,
     switch (stmt.type) {
         case sql_parser::Statement::Type::USE:
         case sql_parser::Statement::Type::SHOW:
-        case sql_parser::Statement::Type::DESCRIBE:
+        // TODO: DescribeStatement is not defined
+        // case sql_parser::Statement::Type::DESCRIBE:
             return true;
         default:
             return false;
@@ -127,48 +129,49 @@ ExecutionResult UtilityExecutionStrategy::executeShow(const sql_parser::ShowStat
     return createErrorResult("Database manager not available");
 }
 
-ExecutionResult UtilityExecutionStrategy::executeDescribe(const sql_parser::DescribeStatement& stmt,
-                                                        ExecutionContext &context) {
-    if (auto db_manager = context.getDatabaseManager()) {
-        auto current_db = context.getCurrentDatabase();
-        if (!current_db.empty() && !stmt.table_name.empty()) {
-            auto table_schema = db_manager->getTableSchema(current_db, stmt.table_name);
-            if (!table_schema.empty()) {
-                std::ostringstream result_stream;
-                result_stream << "Structure of table " << stmt.table_name << ":\n";
-                result_stream << "Columns:\n";
-                for (const auto& column : table_schema) {
-                    result_stream << "  " << column.name << " " << column.type;
-                    if (column.is_primary_key) {
-                        result_stream << " PRIMARY KEY";
-                    }
-                    if (column.is_not_null) {
-                        result_stream << " NOT NULL";
-                    }
-                    if (!column.default_value.empty()) {
-                        result_stream << " DEFAULT " << column.default_value;
-                    }
-                    result_stream << "\n";
-                }
-                
-                // 获取表的索引信息
-                auto indexes = db_manager->getTableIndexes(current_db, stmt.table_name);
-                if (!indexes.empty()) {
-                    result_stream << "Indexes:\n";
-                    for (const auto& index : indexes) {
-                        result_stream << "  " << index.name << " ON (" << index.columns << ")\n";
-                    }
-                }
-                
-                return createSuccessResult(result_stream.str());
-            } else {
-                return createErrorResult("Table '" + stmt.table_name + "' does not exist or has no schema");
-            }
-        } else {
-            return createErrorResult("Database and table name must be specified for DESCRIBE command");
-        }
-    }
-    return createErrorResult("Database manager not available");
-}
+// TODO: DescribeStatement is not defined, use ShowStatement::COLUMNS instead
+// ExecutionResult UtilityExecutionStrategy::executeDescribe(const sql_parser::DescribeStatement& stmt,
+//                                                         ExecutionContext &context) {
+//     if (auto db_manager = context.getDatabaseManager()) {
+//         auto current_db = context.getCurrentDatabase();
+//         if (!current_db.empty() && !stmt.table_name.empty()) {
+//             auto table_schema = db_manager->getTableSchema(current_db, stmt.table_name);
+//             if (!table_schema.empty()) {
+//                 std::ostringstream result_stream;
+//                 result_stream << "Structure of table " << stmt.table_name << ":\n";
+//                 result_stream << "Columns:\n";
+//                 for (const auto& column : table_schema) {
+//                     result_stream << "  " << column.name << " " << column.type;
+//                     if (column.is_primary_key) {
+//                         result_stream << " PRIMARY KEY";
+//                     }
+//                     if (column.is_not_null) {
+//                         result_stream << " NOT NULL";
+//                     }
+//                     if (!column.default_value.empty()) {
+//                         result_stream << " DEFAULT " << column.default_value;
+//                     }
+//                     result_stream << "\n";
+//                 }
+//                 
+//                 // 获取表的索引信息
+//                 auto indexes = db_manager->getTableIndexes(current_db, stmt.table_name);
+//                 if (!indexes.empty()) {
+//                     result_stream << "Indexes:\n";
+//                     for (const auto& index : indexes) {
+//                         result_stream << "  " << index.name << " ON (" << index.columns << ")\n";
+//                     }
+//                 }
+//                 
+//                 return createSuccessResult(result_stream.str());
+//             } else {
+//                 return createErrorResult("Table '" + stmt.table_name + "' does not exist or has no schema");
+//             }
+//         } else {
+//             return createErrorResult("Database and table name must be specified for DESCRIBE command");
+//         }
+//     }
+//     return createErrorResult("Database manager not available");
+// }
 
 } // namespace sqlcc

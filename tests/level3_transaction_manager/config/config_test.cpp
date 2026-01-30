@@ -5,8 +5,8 @@
 #include <unordered_map>
 
 // SQLCC Core Components
-#include "utils/logger.h"
-#include "utils/config_manager.h"
+#include "src/utils/logger.h"
+#include "src/utils/config_manager.h"
 #include "transaction_manager.h"
 
 // Level 3 Transaction Manager Config tests

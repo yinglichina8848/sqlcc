@@ -9,7 +9,7 @@
 
 #pragma once
 
-#include "ast_node.h"
+#include "src/sql_parser/ast/ast_node.h"
 #include <memory>
 #include <string>
 

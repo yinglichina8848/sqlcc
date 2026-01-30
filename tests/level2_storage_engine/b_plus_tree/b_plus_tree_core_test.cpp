@@ -7,11 +7,11 @@
 #include <thread>
 #include <chrono>
 
-#include "include/storage/b_plus_tree.h"
-#include "include/storage/b_plus_tree_nodes.h"
-#include "include/storage_engine.h"
-#include "utils/config_manager.h"
-#include "include/utils/logger.h"
+#include "src/storage/b_plus_tree.h"
+#include "src/storage/b_plus_tree_nodes.h"
+#include "src/storage_engine.h"
+#include "src/utils/config_manager.h"
+#include "src/utils/logger.h"
 
 namespace fs = std::filesystem;
 namespace sqlcc {

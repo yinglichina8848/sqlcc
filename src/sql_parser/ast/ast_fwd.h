@@ -120,8 +120,8 @@
  * 5. 性能监控：监控声明策略对编译性能的影响
  */
 
-#include "ast_node.h"
-#include "ast_nodes.h"
+#include "src/sql_parser/ast/ast_node.h"
+#include "src/sql_parser/ast/ast_nodes.h"
 #ifndef SQLCC_SQL_PARSER_AST_FWD_H
 #define SQLCC_SQL_PARSER_AST_FWD_H
 
@@ -134,7 +134,7 @@ namespace sql_parser {
 // Base classes
 class Statement;
 class Expression;
-class NodeVisitor;
+// NodeVisitor is defined in ast namespace, not here
 
 // Statement types
 class SelectStatement;

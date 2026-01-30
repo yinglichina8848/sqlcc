@@ -1,0 +1,48 @@
+# SQLCC 网络加密模块头文件
+# 包含加密相关的头文件定义
+
+load("@rules_cc//cc:defs.bzl", "cc_library")
+
+
+cc_library(
+    name = "encryption_key",
+    hdrs = ["encryption_key.h"],
+    visibility = ["//visibility:public"],
+)
+
+cc_library(
+    name = "simple_encryptor",
+    hdrs = ["simple_encryptor.h"],
+    visibility = ["//visibility:public"],
+)
+
+cc_library(
+    name = "aes_encryptor",
+    hdrs = ["aes_encryptor.h"],
+    visibility = ["//visibility:public"],
+)
+
+cc_library(
+    name = "hmac_sha256",
+    hdrs = ["hmac_sha256.h"],
+    visibility = ["//visibility:public"],
+)
+
+cc_library(
+    name = "pbkdf2",
+    hdrs = ["pbkdf2.h"],
+    visibility = ["//visibility:public"],
+)
+
+# 综合加密模块
+cc_library(
+    name = "encryption_headers",
+    deps = [
+        ":encryption_key",
+        ":simple_encryptor",
+        ":aes_encryptor",
+        ":hmac_sha256",
+        ":pbkdf2",
+    ],
+    visibility = ["//visibility:public"],
+)

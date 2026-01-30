@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ast_nodes.h"
+#include "src/sql_parser/ast/ast_nodes.h"
 #include <iostream>
 
 namespace sqlcc {

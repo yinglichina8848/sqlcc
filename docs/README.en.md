@@ -2,16 +2,20 @@
 
 > 🎯 **Database Development Guide for Sophomore Students** - Build your own database system with AI assistance from scratch!
 
-## 📦 Current Version: 1.3.1
+## 📦 Current Version: 1.3.8
 
-### 🆕 v1.2.14 New Features (Comprehensive Testing and Quality Assurance)
-- **Complete CRUD Implementation**: Fully enhanced CRUD operation support, including complete implementation of INSERT, UPDATE, DELETE functionality
-- **Transactional CRUD Operations**: Ensure all CRUD operations are executed atomically within transactions to guarantee data consistency
-- **Performance Optimization**: Optimized CRUD operation performance, ensuring single operation latency < 5ms for 10,000-100,000 rows of data (SSD environment)
-- **INSERT Operation Performance**: Average latency of single insertion operation is approximately 0.1ms, well below the 5ms requirement
-- **UPDATE Operation Performance**: Average latency of single update operation is approximately 0.2ms, meeting performance requirements
-- **DELETE Operation Performance**: Average latency of single deletion operation is approximately 0.15ms, meeting performance requirements
-- **SELECT Operation Performance**: Point query latency is approximately 0.05ms, range query performance grows linearly with data volume
+### 🆕 v1.3.8 New Features (Unified Executor Pattern Refactoring)
+- **Unified Executor Pattern**: Completed refactoring of unified executor with strategy pattern implementation
+- **DML/DDL/DCL Execution Strategies**: Added dedicated execution strategy classes for different SQL statement types
+- **Level1 Module Migration**: Systematic migration of Level1 foundation modules to new architecture
+- **LLVM Coverage Testing**: Enhanced coverage testing with LLVM toolchain
+- **Documentation Reorganization**: Restructured documentation with new directory organization
+
+### 🎯 Recent Version Highlights
+- **v1.3.7**: Level1 module migration completion
+- **v1.3.6**: LLVM coverage testing enhancement
+- **v1.2.15**: Comprehensive CRUD implementation with transactional support
+- **v1.2.14**: Performance optimization and quality assurance
 
 ## 📊 Code Scale Statistics
 
@@ -71,9 +75,12 @@ make perf_test
 
 - **API Documentation**: `docs/doxygen/html/index.html`
 - **Coverage Report**: `coverage/index.html`
-- **Performance Test Report**: `build/perf_results.json`
-- **Change Log**: `ChangeLog.md`
-- **Release Notes**: `RELEASE_NOTES_v0.3.9.md`
+- **Performance Test Report**: `reports/evaluation/`
+- **Project Documentation**: `docs/index.md` - Complete documentation index
+- **Change Log**: `docs/releases/CHANGELOG.md`
+- **Release Notes**: `docs/releases/`
+- **Version History**: `docs/project/versions/`
+- **Test Documentation**: `docs/testing/`
 
 ## 🤝 Contribution Guide
 

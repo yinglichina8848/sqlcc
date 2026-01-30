@@ -71,7 +71,7 @@
  * @see include/utils/logger.h
  */
 
-#include "logger.h"  // Include our optimized header
+#include "src/logger/logger.h"  // Include our optimized header
 
 // Required standard library includes for implementation
 // These are separated from header to minimize compilation dependencies

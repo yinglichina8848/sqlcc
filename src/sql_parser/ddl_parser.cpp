@@ -1,4 +1,4 @@
-#include "ddl_parser.h"
+#include "src/sql_parser/ddl_parser.h"
 #include "ast/ast_nodes.h"
 #include "ast/ddl/ast_ddl_nodes.h"
 #include <iostream>

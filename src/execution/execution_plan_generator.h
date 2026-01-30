@@ -5,8 +5,8 @@
 #include <string>
 #include <vector>
 
-#include "execution_context.h"
-#include "sql_parser/ast_nodes.h"
+#include "src/core/execution_context.h"
+#include "src/sql_parser/ast/ast_nodes.h"
 
 namespace sqlcc {
 

@@ -3,8 +3,8 @@
 
 #include "ast/ast_node.h"
 #include "ast/ast_nodes.h"
-#include "token.h"
-#include "lexer.h"
+#include "src/sql_parser/token.h"
+#include "src/sql_parser/lexer.h"
 #include <memory>
 #include <string>
 #include <vector>

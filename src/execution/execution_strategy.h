@@ -195,7 +195,6 @@
  * - 可视化工具：执行过程和结果的可视化展示
  */
 
-#include "sql_parser/ast_node.h"
 /**
  * @file execution_strategy.h
  * @brief 执行策略基类头文件
@@ -203,12 +202,13 @@
 #ifndef SQLCC_EXECUTION_EXECUTION_STRATEGY_H
 #define SQLCC_EXECUTION_EXECUTION_STRATEGY_H
 
+#include "src/sql_parser/ast/ast_nodes.h"
 #include <memory>
 #include <string>
 #include <vector>
 #include <unordered_map>
-#include "core/execution_result.h"
-#include "storage/table_storage.h"  // 包含TableMetadata定义
+#include "src/core/execution_result.h"
+#include "src/storage_engine/table_storage.h"  // 包含TableMetadata定义
 
 namespace sqlcc {
 
@@ -250,8 +250,7 @@ protected:
     bool hasRequiredPermissions(const ExecutionContext& context,
                                const std::vector<std::string>& required_permissions) const;
     
-    ExecutionResult createErrorResult(const std::string& error_message,
-                                     ExecutionResult::ErrorCode error_code = ExecutionResult::ErrorCode::EXECUTION_ERROR) const;
+    ExecutionResult createErrorResult(const std::string& error_message) const;
     
     ExecutionResult createSuccessResult(const std::string& message = "") const;
     

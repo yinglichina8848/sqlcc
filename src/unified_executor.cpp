@@ -1,9 +1,9 @@
-#include "sql_parser/ast_node.h"
-#include "sql_parser/ast_nodes.h"
-#include "execution/join_executor.h"
+#include "src/sql_parser/ast/ast_node.h"
+#include "src/sql_parser/ast/ast_nodes.h"
+#include "src/execution/join_executor.h"
 #include "src/core/unified_executor.h"
 #include "src/core/execution_result.h"
-#include "include/storage/table_storage.h"
+#include "src/storage_engine/table_storage.h"
 #include <map>
 #include <algorithm>
 #include <limits>
@@ -791,17 +791,6 @@ std::string DMLExecutionStrategy::getColumnValue(const std::vector<std::string>&
                                                   std::shared_ptr<TableMetadata> metadata) {
   return ::getColumnValue(record, column_name, metadata);
 }
-
-#include "unified_executor.h"
-#include "execution_result.h"
-#include "execution/execution_strategy.h"
-#include "execution/ddl_execution_strategy.h"
-#include "execution/dml_execution_strategy.h"
-#include "execution/dcl_execution_strategy.h"
-#include "execution/utility_execution_strategy.h"
-#include "sql_parser/ast_nodes.h"
-#include <memory>
-#include <stdexcept>
 
 namespace sqlcc {
 

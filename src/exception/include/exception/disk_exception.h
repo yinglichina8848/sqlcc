@@ -9,7 +9,7 @@
 
 #pragma once
 
-#include "base_exception.h"
+#include "src/exception/include/exception/base_exception.h"
 #include <string>
 
 namespace sqlcc {

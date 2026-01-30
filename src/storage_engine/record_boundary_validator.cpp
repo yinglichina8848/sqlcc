@@ -10,9 +10,9 @@
  */
 
 #include "src/storage/record_boundary_validator.h"
-#include "include/storage/table_storage.h"
-#include "exception.h"
-#include "utils/logger.h"
+#include "src/storage_engine/table_storage.h"
+#include "src/exception/exception.h"
+#include "src/utils/logger.h"
 #include <algorithm>
 #include <chrono>
 #include <cstring>

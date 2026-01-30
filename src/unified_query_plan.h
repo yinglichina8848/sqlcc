@@ -1,13 +1,13 @@
-#include "sql_parser/ast_node.h"
+#include "src/sql_parser/ast/ast_node.h"
 #ifndef SQLCC_UNIFIED_QUERY_PLAN_H
 #define SQLCC_UNIFIED_QUERY_PLAN_H
 
-#include "sql_parser/ast_nodes.h"
-#include "core/user_manager.h"
-#include "core/system_database.h"
-#include "core/core_database_manager.h"
-#include "error_handler.h"
-#include "execution_engine.h"
+#include "src/sql_parser/ast/ast_nodes.h"
+#include "src/core/user_manager.h"
+#include "src/core/system_database.h"
+#include "src/core/core_database_manager.h"
+#include "src/error_handler.h"
+#include "src/execution/execution_engine.h"
 #include <functional>
 #include <memory>
 #include <string>
@@ -518,7 +518,7 @@ private:
     std::string procedure_name_;
     std::vector<sql_parser::ProcedureParameter> parameters_;
     std::string procedure_body_;
-    std::vector<std::unique_ptr<sql_parser::Expression>> arguments_;
+    std::vector<std::unique_ptr<sql_parser::ast::Expression>> arguments_;
 };
 
 /**

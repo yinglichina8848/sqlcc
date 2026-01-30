@@ -1,6 +1,6 @@
-#include "src/storage/wal_writer.h"
-#include "src/storage/wal_buffer.h"
-#include "utils/config_manager.h"
+#include "src/storage_engine/wal_writer.h"
+#include "src/storage_engine/wal_buffer.h"
+#include "src/utils/config_manager.h"
 #include <algorithm>
 #include <chrono>
 #include <filesystem>

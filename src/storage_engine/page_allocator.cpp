@@ -10,9 +10,9 @@
  */
 
 #include "src/storage/page_allocator.h"
-#include "page.h"
-#include "exception.h"
-#include "utils/logger.h"
+#include "src/page/page.h"
+#include "src/exception/exception.h"
+#include "src/utils/logger.h"
 #include <algorithm>
 #include <random>
 #include <unordered_map>

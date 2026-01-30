@@ -1,12 +1,12 @@
 #include "src/storage/partition_manager.h"
-#include "include/storage/table_storage.h"
+#include "src/storage_engine/table_storage.h"
 #include "src/storage/b_plus_tree.h"
 #include <algorithm>
 #include <sstream>
 #include <iomanip>
 #include <fstream>
 #include <filesystem>
-#include "utils/config_snapshot.h"
+#include "src/utils/config_snapshot.h"
 
 namespace sqlcc {
 namespace storage {

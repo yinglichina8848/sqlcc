@@ -9,9 +9,9 @@
 #include <string>
 #include <memory>
 
-#include "execution/execution_strategy.h"
-#include "core/execution_result.h"
-#include "sql_parser/ast_nodes.h"
+#include "src/execution/execution_strategy.h"
+#include "src/core/execution_result.h"
+#include "src/sql_parser/ast/ast_nodes.h"
 
 namespace sqlcc {
 
@@ -34,8 +34,9 @@ private:
                               ExecutionContext &context);
     ExecutionResult executeShow(const sql_parser::ShowStatement& stmt,
                                ExecutionContext &context);
-    ExecutionResult executeDescribe(const sql_parser::DescribeStatement& stmt,
-                                   ExecutionContext &context);
+    // TODO: DescribeStatement is not defined, use ShowStatement::COLUMNS instead
+    // ExecutionResult executeDescribe(const sql_parser::DescribeStatement& stmt,
+    //                                ExecutionContext &context);
 };
 
 } // namespace sqlcc

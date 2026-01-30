@@ -1,13 +1,13 @@
 #include "sql_parser/ast_nodes.h"
 #include "sql_parser/advanced_sql92_features.h"
-#include "sql_executor.h"
+#include "src/sql_executor.h"
 #include "sql_executor/domain_manager.h"
 #include "sql_executor/enhanced_trigger_manager.h"
 #include "sql_executor/enhanced_alter_table_manager.h"
 #include "src/core/core_database_manager.h"
 #include "src/core/user_manager.h"
 #include "src/core/system_database.h"
-#include "include/storage_engine.h"
+#include "src/storage_engine/storage_engine.h"
 #include <memory>
 #include <unordered_map>
 #include <vector>

@@ -7,10 +7,10 @@
  * 性能优化：减少锁粒度，提升多线程并发访问效率
  */
 
-#include "include/storage/buffer_pool_sharded.h"
-#include "disk_manager.h"
-#include "exception.h"
-#include "include/utils/logger.h"
+#include "src/storage_engine/buffer_pool/buffer_pool_sharded.h"
+#include "src/storage/disk_manager.h"
+#include "src/exception/exception.h"
+#include "src/utils/logger.h"
 
 namespace sqlcc {
 

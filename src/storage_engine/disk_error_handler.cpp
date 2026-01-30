@@ -11,10 +11,10 @@
  */
 
 #include "src/storage/disk_error_handler.h"
-#include "disk_manager.h"
-#include "exception.h"
-#include "utils/logger.h"
-#include "page.h"
+#include "src/storage/disk_manager.h"
+#include "src/exception/exception.h"
+#include "src/utils/logger.h"
+#include "src/page/page.h"
 #include <algorithm>
 #include <chrono>
 #include <cstring>

@@ -1,23 +1,15 @@
 load("@rules_cc//cc:defs.bzl", "cc_library")
 
-# disk_manager 头文件库
-cc_library(
-    name = "disk_manager_headers",
-    hdrs = ["disk_manager.h"],
-    strip_include_prefix = "src/storage_engine",
-    include_prefix = "storage_engine",
-    visibility = ["//visibility:public"],
-)
-
 # disk_manager 实现库
 cc_library(
     name = "disk_manager",
     srcs = ["disk_manager.cpp"],
     deps = [
-        ":disk_manager_headers",
         "//src/storage_engine:storage_engine_headers",
-        "//src/utils:utils_headers",
-        "//src/exception:exception_headers",
+        "//src/utils:utils",
+        "//src/exception:exception",
+        "//src/storage:storage",
+        "//src/page:page",
     ],
     copts = [
         "-std=c++20",

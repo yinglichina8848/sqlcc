@@ -5,7 +5,7 @@
 
 #include <gtest/gtest.h>
 #include <memory>
-#include "include/security/audit_trail.h"
+#include "src/security/audit_trail.h"
 
 /**
  * @class AuditTrailTest

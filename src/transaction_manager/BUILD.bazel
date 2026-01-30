@@ -1,29 +1,29 @@
 # 事务管理器组件Bazel构建配置
 
+load("@rules_cc//cc:defs.bzl", "cc_library")
+
 package(default_visibility = ["//visibility:public"])
 
+# 事务管理器库
 cc_library(
     name = "transaction_manager",
     srcs = glob(["*.cpp"]),
-    hdrs = [
-        "//include:transaction_manager.h",
-        "//include:transaction_context.h",
-        "//include:transaction_context_impl.h",
-        "//include:wal_manager.h",
-    ],
-    deps = [
-        "//src/exception:exception",
-        "//src/storage_engine:storage_engine",
-    ],
+    hdrs = glob(["*.h"]),
     copts = [
         "-std=c++20",
-        "-stdlib=libc++",
+        "-g",
         "-Wall",
         "-Wextra",
+        "-fprofile-instr-generate",
+        "-fcoverage-mapping",
     ],
-    linkopts = [
-        "-stdlib=libc++",
-        "-lc++abi",
+    linkopts = ["-fprofile-instr-generate"],
+    deps = [
+        "//src/exception:exception",
+        "//src/transaction:savepoint_manager",
+        "//src:wal_manager",
+        "//src/core:core",
+        "//src/storage_engine:storage_engine",
     ],
-    features = ["cpp20_modules"],
+    visibility = ["//visibility:public"],
 )

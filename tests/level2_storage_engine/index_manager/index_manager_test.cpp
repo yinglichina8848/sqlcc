@@ -15,7 +15,7 @@
 #include "storage_engine/index_manager/smart_index_factory.h"
 #include "storage_engine/b_plus_tree_index.h"
 #include "storage_engine.h"
-#include "utils/config_manager.h"
+#include "src/utils/config_manager.h"
 
 namespace fs = std::filesystem;
 namespace sqlcc {

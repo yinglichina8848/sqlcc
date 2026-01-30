@@ -10,8 +10,8 @@
 #include "storage/b_plus_tree.h"
 #include "storage/b_plus_tree_nodes.h"
 #include "storage_engine.h"
-#include "utils/config_manager.h"
-#include "utils/logger.h"
+#include "src/utils/config_manager.h"
+#include "src/utils/logger.h"
 
 namespace fs = std::filesystem;
 namespace sqlcc {

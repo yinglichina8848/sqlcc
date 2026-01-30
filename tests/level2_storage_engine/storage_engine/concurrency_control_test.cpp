@@ -17,9 +17,9 @@
 #include "storage/advanced_lock_manager.h"
 #include "storage/concurrency_control.h"
 #include "storage_engine.h"
-#include "utils/config_manager.h"
-#include "include/storage/concurrency_control.h"
-#include "include/storage/advanced_lock_manager.h"
+#include "src/utils/config_manager.h"
+#include "src/storage/concurrency_control.h"
+#include "src/storage/advanced_lock_manager.h"
 
 namespace fs = std::filesystem;
 namespace sqlcc {

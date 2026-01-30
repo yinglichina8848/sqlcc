@@ -13,8 +13,8 @@
 #include <fstream>
 #include <random>
 
-#include "disk_manager.h"
-#include "utils/config_manager.h"
+#include "src/storage/disk_manager.h"
+#include "src/utils/config_manager.h"
 
 namespace fs = std::filesystem;
 namespace sqlcc {

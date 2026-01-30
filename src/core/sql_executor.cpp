@@ -1,7 +1,7 @@
-#include "sql_parser/ast_node.h"
-#include "sql_executor_interface.h"
-#include "core_database_manager.h"
-#include "user_manager.h"
+#include "src/sql_parser/ast/ast_node.h"
+#include "src/sql_executor/sql_executor.h"
+#include "src/core/core_database_manager.h"
+#include "src/core/user_manager.h"
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -10,7 +10,7 @@
 namespace sqlcc {
 
 SqlExecutor::SqlExecutor()
-    : db_manager_(std::make_shared<DatabaseManager>()),
+    : db_manager_(std::make_shared<DatabaseManager>("./data")),
       user_manager_(std::make_shared<UserManager>()) {}
 
 SqlExecutor::SqlExecutor(std::shared_ptr<DatabaseManager> db_manager)

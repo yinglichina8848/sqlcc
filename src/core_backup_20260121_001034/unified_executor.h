@@ -2,11 +2,11 @@
 #ifndef SQLCC_UNIFIED_EXECUTOR_H
 #define SQLCC_UNIFIED_EXECUTOR_H
 
-#include "execution_context.h" // 使用统一的ExecutionContext定义
-#include "execution_engine.h"
+#include "src/core_backup_20260121_001034/execution_context.h" // 使用统一的ExecutionContext定义
+#include "src/execution_engine.h"
 #include "sql_parser/ast_nodes.h"
-#include "system_database.h"
-#include "user_manager.h"
+#include "src/core_backup_20260121_001034/system_database.h"
+#include "src/core_backup_20260121_001034/user_manager.h"
 #include <functional>
 #include <map>
 #include <memory>

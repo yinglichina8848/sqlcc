@@ -5,7 +5,7 @@
  * 提供最小实现以支持编译和链接
  */
 
-#include "sql_executor.h"
+#include "src/sql_executor.h"
 #include <string>
 
 namespace sqlcc {

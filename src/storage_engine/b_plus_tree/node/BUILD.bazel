@@ -1,23 +1,21 @@
 cc_library(
     name = "bptree_node",
     srcs = [
-        "b_plus_tree_node.cpp",
         "b_plus_tree_internal_node.cpp",
         "b_plus_tree_leaf_node.cpp",
+        "b_plus_tree_nodes.cpp",
     ],
     hdrs = [
-        "b_plus_tree_node.h",
         "b_plus_tree_internal_node.h",
         "b_plus_tree_leaf_node.h",
         "b_plus_tree_nodes.h",
+        "comparator.h",
     ],
     deps = [
-        "//src/storage_engine/buffer_pool:buffer_pool",
-        "//include:storage_engine",
-
-        "//include:exception",
-        "//include/utils:utils",
-        "//include:page",
+        "//src/storage_engine/b_plus_tree/core:bptree_core",
+        "//src/utils:utils",
+        "//src/storage_engine:storage_engine_headers",
+        "//src/exception:exception",
     ],
     visibility = ["//visibility:public"],
 )

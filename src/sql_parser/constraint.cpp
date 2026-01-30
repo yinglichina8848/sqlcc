@@ -1,5 +1,5 @@
 #include "ast/ast_node.h"
-#include "constraint.h"
+#include "src/sql_parser/constraint.h"
 
 namespace sqlcc {
 namespace sql_parser {

@@ -1,8 +1,14 @@
 cc_test(
     name = "basic_test",
     srcs = ["basic_test.cpp"],
+    copts = [
+        "-fprofile-instr-generate",
+        "-fcoverage-mapping",
+    ],
+    linkopts = ["-fprofile-instr-generate"],
     deps = [
         "//src/exception:exception",
+        "//src/core:core",
         "@com_google_googletest//:gtest_main",
         "@com_google_googletest//:gtest",
     ],

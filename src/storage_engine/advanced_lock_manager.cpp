@@ -52,9 +52,9 @@
  * @see docs/design/storage_engine/advanced_lock_manager_design.md
  */
 
-#include "src/storage/advanced_lock_manager.h"
-#include "exception/exception.h"
-#include "utils/logger.h"
+#include "advanced_lock_manager.h"
+#include "src/exception/exception.h"
+#include "src/utils/logger.h"
 #include <algorithm>
 #include <chrono>
 #include <thread>

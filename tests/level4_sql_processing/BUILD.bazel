@@ -10,8 +10,8 @@ cc_test(
         "execution_context/*.cpp",
     ], allow_empty = True),
     deps = [
-        "//include:sqlcc_pch",
-        "//include/core:execution_context",
+        "//src:sqlcc_pch",
+        "//src/core:execution_context",
         "//src/core:execution_context",
         "//src/logger:logger",
         "@com_google_googletest//:gtest_main",
@@ -32,7 +32,7 @@ cc_test(
         "json_operations/*.cpp",
     ], allow_empty = True),
     deps = [
-        "//include:sqlcc_pch",
+        "//src:sqlcc_pch",
         "//src/sql_parser:json",
         "//src/logger:logger",
         "@com_google_googletest//:gtest_main",
@@ -53,7 +53,7 @@ cc_test(
         "permission_validator/*.cpp",
     ], allow_empty = True),
     deps = [
-        "//include:sqlcc_pch",
+        "//src:sqlcc_pch",
         "//src/logger:logger",
         "@com_google_googletest//:gtest_main",
     ],
@@ -73,9 +73,9 @@ cc_test(
         "sql_executor_core/*.cpp",
     ], allow_empty = True),
     deps = [
-        "//include:sqlcc_pch",
-        "//include/core:execution_context",
-        "//include/storage_engine:storage_engine",
+        "//src:sqlcc_pch",
+        "//src/core:execution_context",
+        "//src/storage_engine:storage_engine",
         "//src/core:execution_context",
         "//src/storage_engine:storage_engine",
         "//src/logger:logger",
@@ -97,7 +97,7 @@ cc_test(
         "stored_procedure/*.cpp",
     ], allow_empty = True),
     deps = [
-        "//include:sqlcc_pch",
+        "//src:sqlcc_pch",
         "//src/sql_executor:procedure_executor",
         "//src/logger:logger",
         "@com_google_googletest//:gtest_main",
@@ -118,7 +118,7 @@ cc_test(
         "trigger/*.cpp",
     ], allow_empty = True),
     deps = [
-        "//include:sqlcc_pch",
+        "//src:sqlcc_pch",
         "//src/trigger:trigger_manager",
         "//src/trigger:sql_trigger_executor",
         "//src/logger:logger",

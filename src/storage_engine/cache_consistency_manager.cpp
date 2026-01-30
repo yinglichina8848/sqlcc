@@ -11,9 +11,9 @@
  */
 
 #include "src/storage/cache_consistency_manager.h"
-#include "src/storage/buffer_pool_sharded.h"
-#include "exception.h"
-#include "utils/logger.h"
+#include "src/storage_engine/buffer_pool/buffer_pool_sharded.h"
+#include "src/exception/exception.h"
+#include "src/utils/logger.h"
 #include <algorithm>
 #include <chrono>
 #include <thread>

@@ -54,10 +54,10 @@
 #ifndef SQLCC_SQL_PARSER_EXPRESSION_PARSER_H
 #define SQLCC_SQL_PARSER_EXPRESSION_PARSER_H
 
-#include "token_stream.h"
+#include "src/sql_parser/token_stream.h"
 #include "ast/ast_node.h"
 #include "ast/expression.h"
-#include "operator_kind.h"
+#include "src/sql_parser/operator_kind.h"
 #include <memory>
 #include <functional>
 #include <vector>

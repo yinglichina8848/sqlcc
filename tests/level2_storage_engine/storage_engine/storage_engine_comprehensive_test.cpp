@@ -14,8 +14,8 @@
 #include "storage_engine/index_manager/smart_index_cache.h"
 #include "storage/concurrency_control.h"
 #include "storage/advanced_lock_manager.h"
-#include "utils/config_manager.h"
-#include "utils/logger.h"
+#include "src/utils/config_manager.h"
+#include "src/utils/logger.h"
 
 namespace fs = std::filesystem;
 namespace sqlcc {

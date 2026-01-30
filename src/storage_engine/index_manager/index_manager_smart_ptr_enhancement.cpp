@@ -11,10 +11,10 @@
 
 #include "src/storage/index_manager.h"
 #include "src/storage/b_plus_tree.h"
-#include "include/storage_engine.h"
-#include "transaction_manager.h"
-#include "utils/config_manager.h"
-#include "utils/logger.h"
+#include "src/storage_engine/storage_engine.h"
+#include "src/transaction_manager/transaction_manager.h"
+#include "src/utils/config_manager.h"
+#include "src/utils/logger.h"
 #include <memory>
 #include <unordered_map>
 #include <unordered_set>

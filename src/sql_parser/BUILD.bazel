@@ -41,7 +41,6 @@ cc_library(
     name = "parser",
     srcs = [
         "parser.cpp",
-        "set_operation.cpp",
         "recursive_query.cpp",
         "function_ast.cpp",
         "function_definition.cpp",
@@ -50,7 +49,7 @@ cc_library(
         "datetime.cpp",
         "decimal.cpp",
         "advanced_sql92_features.cpp",
-        "architecture_safeguards.h", 
+        "architecture_safeguards.h",
         "parsers/parser_core.cpp",
         "parsers/ddl/parser_ddl.cpp",
         "parsers/dml/parser_dml.cpp",
@@ -75,6 +74,8 @@ cc_library(
         "token.h",
         "architecture_safeguards.h",  # 🛡️ 架构防护措施
         "select_parser.h",
+        "select_parser_fwd.h",
+        "ddl_parser.h",
         "parsers/parser_core.h",
         "parsers/ddl/parser_ddl.h",
         "parsers/dml/parser_dml.h",
@@ -90,13 +91,51 @@ cc_library(
         ":select_parser",  # ✅ 添加对select_parser的依赖
         "//src/exception:exception",
         "//src/utils:utils",
-        "//include/trigger:headers",
-        "//include/storage_engine:table_storage_headers",
+         "//src/trigger:trigger_headers",
+        "//src/storage_engine:table_storage_headers",
     ],
     # 🚨 构建时验证：确保不直接依赖AST构造类
     copts = [
         "-DARCHITECTURE_SAFEGUARDS_ENABLED",  # 启用架构防护
         "-Wno-unused-function",  # 忽略已删除方法的警告
+    ],
+    visibility = ["//visibility:public"],
+)
+
+# --------------------------
+# Data Types 库 - 数据类型定义
+# --------------------------
+cc_library(
+    name = "data_types",
+    srcs = [
+        "data_types.cpp",
+    ],
+    hdrs = [
+        "data_types.h",
+        "operator_kind.h",
+    ],
+    deps = [
+        "//src/exception:exception",
+        "//src/utils:utils",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+# --------------------------
+# Function AST 库 - 函数相关AST定义
+# --------------------------
+cc_library(
+    name = "function_ast_lib",
+    srcs = [
+        "function_ast.cpp",
+    ],
+    hdrs = [
+        "function_ast.h",
+    ],
+    deps = [
+        "//src/exception:exception",
+        "//src/utils:utils",
+        "//src/sql_parser/ast:ast_headers",  # 函数AST需要AST基础类
     ],
     visibility = ["//visibility:public"],
 )
@@ -186,13 +225,14 @@ cc_library(
     hdrs = [
         "select_parser.h",
     ],
-    deps = [
-        ":token_stream",
-        ":expression_parser",
-        ":ast",
-        ":lexer",  # 添加lexer依赖以获得token.h
-        ":exception",
-    ],
+     deps = [
+         ":token_stream",
+         ":expression_parser",
+         ":ast",
+         "//src/sql_parser/ast:ast_headers",  # 添加ast_headers for transitive dependencies
+         ":lexer",  # 添加lexer依赖以获得token.h
+         "//src/exception:exception",
+     ],
     visibility = ["//visibility:public"],
 )
 
@@ -207,13 +247,14 @@ cc_library(
     hdrs = [
         "statement_parser.h",
     ],
-    deps = [
-        ":token_stream",
-        ":expression_parser",
-        ":ast",
-        ":parser",  # 添加对parser库的依赖，以获得data_types.h和set_operation.h
-        "//src/exception:exception",
-    ],
+     deps = [
+         ":token_stream",
+         ":expression_parser",
+         ":ast",
+         "//src/sql_parser/ast:ast_headers",  # 添加ast_headers to ensure all ast headers are available
+         ":parser",  # 添加对parser库的依赖，以获得data_types.h和set_operation.h
+         "//src/exception:exception",
+     ],
     visibility = ["//visibility:public"],
 )
 
@@ -222,12 +263,32 @@ cc_library(
 # --------------------------
 cc_library(
     name = "sql_parser",
-    srcs = glob(["*.cpp", "**/*.cpp"]),
-    hdrs = glob(["*.h", "**/*.h"]),
+    srcs = [
+        "temp_ast_implementations.cpp",
+        "parser.cpp",
+        "recursive_query.cpp",
+        "function_ast.cpp",
+        "function_definition.cpp",
+        "constraint.cpp",
+        "data_types.cpp",
+        "datetime.cpp",
+        "decimal.cpp",
+        "advanced_sql92_features.cpp",
+        "parsers/parser_core.cpp",
+        "parsers/ddl/parser_ddl.cpp",
+        "parsers/dml/parser_dml.cpp",
+        "parsers/dcl/parser_dcl.cpp",
+        "parsers/tcl/parser_tcl.cpp",
+        "parsers/helpers/parser_helpers.cpp",
+    ],
+    hdrs = glob(
+        ["*.h", "parsers/*/*.h", "ast/*/*.h"],
+        allow_empty = True
+    ),
     deps = [
         "//src/exception:exception",
         "//src/utils:utils",
-        "//include/storage_engine:headers",
+         "//src/storage_engine:storage_engine_headers",
         ":headers",
         ":ast",
         ":lexer",

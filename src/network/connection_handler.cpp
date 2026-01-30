@@ -2,9 +2,9 @@
 #include "network/message_serializer.h"
 #include "network/session_manager.h"
 #include "network/session.h"
-#include "utils/file_descriptor.h"
-#include "utils/logger.h"
-#include "sql_executor.h"
+#include "src/utils/file_descriptor.h"
+#include "src/utils/logger.h"
+#include "src/sql_executor.h"
 #include "src/core/user_manager.h"
 #include "src/core/permission_validator.h"
 #include <unistd.h>

@@ -1,5 +1,5 @@
-#include "set_operation.h"
-#include "ast_node.h"
+#include "src/sql_parser/ast/set_operation.h"
+#include "src/sql_parser/ast/ast_node.h"
 #include "dml/ast_dml_nodes.h"  // 为SelectStatement
 #include <stdexcept>
 #include <algorithm>

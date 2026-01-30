@@ -5,8 +5,8 @@
 
 #include <gtest/gtest.h>
 #include <memory>
-#include "include/sql_executor/sql_executor.h"
-#include "include/core/database_manager.h"
+#include "src/sql_executor/sql_executor.h"
+#include "src/core/database_manager.h"
 
 /**
  * @class EndToEndTest

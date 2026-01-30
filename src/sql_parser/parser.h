@@ -146,12 +146,12 @@
 #define SQLCC_SQL_PARSER_PARSER_H
 
 #include "ast/ast_node.h"
-#include "constraint.h"
-#include "set_operation.h"
-#include "token.h"
-#include "window_function.h"
-#include "lexer.h"
-#include "token_stream.h"
+#include "src/sql_parser/constraint.h"
+#include "src/sql_parser/set_operation.h"
+#include "src/sql_parser/token.h"
+#include "src/sql_parser/window_function.h"
+#include "src/sql_parser/lexer.h"
+#include "src/sql_parser/token_stream.h"
 #include "parsers/parser_core.h"
 #include "parsers/ddl/parser_ddl.h"
 #include "parsers/dml/parser_dml.h"

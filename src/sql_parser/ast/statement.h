@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ast_node.h"
+#include "src/sql_parser/ast/ast_node.h"
 
 namespace sqlcc {
 namespace sql_parser {
@@ -33,6 +33,20 @@ public:
         CREATE,
         DROP,
         WITH_RECURSIVE,
+        COMMIT,  // 事务提交语句
+        ROLLBACK,  // 事务回滚语句
+        BEGIN,  // 事务开始语句
+        USE,  // 使用数据库语句
+        CREATE_USER,  // 创建用户语句
+        DROP_USER,  // 删除用户语句
+        GRANT,  // 授权语句
+        REVOKE,  // 撤销授权语句
+        SHOW,  // 显示语句
+        CREATE_VIEW,  // 创建视图语句
+        CREATE_ROLE,  // 创建角色语句
+        DROP_ROLE,  // 删除角色语句
+        GRANT_ROLE,  // 授予角色语句
+        REVOKE_ROLE,  // 撤销角色语句
     };
 
     explicit Statement(Type type) : type_(type) {}

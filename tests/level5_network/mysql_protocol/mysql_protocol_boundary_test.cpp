@@ -2,7 +2,7 @@
 #include <gmock/gmock.h>
 #include "network/mysql_protocol.h"
 #include "network/connection_state.h"
-#include "utils/logger.h"
+#include "src/utils/logger.h"
 
 using namespace sqlcc::network;
 using namespace sqlcc::utils;

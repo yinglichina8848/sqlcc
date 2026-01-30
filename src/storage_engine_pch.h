@@ -4,18 +4,18 @@
 #pragma once
 
 // Core project headers for storage engine
-#include "include/storage_engine.h"
+#include "src/storage_engine/storage_engine.h"
 #include "storage/index_manager.h"
 #include "storage/buffer_pool_sharded.h"
 #include "storage/b_plus_tree.h"
 #include "storage/disk_manager.h"
-#include "storage/wal_writer.h"
+#include "src/storage_engine/wal_writer.h"
 #include "storage/checkpoint.h"
 
 // Exception and utility headers
-#include "exception.h"
-#include "utils/logger.h"
-#include "utils/config_manager.h"
+#include "src/exception/exception.h"
+#include "src/utils/logger.h"
+#include "src/utils/config_manager.h"
 
 // Standard library headers commonly used in storage engine
 #include <iostream>

@@ -4,8 +4,8 @@
 #include <chrono>
 #include <mutex>
 #include <string>
-#include "network_monitor.h"
-#include "network_exception_handler.h"
+#include "src/network/network_monitor.h"
+#include "src/network/network_exception_handler.h"
 
 namespace sqlcc {
 namespace network {

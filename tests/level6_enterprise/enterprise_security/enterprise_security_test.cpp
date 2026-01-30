@@ -5,7 +5,7 @@
 
 #include <gtest/gtest.h>
 #include <memory>
-#include "include/security/enterprise_security.h"
+#include "src/security/enterprise_security.h"
 
 /**
  * @class EnterpriseSecurityTest

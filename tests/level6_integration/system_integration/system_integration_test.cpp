@@ -5,11 +5,11 @@
 
 #include <gtest/gtest.h>
 #include <memory>
-#include "include/core/database_manager.h"
-#include "include/storage_engine/storage_engine.h"
-#include "include/transaction_manager/transaction_manager.h"
-#include "include/sql_executor/sql_executor.h"
-#include "include/network/network_manager.h"
+#include "src/core/database_manager.h"
+#include "src/storage_engine/storage_engine.h"
+#include "src/transaction_manager/transaction_manager.h"
+#include "src/sql_executor/sql_executor.h"
+#include "src/network/network_manager.h"
 
 /**
  * @class SystemIntegrationTest

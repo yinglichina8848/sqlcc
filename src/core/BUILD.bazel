@@ -15,7 +15,21 @@ cc_library(
         "//src/sql_parser:sql_parser",
         # database_file_manager 需要 table_storage 头文件
         "//src/storage_engine:table_storage",
+        # sql_executor 需要的依赖
+        "//src/sql_executor:headers",
+        # unified_query_plan 和 view_manager 需要的依赖
+        "//src:unified_query_plan",
+        "//src:view_manager",
+        # error_handler 需要的依赖
+        "//src:all_headers",
         # 不允许依赖任何业务模块（如 storage_engine 等）
     ],
-    visibility = ["//src:__subpackages__"],
+    visibility = ["//visibility:public"],
+)
+
+# 向后兼容的头文件库
+cc_library(
+    name = "headers",
+    hdrs = glob(["*.h"]),
+    visibility = ["//visibility:public"],
 )

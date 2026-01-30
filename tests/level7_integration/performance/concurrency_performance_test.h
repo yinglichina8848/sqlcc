@@ -11,7 +11,7 @@
 #include <memory>
 #include "storage/buffer_pool.h"
 #include "disk_manager.h"
-#include "utils/config_manager.h"
+#include "src/utils/config_manager.h"
 #include "sql_executor.h"
 
 namespace sqlcc {

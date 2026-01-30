@@ -1,5 +1,5 @@
 /**
-#include "data_types.h"
+#include "src/sql_parser/data_types.h"
  * @file create_function.h
  * @brief 创建函数语句头文件
  */
@@ -11,7 +11,7 @@
 #include <vector>
 #include <memory>
 
-#include "ast_node.h"
+#include "src/sql_parser/ast/ast_node.h"
 #include "function/function_parameter.h"
 #include "datatype.h"
 

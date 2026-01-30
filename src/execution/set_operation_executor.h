@@ -171,7 +171,7 @@
 #include "core/execution_context.h"
 #include "core/execution_result.h"
 #include "sql_parser/ast_nodes.h"
-#include "sql_executor.h"
+#include "src/sql_executor.h"
 
 namespace sqlcc {
 
