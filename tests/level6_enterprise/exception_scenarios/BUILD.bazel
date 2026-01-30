@@ -1,0 +1,20 @@
+load("@rules_cc//cc:defs.bzl", "cc_test")
+
+cc_test(
+    name = "exception_scenarios_test",
+    srcs = ["exception_scenarios_test.cpp"],
+    deps = [
+        "@com_google_googletest//:gtest_main",
+        "//src/security:audit_trail",
+        "//src/security:enterprise_security",
+        "//src/logger:logger",
+        "//src/exception:exception",
+    ],
+    copts = [
+        "-std=c++20",
+        "-fprofile-instr-generate",
+        "-fcoverage-mapping",
+    ],
+    linkopts = ["-fprofile-instr-generate"],
+    tags = ["coverage", "level6", "enterprise", "exception"],
+)
