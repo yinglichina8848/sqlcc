@@ -88,6 +88,7 @@
 - [x] ~~清空 level2_core 目录~~ ✅ 已清空
 - [x] ~~创建新的 permission_validator 测试~~ ✅ 2026-01-30 完成
 - [x] ~~更新 BUILD.bazel 配置文件~~ ✅ 2026-01-30 完成
+- [x] ~~修复 Level 1 types_test 6个失败用例~~ ✅ 2026-01-31 完成
 - [ ] 收集 Level 1-3 基础覆盖率数据
 - [ ] 生成初步覆盖率报告
 - [ ] 修复 sql_parser::Statement API 导出问题
