@@ -3,9 +3,9 @@
 #define SQLCC_UNIFIED_QUERY_PLAN_H
 
 #include "sql_parser/ast/ast_nodes.h"
-#include "core_backup_20260121_001034/user_manager.h"
-#include "core_backup_20260121_001034/system_database.h"
-#include "core_backup_20260121_001034/core_database_manager.h"
+#include "../user_manager.h"
+#include "../system_database.h"
+#include "../core_database_manager.h"
 #include "error_handler.h"
 #include "execution_engine.h"
 #include <functional>

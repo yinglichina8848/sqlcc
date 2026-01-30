@@ -59,7 +59,7 @@
  * @see docs/design/execution/execution_context_design.md
  */
 
-#include "core_backup_20260121_001034/execution_context.h"
+#include "../execution_context.h"
 #include <sstream>
 
 namespace sqlcc {

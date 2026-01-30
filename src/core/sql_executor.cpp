@@ -1,7 +1,7 @@
 #include "sql_parser/ast/ast_node.h"
 #include "sql_executor.h"
-#include "core_backup_20260121_001034/core_database_manager.h"
-#include "core_backup_20260121_001034/user_manager.h"
+#include "../core_database_manager.h"
+#include "../user_manager.h"
 #include <iostream>
 #include <fstream>
 #include <sstream>
