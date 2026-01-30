@@ -7,7 +7,7 @@
 #include <mutex>
 #include <unordered_map>
 #include <map>
-#include "../storage/buffer_pool_sharded.h"
+#include "../storage_engine/buffer_pool/buffer_pool_sharded.h"
 
 namespace sqlcc {
 
@@ -19,7 +19,7 @@ class BufferPool;
 class TransactionManager;
 class IndexManager;
 class TableStorage;
-class TableMetadata;
+struct TableMetadata;
 class Page;
 
 using TransactionId = uint64_t;

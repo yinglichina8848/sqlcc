@@ -158,7 +158,7 @@ namespace sqlcc {
 // 前向声明
 class StorageEngine;
 class TransactionManager;
-class TableMetadata;
+struct TableMetadata;
 
 // 数据完整性约束类型
 enum IntegrityConstraintType {

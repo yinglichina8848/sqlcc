@@ -148,7 +148,7 @@
 namespace sqlcc {
 
 // 前向声明
-class TableMetadata;
+struct TableMetadata;
 class StorageEngine;
 class TransactionManager;
 

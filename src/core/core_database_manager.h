@@ -18,7 +18,7 @@ class BufferPool;
 class TransactionManager;
 class IndexManager;
 class TableStorage;
-class TableMetadata;
+struct TableMetadata;
 class Page;
 
 using TransactionId = uint64_t;

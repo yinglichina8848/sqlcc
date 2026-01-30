@@ -239,18 +239,19 @@
 #ifndef SQLCC_EXECUTION_DML_EXECUTION_STRATEGY_H
 #define SQLCC_EXECUTION_DML_EXECUTION_STRATEGY_H
 
-#include "src/sql_parser/ast/ast_node.h"
-#include "src/sql_parser/ast/ast_nodes.h"
+#include "../sql_parser/ast/ast_node.h"
+#include "../sql_parser/ast/ast_nodes.h"
 #include <string>
 #include <vector>
 #include <memory>
 
-#include "src/core/execution_result.h"
-#include "src/execution/execution_strategy.h"
+#include "../core/execution_result.h"
+#include "execution_strategy.h"
+#include "../core/execution_context.h"
 
 namespace sqlcc {
 
-class TableMetadata;
+struct TableMetadata;
 
 // DML执行策略类
 class DMLExecutionStrategy : public ExecutionStrategy {

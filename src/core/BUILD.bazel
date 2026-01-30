@@ -7,22 +7,18 @@ cc_library(
     srcs = glob(["*.cpp"]),
     hdrs = glob(["*.h"]),
     deps = [
-        # 严格按照依赖层级：core 只能依赖基础层级
         "//src/utils:utils",
+        "//src/storage_engine:storage_engine",
+        "//src/storage_engine:table_storage",
+        "//src/sql_parser:sql_parser",
+        "//src/execution:execution",
         "//src/exception:exception",
         "//src/logger:logger",
-        # 执行器需要解析SQL语句，因此必须依赖sql_parser
-        "//src/sql_parser:sql_parser",
-        # database_file_manager 需要 table_storage 头文件
-        "//src/storage_engine:table_storage",
-        # sql_executor 需要的依赖
-        "//src/sql_executor:headers",
-        # unified_query_plan 和 view_manager 需要的依赖
+        "//src:permission_validator",
+        "//src:error_handler",
         "//src:unified_query_plan",
         "//src:view_manager",
-        # error_handler 需要的依赖
-        "//src:all_headers",
-        # 不允许依赖任何业务模块（如 storage_engine 等）
+        "//src/core_backup_20260121_001034:headers",
     ],
     visibility = ["//visibility:public"],
 )

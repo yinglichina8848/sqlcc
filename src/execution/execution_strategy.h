@@ -202,13 +202,14 @@
 #ifndef SQLCC_EXECUTION_EXECUTION_STRATEGY_H
 #define SQLCC_EXECUTION_EXECUTION_STRATEGY_H
 
-#include "src/sql_parser/ast/ast_nodes.h"
+#include "../sql_parser/ast/ast_nodes.h"
 #include <memory>
 #include <string>
 #include <vector>
 #include <unordered_map>
-#include "src/core/execution_result.h"
-#include "src/storage_engine/table_storage.h"  // 包含TableMetadata定义
+#include "../core/execution_result.h"
+#include "../core/execution_context.h"
+#include "../storage_engine/table_storage.h"  // 包含TableMetadata定义
 
 namespace sqlcc {
 
@@ -216,9 +217,7 @@ namespace sql_parser {
 class Statement;
 class WhereClause;
 } // namespace sql_parser
-
-class ExecutionContext;
-class TableMetadata;
+struct TableMetadata;
 struct TableColumn;
 
 // 执行策略基类 - 定义SQL语句执行的策略模式
