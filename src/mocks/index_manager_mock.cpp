@@ -1,4 +1,4 @@
-#include "mocks/index_manager_mock.h"
+#include "index_manager_mock.h"
 #include <sstream>
 
 namespace sqlcc {

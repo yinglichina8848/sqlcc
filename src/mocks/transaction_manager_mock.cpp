@@ -1,4 +1,4 @@
-#include "mocks/transaction_manager_mock.h"
+#include "transaction_manager_mock.h"
 #include <sstream>
 
 namespace sqlcc {

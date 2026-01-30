@@ -1,4 +1,4 @@
-#include "mocks/database_manager_mock.h"
+#include "database_manager_mock.h"
 #include <sstream>
 
 namespace sqlcc {

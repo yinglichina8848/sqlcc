@@ -1,4 +1,4 @@
-#include "mocks/storage_engine_mock.h"
+#include "storage_engine_mock.h"
 #include "../page/page.h"
 #include <sstream>
 
