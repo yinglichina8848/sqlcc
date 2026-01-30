@@ -171,11 +171,22 @@ TEST_F(ConfigManagerFileTest, SaveToFile) {
     std::ifstream file(temp_config_file);
     EXPECT_TRUE(file.is_open());
 
-    // 验证文件内容
+    // 验证文件内容（INI格式：section.key=value）
     std::string content((std::istreambuf_iterator<char>(file)),
                         std::istreambuf_iterator<char>());
-    EXPECT_TRUE(content.find("test.key1") != std::string::npos);
-    EXPECT_TRUE(content.find("value1") != std::string::npos);
+    // 保存格式为INI: [section]\nkey=value
+    EXPECT_TRUE(content.find("[test]") != std::string::npos);
+    EXPECT_TRUE(content.find("key1=value1") != std::string::npos);
+    EXPECT_TRUE(content.find("key2=42") != std::string::npos);
+    EXPECT_TRUE(content.find("key3=true") != std::string::npos);
+}
+
+// 测试加载不存在的文件
+TEST_F(ConfigManagerFileTest, LoadNonExistentFile) {
+    // 加载不存在的文件时，会加载默认配置并返回true
+    EXPECT_TRUE(manager->LoadConfig("/tmp/nonexistent_config_file_12345.conf"));
+    // 验证默认配置已加载
+    EXPECT_TRUE(manager->HasKey("buffer_pool.read_lock_timeout_ms"));
 }
 
 // 测试重新加载配置
@@ -228,11 +239,6 @@ TEST_F(ConfigManagerFileTest, ReloadConfigWithNewFile) {
     // 清理
     std::remove(file1.c_str());
     std::remove(file2.c_str());
-}
-
-// 测试加载不存在的文件
-TEST_F(ConfigManagerFileTest, LoadNonExistentFile) {
-    EXPECT_FALSE(manager->LoadConfig("/tmp/nonexistent_config_file_12345.conf"));
 }
 
 // 测试配置文件格式错误
