@@ -9,9 +9,9 @@
 
 #pragma once
 
-#include "src/trigger/trigger_definition.h"
-#include "src/trigger/trigger_executor.h"
-#include "src/trigger/recursion_guard.h"
+#include "trigger_definition.h"
+#include "trigger_executor.h"
+#include "recursion_guard.h"
 #include <string>
 #include <vector>
 #include <unordered_map>

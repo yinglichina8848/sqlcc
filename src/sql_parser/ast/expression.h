@@ -1,6 +1,6 @@
 #pragma once
 
-#include "src/sql_parser/ast/ast_node.h"
+#include "ast_node.h"
 #include "../operator_kind.h"
 #include <memory>
 #include <string>

@@ -1,66 +1,71 @@
-// Copyright 2024 The SQLCC Authors
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//     http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-
-#ifndef STORAGE_ENGINE_INDEX_MANAGER_SMART_INDEX_CACHE_H_
-#define STORAGE_ENGINE_INDEX_MANAGER_SMART_INDEX_CACHE_H_
+#pragma once
 
 #include <memory>
 #include <unordered_map>
 #include <mutex>
 #include <string>
+#include <vector>
+#include <chrono>
 
 namespace sqlcc {
 
-class IndexCacheEntry {
-public:
-    explicit IndexCacheEntry(const std::string& key);
-    virtual ~IndexCacheEntry() = default;
+class BPlusTreeIndex;
 
-    const std::string& get_key() const { return key_; }
-    virtual size_t get_size() const = 0;
+namespace storage_engine {
 
-private:
-    std::string key_;
+namespace index_manager {
+
+struct CacheEntry {
+    std::unique_ptr<BPlusTreeIndex> index;
+    int priority;
+    std::chrono::steady_clock::time_point create_time;
+    std::chrono::steady_clock::time_point expiry_time;
+    size_t access_count;
+    double access_frequency;
+    std::chrono::steady_clock::time_point last_access;
+};
+
+struct EnhancedCacheStats {
+    size_t total_indexes = 0;
+    size_t expired_entries = 0;
+    size_t high_priority_entries = 0;
+    double average_access_frequency = 0.0;
+    std::chrono::steady_clock::time_point oldest_access;
+    std::chrono::steady_clock::time_point newest_access;
+    std::unordered_map<int, size_t> priority_distribution;
 };
 
 class SmartIndexCache {
 public:
-    explicit SmartIndexCache(size_t max_size);
+    SmartIndexCache(size_t max_cache_size = 100, std::chrono::minutes default_ttl = std::chrono::minutes(30));
     ~SmartIndexCache();
 
-    // Cache operations
-    bool put(const std::string& key, std::shared_ptr<IndexCacheEntry> entry);
-    std::shared_ptr<IndexCacheEntry> get(const std::string& key);
-    bool remove(const std::string& key);
-    void clear();
+    void CacheIndex(const std::string& index_name, std::unique_ptr<BPlusTreeIndex> index,
+                    int priority = 5, std::chrono::minutes ttl = std::chrono::minutes(0));
 
-    // Cache statistics
-    size_t get_size() const;
-    size_t get_max_size() const;
-    double get_hit_rate() const;
+    BPlusTreeIndex* GetIndex(const std::string& index_name);
+    bool HasIndex(const std::string& index_name) const;
+    bool RemoveIndex(const std::string& index_name);
+
+    void WarmupCache(const std::vector<std::string>& predicted_indexes);
+    void IntelligentCleanup();
+    EnhancedCacheStats GetEnhancedCacheStats() const;
+    std::vector<BPlusTreeIndex*> GetMultipleIndexes(const std::vector<std::string>& index_names);
+    void CleanupExpiredCache(std::chrono::minutes max_age = std::chrono::minutes(60));
+
+    size_t get_size() const { return index_cache_.size(); }
 
 private:
-    mutable std::mutex mutex_;
-    size_t max_size_;
-    size_t current_size_;
-    std::unordered_map<std::string, std::shared_ptr<IndexCacheEntry>> cache_;
+    void EvictCacheEntries();
 
-    // Statistics
-    size_t hits_;
-    size_t misses_;
+    mutable std::mutex cache_mutex_;
+    size_t max_cache_size_;
+    std::chrono::minutes default_ttl_;
+
+    std::unordered_map<std::string, CacheEntry> index_cache_;
+    std::unordered_map<std::string, std::chrono::steady_clock::time_point> access_times_;
 };
 
+} // namespace index_manager
+} // namespace storage_engine
 } // namespace sqlcc
-
-#endif // STORAGE_ENGINE_INDEX_MANAGER_SMART_INDEX_CACHE_H_

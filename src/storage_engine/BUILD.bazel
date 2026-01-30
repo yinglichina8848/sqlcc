@@ -5,13 +5,14 @@ cc_library(
     name = "storage_engine",
     srcs = glob(["**/*.cpp"]),
     hdrs = glob(["**/*.h"]),
+    strip_include_prefix = "",
     deps = [
-        "//src/exception:exception",
         "//src/utils:utils",
+        "//src/storage_engine/buffer_pool:buffer_pool",
+        "//src/exception:exception",
         "//src/logger:logger",
         "//src/page:page",
         "//src/storage:storage",
-        "//src/storage_engine/buffer_pool:buffer_pool",
     ],
     copts = [
         "-std=c++20",

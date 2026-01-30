@@ -1,7 +1,7 @@
 #ifndef SQLCC_PROCEDURE_PROCEDURE_TRIGGER_EXECUTOR_H
 #define SQLCC_PROCEDURE_PROCEDURE_TRIGGER_EXECUTOR_H
 
-#include "src/sql_executor.h"
+#include "../sql_executor.h"
 #include "procedure/procedure_parser.h"
 #include "procedure/procedure_vm.h"
 #include "trigger/trigger_manager.h"

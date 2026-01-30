@@ -10,18 +10,22 @@ cc_test(
         "audit_trail/*.cpp",
     ], allow_empty = True),
     deps = [
-        "//src:sqlcc_pch",
-        "//src/security:audit_trail",
-        "//src/logger:logger",
         "@com_google_googletest//:gtest_main",
+        "//src/logger:logger",
+        "//src/security:audit_trail",
+        "//src:sqlcc_pch",
     ],
     copts = [
         "-std=c++20",
         "-Iinclude",
+        "-fprofile-instr-generate",
+        "-fcoverage-mapping",
     ],
     linkopts = [
         "-pthread",
+        "-fprofile-instr-generate",
     ],
+    tags = ["coverage", "level6", "enterprise"],
 )
 
 # Compliance manager tests
@@ -31,17 +35,19 @@ cc_test(
         "compliance_manager/*.cpp",
     ], allow_empty = True),
     deps = [
-        "//src:sqlcc_pch",
-        "//src/logger:logger",
         "@com_google_googletest//:gtest_main",
     ],
     copts = [
         "-std=c++20",
         "-Iinclude",
+        "-fprofile-instr-generate",
+        "-fcoverage-mapping",
     ],
     linkopts = [
         "-pthread",
+        "-fprofile-instr-generate",
     ],
+    tags = ["coverage", "level6", "enterprise"],
 )
 
 # Enterprise security tests
@@ -51,18 +57,20 @@ cc_test(
         "enterprise_security/*.cpp",
     ], allow_empty = True),
     deps = [
-        "//src:sqlcc_pch",
         "//src/security:enterprise_security",
-        "//src/logger:logger",
         "@com_google_googletest//:gtest_main",
     ],
     copts = [
         "-std=c++20",
         "-Iinclude",
+        "-fprofile-instr-generate",
+        "-fcoverage-mapping",
     ],
     linkopts = [
         "-pthread",
+        "-fprofile-instr-generate",
     ],
+    tags = ["coverage", "level6", "enterprise"],
 )
 
 # Test suite combining all enterprise tests

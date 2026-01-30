@@ -1,10 +1,10 @@
-#include "src/storage_engine/table_storage.h"
-#include "src/storage/b_plus_tree.h"
-#include "src/storage_engine/storage_engine.h"
-#include "src/storage/index_manager.h"
-#include "src/storage_engine/table_storage/page_raii.h"
-#include "src/storage_engine/table_storage/record_validator.h"
-#include "src/utils/logger.h"
+#include "table_storage.h"
+#include "b_plus_tree.h"
+#include "storage_engine.h"
+#include "index_manager.h"
+#include "table_storage/page_raii.h"
+#include "table_storage/record_validator.h"
+#include "../logger/logger.h"
 #include <algorithm>
 #include <cstring>
 #include <memory>

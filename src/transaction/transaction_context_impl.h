@@ -112,8 +112,8 @@
 
 #pragma once
 
-#include "src/transaction/transaction_context.h"
-#include "src/transaction_manager/transaction_manager.h"
+#include "../transaction_context.h"
+#include "../transaction_manager/transaction_manager.h"
 
 namespace sqlcc {
 

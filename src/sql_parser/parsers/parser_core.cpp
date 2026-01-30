@@ -6,7 +6,7 @@
  * 遵循单一职责原则，只包含与解析流程控制相关的方法。
  */
 
-#include "src/sql_parser/parsers/parser_core.h"
+#include "parser_core.h"
 #include "../token.h"
 #include <iostream>
 #include <stdexcept>

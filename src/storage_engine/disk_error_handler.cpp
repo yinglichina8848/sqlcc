@@ -10,11 +10,11 @@
  * - 错误统计和报告机制
  */
 
-#include "src/storage/disk_error_handler.h"
-#include "src/storage/disk_manager.h"
-#include "src/exception/exception.h"
-#include "src/utils/logger.h"
-#include "src/page/page.h"
+#include "disk_error_handler.h"
+#include "../storage/disk_manager.h"
+#include "../exception/exception.h"
+#include "../logger/logger.h"
+#include "../page/page.h"
 #include <algorithm>
 #include <chrono>
 #include <cstring>

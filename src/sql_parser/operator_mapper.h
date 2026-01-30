@@ -1,8 +1,8 @@
 #ifndef SQLCC_SQL_PARSER_OPERATOR_MAPPER_H
 #define SQLCC_SQL_PARSER_OPERATOR_MAPPER_H
 
-#include "src/sql_parser/token.h"
-#include "src/sql_parser/operator_kind.h"
+#include "token.h"
+#include "operator_kind.h"
 #include <unordered_map>
 
 namespace sqlcc {

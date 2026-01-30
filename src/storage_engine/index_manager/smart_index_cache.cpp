@@ -1,5 +1,5 @@
-#include "storage_engine/index_manager/smart_index_cache.h"
-#include "storage_engine/b_plus_tree_index.h"
+#include "smart_index_cache.h"
+#include "../b_plus_tree/index/b_plus_tree_index.h"
 #include <algorithm>
 #include <chrono>
 #include <iostream>
@@ -30,9 +30,6 @@ void SmartIndexCache::CacheIndex(const std::string& index_name,
 
     index_cache_[index_name] = std::move(entry);
     access_times_[index_name] = std::chrono::steady_clock::now();
-
-    // 更新优先级队列
-    priority_queue_.push({index_name, priority});
 }
 
 BPlusTreeIndex* SmartIndexCache::GetIndex(const std::string& index_name) {
@@ -154,7 +151,7 @@ void SmartIndexCache::IntelligentCleanup() {
     }
 }
 
-SmartIndexCache::EnhancedCacheStats SmartIndexCache::GetEnhancedCacheStats() const {
+EnhancedCacheStats SmartIndexCache::GetEnhancedCacheStats() const {
     std::lock_guard<std::mutex> lock(cache_mutex_);
     EnhancedCacheStats stats;
     stats.total_indexes = index_cache_.size();

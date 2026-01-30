@@ -9,7 +9,7 @@
 
 #pragma once
 
-#include "src/network/encryption/encryption_key.h"
+#include "encryption_key.h"
 #include <vector>
 #include <memory>
 #include <cstdint>

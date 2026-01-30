@@ -1,7 +1,7 @@
-#include "src/storage/checkpoint.h"
-#include "src/storage_engine/storage_engine.h"
-#include "src/storage_engine/wal_writer.h"
-#include "src/utils/config_manager.h"
+#include "checkpoint.h"
+#include "storage_engine.h"
+#include "wal_writer.h"
+#include "../utils/config_manager.h"
 #include <algorithm>
 #include <chrono>
 #include <iostream>

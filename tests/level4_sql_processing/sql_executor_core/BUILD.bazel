@@ -2,10 +2,12 @@ cc_test(
     name = "sql_executor_core_test",
     srcs = ["sql_executor_core_test.cpp"],
     deps = [
-        "//src/sql_executor:sql_executor",
-        "//src/exception:exception",
-        "//src/transaction_manager:transaction_manager",
         "@com_google_googletest//:gtest_main",
+        "//src/core:core",
+        "//src/execution:execution",
+        "//src/transaction_manager:transaction_manager",
+        "//src/exception:exception",
+        "//src/sql_executor:sql_executor",
     ],
     copts = [
         "-std=c++20",

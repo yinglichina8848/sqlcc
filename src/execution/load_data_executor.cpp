@@ -1,5 +1,5 @@
 #include "sql_parser/ast_nodes.h"
-#include "execution/load_data_executor.h"
+#include "load_data_executor.h"
 #include <iostream>
 #include <filesystem>
 #include <algorithm>

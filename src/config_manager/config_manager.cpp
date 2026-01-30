@@ -64,7 +64,7 @@
  * @see include/config_manager.h
  */
 
-#include "src/utils/config_manager.h"
+#include "../utils/config_manager.h"
 #include <iostream>
 #include <fstream>
 #include <sstream>

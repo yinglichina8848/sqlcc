@@ -37,7 +37,7 @@
  * HOW: 别名实现机制和技术细节
  *
  * 1. 头文件包含策略：
- *    - 直接包含：#include "src/storage_engine/buffer_pool_sharded.h"
+ *    - 直接包含：#include "buffer_pool/buffer_pool_sharded.h"
  *    - 透明转发：所有类型和函数都通过包含转发
  *    - 作用域保持：保持原有命名空间和作用域结构
  *    - 宏定义保护：使用#ifndef/#define防止重复包含
@@ -115,6 +115,6 @@
  */
 
 // 为兼容性提供 buffer_pool.h 别名
-#include "src/storage_engine/buffer_pool_sharded.h"
+#include "buffer_pool/buffer_pool_sharded.h"
 
 #endif // SQLCC_STORAGE_BUFFER_POOL_H

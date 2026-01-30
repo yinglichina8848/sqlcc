@@ -230,7 +230,7 @@
 // Why: 包含基类异常头文件，提供基础异常类的定义和接口
 // What: 引入Exception基类，为IOException提供继承基础
 // How: 使用#include预处理指令包含基类头文件，建立异常继承关系
-#include "src/exception/include/exception/base_exception.h"
+#include "base_exception.h"
 
 // Why: 包含字符串处理头文件，支持异常消息的处理和构造
 // What: 引入std::string类，用于异常消息的字符串操作和拼接

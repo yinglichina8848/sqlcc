@@ -1,5 +1,5 @@
 #include "ast/ast_node.h"
-#include "src/sql_parser/recursive_query.h"
+#include "recursive_query.h"
 #include "ast/ast_nodes.h"
 #include "ast/node_visitor.h"
 

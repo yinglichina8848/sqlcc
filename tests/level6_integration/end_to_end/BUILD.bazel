@@ -2,14 +2,15 @@ cc_test(
     name = "end_to_end_test",
     srcs = ["end_to_end_test.cpp"],
     deps = [
+        "@com_google_googletest//:gtest_main",
+        "//src/core:core",
         "//src/core:database_manager_headers",
+        "//src/network:network_manager_headers",
         "//src/storage_engine:storage_engine_headers",
         "//src/transaction_manager:transaction_manager_headers",
-        "//src/sql_executor:sql_executor_headers",
-        "//src/network:network_manager_headers",
         "//src/exception:exception_headers",
+        "//src/sql_executor:sql_executor_headers",
         "//tests:test_framework",
-        "@com_google_googletest//:gtest_main",
     ],
     copts = [
         "-std=c++20",

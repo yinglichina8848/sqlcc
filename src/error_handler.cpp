@@ -63,7 +63,7 @@
  * @see include/error_handler.h
  */
 
-#include "src/error_handler.h"
+#include "error_handler.h"
 #include <chrono>
 #include <iomanip>
 #include <iostream>

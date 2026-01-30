@@ -1,4 +1,4 @@
-#include "src/view_manager.h"
+#include "../view_manager.h"
 #include <iostream>
 
 namespace sqlcc {

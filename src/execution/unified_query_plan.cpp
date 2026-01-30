@@ -63,7 +63,7 @@
  * @see include/execution/unified_query_plan.h
  */
 
-#include "execution/unified_query_plan.h"
+#include "unified_query_plan.h"
 
 namespace sqlcc {
 

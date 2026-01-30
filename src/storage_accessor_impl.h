@@ -114,8 +114,8 @@
 
 #pragma once
 
-#include "src/storage_accessor.h"
-#include "src/storage_engine/storage_engine.h"
+#include "storage_accessor.h"
+#include "storage_engine/storage_engine.h"
 
 namespace sqlcc {
 

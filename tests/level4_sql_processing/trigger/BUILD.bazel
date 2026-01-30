@@ -2,10 +2,12 @@ cc_test(
     name = "trigger_test",
     srcs = ["trigger_test.cpp"],
     deps = [
-        "//src/sql_executor:sql_executor",
-        "//src/exception:exception",
-        "//src/transaction_manager:transaction_manager",
         "@com_google_googletest//:gtest_main",
+        "//src/sql_parser:sql_parser",
+        "//src/transaction_manager:transaction_manager",
+        "//src/trigger:trigger",
+        "//src/exception:exception",
+        "//src/sql_executor:sql_executor",
     ],
     copts = [
         "-std=c++20",

@@ -13,6 +13,7 @@ cc_library(
     name = "gtest",
     deps = [
         "@com_google_googletest//:gtest_main",
+        "//src/utils:utils",
     ],
 )
 
@@ -180,7 +181,6 @@ cc_test(
     name = "deadlock_fix_test",
     srcs = ["deadlock_fix_test.cpp"],
     deps = [
-        "//src/utils:utils",
         "@com_google_googletest//:gtest_main",
     ],
     copts = [

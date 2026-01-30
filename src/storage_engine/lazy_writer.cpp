@@ -1,4 +1,4 @@
-#include "src/storage/lazy_writer.h"
+#include "lazy_writer.h"
 #include <algorithm>
 #include <iostream>
 

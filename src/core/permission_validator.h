@@ -1,8 +1,8 @@
 #ifndef SQLCC_PERMISSION_VALIDATOR_H
 #define SQLCC_PERMISSION_VALIDATOR_H
 
-#include "src/core/user_manager.h"
-#include "src/error_handler.h"
+#include "../core_backup_20260121_001034/user_manager.h"
+#include "../error_handler.h"
 #include <memory>
 #include <string>
 #include <unordered_map>

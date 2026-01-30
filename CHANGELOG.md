@@ -1,5 +1,49 @@
 # SQLCC ChangeLog
 
+## [v1.3.9] - 2026-01-30
+
+### 🔧 测试目录合并与清理 ✅ COMPLETED
+
+#### Level 2 Core 测试目录清理 ✅ COMPLETED
+- **删除文件** (6个):
+  - `tests/level2_core/basic_execution_result_test.cpp` - 与增强版重复
+  - `tests/level2_core/execution_result_test_enhanced.cpp` - 与基础版重复
+  - `tests/level2_core/execution_result_test_simple.cpp` - 与基础版重复
+  - `tests/level2_core/real_execution_result_test.cpp` - 与execution_result_test重复
+  - `tests/level2_core/user_manager_test.cpp` - 与core_services重复
+  - `tests/level2_core/mocks/` - Mock测试目录
+- **移动文件** (4个):
+  - `execution_result_test.cpp` → `level2_core_services/execution_result/`
+  - `execution_context_test.cpp` → `level2_core_services/execution_context/`
+  - `schema_manager_test.cpp` → `level2_core_services/schema_manager/`
+  - `system_database_test.cpp` → `level2_core_services/system_database/`
+
+#### Level 2 Core Services 测试目录扩展 ✅ COMPLETED
+- **新增测试**:
+  - `permission_validator/permission_validator_test.cpp` - 权限验证测试
+  - `execution_result/` 子目录 - 执行结果测试
+  - `execution_context/` 子目录 - 执行上下文测试
+  - `schema_manager/` 子目录 - 模式管理测试
+  - `system_database/` 子目录 - 系统数据库测试
+
+#### BUILD配置更新 ✅ COMPLETED
+- 更新 `tests/level2_core_services/BUILD.bazel` - 8个测试套件
+- 新建4个子目录的 BUILD.bazel 文件
+- 统一覆盖率编译选项配置
+
+#### 文档产出 ✅ COMPLETED
+- `docs/project/versions/v1.3.9/LEVEL2_CORE_MERGE_REPORT.md` - 详细分析报告
+- `docs/project/versions/v1.3.9/LEVEL2_CORE_MERGE_EXECUTION_REPORT.md` - 执行报告
+
+#### 统计指标 ✅ COMPLETED
+- 删除文件: 6个
+- 移动文件: 4个
+- 新建文件: 3个
+- 净减少: -29% 文件数
+- 测试组件覆盖: 8个 (增加 50%)
+
+---
+
 ## [v1.3.8] - 2026-01-22
 
 ### 🔧 Phase 2 业务组件迁移准备 - 头文件路径修复 ✅ COMPLETED

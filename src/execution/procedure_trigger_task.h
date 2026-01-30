@@ -1,4 +1,4 @@
-#include "sql_parser/ast_node.h"
+#include "sql_parser/ast/ast_node.h"
 #ifndef SQLCC_PROCEDURE_TRIGGER_TASK_H
 #define SQLCC_PROCEDURE_TRIGGER_TASK_H
 

@@ -5,7 +5,7 @@
 #include <memory>
 #include <vector>
 #include <unordered_map>
-#include "src/sql_parser/json.h"
+#include "json.h"
 
 namespace sqlcc {
 namespace sql_parser {

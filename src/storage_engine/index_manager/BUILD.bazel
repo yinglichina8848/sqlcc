@@ -8,8 +8,12 @@ cc_library(
     srcs = ["smart_index_cache.cpp"],
     hdrs = ["smart_index_cache.h"],
     deps = [
-        "//src/exception:exception",
         "//src/utils:utils",
+        "//src/storage_engine:storage_engine",
+        "//src/transaction:transaction",
+        "//src/exception:exception",
+        "//src/storage_engine/b_plus_tree/index:bptree_index",
+        "//src/storage_engine/b_plus_tree/node:bptree_node",
     ],
     copts = [
         "-std=c++20",
@@ -25,10 +29,11 @@ cc_library(
 cc_library(
     name = "smart_index_factory",
     srcs = ["smart_index_factory.cpp"],
-    hdrs = ["smart_index_factory.h"],
+    hdrs = ["smart_index_factory.h", "enhanced_index_manager.h"],
     deps = [
         ":smart_index_cache",
         "//src/exception:exception",
+        "//src/storage_engine/b_plus_tree/index:bptree_index",
     ],
     copts = [
         "-std=c++20",

@@ -8,7 +8,9 @@ cc_library(
     srcs = ["storage_engine_mock.cpp"],
     hdrs = ["//src/mocks:storage_engine_mock.h"],
     deps = [
-        "//include:storage_engine",
+        "//src/storage_engine:storage_engine",
+        "//src/transaction:transaction",
+        "//src:storage_engine",
     ],
 )
 
@@ -17,7 +19,7 @@ cc_library(
     srcs = ["database_manager_mock.cpp"],
     hdrs = ["//src/mocks:database_manager_mock.h"],
     deps = [
-        "//include:core_database_manager",
+        "//src:core_database_manager",
     ],
 )
 
@@ -26,7 +28,7 @@ cc_library(
     srcs = ["transaction_manager_mock.cpp"],
     hdrs = ["//src/mocks:transaction_manager_mock.h"],
     deps = [
-        "//include:transaction_manager",
+        "//src:transaction_manager",
     ],
 )
 
@@ -36,7 +38,7 @@ cc_library(
     hdrs = ["//src/mocks:index_manager_mock.h"],
     deps = [
         "//src/mocks:index_manager_mock",
-        "//include:storage_index_manager",
+        "//src:storage_index_manager",
     ],
 )
 

@@ -26,11 +26,11 @@
 #include <string>          // std::string
 
 // Storage subsystem headers
-#include "src/storage/disk_manager.h"
-#include "src/page/page.h"
-#include "src/storage_engine/buffer_pool/buffer_pool_sharded.h"
-#include "src/storage_engine/table_storage.h"
-#include "src/utils/config_manager.h"
+#include "../storage/disk_manager.h"
+#include "../page/page.h"
+#include "buffer_pool/buffer_pool_sharded.h"
+#include "table_storage.h"
+#include "../utils/config_manager.h"
 
 // Forward declarations for components that may have circular dependencies
 namespace sqlcc {

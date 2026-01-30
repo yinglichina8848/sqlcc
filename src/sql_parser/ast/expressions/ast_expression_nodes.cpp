@@ -9,9 +9,9 @@
  * - FunctionCallExpression（函数调用表达式）
  */
 
-#include "src/sql_parser/ast/ast_node.h"
-#include "src/sql_parser/ast/ast_nodes.h"
-#include "src/sql_parser/ast/expressions/ast_expression_nodes.h"
+#include "../ast_node.h"
+#include "../ast_nodes.h"
+#include "ast_expression_nodes.h"
 #include <iostream>
 
 namespace sqlcc {

@@ -5,8 +5,8 @@
  * 采用分派模式实现，根据语句类型调用相应的专用解析方法。
  */
 
-#include "src/sql_parser/statement_parser.h"
-#include "src/sql_parser/token.h"
+#include "statement_parser.h"
+#include "token.h"
 #include <iostream>
 #include <sstream>
 

@@ -228,9 +228,9 @@
 #include <string>
 
 #include "utils/file_descriptor.h"
-#include "src/sql_executor.h"
-#include "src/network/message_types.h"
-#include "src/core/permission_validator.h"
+#include "../sql_executor.h"
+#include "message_types.h"
+#include "../permission_validator.h"
 #include "network/encryption.h"
 
 // Forward declarations for OpenSSL

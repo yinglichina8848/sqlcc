@@ -1,0 +1,23 @@
+load("@rules_cc//cc:defs.bzl", "cc_test")
+
+cc_test(
+    name = "system_integration_test",
+    srcs = glob(["*.cpp"]),
+    deps = [
+        "@com_google_googletest//:gtest_main",
+        "//src/core:core",
+        "//src/storage_engine:storage_engine",
+        "//src/sql_executor:sql_executor",
+        "//src/network:network",
+        "//src/logger:logger",
+        "//src/utils:utils",
+        "//src/transaction:transaction",
+    ],
+    copts = [
+        "-std=c++20",
+        "-fprofile-instr-generate",
+        "-fcoverage-mapping",
+    ],
+    linkopts = ["-fprofile-instr-generate"],
+    tags = ["coverage", "level6", "integration"],
+)

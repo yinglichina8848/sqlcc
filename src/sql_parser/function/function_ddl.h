@@ -1,5 +1,5 @@
 /**
-#include "src/sql_parser/ast/ast_node.h"
+#include "../ast/ast_node.h"
  * @file function_ddl.h
  * @brief 函数DDL语句类定义
  *
@@ -10,7 +10,7 @@
 
 #pragma once
 
-#include "src/sql_parser/function/function_definition.h"
+#include "function_definition.h"
 #include <memory>
 #include <string>
 

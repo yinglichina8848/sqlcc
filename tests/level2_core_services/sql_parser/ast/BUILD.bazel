@@ -4,12 +4,13 @@ cc_test(
     name = "ast_comprehensive_test",
     srcs = ["ast_comprehensive_test.cpp"],
     deps = [
+        "@com_google_googletest//:gtest_main",
         "//src/sql_parser:ast",
+        "//src/sql_parser:json",
         "//src/sql_parser:lexer",
         "//src/sql_parser:parser",
+        "//src/sql_parser:sql_parser",
         "//src/sql_parser:window",
-        "//src/sql_parser:json",
-        "@com_google_googletest//:gtest_main",
     ],
     copts = [
         "-std=c++20",

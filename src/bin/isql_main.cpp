@@ -19,11 +19,11 @@
 #include <readline/readline.h>
 #endif
 
-#include "src/utils/config_manager.h"
-#include "src/sql_executor.h"
-#include "src/exception/exception.h"
-#include "src/storage_engine/storage_engine.h"
-#include "src/utils/version.h"
+#include "../utils/config_manager.h"
+#include "../sql_executor.h"
+#include "../exception/exception.h"
+#include "../storage_engine/storage_engine.h"
+#include "../utils/version.h"
 
 // 使用sqlcc命名空间
 using namespace sqlcc;

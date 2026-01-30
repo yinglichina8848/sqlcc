@@ -8,7 +8,7 @@
 #include <thread>
 #include <vector>
 
-#include "src/utils/config_manager.h"
+#include "../utils/config_manager.h"
 
 namespace sqlcc {
 

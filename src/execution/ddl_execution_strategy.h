@@ -226,13 +226,14 @@
  #ifndef SQLCC_EXECUTION_DDL_EXECUTION_STRATEGY_H
  #define SQLCC_EXECUTION_DDL_EXECUTION_STRATEGY_H
  
- #include "src/sql_parser/ast/ast_node.h"
- #include "src/sql_parser/ast/ast_nodes.h"
- #include <memory>
+ #include "../sql_parser/ast/ast_node.h"
+#include "../sql_parser/ast/ast_nodes.h"
+#include <memory>
 #include <string>
 
-#include "src/execution/execution_strategy.h"
-#include "src/core/execution_result.h"
+#include "execution_strategy.h"
+#include "../core/execution_result.h"
+#include "../core/execution_context.h"
 
 namespace sqlcc {
 
@@ -244,8 +245,6 @@ class AlterTableStatement;
 class CreateIndexStatement;
 class DropIndexStatement;
 } // namespace sql_parser
-
-class ExecutionContext;
 
 // DDL执行策略 - 处理数据定义语言语句
 class DDLExecutionStrategy : public ExecutionStrategy {

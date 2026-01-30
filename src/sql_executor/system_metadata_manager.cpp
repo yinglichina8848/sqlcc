@@ -1,6 +1,6 @@
-#include "src/system_metadata_manager.h"
-#include "src/system_data_structures.h"
-#include "src/system_database_new.h"  // 包含SYSTEM_DB_NAME常量定义
+#include "system_metadata_manager.h"
+#include "system_data_structures.h"
+#include "system_database_new.h"  // 包含SYSTEM_DB_NAME常量定义
 #include <sstream>
 #include <iostream>
 #include <iomanip>

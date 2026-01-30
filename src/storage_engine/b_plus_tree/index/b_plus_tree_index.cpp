@@ -7,11 +7,11 @@
  * 并发控制：通过节点级锁实现多线程安全访问
  */
 
-#include "src/storage_engine/b_plus_tree/index/b_plus_tree_index.h"
+#include "b_plus_tree_index.h"
 #include "../node/b_plus_tree_internal_node.h"
 #include "../node/b_plus_tree_leaf_node.h"
-#include "../../../include/storage_engine.h"
-#include "../../../../include/utils/logger.h"
+#include "../../storage_engine.h"
+#include "../../../logger/logger.h"
 
 namespace sqlcc {
 

@@ -2,7 +2,7 @@
 // This is the implementation part of the logger header
 // Note: Using traditional approach for Clang 18 compatibility
 
-#include "src/utils/logger.h"
+#include "logger.h"
 
 #include <iostream>
 #include <fstream>

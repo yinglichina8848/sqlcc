@@ -1,4 +1,4 @@
-#include "src/sql_parser/token_stream.h"
+#include "token_stream.h"
 #include <sstream>
 
 namespace sqlcc {

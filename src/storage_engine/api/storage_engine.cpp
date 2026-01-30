@@ -66,8 +66,8 @@
  * @see include/storage_engine.h
  */
 
-#include "src/storage_engine/storage_engine.h"
-#include "src/storage_engine/index_manager.h"
+#include "../storage_engine.h"
+#include "../index_manager.h"
 #include <iostream>
 #include <fstream>
 #include <sstream>

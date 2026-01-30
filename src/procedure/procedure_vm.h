@@ -1,5 +1,5 @@
 /**
-#include "sql_parser/ast_node.h"
+#include "sql_parser/ast/ast_node.h"
  * @file procedure_vm.h
  * @brief 存储过程虚拟机定义
  *
@@ -13,8 +13,8 @@
 #include <unordered_map>
 #include <vector>
 #include <exception>
-#include "src/procedure/procedure_parser.h"
-#include "src/core/sql_executor_interface.h"
+#include "procedure_parser.h"
+#include "../core_backup_20260121_001034/sql_executor_interface.h"
 
 namespace sqlcc {
 namespace procedure {

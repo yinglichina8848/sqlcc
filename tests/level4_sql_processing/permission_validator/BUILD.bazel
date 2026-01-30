@@ -2,11 +2,11 @@ cc_test(
     name = "permission_validator_test",
     srcs = ["permission_validator_test.cpp"],
     deps = [
+        "@com_google_googletest//:gtest_main",
         "//src/core:core",
         "//src/core:database_manager",
-        "//src/exception:exception",
         "//src/transaction_manager:transaction_manager",
-        "@com_google_googletest//:gtest_main",
+        "//src/exception:exception",
     ],
     copts = [
         "-std=c++20",

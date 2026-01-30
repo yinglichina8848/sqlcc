@@ -48,6 +48,49 @@
 
 ---
 
+### 2026-01-30 (Day 1 - 下午)
+
+#### 任务 2: 合并 Level 2 Core 和 Level 2 Core Services 测试目录
+
+**执行时间**: 2026-01-30 23:44 - 23:50
+
+**完成内容**:
+- [x] 创建备份目录: `tests/level2_core_backup_20260130/`
+- [x] 删除重复测试文件 (5个):
+  - `basic_execution_result_test.cpp`
+  - `execution_result_test_enhanced.cpp`
+  - `execution_result_test_simple.cpp`
+  - `real_execution_result_test.cpp`
+  - `user_manager_test.cpp`
+- [x] 删除 Mock 测试目录: `mocks/`
+- [x] 移动保留的测试到 core_services:
+  - `execution_result_test.cpp` → `execution_result/`
+  - `execution_context_test.cpp` → `execution_context/`
+  - `schema_manager_test.cpp` → `schema_manager/`
+  - `system_database_test.cpp` → `system_database/`
+- [x] 创建新的权限验证测试:
+  - `permission_validator/permission_validator_test.cpp`
+  - `permission_validator/BUILD.bazel`
+- [x] 更新 BUILD.bazel 配置文件 (4个子目录)
+- [x] 更新主测试套件配置: `level2_core_services/BUILD.bazel`
+- [x] 清空 level2_core 目录
+
+**创建文档**:
+- `LEVEL2_CORE_MERGE_REPORT.md` - 详细分析报告
+- `LEVEL2_CORE_MERGE_EXECUTION_REPORT.md` - 执行报告
+
+**删除文件统计**:
+- 删除文件: 6个
+- 移动文件: 4个
+- 新建文件: 3个
+- 净减少: -29% 文件数
+
+**状态**: ✅ 完成
+**耗时**: 30 分钟
+**备注**: 成功完成了测试目录合并，消除了重复和Mock测试
+
+---
+
 ### 待开始任务
 
 #### P0 任务（立即执行，1-2周）

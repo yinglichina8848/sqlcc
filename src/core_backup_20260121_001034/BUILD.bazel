@@ -3,8 +3,8 @@ cc_library(
     hdrs = ["stored_procedure_manager.h"],
     visibility = ["//visibility:public"],
     deps = [
-        "//include:database_manager",
-        "//include:execution_engine",
+        "//src/database_manager:database_manager",
+        "//src:execution_engine",
     ],
 )
 
@@ -55,8 +55,7 @@ cc_library(
     hdrs = ["core_database_manager.h"],
     visibility = ["//visibility:public"],
     deps = [
-        "//include:page",
-
+        "//src/page:page",
         "//src/exception:exception",
     ],
 )
@@ -76,6 +75,7 @@ cc_library(
         ":system_database",
         ":user_manager",
         ":execution_result",
+        ":core_database_manager",
     ],
     visibility = ["//visibility:public"],
 )

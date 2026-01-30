@@ -1,7 +1,7 @@
 #pragma once
 
-#include "src/sql_parser/ast/expression.h"
-#include "src/sql_parser/ast/statement.h"
+#include "expression.h"
+#include "statement.h"
 
 namespace sqlcc {
 namespace sql_parser {

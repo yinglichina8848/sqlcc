@@ -63,7 +63,7 @@
  * @see include/execution/task_result.h
  */
 
-#include "src/execution/task_result.h"
+#include "task_result.h"
 #include <sstream>
 
 namespace sqlcc {

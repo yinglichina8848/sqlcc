@@ -1,6 +1,20 @@
 load("@rules_cc//cc:defs.bzl", "cc_library")
 
-# 事务上下文接口库
+cc_library(
+    name = "transaction",
+    srcs = [
+        "transaction.cpp",
+        "transaction.h",
+    ],
+    copts = [
+        "-std=c++20",
+        "-g",
+        "-Wall",
+        "-Wextra",
+    ],
+    visibility = ["//visibility:public"],
+)
+
 cc_library(
     name = "transaction_context",
     hdrs = ["transaction_context.h"],
@@ -13,7 +27,6 @@ cc_library(
     visibility = ["//visibility:public"],
 )
 
-# 事务上下文实现库
 cc_library(
     name = "transaction_context_impl",
     srcs = ["transaction_context_impl.cpp", "transaction_context_impl.h"],
@@ -25,13 +38,12 @@ cc_library(
         "-Wextra",
     ],
     deps = [
-        ":transaction_context",
+        ":transaction",
         "//src/transaction_manager:transaction_manager",
     ],
     visibility = ["//visibility:public"],
 )
 
-# 保存点管理器库
 cc_library(
     name = "savepoint_manager",
     srcs = ["savepoint_manager.cpp"],
@@ -43,7 +55,6 @@ cc_library(
         "-Wextra",
     ],
     deps = [
-        # 不依赖 transaction_manager，避免循环依赖
     ],
     visibility = ["//visibility:public"],
 )

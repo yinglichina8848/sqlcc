@@ -9,9 +9,10 @@
 #include <string>
 #include <memory>
 
-#include "src/execution/execution_strategy.h"
-#include "src/core/execution_result.h"
-#include "src/sql_parser/ast/ast_nodes.h"
+#include "execution_strategy.h"
+#include "../core/execution_result.h"
+#include "../core/execution_context.h"
+#include "../sql_parser/ast/ast_nodes.h"
 
 namespace sqlcc {
 

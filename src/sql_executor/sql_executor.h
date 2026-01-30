@@ -1,14 +1,14 @@
-#include "src/sql_parser/ast/ast_node.h"
+#include "../sql_parser/ast/ast_node.h"
 #ifndef SQLCC_SQL_EXECUTOR_H
 #define SQLCC_SQL_EXECUTOR_H
 
-#include "src/core/permission_validator.h"
-#include "src/core/system_database.h"
-#include "src/core/user_manager.h"
-#include "src/core/core_database_manager.h"
-#include "src/sql_parser/parser.h"
-#include "src/unified_query_plan.h"
-#include "src/view_manager.h"
+#include "../permission_validator.h"
+#include "../core_backup_20260121_001034/system_database.h"
+#include "../core_backup_20260121_001034/user_manager.h"
+#include "../core_backup_20260121_001034/core_database_manager.h"
+#include "../sql_parser/parser.h"
+#include "../unified_query_plan.h"
+#include "../view_manager.h"
 #include <memory>
 #include <string>
 

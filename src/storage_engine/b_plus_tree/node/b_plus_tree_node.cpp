@@ -1,6 +1,6 @@
-#include "../../../include/storage_engine.h"
-#include "../../../../include/utils/logger.h"
-#include "../../../../include/storage/b_plus_tree_nodes.h"
+#include "../../storage_engine.h"
+#include "../../../logger/logger.h"
+#include "../../../storage/b_plus_tree_nodes.h"
 
 namespace sqlcc {
 

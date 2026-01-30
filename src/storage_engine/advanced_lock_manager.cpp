@@ -53,8 +53,8 @@
  */
 
 #include "advanced_lock_manager.h"
-#include "src/exception/exception.h"
-#include "src/utils/logger.h"
+#include "../exception/exception.h"
+#include "../logger/logger.h"
 #include <algorithm>
 #include <chrono>
 #include <thread>

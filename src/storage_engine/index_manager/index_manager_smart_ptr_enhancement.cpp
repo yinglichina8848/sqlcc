@@ -9,12 +9,12 @@
  * - 异常安全的资源管理
  */
 
-#include "src/storage/index_manager.h"
-#include "src/storage/b_plus_tree.h"
-#include "src/storage_engine/storage_engine.h"
-#include "src/transaction_manager/transaction_manager.h"
-#include "src/utils/config_manager.h"
-#include "src/utils/logger.h"
+#include "../index_manager.h"
+#include "../b_plus_tree.h"
+#include "../storage_engine.h"
+#include "../../transaction_manager/transaction_manager.h"
+#include "../../utils/config_manager.h"
+#include "../../logger/logger.h"
 #include <memory>
 #include <unordered_map>
 #include <unordered_set>

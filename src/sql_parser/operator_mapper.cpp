@@ -1,4 +1,4 @@
-#include "src/sql_parser/operator_mapper.h"
+#include "operator_mapper.h"
 #include <stdexcept>
 
 namespace sqlcc {

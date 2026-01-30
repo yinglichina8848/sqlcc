@@ -1,10 +1,10 @@
-#include "src/sql_parser/ast/ast_node.h"
+#include "ast_node.h"
 #pragma once
 
 #include <string>
 #include <vector>
 #include <memory>
-#include "src/sql_parser/ast/ast_node.h"
+#include "ast_node.h"
 
 namespace sqlcc {
 namespace sql_parser {

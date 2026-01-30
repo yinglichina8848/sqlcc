@@ -9,8 +9,8 @@
  * - DeleteStatement
  */
 
-#include "src/sql_parser/ast/ast_node.h"
-#include "src/sql_parser/ast/ast_nodes.h"
+#include "../ast_node.h"
+#include "../ast_nodes.h"
 #include <iostream>
 
 namespace sqlcc {

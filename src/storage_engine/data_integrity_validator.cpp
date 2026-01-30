@@ -10,10 +10,10 @@
  * - 完整性约束的统一管理和验证
  */
 
-#include "src/storage/data_integrity_validator.h"
-#include "src/storage_engine/table_storage.h"
-#include "src/exception/exception.h"
-#include "src/utils/logger.h"
+#include "data_integrity_validator.h"
+#include "table_storage.h"
+#include "../exception/exception.h"
+#include "../logger/logger.h"
 #include <algorithm>
 #include <chrono>
 #include <sstream>

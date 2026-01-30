@@ -1,6 +1,6 @@
 #include "network/client_connection.h"
-#include "src/utils/file_descriptor.h"
-#include "src/utils/ssl_wrapper.h"
+#include "../utils/file_descriptor.h"
+#include "../utils/ssl_wrapper.h"
 #include <iostream>
 #include <cstring>
 #include <thread>

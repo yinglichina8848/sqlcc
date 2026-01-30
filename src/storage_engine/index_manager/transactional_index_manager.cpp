@@ -1,7 +1,7 @@
-#include "storage_engine/index_manager/transactional_index_manager.h"
-#include "src/storage/b_plus_tree.h"
-#include "src/storage_engine/storage_engine.h"
-#include "src/utils/logger.h"
+#include "transactional_index_manager.h"
+#include "../b_plus_tree.h"
+#include "../storage_engine.h"
+#include "../../logger/logger.h"
 
 namespace sqlcc {
 namespace storage_engine {

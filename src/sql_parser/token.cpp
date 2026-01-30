@@ -1,4 +1,4 @@
-#include "src/sql_parser/token.h"
+#include "token.h"
 #include <iostream>
 #include <unordered_map>
 

@@ -19,11 +19,13 @@ cc_library(
     ],
     linkopts = ["-fprofile-instr-generate"],
     deps = [
-        "//src/exception:exception",
-        "//src/transaction:savepoint_manager",
-        "//src:wal_manager",
         "//src/core:core",
+        "//src/utils:utils",
         "//src/storage_engine:storage_engine",
+        "//src/transaction:savepoint_manager",
+        "//src/transaction:transaction",
+        "//src/exception:exception",
+        "//src:wal_manager",
     ],
     visibility = ["//visibility:public"],
 )

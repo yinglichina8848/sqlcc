@@ -1,7 +1,7 @@
-#include "sql_parser/ast_node.h"
+#include "sql_parser/ast/ast_node.h"
 #include "sql_parser/ast_nodes.h"
-#include "execution/procedure_trigger_task.h"
-#include "execution/task_result.h"
+#include "procedure_trigger_task.h"
+#include "task_result.h"
 #include "procedure/procedure_trigger_executor.h"
 #include <chrono>
 

@@ -10,17 +10,21 @@ cc_test(
         "connection_pool/*.cpp",
     ], allow_empty = True),
     deps = [
-        "//src:sqlcc_pch",
-        "//src/logger:logger",
         "@com_google_googletest//:gtest_main",
+        "//src/logger:logger",
+        "//src:sqlcc_pch",
     ],
     copts = [
         "-std=c++20",
         "-Iinclude",
+        "-fprofile-instr-generate",
+        "-fcoverage-mapping",
     ],
     linkopts = [
         "-pthread",
+        "-fprofile-instr-generate",
     ],
+    tags = ["coverage", "level5", "network"],
 )
 
 # Network manager tests
@@ -30,17 +34,19 @@ cc_test(
         "network_manager/*.cpp",
     ], allow_empty = True),
     deps = [
-        "//src:sqlcc_pch",
-        "//src/logger:logger",
         "@com_google_googletest//:gtest_main",
     ],
     copts = [
         "-std=c++20",
         "-Iinclude",
+        "-fprofile-instr-generate",
+        "-fcoverage-mapping",
     ],
     linkopts = [
         "-pthread",
+        "-fprofile-instr-generate",
     ],
+    tags = ["coverage", "level5", "network"],
 )
 
 # Protocol handler tests
@@ -50,17 +56,19 @@ cc_test(
         "protocol_handler/*.cpp",
     ], allow_empty = True),
     deps = [
-        "//src:sqlcc_pch",
-        "//src/logger:logger",
         "@com_google_googletest//:gtest_main",
     ],
     copts = [
         "-std=c++20",
         "-Iinclude",
+        "-fprofile-instr-generate",
+        "-fcoverage-mapping",
     ],
     linkopts = [
         "-pthread",
+        "-fprofile-instr-generate",
     ],
+    tags = ["coverage", "level5", "network"],
 )
 
 # MySQL protocol boundary tests

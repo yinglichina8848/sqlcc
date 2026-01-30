@@ -2,11 +2,11 @@ cc_test(
     name = "database_manager_tests",
     srcs = glob(["*.cpp"]),
     deps = [
-        "//src/core:headers",                 # DatabaseManager, SystemDatabase
-        "//src/core:core",                        # Implementation
-        "//src/utils:utils",                  # Logger and other utils
-        "//src/logger:logger",                    # Logger implementation
         "@com_google_googletest//:gtest_main",
+        "//src/core:core",
+        "//src/core:headers",
+        "//src/utils:utils",
+        "//src/logger:logger",
     ],
     copts = [
         "-std=c++20",

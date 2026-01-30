@@ -62,8 +62,8 @@
  * @see include/execution/query_plan_factory.h
  */
 
-#include "execution/query_plan_factory.h"
-#include "execution/unified_query_plan.h"
+#include "query_plan_factory.h"
+#include "unified_query_plan.h"
 
 namespace sqlcc {
 

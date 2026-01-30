@@ -9,7 +9,7 @@
  * - SELECT语句
  */
 
-#include "src/sql_parser/parsers/dml/parser_dml.h"
+#include "parser_dml.h"
 #include "../../token.h"
 #include "../../ast/ast_nodes.h"
 #include "../../select_parser.h"

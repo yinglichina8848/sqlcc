@@ -8,7 +8,7 @@
  * - ALTER语句（TABLE, DATABASE）
  */
 
-#include "src/sql_parser/parsers/ddl/parser_ddl.h"
+#include "parser_ddl.h"
 #include "../../token.h"
 #include "../../ast/ast_nodes.h"
 #include "../../ast/ddl/ast_ddl_nodes.h"

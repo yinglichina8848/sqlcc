@@ -9,7 +9,7 @@
 
 #pragma once
 
-#include "src/trigger/trigger_definition.h"
+#include "trigger_definition.h"
 #include <vector>
 #include <string>
 

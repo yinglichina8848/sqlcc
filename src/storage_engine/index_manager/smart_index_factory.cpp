@@ -1,7 +1,7 @@
-#include "storage_engine/index_manager/smart_index_factory.h"
-#include "storage_engine/index_manager/enhanced_index_manager.h"
-#include "src/storage/b_plus_tree.h"
-#include "src/utils/logger.h"
+#include "smart_index_factory.h"
+#include "enhanced_index_manager.h"
+#include "../b_plus_tree.h"
+#include "../../logger/logger.h"
 
 namespace sqlcc {
 namespace storage_engine {

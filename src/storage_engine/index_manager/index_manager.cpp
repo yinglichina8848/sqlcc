@@ -64,11 +64,11 @@
  * @see include/storage/index_manager.h
  */
 
-#include "src/storage/index_manager.h"
-#include "src/storage/b_plus_tree.h"
-#include "src/storage_engine/storage_engine.h"
-#include "src/utils/config_manager.h"
-#include "src/utils/logger.h"
+#include "../index_manager.h"
+#include "../b_plus_tree.h"
+#include "../storage_engine.h"
+#include "../../utils/config_manager.h"
+#include "../../logger/logger.h"
 
 namespace sqlcc {
 

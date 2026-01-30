@@ -9,10 +9,10 @@
  * - 页面生命周期管理
  */
 
-#include "src/storage/page_allocator.h"
-#include "src/page/page.h"
-#include "src/exception/exception.h"
-#include "src/utils/logger.h"
+#include "page_allocator.h"
+#include "../page/page.h"
+#include "../exception/exception.h"
+#include "../logger/logger.h"
 #include <algorithm>
 #include <random>
 #include <unordered_map>

@@ -47,7 +47,7 @@
  * @see docs/design/storage_engine/concurrency_control_design.md
  */
 
-#include "src/storage_engine/concurrency_control.h"
+#include "concurrency_control.h"
 #include <iostream>
 #include <algorithm>
 #include <thread>

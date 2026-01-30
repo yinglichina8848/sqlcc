@@ -12,11 +12,20 @@ cc_test(
         "ast/*.cpp",
     ], allow_empty = True),
     deps = [
-        "//src:sqlcc_pch",
-        "//src/sql_parser:headers",
-        "//src/sql_parser:ast",  # 依赖拆分后的ast子库
-        "//src/logger:logger",
         "@com_google_googletest//:gtest_main",
+        "//src/core:core",
+        "//src/utils:utils",
+        "//src/storage_engine:storage_engine",
+        "//src/sql_parser:ast",
+        "//src/sql_parser:headers",
+        "//src/sql_parser:sql_parser",
+        "//src/execution:execution",
+        "//src/transaction:transaction",
+        "//src/types:types",
+        "//src/procedure:procedure",
+        "//src/trigger:trigger",
+        "//src/logger:logger",
+        "//src:sqlcc_pch",
     ],
     copts = [
         "-std=c++20",
@@ -36,9 +45,7 @@ cc_test(
         "lexer/*.cpp",
     ], allow_empty = True),
     deps = [
-        "//src:sqlcc_pch",
         "//src/sql_parser:lexer",  # 依赖拆分后的lexer子库
-        "//src/logger:logger",
         "@com_google_googletest//:gtest_main",
     ],
     copts = [
@@ -59,10 +66,8 @@ cc_test(
         "parser/*.cpp",
     ], allow_empty = True),
     deps = [
-        "//src:sqlcc_pch",
         "//src/sql_parser:headers",  # 使用headers库
         "//src/sql_parser:parser",  # 依赖拆分后的parser子库
-        "//src/logger:logger",
         "@com_google_googletest//:gtest_main",
     ],
     copts = [
@@ -81,10 +86,7 @@ cc_test(
         "token/*.cpp",
     ], allow_empty = True),
     deps = [
-        "//src:sqlcc_pch",
-        "//src/sql_parser:headers",
         "//src/sql_parser:lexer",
-        "//src/logger:logger",
         "@com_google_googletest//:gtest_main",
     ],
     copts = [
@@ -103,8 +105,6 @@ cc_test(
         "expression/*.cpp",
     ], allow_empty = True),
     deps = [
-        "//src:sqlcc_pch",
-        "//src/logger:logger",
         "@com_google_googletest//:gtest_main",
     ],
     copts = [
@@ -123,9 +123,6 @@ cc_test(
         "constraint/*.cpp",
     ], allow_empty = True),
     deps = [
-        "//src:sqlcc_pch",
-        "//src/sql_parser:headers",
-        "//src/logger:logger",
         "@com_google_googletest//:gtest_main",
     ],
     copts = [
@@ -144,9 +141,7 @@ cc_test(
         "json/*.cpp",
     ], allow_empty = True),
     deps = [
-        "//src:sqlcc_pch",
         "//src/sql_parser:json",
-        "//src/logger:logger",
         "@com_google_googletest//:gtest_main",
     ],
     copts = [
@@ -165,8 +160,6 @@ cc_test(
         "aggregate/*.cpp",
     ], allow_empty = True),
     deps = [
-        "//src:sqlcc_pch",
-        "//src/logger:logger",
         "@com_google_googletest//:gtest_main",
     ],
     copts = [
@@ -185,8 +178,6 @@ cc_test(
         "select/*.cpp",
     ], allow_empty = True),
     deps = [
-        "//src:sqlcc_pch",
-        "//src/logger:logger",
         "@com_google_googletest//:gtest_main",
     ],
     copts = [
@@ -205,10 +196,7 @@ cc_test(
         "window/*.cpp",
     ], allow_empty = True),
     deps = [
-        "//src:sqlcc_pch",
-        "//src/sql_parser:headers",
         "//src/sql_parser:window",
-        "//src/logger:logger",
         "@com_google_googletest//:gtest_main",
     ],
     copts = [
@@ -227,8 +215,6 @@ cc_test(
         "complex_queries/*.cpp",
     ], allow_empty = True),
     deps = [
-        "//src:sqlcc_pch",
-        "//src/logger:logger",
         "@com_google_googletest//:gtest_main",
     ],
     copts = [
@@ -247,8 +233,6 @@ cc_test(
         "performance/*.cpp",
     ], allow_empty = True),
     deps = [
-        "//src:sqlcc_pch",
-        "//src/logger:logger",
         "@com_google_googletest//:gtest_main",
     ],
     copts = [
@@ -267,8 +251,6 @@ cc_test(
         "integration/*.cpp",
     ], allow_empty = True),
     deps = [
-        "//src:sqlcc_pch",
-        "//src/logger:logger",
         "@com_google_googletest//:gtest_main",
     ],
     copts = [

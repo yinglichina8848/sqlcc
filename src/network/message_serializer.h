@@ -5,7 +5,7 @@
 #include <cstdint>
 #include <memory>
 
-#include "src/network/message_types.h"
+#include "message_types.h"
 
 namespace sqlcc {
 namespace network {

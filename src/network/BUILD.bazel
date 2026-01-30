@@ -13,7 +13,11 @@ cc_library(
     srcs = ["session.cpp"],
     hdrs = ["//src/network:session.h"],
     deps = [
+        "//src/core:core",
+        "//src/utils:utils",
         "//src/network/encryption:aes_encryptor",
+        "//src/network:network",
+        "//src/types:types",
     ],
     copts = [
         "-std=c++20",

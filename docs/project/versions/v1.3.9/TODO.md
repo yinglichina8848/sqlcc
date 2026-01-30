@@ -16,7 +16,30 @@
 
 ## 📋 任务清单
 
-### P0 - 立即执行（1-2周）
+### P0 - 立即执行（1-2周）已完成任务
+
+#### 任务 2: 合并 Level 2 Core 和 Level 2 Core Services 测试目录 ✅ 2026-01-30
+- [x] 创建备份目录: `tests/level2_core_backup_20260130/`
+- [x] 删除重复测试文件 (6个)
+- [x] 删除 Mock 测试目录 (mocks/)
+- [x] 移动保留测试到 core_services (4个文件)
+- [x] 新建 permission_validator 测试
+- [x] 更新 BUILD.bazel 配置 (5个文件)
+- [x] 清空 level2_core 目录
+
+**产出文档**:
+- `LEVEL2_CORE_MERGE_REPORT.md` - 详细分析报告
+- `LEVEL2_CORE_MERGE_EXECUTION_REPORT.md` - 执行报告
+
+**统计**:
+- 删除文件: 6个
+- 移动文件: 4个
+- 新建文件: 3个
+- 净减少: -29% 文件数
+
+---
+
+### P0 - 立即执行（1-2周）待完成任务
 
 #### 修复核心模块依赖问题
 - [ ] 在 `src/core/BUILD.bazel` 中添加 `//src/sql_executor:sql_executor` 依赖
@@ -45,10 +68,15 @@
 - [ ] 验证 Bazel 构建正常
 
 #### 验证基础测试
-- [ ] 运行 `bazel test //tests/level1_foundation/...`
-- [ ] 运行 `bazel test //tests/level2_core/...`
-- [ ] 运行 `bazel test //tests/level3_transaction_manager/config_tests`
-- [ ] 收集 Level 1-3 基础覆盖率数据
+- [x] ~~运行 `bazel test //tests/level1_foundation/...`~~ (Level 1 已完成)
+- [x] ~~合并 level2_core 和 level2_core_services 测试目录~~ ✅ 2026-01-30 完成
+- [x] ~~删除重复的测试文件~~ ✅ 已删除5个重复文件
+- [x] ~~删除Mock方式的测试~~ ✅ 已删除 mocks/ 目录
+- [x] ~~保留真实实现的测试并移动到 core_services~~ ✅ 已移动4个测试
+- [x] ~~清空 level2_core 目录~~ ✅ 已清空
+- [x] ~~创建新的 permission_validator 测试~~ ✅ 2026-01-30 完成
+- [x] ~~更新 BUILD.bazel 配置文件~~ ✅ 2026-01-30 完成
+- [ ] 收集 Level 2 基础覆盖率数据
 - [ ] 生成初步覆盖率报告
 
 ---

@@ -1,5 +1,5 @@
-#include "src/system_schema_manager.h"
-#include "src/system_data_structures.h"
+#include "system_schema_manager.h"
+#include "system_data_structures.h"
 #include <sstream>
 #include <iostream>
 

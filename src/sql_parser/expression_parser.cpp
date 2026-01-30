@@ -5,14 +5,14 @@
  * 采用递归下降解析算法，支持运算符优先级和各种SQL表达式类型。
  */
 
-#include "src/sql_parser/expression_parser.h"
+#include "expression_parser.h"
 #include "ast/ast_node.h"
 #include "ast/literal_expressions.h"
 #include "ast/identifier_expression.h"
 #include "ast/function_call_expression.h"
 #include "ast/binary_expression.h"
-#include "src/sql_parser/token.h"
-#include "src/sql_parser/operator_kind.h"
+#include "token.h"
+#include "operator_kind.h"
 #include <vector>
 #include <iostream>
 #include <sstream>

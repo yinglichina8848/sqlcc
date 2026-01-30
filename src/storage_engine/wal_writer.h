@@ -148,8 +148,8 @@
 #include <thread>
 #include <vector>
 
-#include "src/utils/config_manager.h"
-#include "src/storage_engine/wal_buffer.h"
+#include "../utils/config_manager.h"
+#include "wal_buffer.h"
 
 namespace sqlcc {
 

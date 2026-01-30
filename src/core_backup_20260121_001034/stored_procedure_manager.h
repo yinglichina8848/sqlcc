@@ -7,7 +7,7 @@
 #include <mutex>
 #include <atomic>
 
-#include "src/utils/config_manager.h"
+#include "../utils/config_manager.h"
 #include "sql_parser/ast_nodes.h"
 
 namespace sqlcc {

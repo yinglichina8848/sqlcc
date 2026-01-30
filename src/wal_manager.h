@@ -12,7 +12,7 @@
 #include <cstdint>  // 添加 uint64_t 定义
 #include <thread>   // 添加 thread 包含
 
-#include "src/exception/exception.h"
+#include "exception/exception.h"
 
 namespace sqlcc {
 

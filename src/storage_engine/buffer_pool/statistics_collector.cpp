@@ -3,7 +3,7 @@
  * @brief 缓冲池统计收集器实现
  */
 
-#include "src/storage_engine/buffer_pool/statistics_collector.h"
+#include "statistics_collector.h"
 #include <sstream>
 
 namespace sqlcc {

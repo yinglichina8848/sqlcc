@@ -1,7 +1,7 @@
 #ifndef SQLCC_EXECUTION_RESULT_H
 #define SQLCC_EXECUTION_RESULT_H
 
-#include "src/wal_manager.h" // 包含Value的定义
+#include "../wal_manager.h" // 包含Value的定义
 #include <optional>
 #include <string>
 #include <vector>

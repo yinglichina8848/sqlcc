@@ -229,7 +229,7 @@
 #include <arpa/inet.h>
 #endif
 
-#include "src/sql_executor.h"
+#include "../sql_executor.h"
 #include "utils/file_descriptor.h"
 #include "utils/thread_pool.h"
 #include "network/session.h"

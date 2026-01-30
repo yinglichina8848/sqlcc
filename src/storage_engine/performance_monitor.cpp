@@ -48,7 +48,7 @@
  * @see docs/design/monitoring/performance_monitor_design.md
  */
 
-#include "src/storage_engine/performance_monitor.h"
+#include "performance_monitor.h"
 #include <iostream>
 #include <limits>
 

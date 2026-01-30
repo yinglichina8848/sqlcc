@@ -150,9 +150,9 @@
 #ifndef SQLCC_SQL_PARSER_SET_OPERATION_H
 #define SQLCC_SQL_PARSER_SET_OPERATION_H
 
-#include "src/sql_parser/ast/ast_node.h"
-#include "src/sql_parser/ast/statement.h"
-#include "src/sql_parser/ast/node_visitor.h"
+#include "ast/ast_node.h"
+#include "ast/statement.h"
+#include "ast/node_visitor.h"
 #include <memory>
 #include <string>
 #include <vector>

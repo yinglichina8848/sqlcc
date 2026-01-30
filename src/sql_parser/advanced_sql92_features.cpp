@@ -1,4 +1,4 @@
-#include "src/sql_parser/advanced_sql92_features.h"
+#include "advanced_sql92_features.h"
 
 namespace sqlcc {
 namespace sql_parser {

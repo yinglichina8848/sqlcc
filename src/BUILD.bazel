@@ -7,6 +7,11 @@ load("@rules_cc//cc:defs.bzl", "cc_library")
 cc_library(
     name = "storage_headers",
     deps = [
+        "//src/utils:utils",
+        "//src/storage_engine:storage_engine",
+        "//src/sql_parser:sql_parser",
+        "//src/execution:execution",
+        "//src/transaction:transaction",
         "//src/storage:headers",
     ],
     visibility = ["//visibility:public"],

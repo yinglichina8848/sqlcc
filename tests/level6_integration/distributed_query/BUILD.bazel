@@ -2,12 +2,13 @@ cc_test(
     name = "distributed_query_test",
     srcs = ["distributed_query_test.cpp"],
     deps = [
-        "//src/network:network_manager_headers",
-        "//src/sql_executor:sql_executor_headers",
-        "//src/core:database_manager_headers",
-        "//src/exception:exception_headers",
-        "//tests:test_framework",
         "@com_google_googletest//:gtest_main",
+        "//src/core:database_manager_headers",
+        "//src/network:network",
+        "//src/network:network_manager_headers",
+        "//src/exception:exception_headers",
+        "//src/sql_executor:sql_executor_headers",
+        "//tests:test_framework",
     ],
     copts = [
         "-std=c++20",

@@ -104,14 +104,14 @@
  *    - 通过依赖注入提高系统的可测试性
  */
 
-#include "src/sql_parser/ast/ast_node.h"
+#include "sql_parser/ast/ast_node.h"
 #ifndef SQLCC_PERMISSION_VALIDATOR_H
 #define SQLCC_PERMISSION_VALIDATOR_H
 
-#include "src/core/user_manager.h"
-#include "src/core/core_database_manager.h"
-#include "src/error_handler.h"
-#include "src/sql_parser/ast/ast_nodes.h"
+#include "core_backup_20260121_001034/user_manager.h"
+#include "core_backup_20260121_001034/core_database_manager.h"
+#include "error_handler.h"
+#include "sql_parser/ast/ast_nodes.h"
 #include <memory>
 #include <string>
 #include <unordered_map>

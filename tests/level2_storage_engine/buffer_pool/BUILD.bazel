@@ -6,8 +6,10 @@ cc_test(
         "buffer_pool_v3_test.cpp",
     ],
     deps = [
-        "//src/storage_engine/buffer_pool",
         "@com_google_googletest//:gtest_main",
+        "//src/utils:utils",
+        "//src/storage_engine/buffer_pool",
+        "//src/storage_engine:storage_engine",
     ],
 )
 
@@ -18,7 +20,6 @@ cc_test(
         "**/*.cpp",
     ]),
     deps = [
-        "//src/storage_engine/buffer_pool",
         "@com_google_googletest//:gtest_main",
     ],
 )

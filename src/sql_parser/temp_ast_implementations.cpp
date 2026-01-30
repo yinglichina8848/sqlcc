@@ -6,10 +6,10 @@
  * 这些实现可能不完整，但足以让构建过程继续进行。
  */
 
-#include "src/sql_parser/ast/ddl/ast_ddl_nodes.h"
-#include "src/sql_parser/ast/dml/ast_dml_nodes.h"
-#include "src/sql_parser/ast/ast_dcl_statements.h"
-#include "src/sql_parser/ast/expression.h"
+#include "ast/ddl/ast_ddl_nodes.h"
+#include "ast/dml/ast_dml_nodes.h"
+#include "ast/ast_dcl_statements.h"
+#include "ast/expression.h"
 
 namespace sqlcc {
 namespace sql_parser {

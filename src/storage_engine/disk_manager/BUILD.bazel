@@ -5,11 +5,12 @@ cc_library(
     name = "disk_manager",
     srcs = ["disk_manager.cpp"],
     deps = [
-        "//src/storage_engine:storage_engine_headers",
         "//src/utils:utils",
+        "//src/storage_engine:storage_engine_headers",
         "//src/exception:exception",
-        "//src/storage:storage",
         "//src/page:page",
+        "//src/storage:storage",
+        "//src/logger:logger",
     ],
     copts = [
         "-std=c++20",
