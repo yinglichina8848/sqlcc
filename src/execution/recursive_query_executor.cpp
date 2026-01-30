@@ -4,8 +4,8 @@
 
 #include "sql_parser/ast_nodes.h"
 #include "recursive_query_executor.h"
-#include "../core_backup_20260121_001034/execution_context.h"
-#include "../core_backup_20260121_001034/execution_result.h"
+#include "../backups/core_backup_20260121_001034/execution_context.h"
+#include "../backups/core_backup_20260121_001034/execution_result.h"
 #include <unordered_set>
 #include <queue>
 #include <algorithm>

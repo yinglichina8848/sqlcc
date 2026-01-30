@@ -4,9 +4,9 @@
 #include "sql_executor/domain_manager.h"
 #include "sql_executor/enhanced_trigger_manager.h"
 #include "sql_executor/enhanced_alter_table_manager.h"
-#include "../core_backup_20260121_001034/core_database_manager.h"
-#include "../core_backup_20260121_001034/user_manager.h"
-#include "../core_backup_20260121_001034/system_database.h"
+#include "../backups/core_backup_20260121_001034/core_database_manager.h"
+#include "../backups/core_backup_20260121_001034/user_manager.h"
+#include "../backups/core_backup_20260121_001034/system_database.h"
 #include "../storage_engine/storage_engine.h"
 #include <memory>
 #include <unordered_map>

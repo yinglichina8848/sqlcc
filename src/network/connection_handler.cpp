@@ -5,7 +5,7 @@
 #include "../utils/file_descriptor.h"
 #include "../logger/logger.h"
 #include "../sql_executor.h"
-#include "../core_backup_20260121_001034/user_manager.h"
+#include "../backups/core_backup_20260121_001034/user_manager.h"
 #include "../permission_validator.h"
 #include <unistd.h>
 #include <cstring>

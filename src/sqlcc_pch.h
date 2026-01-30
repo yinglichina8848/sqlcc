@@ -27,4 +27,4 @@
 #include <condition_variable>
 
 // Minimal core headers - only core module headers
-#include "core_backup_20260121_001034/user_manager.h"
+#include "../backups/core_backup_20260121_001034/user_manager.h"

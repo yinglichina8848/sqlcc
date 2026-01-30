@@ -78,7 +78,7 @@
 #include <unordered_set>
 #include <vector>
 
-#include "../core_backup_20260121_001034/core_database_manager.h"
+#include "../backups/core_backup_20260121_001034/core_database_manager.h"
 #include "../storage_engine/concurrency_control.h"
 
 namespace sqlcc {

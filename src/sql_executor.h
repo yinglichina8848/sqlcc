@@ -3,9 +3,9 @@
 #define SQLCC_SQL_EXECUTOR_H
 
 #include "permission_validator.h"
-#include "core_backup_20260121_001034/system_database.h"
-#include "core_backup_20260121_001034/user_manager.h"
-#include "core_backup_20260121_001034/core_database_manager.h"
+#include "../backups/core_backup_20260121_001034/system_database.h"
+#include "../backups/core_backup_20260121_001034/user_manager.h"
+#include "../backups/core_backup_20260121_001034/core_database_manager.h"
 #include "sql_parser/parser.h"
 #include "sql_parser/parser.h"
 #include "unified_query_plan.h"
