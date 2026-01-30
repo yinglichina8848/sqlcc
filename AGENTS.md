@@ -37,17 +37,28 @@ sqlcc/
 │   ├── network/                  # 网络通信（AES/TLS加密）
 │   ├── exception/                # 异常处理系统
 │   ├── logger/                   # 日志系统
+│   ├── security/                 # 安全模块（RBAC、审计）
+│   ├── types/                    # 类型系统
+│   ├── config_manager/           # 配置管理器
+│   ├── procedure/                # 存储过程
+│   ├── trigger/                  # 触发器
+│   ├── monitoring/               # 监控系统
 │   └── utils/                    # 工具类
 ├── tests/                        # 分层测试架构
-│   ├── level1_foundation/        # 基础层（异常、日志、配置）
-│   ├── level2_core/              # 核心层（存储引擎、缓冲池）
-│   ├── level2_storage_engine/    # 存储引擎专项测试
-│   ├── level3_transaction_manager/  # 事务管理测试
-│   ├── level5_network/           # 网络通信测试
-│   └── level6_integration/       # 集成测试
+│   ├── level1_foundation/        # 基础层（异常、日志、配置、类型、工具）
+│   ├── level2_core/              # 核心层（DB管理器、执行上下文、用户管理）
+│   ├── level2_storage_engine/    # 存储引擎专项测试（缓冲池、B+树、磁盘管理）
+│   ├── level3_transaction_manager/  # 事务管理、查询执行
+│   ├── level4_sql_processing/    # SQL处理测试（解析器、执行器）
+│   ├── level5_network/           # 网络通信、协议处理
+│   ├── level6_integration/       # 端到端集成测试
+│   ├── level7_integration/       # 企业级集成测试（核心、演示、性能）
+│   ├── unit/                     # 单元测试（安全、权限等）
+│   └── sql_parser/               # SQL解析器专项测试
 ├── tools/                        # 开发工具（Python脚本）
-├── scripts/                      # 构建和测试脚本
-└── docs/                         # 项目文档
+├── scripts/                      # 构建和测试脚本（40+个覆盖率脚本）
+├── docs/                         # 项目文档
+└── examples/                     # 示例代码
 ```
 
 ## 构建和测试命令
@@ -62,12 +73,16 @@ bazel build //...
 bazel build //src/core:core
 bazel build //src/storage_engine:storage_engine
 bazel build //src/storage_engine/buffer_pool:buffer_pool
+bazel build //src/sql_parser:sql_parser
 
 # 清理构建缓存
 bazel clean
 
 # 强制重新构建（无缓存）
 bazel build //... --nocache_test_results
+
+# 验证构建系统
+bazel build --config=clang
 ```
 
 ### 测试执行
@@ -80,16 +95,23 @@ bazel test //...
 bazel test //tests/level1_foundation:all
 bazel test //tests/level2_core:all
 bazel test //tests/level2_storage_engine/b_plus_tree:all
+bazel test //tests/level3_transaction_manager:all
+bazel test //tests/level6_integration:all
+bazel test //tests/level7_integration:all
 
 # 运行带标签过滤的测试
 bazel test //tests/... --test_tag_filters=foundation
 bazel test //tests/... --test_tag_filters=core
 bazel test //tests/... --test_tag_filters=storage
+bazel test //tests/... --test_tag_filters=transaction
+bazel test //tests/... --test_tag_filters=network
+bazel test //tests/... --test_tag_filters=integration
 bazel test //tests/... --test_tag_filters=-manual,-slow  # 排除手动和慢速测试
 
 # 查看测试输出
 bazel test //tests/... --test_output=all
 bazel test //tests/... --test_output=errors
+bazel test //tests/... --test_output=summary
 ```
 
 ### 覆盖率测试
@@ -101,35 +123,51 @@ bazel coverage //...
 # 覆盖率测试特定模块
 bazel coverage //tests/level1_foundation:all
 bazel coverage //tests/level2_storage_engine/b_plus_tree:all
+bazel coverage //tests/level2_core:all
+
+# 使用项目脚本生成Level 1覆盖率报告
+bash scripts/generate_l1_complete_coverage.sh
+bash scripts/generate_l1_coverage_report_v2.sh
+bash scripts/generate_l1_coverage_report_pro.sh
+bash scripts/generate_l1_coverage_with_source.sh
 
 # 生成HTML覆盖率报告
-mkdir -p coverage_report
-genhtml --ignore-errors unsupported,inconsistent,corrupt \
-  ~/.cache/bazel/_bazel_*/execroot/_main/bazel-out/_coverage/_coverage_report.dat \
-  -o coverage_report
-
-# 使用项目脚本生成报告
-chmod +x scripts/generate_llvm_cov_html_report.sh
 bash scripts/generate_llvm_cov_html_report.sh //tests/... coverage_html
+
+# 覆盖率分析工具
+bash scripts/analyze_coverage_trends.sh
+bash scripts/analyze_module_coverage.sh
+bash scripts/check_coverage_quality.sh
+
+# 综合覆盖率测试
+bash scripts/run_unified_coverage.sh
+bash scripts/run_comprehensive_coverage_tests.sh
 ```
 
 ### Python开发工具
 
 ```bash
 # 检查和修复BUILD文件依赖
-cd /home/liying/sqlcc
 python3 tools/bazel_code_checker.py
 python3 tools/bazel_dep_fixer_enhanced.py . --dry-run  # 预览修改
 python3 tools/bazel_dep_fixer_enhanced.py .             # 应用修复
 
 # 修复头文件路径
 python3 tools/bazel_include_fixer.py
+python3 tools/bazel_label_fixer_enhanced.py
 
 # 内存安全检查
 python3 scripts/memory_audit.py
+python3 scripts/memory_safety_audit.sh
 
 # 测试状态跟踪
 python3 scripts/test_status_tracker.py
+python3 scripts/sqlcc_test_system.py
+
+# 代码质量分析
+python3 tools/comment_quality_analyzer.py
+python3 tools/bazel_config_analyzer.py
+python3 tools/bazel_dependency_fixer.py
 ```
 
 ## 代码风格指南
@@ -168,6 +206,8 @@ python3 scripts/test_status_tracker.py
 2. 项目头文件（使用引号 `#include "path/to/header.h"`）
 3. 第三方头文件（使用尖括号 `#include <gtest/gtest.h>`）
 4. 系统头文件（使用尖括号 `#include <memory>`, `#include <vector>`）
+
+**重要**: 严格遵守include规范，禁止引用 src/ 目录外部的头文件，避免循环依赖。
 
 #### 智能指针使用
 
@@ -278,12 +318,27 @@ cc_test(
 
 | 层级 | 目录 | 测试范围 | 标签 |
 |------|------|----------|------|
-| **Level 1** | `tests/level1_foundation/` | 基础组件（异常、日志、配置、类型） | `foundation` |
-| **Level 2** | `tests/level2_core/` | 核心组件（DB管理器、执行上下文） | `core` |
+| **Level 1** | `tests/level1_foundation/` | 基础组件（异常、日志、配置、类型、工具） | `foundation` |
+| **Level 2** | `tests/level2_core/` | 核心组件（DB管理器、执行上下文、用户管理） | `core` |
 | **Level 2** | `tests/level2_storage_engine/` | 存储引擎（缓冲池、B+树、磁盘管理） | `storage` |
 | **Level 3** | `tests/level3_transaction_manager/` | 事务管理、查询执行 | `transaction` |
+| **Level 4** | `tests/level4_sql_processing/` | SQL处理（解析器、执行器） | `sql_processing` |
 | **Level 5** | `tests/level5_network/` | 网络通信、协议处理 | `network` |
-| **Level 6** | `tests/level6_integration/` | 端到端集成测试 | `integration` |
+| **Level 6** | `tests/level6_integration/` | 端到端集成测试（分布式、网络、系统集成） | `integration` |
+| **Level 7** | `tests/level7_integration/` | 企业级集成测试（核心、演示、性能） | `enterprise` |
+| **Unit** | `tests/unit/` | 单元测试（安全、权限等） | `unit` |
+| **SQL Parser** | `tests/sql_parser/` | SQL解析器专项测试 | `sql_parser` |
+
+### Level 1 Foundation 测试状态（v1.3.9）
+
+| 模块 | 测试用例数 | 通过率 | 状态 |
+|------|------------|--------|------|
+| **Exception** | 32 | 100% | ✅ 完整 |
+| **Types** | ~60 | 100% | ✅ 完整 |
+| **Logger** | ~30 | 100% | ✅ 完整 |
+| **Config** | ~40 | 100% | ✅ 完整 |
+| **Utils** | ~20 | 100% | ✅ 完整 |
+| **总计** | **~160** | **100%** | **✅ 完整** |
 
 ### 测试标签规范
 
@@ -293,10 +348,13 @@ cc_test(
 - `b_plus_tree`: B+树索引测试
 - `transaction`: 事务相关测试
 - `network`: 网络通信测试
+- `sql_processing`: SQL处理测试
 - `integration`: 集成测试
+- `enterprise`: 企业级集成测试
 - `slow`: 慢速测试（CI中可能跳过）
 - `manual`: 需要手动执行的测试
 - `coverage`: 覆盖率相关测试
+- `performance`: 性能测试
 
 ### 测试文件命名
 
@@ -304,12 +362,15 @@ cc_test(
 - 集成测试：`*_integration_test.cpp`
 - 性能测试：`*_performance_test.cpp`
 - 基准测试：`*_benchmark.cpp`
+- 安全测试：`*_security_test.cpp`
+- 边界测试：`*_boundary_test.cpp`
 
 ### Mock使用规范
 
 - 在 `tests/level2_core/mocks/` 中定义Mock类
 - Mock类命名：`Mock{InterfaceName}`
 - 使用Google Mock框架
+- 优先使用真实实现而非Mock（Level 1原则）
 
 ## 开发工作流
 
@@ -350,6 +411,11 @@ cc_test(
    bazel test //tests/level2_core/new_module:all
    ```
 
+6. **生成覆盖率报告**
+   ```bash
+   bazel coverage //tests/level2_core/new_module:all
+   ```
+
 ### 代码提交流程
 
 1. 本地构建和测试通过
@@ -361,11 +427,13 @@ cc_test(
 2. 运行代码检查工具
    ```bash
    python3 tools/bazel_code_checker.py
+   python3 tools/comment_quality_analyzer.py
    ```
 
 3. 生成覆盖率报告（重大变更时）
    ```bash
    bazel coverage //tests/...
+   bash scripts/generate_l1_complete_coverage.sh
    ```
 
 4. 提交前确认
@@ -373,6 +441,19 @@ cc_test(
    - 无编译警告
    - 代码符合命名规范
    - 注释完整（Why-What-How）
+   - 覆盖率达标
+
+### 覆盖率质量门禁
+
+当前覆盖率目标（v1.3.9）：
+
+| 层级 | 当前覆盖率 | 目标覆盖率 | 状态 |
+|------|------------|------------|------|
+| **Level 1 Foundation** | ~100% | 100% | ✅ 达标 |
+| **Level 2 Core** | ~60% | 70% | 🔄 进行中 |
+| **Level 2 Storage Engine** | ~57% | 70% | 🔄 进行中 |
+| **SQL Parser** | ~55% | 65% | 🔄 进行中 |
+| **整体平均** | ~56% | 70% | 🔄 进行中 |
 
 ## CI/CD集成
 
@@ -393,6 +474,7 @@ cc_test(
   LLVM_VERSION: 20.1.8
   CC: clang-20
   CXX: clang++-20
+  GTEST_VERSION: 1.14.0
 ```
 
 ### 本地CI验证
@@ -402,12 +484,16 @@ cc_test(
 bazel build //src/exception:io_exception
 bazel build //src/logger:logger
 bazel build //src/core:core
+bazel build //src/sql_parser:sql_parser
 
 # 运行单元测试
 bazel test //tests/... --test_output=errors
 
 # 生成覆盖率报告
 bash scripts/generate_llvm_cov_html_report.sh //tests/... coverage_html
+
+# 运行质量门禁检查
+bazel test //:coverage_quality_gate
 ```
 
 ## 安全考虑
@@ -429,9 +515,18 @@ bash scripts/generate_llvm_cov_html_report.sh //tests/... coverage_html
 ### 数据安全
 
 - **加密传输**: 网络通信使用AES/TLS加密
-- **权限控制**: 完整的用户认证和授权系统
+- **权限控制**: 完整的用户认证和授权系统（RBAC）
 - **WAL日志**: 预写日志保证数据持久性
 - **备份恢复**: 定期备份机制
+- **审计跟踪**: 完整的操作审计日志
+
+### 企业级安全特性
+
+- **RBAC权限模型**: 基于角色的访问控制
+- **权限继承**: 支持角色层次结构和权限继承
+- **审计日志**: 记录所有敏感操作
+- **并发访问控制**: 多用户并发访问权限控制
+- **权限提升防护**: 防止权限提升攻击
 
 ## 故障排查
 
@@ -448,6 +543,10 @@ bazel build //... --verbose_failures
 # 检查依赖问题
 python3 tools/bazel_code_checker.py
 python3 tools/bazel_dep_fixer_enhanced.py . --dry-run
+
+# 验证编译环境
+bash scripts/validate_build_environment.sh
+bash scripts/validate_compilation.sh
 ```
 
 ### 测试失败
@@ -461,6 +560,10 @@ python3 scripts/test_status_tracker.py
 
 # 运行内存检查
 python3 scripts/memory_audit.py
+bash scripts/memory_safety_audit.sh
+
+# 运行失败的测试
+bazel test //tests/... --test_filter=TestName* --test_output=all
 ```
 
 ### 覆盖率问题
@@ -471,6 +574,28 @@ bash scripts/verify_coverage_integrity.sh
 
 # 重新收集覆盖率数据
 bash scripts/collect_coverage_data.sh
+
+# 分析覆盖率趋势
+bash scripts/analyze_coverage_trends.sh
+
+# 检查覆盖率质量
+bash scripts/check_coverage_quality.sh
+
+# 模块级覆盖率分析
+bash scripts/analyze_module_coverage.sh
+```
+
+### 头文件问题
+
+```bash
+# 检查头文件路径
+python3 tools/bazel_include_fixer.py
+
+# 修复标签问题
+python3 tools/bazel_label_fixer_enhanced.py
+
+# 系统性修复
+python3 tools/bazel_dep_fixer_enhanced.py .
 ```
 
 ## 常用资源
@@ -481,20 +606,67 @@ bash scripts/collect_coverage_data.sh
 - [开发环境配置](docs/development/guides/DEVELOPMENT_ENVIRONMENT_SETUP.md)
 - [构建和测试指南](docs/development/guides/BUILD_AND_TEST_GUIDE.md)
 - [API文档](docs/api/): 类文档和接口说明
+- [AI辅助开发指南](docs/ai_tools/AI_TOOLS_USAGE_GUIDE.md)
+- [测试驱动开发指南](docs/development/guides/TEST_DRIVEN_DEVELOPMENT_GUIDE.md)
 
 ### 版本发布说明
 
-- [v1.3.8 Release Notes](docs/project/versions/v1.3.8/)
-- [CHANGELOG.md](CHANGELOG.md)
+- [v1.3.9 Release Notes](docs/project/versions/v1.3.9/) - Level 1 Foundation完整单元测试
+- [v1.3.8 Release Notes](docs/project/versions/v1.3.8/) - SQL Parser模块化重构
+- [v1.3.7 Release Notes](docs/project/versions/v1.3.7/) - Bazel构建系统重构
+- [v1.3.6 Release Notes](docs/project/versions/v1.3.6/) - LLVM覆盖率工具链完善
+- [CHANGELOG.md](CHANGELOG.md) - 完整变更日志
 
 ### 学习资源
 
 - [《数据库系统原理与开发实践》](docs/textbook/《数据库系统原理与开发实践》.md)
-- [AI辅助开发指南](docs/ai_tools/AI_TOOLS_USAGE_GUIDE.md)
 - [源码注释指南](docs/api/code/source_code_comments_guide.md)
+- [编码标准](docs/api/code/coding_standards.md)
+- [API设计原则](docs/api/code/api_design_principles.md)
+- [Bazel知识库](docs/ai_tools/bazel_knowledge_base.md)
+- [Bazel工具手册](docs/ai_tools/bazel_tools_manual.md)
+
+### 工具和脚本
+
+**覆盖率工具（40+个脚本）**:
+- `scripts/generate_l1_complete_coverage.sh` - Level 1完整覆盖率
+- `scripts/generate_llvm_cov_html_report.sh` - LLVM HTML覆盖率报告
+- `scripts/analyze_coverage_trends.sh` - 覆盖率趋势分析
+- `scripts/analyze_module_coverage.sh` - 模块覆盖率分析
+- `scripts/run_unified_coverage.sh` - 统一覆盖率测试
+- `scripts/coverage_pipeline.sh` - 覆盖率流水线
+
+**构建工具**:
+- `tools/bazel_code_checker.py` - Bazel代码检查
+- `tools/bazel_dep_fixer_enhanced.py` - 依赖修复工具
+- `tools/bazel_include_fixer.py` - 头文件路径修复
+- `tools/comment_quality_analyzer.py` - 注释质量分析
+
+**测试工具**:
+- `scripts/test_status_tracker.py` - 测试状态跟踪
+- `scripts/sqlcc_test_system.py` - SQLCC测试系统
+- `scripts/memory_audit.py` - 内存安全审计
+
+### 示例代码
+
+- `examples/basic_transaction_test.cpp` - 基础事务测试
+- `examples/unified_executor_demo.cpp` - 统一执行器演示
+- `examples/index_optimization_demo.cpp` - 索引优化演示
+- `examples/demonstrate_transaction_manager.cpp` - 事务管理器演示
+- `examples/aes_demo.cpp` - AES加密演示
+- `examples/advanced_sql_demo.cpp` - 高级SQL演示
+
+## 版本信息
+
+- **当前版本**: v1.3.9
+- **发布日期**: 2026-01-30
+- **主要特性**: Level 1 Foundation完整单元测试（~160个测试用例，100%通过率）
+- **核心成就**: SQL-92标准100%支持，真实实现测试，企业级安全特性
+- **覆盖率目标**: 整体平均70%（当前56%）
 
 ---
 
-**最后更新**: 2026-01-30  
-**版本**: v1.3.8  
+**最后更新**: 2026-01-30
+**版本**: v1.3.9
 **维护者**: SQLCC开发团队
+**仓库**: https://gitee.com/yinglichina/sqlcc.git

@@ -171,7 +171,7 @@ sh_test(
     data = glob([
         "scripts/benchmark_*",
         "tests/**/*",
-    ]),
+    ], allow_empty = True),
     timeout = "long",
     tags = ["coverage", "benchmark", "performance"],
 )
@@ -185,7 +185,7 @@ sh_test(
         "tests/**/*",
         "src/**/*",
         "include/**/*",
-    ]),
+    ], allow_empty = True),
     timeout = "long",
     tags = ["coverage", "pipeline", "ci"],
 )
@@ -361,7 +361,7 @@ filegroup(
 filegroup(
     name = "coverage_templates",
     srcs = [
-        "tools/bazel_coverage_build_template.bzl",
+        "//tools:bazel_coverage_build_template.bzl",
         "docs/guides/COVERAGE_TEST_GUIDE.md",
     ],
     visibility = ["//visibility:public"],

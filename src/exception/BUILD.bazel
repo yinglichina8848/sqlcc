@@ -13,3 +13,20 @@ cc_library(
     linkopts = ["-fprofile-instr-generate"],
     visibility = ["//visibility:public"],
 )
+
+# 覆盖率专用库 - 包含所有源码用于覆盖率统计
+cc_library(
+    name = "exception_coverage",
+    hdrs = glob(["**/*.h"]),
+    srcs = glob(["**/*.cpp"]),
+    copts = [
+        "-std=c++20",
+        "-fprofile-instr-generate",
+        "-fcoverage-mapping",
+        "-Iinclude",
+    ],
+    linkopts = ["-fprofile-instr-generate"],
+    include_prefix = "",
+    visibility = ["//visibility:public"],
+    tags = ["coverage"],
+)

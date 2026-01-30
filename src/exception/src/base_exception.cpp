@@ -1,7 +1,7 @@
 #include <stdexcept>
 #include <string>
 
-#include "exception/base_exception.h"
+#include "../include/exception/base_exception.h"
 
 namespace sqlcc {
 

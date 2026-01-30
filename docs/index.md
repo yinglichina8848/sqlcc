@@ -48,11 +48,17 @@ SQLCC（SQL Cloud-native Cluster）是一个企业级内存安全的云原生数
 - [**版本功能对比**](releases/version_summary_v1.2.3.md) - 各版本特性总览
 
 ### 🚀 最新版本特性
-- [**v1.3.9 Release Notes**](project/versions/v1.3.9/) - Level 1 Foundation完整单元测试
-- [**v1.3.8 Release Notes**](project/versions/v1.3.8/) - SQL Parser模块化重构
-- [**v1.3.7 Release Notes**](project/versions/v1.3.7/) - Bazel构建系统重构
-- [**v1.3.6 Release Notes**](project/versions/v1.3.6/) - LLVM覆盖率工具链完善
-- [v1.2.x系列](project/versions/) - v1.2.0-v1.2.15版本特性
+- [**v1.3.9 Release Notes**](releases/RELEASE_NOTES_v1.3.9.md) - Level 1 Foundation完整单元测试
+- [**v1.3.8 Release Notes**](releases/RELEASE_NOTES_v1.3.8.md) - SQL Parser模块化重构
+- [**v1.3.7 Release Notes**](releases/RELEASE_NOTES_v1.3.7.md) - Bazel构建系统重构
+- [**v1.3.6 Release Notes**](releases/RELEASE_NOTES_v1.3.6.md) - LLVM覆盖率工具链完善
+- [**v1.3.5 Release Notes**](releases/RELEASE_NOTES_v1.3.5.md) - 版本更新和文档完善
+- [**v1.3.4 Release Notes**](releases/RELEASE_NOTES_v1.3.4.md) - SQL-92特性深度集成
+- [**v1.3.3 Release Notes**](releases/RELEASE_NOTES_v1.3.3.md) - DDL/DCL功能补全
+- [**v1.3.2 Release Notes**](releases/RELEASE_NOTES_v1.3.2.md) - DDL语句真实执行验证
+- [**v1.3.1 Release Notes**](releases/RELEASE_NOTES_v1.3.1.md) - 测试改进
+- [**v1.3.0 Release Notes**](releases/RELEASE_NOTES_v1.3.0.md) - 功能发布
+- [**v1.2.x系列**](releases/) - v1.2.0-v1.2.15版本特性
 
 ## 🔧 API文档
 
@@ -79,8 +85,9 @@ SQLCC（SQL Cloud-native Cluster）是一个企业级内存安全的云原生数
 
 ### 📅 版本规划
 - [**产品路线图**](project/versions/) - 长期发展规划
-- [**版本总览**](releases/) - 所有历史版本
-- [**版本摘要**](releases/version_summary_v1.2.3.md) - 简要版本信息
+- [**版本总览**](releases/VERSION_OVERVIEW.md) - 所有历史版本
+- [**版本摘要**](releases/VERSION_SUMMARY.md) - 版本演进总结
+- [**版本详情**](releases/VERSION_DETAILS.md) - 完整版本信息
 
 ### 📊 项目进展
 - [**项目进展总览**](project/) - 整体项目状态
@@ -140,14 +147,32 @@ SQLCC（SQL Cloud-native Cluster）是一个企业级内存安全的云原生数
 - [**v1.3.8 版本报告**](project/versions/v1.3.8/) - SQL Parser模块化重构
 - [**v1.3.7 版本报告**](project/versions/v1.3.7/) - Bazel构建系统重构
 - [**v1.3.6 版本报告**](project/versions/v1.3.6/) - LLVM覆盖率工具链完善
+- [**v1.3.5 版本报告**](project/versions/v1.3.5/) - 版本更新和文档完善
+- [**v1.3.4 版本报告**](project/versions/v1.3.4/) - SQL-92特性深度集成
+- [**v1.3.3 版本报告**](project/versions/v1.3.3/) - DDL/DCL功能补全
+- [**v1.3.2 版本报告**](project/versions/v1.3.2/) - DDL语句真实执行验证
+- [**v1.3.1 版本报告**](project/versions/v1.3.1/) - 测试改进
+- [**v1.3.0 版本报告**](project/versions/v1.3.0/) - 功能发布
 - [**v1.3.x系列**](project/versions/) - v1.3.0-v1.3.9版本特性
 
 ### 🚀 v1.2.x系列
+- [**v1.2.15 版本报告**](project/versions/v1.2.15/) - Client_Server架构
+- [**v1.2.14 版本报告**](project/versions/v1.2.14/) - 测试覆盖率项目
+- [**v1.2.13 版本报告**](project/versions/v1.2.13/) - 项目总结
+- [**v1.2.12 版本报告**](project/versions/v1.2.12/) - 错误修正
+- [**v1.2.11 版本报告**](project/versions/v1.2.11/) - 层次4测试重构
+- [**v1.2.10 版本报告**](project/versions/v1.2.10/) - 覆盖率测试系统
+- [**v1.2.9 版本报告**](project/versions/v1.2.9/) - 覆盖率改进
+- [**v1.2.8 版本报告**](project/versions/v1.2.8/) - 编译改进
+- [**v1.2.7 版本报告**](project/versions/v1.2.7/) - 测试目录分析
 - [**v1.2.6 版本报告**](project/versions/v1.2.6/) - 核心组件注释补全计划
 - [**v1.2.5 版本报告**](project/versions/v1.2.5/) - 依赖分析报告
 - [**v1.2.4 版本报告**](project/versions/v1.2.4/) - 系统性测试重构
 - [**v1.2.3 版本报告**](project/versions/v1.2.3/) - 内存安全修复总结
-- [**v1.2.x系列**](project/versions/) - v1.2.0-v1.2.6版本特性
+- [**v1.2.2 版本报告**](project/versions/v1.2.2/) - 内存安全修复
+- [**v1.2.1 版本报告**](project/versions/v1.2.1/) - 评估报告
+- [**v1.2.0 版本报告**](project/versions/v1.2.0/) - 功能矩阵
+- [**v1.2.x系列**](project/versions/) - v1.2.0-v1.2.15版本特性
 
 ### 🏆 v1.1.x系列
 - [**v1.1.5 版本报告**](project/versions/v1.1.5/) - SQL解析器完善

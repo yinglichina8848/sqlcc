@@ -4,3 +4,17 @@ cc_library(
     hdrs = ["logger.h"],
     visibility = ["//visibility:public"],
 )
+
+# 覆盖率专用库 - 包含所有源码用于覆盖率统计
+cc_library(
+    name = "logger_coverage",
+    srcs = glob(["*.cpp"]),
+    hdrs = glob(["*.h"]),
+    copts = [
+        "-fprofile-instr-generate",
+        "-fcoverage-mapping",
+    ],
+    linkopts = ["-fprofile-instr-generate"],
+    visibility = ["//visibility:public"],
+    tags = ["coverage"],
+)

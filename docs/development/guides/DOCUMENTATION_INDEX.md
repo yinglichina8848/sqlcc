@@ -67,16 +67,15 @@ SQLCC文档体系
 
 ## 🎯 按角色分类
 
-### 🤖 AI开发者 (新增v1.1.4)
+### 🤖 AI开发者 (最新版本 v1.3.9)
 
-**AI专用开发指南** ([🔗 AI开发指南总览](docs/AI-Agent/项目目录结构说明.md)):
-1. [项目目录结构说明](docs/AI-Agent/项目目录结构说明.md) - 完整项目架构和目录职责
-2. [源码组织架构](docs/AI-Agent/源码组织架构.md) - 分层架构和模块协作详解
-3. [头文件组织说明](docs/AI-Agent/头文件组织说明.md) - 接口定义和依赖关系规范
-4. [构建系统详解](docs/AI-Agent/构建系统详解.md) - Bazel构建配置和命令使用
-5. [测试脚本组织](docs/AI-Agent/测试脚本组织.md) - 多层次测试体系和执行方法
-6. [当前工作状态](docs/AI-Agent/当前工作状态.md) - v1.1.4开发进展和未来规划
-7. [代码改进历史](docs/AI-Agent/代码改进历史.md) - 从v1.1.3到v1.1.4的主要改进
+**AI专用开发指南** ([🔗 AI开发指南总览](../ai_tools/)):
+1. [AI工具使用指南](../ai_tools/AI_TOOLS_USAGE_GUIDE.md) - AI辅助开发最佳实践
+2. [Bazel工具手册](../ai_tools/bazel_tools_manual.md) - 构建工具使用
+3. [Bazel知识库](../ai_tools/bazel_knowledge_base.md) - 构建系统知识
+4. [Bazel改进指南](../ai_tools/bazel_improvement_guide.md) - 构建系统优化
+5. [Bazel工作流指南](../ai_tools/bazel_workflow_guide.md) - 协作开发流程
+6. [测试集成和覆盖率指南](../ai_tools/sqlcc_test_integration_and_coverage_guide.md) - 测试和覆盖率
 
 ### 👨‍💻 开发者
 
