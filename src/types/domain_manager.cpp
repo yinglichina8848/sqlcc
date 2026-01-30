@@ -102,37 +102,39 @@ bool DomainDefinition::evaluateCheckConstraint(const Value& value) const {
     std::string lower_constraint = check_constraint_;
     std::transform(lower_constraint.begin(), lower_constraint.end(), lower_constraint.begin(), ::tolower);
     
-    if (lower_constraint.find("value > 0") != std::string::npos) {
-        if (value.getType() == Value::INTEGER) {
-            return value.asInteger() > 0;
-        }
-        return false;
+    // 移除所有空格来简化匹配
+    std::string compact_constraint;
+    for (char c : lower_constraint) {
+        if (!isspace(c)) compact_constraint += c;
     }
     
-    if (lower_constraint.find("value >= 0") != std::string::npos) {
+    // 检查 >= 0 约束
+    if (compact_constraint.find("value>=0") != std::string::npos) {
         if (value.getType() == Value::INTEGER) {
             return value.asInteger() >= 0;
         }
         return false;
     }
     
-    if (lower_constraint.find("value <= 150") != std::string::npos) {
+    // 检查 <= 150 约束
+    if (compact_constraint.find("value<=150") != std::string::npos) {
         if (value.getType() == Value::INTEGER) {
             return value.asInteger() <= 150;
         }
         return false;
     }
     
-    if (lower_constraint.find("value >= 0 and value <= 150") != std::string::npos) {
+    // 检查 > 0 约束
+    if (compact_constraint.find("value>0") != std::string::npos) {
         if (value.getType() == Value::INTEGER) {
-            int v = value.asInteger();
-            return v >= 0 && v <= 150;
+            return value.asInteger() > 0;
         }
         return false;
     }
 
-    // 示例：检查邮箱格式约束
-    if (lower_constraint.find("like '%@%'") != std::string::npos) {
+    // 检查邮箱格式约束
+    if (lower_constraint.find("like") != std::string::npos && 
+        lower_constraint.find("%@%") != std::string::npos) {
         if (value.getType() == Value::STRING) {
             const std::string& str = value.asString();
             return str.find('@') != std::string::npos;
@@ -140,7 +142,8 @@ bool DomainDefinition::evaluateCheckConstraint(const Value& value) const {
         return false;
     }
     
-    if (lower_constraint.find("length(value) > 0") != std::string::npos) {
+    // 检查非空字符串约束
+    if (compact_constraint.find("length(value)>0") != std::string::npos) {
         if (value.getType() == Value::STRING) {
             return !value.asString().empty();
         }
@@ -264,7 +267,7 @@ bool DomainManager::isDomainNullable(const std::string& domain_name) const {
     if (domain) {
         return domain->isNullable();
     }
-    return true; // 默认可空
+    return false; // 域不存在时返回false
 }
 
 const std::string& DomainManager::getLastError() const {

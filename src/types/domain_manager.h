@@ -18,8 +18,9 @@ public:
     Value() : type_(NULL_VALUE) {}
     Value(int int_val) : type_(INTEGER), int_value_(int_val) {}
     Value(double double_val) : type_(DOUBLE), double_value_(double_val) {}
+    explicit Value(bool bool_val) : type_(BOOLEAN), bool_value_(bool_val) {}
     Value(const std::string& str_val) : type_(STRING), string_value_(str_val) {}
-    Value(bool bool_val) : type_(BOOLEAN), bool_value_(bool_val) {}
+    Value(const char* str_val) : type_(STRING), string_value_(str_val) {}
 
     Type getType() const { return type_; }
 
