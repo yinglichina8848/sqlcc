@@ -1,7 +1,20 @@
 load("@rules_cc//cc:defs.bzl", "cc_test")
 
-# Level 1 Foundation Tests - 基础工具类测试
-# 包括：基本组件、配置管理、日志系统、类型系统等
+# Level 1 Foundation Tests - 基础层测试
+# 测试覆盖 SQLCC 数据库系统的核心基础组件
+# 包括：异常处理、类型系统、配置管理、日志系统等核心基础设施
 
-# Basic component tests - 基础组件测试
-# Note: Tests are defined in subpackages
+# Test suite for all level1 foundation tests
+# 注意：子包的测试目标需要通过 //tests/level1_foundation/subpackage:target 引用
+test_suite(
+    name = "level1_foundation_tests",
+    tests = [
+        "//tests/level1_foundation/exception:exception_test",
+        "//tests/level1_foundation/types:types_test",
+        "//tests/level1_foundation/logger:logger_test",
+        "//tests/level1_foundation/config:config_test",
+        "//tests/level1_foundation/basic:basic_test",
+        "//tests/level1_foundation/utils:utils_test",
+    ],
+    tags = ["level1", "foundation"],
+)

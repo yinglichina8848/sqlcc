@@ -1,20 +1,21 @@
 load("@rules_cc//cc:defs.bzl", "cc_test")
 
-# Logger module tests - 日志系统测试
-# 测试覆盖Logger单例模式、日志级别、文件输出、线程安全性等
+# Exception module tests - 异常模块测试
+# 测试覆盖所有异常类的功能、继承关系和异常处理机制
 
 cc_test(
-    name = "logger_test",
-    srcs = ["logger_test.cpp"],
+    name = "exception_test",
+    srcs = ["exception_test.cpp"],
     copts = [
         "-fprofile-instr-generate",
         "-fcoverage-mapping",
+        "-Isrc/exception/include",
     ],
     linkopts = ["-fprofile-instr-generate"],
     deps = [
         "@com_google_googletest//:gtest",
         "@com_google_googletest//:gtest_main",
-        "//src/logger:logger",
+        "//src/exception:exception",
     ],
     tags = ["coverage", "level1"],
 )

@@ -1,0 +1,20 @@
+load("@rules_cc//cc:defs.bzl", "cc_test")
+
+# Config module tests - 配置管理测试
+# 测试覆盖ConfigManager的配置加载、保存、获取、线程安全性等功能
+
+cc_test(
+    name = "config_test",
+    srcs = ["config_test.cpp"],
+    copts = [
+        "-fprofile-instr-generate",
+        "-fcoverage-mapping",
+    ],
+    linkopts = ["-fprofile-instr-generate"],
+    deps = [
+        "@com_google_googletest//:gtest",
+        "@com_google_googletest//:gtest_main",
+        "//src/utils:utils",
+    ],
+    tags = ["coverage", "level1"],
+)

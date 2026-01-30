@@ -1,0 +1,20 @@
+load("@rules_cc//cc:defs.bzl", "cc_test")
+
+# Types module tests - 类型系统测试
+# 测试覆盖Value、DomainDefinition、DomainManager、TransactionId等类型系统组件
+
+cc_test(
+    name = "types_test",
+    srcs = ["types_test.cpp"],
+    copts = [
+        "-fprofile-instr-generate",
+        "-fcoverage-mapping",
+    ],
+    linkopts = ["-fprofile-instr-generate"],
+    deps = [
+        "@com_google_googletest//:gtest",
+        "@com_google_googletest//:gtest_main",
+        "//src/types:types",
+    ],
+    tags = ["coverage", "level1"],
+)

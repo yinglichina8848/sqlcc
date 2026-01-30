@@ -1,4 +1,4 @@
-#include "types/domain_manager.h"
+#include "domain_manager.h"
 #include <algorithm>
 #include <regex>
 
