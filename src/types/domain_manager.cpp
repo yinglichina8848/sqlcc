@@ -98,17 +98,31 @@ bool DomainDefinition::evaluateCheckConstraint(const Value& value) const {
     // 简化的约束检查实现
     // 实际应实现完整的表达式求值器
 
-    // 检查正整数约束（支持多种格式）
-    std::string lower_constraint = check_constraint_;
-    std::transform(lower_constraint.begin(), lower_constraint.end(), lower_constraint.begin(), ::tolower);
-    
     // 移除所有空格来简化匹配
     std::string compact_constraint;
-    for (char c : lower_constraint) {
+    for (char c : check_constraint_) {
         if (!isspace(c)) compact_constraint += c;
     }
     
-    // 检查 >= 0 约束
+    // 检查整数范围约束（处理 "value >= 0 AND value <= 150" 等格式）
+    if (compact_constraint.find("value>=") != std::string::npos && 
+        compact_constraint.find("value<=") != std::string::npos) {
+        if (value.getType() == Value::INTEGER) {
+            int v = value.asInteger();
+            // 检查是否有 >=0 约束
+            bool ge_zero = (compact_constraint.find("value>=0") != std::string::npos);
+            // 检查是否有 <=150 约束
+            bool le_150 = (compact_constraint.find("value<=150") != std::string::npos);
+            // 如果有 >=0 约束，检查值必须 >= 0
+            if (ge_zero && v < 0) return false;
+            // 如果有 <=150 约束，检查值必须 <= 150
+            if (le_150 && v > 150) return false;
+            return true;
+        }
+        return false;
+    }
+    
+    // 检查 >= 0 约束（单独）
     if (compact_constraint.find("value>=0") != std::string::npos) {
         if (value.getType() == Value::INTEGER) {
             return value.asInteger() >= 0;
@@ -116,23 +130,26 @@ bool DomainDefinition::evaluateCheckConstraint(const Value& value) const {
         return false;
     }
     
-    // 检查 <= 150 约束
+    // 检查 > 0 约束
+    if (compact_constraint.find("value>0") != std::string::npos && 
+        compact_constraint.find("value>=0") == std::string::npos) {
+        if (value.getType() == Value::INTEGER) {
+            return value.asInteger() > 0;
+        }
+        return false;
+    }
+    
+    // 检查 <= 150 约束（单独）
     if (compact_constraint.find("value<=150") != std::string::npos) {
         if (value.getType() == Value::INTEGER) {
             return value.asInteger() <= 150;
         }
         return false;
     }
-    
-    // 检查 > 0 约束
-    if (compact_constraint.find("value>0") != std::string::npos) {
-        if (value.getType() == Value::INTEGER) {
-            return value.asInteger() > 0;
-        }
-        return false;
-    }
 
     // 检查邮箱格式约束
+    std::string lower_constraint = check_constraint_;
+    std::transform(lower_constraint.begin(), lower_constraint.end(), lower_constraint.begin(), ::tolower);
     if (lower_constraint.find("like") != std::string::npos && 
         lower_constraint.find("%@%") != std::string::npos) {
         if (value.getType() == Value::STRING) {
@@ -196,7 +213,7 @@ bool DomainManager::createDomain(std::unique_ptr<DomainDefinition> domain) {
 
     // 验证基本类型是否支持
     const std::string& base_type = domain->getBaseType();
-    std::vector<std::string> supported_types = {"INTEGER", "VARCHAR", "DECIMAL", "DATE", "BOOLEAN"};
+    std::vector<std::string> supported_types = {"INTEGER", "VARCHAR", "DECIMAL", "DATE", "BOOLEAN", "STRING"};
     if (std::find(supported_types.begin(), supported_types.end(), base_type) == supported_types.end()) {
         last_error_ = "Unsupported base type: " + base_type;
         return false;
