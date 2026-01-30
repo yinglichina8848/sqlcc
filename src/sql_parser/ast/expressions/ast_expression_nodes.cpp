@@ -63,10 +63,6 @@ void LiteralExpression::accept(NodeVisitor &visitor) {
   visitor.visit(*this);
 }
 
-const std::string &LiteralExpression::getValue() const { return value_; }
-
-LiteralExpression::LiteralType LiteralExpression::getType() const { return type_; }
-
 // ==================== FunctionCallExpression ====================
 
 FunctionCallExpression::FunctionCallExpression(const std::string &functionName)
