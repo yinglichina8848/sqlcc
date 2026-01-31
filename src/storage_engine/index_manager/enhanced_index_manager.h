@@ -16,7 +16,6 @@ class TransactionManager;
 class BPlusTreeIndex;
 
 namespace storage_engine {
-
 namespace index_manager {
 
 class TransactionalIndexManager;

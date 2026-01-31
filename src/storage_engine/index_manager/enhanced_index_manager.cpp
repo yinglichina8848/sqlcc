@@ -16,7 +16,7 @@ namespace index_manager {
  *
  * WHY层 - 设计意图：
  *   索引操作（创建、删除）是代价昂贵的操作，且直接影响查询计划的生成。
- *   EnhancedIndexManager 通过引入“智能缓存”和“事务感知”能力，
+ *   EnhancedIndexManager 通过引入"智能缓存"和"事务感知"能力，
  *   解决了索引在并发 DDL 场景下的不一致问题，并优化了索引查找的延迟。
  *
  * WHAT层 - 功能说明：
@@ -31,12 +31,12 @@ namespace index_manager {
  *   3. 异步清理：启动后台线程 cleanup_thread_，每 10 分钟扫描一次超过 1 小时未使用的索引。
  *   4. 指标统计：收集缓存命中率等性能指标供 DBA 调优。
  */
-EnhancedIndexManager::EnhancedIndexManager(std::shared_ptr<StorageEngine> storage_engine,
-                                          std::shared_ptr<TransactionManager> transaction_manager)
+EnhancedIndexManager::EnhancedIndexManager(::sqlcc::StorageEngine* storage_engine,
+                                          ::sqlcc::TransactionManager* transaction_manager)
     : storage_engine_(storage_engine),
       transaction_manager_(transaction_manager),
-      smart_cache_(std::make_unique<SmartIndexCache>()),
-      tx_manager_(std::make_unique<TransactionalIndexManager>(storage_engine)) {
+      smart_cache_(new SmartIndexCache()),
+      tx_manager_(new TransactionalIndexManager(storage_engine)) {
 
     StartCacheCleanupTimer();
 }
