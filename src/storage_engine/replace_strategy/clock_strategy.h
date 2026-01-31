@@ -17,6 +17,22 @@ namespace sqlcc {
 
 /**
  * @brief CLOCK（时钟）替换策略
+ *
+ * WHY层 - 设计意图：
+ *   LRU 算法在每次页面访问时都需要移动链表节点（Lock & Pointer assignments），在大并发下存在锁竞争开销。
+ *   CLOCK 算法（又称 Second Chance 算法）作为 LRU 的一种高效近似实现，
+ *   通过“转动时钟拨针”来寻找未被访问过的页面，避免了高频的链表操作。
+ *
+ * WHAT层 - 功能说明：
+ *   为每个页面维护一个“引用位 (Reference Bit)”。
+ *   通过一个循环扫描的指针（Clock Hand）周期性地重置引用位并寻找牺牲页。
+ *
+ * HOW层 - 实现机制：
+ *   1. 引用追踪：RecordAccess 时将对应页面的引用位置为 true。
+ *   2. 拨针扫描：SelectVictim 开始从当前 clock_hand_ 指向的位置循环：
+ *      - 若引用位为 true：将其重置为 false，并给一次“生存机会”，指针移动到下一个。
+ *      - 若引用位为 false：该页即为牺牲者，将其移除并返回。
+ *   3. 同步机制：利用 clock_list_ 维护环形遍历逻辑。
  */
 class ClockReplaceStrategy : public AbstractReplaceStrategy {
 public:

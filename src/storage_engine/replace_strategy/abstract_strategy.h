@@ -20,8 +20,23 @@ namespace sqlcc {
 /**
  * @brief 抽象替换策略基类
  *
- * 定义了页面替换策略的通用接口，支持多种替换算法。
- * 派生类需要实现具体的替换逻辑。
+ * WHY层 - 设计意图：
+ *   不同的数据库负载对缓存的局部性（Locality）有不同的表现。
+ *   有些适合 LRU（最近最少使用），有些适合 LFU（最不经常使用），
+ *   有些则需要更复杂的 ARC（自适应缓存）。
+ *   抽象基类通过定义统一的 RecordAccess 和 SelectVictim 接口，
+ *   使得 BufferPool 能够透明地切换各种算法，而无需修改核心逻辑。
+ *
+ * WHAT层 - 功能说明：
+ *   定义页面替换算法的生命周期接口。
+ *   管理页面元数据（PageAccessInfo），包括访问计数、时间戳、Pin 状态和脏标志。
+ *   收集算法执行的统计信息（命中率、替换延迟等）。
+ *
+ * HOW层 - 实现机制：
+ *   1. 状态追踪：使用 unordered_map 存储 page_id 到 PageAccessInfo 的映射。
+ *   2. 线程安全：使用 page_info_mutex_ 保护并发的页面状态更新。
+ *   3. 模板方法：派生类仅需实现核心的决策逻辑 SelectVictim()。
+ *   4. 原子统计：stats_ 记录缓存表现，用于性能可视化。
  */
 class AbstractReplaceStrategy {
 public:

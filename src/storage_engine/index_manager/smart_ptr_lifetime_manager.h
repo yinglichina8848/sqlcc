@@ -28,8 +28,8 @@ public:
         BPlusTreeIndex* Get() const;
         BPlusTreeIndex* operator->() const;
         
-        IndexLifetimeGuard(const&) = delete;
-        IndexLifetimeGuard& operator=(const&) = delete;
+        IndexLifetimeGuard(const IndexLifetimeGuard&) = delete;
+        IndexLifetimeGuard& operator=(const IndexLifetimeGuard&) = delete;
         IndexLifetimeGuard(IndexLifetimeGuard&&) = default;
         IndexLifetimeGuard& operator=(IndexLifetimeGuard&&) = default;
         

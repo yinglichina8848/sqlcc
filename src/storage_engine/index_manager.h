@@ -15,6 +15,27 @@ class ConfigManager;
 
 namespace sqlcc {
 
+/**
+ * @class IndexManager
+ * @brief 索引管理器 - 负责 B+ 树索引的生命周期与查找路由
+ *
+ * WHY层 - 设计意图：
+ *   全表扫描在大规模数据下极其低效。索引通过维护有序的键值对，将查找复杂度从 O(N) 降低到 O(log N)。
+ *   IndexManager 统一管理系统中所有的索引对象，确保查询优化器能够快速发现可用索引，
+ *   并在数据更新时维护索引与主表的一致性。
+ *
+ * WHAT层 - 功能说明：
+ *   提供索引创建（CreateIndex）和删除（DropIndex）。
+ *   支持单列索引和复合索引（Composite Index）。
+ *   维护表名到索引对象的映射，支持索引存在性检查。
+ *   自动生成标准化的索引名称规范。
+ *
+ * HOW层 - 实现机制：
+ *   1. 内存索引映射：使用 unordered_map 以索引全名（Table.Index）为键存储 unique_ptr<BPlusTreeIndex>。
+ *   2. 物理绑定：每个索引对象内部关联一个 PageID，作为 B+ 树的根节点。
+ *   3. 延迟加载：LoadAllIndexes 在系统启动时扫描元数据表并重建内存句柄。
+ *   4. 一致性协调：通过 StorageEngine 提供的页面接口，确保索引节点的持久化。
+ */
 class IndexManager {
 public:
   IndexManager(std::shared_ptr<StorageEngine> storage_engine, ConfigManager &config_manager);

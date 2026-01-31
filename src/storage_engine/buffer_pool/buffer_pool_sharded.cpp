@@ -545,6 +545,18 @@ bool BufferPoolSharded::DeletePage(int32_t page_id) {
   return true;
 }
 
+/**
+ * @brief 页面替换算法实现
+ *
+ * WHY: 当缓冲池满时，必须选择一个“牺牲页”并将其移除，为新页面腾出空间。
+ * WHAT: 按照 LRU 策略寻找引用计数为 0 的页面。
+ * HOW:
+ * 1. 从 lru_list 的尾部（最旧）向头部遍历。
+ * 2. 检查 page_table 中的 ref_count。
+ * 3. 若 ref_count == 0，则是合格的候选者。
+ * 4. 执行“写前刷新”：若是脏页，先释放分片锁执行磁盘 I/O，然后重新加锁验证状态。
+ * 5. 物理移除页面并返回 ID。
+ */
 int32_t BufferPoolSharded::ReplacePage(Shard &shard) {
   for (auto it = shard.lru_list.rbegin(); it != shard.lru_list.rend(); ++it) {
     int32_t page_id = *it;
@@ -593,6 +605,13 @@ int32_t BufferPoolSharded::ReplacePage(Shard &shard) {
   return -1; // 无法找到可替换的页面
 }
 
+/**
+ * @brief 将页面移动到 LRU 队列头部
+ *
+ * WHY: 表示该页面最近被访问过，降低其被替换的概率。
+ * WHAT: 更新 lru_list 和 lru_map 的映射关系。
+ * HOW: 从 list 中删除原有迭代器指向的元素，并 push_front 到最前。
+ */
 void BufferPoolSharded::MoveToHead(Shard &shard, int32_t page_id) {
   auto map_it = shard.lru_map.find(page_id);
   if (map_it != shard.lru_map.end()) {
@@ -603,6 +622,13 @@ void BufferPoolSharded::MoveToHead(Shard &shard, int32_t page_id) {
   shard.lru_map[page_id] = shard.lru_list.begin();
 }
 
+/**
+ * @brief 从 LRU 结构中彻底移除页面记录
+ *
+ * WHY: 用于页面被物理删除或被替换时的清理。
+ * WHAT: 移除列表项、哈希映射项，并重置包装器标志。
+ * HOW: 调用 erase 接口并同步更新 is_in_lru。
+ */
 void BufferPoolSharded::RemoveFromLRU(Shard &shard, int32_t page_id) {
   auto map_it = shard.lru_map.find(page_id);
   if (map_it != shard.lru_map.end()) {

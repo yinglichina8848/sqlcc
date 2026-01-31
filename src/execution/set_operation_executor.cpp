@@ -6,8 +6,15 @@
 #include <algorithm>
 #include <set>
 #include <unordered_map>
+#include <functional>
 
 namespace sqlcc {
+
+struct VectorCompare {
+    bool operator()(const std::vector<std::string>& a, const std::vector<std::string>& b) const {
+        return std::lexicographical_compare(a.begin(), a.end(), b.begin(), b.end());
+    }
+};
 
 SetOperationExecutor::SetOperationExecutor(std::shared_ptr<DatabaseManager> db_manager)
     : db_manager_(db_manager), sql_executor_(std::make_shared<SqlExecutor>(db_manager)) {
@@ -108,7 +115,7 @@ ExecutionResult SetOperationExecutor::executeUnion(const ExecutionResult& left,
         result.rows.insert(result.rows.end(), right.rows.begin(), right.rows.end());
     } else {
         // UNION - 去重合并
-        std::set<std::vector<std::string>> unique_rows;
+        std::set<std::vector<std::string>, VectorCompare> unique_rows;
 
         // 添加左边的行
         for (const auto& row : left.rows) {
@@ -225,7 +232,7 @@ ExecutionResult SetOperationExecutor::executeIntersect(const ExecutionResult& le
         }
     } else {
         // INTERSECT - 简单交集
-        std::set<std::vector<std::string>> left_set, result_set;
+        std::set<std::vector<std::string>, VectorCompare> left_set, result_set;
 
         // 将左边行加入集合
         for (const auto& row : left.rows) {
@@ -340,7 +347,7 @@ ExecutionResult SetOperationExecutor::executeExcept(const ExecutionResult& left,
         }
     } else {
         // EXCEPT - 简单差集
-        std::set<std::vector<std::string>> left_set, right_set;
+        std::set<std::vector<std::string>, VectorCompare> left_set, right_set;
 
         // 将左边行加入集合
         for (const auto& row : left.rows) {

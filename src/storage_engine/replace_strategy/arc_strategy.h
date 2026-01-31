@@ -17,7 +17,21 @@ namespace sqlcc {
 /**
  * @brief ARC（自适应替换缓存）替换策略
  *
- * 结合了LRU和LFU的优点，自适应地在两种策略之间切换。
+ * WHY层 - 设计意图：
+ *   LRU 适合具有新近性（Recency）的数据，而 LFU 适合具有频率性（Frequency）的数据。
+ *   但在真实的混合负载中，这两种特性是交替或共存的。
+ *   ARC 算法通过实时调整 Recency 队列和 Frequency 队列的大小比例，
+ *   能够自动适应不断变化的工作负载，提供始终优于单一算法的缓存命中率。
+ *
+ * WHAT层 - 功能说明：
+ *   维护四个逻辑列表：T1 (新近命中), T2 (频率命中), B1 (T1淘汰历史), B2 (T2淘汰历史)。
+ *   通过参数 P 动态平衡 T1 和 T2 的目标容量。
+ *   具备“扫描抗性”：能够防止大规模顺序读取冲刷掉高频使用的热点数据。
+ *
+ * HOW层 - 实现机制：
+ *   1. 冲突反馈：当发生 B1 命中时，调大 P（倾向 Recency）；当发生 B2 命中时，调小 P（倾向 Frequency）。
+ *   2. 自动晋升：第一次访问进入 T1，第二次访问（若仍在 T1/B1/B2）则晋升到 T2。
+ *   3. 联动替换：SelectVictim 会根据 T1/T2 的当前大小与 P 的关系，决定从哪个列表末尾剔除页面。
  */
 class ARCReplaceStrategy : public AbstractReplaceStrategy {
 public:

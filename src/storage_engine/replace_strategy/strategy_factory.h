@@ -17,6 +17,20 @@ namespace sqlcc {
 
 /**
  * @brief 替换策略工厂
+ *
+ * WHY层 - 设计意图：
+ *   系统需要支持多种缓存置换算法以应对不同的部署环境（如嵌入式 vs 云端高并发）。
+ *   ReplaceStrategyFactory 隔离了各种具体策略类的实例化逻辑，
+ *   使 BufferPool 能够根据配置文件动态加载所需的算法，实现了真正的“算法插件化”。
+ *
+ * WHAT层 - 功能说明：
+ *   根据 StrategyType 或 字符串名称 创建对应的具体策略子类实例（std::unique_ptr）。
+ *   提供策略类型与人类可读名称之间的转换支持。
+ *
+ * HOW层 - 实现机制：
+ *   1. 简单工厂模式：CreateStrategy 方法内部使用 switch-case 结构分发实例化。
+ *   2. 配置映射：GetStrategyType 实现了不区分大小写的字符串匹配逻辑（如 "lru" -> StrategyType::LRU）。
+ *   3. 零状态接口：所有方法均为 static，作为纯工具类提供服务。
  */
 class ReplaceStrategyFactory {
 public:

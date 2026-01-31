@@ -131,6 +131,16 @@ void StorageEngine::InitializeIndexManager() {
     }
 }
 
+/**
+ * @brief 创建新页面
+ *
+ * WHY: 数据库需要扩展物理存储空间以承纳新数据（如 INSERT 操作或索引分裂）。
+ * WHAT: 在磁盘文件中预留 8KB 空间，并在内存缓冲池中同步创建一个活跃页面对象。
+ * HOW:
+ * 1. 委托分片缓冲池（BufferPoolSharded）执行 NewPage 操作。
+ * 2. 缓冲池内部会通过 DiskManager 分配一个新的 page_id。
+ * 3. 自动将该页面 Pin 在内存中，防止立即被回收。
+ */
 std::unique_ptr<Page> StorageEngine::NewPage(int32_t *page_id) {
     // 创建新页面的实现
     if (!buffer_pool_) {
@@ -147,6 +157,16 @@ std::unique_ptr<Page> StorageEngine::NewPage(int32_t *page_id) {
     return page_ptr;
 }
 
+/**
+ * @brief 获取指定页面
+ *
+ * WHY: 上层组件（如 B+ 树或记录管理器）需要访问磁盘上的特定数据块。
+ * WHAT: 根据 page_id 返回对应的页面对象。如果页面不在内存，则触发磁盘 I/O。
+ * HOW:
+ * 1. 检查缓冲池缓存。
+ * 2. 若命中，直接返回内存地址。
+ * 3. 若未命中，通过 DiskManager 读取物理文件，并应用页面替换策略（如 LRU）载入。
+ */
 std::shared_ptr<Page> StorageEngine::FetchPage(int32_t page_id) {
     // 获取页面的实现
     if (!buffer_pool_) {
@@ -156,6 +176,13 @@ std::shared_ptr<Page> StorageEngine::FetchPage(int32_t page_id) {
     return buffer_pool_->FetchPage(page_id);
 }
 
+/**
+ * @brief 释放页面固定
+ *
+ * WHY: 页面访问完成后必须释放 Pin 状态，否则该页面将永远占据缓冲池空间，导致缓存失效。
+ * WHAT: 减少页面的引用计数，并可选地标记其为“脏页”。
+ * HOW: 调用缓冲池的 UnpinPage 接口，若 is_dirty 为 true，该页将在后续被写回磁盘。
+ */
 bool StorageEngine::UnpinPage(int32_t page_id, bool is_dirty) {
     // 取消固定页面的实现
     if (!buffer_pool_) {
@@ -165,6 +192,13 @@ bool StorageEngine::UnpinPage(int32_t page_id, bool is_dirty) {
     return buffer_pool_->UnpinPage(page_id, is_dirty);
 }
 
+/**
+ * @brief 刷新页面到磁盘
+ *
+ * WHY: 确保脏页（Dirty Pages）在内存中的修改被持久化，满足 ACID 的持久性要求。
+ * WHAT: 强制将指定 page_id 的内容写入磁盘文件。
+ * HOW: 委托磁盘管理器执行物理 Write 操作，并重置缓冲池中的脏标志。
+ */
 bool StorageEngine::FlushPage(int32_t page_id) {
     // 刷新页面到磁盘的实现
     if (!buffer_pool_) {
@@ -174,6 +208,13 @@ bool StorageEngine::FlushPage(int32_t page_id) {
     return buffer_pool_->FlushPage(page_id);
 }
 
+/**
+ * @brief 物理删除页面
+ *
+ * WHY: 当表被 DROP 或索引被移除时，需要回收磁盘空间。
+ * WHAT: 从缓冲池和磁盘文件中同时移除指定页面。
+ * HOW: 释放 ID 至 DiskManager 的空闲列表，并在缓冲池中标记该槽位为可用。
+ */
 bool StorageEngine::DeletePage(int32_t page_id) {
     // 删除页面的实现
     if (!buffer_pool_) {
@@ -183,6 +224,13 @@ bool StorageEngine::DeletePage(int32_t page_id) {
     return buffer_pool_->DeletePage(page_id);
 }
 
+/**
+ * @brief 全量刷盘
+ *
+ * WHY: 在系统正常关闭、执行检查点（Checkpoint）或事务提交时，需确保所有修改落地。
+ * WHAT: 遍历缓冲池中所有的脏页并一次性同步到磁盘。
+ * HOW: 循环调用各分片的同步逻辑，利用磁盘的顺序写入特性提升效率。
+ */
 void StorageEngine::FlushAllPages() {
     // 刷新所有页面到磁盘的实现
     if (buffer_pool_) {
