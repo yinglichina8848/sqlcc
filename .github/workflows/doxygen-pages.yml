@@ -1,0 +1,42 @@
+# GitHub Actions 工作流：生成 Doxygen 文档并部署到 GitHub Pages
+
+name: Deploy Doxygen to GitHub Pages
+
+on:
+  # 当推送到 main 或 master 分支时触发
+  push:
+    branches:
+      - 'main'
+      - 'master'
+  # 允许手动触发
+  workflow_dispatch:
+
+# 设置 GITHUB_TOKEN 的权限，允许 Action 推送到 gh-pages 分支
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 1. Checkout repository
+        uses: actions/checkout@v4
+
+      - name: 2. Install Doxygen and Graphviz
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y doxygen graphviz
+
+      - name: 3. Generate Doxygen documentation
+        run: doxygen Doxyfile
+
+      - name: 4. Deploy documentation to gh-pages branch
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          # Doxygen 文档的输出目录，请根据你的 Doxyfile 配置修改
+          # 通常是 'docs/doxygen/html' 或 'html'
+          publish_dir: ./docs/doxygen/html
+          # 如果你的 Doxyfile 中的 OUTPUT_DIRECTORY 是 docs/doxygen
+          # 并且 HTML_OUTPUT 是 html，那么这个路径就是正确的
