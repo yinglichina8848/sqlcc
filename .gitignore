@@ -1,76 +1,70 @@
-# 构建和测试生成的目录
+############################
+# Build artifacts
+############################
+
 /build/
 /build-coverage/
 /cmake-build-*/
-build_*/
-build*
+/build_*/
+/build*/
 
-# IDE配置文件
-/.vscode/
-/.idea/
-*.o
-*.a
-*.so
-*.exe
-compile_commands.json
-
-# 生成的文档
-# 在master分支上忽略，在docs分支上跟踪
-# /docs/doxygen/
-
-# 代码覆盖率测试文档
-/docs/coverage/
-
-# 临时文件
-*.tmp
-*.temp
-
-# 性能测试生成的CSV文件
-*.csv
-
-# 代码覆盖率生成的GCOV文件
-*.gcov
-*.gcda
-*.gcno
-
-# TraeAI生成的临时文件
-.trae/
-.traeai/
-
-# 其他临时目录
-/docs/temp/
-/temp/
-/solo-plan/
-
-# 覆盖率报告生成的HTML文件
-coverage_reports/
-coverage/
-coverage_report/
-/backup/
-
-# Build artifacts
-build/**/*.gcda
-build/**/*.gcno
-test_working_dir/
-
-# Bazel build directories
 bazel-*
 bazel-bin
 bazel-out
 bazel-sqlcc
 bazel-testlogs
 
-# 测试报告
-test_reports/debug_loop_output.txt
+build/**/*.gcda
+build/**/*.gcno
+test_working_dir/
 
-# 覆盖率测试数据目录
-coverage_data/
+############################
+# IDE / tooling
+############################
 
-# 覆盖率测试中间结果文件
+/.vscode/
+/.idea/
+compile_commands.json
+
+############################
+# Binaries / objects
+############################
+
+*.o
+*.a
+*.so
+*.exe
+
+############################
+# Documentation (generated)
+############################
+
+# Doxygen generated documentation (never committed)
+docs/doxygen/
+
+# Coverage HTML reports
+docs/coverage/
+coverage/
+coverage_reports/
+coverage_report/
+
+############################
+# Coverage raw data
+############################
+
+*.gcov
+*.gcda
+*.gcno
 *.profraw
 *.profdata
+coverage_data/
 
-# 主目录下的可执行文件（测试程序应该在tests目录下运行）
+############################
+# Test outputs
+############################
+
+test_reports/debug_loop_output.txt
+
 *_clang
 *_test
 test_*
@@ -78,20 +72,41 @@ test_*
 client_test_standalone
 actual_large_scale_test
 
-# 日志文件
+############################
+# Logs
+############################
+
 *.log
 test_logger_output.log
 traditional_mode_test.log
 
-# 测试中间文件
+############################
+# Temporary / scratch
+############################
+
+*.tmp
+*.temp
+
+docs/temp/
+/temp/
+/temporary/
+/solo-plan/
+/backup/
+/backups/
+
+############################
+# CSV / analysis artifacts
+############################
+
+*.csv
 comprehensive_test_analysis_report.json
 simple_test_verification
 simple_test_verification_clang
 
-# 调试文件（应该在tests/debug目录下）
+############################
+# Debug-only sources
+############################
+
 debug_*.cpp
 *_debug.cpp
 
-# 临时构建文件
-logger_basic_test
-logger_test_coverage
