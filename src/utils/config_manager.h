@@ -10,8 +10,8 @@
 
 namespace sqlcc {
 
-// 配置值的类型定义
-using ConfigValue = std::variant<std::string, int, double, bool>;
+// 配置值的类型定义 - 使用与 config_snapshot.h 一致的定义
+using ConfigValue = std::variant<bool, int, double, std::string>;
 
 // 默认操作超时时间
 const int kDefaultOperationTimeoutMs = 30000;

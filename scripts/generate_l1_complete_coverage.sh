@@ -21,6 +21,8 @@ declare -A CORE_MODULES=(
     ["config"]="src/utils"
     ["logger"]="src/logger"
     ["exception"]="src/exception"
+    ["utils"]="src/utils"
+    ["basic"]="src/exception"
 )
 
 # 测试模块配置
@@ -47,12 +49,13 @@ for MODULE in "${!TEST_MODULES[@]}"; do
     echo "  📊 收集: $MODULE"
 
     # 查找覆盖率测试输出目录
-    COV_DIR=$(find "$BAZEL_CACHE" -path "*_coverage*" -name "$MODULE" -type d 2>/dev/null | head -1)
+    TEST_SUBDIR="${MODULE}_test"
+    COV_DIR=$(find "$BAZEL_CACHE" -path "*_coverage*" -path "*/$TEST_SUBDIR/test" -type d 2>/dev/null | head -1)
 
-    if [ -n "$COV_DIR" ] && [ -d "$COV_DIR/test" ]; then
+    if [ -n "$COV_DIR" ] && [ -d "$COV_DIR" ]; then
         # 复制 profraw 文件到输出目录
         mkdir -p "$COVERAGE_DIR/$MODULE"
-        cp "$COV_DIR/test"/*.profraw "$COVERAGE_DIR/$MODULE/" 2>/dev/null || true
+        cp "$COV_DIR"/*.profraw "$COVERAGE_DIR/$MODULE/" 2>/dev/null || true
 
         # 合并 profraw 文件
         if ls "$COVERAGE_DIR/$MODULE"/*.profraw 1> /dev/null 2>&1; then

@@ -40,3 +40,33 @@ cc_library(
     hdrs = glob(["*.h"]),
     visibility = ["//visibility:public"],
 )
+
+# -----------------------------------------------------------------------------
+# 覆盖率专用库
+# -----------------------------------------------------------------------------
+
+cc_library(
+    name = "execution_coverage",
+    srcs = glob(["*.cpp"]),
+    hdrs = glob(["*.h"]),
+    strip_include_prefix = "",
+    include_prefix = "",
+    copts = [
+        "-std=c++20",
+        "-fprofile-instr-generate",
+        "-fcoverage-mapping",
+        "-I.",
+    ],
+    linkopts = ["-fprofile-instr-generate"],
+    deps = [
+        "//src/utils:utils_coverage",
+        "//src/storage_engine:storage_engine_coverage",
+        "//src/sql_parser:sql_parser_coverage",
+        "//src/execution_ast:execution_ast",
+        "//src/types:types_coverage",
+        "//src/exception:exception_coverage",
+        "//src/logger:logger_coverage",
+    ],
+    visibility = ["//visibility:public"],
+    tags = ["coverage"],
+)

@@ -29,3 +29,30 @@ cc_library(
     ],
     visibility = ["//visibility:public"],
 )
+
+# 覆盖率专用库
+cc_library(
+    name = "disk_manager_coverage",
+    srcs = ["disk_manager.cpp"],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+        "-fprofile-instr-generate",
+        "-fcoverage-mapping",
+        "-Wall",
+        "-Wextra",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+        "-fprofile-instr-generate",
+    ],
+    deps = [
+        "//src/utils:utils_coverage",
+        "//src/exception:exception_coverage",
+        "//src/page:page",
+        "//src/logger:logger_coverage",
+    ],
+    visibility = ["//visibility:public"],
+    tags = ["coverage"],
+)

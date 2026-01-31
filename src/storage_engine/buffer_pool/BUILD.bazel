@@ -17,3 +17,28 @@ cc_library(
     ],
     visibility = ["//visibility:public"],
 )
+
+cc_library(
+    name = "buffer_pool_coverage",
+    srcs = [
+        "buffer_pool_sharded.cpp",
+        "replace_strategy.cpp",
+    ],
+    hdrs = [
+        "buffer_pool_sharded.h",
+    ],
+    copts = [
+        "-std=c++20",
+        "-fprofile-instr-generate",
+        "-fcoverage-mapping",
+    ],
+    linkopts = ["-fprofile-instr-generate"],
+    deps = [
+        "//src/utils:utils_coverage",
+        "//src/storage_engine/disk_manager:disk_manager_coverage",
+        "//src/exception:exception_coverage",
+        "//src/logger:logger_coverage",
+    ],
+    visibility = ["//visibility:public"],
+    tags = ["coverage"],
+)

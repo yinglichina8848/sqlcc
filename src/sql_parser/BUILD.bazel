@@ -313,3 +313,27 @@ cc_library(
     hdrs = glob(["*.h", "**/*.h"]),
     visibility = ["//visibility:public"],
 )
+
+# --------------------------
+# 覆盖率专用库
+# --------------------------
+cc_library(
+    name = "sql_parser_coverage",
+    srcs = glob(["*.cpp", "parsers/**/*.cpp"]),
+    hdrs = glob(["*.h", "parsers/**/*.h", "ast/**/*.h"], allow_empty = True),
+    copts = [
+        "-std=c++20",
+        "-fprofile-instr-generate",
+        "-fcoverage-mapping",
+        "-DARCHITECTURE_SAFEGUARDS_ENABLED",
+    ],
+    linkopts = ["-fprofile-instr-generate"],
+    deps = [
+        "//src/sql_parser/ast:ast",
+        "//src/exception:exception_coverage",
+        "//src/utils:utils_coverage",
+        "//src/types:types_coverage",
+    ],
+    visibility = ["//visibility:public"],
+    tags = ["coverage"],
+)

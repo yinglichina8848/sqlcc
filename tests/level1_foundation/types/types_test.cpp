@@ -595,6 +595,183 @@ TEST_F(TypesIntegrationTest, TransactionIdOrdering) {
     EXPECT_EQ(transactions[2].get_id(), 3);
 }
 
+// ==================== Value Type Conversion Tests ====================
+
+class ValueTypeConversionTest : public ::testing::Test {
+protected:
+    void SetUp() override {}
+    void TearDown() override {}
+};
+
+// 测试 DOUBLE 类型转换为整数
+TEST_F(ValueTypeConversionTest, DoubleToInteger) {
+    Value v(3.14159);
+    EXPECT_EQ(v.getType(), Value::DOUBLE);
+    EXPECT_EQ(v.asInteger(), 3);  // 截断小数部分
+    
+    Value v_neg(-2.71828);
+    EXPECT_EQ(v_neg.asInteger(), -2);
+    
+    Value v_zero(0.0);
+    EXPECT_EQ(v_zero.asInteger(), 0);
+}
+
+// 测试 STRING 类型转换为整数
+TEST_F(ValueTypeConversionTest, StringToInteger) {
+    Value v("123");
+    EXPECT_EQ(v.getType(), Value::STRING);
+    EXPECT_EQ(v.asInteger(), 0);  // 简化实现返回 0
+    
+    Value v_empty("");
+    EXPECT_EQ(v_empty.asInteger(), 0);
+    
+    Value v_text("hello");
+    EXPECT_EQ(v_text.asInteger(), 0);
+}
+
+// 测试 BOOLEAN 类型转换为整数
+TEST_F(ValueTypeConversionTest, BooleanToInteger) {
+    Value v_true(true);
+    EXPECT_EQ(v_true.getType(), Value::BOOLEAN);
+    EXPECT_EQ(v_true.asInteger(), 1);  // true -> 1
+    
+    Value v_false(false);
+    EXPECT_EQ(v_false.asInteger(), 0);  // false -> 0
+}
+
+// 测试 NULL_VALUE 类型转换为整数
+TEST_F(ValueTypeConversionTest, NullToInteger) {
+    Value v_null;
+    EXPECT_EQ(v_null.getType(), Value::NULL_VALUE);
+    EXPECT_EQ(v_null.asInteger(), 0);  // NULL -> 0
+}
+
+// 测试 INTEGER 类型转换为双精度浮点
+TEST_F(ValueTypeConversionTest, IntegerToDouble) {
+    Value v(42);
+    EXPECT_EQ(v.getType(), Value::INTEGER);
+    EXPECT_DOUBLE_EQ(v.asDouble(), 42.0);
+    
+    Value v_neg(-100);
+    EXPECT_DOUBLE_EQ(v_neg.asDouble(), -100.0);
+    
+    Value v_zero(0);
+    EXPECT_DOUBLE_EQ(v_zero.asDouble(), 0.0);
+}
+
+// 测试 STRING 类型转换为双精度浮点
+TEST_F(ValueTypeConversionTest, StringToDouble) {
+    Value v("3.14");
+    EXPECT_EQ(v.getType(), Value::STRING);
+    EXPECT_DOUBLE_EQ(v.asDouble(), 0.0);  // 简化实现返回 0.0
+    
+    Value v_empty("");
+    EXPECT_DOUBLE_EQ(v_empty.asDouble(), 0.0);
+}
+
+// 测试 BOOLEAN 类型转换为双精度浮点
+TEST_F(ValueTypeConversionTest, BooleanToDouble) {
+    Value v_true(true);
+    EXPECT_EQ(v_true.getType(), Value::BOOLEAN);
+    EXPECT_DOUBLE_EQ(v_true.asDouble(), 1.0);  // true -> 1.0
+    
+    Value v_false(false);
+    EXPECT_DOUBLE_EQ(v_false.asDouble(), 0.0);  // false -> 0.0
+}
+
+// 测试 NULL_VALUE 类型转换为双精度浮点
+TEST_F(ValueTypeConversionTest, NullToDouble) {
+    Value v_null;
+    EXPECT_EQ(v_null.getType(), Value::NULL_VALUE);
+    EXPECT_DOUBLE_EQ(v_null.asDouble(), 0.0);  // NULL -> 0.0
+}
+
+// 测试非 STRING 类型转换为字符串
+TEST_F(ValueTypeConversionTest, NonStringToString) {
+    Value v_int(42);
+    EXPECT_EQ(v_int.getType(), Value::INTEGER);
+    EXPECT_EQ(v_int.asString(), "");  // 非 STRING 类型返回空字符串
+    
+    Value v_double(3.14);
+    EXPECT_EQ(v_double.asString(), "");  // 非 STRING 类型返回空字符串
+    
+    Value v_bool(true);
+    EXPECT_EQ(v_bool.asString(), "");  // 非 STRING 类型返回空字符串
+    
+    Value v_null;
+    EXPECT_EQ(v_null.asString(), "");  // 非 STRING 类型返回空字符串
+}
+
+// 测试所有类型转换为布尔值
+TEST_F(ValueTypeConversionTest, AllTypesToBoolean) {
+    // 整数 -> 布尔值
+    Value v_positive(42);
+    EXPECT_TRUE(v_positive.asBoolean());
+    
+    Value v_negative(-1);
+    EXPECT_TRUE(v_negative.asBoolean());
+    
+    Value v_zero(0);
+    EXPECT_FALSE(v_zero.asBoolean());
+    
+    // 双精度浮点 -> 布尔值
+    Value v_double_nonzero(3.14);
+    EXPECT_TRUE(v_double_nonzero.asBoolean());
+    
+    Value v_double_zero(0.0);
+    EXPECT_FALSE(v_double_zero.asBoolean());
+    
+    // 字符串 -> 布尔值
+    Value v_nonempty("hello");
+    EXPECT_TRUE(v_nonempty.asBoolean());
+    
+    Value v_empty("");
+    EXPECT_FALSE(v_empty.asBoolean());
+    
+    // 布尔值 -> 布尔值
+    Value v_bool_true(true);
+    EXPECT_TRUE(v_bool_true.asBoolean());
+    
+    Value v_bool_false(false);
+    EXPECT_FALSE(v_bool_false.asBoolean());
+    
+    // NULL 值 -> 布尔值
+    Value v_null;
+    EXPECT_FALSE(v_null.asBoolean());
+}
+
+// 测试所有类型的 toString 方法
+TEST_F(ValueTypeConversionTest, AllTypesToString) {
+    Value v_int(42);
+    EXPECT_EQ(v_int.toString(), "42");
+    
+    Value v_double(3.14159);
+    EXPECT_TRUE(v_double.toString().find("3.14") != std::string::npos);
+    
+    Value v_str("test");
+    EXPECT_EQ(v_str.toString(), "test");
+    
+    Value v_bool_true(true);
+    EXPECT_EQ(v_bool_true.toString(), "true");
+    
+    Value v_bool_false(false);
+    EXPECT_EQ(v_bool_false.toString(), "false");
+    
+    Value v_null;
+    EXPECT_EQ(v_null.toString(), "NULL");
+}
+
+// 测试默认构造函数类型
+TEST_F(ValueTypeConversionTest, DefaultConstructorType) {
+    Value v;
+    EXPECT_EQ(v.getType(), Value::NULL_VALUE);
+    EXPECT_EQ(v.asInteger(), 0);
+    EXPECT_DOUBLE_EQ(v.asDouble(), 0.0);
+    EXPECT_EQ(v.asString(), "");
+    EXPECT_FALSE(v.asBoolean());
+    EXPECT_EQ(v.toString(), "NULL");
+}
+
 } // namespace test
 } // namespace sqlcc
 

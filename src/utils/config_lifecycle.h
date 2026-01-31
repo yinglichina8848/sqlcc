@@ -1,10 +1,36 @@
 /**
  * @file config_lifecycle.h
- * @brief RAII配置生命周期管理器头文件
- * 
- * Why: 需要实现RAII模式的配置生命周期管理，确保资源自动清理
- * What: 提供ConfigLifecycleManager类和相关的RAII配置访问功能
- * How: 使用RAII模式管理配置资源的获取和释放
+ * @brief Defines a robust, RAII-based lifecycle and access framework for managing system configuration.
+ *
+ * @WHY
+ * In a complex system like a database, configuration is not a simple, static entity. It needs to be:
+ * 1.  **Dynamically Loaded & Reloaded**: Configuration can change during runtime. The system must handle these changes gracefully without restarts.
+ * 2.  **Snapshot & Versioned**: To ensure consistency, different parts of the system operating on a single task must see the *same* configuration, even if it's being updated concurrently. Snapshots provide this stable view. Versioning allows for reliable rollback.
+ * 3.  **Lifecycle-Aware**: Initialization, updates, and shutdown are distinct phases. The system must manage these states to prevent access to uninitialized or shut-down configuration.
+ * 4.  **Exception-Safe**: Accessing configuration should not leave resources hanging or the system in an inconsistent state if an error occurs. The RAII (Resource Acquisition Is Initialization) pattern is perfect for this.
+ *
+ * This file provides the infrastructure to solve these problems.
+ *
+ * @WHAT
+ * This header defines three core components that work together:
+ * 1.  **`ConfigLifecycleManager`**: A central state machine that manages the overall lifecycle (initialization, readiness, shutdown) of the configuration system. It owns the `ConfigSnapshotManager` and orchestrates updates and rollbacks.
+ * 2.  **`ConfigRAIIAccessor`**: A lightweight RAII "guard" class. Its sole purpose is to acquire a *stable snapshot* of the configuration from the `ConfigLifecycleManager` upon creation and hold it for a short-lived scope. When the accessor goes out of scope, the snapshot reference is automatically released. This is the primary mechanism for safe, temporary access to configuration.
+ * 3.  **`SafeConfigAccessor`**: A template-based utility class that provides convenient, type-safe methods (`GetValue<T>`, `SetValue<T>`) for reading from or converting values for a `ConfigRAIIAccessor`. It handles the underlying `std::variant` conversions, simplifying data access for clients.
+ *
+ * @HOW
+ * The intended workflow for a client (e.g., a function executing a query) is:
+ * 1.  Create a `ConfigRAIIAccessor` instance on the stack, passing it a pointer to the global `ConfigLifecycleManager`.
+ *     ```cpp
+ *     ConfigRAIIAccessor accessor(&config_lifecycle_manager);
+ *     ```
+ * 2.  The accessor's constructor obtains the *current*, valid configuration snapshot. This snapshot is immutable and will not change for the lifetime of the `accessor` object.
+ * 3.  Use the `SafeConfigAccessor` utility to read values in a type-safe manner.
+ *     ```cpp
+ *     int timeout = SafeConfigAccessor<int>::GetValue(accessor, "query.timeout_ms", 1000);
+ *     ```
+ * 4.  When the function exits, the `accessor` is destroyed, releasing its reference to the snapshot. This entire process is exception-safe.
+ *
+ * This design separates the high-level state management (`ConfigLifecycleManager`) from the low-level, safe access pattern (`ConfigRAIIAccessor`), providing both flexibility and security.
  */
 
 #ifndef SQLCC_CONFIG_LIFECYCLE_H_
@@ -19,19 +45,21 @@
 namespace sqlcc {
 
 /**
- * @brief 配置生命周期状态枚举
+ * @brief Defines the possible states of the configuration system.
+ * This enum enforces a strict state machine for configuration management.
  */
 enum class ConfigLifecycleState {
-    UNINITIALIZED,    // 未初始化
-    INITIALIZING,     // 初始化中
-    READY,           // 就绪状态
-    UPDATING,        // 更新中
-    SHUTTING_DOWN,   // 关闭中
-    SHUTDOWN         // 已关闭
+    UNINITIALIZED,    // The manager has not been initialized.
+    INITIALIZING,     // The manager is currently loading the initial configuration.
+    READY,           // The manager is initialized and ready to serve configuration snapshots.
+    UPDATING,        // The manager is in the process of applying a new configuration snapshot.
+    SHUTTING_DOWN,   // The manager is releasing resources.
+    SHUTDOWN         // The manager is fully shut down.
 };
 
 /**
- * @brief 配置生命周期异常类
+ * @brief Custom exception for errors related to the configuration lifecycle.
+ * Provides context about the state of the manager when the error occurred.
  */
 class ConfigLifecycleException : public std::exception {
 private:
@@ -52,9 +80,15 @@ public:
 };
 
 /**
- * @brief RAII配置生命周期管理器
- * 
- * 提供配置资源的自动获取和释放，确保异常安全
+ * @brief Manages the overall state and versioning of system configuration.
+ *
+ * @details This class acts as a state machine and the central authority for configuration.
+ * It is responsible for:
+ * - Owning the history of configuration snapshots (`ConfigSnapshotManager`).
+ * - Managing the lifecycle state (e.g., UNINITIALIZED, READY, SHUTDOWN).
+ * - Coordinating atomic updates and rollbacks to configuration.
+ * - Providing a single point of access for RAII-based configuration accessor.
+ * It is expected to be a long-lived object (e.g., a singleton) within the system.
  */
 class ConfigLifecycleManager {
 private:
@@ -63,12 +97,12 @@ private:
     ConfigSnapshotManager snapshot_manager_;
     std::string current_config_path_;
     
-    // 生命周期回调函数
+    // Lifecycle hook callbacks.
     std::function<void()> on_initialize_;
     std::function<void()> on_shutdown_;
     std::function<void(const std::string&)> on_config_change_;
     
-    // 性能监控
+    // Performance and health monitoring.
     std::chrono::steady_clock::time_point init_time_;
     std::chrono::steady_clock::time_point last_update_time_;
     std::atomic<size_t> update_count_{0};
@@ -76,8 +110,8 @@ private:
 
 public:
     /**
-     * @brief 构造函数
-     * @param config_path 配置文件路径
+     * @brief Constructs the lifecycle manager.
+     * @param config_path Optional initial path to the configuration file.
      */
     explicit ConfigLifecycleManager(const std::string& config_path = "")
         : current_config_path_(config_path) {
@@ -85,24 +119,25 @@ public:
     }
     
     /**
-     * @brief 析构函数
+     * @brief Destructor that ensures a clean shutdown.
      */
     ~ConfigLifecycleManager() {
         Shutdown();
     }
     
-    // 禁止拷贝构造和赋值
+    // The manager is a central resource, so it should not be copyable.
     ConfigLifecycleManager(const ConfigLifecycleManager&) = delete;
     ConfigLifecycleManager& operator=(const ConfigLifecycleManager&) = delete;
     
-    // 允许移动构造和赋值
+    // It can, however, be moved.
     ConfigLifecycleManager(ConfigLifecycleManager&&) noexcept = default;
     ConfigLifecycleManager& operator=(ConfigLifecycleManager&&) noexcept = default;
 
     /**
-     * @brief 初始化配置管理器
-     * @param config_path 配置文件路径
-     * @return bool 是否成功
+     * @brief Initializes the configuration manager, making it ready.
+     * @param config_path Path to the configuration file to load. If empty, uses the path provided in the constructor.
+     * @return True if initialization was successful, false if already initialized.
+     * @throws ConfigLifecycleException if initialization fails.
      */
     bool Initialize(const std::string& config_path = "") {
         std::unique_lock<std::shared_mutex> lock(state_mutex_);
@@ -118,12 +153,12 @@ public:
                 current_config_path_ = config_path;
             }
             
-            // 执行初始化回调
+            // Execute user-defined initialization hook.
             if (on_initialize_) {
                 on_initialize_();
             }
             
-            // 创建默认空配置快照
+            // Create a default empty snapshot to ensure a valid state.
             auto default_snapshot = ConfigSnapshotFactory::CreateEmptySnapshot(
                 GenerateVersionId("init_"), "Default configuration snapshot");
             
@@ -144,8 +179,10 @@ public:
     }
 
     /**
-     * @brief 关闭配置管理器
-     * @return bool 是否成功
+     * @brief Shuts down the manager and cleans up resources.
+     * This is idempotent; calling it multiple times has no effect.
+     * @return True always.
+     * @throws ConfigLifecycleException if a catastrophic failure occurs during shutdown.
      */
     bool Shutdown() {
         std::unique_lock<std::shared_mutex> lock(state_mutex_);
@@ -158,12 +195,12 @@ public:
         try {
             state_.store(ConfigLifecycleState::SHUTTING_DOWN);
             
-            // 执行关闭回调
+            // Execute user-defined shutdown hook.
             if (on_shutdown_) {
                 on_shutdown_();
             }
             
-            // 清理快照管理器
+            // Clear all historical snapshots.
             auto version_ids = snapshot_manager_.GetAllVersionIds();
             for (const auto& version_id : version_ids) {
                 snapshot_manager_.RemoveSnapshot(version_id);
@@ -182,24 +219,26 @@ public:
     }
 
     /**
-     * @brief 获取当前状态
-     * @return ConfigLifecycleState 当前状态
+     * @brief Gets the current state of the lifecycle manager.
+     * @return The current ConfigLifecycleState.
      */
     ConfigLifecycleState GetState() const {
         return state_.load();
     }
 
     /**
-     * @brief 检查是否就绪
-     * @return bool 是否就绪
+     * @brief Checks if the manager is ready to serve configuration.
+     * @return True if the state is READY, otherwise false.
      */
     bool IsReady() const {
         return state_.load() == ConfigLifecycleState::READY;
     }
 
     /**
-     * @brief 获取当前配置快照（RAII安全）
-     * @return ConfigSnapshot::SnapshotPtr 快照智能指针
+     * @brief Gets a shared pointer to the current configuration snapshot.
+     * This is the core method used by RAII accessors.
+     * @return A thread-safe, shared pointer to the immutable current snapshot.
+     * @throws ConfigLifecycleException if the manager is not in a READY state.
      */
     ConfigSnapshot::SnapshotPtr GetCurrentSnapshot() const {
         if (!IsReady()) {
@@ -211,9 +250,10 @@ public:
     }
 
     /**
-     * @brief 更新配置快照（RAII安全）
-     * @param snapshot 新快照
-     * @return bool 是否成功
+     * @brief Atomically updates the configuration by adding a new snapshot.
+     * @param snapshot The new snapshot to make current.
+     * @return True on success.
+     * @throws ConfigLifecycleException if the update fails.
      */
     bool UpdateSnapshot(const ConfigSnapshot::SnapshotPtr& snapshot) {
         if (!IsReady()) {
@@ -236,7 +276,7 @@ public:
             last_update_time_ = std::chrono::steady_clock::now();
             ++update_count_;
             
-            // 执行配置变更回调
+            // Trigger the configuration change callback.
             if (on_config_change_) {
                 on_config_change_(snapshot->GetMetadata().version_id);
             }
@@ -245,7 +285,7 @@ public:
             return true;
             
         } catch (const std::exception& e) {
-            state_.store(ConfigLifecycleState::READY);  // 恢复到就绪状态
+            state_.store(ConfigLifecycleState::READY);  // Attempt to recover to a ready state.
             ++error_count_;
             throw ConfigLifecycleException(
                 std::string("Update failed: ") + e.what(), 
@@ -254,9 +294,10 @@ public:
     }
 
     /**
-     * @brief 回滚到指定版本（RAII安全）
-     * @param version_id 目标版本ID
-     * @return bool 是否成功
+     * @brief Atomically rolls back the configuration to a previous version.
+     * @param version_id The ID of the target snapshot to restore.
+     * @return True on success.
+     * @throws ConfigLifecycleException if the rollback fails.
      */
     bool RollbackToVersion(const std::string& version_id) {
         if (!IsReady()) {
@@ -275,7 +316,7 @@ public:
             last_update_time_ = std::chrono::steady_clock::now();
             ++update_count_;
             
-            // 执行配置变更回调
+            // Trigger the configuration change callback.
             if (on_config_change_) {
                 on_config_change_(version_id);
             }
@@ -293,24 +334,24 @@ public:
     }
 
     /**
-     * @brief 获取快照管理器引用
-     * @return ConfigSnapshotManager& 快照管理器引用
+     * @brief Gets a reference to the underlying snapshot manager.
+     * @return A mutable reference to ConfigSnapshotManager.
      */
     ConfigSnapshotManager& GetSnapshotManager() {
         return snapshot_manager_;
     }
 
     /**
-     * @brief 获取快照管理器常量引用
-     * @return const ConfigSnapshotManager& 快照管理器常量引用
+     * @brief Gets a const reference to the underlying snapshot manager.
+     * @return A const reference to ConfigSnapshotManager.
      */
     const ConfigSnapshotManager& GetSnapshotManager() const {
         return snapshot_manager_;
     }
 
     /**
-     * @brief 设置初始化回调
-     * @param callback 回调函数
+     * @brief Registers a callback function to be executed upon initialization.
+     * @param callback The function to call.
      */
     void SetInitializeCallback(std::function<void()> callback) {
         std::unique_lock<std::shared_mutex> lock(state_mutex_);
@@ -318,8 +359,8 @@ public:
     }
 
     /**
-     * @brief 设置关闭回调
-     * @param callback 回调函数
+     * @brief Registers a callback function to be executed upon shutdown.
+     * @param callback The function to call.
      */
     void SetShutdownCallback(std::function<void()> callback) {
         std::unique_lock<std::shared_mutex> lock(state_mutex_);
@@ -327,8 +368,8 @@ public:
     }
 
     /**
-     * @brief 设置配置变更回调
-     * @param callback 回调函数
+     * @brief Registers a callback function to be executed after a configuration change.
+     * @param callback The function to call, which receives the new version ID.
      */
     void SetConfigChangeCallback(std::function<void(const std::string&)> callback) {
         std::unique_lock<std::shared_mutex> lock(state_mutex_);
@@ -336,8 +377,8 @@ public:
     }
 
     /**
-     * @brief 获取统计信息
-     * @return std::string 统计信息字符串
+     * @brief Gathers and returns performance and health statistics.
+     * @return A formatted string containing key statistics.
      */
     std::string GetStatistics() const {
         std::shared_lock<std::shared_mutex> lock(state_mutex_);
@@ -362,9 +403,13 @@ public:
 };
 
 /**
- * @brief RAII配置访问器
- * 
- * 提供异常安全的配置访问，自动管理配置快照的生命周期
+ * @brief An RAII guard for safe, temporary, and consistent access to configuration.
+ *
+ * @details This class is the primary client-facing tool for reading configuration.
+ * When created, it "locks in" the current configuration snapshot from the
+ * `ConfigLifecycleManager`. This snapshot is guaranteed to be stable for the lifetime
+ * of the accessor object, even if the global configuration is updated in the background.
+ * It is lightweight and designed to be created on the stack for short-lived operations.
  */
 class ConfigRAIIAccessor {
 private:
@@ -376,9 +421,10 @@ private:
 
 public:
     /**
-     * @brief 构造函数
-     * @param lifecycle_manager 生命周期管理器
-     * @param accessor_id 访问器ID（用于调试和监控）
+     * @brief Constructs the accessor and acquires the current configuration snapshot.
+     * @param lifecycle_manager Pointer to the central lifecycle manager.
+     * @param accessor_id An optional identifier for debugging and monitoring.
+     * @throws ConfigLifecycleException if the manager is not ready or snapshot acquisition fails.
      */
     explicit ConfigRAIIAccessor(
         ConfigLifecycleManager* lifecycle_manager,
@@ -410,18 +456,18 @@ public:
     }
     
     /**
-     * @brief 析构函数
+     * @brief Destructor. Automatically releases the reference to the configuration snapshot.
      */
     ~ConfigRAIIAccessor() {
         is_valid_ = false;
-        snapshot_.reset();  // 释放快照引用
+        snapshot_.reset();  // Release the shared_ptr reference.
     }
 
-    // 禁止拷贝构造和赋值
+    // Accessors manage a unique view of a resource, so they should not be copyable.
     ConfigRAIIAccessor(const ConfigRAIIAccessor&) = delete;
     ConfigRAIIAccessor& operator=(const ConfigRAIIAccessor&) = delete;
 
-    // 允许移动构造和赋值
+    // Moving is allowed, transferring ownership of the snapshot view.
     ConfigRAIIAccessor(ConfigRAIIAccessor&& other) noexcept
         : lifecycle_manager_(other.lifecycle_manager_),
           snapshot_(std::move(other.snapshot_)),
@@ -444,10 +490,10 @@ public:
     }
 
     /**
-     * @brief 获取配置值
-     * @param key 配置键
-     * @param value 输出参数，配置值
-     * @return bool 是否成功
+     * @brief Retrieves a configuration value from the held snapshot.
+     * @param key The configuration key to look up.
+     * @param[out] value The output `ConfigValue` (a std::variant).
+     * @return True if the key was found, false otherwise.
      */
     bool GetValue(const std::string& key, ConfigValue& value) const {
         if (!is_valid_ || !snapshot_) {
@@ -458,10 +504,10 @@ public:
     }
 
     /**
-     * @brief 获取配置值（带默认值）
-     * @param key 配置键
-     * @param default_value 默认值
-     * @return ConfigValue 配置值或默认值
+     * @brief Retrieves a configuration value with a fallback default.
+     * @param key The configuration key to look up.
+     * @param default_value The value to return if the key is not found.
+     * @return The found `ConfigValue` or the default value.
      */
     ConfigValue GetValue(const std::string& key, const ConfigValue& default_value) const {
         ConfigValue value;
@@ -472,9 +518,9 @@ public:
     }
 
     /**
-     * @brief 检查配置键是否存在
-     * @param key 配置键
-     * @return bool 是否存在
+     * @brief Checks if a key exists in the held snapshot.
+     * @param key The configuration key.
+     * @return True if the key exists.
      */
     bool HasKey(const std::string& key) const {
         if (!is_valid_ || !snapshot_) {
@@ -485,8 +531,8 @@ public:
     }
 
     /**
-     * @brief 获取所有配置键
-     * @return std::vector<std::string> 配置键列表
+     * @brief Gets all keys available in the held snapshot.
+     * @return A vector of key strings.
      */
     std::vector<std::string> GetAllKeys() const {
         if (!is_valid_ || !snapshot_) {
@@ -497,32 +543,32 @@ public:
     }
 
     /**
-     * @brief 获取访问器ID
-     * @return std::string 访问器ID
+     * @brief Gets the ID of this accessor instance.
+     * @return The accessor's ID string.
      */
     const std::string& GetAccessorId() const {
         return accessor_id_;
     }
 
     /**
-     * @brief 获取访问时间
-     * @return std::chrono::steady_clock::time_point 访问时间
+     * @brief Gets the timestamp when this accessor was created.
+     * @return The time_point of creation.
      */
     std::chrono::steady_clock::time_point GetAccessTime() const {
         return access_time_;
     }
 
     /**
-     * @brief 检查是否有效
-     * @return bool 是否有效
+     * @brief Checks if the accessor is currently valid and holds a snapshot.
+     * @return True if valid, false otherwise.
      */
     bool IsValid() const {
         return is_valid_ && snapshot_ != nullptr;
     }
 
     /**
-     * @brief 获取当前快照版本
-     * @return std::string 当前版本ID
+     * @brief Gets the version ID of the snapshot held by this accessor.
+     * @return The version ID string.
      */
     std::string GetCurrentVersionId() const {
         if (!is_valid_ || !snapshot_) {
@@ -534,19 +580,23 @@ public:
 };
 
 /**
- * @brief 异常安全配置访问模板函数
- * 
- * 提供类型安全的配置访问，自动处理类型转换和异常
+ * @brief A template-based utility for type-safe configuration value access.
+ *
+ * @details This class provides a clean, convenient, and safe API for clients to get
+ * values of a specific type (e.g., int, bool, std::string) from a `ConfigRAIIAccessor`.
+ * It handles the complexities of converting from the underlying `ConfigValue` variant,
+ * providing default values and suppressing exceptions for read operations to simplify client code.
  */
 template<typename T>
 class SafeConfigAccessor {
 public:
     /**
-     * @brief 安全获取配置值
-     * @param accessor RAII访问器
-     * @param key 配置键
-     * @param default_value 默认值
-     * @return T 配置值或默认值
+     * @brief Safely retrieves and converts a configuration value.
+     * @tparam T The desired type (e.g., int, bool, std::string).
+     * @param accessor The RAII accessor holding the configuration snapshot.
+     * @param key The configuration key.
+     * @param default_value A fallback value to return if the key is not found or conversion fails.
+     * @return The converted value or the default value.
      */
     static T GetValue(const ConfigRAIIAccessor& accessor, const std::string& key, const T& default_value = T{}) {
         try {
@@ -558,23 +608,27 @@ public:
             return ConvertConfigValue<T>(config_value, default_value);
             
         } catch (const std::exception& e) {
-            // 记录错误日志（在实际实现中可以添加日志系统）
+            // Logging the error in a real implementation is recommended.
+            // For safety, we return the default value on any failure.
             return default_value;
         }
     }
     
     /**
-     * @brief 安全设置配置值（验证和转换）
-     * @param value 要设置的值
-     * @return ConfigValue 转换后的配置值
+     * @brief Converts a given C++ type to its `ConfigValue` variant representation.
+     * @tparam U The type of the value to convert.
+     * @param value The value to convert.
+     * @return The corresponding `ConfigValue`.
      */
-    static ConfigValue SetValue(const T& value) {
+    template<typename U>
+    static ConfigValue SetValue(const U& value) {
         return ConvertToConfigValue(value);
     }
 
 private:
     /**
-     * @brief 配置值类型转换模板函数
+     * @brief Internal helper to convert a `ConfigValue` variant to a specific type `U`.
+     * Handles common cross-type conversions (e.g., string "true" to bool true).
      */
     template<typename U>
     static U ConvertConfigValue(const ConfigValue& value, const U& default_value) {
@@ -584,7 +638,12 @@ private:
                     return std::get<bool>(value);
                 } else if (std::holds_alternative<std::string>(value)) {
                     const auto& str = std::get<std::string>(value);
-                    return (str == "true" || str == "TRUE" || str == "True" || str == "1");
+                    // Case-insensitive check for "true"
+                    return (str.length() == 4 && (str[0] == 't' || str[0] == 'T') &&
+                                                 (str[1] == 'r' || str[1] == 'R') &&
+                                                 (str[2] == 'u' || str[2] == 'U') &&
+                                                 (str[3] == 'e' || str[3] == 'E')) ||
+                           (str == "1");
                 }
             } else if constexpr (std::is_integral_v<U> && !std::is_same_v<U, bool>) {
                 if (std::holds_alternative<int>(value)) {
@@ -610,14 +669,14 @@ private:
                 }
             }
         } catch (const std::exception& e) {
-            // 转换失败，返回默认值
+            // Conversion failed, fall through to return default value.
         }
         
         return default_value;
     }
     
     /**
-     * @brief 转换为配置值
+     * @brief Internal helper to convert a C++ type `U` to a `ConfigValue` variant.
      */
     template<typename U>
     static ConfigValue ConvertToConfigValue(const U& value) {
@@ -627,15 +686,32 @@ private:
             return static_cast<int>(value);
         } else if constexpr (std::is_floating_point_v<U>) {
             return static_cast<double>(value);
-        } else if constexpr (std::is_same_v<U, std::string>) {
-            return value;
+        } else if constexpr (std::is_convertible_v<U, std::string>) {
+            return std::string(value);
         } else {
-            // 默认转换为字符串
-            return std::to_string(value);
+            // If no direct conversion exists, default to converting to string.
+            // This requires that the type U is streamable.
+            std::ostringstream ss;
+            ss << value;
+            return ss.str();
         }
     }
 };
+/**
+ * @brief Formats a `ConfigValue` variant into a string representation.
+ * @param value The `ConfigValue` to format.
+ * @return A string representation suitable for logging or storage.
+ */
+std::string FormatConfigValue(const ConfigValue& value);
 
+/**
+ * @brief Parses a string into a `ConfigValue` variant.
+ * Tries to infer the most appropriate type (bool, int, double, or string).
+ * @param str The input string to parse.
+ * @param[out] value The resulting `ConfigValue`.
+ * @return True if parsing was successful, false otherwise.
+ */
+bool ParseConfigValue(const std::string& str, ConfigValue& value);
 
 
 }  // namespace sqlcc
