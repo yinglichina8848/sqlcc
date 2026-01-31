@@ -32,12 +32,12 @@
  */
 
 #include "unified_executor.h"
-#include "core/execution_result.h"
-#include "core/execution_context.h"
+#include "src/core/execution_result.h"
+#include "src/core/execution_context.h"
 #include "execution_engine.h"
 #include "core/core_database_manager.h"
-#include "core/user_manager.h"
-#include "core/system_database.h"
+#include "src/core/user_manager.h"
+#include "src/core/system_database.h"
 #include "execution_plan_generator.h"
 #include "query_optimizer.h"
 #include <algorithm>
