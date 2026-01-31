@@ -25,26 +25,25 @@ ExecutionResult DDLExecutionStrategy::execute(std::unique_ptr<sql_parser::Statem
     }
 
     // 根据语句类型调用相应的执行方法
-    switch (stmt->type) {
-        case sql_parser::StatementType::CREATE_TABLE_STATEMENT:
+    switch (stmt->getType()) {
+        case sql_parser::Statement::Type::CREATE_TABLE:
             return executeCreateTable(dynamic_cast<const sql_parser::CreateTableStatement&>(*stmt),
                                     context);
-        case sql_parser::StatementType::DROP_TABLE_STATEMENT:
+        case sql_parser::Statement::Type::DROP_TABLE:
             return executeDropTable(dynamic_cast<const sql_parser::DropTableStatement&>(*stmt),
                                   context);
-        case sql_parser::StatementType::ALTER_TABLE_STATEMENT:
+        case sql_parser::Statement::Type::ALTER_TABLE:
             return executeAlterTable(dynamic_cast<const sql_parser::AlterTableStatement&>(*stmt),
                                    context);
-        case sql_parser::StatementType::CREATE_INDEX_STATEMENT:
+        case sql_parser::Statement::Type::CREATE_INDEX:
             return executeCreateIndex(dynamic_cast<const sql_parser::CreateIndexStatement&>(*stmt),
                                     context);
-        case sql_parser::StatementType::DROP_INDEX_STATEMENT:
+        case sql_parser::Statement::Type::DROP_INDEX:
             return executeDropIndex(dynamic_cast<const sql_parser::DropIndexStatement&>(*stmt),
                                   context);
         default:
-            // 应该通过validate方法提前捕获不支持的语句类型
             return createErrorResult("Unsupported DDL statement type: " + 
-                                   std::to_string(static_cast<int>(stmt->type)));
+                                   std::to_string(static_cast<int>(stmt->getType())));
     }
 }
 /**

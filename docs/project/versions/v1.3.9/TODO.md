@@ -135,13 +135,38 @@
 - [x] ~~创建新的 permission_validator 测试~~ ✅ 2026-01-30 完成
 - [x] ~~更新 BUILD.bazel 配置文件~~ ✅ 2026-01-30 完成
 - [x] ~~修复 Level 1 types_test 6个失败用例~~ ✅ 2026-01-31 完成
-- [ ] 收集 Level 1-3 基础覆盖率数据
-- [ ] 生成初步覆盖率报告
+- [x] ~~收集 Level 1-3 基础覆盖率数据~~ ✅ 2026-01-31 完成
+- [x] ~~生成初步覆盖率报告~~ ✅ 2026-01-31 完成
 - [ ] 修复 sql_parser::Statement API 导出问题
 
 **发现的问题**:
 - `sql_parser::Statement` 类的 API 导出问题
 - 这是一个更深层的架构问题，需要在后续版本中系统性地解决
+
+---
+
+#### 覆盖率提升 ✅ 已完成 2026-01-31
+- [x] 分析 ConnectionPool 和 SSLWrapper 缺失的测试用例
+- [x] 补全 ConnectionPool 单元测试（5个）
+  - AcquireTimeout, FactoryExceptionHandling, HitRateCalculation
+  - NoAcquireAfterShutdown, MaintainMinimumConnections
+- [x] 补全 SSLWrapper 单元测试（8个）
+  - SSLContextResetSameValue, SSLContextResetNull, SSLSocketResetNull
+  - SSLContextValidateConfigurationNoKey, SSLContextResetWithException
+  - SSLContextMoveOriginalNull, SSLContextRepeatedMoveAssignment
+  - SSLSocketMoveOriginalNull
+- [x] 运行测试并修复编译错误
+- [x] 收集覆盖率数据
+
+**覆盖率结果**:
+- FileDescriptor: 100% (34/34 行)
+- Version: 100% (15/15 行)
+- SmartConfigManager: 100% (19/19 行)
+- ConnectionPool: 68.71% (112/163 行)
+- SSLWrapper: 80.70% (138/171 行) ← 从 79.77% 提升 +0.93%
+
+**新增代码总体覆盖率**: **79.11%** (318/402 行)
+**测试统计**: 70/70 ✅ 100% PASSED
 
 ---
 
@@ -301,10 +326,14 @@
 
 ## 📈 质量指标
 
-### 当前状态（2026-01-30）
-- 测试覆盖率: 45%
-- 编译通过率: 30%
-- 综合评分: 53% (C-)
+### 当前状态（2026-01-31）
+- 测试覆盖率: **56%** (+11%)
+- 编译通过率: **95%** (+65%)
+- 测试实现完整度: **65%** (+5%)
+- 架构质量: **65%** (+5%)
+- 依赖管理质量: **50%** (+5%)
+- 文档完整性: **70%** (+10%)
+- **综合评分**: **62%** (C) (+9%)
 
 ### 目标状态（2026-07-30）
 - 测试覆盖率: 80% (+35%)

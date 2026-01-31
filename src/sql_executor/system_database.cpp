@@ -881,15 +881,32 @@ bool SystemDatabase::CreateDatabaseRecord(const std::string& db_name, const std:
         
         // 4. 切换到system数据库执行操作，然后切换回原数据库。
         std::string prev_db = db_manager_->GetCurrentDatabase();
+        // WHY: 在执行元数据操作时，`SystemDatabase`通常需要临时切换到`system`数据库。
+        // 关键在于，无论元数据操作成功与否，原始的数据库上下文都必须被正确恢复。
+        // 否则，后续的用户操作可能会在错误的数据库中执行，导致数据混乱或错误。
+        // WHAT: 确保数据库上下文（即当前使用的数据库）在操作前后保持一致。
+        // HOW:
+        // 1.  在执行元数据操作前，保存当前的数据库名称。
+        // 2.  切换到`system`数据库。如果切换失败，应记录错误并返回`false`，且不尝试恢复（因为原状态可能已损坏）。
+        // 3.  在`try-catch`块中执行元数据操作，或者使用RAII（Resource Acquisition Is Initialization）
+        //     模式来确保无论函数如何退出（正常返回或抛出异常），都能恢复到原始数据库。
+        // TODO(#SYSDB-008-IMPL): 错误处理应更健壮，确保在切换数据库失败时能够恢复或抛出异常。
         if (!db_manager_->UseDatabase(SYSTEM_DB_NAME)) {
-            SetError("Failed to switch to system database");
+            SetError("Failed to switch to system database for metadata operation.");
             return false;
         }
         
         bool result = ExecuteSQL(ss.str()); // TODO(#SYSDB-004): ExecuteSQL返回结构化结果。
         
         if (!prev_db.empty()) {
-            db_manager_->UseDatabase(prev_db);
+            // WHY: 恢复到之前的数据库上下文，即使`ExecuteSQL`失败也应尝试恢复。
+            // WHAT: 切换回`prev_db`。
+            // HOW: 同样需要健壮的错误处理，防止恢复过程中再次失败。
+            // TODO(#SYSDB-008-IMPL): 错误处理应更健壮，确保在切换数据库失败时能够恢复或抛出异常。
+            if (!db_manager_->UseDatabase(prev_db)) {
+                SetError("Failed to switch back to previous database: " + prev_db);
+                // 即使恢复失败，也要返回当前操作的结果，但记录警告。
+            }
         }
         
         return result;
@@ -913,15 +930,31 @@ bool SystemDatabase::DropDatabaseRecord(const std::string& db_name) {
         
         // 2. 切换到system数据库执行操作，然后切换回原数据库。
         std::string prev_db = db_manager_->GetCurrentDatabase();
+        // WHY: 在执行元数据操作时，`SystemDatabase`通常需要临时切换到`system`数据库。
+        // 关键在于，无论元数据操作成功与否，原始的数据库上下文都必须被正确恢复。
+        // 否则，后续的用户操作可能会在错误的数据库中执行，导致数据混乱或错误。
+        // WHAT: 确保数据库上下文（即当前使用的数据库）在操作前后保持一致。
+        // HOW:
+        // 1.  在执行元数据操作前，保存当前的数据库名称。
+        // 2.  切换到`system`数据库。如果切换失败，应记录错误并返回`false`，且不尝试恢复（因为原状态可能已损坏）。
+        // 3.  在`try-catch`块中执行元数据操作，或者使用RAII（Resource Acquisition Is Initialization）
+        //     模式来确保无论函数如何退出（正常返回或抛出异常），都能恢复到原始数据库。
+        // TODO(#SYSDB-008-IMPL): 错误处理应更健壮，确保在切换数据库失败时能够恢复或抛出异常。
         if (!db_manager_->UseDatabase(SYSTEM_DB_NAME)) {
-            SetError("Failed to switch to system database");
+            SetError("Failed to switch to system database for metadata operation.");
             return false;
         }
         
         bool result = ExecuteSQL(ss.str()); // TODO(#SYSDB-004): ExecuteSQL返回结构化结果。
         
         if (!prev_db.empty()) {
-            db_manager_->UseDatabase(prev_db);
+            // WHY: 恢复到之前的数据库上下文，即使`ExecuteSQL`失败也应尝试恢复。
+            // WHAT: 切换回`prev_db`。
+            // HOW: 同样需要健壮的错误处理，防止恢复过程中再次失败。
+            // TODO(#SYSDB-008-IMPL): 错误处理应更健壮，确保在切换数据库失败时能够恢复或抛出异常。
+            if (!db_manager_->UseDatabase(prev_db)) {
+                SetError("Failed to switch back to previous database: " + prev_db);
+            }
         }
         
         return result;
