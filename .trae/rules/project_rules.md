@@ -1,0 +1,3 @@
+遵循 docs/development/ai_development_principles.md 中的开发原则
+及时记录变更到有关的文档
+不要在项目主目录生成源码和编译，也不要在主目录编写脚本文件，保持主目录的整洁。
