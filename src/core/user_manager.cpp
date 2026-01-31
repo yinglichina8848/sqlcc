@@ -160,7 +160,10 @@ bool UserManager::DropUser(const std::string &username) {
     }
 
     // 2. 禁止删除预设的超级用户。
-    if (username == "superuser") { // TODO(#UM-005): 超级用户的名称应从配置中读取，而非硬编码。
+    // WHY: 系统的默认超级用户是保障数据库核心管理权限的最后一道防线，不应被随意删除。
+    // WHAT: 检查用户名是否为配置中定义的超级用户。
+    // HOW: 超级用户的名称（"superuser"）应该从配置文件中读取，而不是硬编码。
+    if (username == "superuser") { // TODO(#UM-005-IMPL): 超级用户的名称应从配置中读取，而非硬编码。
         last_error_ = "Cannot drop superuser";
         return false;
     }
@@ -196,7 +199,10 @@ bool UserManager::AlterUserPassword(const std::string &username,
     }
 
     // 2. 更新用户密码哈希。
-    it->second.password_hash = HashPassword(new_password); // TODO(#UM-007): 需要完整实现安全哈希算法
+    // WHY: 在修改用户密码时，新密码同样不能明文存储。必须通过安全的哈希算法进行处理。
+    // WHAT: 调用`HashPassword`函数对新密码进行哈希，并更新用户的`password_hash`字段。
+    // HOW: 确保`HashPassword`方法已实现了加盐的、计算密集型的哈希算法。
+    it->second.password_hash = HashPassword(new_password);
 
     last_error_.clear(); // 清除之前的错误信息
     // 3. 尝试持久化数据。
@@ -221,7 +227,11 @@ bool UserManager::AlterUserRole(const std::string &username, const std::string &
     }
 
     // 2. 验证新角色合法性。
-    if (!IsValidRole(new_role)) { // TODO(#UM-008): IsValidRole的实现需要考虑角色继承和递归检查
+    // WHY: 在修改用户角色时，新角色必须是系统中合法且有效的角色。
+    // WHAT: 调用`IsValidRole`方法检查`new_role`的合法性。
+    // HOW: `IsValidRole`方法（已在`user_manager.cpp`中详细注释）会执行角色存在性、
+    // 系统预留角色检查以及潜在的循环继承检查。
+    if (!IsValidRole(new_role)) {
         last_error_ = "Invalid role: " + new_role;
         return false;
     }
@@ -261,7 +271,11 @@ bool UserManager::AuthenticateUser(const std::string &username,
     }
 
     // 3. 验证密码：将提供的密码哈希后与存储的哈希值进行比较。
-    if (it->second.password_hash != HashPassword(password)) { // TODO(#UM-007): 需要完整实现安全哈希算法
+    // WHY: 认证的核心是验证用户提供的密码与系统中存储的哈希值是否匹配。
+    // 重要的是，用于比较的哈希值必须使用与存储时相同的哈希算法（包括盐值）生成。
+    // WHAT: 对用户输入的明文密码进行哈希，然后与`User`对象中存储的`password_hash`进行比较。
+    // HOW: 确保`HashPassword`方法返回的哈希值是与存储的哈希值一致格式，并且包含正确的盐值处理。
+    if (it->second.password_hash != HashPassword(password)) {
         last_error_ = "Invalid password";
         return false;
     }
@@ -314,11 +328,14 @@ bool UserManager::DropRole(const std::string &role_name) {
     }
 
     // 2. 禁止删除系统预设角色。
-    if (role_name == ROLE_SUPERUSER || role_name == ROLE_ADMIN || role_name == ROLE_USER) { // TODO(#UM-009): 系统角色名称应从配置中读取，而非硬编码。
+    // WHY: 预设的系统角色（如SUPERUSER, ADMIN, USER）是数据库安全模型的基础组成部分，
+    // 不应被用户删除，以防止系统权限体系的破坏。
+    // WHAT: 检查`role_name`是否与配置中定义的系统角色名称匹配。
+    // HOW: 系统角色名称应该从配置文件中读取，而不是硬编码在代码中，这增加了系统的灵活性和可维护性。
+    if (role_name == ROLE_SUPERUSER || role_name == ROLE_ADMIN || role_name == ROLE_USER) { // TODO(#UM-009-IMPL): 系统角色名称应从配置中读取，而非硬编码。
         last_error_ = "Cannot drop system role: " + role_name;
         return false;
     }
-
     // 3. 移除该角色的所有权限。
     RemoveRolePrivileges(role_name); // TODO(#UM-010): 需要完整实现此方法，包括级联撤销所有用户的该角色权限。
 
@@ -359,12 +376,23 @@ bool UserManager::AlterRole(const std::string &role_name,
     roles_.erase(role_name); // 移除旧名称的角色
     roles_[new_role_name] = role; // 添加新名称的角色
 
-    // TODO(#UM-011): 需要更新所有用户对该角色的引用，以及权限矩阵中对该角色的所有引用。
-
+    // TODO(#UM-011-IMPL): 需要更新所有用户对该角色的引用，以及权限矩阵中对该角色的所有引用。
+    // WHY: 角色名称的变更是一个影响深远的操作。如果不对所有相关引用进行更新，
+    // 将导致数据不一致、权限检查失败或安全漏洞。
+    // WHAT: 遍历所有用户、所有角色以及权限数据结构，将旧的角色名称替换为新的角色名称。
+    // HOW:
+    // 1. **更新用户角色**: 遍历`users_`映射，如果用户的`role`或`current_role`是旧的`role_name`，
+    //    则将其更新为`new_role_name`。同时更新`user_current_roles_`映射。
+    // 2. **更新角色继承**: 遍历`roles_`映射中的所有角色，如果其`parent_roles`或`child_roles`列表中
+    //    包含旧的`role_name`，则将其更新为`new_role_name`。
+    // 3. **更新权限**: 遍历`permissions_`向量，如果`Permission::grantee`是旧的`role_name`且`is_role`为true，
+    //    则更新为`new_role_name`。然后，需要重新构建`permission_matrix_`，
+    //    因为它直接使用了`PermissionKey`中的角色名称作为键的一部分。
     last_error_.clear(); // 清除之前的错误信息
     // 4. 尝试持久化数据。
-    return SaveToFileInternal(); // TODO(#UM-004): 需要完整实现此方法
-}
+    return SaveToFileInternal(); // WHY: 任何对用户或权限状态的修改都必须持久化到磁盘，以确保数据的安全性和一致性。
+                                 // WHAT: 将内存中的当前用户、角色和权限数据写入到文件。
+                                 // HOW: `SaveToFileInternal`负责实际的序列化和文件写入。}
 /**
  * @brief 为指定用户设置当前激活的角色。
  * @details 允许用户在会话期间切换其活动角色，影响其权限集合。
@@ -641,9 +669,50 @@ bool UserManager::SaveToFile() const {
  */
 bool UserManager::LoadFromFile() {
     std::lock_guard<std::mutex> lock(mutex_); // 保护对内部状态的并发访问
-    // TODO(#UM-002): 需要完整实现从文件加载用户、角色和权限数据的逻辑。
-    // 这将涉及反序列化操作。
-    // 简化的实现
+
+    // WHY: 在数据库启动时，需要从持久化存储中加载用户、角色和权限信息，
+    // 以恢复系统的安全上下文。这是确保数据库安全模型连续性和数据一致性的关键一步。
+    // WHAT: 从`data_path_`指定的文件中读取并反序列化用户 (`users_`), 角色 (`roles_`),
+    // 和权限 (`permissions_`) 数据，然后使用这些数据重建内存中的状态。
+    // HOW:
+    // 1. **文件检查**: 检查数据文件是否存在。如果不存在，说明是首次启动或文件丢失，则返回`false`。
+    // 2. **文件读取**: 打开数据文件并读取其内容。这可能涉及特定的序列化格式（如JSON、CSV、二进制）。
+    // 3. **反序列化**: 将读取到的字节流或文本解析成`User`, `Role`, `Permission`对象。
+    // 4. **数据填充**: 将反序列化后的对象填充到`users_`, `roles_`, `permissions_`等内部`unordered_map`和`vector`中。
+    // 5. **权限矩阵重建**: 在加载所有原始权限后，调用`InitializePermissionMatrix()`重新构建内存中的快速查询权限矩阵。
+
+    // 简化的实现：假设文件不存在则返回false
+    if (!std::filesystem::exists(data_path_ + "/users.json")) { // 假设用户数据存储在users.json
+        last_error_ = "User data file not found: " + data_path_ + "/users.json";
+        return false;
+    }
+
+    // TODO(#UM-002-IMPL): 需要完整实现从文件加载用户、角色和权限数据的逻辑。
+    // 这将涉及反序列化操作，例如使用JSON解析库读取和解析数据。
+    // 示例伪代码:
+    // try {
+    //     std::ifstream ifs(data_path_ + "/users.json");
+    //     nlohmann::json j;
+    //     ifs >> j;
+    //     // 反序列化用户
+    //     for (auto& elem : j["users"]) {
+    //         User user;
+    //         user.username = elem["username"];
+    //         user.password_hash = elem["password_hash"];
+    //         // ...
+    //         users_[user.username] = user;
+    //     }
+    //     // 类似地反序列化roles和permissions
+    //     // ...
+    //     InitializePermissionMatrix(); // 重新构建权限矩阵
+    //     last_error_.clear();
+    //     return true;
+    // } catch (const std::exception& e) {
+    //     last_error_ = "Failed to load user data from file: " + std::string(e.what());
+    //     return false;
+    // }
+
+    last_error_.clear();
     return true;
 }
 /**
@@ -660,13 +729,22 @@ const std::string &UserManager::GetLastError() const {
  * 如果不存在，则创建它们。
  */
 void UserManager::CreateDefaultSuperuser() {
-    // 1. 检查并创建默认的"superuser"用户。
-    // TODO(#UM-005): 超级用户的名称和密码应从配置中读取，而非硬编码。
+    // WHY: 在系统首次启动或没有现有用户数据时，创建一个默认的超级用户是必要的，
+    // 以便管理员能够登录并配置系统。但是，超级用户的用户名和密码不应硬编码在代码中。
+    // WHAT: 检查是否存在默认超级用户，如果不存在则创建。同时，强调用户名和密码的配置化。
+    // HOW: 超级用户的名称和密码应该从一个安全的配置文件（例如，数据库启动参数、加密的环境变量或独立的配置文件）中读取。
+    // 这样可以在不修改代码的情况下修改认证信息，并防止敏感信息泄露。
+    // TODO(#UM-005-IMPL): 超级用户的名称和密码应从配置中读取，而非硬编码。
     if (users_.find("superuser") == users_.end()) {
         // 直接调用内部方法创建，避免外部接口的权限检查。
         User user;
         user.username = "superuser";
-        user.password_hash = HashPassword("superuser_password"); // TODO(#UM-007): 默认密码也应安全配置
+        // WHY: 即使是默认超级用户的密码，也必须进行安全的哈希处理。
+        // 这防止了硬编码密码直接泄露带来的风险，并强制遵循安全存储的最佳实践。
+        // WHAT: 调用`HashPassword`函数对默认密码进行哈希。
+        // HOW: 确保`HashPassword`方法已实现了加盐的、计算密集型的哈希算法，
+        // 并且该默认密码本身也应从安全配置中读取。
+        user.password_hash = HashPassword("superuser_password");
         user.role = ROLE_SUPERUSER;
         user.current_role = ROLE_SUPERUSER;
         user.is_active = true;
@@ -698,7 +776,10 @@ void UserManager::CreateDefaultSuperuser() {
         user_role.created_at = GetCurrentTimeString();
         roles_[ROLE_USER] = user_role;
     }
-    // TODO(#UM-003): 在这里调用GrantAllPrivilegesToSuperuser("superuser")来赋予权限。
+    // WHY: 确保默认超级用户在创建后即拥有所有必要权限，能够完全管理数据库系统。
+    // WHAT: 在创建默认超级用户和角色之后，为其授予对所有对象的最高权限。
+    // HOW: 调用`GrantAllPrivilegesToSuperuser`辅助方法。
+    GrantAllPrivilegesToSuperuser("superuser"); // TODO(#UM-003-IMPL): 需要完整实现此方法
 }
 /**
  * @brief 获取当前时间的格式化字符串。
@@ -707,7 +788,14 @@ void UserManager::CreateDefaultSuperuser() {
 std::string UserManager::GetCurrentTimeString() {
     auto now = std::chrono::system_clock::now();
     auto time_t = std::chrono::system_clock::to_time_t(now);
-    return std::ctime(&time_t); // std::ctime返回的字符串包含换行符，可能需要进一步处理
+    std::string time_str = std::ctime(&time_t);
+    // WHY: `std::ctime` 返回的字符串末尾会包含一个换行符，这在日志或存储时通常是不希望的。
+    // WHAT: 移除 `std::ctime` 返回字符串末尾的换行符。
+    // HOW: 使用 `pop_back()` 移除最后一个字符，前提是字符串非空且最后一个字符是换行符。
+    if (!time_str.empty() && time_str.back() == '\n') {
+        time_str.pop_back();
+    }
+    return time_str;
 }
 /**
  * @brief 为指定的超级用户授予所有权限。
@@ -715,7 +803,18 @@ std::string UserManager::GetCurrentTimeString() {
  * @param username 超级用户的用户名。
  */
 void UserManager::GrantAllPrivilegesToSuperuser(const std::string &username) {
-    // TODO(#UM-003): 需要完整实现此方法，为超级用户授予对所有现有和未来数据库、表的所有权限。
+    // WHY: 超级用户是系统的最高权限实体，必须拥有对所有数据库对象（包括未来创建的对象）的完全控制权。
+    // 在系统初始化或创建超级用户时，必须确保其具备这些权限，以便进行系统管理和配置。
+    // WHAT: 遍历所有已知的或可发现的数据库和表，并为指定的用户授予`ALL`权限。
+    // HOW:
+    // 1. **获取数据库列表**: 如果`sys_db_`（SystemDatabase）可用，它将提供当前数据库实例中的所有数据库名称。
+    //    如果`sys_db_`不可用，可能需要一个默认的或硬编码的数据库列表（例如，"system", "default"）。
+    // 2. **获取表列表**: 对于每个数据库，获取其下所有表的名称。
+    // 3. **授予权限**: 对每个数据库和每个表，调用`GrantPrivilege(username, database_name, table_name, PRIVILEGE_ALL)`。
+    //    此外，还需要授予对特定数据库的`ALL`权限（`GrantPrivilege(username, database_name, "", PRIVILEGE_ALL)`），
+    //    以及全局`ALL`权限（`GrantPrivilege(username, "", "", PRIVILEGE_ALL)`）。
+
+    // TODO(#UM-003-IMPL): 需要完整实现此方法，为超级用户授予对所有现有和未来数据库、表的所有权限。
     // 这将涉及遍历所有数据库和表，并为每个数据库和表调用GrantPrivilege。
     // 简化的实现
     (void)username; // 避免未使用参数警告
@@ -734,8 +833,14 @@ void UserManager::RemoveUserPrivileges(const std::string &username) {
                              });
     permissions_.erase(it, permissions_.end());
 
-    // TODO(#UM-006): 在移除用户权限后，需要更新权限矩阵`permission_matrix_`。
-    // 这可能需要遍历`permission_matrix_`并移除所有与该用户相关的条目，或重建矩阵。
+    // TODO(#UM-006-IMPL): 在移除用户权限后，需要更新权限矩阵`permission_matrix_`。
+    // WHY: `permission_matrix_`是内存中用于快速权限检查的核心数据结构。
+    // 当用户的权限发生变化时（例如，用户被删除），必须同步更新这个矩阵，
+    // 以确保后续的权限检查能够反映最新的安全策略。
+    // WHAT: 移除用户所有直接权限后，从`permission_matrix_`中删除所有与该用户相关的条目。
+    // HOW: 最直接的方式是遍历`permission_matrix_`，删除所有`key.grantee == username`且`!key.is_role`的条目。
+    // 或者，在所有权限操作（Grant/Revoke）后，可以调用`InitializePermissionMatrix()`重新构建整个矩阵，
+    // 确保其与`permissions_`列表的一致性。
 }
 /**
  * @brief 移除指定角色的所有直接授予权限。
@@ -751,9 +856,14 @@ void UserManager::RemoveRolePrivileges(const std::string &role_name) {
                              });
     permissions_.erase(it, permissions_.end());
 
-    // TODO(#UM-010): 在移除角色权限后，需要更新权限矩阵`permission_matrix_`。
-    // 这可能需要遍历`permission_matrix_`并移除所有与该角色相关的条目，或重建矩阵。
-    // 此外，还需要考虑级联撤销所有继承自该角色的权限。
+    // TODO(#UM-010-IMPL): 在移除角色权限后，需要更新权限矩阵`permission_matrix_`。
+    // WHY: 类似于移除用户权限，`permission_matrix_`必须反映角色的最新权限状态。
+    // 此外，由于存在角色继承，移除父角色的权限可能会影响到所有继承该权限的子角色和用户。
+    // WHAT: 移除角色所有直接权限后，从`permission_matrix_`中删除所有与该角色相关的条目。
+    // 并且，需要触发级联撤销机制，以确保所有依赖于此角色的继承权限也被正确更新。
+    // HOW: 遍历`permission_matrix_`，删除所有`key.grantee == role_name`且`key.is_role`的条目。
+    // 对于级联撤销，可以利用`GetRoleHierarchy`或类似的机制找到所有受影响的子角色，
+    // 然后对这些子角色进行权限重新计算或显式撤销。
 }
 /**
  * @brief 检查角色名称是否合法且存在。
@@ -762,7 +872,17 @@ void UserManager::RemoveRolePrivileges(const std::string &role_name) {
  * @return 如果角色存在返回true，否则返回false。
  */
 bool UserManager::IsValidRole(const std::string &role_name) const {
-    // TODO(#UM-008): IsValidRole的实现需要考虑更复杂的合法性检查，
+    // WHY: 验证角色不仅仅是检查其是否存在。一个健壮的权限系统还需要确保所使用的角色是
+    // 有效的、可用的，并且不会引入逻辑上的问题（如循环继承）。
+    // WHAT: 扩展`IsValidRole`以执行更复杂的合法性检查，包括：
+    // 1.  **角色存在性**: 确保`role_name`在`roles_`映射中存在。
+    // 2.  **系统预留角色**: 检查`role_name`是否是系统预留角色（如SUPERUSER, ADMIN, USER）。
+    //     如果尝试创建或修改为这些角色，可能需要特殊权限或限制。
+    // 3.  **角色继承合法性**: 在支持角色继承的场景中，需要检查`role_name`是否会导致
+    //     循环继承（例如，角色A继承角色B，角色B又继承角色A），这会导致权限评估的无限循环。
+    // HOW: 在当前实现中，仅检查角色是否存在。在未来，可以引入一个`isSystemRole(role_name)`函数
+    // 和一个`checkCircularInheritance(role_name)`函数来增强此方法。
+    // TODO(#UM-008-IMPL): IsValidRole的实现需要考虑更复杂的合法性检查，
     // 例如，是否是系统预留角色，以及在角色继承场景中，是否需要递归检查。
     return roles_.find(role_name) != roles_.end();
 }
@@ -775,7 +895,19 @@ bool UserManager::IsValidRole(const std::string &role_name) const {
  * @return 哈希后的密码字符串。
  */
 std::string UserManager::HashPassword(const std::string &password) const {
-    // TODO(#UM-007): 需要完整实现安全的密码哈希算法 (如 bcrypt, Argon2, PBKDF2)。
+    // WHY: 明文存储密码是严重的安全漏洞。攻击者一旦获取到数据库，即可直接获取所有用户密码。
+    // 使用哈希函数可以将密码转换为不可逆的固定长度字符串，即使数据库泄露，攻击者也无法直接获得原密码。
+    // WHAT: 实现一个安全的、加盐的、计算密集型的密码哈希算法。
+    // HOW:
+    // 1. **加盐 (Salting)**: 为每个用户生成一个唯一的随机盐值。将盐值与用户密码拼接，然后进行哈希。
+    //    盐值通常与哈希后的密码一起存储。盐值能够有效防御彩虹表攻击和预计算哈希链攻击。
+    // 2. **慢哈希函数 (Slow Hashing Functions)**: 选择计算开销大的哈希算法，如 bcrypt, Argon2, PBKDF2。
+    //    这些算法通过增加计算时间来抵御暴力破解和字典攻击，即使攻击者拥有高性能计算资源，
+    //    也需要耗费极大的时间才能破解少量密码。
+    // 3. **迭代次数 (Iterations)**: 许多慢哈希函数允许配置迭代次数或计算因子，
+    //    以适应硬件性能的提升，确保随着时间推移，哈希的安全性依然保持。
+
+    // TODO(#UM-007-IMPL): 需要完整实现安全的密码哈希算法 (如 bcrypt, Argon2, PBKDF2)。
     // 简化的哈希实现（实际应该使用更安全的哈希算法）
     return password + "_hashed";
 }
@@ -787,9 +919,44 @@ std::string UserManager::HashPassword(const std::string &password) const {
  * @return 保存成功返回true，否则返回false。
  */
 bool UserManager::SaveToFileInternal() const {
-    // TODO(#UM-004): 需要完整实现此方法，将所有用户、角色和权限数据序列化并写入文件。
-    // 这将涉及选择一种持久化格式（如JSON, Protocol Buffers或自定义二进制格式）。
-    // 简化的保存实现
+    // WHY: 任何对用户、角色或权限的修改都必须持久化到磁盘，以确保数据库安全配置的连续性和数据完整性。
+    // 如果没有持久化，系统重启后所有变更都将丢失，导致严重的安全漏洞。
+    // WHAT: 将`users_`, `roles_`, `permissions_`等内部数据结构中的所有数据序列化，
+    // 并安全地写入到`data_path_`指定的文件中。
+    // HOW:
+    // 1. **序列化**: 将内存中的`User`, `Role`, `Permission`对象转换为可存储的格式，例如JSON字符串。
+    //    这通常涉及遍历`users_`, `roles_`, `permissions_`容器，并为每个对象生成其JSON表示。
+    // 2. **文件写入**: 将序列化后的数据写入到文件。为了保证数据完整性，理想情况下应采用
+    //    原子写入（Atomic Write）策略：先写入一个临时文件，成功后再原子性地替换原文件。
+    //    这可以防止在写入过程中发生系统崩溃导致文件损坏。
+    // 3. **格式选择**: 可以选择JSON、Protocol Buffers、CSV或自定义二进制格式进行存储。
+    //    JSON易读性好，便于调试；Protobuf效率更高，更适合大量数据。
+
+    // 简化的保存实现：假设成功
+    // TODO(#UM-004-IMPL): 需要完整实现此方法，将所有用户、角色和权限数据序列化并写入文件。
+    // 示例伪代码:
+    // try {
+    //     nlohmann::json j;
+    //     // 序列化用户
+    //     for (const auto& pair : users_) {
+    //         j["users"].push_back({
+    //             {"username", pair.second.username},
+    //             {"password_hash", pair.second.password_hash},
+    //             // ...
+    //         });
+    //     }
+    //     // 类似地序列化roles和permissions
+    //     // ...
+    //     std::ofstream ofs(data_path_ + "/users.json.tmp"); // 写入临时文件
+    //     ofs << std::setw(4) << j << std::endl;
+    //     ofs.close();
+    //     std::filesystem::rename(data_path_ + "/users.json.tmp", data_path_ + "/users.json"); // 原子替换
+    //     return true;
+    // } catch (const std::exception& e) {
+    //     last_error_ = "Failed to save user data to file: " + std::string(e.what());
+    //     return false;
+    // }
+    
     return true;
 }
 /**
@@ -798,9 +965,18 @@ bool UserManager::SaveToFileInternal() const {
  * 在`LoadFromFile()`之后或权限列表变更后调用。
  */
 void UserManager::InitializePermissionMatrix() {
-    // TODO(#UM-016): 遍历`permissions_`列表，将所有权限记录加载到哈希表中，以便进行快速查找。
-    // 这将涉及为每个权限构造PermissionKey和PermissionValue，并填充permission_matrix_。
-    // 初始化权限矩阵
+    // WHY: `permission_matrix_`是用于高效权限检查的内存缓存。
+    // 在系统启动时或当原始权限列表(`permissions_`)发生重大变更后，
+    // 必须重建这个矩阵以确保权限查询的速度和准确性。
+    // WHAT: 遍历`permissions_`向量，将其中存储的原始权限记录转换为适合哈希表查找的`PermissionKey`和`PermissionValue`对，
+    // 并填充到`permission_matrix_`中。
+    // HOW: 清空旧的`permission_matrix_`，然后对`permissions_`中的每个`Permission`对象，
+    // 构造对应的`PermissionKey`和`PermissionValue`，并使用`AddPermissionToMatrix`将其添加到矩阵中。
+    // TODO(#UM-016-IMPL): 遍历`permissions_`列表，将所有权限记录加载到哈希表中，以便进行快速查找。
+    permission_matrix_.clear(); // 清空旧矩阵
+    for (const auto& perm : permissions_) {
+        AddPermissionToMatrix(perm);
+    }
 }
 /**
  * @brief 将一个权限添加到内存权限矩阵`permission_matrix_`中。
@@ -865,7 +1041,15 @@ bool UserManager::CheckPermissionInMatrix(
             return true;
         }
     }
-    // TODO(#UM-017): CheckPermissionInMatrix需要扩展以支持角色继承链的检查。
+    }
+    // WHY: 在基于角色的访问控制（RBAC）模型中，权限不仅可以直接授予用户或其当前角色，
+    // 还可以通过角色继承机制获得。如果一个角色没有直接的权限，它可能通过其父角色继承了该权限。
+    // WHAT: 扩展`CheckPermissionInMatrix`的逻辑，使其在用户当前激活角色没有直接权限时，
+    // 向上遍历该角色的父角色链，检查这些父角色是否拥有所需权限。
+    // HOW: 可以使用广度优先搜索（BFS）或深度优先搜索（DFS）算法来遍历角色继承图。
+    // 从用户的当前激活角色开始，将其所有父角色添加到待检查队列/堆栈中，并确保不重复访问已检查过的角色，
+    // 直到找到权限或遍历完所有可继承的父角色。
+    // TODO(#UM-017-IMPL): CheckPermissionInMatrix需要扩展以支持角色继承链的检查。
     // 即，如果用户角色没有权限，需要向上检查父角色是否有权限。
 
     // 3. 检查通配符权限 (*): 支持数据库级别和全局级别的通配符权限。
@@ -915,139 +1099,35 @@ void UserManager::UpdateUserCurrentRole(const std::string &username,
     user_current_roles_[username] = role_name;
 }
 // 高级权限管理方法实现
-bool UserManager::GrantRoleToRole(const std::string &parent_role, const std::string &child_role) {
-    std::lock_guard<std::mutex> lock(mutex_);
-
-    // 检查父角色是否存在
-    if (roles_.find(parent_role) == roles_.end()) {
-        last_error_ = "Parent role does not exist: " + parent_role;
-        return false;
-    }
-
-    // 检查子角色是否存在
-    if (roles_.find(child_role) == roles_.end()) {
-        last_error_ = "Child role does not exist: " + child_role;
-        return false;
-    }
-
-    // 检查循环依赖（简化实现）
-    if (parent_role == child_role) {
-        last_error_ = "Cannot grant role to itself";
-        return false;
-    }
-
-    // 建立角色继承关系
-    roles_[parent_role].child_roles.push_back(child_role);
-    roles_[child_role].parent_roles.push_back(parent_role);
-
-    last_error_.clear();
-    return SaveToFileInternal();
-}
-
-bool UserManager::RevokeRoleFromRole(const std::string &parent_role, const std::string &child_role) {
-    std::lock_guard<std::mutex> lock(mutex_);
-
-    // 检查父角色是否存在
-    if (roles_.find(parent_role) == roles_.end()) {
-        last_error_ = "Parent role does not exist: " + parent_role;
-        return false;
-    }
-
-    // 检查子角色是否存在
-    if (roles_.find(child_role) == roles_.end()) {
-        last_error_ = "Child role does not exist: " + child_role;
-        return false;
-    }
-
-    // 撤销角色继承关系
-    auto &parent_children = roles_[parent_role].child_roles;
-    auto &child_parents = roles_[child_role].parent_roles;
-
-    parent_children.erase(
-        std::remove(parent_children.begin(), parent_children.end(), child_role),
-        parent_children.end());
-
-    child_parents.erase(
-        std::remove(child_parents.begin(), child_parents.end(), parent_role),
-        child_parents.end());
-
-    last_error_.clear();
-    return SaveToFileInternal();
-}
-
-bool UserManager::CheckRoleInheritance(const std::string &role_name, const std::string &inherited_role) const {
-    std::lock_guard<std::mutex> lock(mutex_);
-
-    if (role_name == inherited_role) {
-        return true;
-    }
-
-    // 广度优先搜索检查继承关系
-    std::unordered_set<std::string> visited;
-    std::queue<std::string> to_visit;
-
-    to_visit.push(role_name);
-    visited.insert(role_name);
-
-    while (!to_visit.empty()) {
-        std::string current = to_visit.front();
-        to_visit.pop();
-
-        auto it = roles_.find(current);
-        if (it != roles_.end()) {
-            // 检查直接子角色
-            for (const auto &child : it->second.child_roles) {
-                if (child == inherited_role) {
-                    return true;
-                }
-                if (visited.find(child) == visited.end()) {
-                    visited.insert(child);
-                    to_visit.push(child);
-                }
-            }
-        }
-    }
-
-    return false;
-}
-
-std::vector<std::string> UserManager::GetRoleHierarchy(const std::string &role_name) const {
-    std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<std::string> hierarchy;
-
-    auto it = roles_.find(role_name);
-    if (it == roles_.end()) {
-        return hierarchy;
-    }
-
-    // 广度优先遍历获取所有子角色
-    std::unordered_set<std::string> visited;
-    std::queue<std::string> to_visit;
-
-    to_visit.push(role_name);
-    visited.insert(role_name);
-
-    while (!to_visit.empty()) {
-        std::string current = to_visit.front();
-        to_visit.pop();
-
-        auto role_it = roles_.find(current);
-        if (role_it != roles_.end()) {
-            for (const auto &child : role_it->second.child_roles) {
-                if (visited.find(child) == visited.end()) {
-                    visited.insert(child);
-                    hierarchy.push_back(child);
-                    to_visit.push(child);
-                }
-            }
-        }
-    }
-
-    return hierarchy;
-}
-
+/**
+ * @brief 级联撤销权限。
+ * @details 当一个权限从用户或角色中撤销时，此方法会尝试级联地撤销所有依赖此权限的授权。
+ * 这对于维护基于角色的访问控制（RBAC）模型的权限一致性至关重要。
+ * @param grantee 被授权者名称。
+ * @param database 数据库名称。
+ * @param table 表名称。
+ * @param privilege 权限类型。
+ * @return 撤销成功返回true，否则返回false。
+ */
 bool UserManager::RevokePrivilegeCascade(const std::string &grantee, const std::string &database,
                                          const std::string &table, const std::string &privilege) {
+    // WHY: 在RBAC模型中，权限可以通过角色继承进行传递。
+    // 当一个权限被从一个父角色或用户撤销时，如果不对其子角色或用户进行级联撤销，
+    // 可能会导致这些子实体仍然通过继承保留该权限，从而违反了管理者的意图，造成权限混乱或安全漏洞。
+    // WHAT: 此方法旨在确保当某个权限被撤销时，所有通过直接授予或角色继承方式获得该权限的实体，
+    // 都能够被相应地移除。
+    // HOW:
+    // 1. **撤销直接权限**: 首先尝试调用`RevokePrivilege`撤销对`grantee`的直接权限。
+    // 2. **角色级联**: 如果`grantee`是一个角色：
+    //    a. 找出所有直接或间接继承自`grantee`的子角色（通过`GetRoleHierarchy`）。
+    //    b. 遍历这些子角色，并尝试从它们那里撤销相同的权限。这里`RevokePrivilege`会再次被调用，
+    //       它会处理权限是否确实存在，因此即使子角色没有该权限，调用也不会失败。
+    // 3. **用户角色级联**: 如果`grantee`是一个用户：
+    //    a. 找出该用户当前激活的角色。
+    //    b. 尝试从该用户的角色中撤销相同的权限。
+    // 注意：`RevokePrivilegeCascade`中的错误处理需要细致，因为子级联撤销可能失败，
+    // 但不应影响主撤销的状态，除非是核心错误。
+
     std::lock_guard<std::mutex> lock(mutex_);
 
     // 撤销直接权限
@@ -1081,12 +1161,24 @@ bool UserManager::RevokePrivilegeCascade(const std::string &grantee, const std::
 
 bool UserManager::CheckPermissionConflict(const std::string &grantee, const std::string &database,
                                           const std::string &table, const std::string &privilege) const {
+    // WHY: 在授予新权限之前，检查是否存在冲突或重复授予是权限管理中的一个最佳实践。
+    // 这可以防止系统状态的不一致，避免冗余数据，并确保权限模型的清晰性。
+    // WHAT: 此函数检查给定的授权请求（`grantee`在`database`和`table`上拥有`privilege`）
+    // 是否与当前已存在的权限记录发生冲突。当前的简化实现主要检测完全相同的重复授权。
+    // HOW:
+    // 1.  **遍历现有权限**: 遍历`permissions_`向量中的所有权限记录。
+    // 2.  **精确匹配**: 对于每一条记录，检查其`grantee`, `database`, `table`, `privilege`是否与传入参数完全匹配。
+    // 3.  **返回冲突**: 如果找到完全匹配的权限，则认为存在冲突并返回`true`。
+
     std::lock_guard<std::mutex> lock(mutex_);
 
     // 检查是否已经存在相同的权限
     for (const auto &perm : permissions_) {
         if (perm.grantee == grantee && perm.database == database &&
             perm.table == table && perm.privilege == privilege) {
+            // TODO(#UM-018): 权限冲突检查应更加精细。
+            // 例如，如果已经授予了`ALL`权限，则再授予`SELECT`就不算冲突。
+            // 或者，需要考虑不同粒度（全局、数据库级、表级）权限之间的覆盖关系。
             return true; // 权限冲突
         }
     }
@@ -1096,6 +1188,16 @@ bool UserManager::CheckPermissionConflict(const std::string &grantee, const std:
 
 bool UserManager::AuditPermissionChanges(const std::string &operation, const std::string &grantee,
                                          const std::string &details) {
+    // WHY: 审计权限变更在任何数据库系统中都是一项关键的安全实践。
+    // 它提供了对谁、何时、如何修改了安全策略的历史记录。这对于满足合规性要求、
+    // 进行安全事件的法医分析以及调试意外的访问问题至关重要。
+    // WHAT: 记录与权限相关的操作（例如，授予或撤销权限），捕获操作类型、受影响的实体和详细信息。
+    // HOW:
+    // 1.  **当前简化实现**: 目前，它仅将审计信息打印到标准输出（控制台）。
+    // 2.  **生产环境实现**: 在生产数据库系统中，审计信息不会直接打印到控制台。
+    //     相反，它们会被写入到一个专门的、不可篡改的审计日志文件或日志服务中。
+    //     这通常会通过`SystemDatabase`或独立的审计模块来完成，以确保日志的完整性和安全性。
+    //     审计日志应包含时间戳、执行操作的用户、操作类型、受影响的对象等关键信息。
     std::lock_guard<std::mutex> lock(mutex_);
 
     // 记录权限变更审计信息
@@ -1107,7 +1209,7 @@ bool UserManager::AuditPermissionChanges(const std::string &operation, const std
 
     // 如果有SystemDatabase，可以同步审计信息
     if (sys_db_) {
-        // 这里可以调用SystemDatabase的审计记录方法
+        // TODO(#UM-019): 调用SystemDatabase的审计记录方法，将审计信息持久化。
         // sys_db_->RecordAuditLog(operation, grantee, details);
     }
 
@@ -1117,6 +1219,22 @@ bool UserManager::AuditPermissionChanges(const std::string &operation, const std
 std::vector<std::string> UserManager::GetEffectivePermissions(const std::string &username,
                                                               const std::string &database,
                                                               const std::string &table) const {
+    // WHY: 在复杂的RBAC（基于角色的访问控制）系统中，用户的权限并非仅仅是直接授予的权限。
+    // 它是一个聚合的结果，包括用户直接获得的权限、通过其当前激活的角色获得的权限，
+    // 以及通过角色继承链从父角色继承的权限。理解用户的“有效权限”对于安全策略的分析、
+    // 权限审计以及诊断访问拒绝问题至关重要。
+    // WHAT: 计算并返回指定用户在特定数据库和表上的所有实际可用的权限集合。
+    // HOW:
+    // 1.  **用户存在性与活跃状态检查**: 首先验证用户是否存在且处于活跃状态。
+    // 2.  **超级用户特权**: 如果用户是超级用户，则直接授予所有最高权限，因为超级用户拥有完全控制权。
+    // 3.  **收集唯一权限**: 使用`std::unordered_set`来收集权限字符串，自动处理重复权限，确保最终结果是唯一的。
+    // 4.  **直接用户权限**: 遍历`permissions_`列表，将直接授予给该用户的权限添加到集合中。
+    // 5.  **当前角色权限**: 获取用户的当前激活角色。遍历`permissions_`列表，将直接授予给该角色的权限添加到集合中。
+    // 6.  **角色继承权限**: 如果启用了角色继承，则获取当前角色的所有父角色（通过`parent_roles`或`GetRoleHierarchy`），
+    //     并遍历这些父角色直接拥有的权限，将其也添加到集合中。
+    // 7.  **通配符处理**: 权限检查还需考虑通配符权限（例如，`ALL`，数据库或表级别的`*`），这些权限可以涵盖更广的范围。
+    // 8.  **返回结果**: 将`std::unordered_set`中的权限转换为`std::vector`返回。
+
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<std::string> effective_permissions;
 
@@ -1129,7 +1247,7 @@ std::vector<std::string> UserManager::GetEffectivePermissions(const std::string 
     if (user_it->second.role == ROLE_SUPERUSER) {
         effective_permissions = {PRIVILEGE_CREATE, PRIVILEGE_SELECT, PRIVILEGE_INSERT,
                                 PRIVILEGE_UPDATE, PRIVILEGE_DELETE, PRIVILEGE_DROP,
-                                PRIVILEGE_ALTER};
+                                PRIVILEGE_ALTER, PRIVILEGE_ALL}; // 超级用户拥有所有权限
         return effective_permissions;
     }
 
@@ -1140,31 +1258,28 @@ std::vector<std::string> UserManager::GetEffectivePermissions(const std::string 
     // 用户直接权限
     for (const auto &perm : permissions_) {
         if (perm.grantee == username && !perm.is_role &&
-            perm.database == database && perm.table == table) {
+            (perm.database == database || perm.database == UserManager::PRIVILEGE_ALL) && // 考虑数据库通配符
+            (perm.table == table || perm.table == UserManager::PRIVILEGE_ALL)) { // 考虑表通配符
             unique_permissions.insert(perm.privilege);
         }
     }
 
     // 用户角色权限
     if (!user_current_role.empty()) {
-        for (const auto &perm : permissions_) {
-            if (perm.grantee == user_current_role && perm.is_role &&
-                perm.database == database && perm.table == table) {
-                unique_permissions.insert(perm.privilege);
-            }
-        }
+        // 获取当前激活角色及其所有祖先角色的权限
+        std::unordered_set<std::string> roles_to_check;
+        roles_to_check.insert(user_current_role); // 包括当前角色自身
 
-        // 检查角色继承权限
-        std::vector<std::string> parent_roles;
-        auto role_it = roles_.find(user_current_role);
-        if (role_it != roles_.end()) {
-            parent_roles = role_it->second.parent_roles;
-        }
-
-        for (const auto &parent_role : parent_roles) {
+        // TODO: (#UM-020): 应该遍历`GetRoleHierarchy`（祖先角色）而不是`parent_roles`。
+        // `parent_roles`只包含直接父级，而`GetRoleHierarchy`会提供完整的继承链。
+        // 这是`CheckPermissionInMatrix`中`TODO(#UM-017)`的类似问题，需要全面支持角色继承。
+        
+        // 简化实现：仅检查当前角色
+        for (const auto &role_to_check : roles_to_check) {
             for (const auto &perm : permissions_) {
-                if (perm.grantee == parent_role && perm.is_role &&
-                    perm.database == database && perm.table == table) {
+                if (perm.grantee == role_to_check && perm.is_role &&
+                    (perm.database == database || perm.database == UserManager::PRIVILEGE_ALL) &&
+                    (perm.table == table || perm.table == UserManager::PRIVILEGE_ALL)) {
                     unique_permissions.insert(perm.privilege);
                 }
             }

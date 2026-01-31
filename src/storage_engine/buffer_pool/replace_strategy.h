@@ -17,12 +17,12 @@
 // Why: 包含所有分离的替换策略头文件，保持向后兼容性
 // What: 包含所有替换策略类定义，保持API不变
 // How: 使用#include预处理指令包含分离的策略头文件
-#include "replace_strategy/abstract_strategy.h"
-#include "replace_strategy/lru_strategy.h"
-#include "replace_strategy/lfu_strategy.h"
-#include "replace_strategy/clock_strategy.h"
-#include "replace_strategy/arc_strategy.h"
-#include "replace_strategy/strategy_factory.h"
+#include "../replace_strategy/abstract_strategy.h"
+#include "../replace_strategy/lru_strategy.h"
+#include "../replace_strategy/lfu_strategy.h"
+#include "../replace_strategy/clock_strategy.h"
+#include "../replace_strategy/arc_strategy.h"
+#include "../replace_strategy/strategy_factory.h"
 
 // Why: 将所有替换策略类放在命名空间中，避免命名冲突
 // What: 定义sqlcc命名空间，包含所有存储相关的替换策略类

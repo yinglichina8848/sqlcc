@@ -2,11 +2,11 @@
 
 #include <memory>
 #include <string>
+#include "../../utils/config_manager.h"
 
 namespace sqlcc {
 
 class StorageEngine;
-class TransactionManager;
 
 namespace storage_engine {
 
@@ -15,15 +15,18 @@ namespace index_manager {
 class IndexManager {
 public:
     IndexManager(std::shared_ptr<StorageEngine> storage_engine,
-                 std::shared_ptr<TransactionManager> transaction_manager);
+                 ConfigManager &config);
     ~IndexManager();
 
-    bool CreateIndex(const std::string& table_name, const std::string& column_name);
-    bool DropIndex(const std::string& table_name, const std::string& column_name);
+    bool CreateIndex(const std::string& index_name,
+                     const std::string& table_name,
+                     const std::string& column_name,
+                     bool unique = false);
+    bool DropIndex(const std::string& index_name,
+                   const std::string& table_name);
 
 private:
     std::shared_ptr<StorageEngine> storage_engine_;
-    std::shared_ptr<TransactionManager> transaction_manager_;
 };
 
 } // namespace index_manager

@@ -61,11 +61,22 @@ namespace sqlcc {
  * @param db_manager DatabaseManager的共享指针，提供基础数据库操作接口。
  */
 SystemDatabase::SystemDatabase(std::shared_ptr<DatabaseManager> db_manager)
-    : db_manager_(db_manager) {
-    // TODO(#SYSDB-001): 在实际实现中，SystemDatabase可能需要更直接地与存储层交互，
-    // 而不是通过SqlExecutor。当前注释指出“移除SqlExecutor依赖，使用DatabaseManager直接执行操作”，
-    // 但目前大部分方法仍然依赖于通过SqlExecutor执行SQL字符串来操作元数据。
-    // 这可能需要SystemDatabase内部实现一个更底层的元数据存储接口。
+    : db_manager_(db_manager), is_initialized_(false) { // 初始化is_initialized_为false
+    // WHY: `SystemDatabase`的设计目标是作为数据库的元数据管理中心。它需要一种机制来
+    // 操作这些元数据，而元数据本身是存储在普通数据库表中的。
+    // WHAT: 构造函数接收一个`DatabaseManager`的共享指针，用于提供底层数据库操作接口。
+    // 关于`SqlExecutor`的依赖，存在一个重要的设计权衡点：
+    // -   **通过`SqlExecutor`执行SQL**: 当前实现采用此方式。优点是复用现有SQL解析和执行逻辑，
+    //     简化`SystemDatabase`的实现。缺点是引入了额外的解析和优化开销，并且可能需要将元数据
+    //     结构序列化为SQL字符串，再从结果字符串反序列化，效率较低且易错。
+    // -   **直接通过`DatabaseManager`或存储层API**: `TODO(#SYSDB-001)` 指出这可能是更理想的方案。
+    //     优点是操作元数据更高效、更直接，避免了SQL解析开销，且可以直接处理结构化数据。
+    //     缺点是`SystemDatabase`内部需要实现更多底层逻辑来与存储引擎交互，增加了复杂性。
+    // HOW: 目前`SystemDatabase`主要通过`ExecuteSQL`和`ExecuteSelectQuery`方法，
+    // 将元数据操作转换为SQL语句，并交由`SqlExecutor`处理。
+    // TODO(#SYSDB-001-IMPL): 在未来版本中，可以考虑优化`SystemDatabase`的实现，
+    // 使其直接通过`db_manager_`提供的API（如果存在）或与底层的存储引擎更紧密地集成，
+    // 以提高元数据操作的效率和可靠性，并减少对SQL字符串操作的依赖。
 }
 /**
  * @brief 销毁SystemDatabase实例。
@@ -778,12 +789,20 @@ bool SystemDatabase::ExecuteSQL(const std::string& sql) {
         
         // 2. 使用SqlExecutor执行SQL语句。
         SqlExecutor executor(db_manager_); // 每次都创建新的Executor实例
-        std::string result = executor.Execute(sql);
+        std::string result = executor.Execute(sql); // 这里返回的是一个字符串，可能包含执行结果或错误信息。
         
-        // 3. 检查执行结果是否包含错误信息。
-        // TODO(#SYSDB-004): SqlExecutor的Execute方法应返回结构化结果，而非字符串，以便更可靠地检查错误。
+        // WHY: 依赖对字符串结果进行查找("Error", "ERROR")来判断SQL执行是否成功是不可靠的。
+        // SQL执行结果可能包含"Error"但实际是成功的警告信息，或者错误信息中不包含特定关键词。
+        // WHAT: `SqlExecutor::Execute`方法应该返回一个结构化的结果对象，
+        // 而不是一个简单的字符串。这个结果对象应包含：
+        // -   一个布尔值指示操作是否成功。
+        // -   一个字符串，用于详细的错误信息（如果失败）。
+        // -   受影响的行数或其他执行统计信息。
+        // HOW: 改造`SqlExecutor::Execute`，使其返回一个如`ExecutionResult`的结构体或类。
+        // `SystemDatabase`的`ExecuteSQL`方法将基于这个结构体来判断成功与否。
+        // TODO(#SYSDB-004-IMPL): SqlExecutor的Execute方法应返回结构化结果，而非字符串，以便更可靠地检查错误。
         if (result.find("Error") != std::string::npos || result.find("ERROR") != std::string::npos) {
-            SetError(result);
+            SetError(result); // 记录完整的错误信息
             return false;
         }
         
@@ -810,9 +829,23 @@ std::string SystemDatabase::ExecuteSelectQuery(const std::string& sql) {
         
         // 2. 使用SqlExecutor执行SELECT查询。
         SqlExecutor executor(db_manager_); // 每次都创建新的Executor实例
-        std::string result = executor.Execute(sql);
+        std::string result = executor.Execute(sql); // 这里返回的是一个字符串，包含查询结果或错误信息。
         
-        // TODO(#SYSDB-005): SqlExecutor的Execute方法应返回结构化结果，而非字符串，以便SystemDatabase解析元数据。
+        // WHY: 当前`ExecuteSelectQuery`返回一个原始的字符串结果，
+        // 并且后续方法（如`DatabaseExists`, `UserExists`）需要对这个字符串进行
+        // 不可靠的文本解析来提取信息（例如，查找'1'-'9'来判断COUNT(*)>0）。
+        // 这种方式不仅效率低下，而且极易出错，因为它强依赖于`SqlExecutor`输出的精确格式。
+        // WHAT: `SqlExecutor::Execute`方法（当执行SELECT查询时）应该返回一个结构化的结果集，
+        // 而不是一个扁平的字符串。这个结果集应该包含：
+        // -   成功状态指示。
+        // -   一个表示多行数据的结构（例如，`std::vector<std::vector<std::string>>`或
+        //     `std::vector<std::unordered_map<std::string, std::string>>`）。
+        // -   列名信息。
+        // HOW: 改造`SqlExecutor::Execute`，使其针对SELECT查询返回一个`QueryResult`等结构体。
+        // `SystemDatabase`的`ExecuteSelectQuery`方法将接收这个结构体，
+        // 并能够通过结构化的方式（例如，遍历行和列，或通过列名访问值）来解析数据，
+        // 进而填充到`SysDatabase`, `SysUser`等元数据结构中。
+        // TODO(#SYSDB-005-IMPL): SqlExecutor的Execute方法应返回结构化结果，而非字符串，以便SystemDatabase解析元数据。
         return result;
     } catch (const std::exception& e) {
         SetError(std::string("ExecuteSelectQuery exception: ") + e.what());
@@ -949,7 +982,15 @@ bool SystemDatabase::DatabaseExists(const std::string& db_name) {
         }
         
         // 3. 解析结果，检查COUNT是否大于0。
-        // TODO(#SYSDB-005): 简化解析逻辑：目前通过字符串查找'1'到'9'，在生产环境应通过结构化方式解析COUNT值。
+        // WHY: 当前通过字符串查找数字（'1'到'9'）来判断`COUNT(*)`是否大于0是极其脆弱且不可靠的。
+        // 这种方法假定`ExecuteSelectQuery`返回的字符串结果中，如果存在匹配项，则表示有记录。
+        // 然而，一个结构化的查询结果会直接提供`COUNT(*)`的数值，从而可以进行精确的比较。
+        // WHAT: 应当从`ExecuteSelectQuery`返回的结构化结果中，直接提取`COUNT(*)`的值，
+        // 并进行数值比较来判断数据库是否存在。
+        // HOW: 假设`ExecuteSelectQuery`返回一个可以解析的`QueryResult`对象，
+        // 我们可以从中获取第一行第一列的整数值（即COUNT结果）。
+        // 例如：`int count = QueryResult.GetRow(0).GetColumn(0).AsInt(); return count > 0;`
+        // TODO(#SYSDB-005-IMPL): 简化解析逻辑：目前通过字符串查找'1'到'9'，在生产环境应通过结构化方式解析COUNT值。
         if (result.find("1") != std::string::npos || result.find("2") != std::string::npos || 
             result.find("3") != std::string::npos || result.find("4") != std::string::npos ||
             result.find("5") != std::string::npos || result.find("6") != std::string::npos ||
@@ -1131,7 +1172,11 @@ bool SystemDatabase::UserExists(const std::string& username) {
         }
         
         // 3. 解析结果，检查COUNT是否大于0。
-        // TODO(#SYSDB-005): 简化解析逻辑：目前通过字符串查找'1'到'9'，在生产环境应通过结构化方式解析COUNT值。
+        // WHY: 同样，当前通过字符串查找数字来判断`COUNT(*)`是否大于0是不可靠的。
+        // WHAT: 应当从`ExecuteSelectQuery`返回的结构化结果中，直接提取`COUNT(*)`的值，
+        // 并进行数值比较来判断用户是否存在。
+        // HOW: 参见`DatabaseExists`方法的详细注释，需要`SqlExecutor`返回结构化结果。
+        // TODO(#SYSDB-005-IMPL): 简化解析逻辑：目前通过字符串查找'1'到'9'，在生产环境应通过结构化方式解析COUNT值。
         if (result.find("1") != std::string::npos || result.find("2") != std::string::npos || 
             result.find("3") != std::string::npos || result.find("4") != std::string::npos ||
             result.find("5") != std::string::npos || result.find("6") != std::string::npos ||
@@ -1271,7 +1316,11 @@ bool SystemDatabase::RoleExists(const std::string& role_name) {
         }
         
         // 3. 解析结果，检查COUNT是否大于0。
-        // TODO(#SYSDB-005): 简化解析逻辑：目前通过字符串查找'1'到'9'，在生产环境应通过结构化方式解析COUNT值。
+        // WHY: 同样，当前通过字符串查找数字来判断`COUNT(*)`是否大于0是不可靠的。
+        // WHAT: 应当从`ExecuteSelectQuery`返回的结构化结果中，直接提取`COUNT(*)`的值，
+        // 并进行数值比较来判断角色是否存在。
+        // HOW: 参见`DatabaseExists`方法的详细注释，需要`SqlExecutor`返回结构化结果。
+        // TODO(#SYSDB-005-IMPL): 简化解析逻辑：目前通过字符串查找'1'到'9'，在生产环境应通过结构化方式解析COUNT值。
         if (result.find("1") != std::string::npos || result.find("2") != std::string::npos || 
             result.find("3") != std::string::npos || result.find("4") != std::string::npos ||
             result.find("5") != std::string::npos || result.find("6") != std::string::npos ||

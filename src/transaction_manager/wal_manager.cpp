@@ -95,9 +95,8 @@ struct LogRecord {
   TransactionId txn_id; ///< 事务ID
   LogRecordType type;   ///< 日志记录类型
   std::string key;      ///< 涉及的数据键（例如表名+主键）
-  // TODO(#WAL-001): old_value 和 new_value 是实现UNDO/REDO的关键，需要在此处定义并序列化/反序列化。
-  // std::string old_value;
-  // std::string new_value;
+  std::string old_value;///< 操作前的数据旧值（序列化形式），用于UNDO操作。
+  std::string new_value;///< 操作后的数据新值（序列化形式），用于REDO操作。
   std::chrono::system_clock::time_point timestamp; ///< 记录生成时间戳
 
   /**
@@ -122,19 +121,25 @@ struct LogRecord {
       break;
     case LogRecordType::UPDATE:
       ss << "UPDATE";
+      ss << " Key:'" << key << "'";
+      ss << " Old:'" << old_value << "'"; // 显示旧值
+      ss << " New:'" << new_value << "'"; // 显示新值
       break;
     case LogRecordType::INSERT:
       ss << "INSERT";
+      ss << " Key:'" << key << "'";
+      ss << " Value:'" << new_value << "'"; // 插入操作只有新值
       break;
     case LogRecordType::DELETE:
       ss << "DELETE";
+      ss << " Key:'" << key << "'";
+      ss << " Old:'" << old_value << "'"; // 删除操作只有旧值
       break;
     case LogRecordType::COMPENSATE:
       ss << "COMPENSATE";
       break;
     }
 
-    ss << " Key:'" << key << "'";
     auto timestamp_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
                             timestamp.time_since_epoch())
                             .count();
@@ -155,7 +160,7 @@ WALManager::WALManager(const std::string &log_file_path, bool force_sync)
     : log_file_path_(log_file_path),
       checkpoint_file_path_(log_file_path + ".chk"), next_lsn_(1),
       last_flushed_lsn_(0), last_checkpoint_lsn_(0), force_sync_(force_sync),
-      flush_interval_ms_(100) { // 100ms异步刷盘间隔
+      flush_interval_ms_(100), stop_flush_thread_(false) { // 100ms异步刷盘间隔
 
   // 初始化指标
   metrics_.total_records = 0;
@@ -167,10 +172,14 @@ WALManager::WALManager(const std::string &log_file_path, bool force_sync)
   // 初始化日志文件
   InitializeLogFile();
 
-  // TODO(#WAL-002): 暂时禁用异步刷盘功能以解决编译问题，待异步刷盘逻辑稳定后重新启用。
-  // 目前强制使用同步模式，并阻止异步刷盘线程启动。
-  force_sync_ = true; // 强制使用同步模式
-  stop_flush_thread_ = true;
+  // WHY: 异步刷盘是提升数据库吞吐量的关键技术之一。通过将日志写入磁盘的操作
+  // 从事务处理的主路径中解耦出来，使得事务能够更快地提交。
+  // WHAT: 根据构造函数传入的 `force_sync` 参数决定是否启动异步刷盘线程。
+  // HOW: 如果 `force_sync_` 为 false，则启动一个后台线程 `flush_thread_`，
+  // 该线程会周期性地将内存中的日志缓冲区数据刷入磁盘。
+  if (!force_sync_) {
+    flush_thread_ = std::thread(&WALManager::AsyncFlushThread, this);
+  }
 
   std::cout << "WALManager 已初始化 - 日志文件: " << log_file_path_
             << " 强制同步: " << (force_sync_ ? "是" : "否") << std::endl;
@@ -179,11 +188,21 @@ WALManager::WALManager(const std::string &log_file_path, bool force_sync)
 /**
  * @brief 销毁WALManager实例。
  * @details 在销毁之前，会强制将所有内存中未刷盘的日志记录写入磁盘，确保数据持久性。
- * 由于异步刷盘功能暂时禁用，此析构函数无需等待异步线程停止。
+ * 如果启用了异步刷盘，则会先停止异步刷盘线程。
  */
 WALManager::~WALManager() {
-  // TODO(#WAL-002): 异步刷盘功能已被禁用，当重新启用时，此处需处理线程的优雅停止。
-  // 此处无需处理线程停止
+  // WHY: 确保在WALManager析构时，所有待处理的日志记录都已被持久化到磁盘，
+  // 并且后台的异步刷盘线程能够被优雅地关闭，避免资源泄露或数据丢失。
+  // WHAT: 停止异步刷盘线程（如果已启动），并强制刷盘所有剩余的日志。
+  // HOW:
+  // 1. 设置停止标志 `stop_flush_thread_` 为 true，通知异步刷盘线程退出循环。
+  // 2. 唤醒异步刷盘线程，确保它能够检查到停止标志并退出。
+  // 3. 使用 `join()` 等待异步刷盘线程完成其工作并终止。
+  if (flush_thread_.joinable()) {
+    stop_flush_thread_ = true;
+    buffer_cv_.notify_one(); // 唤醒等待中的线程
+    flush_thread_.join();    // 等待线程结束
+  }
 
   // 强制刷盘所有待写入日志，确保所有日志记录都被持久化。
   ForceFlush();
@@ -367,14 +386,40 @@ std::vector<LogRecord> WALManager::ReadLogRange(uint64_t from_lsn,
 std::unordered_map<std::string, std::string> WALManager::AnalyzeLog() const {
   std::unordered_map<std::string, std::string> recovery_actions;
 
-  // TODO(#WAL-003): 实现日志分析逻辑。
-  // 此处应扫描所有日志记录，识别崩溃前已提交/未提交/已中止的事务，
-  // 并构建脏页表和活跃事务表，这是恢复协议“分析”阶段的核心。
-  // 临时注释掉会导致编译错误的部分
-  // std::unique_lock<std::mutex> lock(buffer_mutex_);
+  // WHY: 分析阶段（Analysis Phase）是ARIES恢复算法的第一步。
+  // 它的目标是确定崩溃发生时数据库的状态，特别是识别出哪些事务是活跃的、
+  // 哪些页面是脏的（即在内存中被修改但尚未刷回磁盘），以及从哪个LSN开始进行重做。
+  // WHAT: 扫描WAL日志文件，从最新的检查点开始，构建活跃事务表 (ATT) 和脏页表 (DPT)。
+  // ATT记录了崩溃时所有尚未提交或中止的事务，DPT记录了崩溃时所有在内存中被修改但
+  // 尚未写入磁盘的页面及其对应的LSN。
+  // HOW:
+  // 1. **从最近的检查点开始扫描**: 定位到最近检查点记录的LSN，并从该点开始向前扫描日志。
+  //    检查点记录包含了崩溃时ATT和DPT的初始状态。
+  // 2. **更新ATT**: 遇到`BEGIN`记录时，将事务ID添加到ATT中；遇到`COMMIT`或`ABORT`记录时，
+  //    从ATT中移除对应的事务ID。
+  // 3. **更新DPT**: 遇到任何数据修改（`UPDATE`, `INSERT`, `DELETE`）记录时，
+  //    如果对应的页面LSN小于DPT中记录的页面LSN，则更新DPT，记录该页面的最新修改LSN。
+  // 4. **确定Redo起点**: 分析阶段的最终结果是确定一个Redo LSN，即从该LSN开始，
+  //    所有需要重做的操作都将发生。这个LSN通常是DPT中最小的RecLSN（最近一次将脏页写入磁盘的LSN）。
+
+  LOG_INFO("WALManager::AnalyzeLog - 开始分析日志进行恢复。");
+  // 实际的日志分析需要遍历日志文件，并且需要一个更复杂的机制来构建ATT和DPT。
+  // 以下为简化演示，仅输出信息。
+  // TODO: (#WAL-003-IMPL) 在实际实现中，需要通过`ReadRecordFromDisk`迭代读取日志记录，
+  // 并根据日志记录类型更新内部的ATT和DPT数据结构。
+  // 例如：
+  // std::vector<LogRecord> all_logs = ReadLogRange(last_checkpoint_lsn_, next_lsn_.load());
+  // for (const auto& log : all_logs) {
+  //     if (log.type == LogRecordType::BEGIN) {
+  //         // Add to Active Transaction Table
+  //     } else if (log.type == LogRecordType::UPDATE || log.type == LogRecordType::INSERT || log.type == LogRecordType::DELETE) {
+  //         // Update Dirty Page Table based on the page involved in the operation
+  //     }
+  // }
+
 
   (void)recovery_actions; // 避免未使用变量警告
-  return {}; // 暂未实现，返回空。
+  return {}; // 暂未实现完整分析，返回空。
 }
 /**
  * @brief 创建一个WAL检查点。
@@ -394,8 +439,13 @@ uint64_t WALManager::CreateCheckpoint(bool sync) {
   CheckpointState checkpoint{
       checkpoint_lsn,
       std::chrono::system_clock::now(),
-      {} // TODO(#WAL-004): 获取当前页面状态快照 (如脏页表、活跃事务表)。
-         // 这是实现ARIES等恢复算法的关键信息，用于在恢复的“重做”阶段跳过不必要的扫描。
+      {} // WHY: 页面状态快照，特别是脏页表 (Dirty Page Table, DPT) 和活跃事务表 (Active Transaction Table, ATT)，
+         // 是ARIES恢复算法中分析阶段的关键输入。DPT记录了在检查点发生时，哪些页面在内存中被修改但尚未刷回磁盘，
+         // 以及这些页面上发生的第一个日志记录（RecLSN）。ATT则记录了在检查点时所有正在进行中的事务。
+         // WHAT: 在一个完整的实现中，这里应该获取BufferPoolManager的DPT和TransactionManager的ATT。
+         // HOW: 这将通过调用BufferPoolManager::GetDirtyPageTable()和TransactionManager::GetActiveTransactions()
+         // 等方法来实现。这些信息使得在崩溃恢复的Redo阶段，可以从检查点之后有效地重放日志，
+         // 并且跳过那些在检查点之前就已经刷回磁盘的页面的操作。
   };
 
   // 4. 根据同步标志，将检查点状态写入磁盘。
@@ -489,9 +539,15 @@ bool WALManager::RecoverFromLog() {
       }
     }
 
-    // TODO(#WAL-005): 重做阶段 (Redo Phase):
-    // 根据分析阶段构建的脏页表和LSN，将所有已提交事务和部分提交事务的更改重做到数据库。
-    // 确保数据库达到崩溃前的状态。
+    // WHY: 重做阶段 (Redo Phase) 是确保持久性的关键一步。
+    // 它的目标是根据WAL日志，重新应用所有已提交事务以及部分已进行但尚未完全写入磁盘的事务的更改，
+    // 使数据库恢复到崩溃前的最新状态。即使某些更改在崩溃前已经写入了磁盘，Redo操作也会幂等地重新执行。
+    // WHAT: 遍历从上一个检查点或恢复起点（Redo LSN）到日志末尾的所有日志记录，并应用这些更改。
+    // HOW: `ReplayLog`函数负责实际的重做操作。在ARIES等高级恢复算法中，Redo阶段会利用
+    // 分析阶段构建的脏页表（DPT）来优化，只重做那些对应的页面LSN小于或等于日志记录LSN的修改，
+    // 并且只对那些在DPT中的页面进行Redo，以避免不必要的磁盘I/O。
+    // TODO: (#WAL-005-IMPL) 在此添加实际的Redo逻辑，可能需要从特定的Redo LSN开始，
+    // 并且需要与`BufferPoolManager`和`StorageEngine`进行交互来应用日志记录中的数据更改。
 
     // 3. 回滚阶段 (Undo Phase):
     // 遍历txn_status中所有标记为未提交（false）的事务，对这些事务执行Undo操作。
@@ -517,11 +573,31 @@ bool WALManager::RecoverFromLog() {
 std::vector<TransactionId> WALManager::GetInProgressTransactions() const {
   std::vector<TransactionId> active_transactions;
 
-  // TODO(#WAL-006): 实现获取进行中事务的逻辑。
-  // 这需要扫描从上次检查点到当前的所有日志记录，识别出所有BEGIN但没有COMMIT/ABORT的事务。
+  // WHY: 在崩溃恢复的分析阶段和回滚阶段（Undo Phase），我们需要知道在崩溃发生时哪些事务是活跃的。
+  // 活跃事务是指那些已经开始（有`BEGIN`记录）但尚未提交（无`COMMIT`记录）或中止（无`ABORT`记录）的事务。
+  // 识别这些事务是进行回滚操作的前提。
+  // WHAT: 该函数旨在扫描从最近的检查点到日志末尾的所有日志记录，并构建一个活跃事务ID的列表。
+  // HOW:
+  // 1. **初始化**: 创建一个`std::unordered_set<TransactionId>`来存储活跃事务ID。
+  // 2. **扫描日志**: 从`last_checkpoint_lsn_`之后的下一条日志记录开始，直到日志末尾。
+  //    使用`ReadLogRange`或迭代`ReadRecordFromDisk`。
+  // 3. **处理日志记录**:
+  //    - 遇到`BEGIN`记录时，将`record.txn_id`插入到活跃事务集合中。
+  //    - 遇到`COMMIT`或`ABORT`记录时，将`record.txn_id`从活跃事务集合中移除。
+  // 4. **返回结果**: 扫描结束后，集合中剩余的事务ID即为崩溃时活跃的事务。
+
   // 临时注释掉会导致编译错误的部分
   // std::vector<LogRecord> recent_logs = ReadLogRange(last_checkpoint_lsn_ + 1,
   // next_lsn_.load() - 1);
+  // for (const auto& record : recent_logs) {
+  //     if (record.type == LogRecordType::BEGIN) {
+  //         // active_transactions_set.insert(record.txn_id);
+  //     } else if (record.type == LogRecordType::COMMIT || record.type == LogRecordType::ABORT) {
+  //         // active_transactions_set.erase(record.txn_id);
+  //     }
+  // }
+  // active_transactions.assign(active_transactions_set.begin(), active_transactions_set.end());
+
 
   (void)active_transactions; // 避免未使用变量警告
   return {}; // 暂未实现，返回空。
@@ -543,16 +619,38 @@ uint64_t WALManager::ReplayLog(uint64_t from_lsn, uint64_t to_lsn) {
     // 根据日志记录类型，应用相应的重演逻辑到存储引擎。
     switch (record.type) {
     case LogRecordType::UPDATE:
-      // TODO(#WAL-007): 在存储引擎中应用更新操作 (Redo)。
+      // WHY: 在Redo阶段，UPDATE日志记录指示数据库需要将特定数据项的值更新为`new_value`。
+      // 这确保了已提交事务的更新操作即使在崩溃后也能被正确地重新应用。
+      // WHAT: 将`record.key`标识的数据项更新为`record.new_value`。
+      // HOW: 这通常涉及以下步骤：
+      //      1. 通过`BufferPoolManager`获取包含`record.key`的对应数据页面。
+      //      2. 在该数据页面上，定位到由`record.key`指定的数据项。
+      //      3. 将数据项的值更新为`record.new_value`。
+      //      4. 确保更新操作是幂等的：如果目标数据项的LSN已经大于或等于`record.lsn`，
+      //         则无需再次应用此更新，因为该更改可能已通过后续日志或之前刷盘操作应用。
+      // TODO: (#WAL-007-IMPL) 在存储引擎中应用更新操作 (Redo)。
       // 这需要与BufferPoolManager和StorageEngine交互，根据record.key和value进行数据更新。
       std::cout << "重演更新: " << record.ToString() << std::endl;
       break;
     case LogRecordType::INSERT:
-      // TODO(#WAL-008): 在存储引擎中应用插入操作 (Redo)。
+      // WHY: INSERT日志记录指示数据库需要重新插入一个已提交事务添加的数据项。
+      // WHAT: 将`record.new_value`作为新的数据项插入到由`record.key`标识的存储位置。
+      // HOW: 这通常涉及以下步骤：
+      //      1. 通过`BufferPoolManager`获取适合插入`record.key`和`record.new_value`的数据页面。
+      //      2. 在页面中为新数据项分配空间并写入`record.new_value`。
+      //      3. 确保插入操作是幂等的：如果数据项已存在（例如，通过主键查找），则无需重复插入。
+      // TODO: (#WAL-008-IMPL) 在存储引擎中应用插入操作 (Redo)。
       std::cout << "重演插入: " << record.ToString() << std::endl;
       break;
     case LogRecordType::DELETE:
-      // TODO(#WAL-009): 在存储引擎中应用删除操作 (Redo)。
+      // WHY: DELETE日志记录指示数据库需要重新删除一个已提交事务移除的数据项。
+      // WHAT: 从由`record.key`标识的存储位置删除数据项。
+      // HOW: 这通常涉及以下步骤：
+      //      1. 通过`BufferPoolManager`获取包含`record.key`的对应数据页面。
+      //      2. 在该数据页面上，定位到由`record.key`指定的数据项。
+      //      3. 将数据项标记为已删除或移除其物理存储。
+      //      4. 确保删除操作是幂等的：如果数据项已不存在，则无需重复删除。
+      // TODO: (#WAL-009-IMPL) 在存储引擎中应用删除操作 (Redo)。
       std::cout << "重演删除: " << record.ToString() << std::endl;
       break;
     // BEGIN/COMMIT/ABORT 日志记录是事务控制信息，在Redo阶段通常不需要对数据页进行操作，
@@ -578,22 +676,39 @@ uint64_t WALManager::ReplayLog(uint64_t from_lsn, uint64_t to_lsn) {
 WALManager::WALMetrics WALManager::GetMetrics() const {
   WALMetrics metrics;
 
-  // TODO(#WAL-010): 实现指标收集逻辑。
-  // 尤其需要线程安全地收集log_file_size_bytes和pending_records。
-  // metrics.log_file_size_bytes = std::filesystem::file_size(log_file_path_);
-  // std::unique_lock<std::mutex> buffer_lock(buffer_mutex_);
-  // metrics.pending_records = log_buffer_.size();
+  // WHY: 提供WAL管理器的实时性能和状态指标对于监控、调试和性能调优至关重要。
+  // 这些指标有助于理解日志系统的工作负载和瓶颈。由于WALManager是多线程的，
+  // 必须确保在访问共享资源（如日志缓冲区大小、文件大小）时线程安全，以避免数据不一致。
+  // WHAT: 收集并返回WAL管理器的各项性能指标，包括总记录数、已刷盘记录数、待刷盘记录数、
+  // 刷盘时间统计和日志文件当前大小。
+  // HOW:
+  // 1. **`log_file_size_bytes`**: 通过`std::filesystem::file_size()`获取日志文件的当前大小。
+  //    这是一个相对独立的OS调用，不直接影响共享内存数据。
+  // 2. **`pending_records`**: 通过`buffer_mutex_`保护对`log_buffer_`的访问，获取其当前大小。
+  // 3. **其他指标**: `total_records`, `flushed_records`, `total_flush_time`, `avg_flush_time`,
+  //    `total_checkpoints`等已在操作发生时通过`metrics_mutex_`进行更新，此处直接复制即可。
 
-  // 为避免编译错误和未初始化值，暂时手动设置一些默认值
-  // 实际应该从私有成员变量metrics_中复制或汇总。
+  // 保护对metrics_成员的访问，以获取准确的统计数据
+  std::unique_lock<std::mutex> lock(metrics_mutex_);
   metrics.total_records = metrics_.total_records;
   metrics.flushed_records = metrics_.flushed_records;
-  metrics.pending_records = metrics_.pending_records;
   metrics.total_flush_time = metrics_.total_flush_time;
   metrics.avg_flush_time = metrics_.avg_flush_time;
   metrics.total_checkpoints = metrics_.total_checkpoints;
-  // metrics.log_file_size_bytes 的获取需要文件系统操作，可能较慢且涉及IO错误处理。
-  // 在完整的实现中，这个值应由一个单独的线程定期更新或懒加载。
+
+  // 收集log_file_size_bytes
+  try {
+    metrics.log_file_size_bytes = std::filesystem::file_size(log_file_path_);
+  } catch (const std::filesystem::filesystem_error &e) {
+    LOG_ERROR("无法获取WAL文件大小: %s", e.what());
+    metrics.log_file_size_bytes = 0; // 发生错误时设置为0
+  }
+
+  // 收集pending_records，需要保护log_buffer_
+  {
+    std::unique_lock<std::mutex> buffer_lock(buffer_mutex_);
+    metrics.pending_records = log_buffer_.size();
+  }
 
   return metrics;
 }
@@ -615,14 +730,24 @@ void WALManager::ResetMetrics() {
  * @return 实际回收的字节数。
  */
 size_t WALManager::CompactLog(uint64_t keep_lsn) {
-  // TODO(#WAL-011): 实现日志压缩逻辑。
-  // 实际的日志压缩需要考虑：
-  // 1. 确保所有小于keep_lsn的页面更改都已写回磁盘。
-  // 2. 存在活跃事务可能需要这些日志。
-  // 3. 如何安全地移除文件中的旧记录（例如，通过创建新文件，复制有效部分）。
-  // 4. 并发访问和检查点等因素。
+  // WHY: 日志压缩（Log Compaction）是WAL管理中一个至关重要的功能，旨在回收旧日志记录占用的磁盘空间，
+  // 从而防止日志文件无限增长。然而，压缩过程必须小心执行，以确保数据库的崩溃恢复能力不受影响。
+  // WHAT: 移除所有LSN小于`keep_lsn`的日志记录。
+  // HOW: 真正的日志压缩是一个复杂的过程，它不能简单地删除文件开头的部分。
+  // 核心挑战和考虑点包括：
+  // 1.  **持久性保证**: 必须确保所有小于`keep_lsn`的日志记录所代表的页面更改都已**安全地刷写到磁盘**。
+  //     否则，如果系统在压缩后崩溃，这些未刷写的更改将无法通过Redo恢复。
+  // 2.  **活跃事务**: 任何正在进行的事务可能仍需要读取旧的日志记录进行Undo操作。
+  //     因此，不能删除任何活跃事务可能依赖的日志。
+  // 3.  **安全文件操作**: 在操作系统层面，直接截断（truncate）日志文件可能会导致数据损坏。
+  //     更安全的做法通常是创建一个新的日志文件，将`keep_lsn`之后的有效日志复制过去，
+  //     然后原子性地替换旧文件。
+  // 4.  **并发性**: 日志压缩过程必须与正常的日志写入和读取操作并发安全地执行。
+  // 5.  **检查点**: 压缩的起点通常会关联到最近的检查点，因为检查点提供了一个安全点，
+  //     表明其之前的更改大部分都已持久化。
 
-  std::cout << "日志整理完成（简化实现），保留LSN >= " << keep_lsn << std::endl;
+  LOG_INFO("WALManager::CompactLog - 日志整理请求，保留LSN >= %llu (简化实现，未实际压缩)", keep_lsn);
+  // TODO: (#WAL-011-IMPL) 实现真正的日志压缩逻辑。
   return 0; // 未实际压缩
 }
 /**
@@ -631,11 +756,22 @@ size_t WALManager::CompactLog(uint64_t keep_lsn) {
  * @return 日志完整返回true，否则返回false。
  */
 bool WALManager::VerifyLogIntegrity() const {
-  // TODO(#WAL-012): 实现日志完整性验证逻辑。
+  // WHY: 日志文件的完整性对于数据库的可靠性至关重要。如果WAL日志在写入过程中损坏（例如，由于磁盘错误、
+  // 操作系统崩溃或不完全的写入），那么在崩溃恢复时使用这些损坏的日志会导致数据库进入不一致的状态甚至崩溃。
+  // 因此，在进行恢复之前或定期检查日志完整性是必要的。
+  // WHAT: 检查WAL日志文件是否损坏，例如通过校验和验证、LSN连续性检查等。
+  // HOW: 日志完整性验证通常涉及以下步骤：
+  // 1.  **逐条扫描**: 从日志文件的开头（或最近的检查点）开始，逐条读取并解析日志记录。
+  // 2.  **校验和验证**: 每条日志记录通常包含一个校验和（例如CRC32），用于验证记录内容的完整性。
+  //     读取记录后，重新计算其校验和并与存储的校验和进行比较。
+  // 3.  **LSN连续性检查**: 验证日志记录的LSN是否是严格递增的。
+  // 4.  **记录格式验证**: 检查每条日志记录的头部和长度字段是否有效，以确保其符合预期的格式。
+  // 5.  **文件一致性**: 确保日志文件没有意外截断或意外的额外数据。
+
+  LOG_INFO("WALManager::VerifyLogIntegrity - 开始验证日志文件完整性 (简化实现)");
+  // TODO: (#WAL-012-IMPL) 实现日志完整性验证逻辑。
   // 这会涉及扫描日志文件，检查每条记录的头部、校验和、LSN顺序等。
-  // 临时注释掉会导致编译错误的部分
-  // ReadRecordFromDisk(0);
-  return true;
+  return true; // 暂未实际验证，返回true。
 }
 // ================== 私有方法实现 ==================
 /**
@@ -703,22 +839,49 @@ size_t WALManager::WriteRecordsToDisk(const std::vector<LogRecord> &records) {
   size_t written = 0;
   for (const auto &record : records) {
     // 1. 定义简化的二进制格式：
-    // txn_id (8字节) | type (1字节) | key长度 (4字节) | key数据 | lsn (8字节)
-    // TODO(#WAL-001): 当LogRecord结构扩展时，此处的序列化逻辑需要同步更新，以包含old_value, new_value和timestamp。
+    // lsn (8字节) | txn_id (8字节) | type (1字节) |
+    // key_len (4字节) | key_data |
+    // old_value_len (4字节) | old_value_data |
+    // new_value_len (4字节) | new_value_data |
+    // timestamp (8字节, std::chrono::system_clock::rep)
+
+    // TODO(#WAL-001): LogRecord结构已扩展，此处的序列化逻辑已同步更新。
+    // 在读取时，也需要以相同的顺序和方式反序列化。
+
     uint8_t record_type = static_cast<uint8_t>(record.type);
     uint32_t key_length = record.key.length();
+    uint32_t old_value_length = record.old_value.length();
+    uint32_t new_value_length = record.new_value.length();
+    std::chrono::system_clock::rep timestamp_count = record.timestamp.time_since_epoch().count();
 
+    log_file.write(reinterpret_cast<const char *>(&record.lsn),
+                   sizeof(record.lsn));
     log_file.write(reinterpret_cast<const char *>(&record.txn_id),
                    sizeof(record.txn_id));
     log_file.write(reinterpret_cast<const char *>(&record_type),
                    sizeof(record_type));
+
     log_file.write(reinterpret_cast<const char *>(&key_length),
                    sizeof(key_length));
-    log_file.write(record.key.data(), key_length);
-    log_file.write(reinterpret_cast<const char *>(&record.lsn),
-                   sizeof(record.lsn));
+    if (key_length > 0) {
+      log_file.write(record.key.data(), key_length);
+    }
 
-    // 这里为了简化先只写入核心字段
+    log_file.write(reinterpret_cast<const char *>(&old_value_length),
+                   sizeof(old_value_length));
+    if (old_value_length > 0) {
+      log_file.write(record.old_value.data(), old_value_length);
+    }
+
+    log_file.write(reinterpret_cast<const char *>(&new_value_length),
+                   sizeof(new_value_length));
+    if (new_value_length > 0) {
+      log_file.write(record.new_value.data(), new_value_length);
+    }
+
+    log_file.write(reinterpret_cast<const char *>(&timestamp_count),
+                   sizeof(timestamp_count));
+
 
     if (log_file.fail()) {
       throw std::runtime_error("写入日志记录失败");
@@ -727,7 +890,20 @@ size_t WALManager::WriteRecordsToDisk(const std::vector<LogRecord> &records) {
   }
 
   log_file.flush(); // 强制将缓冲区内容写入操作系统文件缓存。
-  // TODO(#WAL-013): 在生产环境中，需要考虑`fsync()`或`fdatasync()`以确保日志真正持久化到磁盘，
+  // WHY: `log_file.flush()` 确保数据从C++流的内部缓冲区写入操作系统的文件缓冲区。
+  // 但是，这并不保证数据已物理写入磁盘。如果系统在此之后崩溃，但数据仍在操作系统缓冲区中，
+  // 那么这些数据将会丢失，从而违反WAL的持久性保证。
+  // WHAT: `fsync()` 或 `fdatasync()` 系统调用用于强制操作系统将文件缓冲区中的所有待写入数据
+  // 物理地同步到磁盘存储介质。
+  // HOW: 在生产环境中，根据性能和持久性需求，可能需要周期性地或在关键点（例如事务提交时）
+  // 调用 `fsync()`。例如：
+  // #ifdef __linux__
+  //      fdatasync(log_file.fd()); // 仅同步数据，不更新元数据，性能略优
+  // #else
+  //      fsync(log_file.fd());     // 同步数据和元数据
+  // #endif
+  // 这种操作会带来一定的性能开销，因此需要通过配置来平衡刷盘粒度（例如，每X条记录或每Y毫秒一次fsync）。
+  // TODO: (#WAL-013-IMPL) 在生产环境中，需要考虑`fsync()`或`fdatasync()`以确保日志真正持久化到磁盘，
   // 并且可能需要通过配置来控制刷盘粒度（例如，每X条记录或每Y毫秒一次fsync）。
   return written;
 }
@@ -738,14 +914,91 @@ size_t WALManager::WriteRecordsToDisk(const std::vector<LogRecord> &records) {
  * @param lsn 待读取日志记录的LSN。
  * @return 对应的LogRecord实例。如果记录不存在或读取失败，返回一个LSN为0的LogRecord。
  */
-LogRecord WALManager::ReadRecordFromDisk(uint64_t lsn) {
-  // 避免未使用参数警告
-  (void)lsn;
+LogRecord WALManager::ReadRecordFromDisk(uint64_t lsn_to_read) {
+  // WHY: 在崩溃恢复期间，我们需要能够根据日志序列号（LSN）从磁盘中精确地读取出对应的日志记录，
+  // 以便重做（Redo）或撤销（Undo）事务操作。此函数是实现这一核心恢复机制的基础。
+  // WHAT: 实现从WAL日志文件中读取指定LSN的日志记录的逻辑。
+  // HOW:
+  // 1. 打开日志文件进行二进制读取。
+  // 2. 遍历文件，逐条解析日志记录的头部，直到找到匹配`lsn_to_read`的记录。
+  // 3. 读取并反序列化`LogRecord`的所有字段，包括LNS、事务ID、类型、键、旧值、新值和时间戳。
+  //
+  // 注意：目前的实现是一个简化的线性扫描。在生产系统中，为了高效定位，
+  // 通常会维护一个内存中的LSN到文件物理偏移量的映射表，或使用索引结构。
 
-  // TODO(#WAL-014): 实现从磁盘读取指定LSN记录的逻辑。
-  // 这需要解决如何根据LSN高效定位到文件中的记录（例如，通过一个LSN-to-offset的索引），
-  // 并解析其二进制格式（与WriteRecordsToDisk中的格式对应）。
-  return LogRecord(); // 暂未实现，返回默认LogRecord。
+  LogRecord record; // 默认构造函数会将LSN初始化为0，表示无效记录
+  std::ifstream log_file(log_file_path_, std::ios::binary);
+  if (!log_file) {
+    throw std::runtime_error("无法打开日志文件进行读取: " + log_file_path_);
+  }
+
+  // 跳过文件头
+  const char *header_placeholder = "SQLCC WAL v0.4.8"; // 假设头文件大小已知
+  log_file.seekg(strlen(header_placeholder));
+
+  // 循环读取直到文件结束或找到匹配的LSN
+  while (log_file.peek() != EOF) {
+    uint64_t current_lsn;
+    TransactionId txn_id;
+    uint8_t record_type_val;
+    uint32_t key_length, old_value_length, new_value_length;
+    std::chrono::system_clock::rep timestamp_count;
+
+    // 尝试读取日志记录的各个部分
+    size_t start_pos = log_file.tellg(); // 记录当前读取位置
+
+    log_file.read(reinterpret_cast<char *>(&current_lsn), sizeof(current_lsn));
+    if (log_file.gcount() != sizeof(current_lsn)) break; // 读取失败或文件结束
+
+    // 如果当前记录的LSN不匹配，则需要跳过这条记录剩余的部分，找到下一条记录的开头
+    // 这里是一个简化的处理，直接检查LSN。
+    // 更健壮的实现会先读取一个固定大小的记录头来确定后续内容的长度。
+
+    // 为了实现跳过，我们需要知道每条记录的完整长度。
+    // 由于结构复杂且可变长字段，直接跳过当前简化实现可能不准确。
+    // 因此，我们先完整读取，然后检查LSN。
+
+    // 读取事务ID, 类型
+    log_file.read(reinterpret_cast<char *>(&txn_id), sizeof(txn_id));
+    log_file.read(reinterpret_cast<char *>(&record_type_val), sizeof(record_type_val));
+
+    // 读取key
+    log_file.read(reinterpret_cast<char *>(&key_length), sizeof(key_length));
+    std::string key_data(key_length, '\0');
+    if (key_length > 0) log_file.read(key_data.data(), key_length);
+
+    // 读取old_value
+    log_file.read(reinterpret_cast<char *>(&old_value_length), sizeof(old_value_length));
+    std::string old_value_data(old_value_length, '\0');
+    if (old_value_length > 0) log_file.read(old_value_data.data(), old_value_length);
+
+    // 读取new_value
+    log_file.read(reinterpret_cast<char *>(&new_value_length), sizeof(new_value_length));
+    std::string new_value_data(new_value_length, '\0');
+    if (new_value_length > 0) log_file.read(new_value_data.data(), new_value_length);
+
+    // 读取timestamp
+    log_file.read(reinterpret_cast<char *>(&timestamp_count), sizeof(timestamp_count));
+
+    if (log_file.fail() && !log_file.eof()) { // 读到一半失败，但不是文件结束
+      throw std::runtime_error("读取日志记录时发生错误");
+    }
+
+    if (current_lsn == lsn_to_read) {
+      record.lsn = current_lsn;
+      record.txn_id = txn_id;
+      record.type = static_cast<LogRecordType>(record_type_val);
+      record.key = key_data;
+      record.old_value = old_value_data;
+      record.new_value = new_value_data;
+      record.timestamp = std::chrono::system_clock::time_point(
+          std::chrono::system_clock::duration(timestamp_count));
+      return record;
+    }
+    // 如果LSN不匹配，并且文件没有读取完，继续下一次循环读取
+  }
+
+  return LogRecord(); // 未找到匹配的LSN，返回默认构造的LogRecord (lsn=0)
 }
 /**
  * @brief 将检查点状态写入磁盘文件。
@@ -768,11 +1021,22 @@ void WALManager::WriteCheckpointToDisk(const CheckpointState &checkpoint) {
   chk_file.write(reinterpret_cast<const char *>(&timestamp_count),
                  sizeof(timestamp_count));
 
-  // TODO(#WAL-004): 写入页面状态快照 (DPT - Dirty Page Table, ATT - Active Transaction Table)。
-  // 这是崩溃恢复（特别是ARIES算法）中分析阶段的关键输入，用于确定从哪里开始Redo。
+  // WHY: 在ARIES等恢复算法中，脏页表 (DPT) 和活跃事务表 (ATT) 是崩溃恢复分析阶段的关键输入。
+  // 将它们写入检查点文件，可以极大地加速恢复过程，因为它提供了崩溃时刻数据库状态的快照。
+  // WHAT: 写入页面状态快照（DPT和ATT）。
+  // HOW: 在完整的实现中，这里会序列化`checkpoint.dirty_page_table`和`checkpoint.active_transaction_table`
+  // 并写入文件。这些结构体包含了在检查点时哪些页面是脏的以及哪些事务仍在运行的信息。
+  // TODO: (#WAL-004-IMPL) 实现将页面状态快照（DPT和ATT）序列化并写入检查点文件的逻辑。
 
   chk_file.flush(); // 强制将缓冲区内容写入操作系统文件缓存。
-  // TODO(#WAL-015): 在生产环境中，需要`fsync()`或`fdatasync()`确保检查点真正持久化到磁盘。
+  // WHY: 检查点文件的持久性至关重要，因为它包含了恢复日志的起点和关键状态信息。
+  // 仅仅执行 `flush()` 只能确保数据到达操作系统的文件缓冲区，而不能保证数据已物理写入磁盘。
+  // 如果在 `fsync()` 调用前系统崩溃，那么新写入的检查点可能不完整或丢失，
+  // 从而导致下次恢复时使用过时的检查点或恢复失败。
+  // WHAT: `fsync()` 系统调用用于强制操作系统将检查点文件的所有待写入数据物理地同步到磁盘。
+  // HOW: 在创建检查点后，**必须**调用 `fsync()` 以确保检查点的持久性。
+  // 这确保了在任何系统崩溃后，最新的检查点都能够被可靠地读取和使用。
+  // TODO: (#WAL-015-IMPL) 在生产环境中，需要`fsync()`或`fdatasync()`确保检查点真正持久化到磁盘。
   std::cout << "检查点已写入磁盘，LSN: " << checkpoint.checkpoint_lsn
             << std::endl;
 }
@@ -811,8 +1075,11 @@ CheckpointState WALManager::ReadCheckpointFromDisk() const {
         std::chrono::system_clock::duration(timestamp_count));
   }
 
-  // TODO(#WAL-004): 读取页面状态快照 (DPT - Dirty Page Table, ATT - Active Transaction Table)。
-  // 这部分与WriteCheckpointToDisk中的写入逻辑对应。
+  // WHY: 与`WriteCheckpointToDisk`中写入逻辑对应，恢复时需要读取这些状态。
+  // WHAT: 读取在检查点发生时记录的页面状态快照，例如脏页表 (DPT) 和活跃事务表 (ATT)。
+  // HOW: 在完整的实现中，这里会反序列化DPT和ATT的数据，并将其填充到`checkpoint`对象中。
+  // 这些信息对于恢复的Redo阶段至关重要，它指导恢复过程从何处开始重放日志。
+  // TODO: (#WAL-004-IMPL) 实现从检查点文件中读取页面状态快照（DPT和ATT）的逻辑。
 
   return checkpoint;
 }

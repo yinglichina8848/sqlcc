@@ -35,7 +35,11 @@ public:
         bool is_dirty;
         int32_t pin_count;
 
-        PageAccessInfo(int32_t id)
+        PageAccessInfo() : page_id(0), access_count(0), is_dirty(false), pin_count(0) {
+            last_access_time = std::chrono::steady_clock::now();
+        }
+
+        explicit PageAccessInfo(int32_t id)
             : page_id(id), access_count(0), is_dirty(false), pin_count(0) {
             last_access_time = std::chrono::steady_clock::now();
         }
