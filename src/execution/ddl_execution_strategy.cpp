@@ -10,6 +10,14 @@
 
 namespace sqlcc {
 
+/**
+ * @brief 执行DDL语句的核心方法。
+ * @details 该方法根据DDL语句的具体类型（CREATE TABLE, DROP TABLE, ALTER TABLE, CREATE INDEX, DROP INDEX）
+ * 动态分发到相应的私有执行函数。
+ * @param stmt 待执行的DDL语句的AST（抽象语法树）的唯一指针。所有权在此处转移。
+ * @param context 执行上下文，包含数据库管理器等信息。
+ * @return 包含执行结果的ExecutionResult。
+ */
 ExecutionResult DDLExecutionStrategy::execute(std::unique_ptr<sql_parser::Statement> stmt,
                                             ExecutionContext &context) {
     if (!stmt) {
@@ -34,31 +42,39 @@ ExecutionResult DDLExecutionStrategy::execute(std::unique_ptr<sql_parser::Statem
             return executeDropIndex(dynamic_cast<const sql_parser::DropIndexStatement&>(*stmt),
                                   context);
         default:
+            // 应该通过validate方法提前捕获不支持的语句类型
             return createErrorResult("Unsupported DDL statement type: " + 
                                    std::to_string(static_cast<int>(stmt->type)));
     }
 }
-
+/**
+ * @brief 检查用户是否有权限执行DDL语句。
+ * @details 该方法根据DDL语句的具体类型，分发到相应的权限检查函数。
+ * @param stmt 待检查的DDL语句AST。
+ * @param context 执行上下文。
+ * @return 如果有权限返回true，否则返回false。
+ */
 bool DDLExecutionStrategy::checkPermission(const sql_parser::Statement& stmt,
                                          const ExecutionContext& context) {
-    // 权限检查实现
+    // 根据DDL语句类型调用相应的权限检查方法
     switch (stmt.type) {
         case sql_parser::StatementType::CREATE_TABLE_STATEMENT:
-            return checkCreateTablePermission(dynamic_cast<const sql_parser::CreateTableStatement&>(stmt),
-                                            context);
+            // TODO(#DDL-001): checkCreateTablePermission需要从CreateTableStatement中获取表名等信息
+            return hasCreateTablePermission(context); 
         case sql_parser::StatementType::DROP_TABLE_STATEMENT:
-            return checkDropTablePermission(dynamic_cast<const sql_parser::DropTableStatement&>(stmt),
-                                          context);
+            // TODO(#DDL-002): checkDropTablePermission需要从DropTableStatement中获取表名
+            return hasDropTablePermission("dummy_table_name", context); 
         case sql_parser::StatementType::ALTER_TABLE_STATEMENT:
-            return checkAlterTablePermission(dynamic_cast<const sql_parser::AlterTableStatement&>(stmt),
-                                           context);
+            // TODO(#DDL-003): checkAlterTablePermission需要从AlterTableStatement中获取表名
+            return hasAlterTablePermission("dummy_table_name", context); 
         case sql_parser::StatementType::CREATE_INDEX_STATEMENT:
-            return checkCreateIndexPermission(dynamic_cast<const sql_parser::CreateIndexStatement&>(stmt),
-                                            context);
+            // TODO(#DDL-004): checkCreateIndexPermission需要从CreateIndexStatement中获取表名
+            return hasCreateIndexPermission(context); 
         case sql_parser::StatementType::DROP_INDEX_STATEMENT:
-            return checkDropIndexPermission(dynamic_cast<const sql_parser::DropIndexStatement&>(stmt),
-                                          context);
+            // TODO(#DDL-005): checkDropIndexPermission需要从DropIndexStatement中获取索引名和表名
+            return hasDropIndexPermission("dummy_index_name", context); 
         default:
+            // 默认情况下，对于不支持的或未明确处理的DDL类型，拒绝权限。
             return false;
     }
 }

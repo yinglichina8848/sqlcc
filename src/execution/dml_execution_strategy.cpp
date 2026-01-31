@@ -1,8 +1,8 @@
 #include "dml_execution_strategy.h"
-#include "execution_result.h"
+#include "../core/execution_result.h"
 #include "../core/database_context.h"
 #include "../core/permissions.h"
-#include "../sql_parser/ast_nodes.h"
+#include "../sql_parser/ast/ast_nodes.h"
 #include "../core/core_database_manager.h"
 #include "execution_context.h"
 #include <iostream>
@@ -18,22 +18,22 @@ ExecutionResult DMLExecutionStrategy::execute(std::unique_ptr<sql_parser::Statem
     }
 
     // 根据语句类型调用相应的执行方法
-    switch (stmt->type) {
-        case sql_parser::StatementType::INSERT_STATEMENT:
+    switch (stmt->getType()) {
+        case sql_parser::Statement::Type::INSERT:
             return executeInsert(dynamic_cast<const sql_parser::InsertStatement&>(*stmt),
                                context);
-        case sql_parser::StatementType::UPDATE_STATEMENT:
+        case sql_parser::Statement::Type::UPDATE:
             return executeUpdate(dynamic_cast<const sql_parser::UpdateStatement&>(*stmt),
                                context);
-        case sql_parser::StatementType::DELETE_STATEMENT:
+        case sql_parser::Statement::Type::DELETE:
             return executeDelete(dynamic_cast<const sql_parser::DeleteStatement&>(*stmt),
                                context);
-        case sql_parser::StatementType::SELECT_STATEMENT:
+        case sql_parser::Statement::Type::SELECT:
             return executeSelect(dynamic_cast<const sql_parser::SelectStatement&>(*stmt),
                                context);
         default:
             return createErrorResult("Unsupported DML statement type: " + 
-                                   std::to_string(static_cast<int>(stmt->type)));
+                                   std::to_string(static_cast<int>(stmt->getType())));
     }
 }
 

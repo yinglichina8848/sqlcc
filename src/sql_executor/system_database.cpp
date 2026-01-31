@@ -2500,23 +2500,30 @@ bool SystemDatabase::CheckIndexConsistency(int64_t table_id) {
         return false;
     }
 }
+/**
+ * @brief 检查指定表的约束元数据一致性。
+ * @details 该方法目前仅检查`sys_constraints`表中是否存在指定表ID的约束记录。
+ * @param table_id 待检查约束的表ID。
+ * @return 如果检查通过返回true，否则返回false。
+ */
 bool SystemDatabase::CheckConstraintConsistency(int64_t table_id) {
     try {
-        // 检查指定表的约束在sys_constraints中是否存在且结构正确
+        // 1. 构建SELECT COUNT(*) SQL语句，检查`sys_constraints`表中是否存在指定表的约束。
         std::stringstream ss;
         ss << "SELECT COUNT(*) FROM " << SYS_TABLE_CONSTRAINTS
            << " WHERE table_id = " << table_id;
         
+        // 2. 切换到system数据库执行查询，然后切换回原数据库。
         std::string prev_db = db_manager_->GetCurrentDatabase();
         if (!db_manager_->UseDatabase(SYSTEM_DB_NAME)) {
-            SetError("Failed to switch to system database");
+            SetError("Failed to switch to system database"); // TODO(#SYSDB-008): 错误处理应更健壮。
             return false;
         }
         
-        bool result = ExecuteSQL(ss.str());
+        bool result = ExecuteSQL(ss.str()); // TODO(#SYSDB-004): ExecuteSQL返回结构化结果。
         
         if (!prev_db.empty()) {
-            db_manager_->UseDatabase(prev_db);
+            db_manager_->UseDatabase(prev_db); // TODO(#SYSDB-008): 错误处理应更健壮。
         }
         
         return result;
@@ -2525,24 +2532,30 @@ bool SystemDatabase::CheckConstraintConsistency(int64_t table_id) {
         return false;
     }
 }
-
+/**
+ * @brief 检查指定被授予者的权限元数据一致性。
+ * @details 该方法目前仅检查`sys_privileges`表中是否存在指定`grantee_name`的权限记录。
+ * @param grantee_name 待检查权限的被授予者名称（用户或角色）。
+ * @return 如果检查通过返回true，否则返回false。
+ */
 bool SystemDatabase::CheckPrivilegeConsistency(const std::string& grantee_name) {
     try {
-        // 检查指定用户的权限在sys_privileges中是否存在且结构正确
+        // 1. 构建SELECT COUNT(*) SQL语句，检查`sys_privileges`表中是否存在指定被授予者的权限。
         std::stringstream ss;
         ss << "SELECT COUNT(*) FROM " << SYS_TABLE_PRIVILEGES
            << " WHERE grantee_name = '" << grantee_name << "'";
         
+        // 2. 切换到system数据库执行查询，然后切换回原数据库。
         std::string prev_db = db_manager_->GetCurrentDatabase();
         if (!db_manager_->UseDatabase(SYSTEM_DB_NAME)) {
-            SetError("Failed to switch to system database");
+            SetError("Failed to switch to system database"); // TODO(#SYSDB-008): 错误处理应更健壮。
             return false;
         }
         
-        bool result = ExecuteSQL(ss.str());
+        bool result = ExecuteSQL(ss.str()); // TODO(#SYSDB-004): ExecuteSQL返回结构化结果。
         
         if (!prev_db.empty()) {
-            db_manager_->UseDatabase(prev_db);
+            db_manager_->UseDatabase(prev_db); // TODO(#SYSDB-008): 错误处理应更健壮。
         }
         
         return result;
@@ -2551,5 +2564,4 @@ bool SystemDatabase::CheckPrivilegeConsistency(const std::string& grantee_name) 
         return false;
     }
 }
-
 } // namespace sqlcc
