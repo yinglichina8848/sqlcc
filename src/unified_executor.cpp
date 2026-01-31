@@ -794,6 +794,27 @@ std::string DMLExecutionStrategy::getColumnValue(const std::vector<std::string>&
 
 namespace sqlcc {
 
+/**
+ * @class UnifiedExecutor
+ * @brief 统一 SQL 执行器 - 实现执行策略的动态调度与结果聚合
+ *
+ * WHY层 - 设计意图：
+ *   SQLCC 采用“微内核 + 多执行策略”架构。为了给上层（如 ISQL 或网络模块）提供一个单一的、不随 SQL 类型变化的调用入口，
+ *   UnifiedExecutor 充当了“总调度室”的角色。它屏蔽了 DDL, DML, DCL 的实现差异，
+ *   确保所有的执行请求都经过统一的权限校验、上下文验证和性能统计流程。
+ *
+ * WHAT层 - 功能说明：
+ *   维护执行策略映射表（strategies_），支持根据 AST 语句类型动态分发任务。
+ *   管理 ExecutionContext，集成数据库管理器、用户管理器和系统元数据。
+ *   执行统一的三段式流程：权限检查 (checkPermission) -> 语义验证 (validate) -> 物理执行 (execute)。
+ *   提供执行结果（ExecutionResult）的标准化返回。
+ *
+ * HOW层 - 实现机制：
+ *   1. 初始化映射：initializeStrategies 为每种 Statement::Type 预分配特定的策略对象。
+ *   2. 职责链模式：通过 getStrategy 实时获取策略实例，并在 execute 循环中顺序调用其虚函数。
+ *   3. 生命周期管理：所有的策略对象由 std::unique_ptr 管理，随执行器析构而自动释放。
+ *   4. 状态追溯：通过 last_context_ 记录最近一次执行的上下文快照，便于调试和指标监控。
+ */
 UnifiedExecutor::UnifiedExecutor(std::shared_ptr<DatabaseManager> db_manager)
     : ExecutionEngine(db_manager), db_manager_(db_manager) {
     initializeStrategies();

@@ -1,4 +1,4 @@
-#include "storage_engine/index_manager/smart_ptr_lifetime_manager.h"
+#include "smart_ptr_lifetime_manager.h"
 #include "../b_plus_tree.h"
 #include "../../logger/logger.h"
 

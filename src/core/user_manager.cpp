@@ -106,6 +106,17 @@ void UserManager::SetSystemDatabase(std::shared_ptr<SystemDatabase> sys_db) {
  */
 bool UserManager::CreateUser(const std::string &username, const std::string &password,
                              const std::string &role) {
+    // WHY: 在多用户数据库中，创建新用户是建立安全环境的第一步。
+    // 该过程必须确保用户名的唯一性，并对敏感信息（密码）进行保护。
+    // WHAT: 验证用户名冲突，校验角色合法性，哈希存储密码，并初始化用户元数据。
+    // HOW:
+    // 1. 使用互斥锁保护 users_ 映射。
+    // 2. 查找 username，确保其不重复。
+    // 3. 调用 IsValidRole 检查角色是否存在。
+    // 4. 调用 HashPassword 对明文密码进行不可逆处理。
+    // 5. 将新构造的 User 对象存入 users_ 并更新当前活跃角色映射。
+    // 6. 如果是超级用户，授予全局权限。
+    // 7. 同步到持久化存储。
     std::lock_guard<std::mutex> lock(mutex_); // 保护对users_和roles_的访问
 
     // 1. 检查用户是否已存在。
@@ -599,6 +610,9 @@ bool UserManager::isUserInRole(const std::string &username, const std::string &r
  * @return 包含所有用户User结构体的向量。
  */
 std::vector<User> UserManager::ListUsers() const {
+    // WHY: 管理员和系统监控工具需要能够列出所有用户以进行审计、统计或管理操作。
+    // WHAT: 返回内存中 users_ 映射中存储的所有用户对象的副本。
+    // HOW: 锁定 mutex_ 后，遍历 users_ 映射并将其中的 User 对象推入结果向量中。
     std::lock_guard<std::mutex> lock(mutex_); // 保护对users_的访问
     std::vector<User> result;
     for (const auto &pair : users_) {
@@ -612,6 +626,9 @@ std::vector<User> UserManager::ListUsers() const {
  * @return 包含所有角色Role结构体的向量。
  */
 std::vector<Role> UserManager::ListRoles() const {
+    // WHY: 管理员需要了解系统中定义的角色，以便正确分配给用户或进行角色继承管理。
+    // WHAT: 返回内存中 roles_ 映射中存储的所有角色对象的副本。
+    // HOW: 锁定 mutex_ 后，遍历 roles_ 映射并将其中的 Role 对象推入结果向量中。
     std::lock_guard<std::mutex> lock(mutex_); // 保护对roles_的访问
     std::vector<Role> result;
     for (const auto &pair : roles_) {
@@ -626,6 +643,9 @@ std::vector<Role> UserManager::ListRoles() const {
  */
 std::vector<Permission>
 UserManager::ListUserPermissions(const std::string &username) const {
+    // WHY: 精确了解直接赋予用户的权限有助于排查权限泄露或进行细粒度的访问审计。
+    // WHAT: 过滤出 permissions_ 列表中被授权者匹配且标识为非角色的条目。
+    // HOW: 锁定后，遍历 permissions_ 向量，检查 grantee 和 is_role 字段。
     std::lock_guard<std::mutex> lock(mutex_); // 保护对permissions_的访问
     std::vector<Permission> result;
     for (const auto &permission : permissions_) {
@@ -643,6 +663,9 @@ UserManager::ListUserPermissions(const std::string &username) const {
  */
 std::vector<Permission>
 UserManager::ListRolePermissions(const std::string &role_name) const {
+    // WHY: 角色是权限聚合的单位。了解角色直接拥有的权限是维护 RBAC 模型一致性的关键。
+    // WHAT: 过滤出 permissions_ 列表中被授权者匹配且标识为角色的条目。
+    // HOW: 锁定后，遍历 permissions_ 向量，检查 grantee 和 is_role 字段。
     std::lock_guard<std::mutex> lock(mutex_); // 保护对permissions_的访问
     std::vector<Permission> result;
     for (const auto &permission : permissions_) {

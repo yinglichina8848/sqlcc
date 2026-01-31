@@ -4,6 +4,25 @@
 
 namespace sqlcc {
 
+/**
+ * @class BPlusTreeNode
+ * @brief B+ 树节点基类 - 实现磁盘页面与索引逻辑结构的映射
+ *
+ * WHY层 - 设计意图：
+ *   B+ 树是数据库索引的核心数据结构。为了支持磁盘持久化，每个树节点必须对应一个物理 8KB 页面。
+ *   该基类抽象了节点与 Buffer Pool 页面的交互逻辑（Pin/Unpin），
+ *   并区分了“叶子节点”（存数据）与“内部节点”（存导航键）的通用属性。
+ *
+ * WHAT层 - 功能说明：
+ *   维护与 StorageEngine 的连接，实现页面的按需加载和自动写回。
+ *   存储节点的核心元数据：page_id, parent_page_id, is_leaf 标志。
+ *   提供底层数据缓冲区的访问接口（GetData）。
+ *
+ * HOW层 - 实现机制：
+ *   1. RAII 模式：构造时调用 FetchPage 增加 Pin 计数，析构时调用 UnpinPage 减小计数并标记 Dirty。
+ *   2. 页面头管理：保留前 24 字节作为 PAGE_HEADER，存储树结构链接（如 Prev/Next 指针）。
+ *   3. 类型感知：基于 is_leaf_ 标志动态分发后续的索引查找和分裂逻辑。
+ */
 // B+树设计参数 (商业数据库标准)
 #define PAGE_HEADER_SIZE 24
 #define PAGE_DATA_SIZE (PAGE_SIZE - PAGE_HEADER_SIZE)

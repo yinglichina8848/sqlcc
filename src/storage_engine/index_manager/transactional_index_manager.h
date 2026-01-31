@@ -30,8 +30,9 @@ struct IndexOperation {
     int32_t transaction_id;
 };
 
-// 前向声明
-class BPlusTreeIndex;
+#include "../b_plus_tree/index/b_plus_tree_index.h"
+
+using namespace sqlcc;
 
 class TransactionalIndexManager {
 public:

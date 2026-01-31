@@ -7,6 +7,25 @@ namespace sqlcc {
 namespace storage_engine {
 namespace table_storage {
 
+/**
+ * @class RecordValidator
+ * @brief 记录静态验证器 - 实现表存储层的基础数据校验逻辑
+ *
+ * WHY层 - 设计意图：
+ *   在 TableStorage 层，记录通常以原始字节形式存储。
+ *   在将上层传递的 string 数据转换为字节流之前，必须进行一次基础验证，
+ *   以防止非法字符、溢出的数值或超出物理页限额的记录破坏存储引擎的稳定性。
+ *
+ * WHAT层 - 功能说明：
+ *   静态方法 ValidateRecordSize：校验预估的序列化字节数是否在 8KB 页面允许范围内。
+ *   静态方法 ValidateFieldValue：基于 SQL 类型执行基础域验证（Domain Validation）。
+ *   静态方法 ValidateDataIntegrity：校验字段名、类型和值列表的数量一致性。
+ *
+ * HOW层 - 实现机制：
+ *   1. 数值转换：使用 stoll 和 stod 探测类型边界，并捕获异常记录错误日志。
+ *   2. 严格字符检查：遍历字符串，禁止在数据中出现 \0 等特殊控制字符以防存储解析歧义。
+ *   3. 零开销设计：全类采用 static 方法，无需维护实例状态，提升调用效率。
+ */
 bool RecordValidator::ValidateRecordSize(size_t record_size, size_t max_record_size) {
     if (record_size == 0) {
         SQLCC_LOG_ERROR("Record size cannot be zero");

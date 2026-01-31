@@ -191,6 +191,26 @@ void CompositePartition::updateStatistics() {
 
 // ========== PartitionManager实现 ==========
 
+/**
+ * @class PartitionManager
+ * @brief 分区管理器 - 负责大表的水平切分和路由逻辑
+ *
+ * WHY层 - 设计意图：
+ *   随着数据量增长，单一 B+ 树索引的深度增加会导致性能下降。
+ *   分区通过将数据物理分散在不同的文件或目录中，实现“分而治之”，
+ *   支持分区裁剪（Partition Pruning）以减少扫描范围，并提升并行处理能力。
+ *
+ * WHAT层 - 功能说明：
+ *   管理分区表的定义（Range, Hash, List, Composite）。
+ *   动态增删分区，并维护分区的生命周期状态（ACTIVE, DROPPING等）。
+ *   提供基于条件的“分区裁剪”路由算法，返回可能包含数据的分区 ID。
+ *
+ * HOW层 - 实现机制：
+ *   1. 映射存储：使用 unordered_map 存储表名到分区对象列表的映射。
+ *   2. 物理管理：为每个分区创建独立的磁盘路径（data/partitions/...）。
+ *   3. 路由分发：基于 selectPartitionsByCondition 进行条件匹配。
+ *   4. 元数据同步：实时更新 row_count 和 data_size 等统计信息用于查询优化。
+ */
 PartitionManager::PartitionManager(std::shared_ptr<StorageEngine> storage_engine,
                                   std::shared_ptr<TableStorage> table_storage,
                                   std::shared_ptr<IndexManager> index_manager)
@@ -199,6 +219,13 @@ PartitionManager::PartitionManager(std::shared_ptr<StorageEngine> storage_engine
       index_manager_(std::move(index_manager)) {
 }
 
+/**
+ * @brief 创建一个新的分区表
+ * 
+ * WHY: 建立分区体系的物理基础。
+ * WHAT: 初始化目录结构，注册分区元数据。
+ * HOW: 遍历 PartitionedTableDef 中的分区定义，调用文件系统 API 创建目录，并存入内存 cache。
+ */
 bool PartitionManager::createPartitionedTable(const PartitionedTableDef& definition) {
     std::lock_guard<std::mutex> lock(mutex_);
     

@@ -7,6 +7,27 @@ namespace sqlcc {
 namespace storage_engine {
 namespace index_manager {
 
+/**
+ * @class TransactionalIndexManager
+ * @brief 事务型索引管理器 - 实现索引 DDL 操作的 ACID 语义与回滚机制
+ *
+ * WHY层 - 设计意图：
+ *   传统的 DDL 操作（如 CREATE INDEX）通常是不支持回滚的。
+ *   但在复杂的分布式系统或长事务中，如果事务在中途失败，必须撤销已经建立的物理索引结构，
+ *   否则会导致数据字典与物理文件之间的状态不一致。
+ *   该类通过引入“事务日志”和“延迟物理删除”，实现了索引操作的原子性。
+ *
+ * WHAT层 - 功能说明：
+ *   执行事务隔离的索引创建（CreateIndexInTransaction）和删除（DropIndexInTransaction）。
+ *   维护 transaction_log_，记录每个事务 ID 对应的 DDL 操作序列。
+ *   管理 pending_deletions_，存储已被逻辑删除但物理仍存在的索引对象。
+ *   提供 Commit 和 Rollback 钩子函数。
+ *
+ * HOW层 - 实现机制：
+ *   1. 记录重做/回滚信息：在执行物理操作前，先在 transaction_log_ 中追加 IndexOperation。
+ *   2. 两阶段提交：Commit 时正式清理待删记录；Rollback 时则逆序执行补偿操作（如物理删除新创索引）。
+ *   3. 逻辑遮蔽：Drop 操作后，索引进入 pending_deletions_，对其他事务逻辑不可见，但仍物理存在直至 Commit。
+ */
 TransactionalIndexManager::TransactionalIndexManager(std::shared_ptr<StorageEngine> storage_engine)
     : storage_engine_(storage_engine) {}
 

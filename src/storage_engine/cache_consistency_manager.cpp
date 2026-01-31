@@ -21,6 +21,26 @@
 namespace sqlcc {
 
 // 缓存一致性管理器实现
+/**
+ * @class CacheConsistencyManager
+ * @brief 缓存一致性管理器 - 协调缓冲池中的页面版本与磁盘状态，保证并发访问的原子性和一致性
+ *
+ * WHY层 - 设计意图：
+ *   在分布式或多线程数据库中，缓冲池是状态的来源。如果多个事务并发修改同一页面且没有版本控制，
+ *   会导致数据覆盖或不一致读。一致性管理器通过引入“页面版本”和“分层锁”来解决这一问题。
+ *
+ * WHAT层 - 功能说明：
+ *   实现读写一致性检查（CheckReadConsistency, CheckWriteConsistency）。
+ *   管理页面级别的共享锁和排他锁。
+ *   追踪页面版本号（Version），支持检测脏页冲突。
+ *   提供失效通知机制（Page Invalidation）。
+ *
+ * HOW层 - 实现机制：
+ *   1. 版本表管理：维护 page_versions_ 哈希表，记录每个页面的 version, writer_id 和读者列表。
+ *   2. 锁集成：通过 page_locks_ 维护每个页面的 mutex，并提供带超时的获取接口。
+ *   3. 策略模式：支持 STRICT_CONSISTENCY (强一致性) 等多种预设策略。
+ *   4. 原子更新：使用版本号递增来标记页面的每一次逻辑修改。
+ */
 CacheConsistencyManager::CacheConsistencyManager(std::shared_ptr<BufferPoolSharded> buffer_pool,
                                                  CacheConsistencyStrategy strategy)
     : buffer_pool_(std::move(buffer_pool)),

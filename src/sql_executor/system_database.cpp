@@ -163,6 +163,14 @@ SystemDatabase::~SystemDatabase() {
  * @return 初始化成功返回true，否则返回false。
  */
 bool SystemDatabase::Initialize() {
+    // WHY: 数据库首次运行或重置后，必须建立一个自包含的元数据管理体系。
+    // Initialize 是整个数据库“自举” (Bootstrapping) 的核心流程。
+    // WHAT: 检查物理存储，创建 system 数据库，建立所有 sys_* 系统表，并写入初始安全记录。
+    // HOW:
+    // 1. 调用 Exists 检查物理文件。
+    // 2. 使用 db_manager_ 创建并激活 system 库。
+    // 3. 顺序调用 CreateSystemTables 创建十余个核心元数据表。
+    // 4. 调用 InitializeDefaultData 写入超级用户和系统角色。
     try {
         // 1. 检查并创建system数据库（如果不存在）。
         if (!Exists()) {

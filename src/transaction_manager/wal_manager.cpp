@@ -218,6 +218,15 @@ WALManager::~WALManager() {
  * @return 分配给该日志记录的LSN。
  */
 uint64_t WALManager::Log(LogRecord record) {
+  // WHY: 将单个修改操作原子化记录，作为崩溃恢复的最细粒度单位。
+  // WHAT: 分配 LSN，暂存到内存 log_buffer_ 中。
+  // HOW:
+  // 1. 调用 GenerateLSN。
+  // 2. 加 buffer_mutex_ 锁保护 log_buffer_。
+  // 3. 将记录推入 vector。
+  // 4. 通知刷盘线程。
+  // 5. 若 force_sync_ 则触发阻塞式 ForceFlush。
+
   // 1. 分配日志序列号 (LSN) 和时间戳。
   uint64_t assigned_lsn = GenerateLSN();
   record.lsn = assigned_lsn;
@@ -253,6 +262,9 @@ uint64_t WALManager::Log(LogRecord record) {
  * @return 批次中最后一条日志记录的LSN。
  */
 uint64_t WALManager::LogBatch(const std::vector<LogRecord> &records) {
+  // WHY: 批量记录能够显著减少锁竞争和唤醒刷盘线程的开销，提升系统吞吐量。
+  // WHAT: 为一组记录分配连续 LSN 并一次性放入缓冲区。
+  // HOW: 在锁保护下循环处理记录，然后一次性通知和刷盘。
   uint64_t last_lsn = 0;
 
   // 1. 为批量记录分配连续的LSN，并添加到缓冲区。
@@ -288,6 +300,13 @@ uint64_t WALManager::LogBatch(const std::vector<LogRecord> &records) {
  * 此操作会阻塞调用线程。
  */
 void WALManager::ForceFlush() {
+  // WHY: WAL 协议要求日志必须在数据落地前持久化。ForceFlush 是实现“提交即持久”的关键同步点。
+  // WHAT: 将内存缓冲区 swap 出来，通过 WriteRecordsToDisk 物理写入，并更新 LSN。
+  // HOW:
+  // 1. 最小锁粒度：使用 swap 快速获取缓冲区内容并释放锁。
+  // 2. 统计时间：记录 I/O 开销用于性能监控。
+  // 3. 调用 WriteRecordsToDisk 触发 fsync。
+  // 4. 更新 last_flushed_lsn_ 标记恢复基准点。
   std::vector<LogRecord> records_to_flush;
 
   // 1. 获取待刷盘的记录：原子地交换缓冲区内容，减少锁持有时间。
@@ -813,9 +832,12 @@ void WALManager::InitializeLogFile() {
  * @brief 生成并返回下一个唯一的日志序列号 (LSN)。
  * @details 使用原子操作确保在多线程环境下的线程安全性和LSN的唯一递增性。
  * `std::memory_order_relaxed` 用于性能优化，因为它不需要在线程之间同步非原子操作。
- * @return 新的、唯一的LSN。
+ * @return 新s的、唯一的LSN。
  */
 uint64_t WALManager::GenerateLSN() {
+  // WHY: LSN 是 WAL 的基石，必须保证单调递增且全局唯一，以便恢复时精确定位日志位置。
+  // WHAT: 分配并自增 next_lsn_ 计数器。
+  // HOW: 使用 std::atomic::fetch_add 实现无锁的并发递增。
   return next_lsn_.fetch_add(1, std::memory_order_relaxed);
 }
 /**

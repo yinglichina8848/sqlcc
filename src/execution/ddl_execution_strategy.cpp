@@ -141,7 +141,13 @@ std::string DDLExecutionStrategy::getStrategyName() const {
 // 私有方法实现
 ExecutionResult DDLExecutionStrategy::executeCreateTable(const sql_parser::CreateTableStatement& stmt,
                                                       ExecutionContext &context) {
-    // 创建表执行逻辑
+    // WHY: 物理创建表结构是 DDL 的核心。它涉及磁盘空间分配、元数据注册和一致性维护。
+    // WHAT: 调用底层 db_manager_ 实现物理建表，并更新执行统计。
+    // HOW:
+    // 1. 校验 DatabaseManager 可用性。
+    // 2. 将 AST 中的列定义和表名传递给 db_manager->CreateTable。
+    // 3. 记录执行成功的统计信息（affected_rows 设置为 1）。
+    // 4. 处理并返回底层返回的错误消息。
     if (!context.db_manager) {
         return createErrorResult("Database manager is not available");
     }
@@ -158,7 +164,9 @@ ExecutionResult DDLExecutionStrategy::executeCreateTable(const sql_parser::Creat
 
 ExecutionResult DDLExecutionStrategy::executeDropTable(const sql_parser::DropTableStatement& stmt,
                                                     ExecutionContext &context) {
-    // 删除表执行逻辑
+    // WHY: 安全地移除表及其关联的物理文件和索引。
+    // WHAT: 移除元数据并释放页面资源。
+    // HOW: 调用 db_manager->DropTable 并校验成功状态。
     if (!context.db_manager) {
         return createErrorResult("Database manager is not available");
     }

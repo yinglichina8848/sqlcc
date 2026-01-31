@@ -11,6 +11,28 @@
 
 namespace sqlcc {
 
+/**
+ * @class DMLExecutionStrategy
+ * @brief DML 语句执行策略 - 实现数据的增删改查物理执行逻辑
+ *
+ * WHY层 - 设计意图：
+ *   DML (Data Manipulation Language) 是数据库最频繁的操作。
+ *   该策略类封装了 SQL 语句到存储引擎 API 的转换过程，
+ *   通过区分简单查询、聚合查询和连接查询，能够针对不同的 DML 类型选择最优的执行算子，
+ *   保证了执行引擎的高效性和灵活性。
+ *
+ * WHAT层 - 功能说明：
+ *   执行 INSERT, UPDATE, DELETE, SELECT 语句。
+ *   支持复杂的查询模式：JOIN, GROUP BY, Aggregate。
+ *   提供 DML 级别的权限检查（CheckPermission）和元数据校验（Validate）。
+ *   收集并更新执行统计信息（如 Affected Rows）。
+ *
+ * HOW层 - 实现机制：
+ *   1. 策略分发：execute 方法通过 switch-case 逻辑将 AST 节点引导至专项私有执行函数。
+ *   2. 职责链调用：集成 DatabaseManager 提供的核心存储接口。
+ *   3. 复杂性感知：executeSelect 会根据子句的有无（如 join_clause）动态路由至 executeJoinSelect 等优化路径。
+ *   4. 事务集成：所有的 DML 操作均在 ExecutionContext 提供的事务上下文中运行。
+ */
 ExecutionResult DMLExecutionStrategy::execute(std::unique_ptr<sql_parser::Statement> stmt,
                                             ExecutionContext &context) {
     if (!stmt) {

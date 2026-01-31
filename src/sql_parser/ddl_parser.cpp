@@ -7,6 +7,26 @@
 namespace sqlcc {
 namespace sql_parser {
 
+/**
+ * @class DDLParser
+ * @brief 数据定义语言（DDL）解析器 - 负责表、数据库、索引等架构对象的解析
+ *
+ * WHY层 - 设计意图：
+ *   DDL 语句定义了数据库的物理和逻辑结构。
+ *   DDLParser 必须支持复杂的列定义、约束（主键、外键、唯一性）以及索引选项，
+ *   确保解析出的架构定义能够准确传达给存储引擎进行物理空间分配。
+ *
+ * WHAT层 - 功能说明：
+ *   解析 CREATE TABLE, CREATE DATABASE, CREATE INDEX, DROP TABLE 等语句。
+ *   处理细粒度的列属性（Data Type, Not Null, Default, Auto Increment）。
+ *   构建 CreateStatement 和 DropStatement 等 AST 节点。
+ *
+ * HOW层 - 实现机制：
+ *   1. 模式分发：parseCreateStatement 基于关键字进入不同的子流程（Table/Database/Index）。
+ *   2. 列表递归：parseColumnDefinitions 循环解析逗号分隔的列定义，直到遇到右括号。
+ *   3. 状态机：使用 lookaheadToken_ 实现单步预读，解决标识符与关键字的歧义。
+ *   4. 类型映射：parseDataType 将 SQL 关键字（如 VARCHAR）转换为内部数据类型表示。
+ */
 DDLParser::DDLParser(Lexer& lexer, Token& currentToken, Token& lookaheadToken, bool& hasLookahead)
     : lexer_(lexer), currentToken_(currentToken), lookaheadToken_(lookaheadToken), hasLookahead_(hasLookahead) {
 }

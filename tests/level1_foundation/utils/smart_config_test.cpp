@@ -376,14 +376,66 @@ TEST_F(ConfigLifecycleManagerTest, RollbackNotReady) {
     EXPECT_FALSE(result);
 }
 
-// 测试获取快照管理器
-TEST_F(ConfigLifecycleManagerTest, GetSnapshotManager) {
+// 测试获取快照管理器（const版本）
+TEST_F(ConfigLifecycleManagerTest, GetSnapshotManagerConst) {
     ConfigLifecycleManager manager;
     manager.Initialize("");
 
-    auto& snapshot_manager = manager.GetSnapshotManager();
+    const ConfigLifecycleManager& const_manager = manager;
+    const auto& snapshot_manager = const_manager.GetSnapshotManager();
     EXPECT_NE(snapshot_manager.GetCurrentSnapshot(), nullptr);
 
+    manager.Shutdown();
+}
+
+// 测试初始化时指定配置路径
+TEST_F(ConfigLifecycleManagerTest, InitializeWithConfigPath) {
+    ConfigLifecycleManager manager("test_config.json");
+    
+    bool init_result = manager.Initialize("");
+    EXPECT_TRUE(init_result);
+    
+    EXPECT_TRUE(manager.IsReady());
+    
+    manager.Shutdown();
+}
+
+// 测试更新快照后获取新版本
+TEST_F(ConfigLifecycleManagerTest, GetVersionAfterUpdate) {
+    ConfigLifecycleManager manager;
+    manager.Initialize("");
+    
+    // 创建并更新快照
+    auto snapshot = ConfigSnapshotFactory::CreateEmptySnapshot(
+        GenerateVersionId("new_version_"), "New version");
+    manager.UpdateSnapshot(snapshot);
+    
+    // 验证版本已更新
+    auto current = manager.GetCurrentSnapshot();
+    EXPECT_NE(current, nullptr);
+    
+    manager.Shutdown();
+}
+
+// 测试多次更新快照
+TEST_F(ConfigLifecycleManagerTest, MultipleUpdates) {
+    ConfigLifecycleManager manager;
+    manager.Initialize("");
+    
+    for (int i = 0; i < 5; ++i) {
+        std::unordered_map<std::string, ConfigValue> data;
+        data["version"] = i;
+        auto snapshot = ConfigSnapshotFactory::CreateSnapshot(data, 
+            "v" + std::to_string(i), "Version " + std::to_string(i));
+        EXPECT_TRUE(manager.UpdateSnapshot(snapshot));
+    }
+    
+    // 验证最后一个版本
+    auto current = manager.GetCurrentSnapshot();
+    ConfigValue value;
+    EXPECT_TRUE(current->GetValue("version", value));
+    EXPECT_EQ(std::get<int>(value), 4);
+    
     manager.Shutdown();
 }
 
@@ -912,6 +964,49 @@ TEST_F(SafeConfigAccessorTest, SetValue) {
 
     ConfigValue double_val = SafeConfigAccessor<double>::SetValue(3.14);
     EXPECT_TRUE(std::holds_alternative<double>(double_val));
+}
+
+// 测试更多类型转换
+TEST_F(SafeConfigAccessorTest, TypeConversions) {
+    ConfigLifecycleManager manager;
+    manager.Initialize("");
+
+    // 设置各种类型的配置
+    std::unordered_map<std::string, ConfigValue> config_data;
+    config_data["int_value"] = 123;  // int值
+    config_data["string_to_bool_true"] = std::string("true");  // 字符串转bool
+    config_data["string_to_bool_1"] = std::string("1");  // 字符串"1"转bool
+    config_data["int_to_double"] = 100;  // int转double
+    auto snapshot = ConfigSnapshotFactory::CreateSnapshot(config_data, "v1", "Test");
+    manager.UpdateSnapshot(snapshot);
+
+    ConfigRAIIAccessor accessor(&manager);
+
+    // 验证类型转换
+    EXPECT_EQ(SafeConfigAccessor<int>::GetValue(accessor, "int_value", 0), 123);
+    EXPECT_TRUE(SafeConfigAccessor<bool>::GetValue(accessor, "string_to_bool_true", false));
+    EXPECT_TRUE(SafeConfigAccessor<bool>::GetValue(accessor, "string_to_bool_1", false));
+    EXPECT_DOUBLE_EQ(SafeConfigAccessor<double>::GetValue(accessor, "int_to_double", 0.0), 100.0);
+
+    manager.Shutdown();
+}
+
+// 测试 bool 转 string
+TEST_F(SafeConfigAccessorTest, BoolToString) {
+    ConfigLifecycleManager manager;
+    manager.Initialize("");
+
+    std::unordered_map<std::string, ConfigValue> config_data;
+    config_data["bool_value"] = true;
+    auto snapshot = ConfigSnapshotFactory::CreateSnapshot(config_data, "v1", "Test");
+    manager.UpdateSnapshot(snapshot);
+
+    ConfigRAIIAccessor accessor(&manager);
+
+    std::string result = SafeConfigAccessor<std::string>::GetValue(accessor, "bool_value", "false");
+    EXPECT_EQ(result, "true");
+
+    manager.Shutdown();
 }
 
 // ==================== ConfigLifecycleException Tests ====================

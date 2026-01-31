@@ -61,7 +61,7 @@
  */
 
 #include "../sql_executor.h"
-#include "sql_parser/parser.h"
+#include "../sql_parser/parser.h"
 #include "../storage_engine/storage_engine.h"
 #include "../transaction_manager/transaction_manager.h"
 #include "../execution_context.h"

@@ -45,6 +45,14 @@ ParserDML::~ParserDML() = default;
 // ==================== INSERT语句解析 ====================
 
 std::unique_ptr<ASTNode> ParserDML::parseInsertStatement() {
+    // WHY: INSERT 语句负责向表添加新数据。解析器必须准确识别目标表、目标列及对应的值。
+    // WHAT: 解析 INSERT INTO <table> (cols...) VALUES (vals...) 结构。
+    // HOW:
+    // 1. 消费 INSERT 和 INTO 关键字。
+    // 2. 提取表名标识符。
+    // 3. （可选）解析圆括号内的列名列表。
+    // 4. 消费 VALUES 关键字。
+    // 5. 解析圆括号内的字面量列表，并校验其类型。
     std::cout << "[PARSER DEBUG] parseInsertStatement() called" << std::endl;
     
     consume(Type::KEYWORD_INSERT);
@@ -106,6 +114,12 @@ std::unique_ptr<ASTNode> ParserDML::parseUpdateStatement() {
 // ==================== DELETE语句解析 ====================
 
 std::unique_ptr<ASTNode> ParserDML::parseDeleteStatement() {
+    // WHY: DELETE 语句用于移除表中满足条件的记录。
+    // WHAT: 解析 DELETE FROM <table> WHERE <expr> 结构。
+    // HOW:
+    // 1. 消费 DELETE 和 FROM 关键字。
+    // 2. 提取目标表名。
+    // 3. （可选）解析 WHERE 子句中的过滤表达式（目前待完整 Expression 架构接入）。
     std::cout << "[PARSER DEBUG] parseDeleteStatement() called" << std::endl;
     
     consume(Type::KEYWORD_DELETE);

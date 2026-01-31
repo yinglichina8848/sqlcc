@@ -18,6 +18,28 @@
 namespace sqlcc {
 namespace network {
 
+/**
+ * @class ServerNetworkManager
+ * @brief 服务端网络管理器 - 负责 TCP 连接的监听、分发和加密通信
+ *
+ * WHY层 - 设计意图：
+ *   作为数据库系统的流量入口，ServerNetworkManager 必须支持高并发连接且保证数据传输的安全性。
+ *   采用 epoll (Linux) 异步 I/O 架构，能够以极低的资源消耗管理数千个活跃会话，
+ *   并通过 TLS/SSL 加密防止网络嗅探。
+ *
+ * WHAT层 - 功能说明：
+ *   绑定监听端口，处理客户端握手请求（Accept）。
+ *   集成会话管理 (SessionManager) 和身份认证 (UserManager)。
+ *   支持非阻塞的 epoll 事件循环，实现 I/O 多路复用。
+ *   提供可选的 TLS 加密链路层支持。
+ *
+ * HOW层 - 实现机制：
+ *   1. 基础架构：创建非阻塞监听 Socket 并加入 epoll 监听列表。
+ *   2. 事件循环：ProcessEvents 周期性调用 epoll_wait 获取就绪文件描述符。
+ *   3. 连接处理：新连接触发 AcceptConnection，实例化 ConnectionHandler。
+ *   4. 加密集成：使用 OpenSSL 库，根据配置加载证书并在 Accept 时执行 SSL 握手。
+ *   5. 异常安全：使用 FileDescriptor (RAII) 包装原生 FD，确保资源自动回收。
+ */
 ServerNetworkManager::ServerNetworkManager(int port, int max_connections, int thread_pool_size)
     : port_(port),
       max_connections_(max_connections),

@@ -5,6 +5,27 @@
 namespace sqlcc {
 namespace utils {
 
+/**
+ * @class ThreadPool
+ * @brief 通用工作线程池 - 实现多核并发处理和任务调度
+ *
+ * WHY层 - 设计意图：
+ *   在高负载数据库操作中，频繁地创建和销毁线程会带来显著的系统开销（Context Switch, Stack Allocation）。
+ *   线程池通过维护一组常驻线程，实现了线程资源的重用，
+ *   并通过任务队列（Task Queue）平滑处理突发流量，防止系统过载。
+ *
+ * WHAT层 - 功能说明：
+ *   提供任务提交接口（enqueue），支持异步执行 lambda 或 std::function。
+ *   支持优雅关闭（shutdown）和立即强制关闭（shutdown_now）。
+ *   支持同步等待（wait），直到所有提交的任务执行完毕。
+ *   提供活跃线程数和队列任务数的实时统计。
+ *
+ * HOW层 - 实现机制：
+ *   1. 生产者-消费者模式：主线程提交任务，工作线程从 tasks_ 队列中竞争任务。
+ *   2. 同步原语：使用 std::mutex 保护任务队列，std::condition_variable 实现线程的阻塞等待与唤醒。
+ *   3. 原子计数：active_task_count_ 使用 std::atomic 确保在无锁情况下统计执行状态。
+ *   4. 任务隔离：使用 try-catch 块包裹任务执行过程，确保单个任务崩溃不会导致整个线程池死锁或终止。
+ */
 ThreadPool::ThreadPool(size_t thread_count) : stop_(false), active_task_count_(0), total_task_count_(0) {
     if (thread_count == 0) {
         thread_count = 1; // 至少一个线程

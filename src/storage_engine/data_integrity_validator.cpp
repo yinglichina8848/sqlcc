@@ -22,7 +22,26 @@
 
 namespace sqlcc {
 
-// 检查约束表达式解析器实现
+/**
+ * @class CheckConstraintParser
+ * @brief CHECK 约束表达式解析器 - 实现 SQL CHECK 约束的轻量级评估引擎
+ *
+ * WHY层 - 设计意图：
+ *   CHECK 约束允许用户定义任意的布尔表达式来验证数据。
+ *   为了避免每次插入都调用庞大的 SQL 解析器，该类实现了一个专门针对约束子句的微型解析引擎，
+ *   能够快速识别简单的比较和逻辑运算，提升验证效率。
+ *
+ * WHAT层 - 功能说明：
+ *   解析字符串形式的表达式（如 "age > 18 AND status = 'active'"）。
+ *   将表达式转换为可执行的函数对象（std::function）。
+ *   支持逻辑运算符（AND, OR）、比较运算符（>, <, =, !=）和内置函数（LEN, ISNULL）。
+ *
+ * HOW层 - 实现机制：
+ *   1. 语法预检：ValidateExpressionSyntax 递归检查括号匹配和引号完整性。
+ *   2. 正则匹配：利用正则表达式 ParseComparisonExpression 提取列名、操作符和字面量。
+ *   3. 组合逻辑：ParseLogicalExpression 递归拆解复合条件并构建布尔逻辑链。
+ *   4. 类型感知的比较：CompareValues 能够自动区分数值比较和字符串字典序比较。
+ */
 CheckConstraintParser::CheckConstraintParser() = default;
 
 bool CheckConstraintParser::ParseExpression(const std::string& expression,
@@ -253,7 +272,24 @@ bool CheckConstraintParser::CompareString(const std::string& left, const std::st
     return false;
 }
 
-// 外键约束验证器实现
+/**
+ * @class ForeignKeyValidator
+ * @brief 外键约束验证器 - 维护数据库表之间的参照完整性
+ *
+ * WHY层 - 设计意图：
+ *   外键确保了表之间的关联关系（Relationship）是有效的。
+ *   如果没有外键验证，删除父表记录可能会导致子表出现“孤儿记录”，破坏数据库的逻辑一致性。
+ *
+ * WHAT层 - 功能说明：
+ *   验证插入或更新的键值是否存在于被引用表（Parent Table）中。
+ *   支持级联操作（Cascade Update/Delete），在父记录变化时自动维护子记录。
+ *   提供 HasReferencingRecords 检查以防止破坏参照完整性。
+ *
+ * HOW层 - 实现机制：
+ *   1. 依赖存储引擎：通过 storage_engine_ 访问对应表的索引。
+ *   2. 存在性判定：(简化实现) 逻辑上对应于在被引用列的唯一索引上执行点查询。
+ *   3. 级联递归：ExecuteCascadeDelete 会触发针对子表的批量删除/更新操作。
+ */
 ForeignKeyValidator::ForeignKeyValidator(std::shared_ptr<StorageEngine> storage_engine)
     : storage_engine_(std::move(storage_engine)) {
 }
@@ -338,7 +374,25 @@ std::vector<std::pair<std::string, std::string>> ForeignKeyValidator::GetReferen
     return {}; // 简化实现
 }
 
-// 唯一约束验证器实现
+/**
+ * @class UniqueConstraintValidator
+ * @brief 唯一约束验证器 - 确保指定列（或列组合）在表中没有重复值
+ *
+ * WHY层 - 设计意图：
+ *   唯一约束是实体完整性的基础。它防止了数据的重复录入（如相同的身份证号或邮箱），
+ *   同时也为查询优化器提供了重要的信息，即该列上的点查询最多返回一条记录。
+ *
+ * WHAT层 - 功能说明：
+ *   检查新值或更新值是否违反唯一性规则。
+ *   支持复合唯一键（多列组合唯一）。
+ *   提供内存中的唯一性索引缓存（unique_indexes_）以加速校验。
+ *
+ * HOW层 - 实现机制：
+ *   1. 键合成：将多列的值拼接为以 "|" 分隔的字符串作为哈希键。
+ *   2. 缓存校验：在 unordered_map 中执行 O(1) 的查找。
+ *   3. 事务隔离：校验时需考虑 exclude_record_id，即允许当前事务更新自己的行而不触发冲突。
+ *   4. 持久化关联：通过 CreateUniqueIndex 建立物理索引与验证逻辑的绑定。
+ */
 UniqueConstraintValidator::UniqueConstraintValidator(std::shared_ptr<StorageEngine> storage_engine)
     : storage_engine_(std::move(storage_engine)) {
 }
@@ -457,7 +511,25 @@ void UniqueConstraintValidator::UpdateUniqueValueCache(const std::string& table_
     }
 }
 
-// 默认值处理器实现
+/**
+ * @class DefaultValueHandler
+ * @brief 默认值处理器 - 实现 SQL DEFAULT 子句的填充逻辑
+ *
+ * WHY层 - 设计意图：
+ *   在 INSERT 语句未指定某些列时，数据库需要自动填充预设值。
+ *   这不仅简化了应用层代码，还能确保某些元数据（如创建时间）由数据库自动维护，保证一致性。
+ *
+ * WHAT层 - 功能说明：
+ *   识别并应用 SQL 类型对应的字面量默认值（如 0, ""）。
+ *   支持动态默认值（如 CURRENT_TIMESTAMP, NOW()）。
+ *   支持逻辑字面量（TRUE, FALSE）。
+ *
+ * HOW层 - 实现机制：
+ *   1. 优先级匹配：ApplyDefaultValue 首先检查显式的表达式字符串。
+ *   2. 特殊令牌识别：匹配 "CURRENT_TIMESTAMP" 等关键词并调用 GenerateDateTimeDefault 获取系统时间。
+ *   3. 类型派生：若未指定 DEFAULT，GenerateDefaultValue 根据列的数据类型返回系统预设的零值。
+ *   4. 批量处理：ApplyDefaultValues 为整行数据中的空位执行“补全”。
+ */
 DefaultValueHandler::DefaultValueHandler() = default;
 
 std::string DefaultValueHandler::ApplyDefaultValue(const std::string& column_type,
@@ -601,6 +673,26 @@ std::string DefaultValueHandler::GenerateBooleanDefault(const std::string& colum
 }
 
 // 数据完整性约束验证器主类实现
+/**
+ * @class DataIntegrityValidator
+ * @brief 数据完整性验证器 - 实现 SQL 约束的执行引擎
+ *
+ * WHY层 - 设计意图：
+ *   数据库的“完整性”是区分其与普通文件系统的关键。
+ *   该验证器作为执行引擎的“守门员”，在数据落盘前进行最后一次逻辑校验，
+ *   确保每一行数据都符合业务定义的 Domain 规则。
+ *
+ * WHAT层 - 功能说明：
+ *   集成非空 (NOT NULL)、唯一 (UNIQUE)、外键 (FOREIGN KEY) 和检查 (CHECK) 约束。
+ *   支持批处理验证（ValidateConstraintsBatch）。
+ *   管理表级别的约束规则缓存（table_constraints_）。
+ *
+ * HOW层 - 实现机制：
+ *   1. 委托模式：具体验证逻辑委托给专门的子验证器（fk_validator_, unique_validator_ 等）。
+ *   2. 流水线执行：ValidateConstraints 方法按优先级顺序依次调用各专项验证函数。
+ *   3. 异常收集：在非严格模式下收集所有冲突，在严格模式下遇到首个冲突立即中断。
+ *   4. 动态规则：支持运行时增删约束规则，并实时同步到内存缓存中。
+ */
 DataIntegrityValidator::DataIntegrityValidator(std::shared_ptr<StorageEngine> storage_engine,
                                              std::shared_ptr<TransactionManager> transaction_manager)
     : check_parser_(),
