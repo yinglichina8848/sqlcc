@@ -26,28 +26,23 @@ cd sqlcc
 # 安装依赖（根据您的系统选择）
 # Ubuntu/Debian
 sudo apt-get update
-sudo apt-get install build-essential cmake clang-18 bazel
+sudo apt-get install clang-20 clang++-20 llvm-20 bazel-8.5
 
 # CentOS/RHEL
-sudo yum groupinstall "Development Tools"
-sudo yum install cmake clang bazel
+sudo yum install clang-20 clang++-20 llvm-20 bazel
 
 # macOS (使用Homebrew)
-brew install cmake bazel clang
+brew install clang@20 llvm@20 bazel
 ```
 
 ### 2. 构建项目
 
 ```bash
-# 使用CMake构建
-mkdir build && cd build
-cmake -DCMAKE_BUILD_TYPE=Debug ..
-make -j$(nproc)
-
-# 或使用Bazel构建
+# 使用Bazel构建
 bazel build //...
 
 # 运行测试
+bazel test //...
 bazel test //...
 ```
 

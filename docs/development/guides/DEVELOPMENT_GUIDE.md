@@ -7,62 +7,65 @@
 ### 1. 环境准备
 
 **系统要求**:
-- Linux/macOS/Windows (推荐Linux)
-- C++编译器 (GCC 7+ 或 Clang 5+)
-- CMake 3.10+
-- Python 3.6+ (用于脚本工具)
+- Linux Ubuntu 22.04+ / CentOS 8+ / macOS 12+ (推荐Linux)
+- Clang 20+ 编译器和LLVM 20工具链
+- Bazel 8.5.0+ 构建系统
+- Python 3.10+ (用于脚本工具)
 
 **安装依赖**:
 ```bash
 # Ubuntu/Debian
-sudo apt-get install build-essential cmake git python3 python3-pip
+sudo apt-get update
+sudo apt-get install clang-20 clang++-20 llvm-20 llvm-cov-20 llvm-profdata-20 libc++-20-dev libc++abi-20-dev bazel python3 python3-pip git
 
 # CentOS/RHEL
-sudo yum groupinstall "Development Tools"
-sudo yum install cmake git python3
+sudo yum install clang-20 clang++-20 llvm-20 bazel python3 git
 
 # macOS
-brew install cmake python3
+brew install clang@20 llvm@20 bazel python3 git
 ```
 
 ### 2. 项目克隆与构建
 
 ```bash
 # 克隆项目
-git clone https://gitee.com/your-repo/sqlcc.git
+git clone https://gitee.com/yinglichina/sqlcc.git
 cd sqlcc
 
-# 创建构建目录
-mkdir build && cd build
-
-# 配置项目
-cmake .. -DCMAKE_BUILD_TYPE=Release
-
-# 编译
-make -j$(nproc)
+# 使用Bazel构建
+bazel build //...
 
 # 运行测试
-make test
+bazel test //...
+
+# 生成覆盖率报告
+bazel coverage //tests/level1_foundation:all
 ```
 
 ### 3. 开发环境配置
 
 **VS Code配置**:
-- 安装C++扩展
-- 安装CMake Tools扩展
+- 安装C/C++扩展
+- 安装Bazel扩展
 - 配置`.vscode/settings.json`:
 ```json
 {
-    "cmake.buildDirectory": "${workspaceFolder}/build",
-    "cmake.configureOnOpen": true,
-    "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools"
+    "bazel.buildifier.fixOnFormat": true,
+    "C_Cpp.default.cppStandard": "c++20",
+    "C_Cpp.default.compilerPath": "/usr/bin/clang++-20",
+    "files.associations": {
+        "*.cpp": "cpp",
+        "*.h": "cpp",
+        "*.cc": "cpp"
+    }
 }
 ```
 
 **CLion配置**:
 - 直接打开项目根目录
-- CLion会自动识别CMakeLists.txt
-- 配置构建类型为Release
+- 配置Bazel构建工具链
+- 设置C++20标准
+- 配置Clang 20编译器
 
 ## 📋 开发流程
 

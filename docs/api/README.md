@@ -31,58 +31,75 @@ SQLCC (SQL Cloud Computing Database System) 是一个企业级内存安全的云
 
 ## 主要类接口
 
+### 主要类接口
+
 ### StorageEngine 类
 
 ```cpp
-class StorageEngine {
+class StorageEngine : public std::enable_shared_from_this<StorageEngine> {
 public:
-    // 缓冲池管理
-    std::shared_ptr<BufferPool> getBufferPool();
+    // 构造函数
+    explicit StorageEngine(ConfigManager &config_manager, const std::string& db_path = "./data");
 
-    // 表存储操作
-    bool createTable(const std::string& tableName, const TableSchema& schema);
-    bool dropTable(const std::string& tableName);
-    std::shared_ptr<Table> getTable(const std::string& tableName);
+    // 页面管理
+    std::unique_ptr<Page> NewPage(int32_t *page_id = nullptr);
+    std::shared_ptr<Page> FetchPage(int32_t page_id);
+    bool UnpinPage(int32_t page_id, bool is_dirty = false);
+    bool FlushPage(int32_t page_id);
+    bool DeletePage(int32_t page_id);
+    void FlushAllPages();
 
-    // 索引操作
-    bool createIndex(const std::string& tableName, const std::string& columnName);
-    bool dropIndex(const std::string& tableName, const std::string& columnName);
+    // 组件访问
+    DiskManager *GetDiskManager() const;
+    BufferPoolSharded *GetBufferPool() const;
+    IndexManager *GetIndexManager() const;
+
+    // 统计信息
+    std::string GetStats() const;
 };
 ```
 
-### DatabaseManager 类
+### UnifiedExecutor 类
 
 ```cpp
-class DatabaseManager {
+class UnifiedExecutor : public ExecutionEngine {
 public:
-    // 数据库操作
-    bool createDatabase(const std::string& dbName);
-    bool dropDatabase(const std::string& dbName);
-    bool useDatabase(const std::string& dbName);
+    UnifiedExecutor(std::shared_ptr<DatabaseManager> db_manager);
+    UnifiedExecutor(std::shared_ptr<DatabaseManager> db_manager,
+                    std::shared_ptr<UserManager> user_manager,
+                    std::shared_ptr<SystemDatabase> system_db);
 
-    // 查询执行
-    QueryResult executeQuery(const std::string& sql);
+    // 执行SQL语句
+    ExecutionResult execute(std::unique_ptr<sql_parser::Statement> stmt) override;
+    ExecutionResult execute(std::unique_ptr<sql_parser::Statement> stmt,
+                           std::shared_ptr<ExecutionContext> context);
 
-    // 事务管理
-    bool beginTransaction();
-    bool commitTransaction();
-    bool rollbackTransaction();
+    // 获取数据库管理器
+    std::shared_ptr<DatabaseManager> getDatabaseManager() const;
 };
 ```
 
-### SQLExecutor 类
+### Parser 类
 
 ```cpp
-class SQLExecutor {
+class Parser final : public ParserCore {
 public:
-    // SQL执行
-    ExecutionResult execute(const std::string& sql);
+    /**
+     * @brief Parser构造函数
+     * @param input SQL输入字符串
+     */
+    Parser(const std::string& input);
 
-    // 解析和优化
-    std::shared_ptr<QueryPlan> parseAndOptimize(const std::string& sql);
+    /**
+     * 解析SQL语句的主入口
+     * @return 解析后的AST节点列表
+     */
+    std::vector<std::unique_ptr<Statement>> parse();
 
-    // 执行计划
-    QueryResult executePlan(const std::shared_ptr<QueryPlan>& plan);
+    // 错误处理
+    std::vector<std::string> getDetailedErrors() const;
+    void clearErrors();
+    bool hadError() const;
 };
 ```
 
@@ -91,13 +108,13 @@ public:
 ### 基本查询执行
 
 ```cpp
-#include "core/database_manager.h"
-#include "core/sql_executor.h"
+#include "database_manager/database_manager.h"
+#include "sql_executor/sql_executor.h"
 
 // 初始化数据库管理器
-auto dbManager = std::make_shared<DatabaseManager>();
-dbManager->createDatabase("test_db");
-dbManager->useDatabase("test_db");
+auto db_manager = std::make_shared<DatabaseManager>();
+db_manager->createDatabase("test_db");
+db_manager->useDatabase("test_db");
 
 // 创建表
 std::string createTableSQL = R"(
@@ -107,15 +124,15 @@ std::string createTableSQL = R"(
         email VARCHAR(100)
     )
 )";
-dbManager->executeQuery(createTableSQL);
+db_manager->executeQuery(createTableSQL);
 
 // 插入数据
 std::string insertSQL = "INSERT INTO users VALUES (1, 'John Doe', 'john@example.com')";
-dbManager->executeQuery(insertSQL);
+db_manager->executeQuery(insertSQL);
 
 // 查询数据
 std::string selectSQL = "SELECT * FROM users WHERE id = 1";
-auto result = dbManager->executeQuery(selectSQL);
+auto result = db_manager->executeQuery(selectSQL);
 ```
 
 ### 索引操作
@@ -124,32 +141,32 @@ auto result = dbManager->executeQuery(selectSQL);
 #include "storage_engine/storage_engine.h"
 
 // 获取存储引擎实例
-auto storageEngine = dbManager->getStorageEngine();
+auto storage_engine = db_manager->getStorageEngine();
 
 // 创建索引
-storageEngine->createIndex("users", "email");
+storage_engine->createIndex("users", "email");
 
 // 索引查询会自动使用
 std::string indexedQuery = "SELECT * FROM users WHERE email = 'john@example.com'";
-auto result = dbManager->executeQuery(indexedQuery);
+auto result = db_manager->executeQuery(indexedQuery);
 ```
 
 ### 事务管理
 
 ```cpp
 // 开始事务
-dbManager->beginTransaction();
+db_manager->beginTransaction();
 
 try {
     // 执行多个操作
-    dbManager->executeQuery("INSERT INTO users VALUES (2, 'Jane Doe', 'jane@example.com')");
-    dbManager->executeQuery("UPDATE users SET name = 'Jane Smith' WHERE id = 2");
+    db_manager->executeQuery("INSERT INTO users VALUES (2, 'Jane Doe', 'jane@example.com')");
+    db_manager->executeQuery("UPDATE users SET name = 'Jane Smith' WHERE id = 2");
 
     // 提交事务
-    dbManager->commitTransaction();
+    db_manager->commitTransaction();
 } catch (const std::exception& e) {
     // 回滚事务
-    dbManager->rollbackTransaction();
+    db_manager->rollbackTransaction();
 }
 ```
 
@@ -205,11 +222,14 @@ SQLCC 使用异常机制进行错误处理：
 
 ```cpp
 #include "exception/base_exception.h"
+#include "exception/database_exception.h"
 
 try {
-    auto result = dbManager->executeQuery("SELECT * FROM nonexistent_table");
+    auto result = db_manager->executeQuery("SELECT * FROM nonexistent_table");
 } catch (const TableNotFoundException& e) {
     std::cerr << "Table not found: " << e.what() << std::endl;
+} catch (const DatabaseException& e) {
+    std::cerr << "Database error: " << e.what() << std::endl;
 } catch (const SQLException& e) {
     std::cerr << "SQL error: " << e.what() << std::endl;
 } catch (const std::exception& e) {
@@ -222,12 +242,13 @@ try {
 ### 索引优化
 
 ```cpp
-// 创建复合索引
-storageEngine->createCompositeIndex("orders", {"customer_id", "order_date"});
+// 使用执行器的索引优化查询
+auto result = db_manager->executeQuery(
+    "SELECT * FROM orders WHERE customer_id = ? AND order_date > ?");
 
-// 分析查询性能
-auto queryPlan = sqlExecutor->parseAndOptimize("SELECT * FROM orders WHERE customer_id = ? AND order_date > ?");
-std::cout << "Query cost: " << queryPlan->getEstimatedCost() << std::endl;
+// 查看执行计划
+auto& context = executor.getLastExecutionContext();
+std::cout << "Records affected: " << context.getRecordsAffected() << std::endl;
 ```
 
 ### 连接池管理
@@ -271,7 +292,7 @@ public:
 ### 自定义SQL函数
 
 ```cpp
-#include "sql_parser/function_registry.h"
+#include "sql_parser/function/function_registry.h"
 
 class CustomFunction : public ScalarFunction {
 public:
@@ -282,22 +303,40 @@ public:
 };
 
 // 注册自定义函数
-FunctionRegistry::instance().registerFunction("MY_FUNC", std::make_shared<CustomFunction>());
+FunctionRegistry::instance().registerFunction("MY_FUNC", 
+    std::make_shared<CustomFunction>());
+```
+
+### 自定义执行策略
+
+```cpp
+class CustomExecutionStrategy : public ExecutionStrategy {
+public:
+    ExecutionResult execute(std::unique_ptr<sql_parser::Statement> stmt,
+                           ExecutionContext &context) override {
+        // 自定义执行逻辑
+        return ExecutionResult::Success();
+    }
+};
 ```
 
 ## 参考资料
 
 - [项目主页](https://gitee.com/yinglichina/sqlcc)
-- [开发指南](docs/guides/DEVELOPMENT_ENVIRONMENT_SETUP.md)
-- [设计文档](docs/design/Architecture.md)
-- [测试文档](docs/guides/TEST_DRIVEN_DEVELOPMENT_GUIDE.md)
+- [开发指南](docs/development/guides/DEVELOPMENT_GUIDE.md)
+- [构建和测试指南](docs/development/guides/BUILD_AND_TEST_GUIDE.md)
+- [测试驱动开发指南](docs/development/guides/TEST_DRIVEN_DEVELOPMENT_GUIDE.md)
+- [AI辅助开发指南](docs/ai_tools/AI_DEVELOPMENT_GUIDELINES.md)
+- [API代码规范](docs/api/code/coding_standards.md)
+- [源码注释指南](docs/api/code/source_code_comments_guide.md)
 
 ## 版本兼容性
 
-- **v1.2.6**: 当前最新版本，支持完整的SQL-92标准
-- **v1.2.5**: 系统性测试重构，现代化编译技术栈
-- **v1.2.4**: 企业级特性评估与系统优化增强
-- **v1.2.3**: SQL-92完整性大幅提升
+- **v1.3.9**: 当前最新版本，Level 1 Foundation完整单元测试（~160个测试用例，100%通过率）
+- **v1.3.8**: SQL Parser模块化重构
+- **v1.3.7**: Bazel构建系统重构
+- **v1.3.6**: LLVM覆盖率工具链完善
+- **v1.2.6**: SQL-92标准完整支持
 
 ## 技术支持
 

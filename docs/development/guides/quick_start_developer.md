@@ -8,24 +8,30 @@
 
 ### 系统要求
 
-- **操作系统**: Linux Ubuntu 18.04+ / CentOS 7+ / macOS 10.15+
-- **CPU**: x86_64架构，4核+
-- **内存**: 8GB RAM以上
-- **存储**: 50GB可用空间
+- **操作系统**: Linux Ubuntu 20.04+ / CentOS 8+ (推荐Ubuntu 22.04+)
+- **CPU**: x86_64架构，8核+推荐
+- **内存**: 16GB RAM以上（推荐32GB）
+- **存储**: 100GB可用空间
 - **网络**: 稳定的互联网连接
 
 ### 开发工具
 
 #### 必备工具
 ```bash
-# C++编译器 (推荐Clang)
-sudo apt install clang-18 clang++-18
+# C++编译器 (Clang 20+)
+sudo apt install clang-20 clang++-20 libc++-20-dev libc++abi-20-dev
 
-# 构建系统
-sudo apt install cmake ninja-build
+# Bazel构建系统 (8.5.0+)
+# 使用Bazel安装脚本
+wget https://github.com/bazelbuild/bazel/releases/download/8.5.0/bazel-8.5.0-linux-x86_64
+chmod +x bazel-8.5.0-linux-x86_64
+sudo mv bazel-8.5.0-linux-x86_64 /usr/local/bin/bazel
 
 # 版本控制
 sudo apt install git
+
+# Python开发环境
+sudo apt install python3 python3-pip
 
 # 代码编辑器 (推荐VSCode或CLion)
 # 下载并安装你喜欢的编辑器
@@ -33,17 +39,23 @@ sudo apt install git
 
 #### 推荐工具
 ```bash
+# LLVM工具链 (覆盖率分析)
+sudo apt install llvm-20 llvm-cov-20 llvm-profdata-20
+
 # 代码格式化
-sudo apt install clang-format
+sudo apt install clang-format-20
 
 # 静态分析
-sudo apt install clang-tidy cppcheck
+sudo apt install clang-tidy-20 cppcheck
 
 # 性能分析
-sudo apt install linux-tools-common valgrind
+sudo apt install linux-tools-common valgrind perf
 
 # 文档生成
 sudo apt install doxygen graphviz
+
+# AI开发工具
+pip3 install pre-commit black isort mypy
 ```
 
 ## 项目获取
@@ -82,99 +94,131 @@ git rebase origin/main
 ### 快速构建（推荐）
 
 ```bash
-# 使用提供的构建脚本
-./scripts/build.sh
+# 使用Bazel构建所有目标
+bazel build //...
 
-# 或者手动构建
-mkdir build && cd build
-cmake -DCMAKE_BUILD_TYPE=Debug \
-      -DCMAKE_C_COMPILER=clang-18 \
-      -DCMAKE_CXX_COMPILER=clang++-18 \
-      ..
-make -j$(nproc)
+# 构建特定模块
+bazel build //src/core:core
+bazel build //src/storage_engine:storage_engine
+bazel build //src/sql_parser:sql_parser
 ```
 
 ### 高级构建选项
 
 ```bash
-# 启用所有调试功能
-cmake -DCMAKE_BUILD_TYPE=Debug \
-      -DENABLE_TESTS=ON \
-      -DENABLE_COVERAGE=ON \
-      -DENABLE_SANITIZERS=ON \
-      ..
+# 构建并运行测试
+bazel test //...
 
-# 性能优化构建
-cmake -DCMAKE_BUILD_TYPE=Release \
-      -DENABLE_LTO=ON \
-      -DENABLE_PGO=ON \
-      ..
+# 构建特定层级的测试
+bazel test //tests/level1_foundation:all
+bazel test //tests/level2_core:all
+bazel test //tests/level2_storage_engine:all
 
-# 交叉编译
-cmake -DCMAKE_TOOLCHAIN_FILE=../cmake/toolchains/arm64.cmake ..
+# 使用标签过滤测试
+bazel test //tests/... --test_tag_filters=foundation
+bazel test //tests/... --test_tag_filters=-manual,-slow
+
+# 生成覆盖率报告（LLVM工具链）
+bazel coverage //tests/level1_foundation:all
+
+# 增量编译（快速迭代）
+bazel build //... --no-cache_test_results
+
+# 清理构建缓存
+bazel clean
+
+# 彻底清理（包括外部依赖）
+bazel clean --expunge
 ```
 
 ### 构建产物
 
 ```bash
 # 查看构建结果
-ls -la build/
+ls -la bazel-bin/
+ls -la bazel-out/
 
-# 可执行文件
-./build/sqlcc-server     # 数据库服务器
-./build/sqlcc-client     # 命令行客户端
-./build/sqlcc-benchmark  # 性能测试工具
+# 主要构建输出目录
+bazel-bin/                    # 所有编译产物的符号链接
+bazel-out/k8-fastbuild/bin/   # 实际的构建输出
+bazel-testlogs/               # 测试日志和输出
 
-# 库文件
-./build/libsqlcc.so      # 核心库
-./build/libsqlcc_test.a  # 测试库
+# 可执行文件（示例）
+bazel-bin/src/core/sqlcc-server       # 数据库服务器
+bazel-bin/src/core/sqlcc-client       # 命令行客户端
+bazel-bin/examples/demo/advanced_sql_demo  # 示例程序
 
-# 测试文件
-./build/tests/           # 所有测试可执行文件
+# 测试可执行文件
+bazel-bin/tests/level1_foundation/...   # Level 1测试
+bazel-bin/tests/level2_core/...         # Level 2测试
 ```
 
 ## 运行和测试
-
-### 启动数据库
-
-```bash
-# 创建数据目录
-mkdir -p data
-mkdir -p logs
-
-# 启动服务器
-./build/sqlcc-server --config config/sqlcc.conf --data-dir ./data --log-dir ./logs
-
-# 或者使用开发配置
-./build/sqlcc-server --dev-mode
-```
-
-### 连接数据库
-
-```bash
-# 使用内置客户端
-./build/sqlcc-client
-
-# 或者使用系统安装的客户端
-sqlcc-client -h localhost -P 3306
-```
 
 ### 运行测试
 
 ```bash
 # 运行所有测试
-cd build
-ctest --output-on-failure
+bazel test //...
 
-# 运行特定测试
-ctest -R "buffer_pool" --verbose
+# 查看详细测试输出
+bazel test //... --test_output=all
 
-# 运行性能测试
-./tests/performance/buffer_pool_performance_test
+# 只显示失败的测试输出
+bazel test //... --test_output=errors
 
-# 生成覆盖率报告
-make coverage
-# 查看 coverage/index.html
+# 运行特定层级的测试
+bazel test //tests/level1_foundation:all
+bazel test //tests/level2_core:all
+bazel test //tests/level2_storage_engine/b_plus_tree:all
+
+# 使用标签过滤
+bazel test //tests/... --test_tag_filters=foundation
+bazel test //tests/... --test_tag_filters=core
+bazel test //tests/... --test_tag_filters=storage
+bazel test //tests/... --test_tag_filters=-manual,-slow
+
+# 运行单个测试
+bazel test //tests/level1_foundation/exception:exception_test
+
+# 查看测试日志
+cat bazel-testlogs/tests/level1_foundation/exception/exception_test/test.log
+```
+
+### 生成覆盖率报告
+
+```bash
+# 使用LLVM覆盖率工具链生成覆盖率报告
+bazel coverage //tests/level1_foundation:all
+
+# 生成HTML覆盖率报告
+mkdir -p coverage_html
+genhtml --ignore-errors unsupported,inconsistent,corrupt \
+  ~/.cache/bazel/_bazel_*/execroot/_main/bazel-out/_coverage/_coverage_report.dat \
+  -o coverage_html
+
+# 使用项目脚本生成报告
+chmod +x scripts/generate_llvm_cov_html_report.sh
+bash scripts/generate_llvm_cov_html_report.sh //tests/... coverage_html
+
+# 查看覆盖率报告
+# 在浏览器中打开 coverage_html/index.html
+```
+
+### 运行示例程序
+
+```bash
+# 构建示例程序
+bazel build //examples:all
+
+# 运行高级SQL演示
+bazel-bin/examples/demo/advanced_sql_demo
+
+# 运行事务管理演示
+bazel-bin/examples/demo/demonstrate_transaction_manager
+
+# 运行统一执行器演示
+bazel-bin/examples/demo/unified_executor_demo
 ```
 
 ### 调试运行
@@ -199,24 +243,60 @@ export ASAN_OPTIONS=detect_leaks=1
 
 ```
 sqlcc/
-├── include/           # 头文件
-│   ├── core/         # 核心组件接口
-│   ├── storage/      # 存储引擎接口
-│   ├── sql_parser/   # SQL解析器接口
-│   └── ...
-├── src/              # 源代码
-│   ├── core/         # 核心组件实现
-│   ├── storage_engine/ # 存储引擎实现
-│   ├── sql_parser/   # SQL解析器实现
-│   └── ...
-├── tests/            # 测试代码
-│   ├── unit/         # 单元测试
-│   ├── integration/  # 集成测试
-│   └── performance/  # 性能测试
-├── docs/             # 文档
-├── scripts/          # 构建和工具脚本
-├── tools/            # 开发工具
-└── config/           # 配置文件
+├── src/                          # 源代码（按模块组织）
+│   ├── core/                     # 核心数据库组件
+│   ├── storage_engine/           # 存储引擎实现
+│   │   ├── buffer_pool/          # V3分片缓冲池架构
+│   │   ├── b_plus_tree/          # B+树索引系统
+│   │   ├── table_storage/        # 表存储管理
+│   │   ├── disk_manager/         # 磁盘I/O管理
+│   │   └── index_manager/        # 索引管理器
+│   ├── sql_parser/               # SQL解析器（ParserNew架构）
+│   │   ├── parsers/              # 各类SQL解析器
+│   │   ├── ast/                  # 抽象语法树
+│   │   └── function/             # 函数解析
+│   ├── transaction/              # 事务管理器（ACID、WAL、2PL）
+│   ├── execution_ast/            # SQL执行引擎
+│   ├── network/                  # 网络通信（AES/TLS加密）
+│   ├── exception/                # 异常处理系统
+│   ├── logger/                   # 日志系统
+│   ├── types/                    # 类型系统
+│   ├── config_manager/           # 配置管理器
+│   └── utils/                    # 工具类
+├── tests/                        # 分层测试架构
+│   ├── level1_foundation/        # 基础层（异常、日志、配置、类型、工具类）
+│   ├── level2_core/              # 核心层（存储引擎、缓冲池）
+│   ├── level2_storage_engine/    # 存储引擎专项测试
+│   ├── level3_transaction_manager/  # 事务管理测试
+│   ├── level4_sql_processing/    # SQL处理测试
+│   ├── level5_network/           # 网络通信测试
+│   ├── level6_integration/       # 集成测试
+│   └── level7_integration/       # 高级集成测试
+├── tools/                        # 开发工具（Python脚本）
+├── scripts/                      # 构建和测试脚本
+├── docs/                         # 项目文档
+│   ├── index.md                  # 文档索引
+│   ├── ai_tools/                 # AI工具和规范
+│   ├── api/                      # API文档
+│   ├── design/                   # 设计文档
+│   ├── development/              # 开发指南
+│   ├── project/                  # 项目管理
+│   ├── releases/                 # 版本发布
+│   ├── reports/                  # 分析报告
+│   └── testing/                  # 测试文档
+├── examples/                     # 示例代码
+├── data/                         # 数据文件
+├── backups/                      # 备份目录
+├── temporary/                    # 临时文件目录
+├── third_party/                  # 第三方依赖
+├── BUILD.bazel                   # 根目录构建配置
+├── MODULE.bazel                  # Bazel模块配置
+├── WORKSPACE                     # Bazel工作区配置
+├── .bazelrc                      # Bazel配置文件
+├── README.md                     # 项目说明
+├── CHANGELOG.md                  # 变更日志
+├── AGENTS.md                     # AI代理编码指南
+└── VERSION                       # 版本信息
 ```
 
 ### 编码规范
@@ -389,33 +469,43 @@ grep "PERF" logs/sqlcc.log | awk '{print $2, $4}' > perf_data.txt
 
 ## 测试策略
 
+### 分层测试架构
+
+| 层级 | 目录 | 测试范围 | 标签 |
+|------|------|----------|------|
+| **Level 1** | `tests/level1_foundation/` | 基础组件（异常、日志、配置、类型、工具类） | `foundation` |
+| **Level 2** | `tests/level2_core/` | 核心组件（DB管理器、执行上下文） | `core` |
+| **Level 2** | `tests/level2_storage_engine/` | 存储引擎（缓冲池、B+树、磁盘管理） | `storage` |
+| **Level 3** | `tests/level3_transaction_manager/` | 事务管理、查询执行 | `transaction` |
+| **Level 4** | `tests/level4_sql_processing/` | SQL处理和解析 | `sql_processing` |
+| **Level 5** | `tests/level5_network/` | 网络通信、协议处理 | `network` |
+| **Level 6** | `tests/level6_integration/` | 集成测试 | `integration` |
+| **Level 7** | `tests/level7_integration/` | 企业级测试（性能、压力、可靠性） | `enterprise` |
+
 ### 测试类型
 
 #### 单元测试
 ```cpp
-// tests/unit/storage_engine/buffer_pool_test.cpp
-TEST(BufferPoolTest, AllocatePage) {
-    auto bpm = std::make_unique<BufferPoolManager>();
-    auto page = bpm->allocate_page();
-    ASSERT_NE(page, nullptr);
+// tests/level1_foundation/exception/exception_test.cpp
+TEST(ExceptionTest, BasicExceptionHandling) {
+    // 测试异常捕获和抛出
+    EXPECT_THROW(throw std::runtime_error("test"), std::runtime_error);
 }
 ```
 
 #### 集成测试
 ```cpp
-// tests/integration/client_server_test.cpp
-TEST(ClientServerTest, BasicCRUD) {
-    // 启动服务器
-    // 连接客户端
-    // 执行CRUD操作
-    // 验证结果
+// tests/level6_integration/end_to_end/basic_crud_test.cpp
+TEST(BasicCRUDTest, InsertQueryDelete) {
+    // 测试完整的CRUD操作流程
+    // 验证数据一致性和事务完整性
 }
 ```
 
 #### 性能测试
 ```cpp
-// tests/performance/concurrency_test.cpp
-BENCHMARK(BM_ConcurrentInserts) {
+// tests/level7_integration/performance/concurrent_insert_test.cpp
+TEST(PerformanceTest, HighConcurrencyInsert) {
     // 高并发插入测试
     // 测量吞吐量和延迟
 }
@@ -427,14 +517,26 @@ BENCHMARK(BM_ConcurrentInserts) {
 # 运行所有测试
 bazel test //...
 
-# 运行特定组件测试
-bazel test //tests/unit/storage_engine/...
+# 运行特定层级测试
+bazel test //tests/level1_foundation:all
+bazel test //tests/level2_core:all
+bazel test //tests/level2_storage_engine/b_plus_tree:all
 
-# 生成测试覆盖率
-bazel coverage //tests/...
+# 使用标签过滤测试
+bazel test //tests/... --test_tag_filters=foundation
+bazel test //tests/... --test_tag_filters=core
+bazel test //tests/... --test_tag_filters=storage
+bazel test //tests/... --test_tag_filters=-manual,-slow
 
-# 性能基准测试
-bazel run //tests/performance:benchmark
+# 查看测试输出
+bazel test //tests/... --test_output=all
+bazel test //tests/... --test_output=errors
+
+# 生成覆盖率报告
+bazel coverage //tests/level1_foundation:all
+
+# 运行性能测试
+bazel test //tests/level7_integration/performance:all
 ```
 
 ## 文档维护
@@ -544,4 +646,8 @@ A: 确保系统负载稳定，多次运行取平均值
 
 欢迎加入SQLCC开发团队！我们致力于打造一个现代化、高质量的数据库系统，为开源社区贡献力量，也为您的技术成长提供平台。
 
-**最后更新: 2025-12-24**
+**最后更新: 2026-01-30**  
+**当前版本: v1.3.9**  
+**构建系统: Bazel 8.5.0+**  
+**编译器: Clang 20+**  
+**C++标准: C++20**

@@ -2,39 +2,38 @@
 
 ## 📋 文档概述
 
-本文档提供SQLCC数据库系统的完整构建、编译和测试指南，涵盖从环境配置到自动化测试的完整流程。基于Bazel构建系统和Google Test框架，确保开发者能够快速搭建开发环境并验证代码质量。
+本文档提供SQLCC数据库系统的完整构建、编译和测试指南，涵盖从环境配置到自动化测试的完整流程。基于Bazel 8.5.0+构建系统和Google Test 1.14.0框架，使用Clang 20+编译器，确保开发者能够快速搭建开发环境并验证代码质量。
 
 ---
 
 ## 🛠️ 环境配置
 
 ### 系统要求
-- **操作系统**: Ubuntu 20.04+ / CentOS 7+ / macOS 10.15+
-- **内存**: 至少4GB RAM（推荐8GB+）
-- **存储**: 至少10GB可用磁盘空间
+- **操作系统**: Ubuntu 22.04+ / CentOS 8+ / macOS 12+
+- **内存**: 至少8GB RAM（推荐16GB+）
+- **存储**: 至少20GB可用磁盘空间
 - **网络**: 稳定的互联网连接（下载依赖）
 
 ### 必需工具
 ```bash
 # Ubuntu/Debian
 sudo apt update
-sudo apt install -y build-essential openjdk-11-jdk python3 git curl unzip
+sudo apt install -y clang-20 clang++-20 llvm-20 llvm-cov-20 llvm-profdata-20 libc++-20-dev libc++abi-20-dev python3 python3-pip git curl unzip
 
 # CentOS/RHEL
 sudo yum groupinstall -y "Development Tools"
-sudo yum install -y java-11-openjdk-devel python3 git curl unzip
+sudo yum install -y clang-20 clang++-20 llvm-20 python3 git curl unzip
 
 # macOS (使用Homebrew)
-brew install openjdk@11 python3 git curl unzip
+brew install clang@20 llvm@20 python3 git curl unzip
 ```
 
 ### Bazel安装
 ```bash
-# 下载并安装Bazel
-curl -fsSL https://bazel.build/bazel-release.pub.gpg | gpg --deimport
-curl -Lo bazel https://github.com/bazelbuild/bazel/releases/download/4.2.1/bazel-4.2.1-linux-x86_64
-chmod +x bazel
-sudo mv bazel /usr/local/bin/
+# 下载并安装Bazel 8.5.0+
+wget https://github.com/bazelbuild/bazel/releases/download/8.5.0/bazel-8.5.0-linux-x86_64
+chmod +x bazel-8.5.0-linux-x86_64
+sudo mv bazel-8.5.0-linux-x86_64 /usr/local/bin/bazel
 
 # 验证安装
 bazel version

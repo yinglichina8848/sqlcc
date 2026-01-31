@@ -2,11 +2,11 @@
 
 ## 🎯 前言
 
-本文档为**《数据库原理》课程项目**提供完整的开发环境搭建指南。目标是在**Ubuntu 20.04 LTS**环境下配置一个专业的C++数据库开发环境。
+本文档为**SQLCC项目**提供完整的开发环境搭建指南。目标是在**Ubuntu 20.04+**环境下配置一个专业的C++20数据库开发环境，使用Bazel构建系统和Clang 20编译器。
 
 **预计时间**: 30-60分钟
 **难度级别**: ⭐⭐ (中等)
-**适用对象**: 大二学生、数据库开发初学者
+**适用对象**: 数据库开发者、C++开发者
 
 ---
 
@@ -14,19 +14,20 @@
 
 ### 🖥️ **推荐配置**
 ```bash
-OS:      Ubuntu 20.04 LTS (或更高版本)
-CPU:     Intel i5-8400 (6核) 或 AMD Ryzen 5 3600 (6核)
-内存:    16GB DDR4 (最低8GB)
-存储:    256GB SSD (NVMe优先)
+OS:      Ubuntu 22.04 LTS (或更高版本)
+CPU:     Intel i5-10400 (6核) 或 AMD Ryzen 5 5600 (6核)
+内存:    32GB DDR4 (最低16GB)
+存储:    512GB SSD (NVMe优先)
 网络:    稳定网络连接 (下载依赖包)
 ```
 
 ### 🔧 **软件环境要求**
-- **[GCC 9.0+](https://gcc.gnu.org/)**: C++17编译器
-- **[CMake 3.16+](https://cmake.org/)**: 构建系统
-- **[CppUnit](https://sourceforge.net/projects/cppunit/)**: 单元测试框架
-- **[Doxygen](https://www.doxygen.nl/)**: 文档生成工具
+- **[Clang 20+](https://clang.llvm.org/)**: C++20编译器和LLVM工具链
+- **[Bazel 8.5.0+](https://bazel.build/)**: 构建系统
+- **[Google Test 1.14.0](https://github.com/google/googletest)**: 单元测试框架
+- **[Python 3.10+](https://www.python.org/)**: 脚本和工具开发
 - **[Git](https://git-scm.com/)**: 版本控制
+- **[Doxygen](https://www.doxygen.nl/)**: 文档生成工具
 
 ---
 
@@ -49,7 +50,7 @@ sudo apt autoremove -y
 
 ```bash
 # 安装构建工具
-sudo apt install -y build-essential cmake
+sudo apt install -y build-essential python3 python3-pip
 
 # 安装版本控制
 sudo apt install -y git
@@ -61,22 +62,67 @@ sudo apt install -y vim neovim emacs-nox
 sudo apt install -y curl wget
 ```
 
-**验证安装**:
-```bash
-# 检查版本
-gcc --version      # GCC版本信息
-cmake --version    # CMake版本信息
-git --version      # Git版本信息
-```
-
-### 步骤3: 安装CppUnit测试框架
+### 步骤3: 安装Clang 20和LLVM工具链
 
 ```bash
-# 安装CppUnit包
-sudo apt install -y libcppunit-dev cppunit
+# 安装Clang 20和LLVM 20
+sudo apt install -y clang-20 clang++-20 llvm-20 llvm-cov-20 llvm-profdata-20 libc++-20-dev libc++abi-20-dev
+
+# 设置默认编译器（可选）
+sudo update-alternatives --install /usr/bin/clang clang /usr/bin/clang-20 100
+sudo update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-20 100
 
 # 验证安装
-pkg-config --modversion cppunit
+clang-20 --version
+clang++-20 --version
+llvm-cov-20 --version
+```
+
+### 步骤4: 安装Bazel构建系统
+
+```bash
+# 下载Bazel 8.5.0
+wget https://github.com/bazelbuild/bazel/releases/download/8.5.0/bazel-8.5.0-linux-x86_64
+
+# 安装Bazel
+chmod +x bazel-8.5.0-linux-x86_64
+sudo mv bazel-8.5.0-linux-x86_64 /usr/local/bin/bazel
+
+# 验证安装
+bazel --version
+```
+
+### 步骤5: 安装Google Test测试框架
+
+```bash
+# Google Test将通过Bazel自动下载
+# 无需手动安装
+
+# 验证Bazel可以访问Google Test
+bazel query @com_google_googletest//...
+```
+
+### 步骤6: 安装推荐工具
+
+```bash
+# 代码格式化
+sudo apt install -y clang-format-20
+
+# 静态分析
+sudo apt install -y clang-tidy-20 cppcheck
+
+# 性能分析
+sudo apt install -y linux-tools-common valgrind perf
+
+# 文档生成
+sudo apt install -y doxygen graphviz
+
+# Python开发工具
+pip3 install pre-commit black isort mypy pylint
+
+# 验证安装
+clang-format-20 --version
+clang-tidy-20 --version
 ```
 
 ### 步骤4: 安装Doxygen文档生成工具

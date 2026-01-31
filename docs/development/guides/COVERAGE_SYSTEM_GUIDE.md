@@ -313,5 +313,5 @@ cat coverage_reports/coverage_quality_report.md
 
 ---
 
-**最后更新**: 2026-01-15
-**版本**: v1.3.0
+**最后更新**: 2026-01-31
+**版本**: v1.3.9

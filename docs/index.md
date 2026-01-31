@@ -44,7 +44,8 @@ SQLCC（SQL Cloud-native Cluster）是一个企业级内存安全的云原生数
 ## 📋 功能特性
 
 ### ✅ 功能实现状态
-- [**功能矩阵和实现状态**](project/versions/v1.2.0/FUNCTION_MATRIX_v1.2.0.md) - 完整的功能清单
+- [**功能矩阵和实现状态**](project/versions/v1.3.9/FUNCTION_MATRIX_v1.3.9.md) - SQL-92标准100%符合度(v1.3.9)
+- [**功能矩阵历史**](project/versions/v1.2.0/FUNCTION_MATRIX_v1.2.0.md) - v1.2.0版本功能清单
 - [**版本功能对比**](releases/version_summary_v1.2.3.md) - 各版本特性总览
 
 ### 🚀 最新版本特性
@@ -65,8 +66,9 @@ SQLCC（SQL Cloud-native Cluster）是一个企业级内存安全的云原生数
 ### 📚 接口文档
 - [**API概览**](api/README.md) - 接口文档导航
 - [**API类文档**](api/classes/) - 类文档集合
-- **API代码示例**](api/code/) - 代码示例
-- **API使用案例**](api/examples/) - 使用案例
+- [**编码标准**](api/code/coding_standards.md) - 代码规范
+- [**源码注释指南**](api/code/source_code_comments_guide.md) - 注释规范
+- [**API使用案例**](api/examples/) - 使用案例
 
 ## 📚 代码与开发
 
@@ -97,31 +99,29 @@ SQLCC（SQL Cloud-native Cluster）是一个企业级内存安全的云原生数
 
 ### 📋 项目计划
 - [**实施计划**](project/plans/) - 各版本实施计划
-- [**里程碑**](project/milestones/) - 重要里程碑
 
 ## 👥 社区与贡献
 
 ### 🤝 贡献指南
-- [**贡献者指南**](../CONTRIBUTING.md) - 如何参与贡献
-- [**安全政策**](../SECURITY.md) - 安全问题报告
+- [**贡献者指南**](development/guides/CONTRIBUTING.md) - 如何参与贡献
+- [**安全政策**](development/guides/SECURITY.md) - 安全问题报告
 - [**开发工作流**](ai_tools/bazel_workflow_guide.md) - 协作开发流程
 
 ### 🔧 工具和方法论
 - [**AI重构方法论**](ai_tools/systematic_refactoring_knowledge_base.md) - 系统化重构方法
-- [**测试重构方法论**](ai_tools/test_refactoring_knowledge_base.md) - 测试系统改进
+- [**测试改进计划**](testing/测试框架改进和性能测试扩展计划.md) - 测试系统改进
 - [**Bazel改进指南**](ai_tools/bazel_improvement_guide.md) - 构建系统优化
 
 ## 🔍 测试与质量
 
 ### 🧪 测试体系
 - [**测试文档**](testing/) - 测试文档集合
-- [**测试报告**](reports/testing/) - 完整测试报告
-- [**覆盖率分析报告**](reports/coverage/) - 测试覆盖率分析
-- [**测试改进综合分析**](reports/evaluation/) - 测试质量评估
+- [**覆盖率数据**](testing/coverage/) - 测试覆盖率HTML报告
+- [**测试质量评估**](reports/evaluation/) - 测试质量评估报告
 
 ### 🎯 质量保证
 - [**内存安全培训**](design/security/memory_safety_training.md) - 安全编码培训
-- [**测试改进计划**](reports/testing/) - 质量提升计划
+- [**测试改进计划**](testing/测试框架改进和性能测试扩展计划.md) - 质量提升计划
 
 ## 📊 性能与监控
 
@@ -178,6 +178,9 @@ SQLCC（SQL Cloud-native Cluster）是一个企业级内存安全的云原生数
 - [**v1.1.5 版本报告**](project/versions/v1.1.5/) - SQL解析器完善
 - [**v1.1.4 版本报告**](project/versions/v1.1.4/) - 多任务执行器架构
 - [**v1.1.3 版本报告**](project/versions/v1.1.3/) - 内存安全革命
+- [**v1.1.2 版本报告**](project/versions/v1.1.2/) - 全面测试分析
+- [**v1.1.1 版本报告**](project/versions/v1.1.1/) - B+树索引集成
+- [**v1.1.0 版本报告**](project/versions/v1.1.0/) - 深度分析报告
 - [**v1.1.x系列**](project/versions/) - v1.1.0-v1.1.5版本特性
 
 ## 📚 学习资源
@@ -198,22 +201,25 @@ SQLCC（SQL Cloud-native Cluster）是一个企业级内存安全的云原生数
 ## 📋 历史文档
 
 ### 📜 变更日志
-- [**完整变更日志**](CHANGELOG.md) - 所有版本变更记录
+- [**完整变更日志**](releases/CHANGELOG.md) - 所有版本变更记录
 - [**v1.3.9 ChangeLog**](releases/CHANGELOG_v1.3.9.md) - Level 1 Foundation完整单元测试
 - [**v1.3.8 ChangeLog**](releases/CHANGELOG_v1.3.8.md) - SQL Parser模块化重构
 - [**v1.3.7 ChangeLog**](releases/CHANGELOG_v1.3.7.md) - Bazel构建系统重构
 - [**v1.3.6 ChangeLog**](releases/CHANGELOG_v1.3.6.md) - LLVM覆盖率工具链完善
-- [**Bazel重构日志**](CHANGELOG_BAZEL_REFACTORING.md) - 构建系统变更
+- [**v1.3.3 ChangeLog**](releases/CHANGELOG_v1.3.3.md) - DDL/DCL功能补全
+- [**Bazel重构日志**](releases/CHANGELOG_BAZEL_REFACTORING.md) - 构建系统变更
 
-### 📈 版本发布
-- [**v1.1.4 ChangeLog**](releases/CHANGELOG_v1.1.4.md)
-- [**v1.1.5 ChangeLog**](releases/CHANGELOG_v1.1.5.md)
-- [**v1.2.0 ChangeLog**](releases/CHANGELOG_v1.2.0.md)
-- [**v1.2.1 ChangeLog**](releases/CHANGELOG_v1.2.1.md)
-- [**v1.2.3 ChangeLog**](releases/CHANGELOG_v1.2.3.md)
-- [**v1.2.4 ChangeLog**](releases/CHANGELOG_v1.2.4.md)
-- [**v1.2.5 ChangeLog**](releases/CHANGELOG_v1.2.5.md)
-- [**v1.2.6 ChangeLog**](releases/CHANGELOG_v1.2.6.md)
+### 📈 版本发布 (v1.2.x)
+- [**v1.2.0 ChangeLog**](releases/CHANGELOG_v1.2.0.md) - 多线程架构
+- [**v1.2.1 ChangeLog**](releases/CHANGELOG_v1.2.1.md) - 约束系统增强
+- [**v1.2.3 ChangeLog**](releases/CHANGELOG_v1.2.3.md) - SQL-92支持规划
+- [**v1.2.4 ChangeLog**](releases/CHANGELOG_v1.2.4.md) - 系统性测试重构
+- [**v1.2.5 ChangeLog**](releases/CHANGELOG_v1.2.5.md) - 依赖分析
+- [**v1.2.6 ChangeLog**](releases/CHANGELOG_v1.2.6.md) - 注释补全计划
+
+### 📈 版本发布 (v1.1.x)
+- [**v1.1.4 ChangeLog**](releases/CHANGELOG_v1.1.4.md) - 多任务执行器
+- [**v1.1.5 ChangeLog**](releases/CHANGELOG_v1.1.5.md) - SQL解析器完善
 
 ---
 

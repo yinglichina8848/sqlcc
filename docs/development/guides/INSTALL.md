@@ -8,75 +8,39 @@
 
 | 组件 | 要求 | 推荐配置 |
 |------|------|----------|
-| **操作系统** | Linux Ubuntu 18.04+ / CentOS 7+ / macOS 10.15+ | Ubuntu 20.04+ / CentOS 8+ |
-| **CPU** | x86_64架构，2核 | 4核+，支持多线程 |
-| **内存** | 4GB RAM | 8GB+ RAM |
-| **存储** | 10GB可用空间 | 50GB+ SSD存储 |
+| **操作系统** | Linux Ubuntu 20.04+ / CentOS 8+ / macOS 12+ | Ubuntu 22.04+ / CentOS 9+ |
+| **CPU** | x86_64架构，4核 | 8核+，支持多线程 |
+| **内存** | 8GB RAM | 16GB+ RAM |
+| **存储** | 20GB可用空间 | 100GB+ SSD存储 |
 | **网络** | 千兆以太网 | 万兆网络（生产环境） |
 
 ### 编译工具要求
 
 | 工具 | 版本要求 | 安装命令 |
 |------|----------|----------|
-| **GCC** | 9.0+ | `sudo apt install gcc-9 g++-9` |
-| **Clang** | 10.0+ | `sudo apt install clang-10` |
-| **CMake** | 3.15+ | `sudo apt install cmake` |
-| **Bazel** | 4.0+ | 见下文安装指南 |
-| **OpenSSL** | 1.1.1+ | `sudo apt install libssl-dev` |
+| **Clang** | 20+ | `sudo apt install clang-20 clang++-20` |
+| **Bazel** | 8.5.0+ | 见下文安装指南 |
+| **Python** | 3.10+ | `sudo apt install python3 python3-pip` |
+| **LLVM** | 20+ | `sudo apt install llvm-20 llvm-cov-20` |
+| **libc++** | 20+ | `sudo apt install libc++-20-dev` |
 
 ## 🚀 快速安装
 
-### 使用预编译包（推荐）
+### 从源码编译（推荐开发者）
 
 ```bash
-# 下载最新版本
-wget https://github.com/sqlcc/sqlcc/releases/download/v1.2.6/sqlcc-v1.2.6-linux-x64.tar.gz
+# 克隆仓库
+git clone https://gitee.com/yinglichina/sqlcc.git
+cd sqlcc
 
-# 解压安装
-tar -xzf sqlcc-v1.2.6-linux-x64.tar.gz
-cd sqlcc-v1.2.6
+# 使用Bazel构建
+bazel build //...
 
-# 运行安装脚本
-sudo ./install.sh
+# 运行测试
+bazel test //...
 
-# 验证安装
-sqlcc --version
-```
-
-### 使用包管理器
-
-#### Ubuntu/Debian
-
-```bash
-# 添加SQLCC仓库
-echo "deb [signed-by=/usr/share/keyrings/sqlcc-archive-keyring.gpg] https://repo.sqlcc.org/apt stable main" | sudo tee /etc/apt/sources.list.d/sqlcc.list
-
-# 安装公钥
-curl -fsSL https://repo.sqlcc.org/apt/sqlcc-archive-keyring.gpg | sudo gpg --dearmor -o /usr/share/keyrings/sqlcc-archive-keyring.gpg
-
-# 更新包索引
-sudo apt update
-
-# 安装SQLCC
-sudo apt install sqlcc sqlcc-server sqlcc-client
-
-# 启动服务
-sudo systemctl start sqlcc-server
-sudo systemctl enable sqlcc-server
-```
-
-#### CentOS/RHEL
-
-```bash
-# 添加SQLCC仓库
-sudo yum-config-manager --add-repo https://repo.sqlcc.org/rpm/sqlcc.repo
-
-# 安装SQLCC
-sudo yum install sqlcc sqlcc-server sqlcc-client
-
-# 启动服务
-sudo systemctl start sqlcc-server
-sudo systemctl enable sqlcc-server
+# 构建示例程序
+bazel build //examples:all
 ```
 
 #### macOS (使用Homebrew)
@@ -106,14 +70,14 @@ sudo apt update && sudo apt upgrade -y
 sudo apt install -y build-essential cmake
 
 # 安装Clang编译器
-sudo apt install -y clang-18 lld-18
+sudo apt install -y clang-20 lld-20
 
 # 安装依赖库
 sudo apt install -y libssl-dev zlib1g-dev libbz2-dev
 
 # 设置Clang为默认编译器
-sudo update-alternatives --install /usr/bin/cc cc /usr/bin/clang-18 100
-sudo update-alternatives --install /usr/bin/c++ c++ /usr/bin/clang++-18 100
+sudo update-alternatives --install /usr/bin/cc cc /usr/bin/clang-20 100
+sudo update-alternatives --install /usr/bin/c++ c++ /usr/bin/clang++-20 100
 ```
 
 #### CentOS/RHEL
@@ -163,11 +127,11 @@ sudo apt update && sudo apt install -y bazel
 
 ```bash
 # 下载Bazel安装脚本
-wget https://github.com/bazelbuild/bazel/releases/download/5.4.1/bazel-5.4.1-installer-linux-x86_64.sh
+wget https://github.com/bazelbuild/bazel/releases/download/8.5.0/bazel-8.5.0-installer-linux-x86_64.sh
 
 # 安装Bazel
-chmod +x bazel-5.4.1-installer-linux-x86_64.sh
-sudo ./bazel-5.4.1-installer-linux-x86_64.sh
+chmod +x bazel-8.5.0-installer-linux-x86_64.sh
+sudo ./bazel-8.5.0-installer-linux-x86_64.sh
 
 # 添加到PATH
 export PATH="$PATH:$HOME/bin"
@@ -192,7 +156,7 @@ git clone https://gitee.com/yinglichina/sqlcc.git
 cd sqlcc
 
 # 切换到稳定版本（可选）
-git checkout v1.2.6
+git checkout v1.3.9
 
 # 初始化子模块（如果有）
 git submodule update --init --recursive
@@ -208,8 +172,8 @@ mkdir build && cd build
 
 # 配置构建（调试版本）
 cmake -DCMAKE_BUILD_TYPE=Debug \
-      -DCMAKE_C_COMPILER=clang-18 \
-      -DCMAKE_CXX_COMPILER=clang++-18 \
+      -DCMAKE_C_COMPILER=clang-20 \
+      -DCMAKE_CXX_COMPILER=clang++-20 \
       -DCMAKE_INSTALL_PREFIX=/usr/local/sqlcc \
       ..
 
@@ -494,13 +458,13 @@ docker exec -it sqlcc-server sqlcc-client -u root -p
 ### 自定义Docker构建
 
 ```dockerfile
-FROM ubuntu:20.04
+FROM ubuntu:22.04
 
 # 安装依赖
 RUN apt-get update && apt-get install -y \
     build-essential \
     cmake \
-    clang-18 \
+    clang-20 \
     libssl-dev \
     zlib1g-dev
 
