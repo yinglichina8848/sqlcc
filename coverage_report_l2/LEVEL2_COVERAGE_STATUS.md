@@ -2,7 +2,7 @@
 
 **日期**: 2026-01-31  
 **分支**: `feature/level2-coverage-improvement`  
-**状态**: 🔄 进行中 (v1.3.9.1)
+**状态**: 🔄 进行中 (v1.3.9.2)
 
 ## Level 1 覆盖率测试状态 ✅ 已完成
 
@@ -19,7 +19,7 @@
 
 ## Level 2 覆盖率测试进度
 
-### 已修复的问题 (v1.3.9.1)
+### 已修复的问题 (v1.3.9.1 & v1.3.9.2)
 
 | 问题类型 | 文件数量 | 状态 |
 |----------|----------|------|
@@ -27,167 +27,164 @@
 | UserManager API 扩展 | 2 | ✅ 已完成 |
 | DCLExecutionStrategy API 修复 | 4 | ✅ 已完成 |
 | UnifiedExecutor 构造函数 | 1 | ✅ 已完成 |
-| DMLExecutionStrategy API 修复 | 1 | 🔄 进行中 |
+| DMLExecutionStrategy API 修复 | 1 | ✅ 已完成 |
+| AbstractReplaceStrategy 虚函数 | 3 | ✅ 已完成 |
+| IndexManager 构造函数签名 | 2 | ✅ 已完成 |
 
-### 当前状态
+### v1.3.9.2 修复详情
 
-| 组件 | 构建状态 | 测试状态 |
-|------|----------|----------|
-| Level1 Tests | ✅ PASS | ✅ PASS (9/9) |
-| Level2 Core Services | ⚠️ 部分编译 | 🔄 需要重构 |
-| Level2 Storage Engine | ⚠️ 链接器错误 | 🔄 需要修复 |
+#### 1. AbstractReplaceStrategy 虚函数实现 ✅
+**文件**: `src/storage_engine/buffer_pool/replace_strategy.cpp`
 
-## 发现的技术债务
+**添加的方法**:
+```cpp
+void AbstractReplaceStrategy::CleanPage(int32_t page_id);
+void AbstractReplaceStrategy::AddPage(int32_t page_id);
+void AbstractReplaceStrategy::RemovePage(int32_t page_id);
+PageAccessInfo* AbstractAccessStrategy::GetPageInfo(int32_t page_id);
+StrategyStats AbstractReplaceStrategy::GetStats() const;
+void AbstractReplaceStrategy::ResetStats();
+```
+
+#### 2. PageAccessInfo 默认构造函数 ✅
+**文件**: `src/storage_engine/replace_strategy/abstract_strategy.h`
+
+**修复原因**: `unordered_map::operator[]` 需要默认构造函数
+
+**添加**:
+```cpp
+PageAccessInfo() : page_id(0), access_count(0), is_dirty(false), pin_count(0) {
+    last_access_time = std::chrono::steady_clock::now();
+}
+```
+
+#### 3. IndexManager 构造函数签名修复 ✅
+**文件**: `src/storage_engine/index_manager/index_manager.h`
+
+**问题**: 头文件声明与实现不匹配
+
+**修复**: 统一为 `IndexManager(std::shared_ptr<StorageEngine>, ConfigManager &)`
+
+### 构建验证
+
+| 组件 | 构建状态 |
+|------|----------|
+| Level1 Tests | ✅ PASS |
+| buffer_pool | ✅ PASS |
+| storage_engine | ✅ PASS |
+| execution | ⚠️ 需要进一步修复 |
+
+## 剩余技术债务
 
 ### 高优先级问题
 
-#### 1. API 不一致问题 (严重)
-**问题**: `DMLExecutionStrategy` 和 `DCLExecutionStrategy` 使用旧的 API
+#### 1. DDLExecutionStrategy API 修复
+**问题**: 使用旧的 Statement API
 
-**旧代码**:
+**状态**: 待修复
+
+**需要修改**:
 ```cpp
-switch (stmt->type) {
-    case sql_parser::StatementType::INSERT_STATEMENT:
+// 从
+switch (stmt.type) {
+    case sql_parser::StatementType::CREATE_STATEMENT:
+// 改为
+switch (stmt.getType()) {
+    case sql_parser::Statement::Type::CREATE:
 ```
 
-**新API**:
-```cpp
-switch (stmt->getType()) {
-    case sql_parser::Statement::Type::INSERT:
-```
+#### 2. InsertStatement 成员访问
+**问题**: `table_name`, `columns`, `values` 成员变量缺失
 
-**受影响的文件**:
-- `src/execution/dml_execution_strategy.cpp` (已部分修复)
-- `src/execution/ddl_execution_strategy.cpp` (待修复)
-- `src/execution/dcl_execution_strategy.cpp` (已修复)
+**状态**: 待分析
 
-#### 2. 缺失的成员变量 (中等)
-**问题**: `InsertStatement` 等类缺少 `table_name`, `columns`, `values` 成员
-
-**受影响的文件**:
-- `src/execution/dml_execution_strategy.cpp`
-
-#### 3. 链接器错误 (严重)
-**问题**: 链接时找不到符号定义
-
-**错误信息**:
-```
-undefined reference to `sqlcc::AbstractReplaceStrategy::CleanPage(int)'
-undefined reference to `sqlcc::IndexManager::IndexManager(...)'
-undefined reference to `__atomic_store', `__atomic_load'
-```
-
-**受影响的库**:
-- `libbuffer_pool.so`
-- `libstorage_engine.so`
+**需要检查**: `src/sql_parser/ast/ast_nodes.h` 中的 `InsertStatement` 定义
 
 ### 中优先级问题
 
-#### 4. 头文件路径不一致
-**问题**: 不同模块使用不同的 include 路径风格
+#### 3. 原子操作链接问题
+**状态**: 待定位问题根源
 
-**建议**: 统一使用相对路径 (`../core/xxx.h`)
-
-#### 5. 前向声明不完整
-**问题**: `SqlExecutor` 只有前向声明，缺少完整定义
-
-**位置**:
-- `src/execution/subquery_executor.h`
-- `src/execution/function_executor.h`
+#### 4. SqlExecutor 完整实现
+**状态**: 需要完成 `sql_executor.cpp` 的实现
 
 ### 低优先级问题
 
-#### 6. 未使用的参数警告
-**问题**: 大量 `-Wunused-parameter` 警告
+#### 5. 未使用的参数警告
+**数量**: ~30 个警告
 
-**建议**: 使用 `(void)param` 模式或添加 `[[maybe_unused]]` 属性
+**建议**: 使用 `(void)param` 或 `[[maybe_unused]]`
 
-## 修复计划
-
-### Phase 1: API 统一 (当前)
-- [x] 修复 `DMLExecutionStrategy` Statement API
-- [x] 修复 `DCLExecutionStrategy` Statement API
-- [ ] 修复 `DDLExecutionStrategy` Statement API
-- [ ] 修复 `InsertStatement` 成员访问
-
-### Phase 2: 链接器问题
-- [ ] 实现 `AbstractReplaceStrategy` 纯虚函数
-- [ ] 完成 `IndexManager` 类实现
-- [ ] 添加原子操作链接库
-
-### Phase 3: 头文件规范化
-- [ ] 统一所有模块的 include 路径风格
-- [ ] 修复所有 `#include` 路径
-- [ ] 更新 BUILD.bazel 文件
-
-### Phase 4: 覆盖率测试
-- [ ] 验证 Level2 Core Services 测试编译
-- [ ] 验证 Level2 Storage Engine 测试编译
-- [ ] 生成覆盖率报告
-- [ ] 目标: 覆盖率 > 70%
-
-## 验证命令
+## 构建验证命令
 
 ```bash
 # 运行 Level1 测试（验证稳定性）
-bazel test //tests/level1_foundation/... --test_output=errors
+bazel test //tests/level1_foundation/exception:exception_test --test_output=errors
 
-# 构建 Level2 核心模块
-bazel build //src/core:core
-
-# 构建 Level2 存储引擎模块
+# 构建存储引擎模块
 bazel build //src/storage_engine:storage_engine
 
-# 构建执行模块
-bazel build //src/execution:execution
+# 构建缓冲池模块
+bazel build //src/storage_engine/buffer_pool:buffer_pool
+
+# 尝试构建核心模块
+bazel build //src/core:core
 ```
 
-## 关键文件修改
+## 关键文件修改 (v1.3.9.2)
 
-### 头文件修复
-- `src/sql_executor.h` - 修复 include 路径
-- `src/core/user_manager.h` - 添加 `userExists()`, `isUserInRole()`
-- `src/core/user_manager.cpp` - 实现新方法
-- `src/execution/unified_executor.h` - 添加构造函数
+### 存储引擎修复
+- `src/storage_engine/buffer_pool/replace_strategy.cpp` - 添加虚函数实现
+- `src/storage_engine/buffer_pool/replace_strategy.h` - 修复头文件路径
+- `src/storage_engine/replace_strategy/abstract_strategy.h` - 添加默认构造函数
+- `src/storage_engine/index_manager/index_manager.h` - 修复构造函数签名
 
-### 执行模块修复
-- `src/execution/subquery_executor.cpp` - 修复 include 路径
-- `src/execution/set_operation_executor.cpp` - 修复 include 路径
-- `src/execution/dml_execution_strategy.cpp` - 修复 Statement API
-- `src/execution/dcl_execution_strategy.cpp` - 修复 API 调用
+### 文档更新
+- `coverage_report_l2/LEVEL2_COVERAGE_STATUS.md` - 记录修复进度
+
+## 下一步计划
+
+### Phase 3: API 统一 (继续)
+1. **修复 DDLExecutionStrategy**
+   - 更新 Statement API 调用
+   - 验证编译通过
+
+2. **分析 InsertStatement**
+   - 确定正确的成员变量名
+   - 修复访问代码
+
+### Phase 4: 核心模块构建
+1. **尝试构建核心模块**
+   ```bash
+   bazel build //src/core:core
+   ```
+2. **解决发现的编译错误**
+
+### Phase 5: 完整测试
+1. **运行 Level2 测试**
+   ```bash
+   bazel test //tests/level2_core_services/...
+   bazel test //tests/level2_storage_engine/...
+   ```
+2. **生成覆盖率报告**
 
 ## 风险评估
 
 | 风险 | 影响 | 缓解措施 |
 |------|------|----------|
 | API 变更破坏现有代码 | 高 | 逐模块修复，验证后合并 |
-| 链接器错误 | 高 | 逐步实现缺失的符号 |
-| 编译时间增加 | 中 | 使用增量编译 |
-| 测试覆盖不完整 | 中 | 增加测试用例 |
+| 编译错误累积 | 中 | 每次修复后构建验证 |
+| 测试时间过长 | 低 | 使用 `--test_output=errors` |
 
-## 下一步行动
+## Git 提交历史
 
-1. **继续修复 DMLExecutionStrategy**
-   - 修复 `InsertStatement` 成员访问问题
-   - 测试编译通过
-
-2. **处理 DDLExecutionStrategy**
-   - 应用相同的 API 修复
-
-3. **解决链接器问题**
-   - 定位 `AbstractReplaceStrategy` 的实现
-   - 添加缺失的 `IndexManager` 定义
-
-4. **运行完整构建测试**
-   - `bazel build //src/...`
-   - 验证没有新的编译错误
-
-## 参考文档
-
-- Level1 覆盖率汇总: `coverage_report_l1_complete/LEVEL1_COVERAGE_SUMMARY.md`
-- Level1 归档: `docs/project/versions/v1.3.9/coverage_report_l1/`
-- API 变更记录: `docs/project/versions/v1.3.9/`
-- Bazel 覆盖率测试: https://bazel.build/external/coverage
+```
+feature/level2-coverage-improvement (4 commits ahead of main)
+├── 68c99fe9 fix: 修复Level2核心模块头文件路径和API问题
+├── 6661810b fix: 修复Level2执行模块头文件路径和API问题
+├── 63b8acc8 docs: 更新Level2覆盖率状态报告，记录技术债务清单
+└── c3d623fd fix: 实现AbstractReplaceStrategy虚函数和修复IndexManager构造函数
+```
 
 ---
 
