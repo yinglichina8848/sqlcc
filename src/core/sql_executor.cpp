@@ -1,5 +1,5 @@
-#include "sql_parser/ast/ast_node.h"
-#include "sql_executor.h"
+#include "../sql_parser/ast/ast_node.h"
+#include "sql_executor_interface.h"
 #include "core_database_manager.h"
 #include "user_manager.h"
 #include <iostream>

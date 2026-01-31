@@ -275,6 +275,7 @@ struct ExecutionPlan {
  */
 class UnifiedExecutor : public ExecutionEngine {
 public:
+  explicit UnifiedExecutor(std::shared_ptr<DatabaseManager> db_manager);
   UnifiedExecutor(std::shared_ptr<DatabaseManager> db_manager,
                   std::shared_ptr<UserManager> user_manager,
                   std::shared_ptr<SystemDatabase> system_db);
@@ -313,6 +314,9 @@ private:
 
   // Initializes the strategies_ map.
   void initializeStrategies();
+
+  // Initializes the query optimizer.
+  void initializeOptimizer();
 
   // Retrieves the correct strategy for a given statement type.
   ExecutionStrategy *getStrategy(sql_parser::Statement::Type type);

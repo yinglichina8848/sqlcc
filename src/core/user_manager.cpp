@@ -55,7 +55,7 @@
  * @see include/core/user_manager.h
  */
 
-#include "../user_manager.h"
+#include "user_manager.h"
 #include <algorithm>
 #include <iostream>
 #include <queue>
@@ -538,6 +538,33 @@ bool UserManager::CheckPermission(const std::string &username, const std::string
     // 这会考虑用户的当前激活角色以及通过角色继承获得的权限。
     return CheckPermissionInMatrix(username, database, table, required_privilege);
 }
+/**
+ * @brief 检查用户是否存在。
+ * @details 在用户映射中查找指定用户名。
+ * @param username 待检查的用户名。
+ * @return 如果用户存在返回true，否则返回false。
+ */
+bool UserManager::userExists(const std::string &username) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    return users_.find(username) != users_.end();
+}
+
+/**
+ * @brief 检查用户是否拥有指定角色。
+ * @details 检查用户的直接角色（不考虑角色继承链）。
+ * @param username 用户的用户名。
+ * @param role_name 角色名称。
+ * @return 如果用户拥有该角色返回true，否则返回false。
+ */
+bool UserManager::isUserInRole(const std::string &username, const std::string &role_name) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    auto user_iter = users_.find(username);
+    if (user_iter == users_.end()) {
+        return false;
+    }
+    return user_iter->second.role == role_name;
+}
+
 /**
  * @brief 列出所有用户。
  * @details 返回当前系统中所有注册用户的列表。

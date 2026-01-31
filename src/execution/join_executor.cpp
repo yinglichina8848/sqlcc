@@ -1,4 +1,4 @@
-#include "sql_parser/ast/ast_node.h"
+#include "../sql_parser/ast/ast_node.h"
 #include "join_executor.h"
 #include <algorithm>
 #include <unordered_map>

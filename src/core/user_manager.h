@@ -411,6 +411,19 @@ public:
 
   // --- 查询方法 ---
   /**
+   * @brief 检查用户是否存在。
+   * @param username 待检查的用户名。
+   * @return 如果用户存在返回true，否则返回false。
+   */
+  bool userExists(const std::string &username) const;
+  /**
+   * @brief 检查用户是否拥有指定角色。
+   * @param username 用户的用户名。
+   * @param role_name 角色名称。
+   * @return 如果用户拥有该角色返回true，否则返回false。
+   */
+  bool isUserInRole(const std::string &username, const std::string &role_name) const;
+  /**
    * @brief 列出所有用户。
    * @return 包含所有用户User结构体的向量。
    */

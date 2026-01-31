@@ -13,3 +13,55 @@ cc_test(
     ],
     tags = ["coverage", "level1"],
 )
+
+cc_test(
+    name = "file_descriptor_version_test",
+    srcs = ["file_descriptor_version_test.cpp"],
+    copts = [
+        "-fprofile-instr-generate",
+        "-fcoverage-mapping",
+        "-Isrc",
+    ],
+    linkopts = ["-fprofile-instr-generate"],
+    deps = [
+        "@com_google_googletest//:gtest_main",
+        "//src/utils:utils_coverage",
+    ],
+    tags = ["coverage", "level1"],
+)
+
+cc_test(
+    name = "ssl_connection_pool_test",
+    srcs = ["ssl_connection_pool_test.cpp"],
+    copts = [
+        "-fprofile-instr-generate",
+        "-fcoverage-mapping",
+        "-Isrc",
+    ],
+    linkopts = [
+        "-fprofile-instr-generate",
+        "-lssl",
+        "-lcrypto",
+    ],
+    deps = [
+        "@com_google_googletest//:gtest_main",
+        "//src/utils:utils_coverage",
+    ],
+    tags = ["coverage", "level1"],
+)
+
+cc_test(
+    name = "smart_config_test",
+    srcs = ["smart_config_test.cpp"],
+    copts = [
+        "-fprofile-instr-generate",
+        "-fcoverage-mapping",
+        "-Isrc",
+    ],
+    linkopts = ["-fprofile-instr-generate"],
+    deps = [
+        "@com_google_googletest//:gtest_main",
+        "//src/utils:utils_coverage",
+    ],
+    tags = ["coverage", "level1"],
+)

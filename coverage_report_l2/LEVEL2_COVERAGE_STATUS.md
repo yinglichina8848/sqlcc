@@ -1,7 +1,7 @@
 # SQLCC Level 2 覆盖率测试状态报告
 
 **日期**: 2026-01-31  
-**状态**: 🔄 进行中
+**状态**: 🔄 进行中 (feature/level2-coverage-improvement分支)
 
 ## Level 1 覆盖率测试状态 ✅ 已完成
 
@@ -18,129 +18,112 @@
 
 ## Level 2 覆盖率测试状态 🔄 进行中
 
-### 核心模块覆盖率配置
+### 已修复的问题 (v1.3.9.1)
 
-| 模块 | 覆盖率库 | 测试状态 | 备注 |
-|------|----------|----------|------|
-| core | core_coverage | 🔄 需要修复 | 头文件路径问题 |
-| user_manager | user_manager_coverage | 🔄 需要修复 | 头文件路径问题 |
-| permission_validator | permission_validator_coverage | 🔄 需要修复 | 头文件路径问题 |
-| database_manager | database_manager_coverage | ⏸️ 待实现 | 依赖 core 库 |
-| config_manager | config_coverage | ✅ 可配置 | 依赖正常库 |
-| execution_context | execution_context_coverage | ⏸️ 待实现 | 依赖 core 库 |
+1. **UserManager API 扩展**
+   - 添加了 `userExists()` 方法
+   - 添加了 `isUserInRole()` 方法
+   - 修复 `permission_validator.cpp` 编译错误
 
-### 发现的源码问题
+2. **头文件路径修复**
+   - 修复 `src/core/user_manager.cpp` include 路径
+   - 修复 `src/execution/` 目录下所有 `*.cpp` 文件的 include 路径
+   - 统一使用 `../` 相对路径
 
-#### 问题 1: 头文件相对路径错误
-```cpp
-// src/core/permission_validator.h (line 42)
-#include "error_handler.h"  // 错误: error_handler.h 在 src/ 目录
+3. **DCLExecutionStrategy API 修复**
+   - 使用 `context.get_user_manager()` 替代 `db_manager->getUserManager()`
+   - 使用 `stmt.getGrantee()` 替代 `stmt.getUsers()`
+   - 使用 `stmt.getType()` 替代直接访问 `stmt.type_` 私有成员
 
-// 修复方案
-#include "../error_handler.h"  // 正确: 使用相对路径
-```
+4. **UnifiedExecutor 构造函数修复**
+   - 添加单参数构造函数声明
 
-#### 问题 2: 执行模块头文件路径
-```cpp
-// src/execution/unified_executor.cpp (line 35)
-#include 'core/execution_result.h'  // 路径错误
+### 当前状态
 
-// 修复方案
-#include "execution_result.h"  // 或使用 Bazel 风格路径
-```
+| 组件 | 状态 | 说明 |
+|------|------|------|
+| Level1 Tests | ✅ PASS | ~160个测试，100%通过 |
+| Level2 Core Services | 🔄 构建中 | 存在依赖链问题 |
+| Level2 Storage Engine | 🔄 构建中 | 存在链接器问题 |
 
-#### 问题 3: core 模块全局编译问题
-- `user_manager.cpp`: 使用 `../user_manager.h` 但编译时路径不正确
-- `core_database_manager.cpp`: 存在未使用的参数警告
-- 需要在 BUILD.bazel 中正确配置 `include_prefix` 和 `strip_include_prefix`
+### 发现的剩余问题
+
+1. **缺失的类定义**
+   - `SqlExecutor` 类只有前向声明，无完整定义
+   - `AbstractReplaceStrategy` 虚函数未实现
+   - `IndexManager` 构造函数/析构函数未定义
+
+2. **链接器错误**
+   - `libbuffer_pool.so`: `AbstractReplaceStrategy` 方法未定义
+   - `libstorage_engine.so`: `IndexManager` 和原子操作问题
+
+3. **API 不一致**
+   - 不同模块间类依赖关系复杂
+   - 需要统一接口设计
 
 ## 修复优先级
 
 ### 高优先级 (阻塞覆盖率测试)
-1. ✅ Level 1 覆盖率测试配置 - 已完成
-2. 🔄 修复 Level 2 核心模块头文件路径 - 进行中
-3. ⏸️ 创建 Level 2 coverage 库 - 等待头文件修复
+1. ✅ Level1 覆盖率测试 - 已完成
+2. 🔄 修复 Level2 核心模块头文件路径 - 已完成基础修复
+3. ⏸️ 解决链接器问题 - 需要更多重构
 
 ### 中优先级 (提高覆盖率)
 1. 扩展 config 模块测试覆盖率 (当前 55.36%)
-2. 为 storage_engine 创建专门的 coverage 库
-3. 为 SQL parser 创建 coverage 库
+2. 解决 `SqlExecutor` 类缺失问题
+3. 统一模块间接口
 
 ### 低优先级 (优化)
 1. 完善测试用例
 2. 添加边界条件测试
 3. 添加错误处理测试
 
-## Level 2 覆盖率配置模板
-
-为未来修复后的 Level 2 模块提供配置模板：
-
-```python
-# src/core/BUILD.bazel
-
-# 简化的 coverage 库（针对单个文件）
-cc_library(
-    name = "{module}_coverage",
-    srcs = ["{module}.cpp"],
-    hdrs = ["{module}.h"],
-    copts = [
-        "-std=c++20",
-        "-fprofile-instr-generate",
-        "-fcoverage-mapping",
-    ],
-    linkopts = ["-fprofile-instr-generate"],
-    deps = [
-        "//src/utils:utils_coverage",
-        "//src/exception:exception_coverage",
-    ],
-    visibility = ["//visibility:public"],
-    tags = ["coverage"],
-)
-
-# 测试配置
-cc_test(
-    name = "{module}_tests",
-    srcs = ["{module}_test.cpp"],
-    deps = [
-        "@com_google_googletest//:gtest_main",
-        "//src/core:{module}_coverage",
-    ],
-    copts = [
-        "-fprofile-instr-generate",
-        "-fcoverage-mapping",
-    ],
-    linkopts = ["-fprofile-instr-generate"],
-    tags = ["coverage", "level2", "core_services"],
-)
-```
-
 ## 下一步行动
 
-1. **修复源码头文件路径** - 需要修改 ~10 个头文件的 include 语句
-2. **更新 BUILD.bazel 配置** - 正确设置 include_prefix
-3. **创建简化版 coverage 库** - 避免复杂的依赖链
-4. **验证 Level 2 覆盖率测试** - 确认配置正确
+1. **解决链接器问题**
+   - 实现 `AbstractReplaceStrategy` 纯虚函数
+   - 完成 `IndexManager` 类的完整实现
+
+2. **定义缺失的类**
+   - 创建 `SqlExecutor` 类的完整实现或使用 `SqlExecutorInterface`
+
+3. **验证 Level2 覆盖率测试**
+   - 确保所有测试能够编译和运行
+
+4. **更新覆盖率报告**
+   - 生成新的 Level2 覆盖率数据
 
 ## 验证命令
 
 ```bash
-# 运行 Level 2 core services 测试
+# 运行 Level1 测试（验证稳定性）
+bazel test //tests/level1_foundation/... --test_output=errors
+
+# 运行 Level2 核心服务测试
 bazel test //tests/level2_core_services/... --test_output=errors
 
-# 运行覆盖率测试（头文件修复后）
-bazel coverage //tests/level2_core_services/permission_validator:permission_validator_tests
-
-# 生成覆盖率报告
-bash scripts/generate_l2_coverage.sh
+# 运行 Level2 存储引擎测试
+bazel test //tests/level2_storage_engine/... --test_output=errors
 ```
+
+## 关键文件修改
+
+- `src/core/user_manager.h` - 添加 `userExists()` 和 `isUserInRole()` 方法
+- `src/core/user_manager.cpp` - 实现新方法，修复 include 路径
+- `src/core/sql_executor.cpp` - 修复 include 路径
+- `src/core/unified_executor.h` - 添加构造函数声明
+- `src/execution/` - 修复所有 `.cpp` 文件的 include 路径
+- `src/execution/dcl_execution_strategy.cpp` - 修复 API 调用
+- `.gitattributes` - 锁定 Level1 文件
 
 ## 参考文档
 
-- 详细配置方法: `docs/development/COVERAGE_TESTING_GUIDE.md`
-- Level 1 覆盖率汇总: `coverage_report_l1_complete/LEVEL1_COVERAGE_SUMMARY.md`
+- Level1 覆盖率汇总: `coverage_report_l1_complete/LEVEL1_COVERAGE_SUMMARY.md`
+- Level1 归档: `docs/project/versions/v1.3.9/coverage_report_l1/`
 - Bazel 覆盖率测试: https://bazel.build/external/coverage
 
 ---
 
 **维护者**: SQLCC 开发团队  
+**分支**: feature/level2-coverage-improvement  
 **最后更新**: 2026-01-31

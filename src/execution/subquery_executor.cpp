@@ -1,8 +1,8 @@
 #include "subquery_executor.h"
-#include "../sql_executor.h"
-#include "../execution_context.h"
-#include "../execution_result.h"
-#include "sql_parser/ast_nodes.h"
+#include "sql_executor.h"
+#include "execution_context.h"
+#include "execution_result.h"
+#include "../sql_parser/ast_nodes.h"
 #include <algorithm>
 #include <memory>
 #include <optional>
