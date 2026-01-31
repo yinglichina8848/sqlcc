@@ -26,6 +26,7 @@ cc_library(
     ],
     hdrs = [
         "buffer_pool_sharded.h",
+        "replace_strategy.h",
     ],
     copts = [
         "-std=c++20",
@@ -38,6 +39,8 @@ cc_library(
         "//src/storage_engine/disk_manager:disk_manager_coverage",
         "//src/exception:exception_coverage",
         "//src/logger:logger_coverage",
+        "//src/storage_engine/replace_strategy:replace_strategy_headers",
+        "//src/storage_engine:storage_engine_headers",
     ],
     visibility = ["//visibility:public"],
     tags = ["coverage"],

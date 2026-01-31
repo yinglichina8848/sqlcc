@@ -26,7 +26,7 @@ class Expression : public ASTNode {
 public:
   virtual ~Expression() = default;
   virtual ExpressionType getType() const = 0;
-  virtual void accept(NodeVisitor& visitor) = 0;
+  virtual void accept(NodeVisitor& visitor) const = 0;
 };
 
 using ExprPtr = std::unique_ptr<Expression>;
@@ -36,7 +36,7 @@ public:
   explicit NumericLiteralExpression(double value) : value_(value) {}
   double getValue() const { return value_; }
   ExpressionType getType() const override { return ExpressionType::NumericLiteral; }
-  void accept(NodeVisitor& visitor) override;
+  void accept(NodeVisitor& visitor) const override;
 
 private:
   double value_;
@@ -47,7 +47,7 @@ public:
   explicit StringLiteralExpression(const std::string& value) : value_(value) {}
   const std::string& getValue() const { return value_; }
   ExpressionType getType() const override { return ExpressionType::StringLiteral; }
-  void accept(NodeVisitor& visitor) override;
+  void accept(NodeVisitor& visitor) const override;
 
 private:
   std::string value_;
@@ -58,7 +58,7 @@ public:
   explicit BooleanLiteralExpression(bool value) : value_(value) {}
   bool getValue() const { return value_; }
   ExpressionType getType() const override { return ExpressionType::BooleanLiteral; }
-  void accept(NodeVisitor& visitor) override;
+  void accept(NodeVisitor& visitor) const override;
 
 private:
   bool value_;
@@ -67,7 +67,7 @@ private:
 class NullLiteralExpression : public Expression {
 public:
   ExpressionType getType() const override { return ExpressionType::NullLiteral; }
-  void accept(NodeVisitor& visitor) override;
+  void accept(NodeVisitor& visitor) const override;
 };
 
 class IdentifierExpression : public Expression {
@@ -75,7 +75,7 @@ public:
   explicit IdentifierExpression(const std::string& name) : name_(name) {}
   const std::string& getName() const { return name_; }
   ExpressionType getType() const override { return ExpressionType::Identifier; }
-  void accept(NodeVisitor& visitor) override;
+  void accept(NodeVisitor& visitor) const override;
 
 private:
   std::string name_;
@@ -88,7 +88,7 @@ public:
   const std::string& getName() const { return name_; }
   const std::vector<ExprPtr>& getArguments() const { return arguments_; }
   ExpressionType getType() const override { return ExpressionType::FunctionCall; }
-  void accept(NodeVisitor& visitor) override;
+  void accept(NodeVisitor& visitor) const override;
 
 private:
   std::string name_;
@@ -103,7 +103,7 @@ public:
   const Expression& getRight() const { return *right_; }
   OperatorKind getOperator() const { return op_; }
   ExpressionType getType() const override { return ExpressionType::Binary; }
-  void accept(NodeVisitor& visitor) override;
+  void accept(NodeVisitor& visitor) const override;
 
 private:
   ExprPtr left_;

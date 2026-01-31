@@ -56,6 +56,77 @@
 namespace sqlcc {
 
 /**
+ * @brief 数据库上下文切换的健壮错误处理策略 - 详细说明 (#SYSDB-008)
+ *
+ * @WHY
+ * 在数据库管理系统（DBMS）中，尤其是像`SystemDatabase`这样需要频繁在不同数据库上下文（例如，`system`数据库和用户数据库）
+ * 之间切换的组件中，确保上下文的正确切换和恢复是至关重要的。如果上下文切换失败，或者在操作过程中发生错误而未能正确恢复，
+ * 将导致以下严重问题：
+ * 1.  **数据混乱/错误**: 后续的SQL操作可能在错误的数据库中执行，导致数据被意外修改或查询到错误的数据。
+ * 2.  **系统不稳定**: 数据库状态进入不一致性，可能引发进一步的崩溃或不可预测的行为。
+ * 3.  **安全漏洞**: 权限检查可能在错误的上下文中进行，导致越权访问或拒绝合法操作。
+ *
+ * 因此，对数据库上下文切换操作（`db_manager_->UseDatabase()`）必须采用健壮的错误处理机制。
+ *
+ * @WHAT
+ * 确保每次进行`db_manager_->UseDatabase()`操作时，无论操作是否成功，以及其后的业务逻辑是否抛出异常，
+ * 都能保证系统恢复到切换前的数据库上下文。这通常包括两部分：
+ * 1.  **切换到目标数据库的失败处理**: 如果`UseDatabase(SYSTEM_DB_NAME)`失败，应立即报告错误并停止当前操作。
+ * 2.  **切换回原始数据库的失败处理**: 即使在`system`数据库中的元数据操作成功，切换回用户数据库也可能失败。
+ *     此时，应记录警告或错误，但通常不阻止当前元数据操作的成功（因为元数据操作本身已完成），而是警告用户数据库上下文可能已损坏。
+ *
+ * @HOW
+ * 推荐的实现模式是使用 **RAII (Resource Acquisition Is Initialization)** 原则，通过一个局部对象来管理数据库上下文的生命周期。
+ * 这种模式确保了即使在函数中途返回或抛出异常，析构函数也会被调用，从而正确恢复数据库上下文。
+ *
+ * 示例 RAII 辅助类 `DatabaseContextGuard`:
+ * ```cpp
+ * class DatabaseContextGuard {
+ * public:
+ *     DatabaseContextGuard(std::shared_ptr<DatabaseManager> dm, const std::string& target_db_name, const std::string& original_db_name)
+ *         : dm_(dm), original_db_name_(original_db_name) {
+ *         if (!dm_->UseDatabase(target_db_name)) {
+ *             // 记录错误或抛出异常，表示切换到目标数据库失败
+ *             throw std::runtime_error("Failed to switch to target database: " + target_db_name);
+ *         }
+ *     }
+ *
+ *     ~DatabaseContextGuard() {
+ *         if (!original_db_name_.empty()) {
+ *             if (!dm_->UseDatabase(original_db_name_)) {
+ *                 // 记录警告：未能切换回原始数据库
+ *                 // 这是恢复失败，但通常不阻止调用者逻辑，因为元数据操作可能已经完成
+ *             }
+ *         }
+ *     }
+ *
+ * private:
+ *     std::shared_ptr<DatabaseManager> dm_;
+ *     std::string original_db_name_;
+ * };
+ * ```
+ *
+ * 在实际方法中使用:
+ * ```cpp
+ * bool SystemDatabase::SomeMetadataOperation() {
+ *     try {
+ *         std::string prev_db = db_manager_->GetCurrentDatabase();
+ *         DatabaseContextGuard guard(db_manager_, SYSTEM_DB_NAME, prev_db);
+ *
+ *         // 执行元数据操作...
+ *
+ *         return true;
+ *     } catch (const std::exception& e) {
+ *         SetError(std::string("SomeMetadataOperation failed: ") + e.what());
+ *         return false;
+ *     }
+ * }
+ * ```
+ * 这种模式可以替代分散在各个方法中的`if (!db_manager_->UseDatabase())`和`db_manager_->UseDatabase(prev_db)`逻辑，
+ * 使得代码更简洁、更安全。
+ */
+
+/**
  * @brief 构造SystemDatabase实例。
  * @details 初始化SystemDatabase，传入一个DatabaseManager的共享指针，用于底层数据库操作。
  * @param db_manager DatabaseManager的共享指针，提供基础数据库操作接口。
@@ -149,12 +220,26 @@ std::string SystemDatabase::GetCurrentTimeString() const {
  * @return 生成的唯一ID。
  */
 int64_t SystemDatabase::GenerateId(const std::string& table_name) {
-    // TODO(#SYSDB-003): 在高并发生产环境中，需要实现更健壮的分布式唯一ID生成器，
+    // WHY: 在数据库系统中，为每个元数据记录生成一个唯一、可靠的ID是至关重要的。
+    // 当前使用时间戳作为ID，在并发环境下存在严重的冲突风险（即在同一毫秒内创建多个记录），
+    // 并且在分布式系统中也无法保证全局唯一性。ID的唯一性是数据完整性的基石。
+    // WHAT: 实现一个在高并发和分布式环境中都能保证唯一性、且性能良好的ID生成器。
+    // HOW: 生产级的唯一ID生成器通常采用以下策略：
+    // 1.  **UUID (Universally Unique Identifier)**: 可以在本地独立生成，冲突概率极低，但通常是较长的字符串。
+    // 2.  **雪花算法 (Snowflake ID)**: 结合了时间戳、机器ID和序列号，生成一个64位的长整型ID，
+    //     保证了趋势递增和高并发下的唯一性，常用于分布式系统。
+    // 3.  **数据库序列/自增列**: 依赖数据库自身的序列或自增列功能，简单易用，但存在单点瓶颈。
+    // 4.  **Twitter's Snowflake**: 一个64位ID生成算法，用于生成唯一且大致按时间排序的ID。
+
+    // TODO(#SYSDB-003-IMPL): 在高并发生产环境中，需要实现更健壮的分布式唯一ID生成器，
     // 例如，基于UUID、雪花算法（Snowflake ID）或数据库序列。
     // 简单的ID生成器，使用时间戳
     auto now = std::chrono::system_clock::now();
     auto timestamp = std::chrono::duration_cast<std::chrono::milliseconds>(
         now.time_since_epoch()).count();
+    // 考虑到timestamp可能在同一毫秒内重复，可以加上一个简单的哈希或随机数来增加唯一性，
+    // 但这仍不是生产级的解决方案。
+    // 例如：return timestamp * 1000 + (std::hash<std::string>{}(table_name) % 1000); // 增加一点随机性
     return timestamp;
 }
 /**
@@ -766,7 +851,24 @@ bool SystemDatabase::CreateSysTemporalTablesTable() {
  * @return 初始化成功返回true，否则返回false。
  */
 bool SystemDatabase::InitializeDefaultData() {
-    // TODO(#SYSDB-002): 完整实现此方法以初始化默认用户、角色等数据。
+    // WHY: 数据库系统在首次启动时，或者在元数据文件丢失/损坏后重建时，
+    // 需要一套初始的、最基本的元数据来使其能够正常运行。这通常包括：
+    // -   默认的超级用户账户，以便管理员能够登录。
+    // -   预定义的系统角色，如`SUPERUSER`、`ADMIN`、`USER`等。
+    // -   `system`数据库本身的元数据记录。
+    // WHAT: 此方法负责向`system`数据库中的`sys_users`、`sys_roles`和`sys_databases`等表
+    // 插入必要的默认记录，建立数据库的初始安全和结构环境。
+    // HOW:
+    // 1.  **创建`system`数据库的元数据记录**: 如果`system`数据库本身没有元数据记录，
+    //     则创建一条（例如，调用`CreateDatabaseRecord`）。
+    // 2.  **创建默认角色**: 确保`SUPERUSER`、`ADMIN`、`USER`等系统角色存在于`sys_roles`表中。
+    //     可以通过调用`CreateRoleRecord`来实现。
+    // 3.  **创建默认超级用户**: 创建一个默认的超级用户账户，并将其角色设置为`SUPERUSER`。
+    //     这可以通过调用`CreateUserRecord`来实现。
+    // 4.  **授予超级用户权限**: 确保默认超级用户拥有所有必要的权限，以便能够管理系统。
+    //     这通常会涉及向`sys_privileges`表插入记录。
+
+    // TODO(#SYSDB-002-IMPL): 完整实现此方法以初始化默认用户、角色等数据。
     // 这将涉及构造SQL INSERT语句并使用ExecuteSQL执行。
     // 例如，创建初始管理员账户，以及'public'等默认角色。
     // 这里需要实现默认数据的插入逻辑
@@ -969,7 +1071,18 @@ bool SystemDatabase::DropDatabaseRecord(const std::string& db_name) {
  * @return 包含数据库元数据`SysDatabase`结构体。如果未找到，返回一个默认构造的`SysDatabase`。
  */
 SysDatabase SystemDatabase::GetDatabaseRecord(const std::string& db_name) {
-    // TODO(#SYSDB-006): 需要实现SELECT查询并解析结果。
+    // WHY: 数据库管理系统需要能够按名称检索特定数据库的详细元数据（例如所有者、创建时间）。
+    // 这对于执行DDL操作（如ALTER DATABASE）、权限检查或显示数据库信息至关重要。
+    // WHAT: 此方法将构建一个`SELECT`语句来查询`sys_databases`表，然后执行该查询，
+    // 并将返回的单行结构化结果解析为`SysDatabase` C++结构体。
+    // HOW:
+    // 1.  **SQL构建**: 构建一个`SELECT * FROM sys_databases WHERE db_name = '...'`的SQL语句。
+    // 2.  **执行查询**: 调用`ExecuteSelectQuery`执行该SQL语句。在`TODO(#SYSDB-005-IMPL)`完成后，
+    //     `ExecuteSelectQuery`将返回一个结构化的结果集。
+    // 3.  **结果解析**: 从结构化结果集中提取唯一的数据库记录。
+    //     如果找到记录，则将其各列的值映射到`SysDatabase`结构体的相应成员变量。
+    //     如果未找到记录或查询失败，则返回一个默认构造的`SysDatabase`对象，并设置错误信息。
+    // TODO(#SYSDB-006-IMPL): 需要实现SELECT查询并解析结果。
     // 这将涉及构建SELECT SQL语句，通过ExecuteSelectQuery执行，然后将返回的字符串结果解析为SysDatabase结构体。
     // 这需要QueryExecutor支持返回结构化数据或SystemDatabase内部实现解析逻辑。
     (void)db_name; // 避免未使用参数警告
@@ -980,7 +1093,18 @@ SysDatabase SystemDatabase::GetDatabaseRecord(const std::string& db_name) {
  * @return 包含所有数据库元数据`SysDatabase`结构体的向量。
  */
 std::vector<SysDatabase> SystemDatabase::ListDatabases() {
-    // TODO(#SYSDB-007): 需要实现SELECT查询并解析结果。
+    // WHY: 能够列出系统中所有可用的数据库是数据库管理和探索的基本功能。
+    // 管理员需要查看数据库列表来执行管理任务，用户也可能需要了解有哪些数据库可用。
+    // WHAT: 此方法将构建一个`SELECT`语句来查询`sys_databases`表中的所有记录，
+    // 执行该查询，并将返回的结构化结果解析为`std::vector<SysDatabase>`。
+    // HOW:
+    // 1.  **SQL构建**: 构建一个`SELECT * FROM sys_databases`的SQL语句。
+    // 2.  **执行查询**: 调用`ExecuteSelectQuery`执行该SQL语句。在`TODO(#SYSDB-005-IMPL)`完成后，
+    //     `ExecuteSelectQuery`将返回一个结构化的结果集，其中包含多行数据。
+    // 3.  **结果解析**: 遍历结构化结果集中的每一行。对于每一行，将其各列的值映射到
+    //     `SysDatabase`结构体的相应成员变量，然后将`SysDatabase`对象添加到结果向量中。
+    //     如果查询失败或没有记录，则返回一个空的`std::vector<SysDatabase>`。
+    // TODO(#SYSDB-007-IMPL): 需要实现SELECT查询并解析结果。
     // 这将涉及构建SELECT SQL语句（SELECT * FROM sys_databases），通过ExecuteSelectQuery执行，
     // 然后将返回的字符串结果解析为SysDatabase结构体向量。
     // 这需要QueryExecutor支持返回结构化数据或SystemDatabase内部实现解析逻辑。
@@ -1002,7 +1126,7 @@ bool SystemDatabase::DatabaseExists(const std::string& db_name) {
         // 2. 切换到system数据库执行查询，然后切换回原数据库。
         std::string prev_db = db_manager_->GetCurrentDatabase();
         if (!db_manager_->UseDatabase(SYSTEM_DB_NAME)) {
-            // TODO(#SYSDB-008): 错误处理应更健壮，确保在切换数据库失败时能够恢复或抛出异常。
+            // TODO(#SYSDB-008-IMPL): 数据库上下文切换错误处理请参考文件顶部或专用 helper function 的详细说明。
             SetError("Failed to switch to system database");
             return false;
         }
@@ -1010,7 +1134,7 @@ bool SystemDatabase::DatabaseExists(const std::string& db_name) {
         std::string result = ExecuteSelectQuery(ss.str()); // TODO(#SYSDB-005): ExecuteSelectQuery返回结构化结果。
         
         if (!prev_db.empty()) {
-            // TODO(#SYSDB-008): 错误处理应更健壮，确保在切换数据库失败时能够恢复或抛出异常。
+            // TODO(#SYSDB-008-IMPL): 数据库上下文切换错误处理请参考文件顶部或专用 helper function 的详细说明。
             db_manager_->UseDatabase(prev_db);
         }
         
@@ -1159,7 +1283,18 @@ bool SystemDatabase::UpdateUserRecord(const SysUser& user) {
  * @return 包含用户元数据`SysUser`结构体。如果未找到，返回一个默认构造的`SysUser`。
  */
 SysUser SystemDatabase::GetUserRecord(const std::string& username) {
-    // TODO(#SYSDB-006): 需要实现SELECT查询并解析结果。
+    // WHY: 数据库系统需要能够按用户名检索特定用户的详细元数据（例如密码哈希、角色）。
+    // 这对于认证、授权检查或显示用户信息至关重要。
+    // WHAT: 此方法将构建一个`SELECT`语句来查询`sys_users`表，然后执行该查询，
+    // 并将返回的单行结构化结果解析为`SysUser` C++结构体。
+    // HOW:
+    // 1.  **SQL构建**: 构建一个`SELECT * FROM sys_users WHERE username = '...'`的SQL语句。
+    // 2.  **执行查询**: 调用`ExecuteSelectQuery`执行该SQL语句。在`TODO(#SYSDB-005-IMPL)`完成后，
+    //     `ExecuteSelectQuery`将返回一个结构化的结果集。
+    // 3.  **结果解析**: 从结构化结果集中提取唯一的用户记录。
+    //     如果找到记录，则将其各列的值映射到`SysUser`结构体的相应成员变量。
+    //     如果未找到记录或查询失败，则返回一个默认构造的`SysUser`对象，并设置错误信息。
+    // TODO(#SYSDB-006-IMPL): 需要实现SELECT查询并解析结果。
     // 这将涉及构建SELECT SQL语句，通过ExecuteSelectQuery执行，然后将返回的字符串结果解析为SysUser结构体。
     // 这需要QueryExecutor支持返回结构化数据或SystemDatabase内部实现解析逻辑。
     (void)username; // 避免未使用参数警告
@@ -1170,7 +1305,18 @@ SysUser SystemDatabase::GetUserRecord(const std::string& username) {
  * @return 包含所有用户元数据`SysUser`结构体的向量。
  */
 std::vector<SysUser> SystemDatabase::ListUsers() {
-    // TODO(#SYSDB-007): 需要实现SELECT查询并解析结果。
+    // WHY: 能够列出系统中所有注册用户是数据库管理和安全审计的基本功能。
+    // 管理员需要查看用户列表来执行管理任务，如修改权限、删除用户。
+    // WHAT: 此方法将构建一个`SELECT`语句来查询`sys_users`表中的所有记录，
+    // 执行该查询，并将返回的结构化结果解析为`std::vector<SysUser>`。
+    // HOW:
+    // 1.  **SQL构建**: 构建一个`SELECT * FROM sys_users`的SQL语句。
+    // 2.  **执行查询**: 调用`ExecuteSelectQuery`执行该SQL语句。在`TODO(#SYSDB-005-IMPL)`完成后，
+    //     `ExecuteSelectQuery`将返回一个结构化的结果集，其中包含多行数据。
+    // 3.  **结果解析**: 遍历结构化结果集中的每一行。对于每一行，将其各列的值映射到
+    //     `SysUser`结构体的相应成员变量，然后将`SysUser`对象添加到结果向量中。
+    //     如果查询失败或没有记录，则返回一个空的`std::vector<SysUser>`。
+    // TODO(#SYSDB-007-IMPL): 需要实现SELECT查询并解析结果。
     // 这将涉及构建SELECT SQL语句（SELECT * FROM sys_users），通过ExecuteSelectQuery执行，
     // 然后将返回的字符串结果解析为SysUser结构体向量。
     // 这需要QueryExecutor支持返回结构化数据或SystemDatabase内部实现解析逻辑。
@@ -1192,7 +1338,7 @@ bool SystemDatabase::UserExists(const std::string& username) {
         // 2. 切换到system数据库执行查询，然后切换回原数据库。
         std::string prev_db = db_manager_->GetCurrentDatabase();
         if (!db_manager_->UseDatabase(SYSTEM_DB_NAME)) {
-            // TODO(#SYSDB-008): 错误处理应更健壮，确保在切换数据库失败时能够恢复或抛出异常。
+            // TODO(#SYSDB-008-IMPL): 数据库上下文切换错误处理请参考文件顶部或专用 helper function 的详细说明。
             SetError("Failed to switch to system database");
             return false;
         }
@@ -1200,7 +1346,7 @@ bool SystemDatabase::UserExists(const std::string& username) {
         std::string result = ExecuteSelectQuery(ss.str()); // TODO(#SYSDB-005): ExecuteSelectQuery返回结构化结果。
         
         if (!prev_db.empty()) {
-            // TODO(#SYSDB-008): 错误处理应更健壮，确保在切换数据库失败时能够恢复或抛出异常。
+            // TODO(#SYSDB-008-IMPL): 数据库上下文切换错误处理请参考文件顶部或专用 helper function 的详细说明。
             db_manager_->UseDatabase(prev_db);
         }
         
@@ -1303,7 +1449,18 @@ bool SystemDatabase::DropRoleRecord(const std::string& role_name) {
  * @return 包含角色元数据`SysRole`结构体。如果未找到，返回一个默认构造的`SysRole`。
  */
 SysRole SystemDatabase::GetRoleRecord(const std::string& role_name) {
-    // TODO(#SYSDB-006): 需要实现SELECT查询并解析结果。
+    // WHY: 数据库系统需要能够按名称检索特定角色的详细元数据。
+    // 这对于角色管理、权限继承评估或显示角色信息至关重要。
+    // WHAT: 此方法将构建一个`SELECT`语句来查询`sys_roles`表，然后执行该查询，
+    // 并将返回的单行结构化结果解析为`SysRole` C++结构体。
+    // HOW:
+    // 1.  **SQL构建**: 构建一个`SELECT * FROM sys_roles WHERE role_name = '...'`的SQL语句。
+    // 2.  **执行查询**: 调用`ExecuteSelectQuery`执行该SQL语句。在`TODO(#SYSDB-005-IMPL)`完成后，
+    //     `ExecuteSelectQuery`将返回一个结构化的结果集。
+    // 3.  **结果解析**: 从结构化结果集中提取唯一的角色记录。
+    //     如果找到记录，则将其各列的值映射到`SysRole`结构体的相应成员变量。
+    //     如果未找到记录或查询失败，则返回一个默认构造的`SysRole`对象，并设置错误信息。
+    // TODO(#SYSDB-006-IMPL): 需要实现SELECT查询并解析结果。
     // 这将涉及构建SELECT SQL语句，通过ExecuteSelectQuery执行，然后将返回的字符串结果解析为SysRole结构体。
     // 这需要QueryExecutor支持返回结构化数据或SystemDatabase内部实现解析逻辑。
     (void)role_name; // 避免未使用参数警告
@@ -1314,7 +1471,18 @@ SysRole SystemDatabase::GetRoleRecord(const std::string& role_name) {
  * @return 包含所有角色元数据`SysRole`结构体的向量。
  */
 std::vector<SysRole> SystemDatabase::ListRoles() {
-    // TODO(#SYSDB-007): 需要实现SELECT查询并解析结果。
+    // WHY: 能够列出系统中所有定义的角色是数据库管理和安全配置的基本功能。
+    // 管理员需要查看角色列表来管理权限授予、角色继承等。
+    // WHAT: 此方法将构建一个`SELECT`语句来查询`sys_roles`表中的所有记录，
+    // 执行该查询，并将返回的结构化结果解析为`std::vector<SysRole>`。
+    // HOW:
+    // 1.  **SQL构建**: 构建一个`SELECT * FROM sys_roles`的SQL语句。
+    // 2.  **执行查询**: 调用`ExecuteSelectQuery`执行该SQL语句。在`TODO(#SYSDB-005-IMPL)`完成后，
+    //     `ExecuteSelectQuery`将返回一个结构化的结果集，其中包含多行数据。
+    // 3.  **结果解析**: 遍历结构化结果集中的每一行。对于每一行，将其各列的值映射到
+    //     `SysRole`结构体的相应成员变量，然后将`SysRole`对象添加到结果向量中。
+    //     如果查询失败或没有记录，则返回一个空的`std::vector<SysRole>`。
+    // TODO(#SYSDB-007-IMPL): 需要实现SELECT查询并解析结果。
     // 这将涉及构建SELECT SQL语句（SELECT * FROM sys_roles），通过ExecuteSelectQuery执行，
     // 然后将返回的字符串结果解析为SysRole结构体向量。
     // 这需要QueryExecutor支持返回结构化数据或SystemDatabase内部实现解析逻辑。
@@ -1336,7 +1504,7 @@ bool SystemDatabase::RoleExists(const std::string& role_name) {
         // 2. 切换到system数据库执行查询，然后切换回原数据库。
         std::string prev_db = db_manager_->GetCurrentDatabase();
         if (!db_manager_->UseDatabase(SYSTEM_DB_NAME)) {
-            // TODO(#SYSDB-008): 错误处理应更健壮，确保在切换数据库失败时能够恢复或抛出异常。
+            // TODO(#SYSDB-008-IMPL): 数据库上下文切换错误处理请参考文件顶部或专用 helper function 的详细说明。
             SetError("Failed to switch to system database");
             return false;
         }
@@ -1344,7 +1512,7 @@ bool SystemDatabase::RoleExists(const std::string& role_name) {
         std::string result = ExecuteSelectQuery(ss.str()); // TODO(#SYSDB-005): ExecuteSelectQuery返回结构化结果。
         
         if (!prev_db.empty()) {
-            // TODO(#SYSDB-008): 错误处理应更健壮，确保在切换数据库失败时能够恢复或抛出异常。
+            // TODO(#SYSDB-008-IMPL): 数据库上下文切换错误处理请参考文件顶部或专用 helper function 的详细说明。
             db_manager_->UseDatabase(prev_db);
         }
         
@@ -1459,7 +1627,18 @@ bool SystemDatabase::DropTableRecord(const std::string& schema_name, const std::
  * @return 包含表元数据`SysTable`结构体。如果未找到，返回一个默认构造的`SysTable`。
  */
 SysTable SystemDatabase::GetTableRecord(const std::string& schema_name, const std::string& table_name) {
-    // TODO(#SYSDB-006): 需要实现SELECT查询并解析结果。
+    // WHY: 数据库管理系统需要能够按Schema和表名检索特定表的详细元数据（例如所有者、列定义、索引）。
+    // 这对于查询优化、DDL操作（如ALTER TABLE）或显示表信息至关重要。
+    // WHAT: 此方法将构建一个`SELECT`语句来查询`sys_tables`表，然后执行该查询，
+    // 并将返回的单行结构化结果解析为`SysTable` C++结构体。
+    // HOW:
+    // 1.  **SQL构建**: 构建一个`SELECT * FROM sys_tables WHERE schema_name = '...' AND table_name = '...'`的SQL语句。
+    // 2.  **执行查询**: 调用`ExecuteSelectQuery`执行该SQL语句。在`TODO(#SYSDB-005-IMPL)`完成后，
+    //     `ExecuteSelectQuery`将返回一个结构化的结果集。
+    // 3.  **结果解析**: 从结构化结果集中提取唯一的表记录。
+    //     如果找到记录，则将其各列的值映射到`SysTable`结构体的相应成员变量。
+    //     如果未找到记录或查询失败，则返回一个默认构造的`SysTable`对象，并设置错误信息。
+    // TODO(#SYSDB-006-IMPL): 需要实现SELECT查询并解析结果。
     // 这将涉及构建SELECT SQL语句，通过ExecuteSelectQuery执行，然后将返回的字符串结果解析为SysTable结构体。
     // 这需要QueryExecutor支持返回结构化数据或SystemDatabase内部实现解析逻辑。
     (void)schema_name; // 避免未使用参数警告
@@ -1472,7 +1651,18 @@ SysTable SystemDatabase::GetTableRecord(const std::string& schema_name, const st
  * @return 包含所有表元数据`SysTable`结构体的向量。
  */
 std::vector<SysTable> SystemDatabase::ListTables(int64_t db_id) {
-    // TODO(#SYSDB-007): 需要实现SELECT查询并解析结果。
+    // WHY: 能够列出指定数据库中所有可用的表是数据库管理和DDL操作的基本功能。
+    // 管理员和查询优化器需要这些信息来理解数据库的结构。
+    // WHAT: 此方法将构建一个`SELECT`语句来查询`sys_tables`表中特定数据库的所有记录，
+    // 执行该查询，并将返回的结构化结果解析为`std::vector<SysTable>`。
+    // HOW:
+    // 1.  **SQL构建**: 构建一个`SELECT * FROM sys_tables WHERE db_id = ...`的SQL语句。
+    // 2.  **执行查询**: 调用`ExecuteSelectQuery`执行该SQL语句。在`TODO(#SYSDB-005-IMPL)`完成后，
+    //     `ExecuteSelectQuery`将返回一个结构化的结果集，其中包含多行数据。
+    // 3.  **结果解析**: 遍历结构化结果集中的每一行。对于每一行，将其各列的值映射到
+    //     `SysTable`结构体的相应成员变量，然后将`SysTable`对象添加到结果向量中。
+    //     如果查询失败或没有记录，则返回一个空的`std::vector<SysTable>`。
+    // TODO(#SYSDB-007-IMPL): 需要实现SELECT查询并解析结果。
     // 这将涉及构建SELECT SQL语句（SELECT * FROM sys_tables WHERE db_id = ...），通过ExecuteSelectQuery执行，
     // 然后将返回的字符串结果解析为SysTable结构体向量。
     // 这需要QueryExecutor支持返回结构化数据或SystemDatabase内部实现解析逻辑。
@@ -1497,7 +1687,7 @@ bool SystemDatabase::TableExists(const std::string& schema_name, const std::stri
         // 2. 切换到system数据库执行查询，然后切换回原数据库。
         std::string prev_db = db_manager_->GetCurrentDatabase();
         if (!db_manager_->UseDatabase(SYSTEM_DB_NAME)) {
-            // TODO(#SYSDB-008): 错误处理应更健壮，确保在切换数据库失败时能够恢复或抛出异常。
+            // TODO(#SYSDB-008-IMPL): 数据库上下文切换错误处理请参考文件顶部或专用 helper function 的详细说明。
             SetError("Failed to switch to system database");
             return false;
         }
@@ -1505,7 +1695,7 @@ bool SystemDatabase::TableExists(const std::string& schema_name, const std::stri
         bool result = ExecuteSQL(ss.str()); // TODO(#SYSDB-004): ExecuteSQL返回结构化结果并正确解析。
         
         if (!prev_db.empty()) {
-            // TODO(#SYSDB-008): 错误处理应更健壮，确保在切换数据库失败时能够恢复或抛出异常。
+            // TODO(#SYSDB-008-IMPL): 数据库上下文切换错误处理请参考文件顶部或专用 helper function 的详细说明。
             db_manager_->UseDatabase(prev_db);
         }
         
@@ -1606,7 +1796,18 @@ bool SystemDatabase::DropColumnRecord(int64_t table_id, const std::string& colum
  * @return 包含所有列元数据`SysColumn`结构体的向量。
  */
 std::vector<SysColumn> SystemDatabase::GetTableColumns(int64_t table_id) {
-    // TODO(#SYSDB-007): 需要实现SELECT查询并解析结果。
+    // WHY: 能够列出指定表中所有列的详细信息是数据库 Schema 管理和查询分析器的基本功能。
+    // 这对于理解表结构、验证查询语句或生成执行计划至关重要。
+    // WHAT: 此方法将构建一个`SELECT`语句来查询`sys_columns`表中特定表的所有列记录，
+    // 执行该查询，并将返回的结构化结果解析为`std::vector<SysColumn>`。
+    // HOW:
+    // 1.  **SQL构建**: 构建一个`SELECT * FROM sys_columns WHERE table_id = ...`的SQL语句。
+    // 2.  **执行查询**: 调用`ExecuteSelectQuery`执行该SQL语句。在`TODO(#SYSDB-005-IMPL)`完成后，
+    //     `ExecuteSelectQuery`将返回一个结构化的结果集，其中包含多行数据。
+    // 3.  **结果解析**: 遍历结构化结果集中的每一行。对于每一行，将其各列的值映射到
+    //     `SysColumn`结构体的相应成员变量，然后将`SysColumn`对象添加到结果向量中。
+    //     如果查询失败或没有记录，则返回一个空的`std::vector<SysColumn>`。
+    // TODO(#SYSDB-007-IMPL): 需要实现SELECT查询并解析结果。
     // 这将涉及构建SELECT SQL语句（SELECT * FROM sys_columns WHERE table_id = ...），通过ExecuteSelectQuery执行，
     // 然后将返回的字符串结果解析为SysColumn结构体向量。
     // 这需要QueryExecutor支持返回结构化数据或SystemDatabase内部实现解析逻辑。
@@ -1780,7 +1981,18 @@ bool SystemDatabase::DropIndexRecord(int64_t table_id, const std::string& index_
  * @return 包含所有索引元数据`SysIndex`结构体的向量。
  */
 std::vector<SysIndex> SystemDatabase::GetTableIndexes(int64_t table_id) {
-    // TODO(#SYSDB-007): 需要实现SELECT查询并解析结果。
+    // WHY: 能够列出指定表中所有索引的详细信息是查询优化器和数据库管理员的基本功能。
+    // 索引是提高查询性能的关键，了解它们的定义对于数据库的性能调优至关重要。
+    // WHAT: 此方法将构建一个`SELECT`语句来查询`sys_indexes`表中特定表的所有索引记录，
+    // 执行该查询，并将返回的结构化结果解析为`std::vector<SysIndex>`。
+    // HOW:
+    // 1.  **SQL构建**: 构建一个`SELECT * FROM sys_indexes WHERE table_id = ...`的SQL语句。
+    // 2.  **执行查询**: 调用`ExecuteSelectQuery`执行该SQL语句。在`TODO(#SYSDB-005-IMPL)`完成后，
+    //     `ExecuteSelectQuery`将返回一个结构化的结果集，其中包含多行数据。
+    // 3.  **结果解析**: 遍历结构化结果集中的每一行。对于每一行，将其各列的值映射到
+    //     `SysIndex`结构体的相应成员变量，然后将`SysIndex`对象添加到结果向量中。
+    //     如果查询失败或没有记录，则返回一个空的`std::vector<SysIndex>`。
+    // TODO(#SYSDB-007-IMPL): 需要实现SELECT查询并解析结果。
     // 这将涉及构建SELECT SQL语句（SELECT * FROM sys_indexes WHERE table_id = ...），通过ExecuteSelectQuery执行，
     // 然后将返回的字符串结果解析为SysIndex结构体向量。
     // 这需要QueryExecutor支持返回结构化数据或SystemDatabase内部实现解析逻辑。
@@ -1919,7 +2131,18 @@ bool SystemDatabase::DropConstraintRecord(int64_t table_id, const std::string& c
  * @return 包含所有约束元数据`SysConstraint`结构体的向量。
  */
 std::vector<SysConstraint> SystemDatabase::GetTableConstraints(int64_t table_id) {
-    // TODO(#SYSDB-007): 需要实现SELECT查询并解析结果。
+    // WHY: 能够列出指定表中所有约束的详细信息是数据库 Schema 管理和数据完整性维护的基本功能。
+    // 约束是保证数据有效性和一致性的关键，了解它们的定义对于数据库的设计和操作至关重要。
+    // WHAT: 此方法将构建一个`SELECT`语句来查询`sys_constraints`表中特定表的所有约束记录，
+    // 执行该查询，并将返回的结构化结果解析为`std::vector<SysConstraint>`。
+    // HOW:
+    // 1.  **SQL构建**: 构建一个`SELECT * FROM sys_constraints WHERE table_id = ...`的SQL语句。
+    // 2.  **执行查询**: 调用`ExecuteSelectQuery`执行该SQL语句。在`TODO(#SYSDB-005-IMPL)`完成后，
+    //     `ExecuteSelectQuery`将返回一个结构化的结果集，其中包含多行数据。
+    // 3.  **结果解析**: 遍历结构化结果集中的每一行。对于每一行，将其各列的值映射到
+    //     `SysConstraint`结构体的相应成员变量，然后将`SysConstraint`对象添加到结果向量中。
+    //     如果查询失败或没有记录，则返回一个空的`std::vector<SysConstraint>`。
+    // TODO(#SYSDB-007-IMPL): 需要实现SELECT查询并解析结果。
     // 这将涉及构建SELECT SQL语句（SELECT * FROM sys_constraints WHERE table_id = ...），通过ExecuteSelectQuery执行，
     // 然后将返回的字符串结果解析为SysConstraint结构体向量。
     // 这需要QueryExecutor支持返回结构化数据或SystemDatabase内部实现解析逻辑。
@@ -2010,15 +2233,56 @@ bool SystemDatabase::RenameTableRecord(const std::string& schema_name, const std
  */
 bool SystemDatabase::CreateViewRecord(int64_t db_id, const std::string& schema_name, const std::string& view_name,
                                      const std::string& definition, const std::string& owner) {
-    // TODO(#SYSDB-009): 需要实现视图记录创建。
-    // 这将涉及生成view_id，获取当前时间，构建INSERT SQL语句，并执行SQL。
-    // 还需要处理数据库上下文切换和错误管理。
-    (void)db_id; // 避免未使用参数警告
-    (void)schema_name; // 避免未使用参数警告
-    (void)view_name; // 避免未使用参数警告
-    (void)definition; // 避免未使用参数警告
-    (void)owner; // 避免未使用参数警告
-    return true;
+    // WHY: 视图是数据库中的重要抽象层，它们是基于存储查询结果的虚拟表。
+    // 为了能够管理和解析涉及视图的SQL查询，数据库需要持久化存储视图的定义（即其背后的SQL查询）。
+    // WHAT: 此方法负责在`sys_views`系统表中创建一条新的视图元数据记录。
+    // HOW:
+    // 1.  **生成视图ID**: 调用`GenerateId(SYS_TABLE_VIEWS)`生成一个唯一的视图ID。
+    // 2.  **获取时间戳**: 获取当前时间作为视图的创建时间。
+    // 3.  **构建INSERT SQL**: 构造一个`INSERT`语句，将视图ID、所属数据库ID、Schema名称、视图名称、
+    //     定义SQL、所有者和创建时间插入到`sys_views`表。
+    // 4.  **上下文切换与执行**: 临时切换到`system`数据库，执行构建的`INSERT`语句，
+    //     然后切换回原始数据库上下文。此过程需遵循`TODO(#SYSDB-008-IMPL)`的健壮错误处理策略。
+    try {
+        // 1. 生成视图ID。
+        int64_t view_id = GenerateId(SYS_TABLE_VIEWS); // TODO(#SYSDB-003-IMPL): GenerateId在生产环境需要更健壮。
+        // 2. 获取当前时间字符串。
+        std::string current_time = GetCurrentTimeString();
+        
+        // 3. 构建INSERT SQL语句。
+        std::stringstream ss;
+        ss << "INSERT INTO " << SYS_TABLE_VIEWS
+           << " (view_id, db_id, schema_name, view_name, definition, owner, created_at) VALUES ("
+           << view_id << ", "
+           << db_id << ", '"
+           << schema_name << "', '"
+           << view_name << "', '"
+           << definition << "', '"
+           << owner << "', '"
+           << current_time << "')";
+        
+        // 4. 切换到system数据库执行操作，然后切换回原数据库。
+        std::string prev_db = db_manager_->GetCurrentDatabase();
+        if (!db_manager_->UseDatabase(SYSTEM_DB_NAME)) {
+            SetError("Failed to switch to system database for CreateViewRecord.");
+            // TODO(#SYSDB-008-IMPL): 数据库上下文切换错误处理请参考文件顶部或专用 helper function 的详细说明。
+            return false;
+        }
+        
+        bool result = ExecuteSQL(ss.str()); // TODO(#SYSDB-004-IMPL): ExecuteSQL返回结构化结果。
+        
+        if (!prev_db.empty()) {
+            if (!db_manager_->UseDatabase(prev_db)) {
+                SetError("Failed to switch back to previous database from CreateViewRecord: " + prev_db);
+                // TODO(#SYSDB-008-IMPL): 数据库上下文切换错误处理请参考文件顶部或专用 helper function 的详细说明。
+            }
+        }
+        
+        return result;
+    } catch (const std::exception& e) {
+        SetError(std::string("CreateViewRecord failed: ") + e.what());
+        return false;
+    }
 }
 /**
  * @brief 从系统数据库中删除一条视图元数据记录。
@@ -2027,12 +2291,42 @@ bool SystemDatabase::CreateViewRecord(int64_t db_id, const std::string& schema_n
  * @return 删除成功返回true，否则返回false。
  */
 bool SystemDatabase::DropViewRecord(const std::string& schema_name, const std::string& view_name) {
-    // TODO(#SYSDB-010): 需要实现视图记录删除。
-    // 这将涉及构建DELETE SQL语句，并执行SQL。
-    // 还需要处理数据库上下文切换和错误管理。
-    (void)schema_name; // 避免未使用参数警告
-    (void)view_name; // 避免未使用参数警告
-    return true;
+    // WHY: 当数据库中的视图被删除时，其对应的元数据记录也必须从`sys_views`系统中移除。
+    // 这确保了系统目录的准确性，防止出现悬空引用或对已删除视图的误操作。
+    // WHAT: 此方法负责从`sys_views`系统表中删除指定Schema和名称的视图元数据记录。
+    // HOW:
+    // 1.  **构建DELETE SQL**: 构造一个`DELETE`语句，根据`schema_name`和`view_name`从`sys_views`表删除记录。
+    // 2.  **上下文切换与执行**: 临时切换到`system`数据库，执行构建的`DELETE`语句，
+    //     然后切换回原始数据库上下文。此过程需遵循`TODO(#SYSDB-008-IMPL)`的健壮错误处理策略。
+    try {
+        // 1. 构建DELETE SQL语句。
+        std::stringstream ss;
+        ss << "DELETE FROM " << SYS_TABLE_VIEWS
+           << " WHERE schema_name = '" << schema_name << "'"
+           << " AND view_name = '" << view_name << "'";
+        
+        // 2. 切换到system数据库执行操作，然后切换回原数据库。
+        std::string prev_db = db_manager_->GetCurrentDatabase();
+        if (!db_manager_->UseDatabase(SYSTEM_DB_NAME)) {
+            SetError("Failed to switch to system database for DropViewRecord.");
+            // TODO(#SYSDB-008-IMPL): 数据库上下文切换错误处理请参考文件顶部或专用 helper function 的详细说明。
+            return false;
+        }
+        
+        bool result = ExecuteSQL(ss.str()); // TODO(#SYSDB-004-IMPL): ExecuteSQL返回结构化结果。
+        
+        if (!prev_db.empty()) {
+            if (!db_manager_->UseDatabase(prev_db)) {
+                SetError("Failed to switch back to previous database from DropViewRecord: " + prev_db);
+                // TODO(#SYSDB-008-IMPL): 数据库上下文切换错误处理请参考文件顶部或专用 helper function 的详细说明。
+            }
+        }
+        
+        return result;
+    } catch (const std::exception& e) {
+        SetError(std::string("DropViewRecord failed: ") + e.what());
+        return false;
+    }
 }
 /**
  * @brief 从系统数据库中获取指定视图的元数据记录。
@@ -2041,7 +2335,18 @@ bool SystemDatabase::DropViewRecord(const std::string& schema_name, const std::s
  * @return 包含视图元数据`SysView`结构体。如果未找到，返回一个默认构造的`SysView`。
  */
 SysView SystemDatabase::GetViewRecord(const std::string& schema_name, const std::string& view_name) {
-    // TODO(#SYSDB-006): 需要实现SELECT查询并解析结果。
+    // WHY: 数据库系统需要能够按Schema和视图名称检索特定视图的详细元数据（例如其定义SQL语句、所有者）。
+    // 这对于视图的查询解析、依赖性管理或显示视图信息至关重要。
+    // WHAT: 此方法将构建一个`SELECT`语句来查询`sys_views`表，然后执行该查询，
+    // 并将返回的单行结构化结果解析为`SysView` C++结构体。
+    // HOW:
+    // 1.  **SQL构建**: 构建一个`SELECT * FROM sys_views WHERE schema_name = '...' AND view_name = '...'`的SQL语句。
+    // 2.  **执行查询**: 调用`ExecuteSelectQuery`执行该SQL语句。在`TODO(#SYSDB-005-IMPL)`完成后，
+    //     `ExecuteSelectQuery`将返回一个结构化的结果集。
+    // 3.  **结果解析**: 从结构化结果集中提取唯一的视图记录。
+    //     如果找到记录，则将其各列的值映射到`SysView`结构体的相应成员变量。
+    //     如果未找到记录或查询失败，则返回一个默认构造的`SysView`对象，并设置错误信息。
+    // TODO(#SYSDB-006-IMPL): 需要实现SELECT查询并解析结果。
     // 这将涉及构建SELECT SQL语句，通过ExecuteSelectQuery执行，然后将返回的字符串结果解析为SysView结构体。
     (void)schema_name; // 避免未使用参数警告
     (void)view_name; // 避免未使用参数警告
@@ -2053,7 +2358,18 @@ SysView SystemDatabase::GetViewRecord(const std::string& schema_name, const std:
  * @return 包含所有视图元数据`SysView`结构体的向量。
  */
 std::vector<SysView> SystemDatabase::ListViews(int64_t db_id) {
-    // TODO(#SYSDB-007): 需要实现SELECT查询并解析结果。
+    // WHY: 能够列出指定数据库中所有可用的视图是数据库管理和Schema探索的基本功能。
+    // 这对于理解数据库的抽象层、检查数据派生关系或进行权限管理至关重要。
+    // WHAT: 此方法将构建一个`SELECT`语句来查询`sys_views`表中特定数据库的所有视图记录，
+    // 执行该查询，并将返回的结构化结果解析为`std::vector<SysView>`。
+    // HOW:
+    // 1.  **SQL构建**: 构建一个`SELECT * FROM sys_views WHERE db_id = ...`的SQL语句。
+    // 2.  **执行查询**: 调用`ExecuteSelectQuery`执行该SQL语句。在`TODO(#SYSDB-005-IMPL)`完成后，
+    //     `ExecuteSelectQuery`将返回一个结构化的结果集，其中包含多行数据。
+    // 3.  **结果解析**: 遍历结构化结果集中的每一行。对于每一行，将其各列的值映射到
+    //     `SysView`结构体的相应成员变量，然后将`SysView`对象添加到结果向量中。
+    //     如果查询失败或没有记录，则返回一个空的`std::vector<SysView>`。
+    // TODO(#SYSDB-007-IMPL): 需要实现SELECT查询并解析结果。
     // 这将涉及构建SELECT SQL语句（SELECT * FROM sys_views WHERE db_id = ...），通过ExecuteSelectQuery执行，
     // 然后将返回的字符串结果解析为SysView结构体向量。
     (void)db_id; // 避免未使用参数警告
@@ -2170,27 +2486,46 @@ std::vector<SysPrivilege> SystemDatabase::GetUserPrivileges(const std::string& u
     
     try {
         // 切换到system数据库
-        if (!db_manager_->UseDatabase("system")) { // TODO(#SYSDB-008): 错误处理应更健壮。
-            // TODO(#SYSDB-011): "system"数据库名称应使用常量 SYSTEM_DB_NAME。
+        // WHY: 权限元数据存储在`system`数据库中，因此必须切换到该数据库才能执行查询。
+        // WHAT: 临时切换到`system`数据库，执行查询，然后切换回原始数据库。
+        // HOW: 使用`db_manager_->UseDatabase()`进行切换。错误处理应遵循之前`namespace sqlcc`顶部的说明。
+        if (!db_manager_->UseDatabase(SYSTEM_DB_NAME)) { // TODO(#SYSDB-008-IMPL): 数据库上下文切换错误处理请参考文件顶部或专用 helper function 的详细说明。
+            // TODO(#SYSDB-011-IMPL): "system"数据库名称应使用常量 SYSTEM_DB_NAME。
             SetError("Failed to switch to system database for GetUserPrivileges");
             return result;
         }
         
-        // TODO(#SYSDB-007): 需要实现SELECT查询并解析结果。
+        // WHY: 需要从`sys_privileges`表中获取用户的所有权限记录，用于构建用户的完整权限集合。
+        // WHAT: 构建一个`SELECT`语句来查询`sys_privileges`表中特定用户的所有权限记录，
+        // 执行该查询，并将返回的结构化结果解析为`std::vector<SysPrivilege>`。
+        // HOW:
+        // 1.  **SQL构建**: 构建一个`SELECT * FROM sys_privileges WHERE grantee_name = '...' AND grantee_type = 'USER'`的SQL语句。
+        // 2.  **执行查询**: 调用`ExecuteSelectQuery`执行该SQL语句。在`TODO(#SYSDB-005-IMPL)`完成后，
+        //     `ExecuteSelectQuery`将返回一个结构化的结果集，其中包含多行数据。
+        // 3.  **结果解析**: 遍历结构化结果集中的每一行。对于每一行，将其各列的值映射到
+        //     `SysPrivilege`结构体的相应成员变量，然后将`SysPrivilege`对象添加到结果向量中。
+        //     如果查询失败或没有记录，则返回一个空的`std::vector<SysPrivilege>`。
+        // TODO(#SYSDB-007-IMPL): 需要实现SELECT查询并解析结果。
         // 这将涉及构建SELECT SQL语句（SELECT * FROM sys_privileges WHERE grantee_name = ...），通过ExecuteSelectQuery执行，
         // 然后将返回的字符串结果解析为SysPrivilege结构体向量。
         // 目前暂时返回空结果，后续需要实现直接查询表的逻辑
         
         // 恢复原数据库
         if (!old_db.empty()) {
-            db_manager_->UseDatabase(old_db); // TODO(#SYSDB-008): 错误处理应更健壮。
+            // TODO(#SYSDB-008-IMPL): 数据库上下文切换错误处理请参考文件顶部或专用 helper function 的详细说明。
+            if (!db_manager_->UseDatabase(old_db)) {
+                SetError("Failed to switch back to previous database from GetUserPrivileges: " + old_db);
+            }
         }
         
     } catch (const std::exception& e) {
         SetError(std::string("GetUserPrivileges exception: ") + e.what());
         // 恢复原数据库
         if (!old_db.empty()) {
-            db_manager_->UseDatabase(old_db); // TODO(#SYSDB-008): 错误处理应更健壮。
+            // TODO(#SYSDB-008-IMPL): 数据库上下文切换错误处理请参考文件顶部或专用 helper function 的详细说明。
+            if (!db_manager_->UseDatabase(old_db)) {
+                SetError("Failed to switch back to previous database from GetUserPrivileges (exception): " + old_db);
+            }
         }
     }
     
@@ -2216,19 +2551,60 @@ bool SystemDatabase::CreateAuditLog(const std::string& user_name, const std::str
                                    const std::string& client_ip, const std::string& session_id,
                                    const std::string& sql_text, int affected_rows,
                                    const std::string& execution_result) {
-    // TODO(#SYSDB-012): 需要实现审计日志创建。
-    // 这将涉及生成log_id，获取当前时间，构建INSERT SQL语句，并执行SQL。
-    // 还需要处理数据库上下文切换和错误管理。
-    (void)user_name; // 避免未使用参数警告
-    (void)operation_type; // 避免未使用参数警告
-    (void)object_type; // 避免未使用参数警告
-    (void)object_name; // 避免未使用参数警告
-    (void)client_ip; // 避免未使用参数警告
-    (void)session_id; // 避免未使用参数警告
-    (void)sql_text; // 避免未使用参数警告
-    (void)affected_rows; // 避免未使用参数警告
-    (void)execution_result; // 避免未使用参数警告
-    return true;
+    // WHY: 审计日志是数据库安全和合规性的基石。它提供了对所有关键操作的不可篡改记录，
+    // 以便在出现安全事件时进行追踪、分析和取证。持久化审计日志是确保这些记录不丢失的关键。
+    // WHAT: 此方法负责在`sys_audit_logs`系统表中创建一条新的审计日志记录。
+    // HOW:
+    // 1.  **生成日志ID**: 调用`GenerateId(SYS_TABLE_AUDIT_LOGS)`生成一个唯一的日志ID。
+    // 2.  **获取时间戳**: 获取当前时间作为操作发生时间。
+    // 3.  **构建INSERT SQL**: 构造一个`INSERT`语句，将所有审计日志相关的参数插入到`sys_audit_logs`表。
+    // 4.  **上下文切换与执行**: 临时切换到`system`数据库，执行构建的`INSERT`语句，
+    //     然后切换回原始数据库上下文。此过程需遵循`TODO(#SYSDB-008-IMPL)`的健壮错误处理策略。
+    // 5.  **错误处理**: 检查`ExecuteSQL`的执行结果（在`TODO(#SYSDB-004-IMPL)`完成后，将是结构化结果）。
+    try {
+        // 1. 生成日志ID。
+        int64_t log_id = GenerateId(SYS_TABLE_AUDIT_LOGS); // TODO(#SYSDB-003-IMPL): GenerateId在生产环境需要更健壮。
+        // 2. 获取当前时间字符串。
+        std::string operation_time = GetCurrentTimeString();
+        
+        // 3. 构建INSERT SQL语句。
+        std::stringstream ss;
+        ss << "INSERT INTO " << SYS_TABLE_AUDIT_LOGS
+           << " (log_id, user_name, operation_type, object_type, object_name, operation_time, client_ip, session_id, sql_text, affected_rows, execution_result) VALUES ("
+           << log_id << ", '"
+           << user_name << "', '"
+           << operation_type << "', '"
+           << object_type << "', '"
+           << object_name << "', '"
+           << operation_time << "', '"
+           << client_ip << "', '"
+           << session_id << "', '"
+           << sql_text << "', "
+           << affected_rows << ", '"
+           << execution_result << "')";
+        
+        // 4. 切换到system数据库执行操作，然后切换回原数据库。
+        std::string prev_db = db_manager_->GetCurrentDatabase();
+        if (!db_manager_->UseDatabase(SYSTEM_DB_NAME)) {
+            SetError("Failed to switch to system database for CreateAuditLog.");
+            // TODO(#SYSDB-008-IMPL): 数据库上下文切换错误处理请参考文件顶部或专用 helper function 的详细说明。
+            return false;
+        }
+        
+        bool result = ExecuteSQL(ss.str()); // TODO(#SYSDB-004-IMPL): ExecuteSQL返回结构化结果。
+        
+        if (!prev_db.empty()) {
+            if (!db_manager_->UseDatabase(prev_db)) {
+                SetError("Failed to switch back to previous database from CreateAuditLog: " + prev_db);
+                // TODO(#SYSDB-008-IMPL): 数据库上下文切换错误处理请参考文件顶部或专用 helper function 的详细说明。
+            }
+        }
+        
+        return result;
+    } catch (const std::exception& e) {
+        SetError(std::string("CreateAuditLog failed: ") + e.what());
+        return false;
+    }
 }
 /**
  * @brief 在系统数据库中创建一条新的审计策略记录。
@@ -2241,14 +2617,56 @@ bool SystemDatabase::CreateAuditLog(const std::string& user_name, const std::str
  */
 bool SystemDatabase::CreateAuditPolicy(const std::string& object_type, const std::string& object_name,
                                       const std::string& operation_type, bool is_enabled) {
-    // TODO(#SYSDB-013): 需要实现审计策略创建。
-    // 这将涉及生成policy_id，获取当前时间，构建INSERT SQL语句，并执行SQL。
-    // 还需要处理数据库上下文切换和错误管理。
-    (void)object_type; // 避免未使用参数警告
-    (void)object_name; // 避免未使用参数警告
-    (void)operation_type; // 避免未使用参数警告
-    (void)is_enabled; // 避免未使用参数警告
-    return true;
+    // WHY: 审计策略定义了数据库系统中哪些操作和对象需要被审计。
+    // 持久化这些策略是确保审计机制能够正确运行和适应不同安全要求的基础。
+    // WHAT: 此方法负责在`sys_audit_policies`系统表中创建一条新的审计策略记录。
+    // HOW:
+    // 1.  **生成策略ID**: 调用`GenerateId(SYS_TABLE_AUDIT_POLICIES)`生成一个唯一的策略ID。
+    // 2.  **获取时间戳**: 获取当前时间作为策略的创建和更新时间。
+    // 3.  **构建INSERT SQL**: 构造一个`INSERT`语句，将所有审计策略相关的参数插入到`sys_audit_policies`表。
+    // 4.  **上下文切换与执行**: 临时切换到`system`数据库，执行构建的`INSERT`语句，
+    //     然后切换回原始数据库上下文。此过程需遵循`TODO(#SYSDB-008-IMPL)`的健壮错误处理策略。
+    // 5.  **错误处理**: 检查`ExecuteSQL`的执行结果（在`TODO(#SYSDB-004-IMPL)`完成后，将是结构化结果）。
+    try {
+        // 1. 生成策略ID。
+        int64_t policy_id = GenerateId(SYS_TABLE_AUDIT_POLICIES); // TODO(#SYSDB-003-IMPL): GenerateId在生产环境需要更健壮。
+        // 2. 获取当前时间字符串。
+        std::string current_time = GetCurrentTimeString();
+        
+        // 3. 构建INSERT SQL语句。
+        std::stringstream ss;
+        ss << "INSERT INTO " << SYS_TABLE_AUDIT_POLICIES
+           << " (policy_id, object_type, object_name, operation_type, is_enabled, created_at, updated_at) VALUES ("
+           << policy_id << ", '"
+           << object_type << "', '"
+           << object_name << "', '"
+           << operation_type << "', "
+           << (is_enabled ? "1" : "0") << ", '"
+           << current_time << "', '"
+           << current_time << "')";
+        
+        // 4. 切换到system数据库执行操作，然后切换回原数据库。
+        std::string prev_db = db_manager_->GetCurrentDatabase();
+        if (!db_manager_->UseDatabase(SYSTEM_DB_NAME)) {
+            SetError("Failed to switch to system database for CreateAuditPolicy.");
+            // TODO(#SYSDB-008-IMPL): 数据库上下文切换错误处理请参考文件顶部或专用 helper function 的详细说明。
+            return false;
+        }
+        
+        bool result = ExecuteSQL(ss.str()); // TODO(#SYSDB-004-IMPL): ExecuteSQL返回结构化结果。
+        
+        if (!prev_db.empty()) {
+            if (!db_manager_->UseDatabase(prev_db)) {
+                SetError("Failed to switch back to previous database from CreateAuditPolicy: " + prev_db);
+                // TODO(#SYSDB-008-IMPL): 数据库上下文切换错误处理请参考文件顶部或专用 helper function 的详细说明。
+            }
+        }
+        
+        return result;
+    } catch (const std::exception& e) {
+        SetError(std::string("CreateAuditPolicy failed: ") + e.what());
+        return false;
+    }
 }
 /**
  * @brief 从系统数据库中查询审计日志记录。
@@ -2287,15 +2705,53 @@ std::vector<SysAuditPolicy> SystemDatabase::GetAuditPolicies() {
 bool SystemDatabase::CreateTransactionRecord(const std::string& transaction_id, const std::string& session_id,
                                            const std::string& user_name, const std::string& client_ip,
                                            const std::string& isolation_level) {
-    // TODO(#SYSDB-014): 需要实现事务记录创建。
-    // 这将涉及获取当前时间，构建INSERT SQL语句，并执行SQL。
-    // 还需要处理数据库上下文切换和错误管理。
-    (void)transaction_id; // 避免未使用参数警告
-    (void)session_id; // 避免未使用参数警告
-    (void)user_name; // 避免未使用参数警告
-    (void)client_ip; // 避免未使用参数警告
-    (void)isolation_level; // 避免未使用参数警告
-    return true;
+    // WHY: 持久化事务的元数据对于数据库的事务管理、监控和崩溃恢复至关重要。
+    // 它允许管理员跟踪活跃事务，并在系统重启后恢复或回滚未完成的事务。
+    // WHAT: 此方法负责在`sys_transactions`系统表中创建一条新的事务记录。
+    // HOW:
+    // 1.  **获取时间戳**: 获取当前时间作为事务的开始时间。
+    // 2.  **构建INSERT SQL**: 构造一个`INSERT`语句，将事务ID、会话ID、用户名、客户端IP、
+    //     隔离级别和开始时间插入到`sys_transactions`表，并将状态初始化为`ACTIVE`。
+    // 3.  **上下文切换与执行**: 临时切换到`system`数据库，执行构建的`INSERT`语句，
+    //     然后切换回原始数据库上下文。此过程需遵循`TODO(#SYSDB-008-IMPL)`的健壮错误处理策略。
+    // 4.  **错误处理**: 检查`ExecuteSQL`的执行结果（在`TODO(#SYSDB-004-IMPL)`完成后，将是结构化结果）。
+    try {
+        // 1. 获取当前时间字符串。
+        std::string start_time = GetCurrentTimeString();
+        
+        // 2. 构建INSERT SQL语句。
+        std::stringstream ss;
+        ss << "INSERT INTO " << SYS_TABLE_TRANSACTIONS
+           << " (transaction_id, session_id, user_name, start_time, status, isolation_level, client_ip) VALUES ('"
+           << transaction_id << "', '"
+           << session_id << "', '"
+           << user_name << "', '"
+           << start_time << "', 'ACTIVE', '" // 初始状态为ACTIVE
+           << isolation_level << "', '"
+           << client_ip << "')";
+        
+        // 3. 切换到system数据库执行操作，然后切换回原数据库。
+        std::string prev_db = db_manager_->GetCurrentDatabase();
+        if (!db_manager_->UseDatabase(SYSTEM_DB_NAME)) {
+            SetError("Failed to switch to system database for CreateTransactionRecord.");
+            // TODO(#SYSDB-008-IMPL): 数据库上下文切换错误处理请参考文件顶部或专用 helper function 的详细说明。
+            return false;
+        }
+        
+        bool result = ExecuteSQL(ss.str()); // TODO(#SYSDB-004-IMPL): ExecuteSQL返回结构化结果。
+        
+        if (!prev_db.empty()) {
+            if (!db_manager_->UseDatabase(prev_db)) {
+                SetError("Failed to switch back to previous database from CreateTransactionRecord: " + prev_db);
+                // TODO(#SYSDB-008-IMPL): 数据库上下文切换错误处理请参考文件顶部或专用 helper function 的详细说明。
+            }
+        }
+        
+        return result;
+    } catch (const std::exception& e) {
+        SetError(std::string("CreateTransactionRecord failed: ") + e.what());
+        return false;
+    }
 }
 /**
  * @brief 在系统数据库中更新一条事务元数据记录的状态。
@@ -2306,13 +2762,50 @@ bool SystemDatabase::CreateTransactionRecord(const std::string& transaction_id, 
  */
 bool SystemDatabase::UpdateTransactionStatus(const std::string& transaction_id, const std::string& status,
                                             time_t end_time) {
-    // TODO(#SYSDB-015): 需要实现事务状态更新。
-    // 这将涉及构建UPDATE SQL语句，并执行SQL。
-    // 还需要处理数据库上下文切换和错误管理。
-    (void)transaction_id; // 避免未使用参数警告
-    (void)status; // 避免未使用参数警告
-    (void)end_time; // 避免未使用参数警告
-    return true;
+    // WHY: 事务的状态（例如，从`ACTIVE`到`COMMITTED`或`ABORTED`）是数据库事务管理的核心信息。
+    // 持久化这些状态更新对于崩溃恢复、事务审计和系统监控至关重要。
+    // WHAT: 此方法负责在`sys_transactions`系统表中更新指定事务的记录，特别是其状态和结束时间。
+    // HOW:
+    // 1.  **获取时间戳**: 将`end_time`转换为格式化的字符串。
+    // 2.  **构建UPDATE SQL**: 构造一个`UPDATE`语句，根据`transaction_id`更新事务的状态和结束时间。
+    // 3.  **上下文切换与执行**: 临时切换到`system`数据库，执行构建的`UPDATE`语句，
+    //     然后切换回原始数据库上下文。此过程需遵循`TODO(#SYSDB-008-IMPL)`的健壮错误处理策略。
+    // 4.  **错误处理**: 检查`ExecuteSQL`的执行结果（在`TODO(#SYSDB-004-IMPL)`完成后，将是结构化结果）。
+    try {
+        // 1. 获取当前时间字符串。
+        std::stringstream ss_time;
+        ss_time << std::put_time(std::localtime(&end_time), "%Y-%m-%d %H:%M:%S");
+        std::string end_time_str = ss_time.str();
+        
+        // 2. 构建UPDATE SQL语句。
+        std::stringstream ss;
+        ss << "UPDATE " << SYS_TABLE_TRANSACTIONS << " SET "
+           << "status = '" << status << "', "
+           << "end_time = '" << end_time_str << "' "
+           << "WHERE transaction_id = '" << transaction_id << "'";
+        
+        // 3. 切换到system数据库执行操作，然后切换回原数据库。
+        std::string prev_db = db_manager_->GetCurrentDatabase();
+        if (!db_manager_->UseDatabase(SYSTEM_DB_NAME)) {
+            SetError("Failed to switch to system database for UpdateTransactionStatus.");
+            // TODO(#SYSDB-008-IMPL): 数据库上下文切换错误处理请参考文件顶部或专用 helper function 的详细说明。
+            return false;
+        }
+        
+        bool result = ExecuteSQL(ss.str()); // TODO(#SYSDB-004-IMPL): ExecuteSQL返回结构化结果。
+        
+        if (!prev_db.empty()) {
+            if (!db_manager_->UseDatabase(prev_db)) {
+                SetError("Failed to switch back to previous database from UpdateTransactionStatus: " + prev_db);
+                // TODO(#SYSDB-008-IMPL): 数据库上下文切换错误处理请参考文件顶部或专用 helper function 的详细说明。
+            }
+        }
+        
+        return result;
+    } catch (const std::exception& e) {
+        SetError(std::string("UpdateTransactionStatus failed: ") + e.what());
+        return false;
+    }
 }
 /**
  * @brief 在系统数据库中创建一条新的保存点元数据记录。
@@ -2321,12 +2814,53 @@ bool SystemDatabase::UpdateTransactionStatus(const std::string& transaction_id, 
  * @return 创建成功返回true，否则返回false。
  */
 bool SystemDatabase::CreateSavepointRecord(const std::string& transaction_id, const std::string& savepoint_name) {
-    // TODO(#SYSDB-016): 需要实现保存点记录创建。
-    // 这将涉及生成savepoint_id，获取当前时间，构建INSERT SQL语句，并执行SQL。
-    // 还需要处理数据库上下文切换和错误管理。
-    (void)transaction_id; // 避免未使用参数警告
-    (void)savepoint_name; // 避免未使用参数警告
-    return true;
+    // WHY: 事务保存点允许事务在执行过程中设置“书签”，以便在遇到问题时可以部分回滚到这些点，
+    // 而不必完全中止整个事务。持久化保存点信息是实现这种细粒度事务控制的关键。
+    // WHAT: 此方法负责在`sys_savepoints`系统表中创建一条新的保存点记录。
+    // HOW:
+    // 1.  **生成保存点ID**: 调用`GenerateId(SYS_TABLE_SAVEPOINTS)`生成一个唯一的保存点ID。
+    // 2.  **获取时间戳**: 获取当前时间作为保存点的创建时间。
+    // 3.  **构建INSERT SQL**: 构造一个`INSERT`语句，将保存点ID、所属事务ID、保存点名称和创建时间插入到`sys_savepoints`表。
+    // 4.  **上下文切换与执行**: 临时切换到`system`数据库，执行构建的`INSERT`语句，
+    //     然后切换回原始数据库上下文。此过程需遵循`TODO(#SYSDB-008-IMPL)`的健壮错误处理策略。
+    // 5.  **错误处理**: 检查`ExecuteSQL`的执行结果（在`TODO(#SYSDB-004-IMPL)`完成后，将是结构化结果）。
+    try {
+        // 1. 生成保存点ID。
+        int64_t savepoint_id = GenerateId(SYS_TABLE_SAVEPOINTS); // TODO(#SYSDB-003-IMPL): GenerateId在生产环境需要更健壮。
+        // 2. 获取当前时间字符串。
+        std::string created_at = GetCurrentTimeString();
+        
+        // 3. 构建INSERT SQL语句。
+        std::stringstream ss;
+        ss << "INSERT INTO " << SYS_TABLE_SAVEPOINTS
+           << " (savepoint_id, transaction_id, savepoint_name, created_at) VALUES ("
+           << savepoint_id << ", '"
+           << transaction_id << "', '"
+           << savepoint_name << "', '"
+           << created_at << "')";
+        
+        // 4. 切换到system数据库执行操作，然后切换回原数据库。
+        std::string prev_db = db_manager_->GetCurrentDatabase();
+        if (!db_manager_->UseDatabase(SYSTEM_DB_NAME)) {
+            SetError("Failed to switch to system database for CreateSavepointRecord.");
+            // TODO(#SYSDB-008-IMPL): 数据库上下文切换错误处理请参考文件顶部或专用 helper function 的详细说明。
+            return false;
+        }
+        
+        bool result = ExecuteSQL(ss.str()); // TODO(#SYSDB-004-IMPL): ExecuteSQL返回结构化结果。
+        
+        if (!prev_db.empty()) {
+            if (!db_manager_->UseDatabase(prev_db)) {
+                SetError("Failed to switch back to previous database from CreateSavepointRecord: " + prev_db);
+                // TODO(#SYSDB-008-IMPL): 数据库上下文切换错误处理请参考文件顶部或专用 helper function 的详细说明。
+            }
+        }
+        
+        return result;
+    } catch (const std::exception& e) {
+        SetError(std::string("CreateSavepointRecord failed: ") + e.what());
+        return false;
+    }
 }
 /**
  * @brief 从系统数据库中查询所有活跃事务的元数据记录。
@@ -2351,15 +2885,53 @@ std::vector<SysTransaction> SystemDatabase::GetActiveTransactions() {
 bool SystemDatabase::RegisterClusterNode(const std::string& node_id, const std::string& node_name,
                                        const std::string& host_address, int port,
                                        const std::string& role) {
-    // TODO(#SYSDB-017): 需要实现集群节点注册。
-    // 这将涉及获取当前时间，构建INSERT SQL语句，并执行SQL。
-    // 还需要处理数据库上下文切换和错误管理。
-    (void)node_id; // 避免未使用参数警告
-    (void)node_name; // 避免未使用参数警告
-    (void)host_address; // 避免未使用参数警告
-    (void)port; // 避免未使用参数警告
-    (void)role; // 避免未使用参数警告
-    return true;
+    // WHY: 在分布式数据库系统中，集群中的每个节点都需要被注册和跟踪。
+    // 持久化节点元数据对于集群的拓扑管理、故障检测、负载均衡和分布式查询优化至关重要。
+    // WHAT: 此方法负责在`sys_cluster_nodes`系统表中创建一条新的集群节点记录。
+    // HOW:
+    // 1.  **获取时间戳**: 获取当前时间作为节点的加入集群时间。
+    // 2.  **构建INSERT SQL**: 构造一个`INSERT`语句，将节点ID、名称、地址、端口、角色、
+    //     加入时间和初始状态（例如`ONLINE`）插入到`sys_cluster_nodes`表。
+    // 3.  **上下文切换与执行**: 临时切换到`system`数据库，执行构建的`INSERT`语句，
+    //     然后切换回原始数据库上下文。此过程需遵循`TODO(#SYSDB-008-IMPL)`的健壮错误处理策略。
+    // 4.  **错误处理**: 检查`ExecuteSQL`的执行结果（在`TODO(#SYSDB-004-IMPL)`完成后，将是结构化结果）。
+    try {
+        // 1. 获取当前时间字符串。
+        std::string joined_at = GetCurrentTimeString();
+        
+        // 2. 构建INSERT SQL语句。
+        std::stringstream ss;
+        ss << "INSERT INTO " << SYS_TABLE_CLUSTER_NODES
+           << " (node_id, node_name, host_address, port, status, role, joined_at) VALUES ('"
+           << node_id << "', '"
+           << node_name << "', '"
+           << host_address << "', "
+           << port << ", 'ONLINE', '" // 初始状态为ONLINE
+           << role << "', '"
+           << joined_at << "')";
+        
+        // 3. 切换到system数据库执行操作，然后切换回原数据库。
+        std::string prev_db = db_manager_->GetCurrentDatabase();
+        if (!db_manager_->UseDatabase(SYSTEM_DB_NAME)) {
+            SetError("Failed to switch to system database for RegisterClusterNode.");
+            // TODO(#SYSDB-008-IMPL): 数据库上下文切换错误处理请参考文件顶部或专用 helper function 的详细说明。
+            return false;
+        }
+        
+        bool result = ExecuteSQL(ss.str()); // TODO(#SYSDB-004-IMPL): ExecuteSQL返回结构化结果。
+        
+        if (!prev_db.empty()) {
+            if (!db_manager_->UseDatabase(prev_db)) {
+                SetError("Failed to switch back to previous database from RegisterClusterNode: " + prev_db);
+                // TODO(#SYSDB-008-IMPL): 数据库上下文切换错误处理请参考文件顶部或专用 helper function 的详细说明。
+            }
+        }
+        
+        return result;
+    } catch (const std::exception& e) {
+        SetError(std::string("RegisterClusterNode failed: ") + e.what());
+        return false;
+    }
 }
 /**
  * @brief 在系统数据库中更新集群节点的元数据记录。
@@ -2370,13 +2942,50 @@ bool SystemDatabase::RegisterClusterNode(const std::string& node_id, const std::
  */
 bool SystemDatabase::UpdateNodeStatus(const std::string& node_id, const std::string& status,
                                      time_t last_heartbeat) {
-    // TODO(#SYSDB-018): 需要实现节点状态更新。
-    // 这将涉及构建UPDATE SQL语句，并执行SQL。
-    // 还需要处理数据库上下文切换和错误管理。
-    (void)node_id; // 避免未使用参数警告
-    (void)status; // 避免未使用参数警告
-    (void)last_heartbeat; // 避免未使用参数警告
-    return true;
+    // WHY: 在分布式数据库系统中，节点的运行状态是动态变化的，需要被持续跟踪和更新。
+    // 这对于集群的健康监控、故障切换和资源调度至关重要。
+    // WHAT: 此方法负责在`sys_cluster_nodes`系统表中更新指定集群节点的记录，特别是其状态和最后心跳时间。
+    // HOW:
+    // 1.  **获取时间戳**: 将`last_heartbeat`转换为格式化的字符串。
+    // 2.  **构建UPDATE SQL**: 构造一个`UPDATE`语句，根据`node_id`更新节点的`status`和`last_heartbeat`。
+    // 3.  **上下文切换与执行**: 临时切换到`system`数据库，执行构建的`UPDATE`语句，
+    //     然后切换回原始数据库上下文。此过程需遵循`TODO(#SYSDB-008-IMPL)`的健壮错误处理策略。
+    // 4.  **错误处理**: 检查`ExecuteSQL`的执行结果（在`TODO(#SYSDB-004-IMPL)`完成后，将是结构化结果）。
+    try {
+        // 1. 获取当前时间字符串。
+        std::stringstream ss_time;
+        ss_time << std::put_time(std::localtime(&last_heartbeat), "%Y-%m-%d %H:%M:%S");
+        std::string last_heartbeat_str = ss_time.str();
+        
+        // 2. 构建UPDATE SQL语句。
+        std::stringstream ss;
+        ss << "UPDATE " << SYS_TABLE_CLUSTER_NODES << " SET "
+           << "status = '" << status << "', "
+           << "last_heartbeat = '" << last_heartbeat_str << "' "
+           << "WHERE node_id = '" << node_id << "'";
+        
+        // 3. 切换到system数据库执行操作，然后切换回原数据库。
+        std::string prev_db = db_manager_->GetCurrentDatabase();
+        if (!db_manager_->UseDatabase(SYSTEM_DB_NAME)) {
+            SetError("Failed to switch to system database for UpdateNodeStatus.");
+            // TODO(#SYSDB-008-IMPL): 数据库上下文切换错误处理请参考文件顶部或专用 helper function 的详细说明。
+            return false;
+        }
+        
+        bool result = ExecuteSQL(ss.str()); // TODO(#SYSDB-004-IMPL): ExecuteSQL返回结构化结果。
+        
+        if (!prev_db.empty()) {
+            if (!db_manager_->UseDatabase(prev_db)) {
+                SetError("Failed to switch back to previous database from UpdateNodeStatus: " + prev_db);
+                // TODO(#SYSDB-008-IMPL): 数据库上下文切换错误处理请参考文件顶部或专用 helper function 的详细说明。
+            }
+        }
+        
+        return result;
+    } catch (const std::exception& e) {
+        SetError(std::string("UpdateNodeStatus failed: ") + e.what());
+        return false;
+    }
 }
 /**
  * @brief 在系统数据库中创建一条新的分布式事务元数据记录。
@@ -2385,12 +2994,53 @@ bool SystemDatabase::UpdateNodeStatus(const std::string& node_id, const std::str
  * @return 创建成功返回true，否则返回false。
  */
 bool SystemDatabase::CreateDistributedTransaction(const std::string& dt_id, const std::string& coordinator_node) {
-    // TODO(#SYSDB-019): 需要实现分布式事务创建。
-    // 这将涉及获取当前时间，构建INSERT SQL语句，并执行SQL。
-    // 还需要处理数据库上下文切换和错误管理。
-    (void)dt_id; // 避免未使用参数警告
-    (void)coordinator_node; // 避免未使用参数警告
-    return true;
+    // WHY: 在分布式数据库环境中，协调跨多个节点的事务一致性至关重要。
+    // 持久化分布式事务的元数据允许系统在协调器故障时恢复分布式事务的状态，
+    // 确保最终的一致性（例如，通过两阶段提交协议）。
+    // WHAT: 此方法负责在`sys_distributed_transactions`系统表中创建一条新的分布式事务记录。
+    // HOW:
+    // 1.  **获取时间戳**: 获取当前时间作为事务的创建和更新时间。
+    // 2.  **构建INSERT SQL**: 构造一个`INSERT`语句，将分布式事务ID、协调节点、状态（初始为`PENDING`）、
+    //     创建时间、更新时间和超时时间插入到`sys_distributed_transactions`表。
+    // 3.  **上下文切换与执行**: 临时切换到`system`数据库，执行构建的`INSERT`语句，
+    //     然后切换回原始数据库上下文。此过程需遵循`TODO(#SYSDB-008-IMPL)`的健壮错误处理策略。
+    // 4.  **错误处理**: 检查`ExecuteSQL`的执行结果（在`TODO(#SYSDB-004-IMPL)`完成后，将是结构化结果）。
+    try {
+        // 1. 获取当前时间字符串。
+        std::string current_time = GetCurrentTimeString();
+        
+        // 2. 构建INSERT SQL语句。
+        std::stringstream ss;
+        ss << "INSERT INTO " << SYS_TABLE_DISTRIBUTED_TRANSACTIONS
+           << " (dt_id, coordinator_node, status, created_at, updated_at, timeout_seconds) VALUES ('"
+           << dt_id << "', '"
+           << coordinator_node << "', 'PENDING', '" // 初始状态为PENDING
+           << current_time << "', '"
+           << current_time << "', "
+           << 30 << ")"; // 默认超时30秒
+        
+        // 3. 切换到system数据库执行操作，然后切换回原数据库。
+        std::string prev_db = db_manager_->GetCurrentDatabase();
+        if (!db_manager_->UseDatabase(SYSTEM_DB_NAME)) {
+            SetError("Failed to switch to system database for CreateDistributedTransaction.");
+            // TODO(#SYSDB-008-IMPL): 数据库上下文切换错误处理请参考文件顶部或专用 helper function 的详细说明。
+            return false;
+        }
+        
+        bool result = ExecuteSQL(ss.str()); // TODO(#SYSDB-004-IMPL): ExecuteSQL返回结构化结果。
+        
+        if (!prev_db.empty()) {
+            if (!db_manager_->UseDatabase(prev_db)) {
+                SetError("Failed to switch back to previous database from CreateDistributedTransaction: " + prev_db);
+                // TODO(#SYSDB-008-IMPL): 数据库上下文切换错误处理请参考文件顶部或专用 helper function 的详细说明。
+            }
+        }
+        
+        return result;
+    } catch (const std::exception& e) {
+        SetError(std::string("CreateDistributedTransaction failed: ") + e.what());
+        return false;
+    }
 }
 /**
  * @brief 在系统数据库中更新分布式事务的状态。
@@ -2399,12 +3049,48 @@ bool SystemDatabase::CreateDistributedTransaction(const std::string& dt_id, cons
  * @return 更新成功返回true，否则返回false。
  */
 bool SystemDatabase::UpdateDistributedTransactionStatus(const std::string& dt_id, const std::string& status) {
-    // TODO(#SYSDB-020): 需要实现分布式事务状态更新。
-    // 这将涉及构建UPDATE SQL语句，并执行SQL。
-    // 还需要处理数据库上下文切换和错误管理。
-    (void)dt_id; // 避免未使用参数警告
-    (void)status; // 避免未使用参数警告
-    return true;
+    // WHY: 分布式事务的状态是其协调过程中最关键的信息。在分布式事务的各个阶段（例如，准备、提交、回滚），
+    // 状态都需要被精确地跟踪。持久化这些状态更新对于保证分布式事务的最终一致性和崩溃恢复能力至关重要。
+    // WHAT: 此方法负责在`sys_distributed_transactions`系统表中更新指定分布式事务的记录，特别是其状态和更新时间。
+    // HOW:
+    // 1.  **获取时间戳**: 获取当前时间作为事务的更新时间。
+    // 2.  **构建UPDATE SQL**: 构造一个`UPDATE`语句，根据`dt_id`更新分布式事务的状态和`updated_at`时间。
+    // 3.  **上下文切换与执行**: 临时切换到`system`数据库，执行构建的`UPDATE`语句，
+    //     然后切换回原始数据库上下文。此过程需遵循`TODO(#SYSDB-008-IMPL)`的健壮错误处理策略。
+    // 4.  **错误处理**: 检查`ExecuteSQL`的执行结果（在`TODO(#SYSDB-004-IMPL)`完成后，将是结构化结果）。
+    try {
+        // 1. 获取当前时间字符串。
+        std::string updated_at = GetCurrentTimeString();
+        
+        // 2. 构建UPDATE SQL语句。
+        std::stringstream ss;
+        ss << "UPDATE " << SYS_TABLE_DISTRIBUTED_TRANSACTIONS << " SET "
+           << "status = '" << status << "', "
+           << "updated_at = '" << updated_at << "' "
+           << "WHERE dt_id = '" << dt_id << "'";
+        
+        // 3. 切换到system数据库执行操作，然后切换回原数据库。
+        std::string prev_db = db_manager_->GetCurrentDatabase();
+        if (!db_manager_->UseDatabase(SYSTEM_DB_NAME)) {
+            SetError("Failed to switch to system database for UpdateDistributedTransactionStatus.");
+            // TODO(#SYSDB-008-IMPL): 数据库上下文切换错误处理请参考文件顶部或专用 helper function 的详细说明。
+            return false;
+        }
+        
+        bool result = ExecuteSQL(ss.str()); // TODO(#SYSDB-004-IMPL): ExecuteSQL返回结构化结果。
+        
+        if (!prev_db.empty()) {
+            if (!db_manager_->UseDatabase(prev_db)) {
+                SetError("Failed to switch back to previous database from UpdateDistributedTransactionStatus: " + prev_db);
+                // TODO(#SYSDB-008-IMPL): 数据库上下文切换错误处理请参考文件顶部或专用 helper function 的详细说明。
+            }
+        }
+        
+        return result;
+    } catch (const std::exception& e) {
+        SetError(std::string("UpdateDistributedTransactionStatus failed: ") + e.what());
+        return false;
+    }
 }
 /**
  * @brief 在系统数据库中注册一个新的分布式对象。
@@ -2421,17 +3107,55 @@ bool SystemDatabase::RegisterDistributedObject(int64_t object_id, const std::str
                                               const std::string& object_name, const std::string& database_name,
                                               const std::string& shard_key, const std::string& node_mapping,
                                               int replication_factor) {
-    // TODO(#SYSDB-021): 需要实现分布式对象注册。
-    // 这将涉及构建INSERT SQL语句，并执行SQL。
-    // 还需要处理数据库上下文切换和错误管理。
-    (void)object_id; // 避免未使用参数警告
-    (void)object_type; // 避免未使用参数警告
-    (void)object_name; // 避免未使用参数警告
-    (void)database_name; // 避免未使用参数警告
-    (void)shard_key; // 避免未使用参数警告
-    (void)node_mapping; // 避免未使用参数警告
-    (void)replication_factor; // 避免未使用参数警告
-    return true;
+    // WHY: 在分布式数据库中，数据的分布（分片）、复制策略以及对象到节点的映射是核心管理信息。
+    // 持久化分布式对象的元数据对于查询路由、数据访问、故障恢复和弹性伸缩至关重要。
+    // WHAT: 此方法负责在`sys_distributed_objects`系统表中创建一条新的分布式对象记录。
+    // HOW:
+    // 1.  **获取时间戳**: 获取当前时间作为对象的创建时间。
+    // 2.  **构建INSERT SQL**: 构造一个`INSERT`语句，将对象ID、类型、名称、所属数据库、
+    //     分片键、节点映射信息（可能需要序列化为JSON字符串）和复制因子插入到`sys_distributed_objects`表。
+    // 3.  **上下文切换与执行**: 临时切换到`system`数据库，执行构建的`INSERT`语句，
+    //     然后切换回原始数据库上下文。此过程需遵循`TODO(#SYSDB-008-IMPL)`的健壮错误处理策略。
+    // 4.  **错误处理**: 检查`ExecuteSQL`的执行结果（在`TODO(#SYSDB-004-IMPL)`完成后，将是结构化结果）。
+    try {
+        // 1. 获取当前时间字符串。
+        std::string created_at = GetCurrentTimeString();
+        
+        // 2. 构建INSERT SQL语句。
+        std::stringstream ss;
+        ss << "INSERT INTO " << SYS_TABLE_DISTRIBUTED_OBJECTS
+           << " (object_id, object_type, object_name, database_name, shard_key, node_mapping, replication_factor, created_at) VALUES ("
+           << object_id << ", '"
+           << object_type << "', '"
+           << object_name << "', '"
+           << database_name << "', '"
+           << shard_key << "', '"
+           << node_mapping << "', "
+           << replication_factor << ", '"
+           << created_at << "')";
+        
+        // 3. 切换到system数据库执行操作，然后切换回原数据库。
+        std::string prev_db = db_manager_->GetCurrentDatabase();
+        if (!db_manager_->UseDatabase(SYSTEM_DB_NAME)) {
+            SetError("Failed to switch to system database for RegisterDistributedObject.");
+            // TODO(#SYSDB-008-IMPL): 数据库上下文切换错误处理请参考文件顶部或专用 helper function 的详细说明。
+            return false;
+        }
+        
+        bool result = ExecuteSQL(ss.str()); // TODO(#SYSDB-004-IMPL): ExecuteSQL返回结构化结果。
+        
+        if (!prev_db.empty()) {
+            if (!db_manager_->UseDatabase(prev_db)) {
+                SetError("Failed to switch back to previous database from RegisterDistributedObject: " + prev_db);
+                // TODO(#SYSDB-008-IMPL): 数据库上下文切换错误处理请参考文件顶部或专用 helper function 的详细说明。
+            }
+        }
+        
+        return result;
+    } catch (const std::exception& e) {
+        SetError(std::string("RegisterDistributedObject failed: ") + e.what());
+        return false;
+    }
 }
 /**
  * @brief 从系统数据库中查询所有集群节点的元数据记录。

@@ -1,7 +1,7 @@
 #include "subquery_executor.h"
 #include "../sql_executor.h"
-#include "execution_context.h"
-#include "execution_result.h"
+#include "../core/execution_context.h"
+#include "task_result.h"
 #include "../sql_parser/ast/ast_nodes.h"
 #include <algorithm>
 #include <memory>

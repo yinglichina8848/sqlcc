@@ -7,9 +7,8 @@
 #include "core/user_manager.h"
 #include "core/core_database_manager.h"
 #include "sql_parser/parser.h"
-#include "unified_query_plan.h"
-#include "view_manager.h"
 #include "execution/unified_query_plan.h"
+#include "view_manager.h"
 #include <memory>
 #include <string>
 
