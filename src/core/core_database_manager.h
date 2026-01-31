@@ -161,9 +161,25 @@ public:
     // 元数据查询方法
     std::shared_ptr<TableMetadata> GetTableMetadata(const std::string& table_name);
 
-    // 组件访问方法
+    /**
+     * WHAT: GetIndexManager - 获取索引组件访问接口
+     *
+     * WHY: 外部执行器需要直接操作 B+ 树索引以优化查询路径。
+     * HOW: 返回 index_manager_ 共享指针，并确保其已按需初始化。
+     */
     std::shared_ptr<IndexManager> GetIndexManager();
+
+    /**
+     * WHAT: GetStorageEngine - 获取底层存储引擎接口
+     *
+     * WHY: 数据库操作最终都需转换为物理页面操作。
+     * HOW: 返回 storage_engine_ 实例，屏蔽具体的初始化配置细节。
+     */
     std::shared_ptr<StorageEngine> GetStorageEngine();
+
+    /**
+     * WHAT: GetConfig - 获取全局配置管理
+     */
     std::shared_ptr<ConfigManager> GetConfig();
 
     // 初始化和状态检查方法

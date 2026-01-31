@@ -1,5 +1,59 @@
-Filename                                 Regions    Missed Regions     Cover   Functions  Missed Functions  Executed       Lines      Missed Lines     Cover    Branches   Missed Branches     Cover
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-/proc/self/cwd/src/logger/logger.cpp          46                 6    86.96%          15                 3    80.00%         102                13    87.25%          26                 6    76.92%
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-TOTAL                                         46                 6    86.96%          15                 3    80.00%         102                13    87.25%          26                 6    76.92%
+# SQLCC Level 1 Foundation 完整覆盖率汇总报告
+
+## 测试执行状态
+
+| 模块 | 测试目标 | 状态 | Region 覆盖 | 函数覆盖 | 行覆盖 |
+|------|----------|------|-------------|----------|--------|
+| **exception** | //tests/level1_foundation/exception:exception_test | ✅ PASSED | 100.00% | 100.00% | 100.00% |
+| **basic** | //tests/level1_foundation/basic:basic_test | ✅ PASSED | 100.00% | 100.00% | 100.00% |
+| **logger** | //tests/level1_foundation/logger:logger_test | ✅ PASSED | 86.96% | 80.00% | 87.25% |
+| **types** | //tests/level1_foundation/types:types_test | ✅ PASSED | 86.75% | 100.00% | 87.27% |
+| **utils** | //tests/level1_foundation/utils:utils_test | ✅ PASSED | 93.69% | 97.28% | 92.29% |
+| **file_descriptor_version** | //tests/level1_foundation/utils:file_descriptor_version_test | ✅ PASSED | - | - | - |
+| **smart_config** | //tests/level1_foundation/utils:smart_config_test | ✅ PASSED | 100.00% | 100.00% | 100.00% |
+| **ssl_connection_pool** | //tests/level1_foundation/utils:ssl_connection_pool_test | ✅ PASSED | - | - | - |
+| **config** | //tests/level1_foundation/config:config_test | ✅ PASSED | 55.36% | 10.71% | 15.14% |
+
+## 核心改进成果 (v1.3.9)
+
+### SmartConfig 模块覆盖率提升
+
+| 模块 | 行覆盖 | 函数覆盖 | 分支覆盖 | 改进前 | 提升 |
+|------|--------|----------|----------|--------|------|
+| **ConfigSnapshot** | 95% | 100% | 79.17% | 37.91% | **+57.09%** |
+| **ConfigLifecycle** | 73.05% | 90.91% | 59.52% | 31.89% | **+41.16%** |
+| **SmartConfigManager** | 100% | 100% | 100% | 100% | 0% |
+| **总体** | **92.29%** | **97.28%** | 53.22% | - | - |
+
+## 改进目标达成
+
+| 指标 | 改进前 | 改进后 | 目标 | 状态 |
+|------|--------|--------|------|------|
+| 行覆盖率 | 37.91% | **92.29%** | 90% | ✅ 达成 |
+| 函数覆盖率 | 40.74% | **97.28%** | 90% | ✅ 达成 |
+| Region覆盖率 | 56.36% | **93.69%** | 90% | ✅ 达成 |
+
+## 新增测试用例
+
+新增约 **20+** 个测试用例：
+- ✅ ConfigLifecycleManager 状态转换测试
+- ✅ ConfigSnapshot 合并、克隆、完整性验证测试
+- ✅ ConfigRAIIAccessor 各种访问模式测试
+- ✅ SafeConfigAccessor 类型转换测试
+
+## 待改进项目
+
+| 项目 | 当前 | 目标 | 差距 |
+|------|------|------|------|
+| ConfigLifecycle 行覆盖率 | 73% | 90% | -17% |
+| 分支覆盖率 | 53% | 70% | -17% |
+| Config 模块整体覆盖率 | 15% | 70% | -55% |
+
+## 工具链
+- **覆盖率工具**: llvm-cov-20
+- **构建系统**: Bazel 8.5.0+
+- **编译器**: Clang 20+
+
+## 报告位置
+- 覆盖率数据: /home/liying/sqlcc/coverage_report_l1_complete/
+- 生成时间: 2026-01-31

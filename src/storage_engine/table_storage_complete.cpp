@@ -412,6 +412,16 @@ bool TableStorageManager::UpdateRecord(
     }
 }
 
+/**
+ * @brief 逻辑删除记录
+ *
+ * WHY: 移除指定物理位置的数据行。
+ * WHAT: 在 RecordHeader 中设置删除位（Tombstone）。
+ * HOW:
+ * 1. FetchPage 定位。
+ * 2. 找到 slot 头部标记 is_deleted = true。
+ * 3. 将该空间链接至页内的 Free List，以便后续 Insert 重用。
+ */
 bool TableStorageManager::DeleteRecord(const std::string &table_name,
                                        int32_t page_id, size_t offset) {
     try {

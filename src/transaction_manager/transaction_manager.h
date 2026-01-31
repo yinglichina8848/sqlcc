@@ -435,7 +435,15 @@ public:
                              const std::string &savepoint_name);
 
   /**
-   * 获取锁
+   * WHAT: acquire_lock - 申请资源锁
+   *
+   * WHY: 锁是实现事务隔离性（Isolation）和防止“更新丢失”等并发问题的核心工具。
+   * HOW:
+   * 1. 查找 lock_table_ 确认资源当前锁定状态。
+   * 2. 执行兼容性检查（Compatibility Check）：如 S 锁可共存，X 锁需独占。
+   * 3. 支持锁升级（Upgrade）：允许将已持有的 S 锁提升为 X 锁。
+   * 4. 更新 wait_graph_：若需等待，记录事务间的依赖关系以供死锁检测。
+   *
    * @param txn_id 事务ID
    * @param resource 资源标识
    * @param lock_type 锁类型
@@ -446,16 +454,18 @@ public:
                     LockType lock_type, bool wait = true);
 
   /**
-   * 释放锁
-   * @param txn_id 事务ID
-   * @param resource 资源标识
+   * WHAT: release_lock - 显式释放锁
+   *
+   * WHY: 允许非两阶段锁（如短期锁）或在特定优化场景下提前释放资源。
+   * HOW: 从映射中移除 LockEntry，并唤醒处于该资源等待队列中的事务。
    */
   void release_lock(TransactionId txn_id, const std::string &resource);
 
   /**
-   * 检测死锁
-   * @param txn_id 事务ID
-   * @return 是否存在死锁
+   * WHAT: detect_deadlock - 死锁环路检测
+   *
+   * WHY: 当多个事务循环等待彼此持有的锁时，系统将陷入永久停滞。
+   * HOW: 采用 DFS（深度优先搜索）算法扫描 wait_graph_，寻找有向环。
    */
   bool detect_deadlock(TransactionId txn_id);
 
